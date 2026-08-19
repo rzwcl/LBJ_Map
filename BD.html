@@ -274,12 +274,6 @@
     50% { box-shadow: 0 0 0 12px rgba(255,87,34,0); }
     100% { box-shadow: 0 0 0 0 rgba(255,87,34,0); }
   }
-  .selected-point-highlight {
-    animation: point-pulse 1s infinite;
-    stroke: #FF5722 !important;
-    stroke-width: 4px !important;
-    filter: drop-shadow(0 0 4px rgba(255,87,34,0.8));
-  }
   .layer-table-wrap { padding: 0; }
   .layer-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .layer-table th {
@@ -644,6 +638,7 @@
 }
 
 </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
@@ -1294,14 +1289,18 @@ function restoreState(state) {
       layers.push(f);
     } else {
       const r = s.props.radius || parseInt(document.getElementById('prop-point-radius').value) || 6;
-      const pc = s.props.color || document.getElementById('prop-point-color').value;
+      const toolbarColor = document.getElementById('prop-point-color').value;
+      const oldColor = (s.props.color || '').toString().toLowerCase();
+      const isOldRed = oldColor === '#d32f2f' || oldColor === 'red' || oldColor === 'rgb(211,47,47)' || oldColor === 'rgb(211, 47, 47)';
+      const pc = isOldRed ? toolbarColor : (s.props.color || toolbarColor);
+      if (isOldRed) s.props.color = pc;
       const ll = L.latLng(s.latlngs[0], s.latlngs[1]);
-      const marker = L.circleMarker(ll, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 }).addTo(map);
+      const marker = L.circleMarker(ll, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9, bubblingMouseEvents: false }).addTo(map);
       const kmPost = s.props.km_post || '0.000';
       const label = L.marker(ll, { icon: L.divIcon({ className: '', html: '<div class="km-label-div" style="background:' + pc + '">K' + kmPost + '</div>', iconSize: null, iconAnchor: [0, -12] }), interactive: false }).addTo(map);
       const f = { id: s.id, type: 'point', layer: marker, labelLayer: label, props: s.props };
       marker.feature = { type: 'Feature', properties: s.props, geometry: { type: 'Point', coordinates: [ll.lng, ll.lat] } };
-      marker.on('click', e => { if (currentTool === 'pan') { L.DomEvent.stop(e); selectFeature(s.id, e); } });
+      marker.on('click', e => { if (currentTool === 'pan') { if (e.originalEvent) L.DomEvent.stop(e.originalEvent); selectFeature(s.id, e); } });
       f._offsetLat = s._offsetLat || 0;
       f._offsetLng = s._offsetLng || 0;
       f._visible = s._visible !== false;
@@ -4093,6 +4092,7 @@ function onMapClick(e) {
     selectOsmAt(e.latlng);
     return;
   }
+  if (e.originalEvent && (e.originalEvent.ctrlKey || e.originalEvent.metaKey || e.originalEvent.shiftKey)) return;
   if (currentTool === 'point') addPoint(e.latlng);
   else if (currentTool === 'ruler') {
     const snapped = snapToPoint(e.latlng);
@@ -4181,7 +4181,7 @@ function confirmRulerPoints() {
   pointsToSave.forEach((latlng, idx) => {
     const id = nextId++;
     const kmPost = (idx * 1).toFixed(3);
-    const marker = L.circleMarker(latlng, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 }).addTo(map);
+    const marker = L.circleMarker(latlng, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9, bubblingMouseEvents: false }).addTo(map);
     const label = L.marker(latlng, {
       icon: L.divIcon({ className: '', html: '<div class="km-label-div" style="background:rgba(0,0,0,0.75);color:#FFFFFF">K' + kmPost + '</div>', iconSize: null, iconAnchor: [0, -12] }),
       interactive: false, zIndexOffset: -100
@@ -4190,7 +4190,7 @@ function confirmRulerPoints() {
     marker.feature = { type: 'Feature', properties: feature.props, geometry: { type: 'Point', coordinates: [latlng.lng, latlng.lat] } };
     feature._visible = true;
     layers.push(feature);
-    marker.on('click', e => { if (currentTool === 'pan') { L.DomEvent.stop(e); selectFeature(id, e); } });
+    marker.on('click', e => { if (currentTool === 'pan') { if (e.originalEvent) L.DomEvent.stop(e.originalEvent); selectFeature(id, e); } });
   });
   clearRuler();
   currentTool = 'pan';
@@ -4278,7 +4278,7 @@ function addPoint(latlng) {
   const lbg = document.getElementById('prop-point-label-bg').value;
   const ltxt = document.getElementById('prop-point-label-text').value;
   const tc = getContrastColor(pc);
-  const marker = L.circleMarker(latlng, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 }).addTo(map);
+  const marker = L.circleMarker(latlng, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9, bubblingMouseEvents: false }).addTo(map);
   const label = L.marker(latlng, {
     icon: L.divIcon({ className: '', html: '<div class="km-label-div" style="background:rgba(0,0,0,0.75);color:#FFFFFF">K' + kmPost + '</div>', iconSize: null, iconAnchor: [0, -12] }),
     interactive: false, zIndexOffset: -100
@@ -4286,7 +4286,7 @@ function addPoint(latlng) {
   const feature = { id, type: 'point', layer: marker, labelLayer: label, props: { name: '公里标', km_post: kmPost, radius: r, color: pc, labelBg: lbg, labelText: ltxt } };
   marker.feature = { type: 'Feature', properties: feature.props, geometry: { type: 'Point', coordinates: [latlng.lng, latlng.lat] } };
   layers.push(feature);
-  marker.on('click', e => { if (currentTool === 'pan') { L.DomEvent.stop(e); selectFeature(id, e); } });
+  marker.on('click', e => { if (currentTool === 'pan') { if (e.originalEvent) L.DomEvent.stop(e.originalEvent); selectFeature(id, e); } });
   updateLayerList(); selectFeature(id);
   saveState();
 }
@@ -4327,13 +4327,23 @@ function selectAt(latlng) {
       }
     }
   }
-  if (nearest) selectFeature(nearest.id); else deselect();
+  if (nearest) {
+    if (multiSelectedIds.size > 1) {
+      selectedId = nearest.id;
+      updateLayerList();
+      scrollToLayerInList(nearest.id);
+    } else {
+      selectFeature(nearest.id);
+    }
+  } else {
+    deselect();
+  }
 }
 
 function selectFeature(id, e) {
   // Ctrl/Command + click: toggle multi-select, do not reset
   if (e && e.originalEvent && (e.originalEvent.ctrlKey || e.originalEvent.metaKey)) {
-    L.DomEvent.stop(e);
+    if (e.originalEvent) L.DomEvent.stop(e.originalEvent);
     if (multiSelectedIds.has(id)) {
       multiSelectedIds.delete(id);
       unhighlightLayerItem(id);
@@ -4341,11 +4351,13 @@ function selectFeature(id, e) {
       multiSelectedIds.add(id);
       highlightLayerItem(id);
     }
+    selectedId = id;
     updateLayerList();
+    scrollToLayerInList(id);
     return;
   }
-  // Normal click: single select, first clear other multi-selected highlights
-  multiSelectedIds.forEach(function(mid) { if (mid !== id) unhighlightLayerItem(mid); });
+  // Normal click: single select, first clear all multi-selected highlights
+  multiSelectedIds.forEach(function(mid) { unhighlightLayerItem(mid); });
   if (selectedId && selectedId !== id) {
     const oldF = layers.find(l => l.id === selectedId);
     if (oldF) {
@@ -4357,8 +4369,6 @@ function selectFeature(id, e) {
         const r = oldF.props.radius || parseInt(document.getElementById('prop-point-radius').value) || 6;
         const pc = oldF.props.color || document.getElementById('prop-point-color').value;
         oldF.layer.setStyle({ radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 });
-        const el = oldF.layer.getElement();
-        if (el) el.classList.remove('selected-point-highlight');
       }
     }
   }
@@ -4370,8 +4380,6 @@ function selectFeature(id, e) {
   if (f.type === 'line') f.layer.setStyle({ color: '#FF5722', weight: 7 });
   else {
     f.layer.setStyle({ radius: 12, color: '#FF5722', weight: 4, fillColor: '#FF5722', fillOpacity: 1 });
-    const el = f.layer.getElement();
-    if (el) el.classList.add('selected-point-highlight');
   }
   document.getElementById('no-selection').classList.add('hidden');
   document.getElementById('selection-form').classList.remove('hidden');
@@ -4400,9 +4408,9 @@ function selectFeature(id, e) {
 }
 
 function deselect() {
-  // 先恢复 multiSelectedIds 中所有项的颜色（包括 selectedId）
+  // 先恢复 multiSelectedIds 中所有项的颜色
   multiSelectedIds.forEach(function(id) {
-    if (id !== selectedId) unhighlightLayerItem(id);
+    unhighlightLayerItem(id);
   });
   if (selectedId) {
     const f = layers.find(l => l.id === selectedId);
@@ -4416,8 +4424,6 @@ function deselect() {
         const r = f.props.radius || parseInt(document.getElementById('prop-point-radius').value) || 6;
         const pc = f.props.color || document.getElementById('prop-point-color').value;
         f.layer.setStyle({ radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 });
-        const el = f.layer.getElement();
-        if (el) el.classList.remove('selected-point-highlight');
       }
     }
   }
@@ -4455,7 +4461,9 @@ function clearAll() {
   if (!confirm('确定清空所有数据（包括标点和OSM线路）？')) return;
   // 清空用户标点
   layers.forEach(l => { map.removeLayer(l.layer); if (l.outlineLayer) map.removeLayer(l.outlineLayer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
-  layers = []; deselect(); updateLayerList();
+  layers = []; multiSelectedIds.clear(); deselect(); updateLayerList();
+  // 清空点分组
+  pointGroups = []; nextPointGroupId = 1; renderPointGroupList();
   // 清空OSM数据
   clearOSMRailway();
   saveState();
@@ -4755,12 +4763,10 @@ function renderPointGroupNode(group, depth) {
 function renderPointGroupItem(f, depth) {
   const indent = depth * 16;
   const isChecked = multiSelectedIds.has(f.id);
-  const typeIcon = f.type === 'line' ? '线' : '点';
   const name = f.props.name || (f.type === 'line' ? '线路' : '公里标');
   const val = f.type === 'point' ? (f.props.km_post ? 'K' + f.props.km_post : '-') : (f.props.direction || '-');
   let html = '<div style="display:flex;align-items:center;gap:4px;padding:4px 4px 4px ' + (6 + indent) + 'px;border-bottom:1px solid #f0f0f0;' + (isChecked ? 'background:#e3f2fd;' : '') + '">';
   html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();togglePointItemCheck(' + f.id + ', this.checked)" style="cursor:pointer;flex-shrink:0;">';
-  html += '<span style="font-size:10px;flex-shrink:0;">' + typeIcon + '</span>';
   html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;">' + name + '</span>';
   html += '<span style="font-size:10px;color:#888;flex-shrink:0;">' + val + '</span>';
   html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deletePointItem(' + f.id + ')" title="删除">[x]</span>';
@@ -4807,7 +4813,6 @@ function updateLayerList() {
   layers.forEach(function(f, idx) {
     const isSel = f.id === selectedId;
     const isChecked = multiSelectedIds.has(f.id);
-    const typeIcon = f.type === 'line' ? '线' : '点';
     const name = f.props.name || (f.type === 'line' ? '线路' : '公里标');
     const val = f.type === 'point' ? (f.props.km_post ? 'K' + f.props.km_post : '-') : (f.props.direction || '-');
     const visible = f._visible !== false;
@@ -4815,7 +4820,6 @@ function updateLayerList() {
     html += '<span style="cursor:pointer;font-size:10px;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleLayerVisible(' + f.id + ')">' + (visible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
     html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();onLayerCheck(event, ' + f.id + ')" style="cursor:pointer;flex-shrink:0;">';
     html += '<span style="color:#999;font-size:10px;flex-shrink:0;">' + (idx+1) + '.</span>';
-    html += '<span style="font-size:10px;flex-shrink:0;">' + typeIcon + '</span>';
     html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;cursor:pointer;" onclick="event.stopPropagation();panToLayer(' + f.id + ')">' + name + '</span>';
     html += '<span style="font-size:10px;color:#888;flex-shrink:0;">' + val + '</span>';
     html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deleteLayerItem(' + f.id + ')" title="删除">[x]</span>';
@@ -4868,19 +4872,17 @@ function onLayerCheck(e, id) {
 
 function highlightLayerItem(id) {
   const f = layers.find(function(l) { return l.id === id; });
-  if (!f || id === selectedId) return;
+  if (!f) return;
   if (f.type === 'line') {
     f.layer.setStyle({ color: '#FF5722', weight: 7 });
   } else {
     f.layer.setStyle({ radius: 12, color: '#FF5722', weight: 4, fillColor: '#FF5722', fillOpacity: 1 });
-    const el = f.layer.getElement();
-    if (el) el.classList.add('selected-point-highlight');
   }
 }
 
 function unhighlightLayerItem(id) {
   const f = layers.find(function(l) { return l.id === id; });
-  if (!f || id === selectedId) return;
+  if (!f) return;
   if (f.type === 'line') {
     const w = f.props.width || parseFloat(document.getElementById('prop-line-width').value) || 5;
     const c = f.props.color || document.getElementById('prop-line-color').value;
@@ -4889,8 +4891,6 @@ function unhighlightLayerItem(id) {
     const r = f.props.radius || parseInt(document.getElementById('prop-point-radius').value) || 6;
     const pc = f.props.color || document.getElementById('prop-point-color').value;
     f.layer.setStyle({ radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 });
-    const el = f.layer.getElement();
-    if (el) el.classList.remove('selected-point-highlight');
   }
 }
 
@@ -4923,8 +4923,12 @@ function panToLayer(id) {
 
 function scrollToLayerInList(id) {
   const container = document.getElementById('layer-list-body');
-  if (!container) return;
-  const el = container.querySelector('[data-layer-id="' + id + '"]');
+  let el = null;
+  if (container) el = container.querySelector('[data-layer-id="' + id + '"]');
+  if (!el) {
+    const pgContainer = document.getElementById('point-group-list');
+    if (pgContainer) el = pgContainer.querySelector('[data-layer-id="' + id + '"]');
+  }
   if (el) {
     el.scrollIntoView({ behavior: 'auto', block: 'center' });
     el.style.background = '#fff9c4';
@@ -5120,7 +5124,7 @@ function importGeoJSON(input) {
         const label = L.marker(ll, { icon: L.divIcon({ className: '', html: '<div class="km-label-div" style="background:rgba(0,0,0,0.75);color:#FFFFFF">K' + (props.km_post || '0.000') + '</div>', iconSize: null, iconAnchor: [0, -12] }), interactive: false, zIndexOffset: -100 }).addTo(map);
         const item = { id, type: 'point', layer: marker, labelLayer: label, props };
         marker.feature = { type: 'Feature', properties: props, geometry: geom };
-        marker.on('click', e => { if (currentTool === 'pan') { L.DomEvent.stop(e); selectFeature(id, e); } });
+        marker.on('click', e => { if (currentTool === 'pan') { if (e.originalEvent) L.DomEvent.stop(e.originalEvent); selectFeature(id, e); } });
         layers.push(item);
       }
     });
