@@ -991,6 +991,10 @@ const MAX_UNDO = 50;
 let pointGroups = [];
 let nextPointGroupId = 1;
 
+// 列表分组排序状态
+let groupOrder = []; // 用户拖拽后的分组名称顺序
+let groupSortDir = {}; // { "南昆客专": "asc", "田靖线": "desc" }
+
 // OSM
 let osmRailwayLayer = null;
 let osmOutlineLayer = null;
@@ -1252,7 +1256,9 @@ function saveState() {
     stepMeters,
     osmStepMeters,
     pointGroups: JSON.parse(JSON.stringify(pointGroups)),
-    nextPointGroupId
+    nextPointGroupId,
+    groupOrder: groupOrder.slice(),
+    groupSortDir: JSON.parse(JSON.stringify(groupSortDir))
   };
   undoStack.push(state);
   if (undoStack.length > MAX_UNDO) undoStack.shift();
@@ -1357,6 +1363,11 @@ function restoreState(state) {
   if (state.osmStepMeters) osmStepMeters = state.osmStepMeters;
   if (state.pointGroups) pointGroups = state.pointGroups;
   if (state.nextPointGroupId) nextPointGroupId = state.nextPointGroupId;
+  // 恢复列表分组排序状态
+  if (state.groupOrder) groupOrder = state.groupOrder.slice();
+  else groupOrder = [];
+  if (state.groupSortDir) groupSortDir = JSON.parse(JSON.stringify(state.groupSortDir));
+  else groupSortDir = {};
   updateLayerList();
   renderPointGroupList();
   updateOsmOffsetDisplay();
@@ -4809,25 +4820,134 @@ function updateLayerList() {
     if (title) title.innerText = '标点列表';
     return;
   }
+  // 按 name（线路名称）分组
+  const groups = {};
+  layers.forEach(function(f) {
+    const groupName = f.props.name || '未命名';
+    if (!groups[groupName]) groups[groupName] = { lines: [], points: [] };
+    if (f.type === 'line') groups[groupName].lines.push(f);
+    else groups[groupName].points.push(f);
+  });
+  // 同步 groupOrder：新分组按字母序插入，已有分组保持用户顺序
+  const currentNames = Object.keys(groups);
+  const existingOrder = groupOrder.filter(function(n) { return currentNames.indexOf(n) !== -1; });
+  const newNames = currentNames.filter(function(n) { return groupOrder.indexOf(n) === -1; }).sort(function(a, b) { return a.localeCompare(b, 'zh-CN'); });
+  groupOrder = existingOrder.concat(newNames);
+  // 默认排序方向
+  currentNames.forEach(function(n) {
+    if (!groupSortDir[n]) groupSortDir[n] = 'asc';
+  });
+  // 清理已不存在的分组排序方向
+  Object.keys(groupSortDir).forEach(function(n) {
+    if (currentNames.indexOf(n) === -1) delete groupSortDir[n];
+  });
   let html = '';
-  layers.forEach(function(f, idx) {
-    const isSel = f.id === selectedId;
-    const isChecked = multiSelectedIds.has(f.id);
-    const name = f.props.name || (f.type === 'line' ? '线路' : '公里标');
-    const val = f.type === 'point' ? (f.props.km_post ? 'K' + f.props.km_post : '-') : (f.props.direction || '-');
-    const visible = f._visible !== false;
-    html += '<div data-layer-id="' + f.id + '" style="display:flex;align-items:center;gap:4px;padding:4px 6px;border-bottom:1px solid #f0f0f0;' + (isSel || isChecked ? 'background:#e3f2fd;' : '') + '">';
-    html += '<span style="cursor:pointer;font-size:10px;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleLayerVisible(' + f.id + ')">' + (visible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
-    html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();onLayerCheck(event, ' + f.id + ')" style="cursor:pointer;flex-shrink:0;">';
-    html += '<span style="color:#999;font-size:10px;flex-shrink:0;">' + (idx+1) + '.</span>';
-    html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;cursor:pointer;" onclick="event.stopPropagation();panToLayer(' + f.id + ')">' + name + '</span>';
-    html += '<span style="font-size:10px;color:#888;flex-shrink:0;">' + val + '</span>';
-    html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deleteLayerItem(' + f.id + ')" title="删除">[x]</span>';
+  let globalIdx = 0;
+  groupOrder.forEach(function(gn) {
+    const g = groups[gn];
+    if (!g) return;
+    const items = g.lines.concat(g.points);
+    if (items.length === 0) return;
+    // 组内标点排序
+    const dir = groupSortDir[gn] || 'asc';
+    g.points.sort(function(a, b) {
+      const ka = parseFloat(a.props.km_post) || 0;
+      const kb = parseFloat(b.props.km_post) || 0;
+      return dir === 'asc' ? ka - kb : kb - ka;
+    });
+    const sortedItems = g.lines.concat(g.points);
+    // 分组标题行：眼睛 + 拖拽手柄 + 名称 + 排序按钮
+    const sortLabel = dir === 'asc' ? '排序↑' : '排序↓';
+    html += '<div data-group-name="' + gn + '" style="padding:4px 6px;background:#f5f5f5;font-size:11px;font-weight:bold;color:#555;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:4px;cursor:grab;" draggable="true" ondragstart="onGroupDragStart(event,this)" ondragover="onGroupDragOver(event)" ondrop="onGroupDrop(event,this)" ondragend="onGroupDragEnd(event)">';
+    html += '<span style="cursor:pointer;flex-shrink:0;" onclick="event.stopPropagation();toggleGroupVisible(' + "'" + gn.replace(/'/g, "\'") + "'" + ',this)" title="显隐">' + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + '</span>';
+    html += '<span style="flex:1;">' + gn + ' (' + sortedItems.length + ')</span>';
+    html += '<span style="cursor:pointer;font-size:10px;color:#2196F3;flex-shrink:0;padding:2px 4px;border:1px solid #2196F3;border-radius:4px;" onclick="event.stopPropagation();toggleGroupSort(' + "'" + gn.replace(/'/g, "\'") + "'" + ')">' + sortLabel + '</span>';
     html += '</div>';
+    sortedItems.forEach(function(f) {
+      globalIdx++;
+      const isSel = f.id === selectedId;
+      const isChecked = multiSelectedIds.has(f.id);
+      const displayName = f.type === 'line' ? (f.props.name || '线路') : (f.props.name || '公里标');
+      const visible = f._visible !== false;
+      html += '<div data-layer-id="' + f.id + '" style="display:flex;align-items:center;gap:4px;padding:4px 6px;border-bottom:1px solid #f0f0f0;' + (isSel || isChecked ? 'background:#e3f2fd;' : '') + '">';
+      html += '<span style="cursor:pointer;font-size:10px;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleLayerVisible(' + f.id + ')">' + (visible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
+      html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();onLayerCheck(event, ' + f.id + ')" style="cursor:pointer;flex-shrink:0;">';
+      html += '<span style="color:#999;font-size:10px;flex-shrink:0;">' + globalIdx + '.</span>';
+      html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;cursor:pointer;" onclick="event.stopPropagation();panToLayer(' + f.id + ')">' + displayName + '</span>';
+      if (f.type === 'point' && f.props.km_post) {
+        html += '<span style="font-size:10px;background:#2196F3;color:#fff;padding:1px 6px;border-radius:8px;flex-shrink:0;">K' + f.props.km_post + '</span>';
+      } else {
+        html += '<span style="font-size:10px;color:#888;flex-shrink:0;">-</span>';
+      }
+      html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deleteLayerItem(' + f.id + ')" title="删除">[x]</span>';
+      html += '</div>';
+    });
   });
   container.innerHTML = html;
   if (title) title.innerText = '标点列表 (' + layers.length + ')';
 }
+
+function toggleGroupSort(groupName) {
+  groupSortDir[groupName] = groupSortDir[groupName] === 'asc' ? 'desc' : 'asc';
+  updateLayerList();
+  saveState();
+}
+
+function toggleGroupVisible(groupName, el) {
+  const isHidden = el.dataset.hidden === 'true';
+  layers.forEach(function(f) {
+    if ((f.props.name || '未命名') === groupName) {
+      if (isHidden) {
+        if (f._groupHiddenPrev !== undefined) {
+          f._visible = f._groupHiddenPrev;
+          delete f._groupHiddenPrev;
+        }
+        if (f.layer && !map.hasLayer(f.layer)) f.layer.addTo(map);
+        if (f.outlineLayer && !map.hasLayer(f.outlineLayer)) f.outlineLayer.addTo(map);
+        if (f.labelLayer && !map.hasLayer(f.labelLayer)) f.labelLayer.addTo(map);
+      } else {
+        f._groupHiddenPrev = f._visible;
+        f._visible = false;
+        if (f.layer && map.hasLayer(f.layer)) map.removeLayer(f.layer);
+        if (f.outlineLayer && map.hasLayer(f.outlineLayer)) map.removeLayer(f.outlineLayer);
+        if (f.labelLayer && map.hasLayer(f.labelLayer)) map.removeLayer(f.labelLayer);
+      }
+    }
+  });
+  el.dataset.hidden = isHidden ? '' : 'true';
+  el.innerHTML = isHidden ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  updateLayerList();
+}
+
+let dragGroupName = null;
+function onGroupDragStart(e, el) {
+  dragGroupName = el.dataset.groupName;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dragGroupName);
+  el.style.opacity = '0.5';
+}
+function onGroupDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function onGroupDrop(e, el) {
+  e.preventDefault();
+  const targetName = el.dataset.groupName;
+  if (!dragGroupName || dragGroupName === targetName) return;
+  const fromIdx = groupOrder.indexOf(dragGroupName);
+  const toIdx = groupOrder.indexOf(targetName);
+  if (fromIdx === -1 || toIdx === -1) return;
+  groupOrder.splice(fromIdx, 1);
+  groupOrder.splice(toIdx, 0, dragGroupName);
+  updateLayerList();
+  saveState();
+}
+function onGroupDragEnd(e) {
+  dragGroupName = null;
+  const els = document.querySelectorAll('[data-group-name]');
+  els.forEach(function(el) { el.style.opacity = '1'; });
+}
+
 
 function toggleLayerList() {
   const body = document.getElementById('layer-list-body');
@@ -5033,7 +5153,7 @@ function doExportGeoJSON(mode) {
   if (mode === 'lines' || mode === 'all') {
     features = features.concat(exportOsmLinesGeoJSON().features);
   }
-  const geojson = { type: 'FeatureCollection', features: features };
+  const geojson = { type: 'FeatureCollection', features: features, _appMeta: { groupOrder: groupOrder.slice(), groupSortDir: JSON.parse(JSON.stringify(groupSortDir)) } };
   const blob = new Blob([JSON.stringify(geojson, null, 2)], {type: 'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'railway_data.json'; a.click();
 }
@@ -5129,6 +5249,11 @@ function importGeoJSON(input) {
       }
     });
     deselect(); updateLayerList();
+    // 恢复分组排序状态（如果导出文件包含）
+    if (data._appMeta) {
+      if (data._appMeta.groupOrder) groupOrder = data._appMeta.groupOrder.slice();
+      if (data._appMeta.groupSortDir) groupSortDir = JSON.parse(JSON.stringify(data._appMeta.groupSortDir));
+    }
     if (layers.length > 0) { const group = L.featureGroup(layers.map(l => l.layer)); map.fitBounds(group.getBounds().pad(0.2)); }
   };
   reader.readAsText(file);
