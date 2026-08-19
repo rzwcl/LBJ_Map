@@ -8,10 +8,10 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow: hidden; --sidebar-width: 270px; }
-  #map { height: calc(100dvh - 110px); width: calc(100% - var(--sidebar-width)); float: left; margin-top: 110px; }
+  #map { height: 100dvh; width: calc(100% - var(--sidebar-width)); float: left; margin-top: 0; }
 
   .sidebar {
-    width: var(--sidebar-width); height: calc(100dvh - 110px); float: right; margin-top: 110px;
+    width: var(--sidebar-width); height: 100dvh; float: right; margin-top: 0;
     background: #f5f5f5; border-left: 1px solid #ddd;
     font-size: 12px;
     overflow-y: auto;
@@ -65,8 +65,8 @@
   .resize-handle {
     position: fixed;
     right: var(--sidebar-width);
-    top: 110px;
-    height: calc(100dvh - 110px);
+    top: 0;
+    height: 100dvh;
     width: 5px;
     cursor: col-resize;
     background: transparent;
@@ -129,17 +129,12 @@
   .hint b { color: #444; }
 
   .layer-list { flex: 1; overflow-y: auto; padding: 6px; }
-  .layer-item {
-    padding: 5px 6px; margin-bottom: 3px;
-    background: white; border: 1px solid #ddd; border-radius: 3px;
-    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-    font-size: 11px;
-  }
-  .layer-item:hover { border-color: #1976d2; }
-  .layer-item.selected { border-color: #1976d2; background: #e3f2fd; }
-  .layer-item .type-icon { font-size: 9px; padding: 1px 3px; border-radius: 2px; margin-right: 4px; }
-  .type-line { background: #00bcd4; color: white; }
-  .type-point { background: #d32f2f; color: white; }
+  
+  
+  
+  
+  
+  
 
   /* 底部信息栏 */
   #bottom-bar {
@@ -159,15 +154,7 @@
     transition: top 0.3s ease, right 0.3s ease;
   }
 
-  .top-bar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1001;
-    background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    font-size: 12px;
-    transition: transform 0.3s ease;
-  }
-  .top-bar.collapsed {
-    transform: translateY(-100%);
-  }
+  
   .topbar-toggle {
     position: fixed;
     top: 0;
@@ -192,31 +179,20 @@
   .topbar-toggle:hover {
     background: #f0f0f0;
   }
-  .top-tools {
-    display: flex; border-bottom: 1px solid #ddd; padding: 4px 10px; gap: 2px;
-  }
-  .top-tools button {
-    border: 1px solid #ddd; background: white; padding: 5px 12px; cursor: pointer;
-    border-radius: 3px; font-size: 12px;
-  }
-  .top-tools button:hover { background: #f5f5f5; }
-  .top-tools button.active { background: #1976d2; color: white; border-color: #1976d2; }
-  .top-tabs {
-    display: flex; border-bottom: 1px solid #ddd; background: #f8f8f8; padding: 0 10px;
-  }
-  .top-tab-btn {
-    padding: 5px 16px; border: none; background: none; cursor: pointer;
-    font-size: 12px; color: #555; border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-  }
-  .top-tab-btn:hover { background: #eee; }
-  .top-tab-btn.active { background: white; color: #1976d2; border-bottom-color: #1976d2; font-weight: bold; }
-  .top-panel { display: none; padding: 6px 10px; border-bottom: 1px solid #eee; }
-  .top-panel.active { display: block; }
-  .top-row { display: flex; gap: 16px; align-items: center; }
-  .top-row label { display: flex; align-items: center; gap: 3px; cursor: pointer; color: #333; white-space: nowrap; font-size: 12px; }
-  .top-row input[type="color"] { width: 24px; height: 18px; border: none; padding: 0; cursor: pointer; background: none; }
-  .top-row input[type="number"] { width: 44px; padding: 2px 4px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; text-align: center; }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   .hidden { display: none !important; }
   .status-ok { color: #388e3c; font-weight: bold; }
@@ -269,38 +245,29 @@
   }
 
   /* 选中点高亮脉冲 */
-  @keyframes point-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255,87,34,0.8); }
+  
     50% { box-shadow: 0 0 0 12px rgba(255,87,34,0); }
     100% { box-shadow: 0 0 0 0 rgba(255,87,34,0); }
   }
-  .layer-table-wrap { padding: 0; }
-  .layer-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .layer-table th {
-    position: sticky; top: 0; background: #e0e0e0;
-    padding: 5px 4px; text-align: left; font-weight: bold;
-    border-bottom: 1px solid #bbb; cursor: pointer; user-select: none;
-    font-size: 11px; color: #333;
-  }
-  .layer-table th:hover { background: #d5d5d5; }
-  .layer-table td { padding: 4px; border-bottom: 1px solid #eee; vertical-align: middle; }
-  .layer-table tr:hover td { background: #f0f8ff; }
-  .layer-table tr.selected td { background: #e3f2fd; }
-  .layer-table input[type="checkbox"] { cursor: pointer; }
-  .layer-table .type-badge {
-    display: inline-block; padding: 1px 4px; border-radius: 2px;
-    font-size: 10px; color: white; font-weight: bold;
-  }
-  .badge-line { background: #00bcd4; }
-  .badge-point { background: #d32f2f; }
-  .drag-handle { cursor: grab; padding: 2px 4px; margin-right: 4px; font-size: 11px; color: #888; border-radius: 2px; touch-action: none; user-select: none; -webkit-user-select: none; }
-  .drag-handle:hover { background: #e0e0e0; color: #333; }
-  .drag-handle:active { cursor: grabbing; }
-  .panel.drag-over { border-top: 2px solid #1976d2; }
-  .panel.dragging { opacity: 0.5; }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   /* 弹窗打开时隐藏 resize-handle，防止误触 */
   body.modal-open .resize-handle { display: none !important; }
-  .panel.drag-over { border-top: 2px solid #1976d2; }
+  
 
 /* GPS 按钮 */
   .gps-control { margin-bottom: 20px !important; margin-right: 10px !important; }
@@ -351,15 +318,7 @@
     box-shadow: 0 0 4px rgba(0,0,0,0.5);
   }
 
-.ruler-label-div {
-    background: rgba(255,255,255,0.92); color: #00838f;
-    padding: 2px 6px; border-radius: 3px;
-    font-size: 12px; font-weight: bold;
-    white-space: nowrap;
-    border: 1px solid rgba(0,0,0,0.2);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    pointer-events: none;
-  }
+
 
   .loading-overlay {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -388,27 +347,27 @@
     .panel input[type="text"], .panel select {
       background: #2a2a2a; color: #e0e0e0; border-color: #444;
     }
-    .layer-item { background: #2a2a2a; border-color: #444; }
-    .layer-item:hover { border-color: #1976d2; }
-    .layer-item.selected { background: #1a3a5c; border-color: #1976d2; }
-    .top-bar { background: #1e1e1e; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-    .top-tools button { background: #2a2a2a; border-color: #444; color: #e0e0e0; }
-    .top-tools button:hover { background: #333; }
-    .top-tabs { background: #1a1a1a; border-bottom-color: #333; }
-    .top-tab-btn { color: #aaa; }
-    .top-tab-btn:hover { background: #2a2a2a; }
-    .top-tab-btn.active { background: #1e1e1e; color: #64b5f6; border-bottom-color: #64b5f6; }
-    .layer-table th { background: #2a2a2a; color: #e0e0e0; border-bottom-color: #444; }
-    .layer-table td { border-bottom-color: #333; }
-    .layer-table tr:hover td { background: #1a3a5c; }
-    .layer-table tr.selected td { background: #1a3a5c; }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     .osm-list-section { border-color: #444; }
     .osm-list-header { background: #2a2a2a; }
     .osm-list-header:hover { background: #333; }
     .km-label-div { background: rgba(30,30,30,0.92); color: #e0e0e0; border-color: rgba(255,255,255,0.15); }
     .line-label-div { background: rgba(30,30,30,0.92); color: #e0e0e0; border-color: rgba(255,255,255,0.2); }
     .station-label-div { background: rgba(30,30,30,0.92); color: #e0e0e0; border-color: rgba(255,255,255,0.2); }
-    .ruler-label-div { background: rgba(30,30,30,0.92); color: #4dd0e1; border-color: rgba(255,255,255,0.15); }
+    
     .sidebar-handle { background: rgba(100,181,246,0.7); }
     .sidebar-handle:hover { background: rgba(100,181,246,0.95); }
     .gps-btn { background: #2a2a2a; border-color: #64b5f6; color: #64b5f6; }
@@ -420,154 +379,34 @@
     .status-ok { color: #81c784; }
     .status-err { color: #ef5350; }
     .status-warn { color: #ffb74d; }
-    .top-row label { color: #e0e0e0 !important; }
-    .top-row input[type="color"] { border: 1px solid #555; }
-    .top-row input[type="number"] { background: #2a2a2a; color: #e0e0e0; border-color: #444; }
+    
+    
+    
   }
 
 
 /* Chrome DevTools 风格色盘 */
-.chrome-picker-card {
-  background: var(--modal-card-bg, #ffffff);
-  border: 1px solid var(--modal-card-border, rgba(0,0,0,0.10));
-  border-radius: 12px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0,0,0,0.08);
-  width: 260px;
-  padding: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  color: var(--text-primary, #202124);
-  user-select: none;
-  flex-shrink: 0;
-}
-.chrome-picker-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text-secondary, #5f6368);
-}
-.chrome-close-btn {
-  background: none; border: none; font-size: 18px; cursor: pointer; color: inherit; line-height: 1; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
-}
-.chrome-close-btn:hover { background: rgba(0,0,0,0.08); border-radius: 50%; }
-.chrome-sat-val {
-  width: 100%;
-  height: 130px;
-  position: relative;
-  border-radius: 4px;
-  background-color: #ff0000;
-  cursor: crosshair;
-  overflow: hidden;
-}
-.sat-white {
-  position: absolute; inset: 0;
-  background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
-}
-.sat-black {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
-}
-.picker-pointer {
-  width: 12px;
-  height: 12px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 3px rgba(0,0,0,0.6);
-  pointer-events: none;
-}
-.chrome-controls { margin-top: 10px; }
-.slider-row input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 12px;
-  border-radius: 6px;
-  background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
-  outline: none;
-  border: none;
-  padding: 0;
-}
-.slider-row input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-  cursor: pointer;
-}
-.input-row {
-  display: flex;
-  gap: 6px;
-  margin-top: 8px;
-  align-items: center;
-}
-.mode-switch-btn {
-  background: var(--input-bg, #f1f3f4);
-  border: 1px solid var(--input-border, #dadce0);
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 4px 8px;
-  cursor: pointer;
-  color: var(--text-primary, #3c4043);
-  white-space: nowrap;
-}
-.chrome-text-input {
-  flex: 1;
-  background: var(--input-bg, #f1f3f4);
-  border: 1px solid var(--input-border, #dadce0);
-  border-radius: 6px;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 5px 8px;
-  color: var(--input-text, #202124);
-  text-align: center;
-}
-.chrome-text-input:focus {
-  border-color: #1a73e8;
-  outline: none;
-}
-.chrome-swatches {
-  display: flex;
-  gap: 6px;
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--modal-card-border, #e8eaed);
-  flex-wrap: wrap;
-}
-.c-swatch {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: transform 0.1s;
-  flex-shrink: 0;
-}
-.c-swatch:hover { transform: scale(1.2); }
-.chrome-extra-settings {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--modal-card-border, #e8eaed);
-  font-size: 11px;
-  color: var(--text-secondary, #5f6368);
-  gap: 8px;
-}
-.setting-item { display: flex; align-items: center; gap: 4px; }
-.chrome-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 14px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .chrome-actions button {
   padding: 6px 14px;
   border-radius: 6px;
@@ -577,67 +416,48 @@
   cursor: pointer;
   transition: all 0.15s;
 }
-.chrome-actions .btn-secondary {
-  background: #f1f3f4;
-  color: #444;
-}
-.chrome-actions .btn-secondary:hover {
-  background: #e8eaed;
-}
-.chrome-actions .btn-primary {
-  background: #1a73e8;
-  color: white;
-}
-.chrome-actions .btn-primary:hover {
-  background: #1557b0;
-}
+
+
+
+
 /* 颜色文本输入框样式 - 纯色小方块 */
-.color-text-input {
-  width: 28px;
-  height: 20px;
-  padding: 0;
-  border: 1px solid rgba(0,0,0,0.25);
-  border-radius: 3px;
-  font-size: 0;
-  color: transparent;
-  text-indent: -9999px;
-  cursor: pointer;
-  background: transparent;
-  display: inline-block;
-  vertical-align: middle;
-  flex-shrink: 0;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-}
-.color-text-input:focus {
-  border-color: #1976d2;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(25,118,210,0.2);
-}
-.top-row label {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  color: #333;
-  white-space: nowrap;
-  font-size: 12px;
-}
+
+
+
 
 @media (prefers-color-scheme: dark) {
-  .chrome-picker-card {
-    --modal-card-bg: #2d2d2d;
-    --modal-card-border: #444;
-    --text-primary: #e0e0e0;
-    --text-secondary: #aaa;
-    --input-bg: #3a3a3a;
-    --input-border: #555;
-    --input-text: #e0e0e0;
-  }
-  .chrome-text-input { background: #3a3a3a; border-color: #555; color: #e0e0e0; }
-  .mode-switch-btn { background: #3a3a3a; border-color: #555; color: #e0e0e0; }
+  
+  
+  
 }
 
+
+  /* 右上角设置面板 */
+  #top-right-panel {
+    position: absolute; top: 10px; right: calc(var(--sidebar-width) + 10px); z-index: 1000;
+    background: rgba(0,0,0,0.7); color: #fff;
+    padding: 6px 10px; border-radius: 4px;
+    font-family: monospace; font-size: 13px;
+    display: flex; flex-direction: column; gap: 4px;
+    transition: right 0.3s ease;
+    min-width: 120px;
+  }
+  #top-right-panel #zoom-display { position: static; background: none; padding: 0; }
+  #train-status { display: flex; align-items: center; font-size: 11px; color: #ccc; }
+  #settings-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.3); color: white;
+    padding: 2px 6px; border-radius: 3px; cursor: pointer; font-size: 12px;
+    text-align: left;
+  }
+  #settings-btn:hover { background: rgba(255,255,255,0.1); }
+  #settings-panel {
+    background: rgba(0,0,0,0.85); padding: 8px; border-radius: 4px;
+    margin-top: 4px; border: 1px solid rgba(255,255,255,0.2);
+  }
+  #settings-panel label { display: block; font-size: 10px; color: #aaa; margin: 4px 0 2px; }
+  #settings-panel input { background: #333; color: #fff; border-color: #555; }
 </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
@@ -666,61 +486,28 @@
 <body>
 
 <div id="map"></div>
-<div id="zoom-display">Z: 11</div>
+<div id="top-right-panel">
+  <div id="zoom-display">Z: 11</div>
+  <div id="train-status" title="列车连接状态">
+    <span id="status-dot" style="width:10px;height:10px;border-radius:50%;background:#888;display:inline-block;margin-right:4px;"></span>
+    <span id="status-text">未连接</span>
+  </div>
+  <button id="settings-btn" onclick="toggleSettingsPanel()" title="设置">⚙️</button>
+  <div id="settings-panel" style="display:none;">
+    <label>API地址</label>
+    <input type="text" id="api-url-input" value="http://127.0.0.1:8765/api/trains" style="width:180px;padding:3px 6px;border:1px solid #ccc;border-radius:3px;font-size:11px;">
+    <label>轮询间隔(ms)</label>
+    <input type="number" id="refresh-ms-input" value="300" min="100" max="5000" step="100" style="width:80px;padding:3px 6px;border:1px solid #ccc;border-radius:3px;font-size:11px;">
+    <button onclick="applyTrainSettings()" style="margin-top:6px;padding:4px 10px;font-size:11px;border:none;border-radius:3px;background:#1976d2;color:white;cursor:pointer;">应用</button>
+  </div>
+</div>
 <div id="bottom-bar">
   <span id="mousepos">Lat: --, Lng: --</span>
 </div>
 <div class="loading-overlay" id="loading">正在查询 OSM 数据...</div>
 
 <!-- 绘制工具 -->
-<div class="top-bar">
-  <div class="top-tools">
-    <button type="button" onclick="undo()" title="撤销 (Ctrl+Z)">↩</button>
-    <button type="button" onclick="redo()" title="重做 (Ctrl+Shift+Z)">↪</button>
-    <button type="button" id="tool-pan" class="active" onclick="setTool('pan')"> 选择</button>
-    <button type="button" id="tool-ruler" onclick="setTool('ruler')"> 尺子</button>
-    <button type="button" id="tool-line" onclick="setTool('line')"> 画线</button>
-    <button type="button" id="tool-point" onclick="setTool('point')"> 标点</button>
-  </div>
-  <div class="top-tabs">
-    <button type="button" class="top-tab-btn active" onclick="switchPropTab('line')">画线</button>
-    <button type="button" class="top-tab-btn" onclick="switchPropTab('point')">标点</button>
-    <button type="button" class="top-tab-btn" onclick="switchPropTab('osm')">OSM线</button>
-    <button type="button" class="top-tab-btn" onclick="switchPropTab('station')">车站</button>
-  </div>
-  <div class="top-panel active" id="tab-line">
-    <div class="top-row">
-      <label>颜色<input type="text" id="prop-line-color" class="color-text-input" value="#00E5FF" onchange="applyProp('line')" onclick="openColorPicker('prop-line-color')" readonly></label>
-      <label>线宽<input type="number" id="prop-line-width" value="5" min="0.01" max="30" step="0.01" onchange="applyProp('line')"></label>
-      <label>描边<input type="text" id="prop-line-outline-color" class="color-text-input" value="#000000" onchange="applyProp('line')" onclick="openColorPicker('prop-line-outline-color')" readonly></label>
-      <label>描边宽<input type="number" id="prop-line-outline-width" value="0" min="0" max="20" step="0.01" onchange="applyProp('line')"></label>
-    </div>
-  </div>
-  <div class="top-panel" id="tab-point">
-    <div class="top-row" style="flex-wrap:nowrap;white-space:nowrap;">
-      <label>颜色<input type="text" id="prop-point-color" class="color-text-input" value="#00E6FF" onchange="applyProp('point')" onclick="openColorPicker('prop-point-color')" readonly></label>
-      <label>大小<input type="number" id="prop-point-radius" value="6" min="2" max="20" onchange="applyProp('point')"></label>
-      <label>描边<input type="text" id="prop-point-outline-color" class="color-text-input" value="#000000" onchange="applyProp('point')" onclick="openColorPicker('prop-point-outline-color')" readonly></label>
-      <label>描边宽<input type="number" id="prop-point-outline-width" value="0" min="0" max="10" step="0.5" onchange="applyProp('point')"></label>
-      <label>标签背景<input type="text" id="prop-point-label-bg" class="color-text-input" value="rgba(0,0,0,0.75)" onchange="applyProp('point')" onclick="openColorPicker('prop-point-label-bg')" readonly></label>
-      <label>标签文字<input type="text" id="prop-point-label-text" class="color-text-input" value="#FFFFFF" onchange="applyProp('point')" onclick="openColorPicker('prop-point-label-text')" readonly></label>
-    </div>
-  </div>
-  <div class="top-panel" id="tab-osm">
-    <div class="top-row">
-      <label>颜色<input type="text" id="prop-osm-color" class="color-text-input" value="#FFEB3B" onchange="applyProp('osm')" onclick="openColorPicker('prop-osm-color')" readonly></label>
-      <label>线宽<input type="number" id="prop-osm-width" value="2" min="0.01" max="10" step="0.01" onchange="applyProp('osm')"></label>
-      <label>描边<input type="text" id="prop-osm-outline-color" class="color-text-input" value="#000000" onchange="applyProp('osm')" onclick="openColorPicker('prop-osm-outline-color')" readonly></label>
-      <label>描边宽<input type="number" id="prop-osm-outline-width" value="1" min="0" max="10" step="0.01" onchange="applyProp('osm')"></label>
-    </div>
-  </div>
-  <div class="top-panel" id="tab-station">
-    <div class="top-row">
-      <label>背景<input type="text" id="prop-station-bg" class="color-text-input" value="#7B1FA2" onchange="applyProp('station')" onclick="openColorPicker('prop-station-bg')" readonly></label>
-      <label>文字<input type="text" id="prop-station-text" class="color-text-input" value="#ffffff" onchange="applyProp('station')" onclick="openColorPicker('prop-station-text')" readonly></label>
-    </div>
-  </div>
-</div>
+
 
 <!-- 右侧面板 -->
 <div class="resize-handle" id="sidebar-resize"></div>
@@ -762,26 +549,9 @@
   </div>
   </div>
 
-  <div class="panel">
-    <h3 onclick="togglePanel(this)" style="display:flex;justify-content:space-between;align-items:center;"><span style="display:flex;align-items:center;"><span class="drag-handle">≡</span>OSM 线路获取</span><span class="collapse-btn">▼</span></h3>
-    <div class="panel-body">
-    <label style="font-size:11px;color:#555;">线路名关键词（可选，多个用逗号分隔）</label>
-    <input type="text" id="osm-line-filter" placeholder="如：沪昆,京广,南昆" style="width:100%;padding:4px;margin-bottom:4px;border:1px solid #ccc;border-radius:3px;font-size:12px;">
-    <button type="button" class="btn-info" onclick="loadOSMRailway()">加载当前区域铁路+车站</button>
-    <button type="button" class="btn-warn" onclick="openBuiltinLinesModal()">加载内置线路</button>
-    <button type="button" class="btn-secondary" onclick="clearOSMRailway()">清除 OSM 数据</button>
-    <button type="button" class="btn-success" onclick="document.getElementById('osmOverlayInput').click()">叠加导入 GeoJSON</button>
-    <input type="file" id="osmOverlayInput" accept=".json,.geojson" style="display:none" onchange="importOSMGeoJSONOverlay(this)">
-    <div class="hint">紫色虚线=铁路线，紫色标签=车站名。点击不干扰，可穿透操作。</div>
-    </div>
-  </div>
+  
 
-  <div class="panel hidden" id="drawing-control-panel">
-    <h3>画线中...</h3>
-    <div class="hint" style="margin-bottom:6px;">连续点击描点，鼠标移动有参考线。<br>已点 <b id="node-count">0</b> 个节点</div>
-    <button type="button" class="btn-success" onclick="confirmDrawing()">确认保存线路</button>
-    <button type="button" class="btn-danger" onclick="cancelDrawing()">取消</button>
-  </div>
+  
 
   
 
@@ -817,159 +587,13 @@
     <button type="button" class="btn-warn" onclick="clearAll()">清空全部</button>
     <button type="button" class="btn-info" onclick="cloudBackup()">云端备份</button>
 
-    <div style="font-size:11px;font-weight:bold;color:#555;margin:8px 0 4px;border-top:1px solid #ddd;padding-top:6px;">批量操作</div>
-    <div class="btn-group">
-      <button type="button" class="btn-secondary" onclick="batchSelectAll()">全选</button>
-      <button type="button" class="btn-secondary" onclick="batchSelectNone()">全不选</button>
-      <button type="button" class="btn-secondary" onclick="batchSelectInvert()">反选</button>
-    </div>
-    <div class="btn-group" style="margin-top:4px;">
-      <button type="button" class="btn-warn" onclick="batchDeleteSelected()">删除 删除</button>
-      <button type="button" class="btn-info" onclick="batchSetKmPrefix()">数字 设公里标</button>
-    </div>
-    <div class="hint" style="margin-top:4px;"> 勾选后批量操作，点击表头排序。</div>
+    <div style="font-size:11px;font-weight:bold;color:#555;margin:8px 0 4px;border-top:1px solid #ddd;padding-top:6px;">
 
-    </div>
-  </div>
-
-  <div class="panel" id="osm-line-panel">
-    <h3 onclick="togglePanel(this)" style="display:flex;justify-content:space-between;align-items:center;"><span style="display:flex;align-items:center;"><span class="drag-handle">≡</span>OSM线路列表</span><span class="collapse-btn">▼</span></h3>
-    <div class="panel-body">
-    <div id="osm-line-edit" style="display:none;margin-bottom:6px;padding:6px;background:#f0f8ff;border-radius:3px;border:1px solid #bbdefb;">
-      <div style="font-size:11px;font-weight:bold;color:#1976d2;margin-bottom:4px;" id="osm-edit-name">--</div>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-        <label style="font-size:10px;color:#555;">线宽<input type="number" id="osm-edit-width" min="0.01" max="10" step="0.01" style="width:40px;padding:1px 2px;border:1px solid #ccc;border-radius:2px;font-size:11px;" onchange="applyOsmEdit('width',this.value)"></label>
-        <label style="font-size:10px;color:#555;">描边<input type="text" id="osm-edit-oc" class="color-text-input" style="width:50px;" onchange="applyOsmEdit('outlineColor',this.value)" onclick="openColorPicker('osm-edit-oc')" readonly></label>
-        <label style="font-size:10px;color:#555;">描边宽<input type="number" id="osm-edit-ow" min="0" max="10" step="0.01" style="width:40px;padding:1px 2px;border:1px solid #ccc;border-radius:2px;font-size:11px;" onchange="applyOsmEdit('outlineWidth',this.value)"></label>
-      </div>
-    </div>
-    <div style="display:flex;gap:3px;margin-bottom:6px;">
-      <button type="button" class="btn-secondary" onclick="osmSelectAll(true)" style="font-size:11px;padding:3px 6px;flex:1;">全选</button>
-      <button type="button" class="btn-secondary" onclick="osmSelectAll(false)" style="font-size:11px;padding:3px 6px;flex:1;">全不选</button>
-      <button type="button" class="btn-success" onclick="mergeSelectedOsmLines()" style="font-size:11px;padding:3px 6px;flex:1;">合并</button>
-    </div>
-    <div style="display:flex;gap:3px;margin-bottom:6px;">
-      <button type="button" class="btn-danger" onclick="batchDeleteOsmLines()" style="font-size:11px;padding:3px 6px;flex:1;">批量删除</button>
-    </div>
-    <div style="display:flex;gap:3px;margin-bottom:6px;">
-      <button type="button" class="btn-info" onclick="createOsmGroup()" style="font-size:11px;padding:3px 6px;flex:1;">新建大组</button>
-      <button type="button" class="btn-success" onclick="createCustomGroup()" style="font-size:11px;padding:3px 6px;flex:1;">新建分组</button>
-      <button type="button" class="btn-warn" onclick="openGroupManageModal()" style="font-size:11px;padding:3px 6px;flex:1;">管理分组</button>
-    </div>
-    <div style="display:flex;gap:3px;margin-bottom:6px;">
-      <select id="move-to-group" onchange="if(this.value){handleMoveToGroup(this.value);this.value='';}" style="font-size:11px;padding:3px;flex:1;border:1px solid #ccc;border-radius:3px;">
-        <option value="">移到分组...</option>
-      </select>
-    </div>
-    <div class="osm-list-section" id="osm-line-section">
-      <div class="osm-list-header" onclick="toggleOsmList('line')">
-        <span style="font-size:11px;font-weight:bold;color:#555;" id="osm-line-title">线路列表</span>
-        <span class="osm-list-arrow" id="osm-line-arrow">▼</span>
-      </div>
-      <div id="osm-line-list" class="osm-list-body" style="max-height:180px; overflow-y:auto; font-size:12px;"></div>
-      <div class="osm-list-resize" onmousedown="startOsmListResize(event, 'line')"></div>
-    </div>
-    <div class="osm-list-section" id="osm-station-section" style="margin-top:6px;">
-      <div class="osm-list-header" onclick="toggleOsmList('station')">
-        <span style="font-size:11px;font-weight:bold;color:#555;" id="osm-station-title">车站列表</span>
-        <span class="osm-list-arrow" id="osm-station-arrow">▼</span>
-      </div>
-      <div id="osm-station-list" class="osm-list-body" style="max-height:120px; overflow-y:auto; font-size:12px; border-top:1px solid #ddd; padding-top:4px;"></div>
-      <div class="osm-list-resize" onmousedown="startOsmListResize(event, 'station')"></div>
-    </div>
-    </div>
-  </div>
-
-  <div class="panel hidden" id="ruler-control-panel">
-    <h3>尺子控制</h3>
-    <div class="hint" style="margin-bottom:6px;">连续点击描点，每段显示距离。<br>已点 <b id="ruler-node-count">0</b> 个节点，总长 <b id="ruler-total-dist">0 m</b></div>
-    <button type="button" class="btn-success" onclick="confirmRulerPoints()">确认保存所有标点</button>
-    <button type="button" class="btn-danger" onclick="cancelRulerPoints()">取消</button>
-  </div>
-
-<div class="panel" id="edit-panel">
-    <h3 onclick="togglePanel(this)" style="display:flex;justify-content:space-between;align-items:center;"><span style="display:flex;align-items:center;"><span class="drag-handle">≡</span>选中标点属性</span><span class="collapse-btn">▼</span></h3>
-    <div class="panel-body">
-    <div id="no-selection" style="color:#888;">点击地图上的线路或标记进行编辑</div>
-    <div id="selection-form" class="hidden">
-      <label>名称</label>
-      <input type="text" id="edit-name" onchange="updateSelectedProp('name', this.value)" onfocus="this.select()">
-      <div id="edit-km-box" class="hidden">
-        <label>公里标 (如 125.3)</label>
-        <input type="text" id="edit-km" onchange="updateSelectedProp('km_post', this.value)" onfocus="this.select()">
-      </div>
-      <div id="edit-dir-box" class="hidden">
-        <label>方向</label>
-        <select id="edit-dir" onchange="updateSelectedProp('direction', this.value)">
-          <option value="上行">上行</option>
-          <option value="下行">下行</option>
-        </select>
-      </div>
-      <div id="edit-color-box" class="hidden">
-        <label>颜色</label>
-        <input type="text" id="edit-color" class="color-text-input" onchange="updateSelectedProp('color', this.value)" onclick="openColorPicker('edit-color')" readonly>
-      </div>
-      <button type="button" class="btn-success" onclick="confirmSelectedEdit()" style="margin-top:6px;">确定</button>
-      <button type="button" class="btn-info" onclick="nextPropertyPoint()" style="margin-top:4px;">下一个属性点</button>
-      <button type="button" class="btn-danger" onclick="deleteSelected()" style="margin-top:4px;">删除选中</button>
-      <div style="margin-top:10px;border-top:1px solid #ddd;padding-top:8px;">
-        <h3 onclick="togglePanel(this)" style="font-size:11px;font-weight:bold;color:#555;margin-bottom:4px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;margin-top:0;padding-top:0;border:none;"><span>整体平移校准</span><span class="collapse-btn">▼</span></h3>
-        <div class="panel-body">
-        <label style="font-size:10px;">步长</label>
-        <div class="step-btns">
-          <button type="button" onclick="setStep(1)" id="step-1">1m</button>
-          <button type="button" onclick="setStep(5)" id="step-5" class="active">5m</button>
-          <button type="button" onclick="setStep(10)" id="step-10">10m</button>
-          <button type="button" onclick="setStep(50)" id="step-50">50m</button>
-        </div>
-        <div class="dpad">
-          <div class="empty"></div><button type="button" onclick="moveSelected(0, 1)">↑</button><div class="empty"></div>
-          <button type="button" onclick="moveSelected(-1, 0)">←</button><div class="empty"></div><button type="button" onclick="moveSelected(1, 0)">→</button>
-          <div class="empty"></div><button type="button" onclick="moveSelected(0, -1)">↓</button><div class="empty"></div>
-        </div>
-        <div id="point-scale-box" class="hidden" style="margin-top:6px;">
-          <label style="font-size:10px;">缩放大小</label>
-          <div class="btn-group">
-            <button type="button" class="btn-secondary" onclick="scaleSelectedPoint(0.8)" style="font-size:11px;padding:3px 6px;">− 缩小</button>
-            <button type="button" class="btn-secondary" onclick="scaleSelectedPoint(1.25)" style="font-size:11px;padding:3px 6px;">+ 放大</button>
-          </div>
-        </div>
-        <div id="offset-display" style="font-size:11px;color:#555;margin-top:6px;font-family:monospace;background:#f0f0f0;padding:4px 6px;border-radius:3px;display:none;">
-          偏移: <span id="offset-val">—</span>
-        </div>
-        <div class="hint">键盘 <b>↑↓←→</b> 微调，<b>Shift</b> 加速5倍</div>
-        </div>
-      </div>
-    </div>
   
-        <div style="margin-top:10px;border-top:1px solid #ddd;padding-top:8px;" id="point-group-section">
-      <div style="font-size:11px;font-weight:bold;color:#555;margin-bottom:4px;">分组管理</div>
-      <div class="btn-group" style="margin-bottom:4px;">
-        <button type="button" class="btn-success" onclick="createPointGroupFromSelected()" style="font-size:11px;padding:3px 6px;flex:1;">新建分组</button>
-        <button type="button" class="btn-secondary" onclick="expandAllPointGroups()" style="font-size:11px;padding:3px 6px;flex:1;">展开全部</button>
-        <button type="button" class="btn-secondary" onclick="collapseAllPointGroups()" style="font-size:11px;padding:3px 6px;flex:1;">折叠全部</button>
-      </div>
-      <div class="btn-group" style="margin-bottom:4px;">
-        <button type="button" class="btn-warn" onclick="batchDeletePointGroupSelected()" style="font-size:11px;padding:3px 6px;flex:1;">删除选中</button>
-        <select id="point-move-to-group" onchange="if(this.value){moveSelectedToPointGroup(this.value);this.value='';}" style="font-size:11px;padding:3px;flex:1;border:1px solid #ccc;border-radius:3px;">
-          <option value="">移入分组...</option>
-        </select>
-      </div>
-      <div id="point-group-list" style="max-height:200px;overflow-y:auto;font-size:11px;"></div>
-    </div>
-<div class="osm-list-section" id="layer-list-section" style="margin-top:8px;">
-    <div class="osm-list-header" onclick="toggleLayerList()">
-      <span style="font-size:11px;font-weight:bold;color:#555;" id="layer-list-title">标点列表</span>
-      <span class="osm-list-arrow" id="layer-list-arrow">▼</span>
-    </div>
-    <div id="layer-list-body" class="osm-list-body" style="max-height:250px; overflow-y:auto; font-size:12px;">
-      <div style="color:#888;padding:4px;">暂无标点</div>
-    </div>
-    <div class="osm-list-resize" onmousedown="startOsmListResize(event, 'layer')"></div>
-  </div>
+
   
-  </div>
-</div>
+
+
 </div>
 
 <div class="topbar-toggle" id="topbar-toggle" onclick="toggleTopbar()" title="折叠/展开">▼</div>
@@ -990,6 +614,10 @@ const MAX_UNDO = 50;
 // 点/线分组系统（树状结构）
 let pointGroups = [];
 let nextPointGroupId = 1;
+
+// 列表分组排序状态
+let groupOrder = []; // 用户拖拽后的分组名称顺序
+let groupSortDir = {}; // { "南昆客专": "asc", "田靖线": "desc" }
 
 // OSM
 let osmRailwayLayer = null;
@@ -1252,7 +880,9 @@ function saveState() {
     stepMeters,
     osmStepMeters,
     pointGroups: JSON.parse(JSON.stringify(pointGroups)),
-    nextPointGroupId
+    nextPointGroupId,
+    groupOrder: groupOrder.slice(),
+    groupSortDir: JSON.parse(JSON.stringify(groupSortDir))
   };
   undoStack.push(state);
   if (undoStack.length > MAX_UNDO) undoStack.shift();
@@ -1357,6 +987,11 @@ function restoreState(state) {
   if (state.osmStepMeters) osmStepMeters = state.osmStepMeters;
   if (state.pointGroups) pointGroups = state.pointGroups;
   if (state.nextPointGroupId) nextPointGroupId = state.nextPointGroupId;
+  // 恢复列表分组排序状态
+  if (state.groupOrder) groupOrder = state.groupOrder.slice();
+  else groupOrder = [];
+  if (state.groupSortDir) groupSortDir = JSON.parse(JSON.stringify(state.groupSortDir));
+  else groupSortDir = {};
   updateLayerList();
   renderPointGroupList();
   updateOsmOffsetDisplay();
@@ -1389,8 +1024,8 @@ let mapSelectMode = false;
 
 // ==================== 列车实时显示 ====================
 const TRAIN_COLORS = ['#ff0000','#00ff00','#0000ff','#ff00ff','#00ffff','#ffff00','#ff8000','#8000ff','#00ff80','#ff0080'];
-const API_URL = 'http://127.0.0.1:8765/api/trains';
-const REFRESH_MS = 300;
+let apiUrl = 'http://127.0.0.1:8765/api/trains';
+let refreshMs = 300;
 const TRAIL_MAX_POINTS = 50;
 const TRAIL_MAX_AGE_SEC = 180;
 let trainDisplays = {};
@@ -3374,12 +3009,12 @@ function toggleTopbar() {
     toggle.title = '折叠';
     toggle.style.top = '0';
     if (!sidebar.classList.contains('collapsed')) {
-      sidebar.style.marginTop = '110px';
-      sidebar.style.height = 'calc(100dvh - 110px)';
+      sidebar.style.marginTop = '0';
+      sidebar.style.height = '100dvh';
     }
-    mapDiv.style.marginTop = '110px';
-    mapDiv.style.height = 'calc(100dvh - 110px)';
-    if (zoomDisplay) zoomDisplay.style.top = '120px';
+    mapDiv.style.marginTop = '0';
+    mapDiv.style.height = '100dvh';
+    if (zoomDisplay) zoomDisplay.style.top = '10px';
   }
   setTimeout(function() { map.invalidateSize(); }, 350);
 }
@@ -4809,25 +4444,134 @@ function updateLayerList() {
     if (title) title.innerText = '标点列表';
     return;
   }
+  // 按 name（线路名称）分组
+  const groups = {};
+  layers.forEach(function(f) {
+    const groupName = f.props.name || '未命名';
+    if (!groups[groupName]) groups[groupName] = { lines: [], points: [] };
+    if (f.type === 'line') groups[groupName].lines.push(f);
+    else groups[groupName].points.push(f);
+  });
+  // 同步 groupOrder：新分组按字母序插入，已有分组保持用户顺序
+  const currentNames = Object.keys(groups);
+  const existingOrder = groupOrder.filter(function(n) { return currentNames.indexOf(n) !== -1; });
+  const newNames = currentNames.filter(function(n) { return groupOrder.indexOf(n) === -1; }).sort(function(a, b) { return a.localeCompare(b, 'zh-CN'); });
+  groupOrder = existingOrder.concat(newNames);
+  // 默认排序方向
+  currentNames.forEach(function(n) {
+    if (!groupSortDir[n]) groupSortDir[n] = 'asc';
+  });
+  // 清理已不存在的分组排序方向
+  Object.keys(groupSortDir).forEach(function(n) {
+    if (currentNames.indexOf(n) === -1) delete groupSortDir[n];
+  });
   let html = '';
-  layers.forEach(function(f, idx) {
-    const isSel = f.id === selectedId;
-    const isChecked = multiSelectedIds.has(f.id);
-    const name = f.props.name || (f.type === 'line' ? '线路' : '公里标');
-    const val = f.type === 'point' ? (f.props.km_post ? 'K' + f.props.km_post : '-') : (f.props.direction || '-');
-    const visible = f._visible !== false;
-    html += '<div data-layer-id="' + f.id + '" style="display:flex;align-items:center;gap:4px;padding:4px 6px;border-bottom:1px solid #f0f0f0;' + (isSel || isChecked ? 'background:#e3f2fd;' : '') + '">';
-    html += '<span style="cursor:pointer;font-size:10px;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleLayerVisible(' + f.id + ')">' + (visible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
-    html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();onLayerCheck(event, ' + f.id + ')" style="cursor:pointer;flex-shrink:0;">';
-    html += '<span style="color:#999;font-size:10px;flex-shrink:0;">' + (idx+1) + '.</span>';
-    html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;cursor:pointer;" onclick="event.stopPropagation();panToLayer(' + f.id + ')">' + name + '</span>';
-    html += '<span style="font-size:10px;color:#888;flex-shrink:0;">' + val + '</span>';
-    html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deleteLayerItem(' + f.id + ')" title="删除">[x]</span>';
+  let globalIdx = 0;
+  groupOrder.forEach(function(gn) {
+    const g = groups[gn];
+    if (!g) return;
+    const items = g.lines.concat(g.points);
+    if (items.length === 0) return;
+    // 组内标点排序
+    const dir = groupSortDir[gn] || 'asc';
+    g.points.sort(function(a, b) {
+      const ka = parseFloat(a.props.km_post) || 0;
+      const kb = parseFloat(b.props.km_post) || 0;
+      return dir === 'asc' ? ka - kb : kb - ka;
+    });
+    const sortedItems = g.lines.concat(g.points);
+    // 分组标题行：眼睛 + 拖拽手柄 + 名称 + 排序按钮
+    const sortLabel = dir === 'asc' ? '排序↑' : '排序↓';
+    html += '<div data-group-name="' + gn + '" style="padding:4px 6px;background:#f5f5f5;font-size:11px;font-weight:bold;color:#555;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:4px;cursor:grab;" draggable="true" ondragstart="onGroupDragStart(event,this)" ondragover="onGroupDragOver(event)" ondrop="onGroupDrop(event,this)" ondragend="onGroupDragEnd(event)">';
+    html += '<span style="cursor:pointer;flex-shrink:0;" onclick="event.stopPropagation();toggleGroupVisible(' + "'" + gn.replace(/'/g, "\'") + "'" + ',this)" title="显隐">' + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + '</span>';
+    html += '<span style="flex:1;">' + gn + ' (' + sortedItems.length + ')</span>';
+    html += '<span style="cursor:pointer;font-size:10px;color:#2196F3;flex-shrink:0;padding:2px 4px;border:1px solid #2196F3;border-radius:4px;" onclick="event.stopPropagation();toggleGroupSort(' + "'" + gn.replace(/'/g, "\'") + "'" + ')">' + sortLabel + '</span>';
     html += '</div>';
+    sortedItems.forEach(function(f) {
+      globalIdx++;
+      const isSel = f.id === selectedId;
+      const isChecked = multiSelectedIds.has(f.id);
+      const displayName = f.type === 'line' ? (f.props.name || '线路') : (f.props.name || '公里标');
+      const visible = f._visible !== false;
+      html += '<div data-layer-id="' + f.id + '" style="display:flex;align-items:center;gap:4px;padding:4px 6px;border-bottom:1px solid #f0f0f0;' + (isSel || isChecked ? 'background:#e3f2fd;' : '') + '">';
+      html += '<span style="cursor:pointer;font-size:10px;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleLayerVisible(' + f.id + ')">' + (visible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
+      html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();onLayerCheck(event, ' + f.id + ')" style="cursor:pointer;flex-shrink:0;">';
+      html += '<span style="color:#999;font-size:10px;flex-shrink:0;">' + globalIdx + '.</span>';
+      html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;cursor:pointer;" onclick="event.stopPropagation();panToLayer(' + f.id + ')">' + displayName + '</span>';
+      if (f.type === 'point' && f.props.km_post) {
+        html += '<span style="font-size:10px;background:#2196F3;color:#fff;padding:1px 6px;border-radius:8px;flex-shrink:0;">K' + f.props.km_post + '</span>';
+      } else {
+        html += '<span style="font-size:10px;color:#888;flex-shrink:0;">-</span>';
+      }
+      html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deleteLayerItem(' + f.id + ')" title="删除">[x]</span>';
+      html += '</div>';
+    });
   });
   container.innerHTML = html;
   if (title) title.innerText = '标点列表 (' + layers.length + ')';
 }
+
+function toggleGroupSort(groupName) {
+  groupSortDir[groupName] = groupSortDir[groupName] === 'asc' ? 'desc' : 'asc';
+  updateLayerList();
+  saveState();
+}
+
+function toggleGroupVisible(groupName, el) {
+  const isHidden = el.dataset.hidden === 'true';
+  layers.forEach(function(f) {
+    if ((f.props.name || '未命名') === groupName) {
+      if (isHidden) {
+        if (f._groupHiddenPrev !== undefined) {
+          f._visible = f._groupHiddenPrev;
+          delete f._groupHiddenPrev;
+        }
+        if (f.layer && !map.hasLayer(f.layer)) f.layer.addTo(map);
+        if (f.outlineLayer && !map.hasLayer(f.outlineLayer)) f.outlineLayer.addTo(map);
+        if (f.labelLayer && !map.hasLayer(f.labelLayer)) f.labelLayer.addTo(map);
+      } else {
+        f._groupHiddenPrev = f._visible;
+        f._visible = false;
+        if (f.layer && map.hasLayer(f.layer)) map.removeLayer(f.layer);
+        if (f.outlineLayer && map.hasLayer(f.outlineLayer)) map.removeLayer(f.outlineLayer);
+        if (f.labelLayer && map.hasLayer(f.labelLayer)) map.removeLayer(f.labelLayer);
+      }
+    }
+  });
+  el.dataset.hidden = isHidden ? '' : 'true';
+  el.innerHTML = isHidden ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  updateLayerList();
+}
+
+let dragGroupName = null;
+function onGroupDragStart(e, el) {
+  dragGroupName = el.dataset.groupName;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dragGroupName);
+  el.style.opacity = '0.5';
+}
+function onGroupDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function onGroupDrop(e, el) {
+  e.preventDefault();
+  const targetName = el.dataset.groupName;
+  if (!dragGroupName || dragGroupName === targetName) return;
+  const fromIdx = groupOrder.indexOf(dragGroupName);
+  const toIdx = groupOrder.indexOf(targetName);
+  if (fromIdx === -1 || toIdx === -1) return;
+  groupOrder.splice(fromIdx, 1);
+  groupOrder.splice(toIdx, 0, dragGroupName);
+  updateLayerList();
+  saveState();
+}
+function onGroupDragEnd(e) {
+  dragGroupName = null;
+  const els = document.querySelectorAll('[data-group-name]');
+  els.forEach(function(el) { el.style.opacity = '1'; });
+}
+
 
 function toggleLayerList() {
   const body = document.getElementById('layer-list-body');
@@ -5033,59 +4777,9 @@ function doExportGeoJSON(mode) {
   if (mode === 'lines' || mode === 'all') {
     features = features.concat(exportOsmLinesGeoJSON().features);
   }
-  const geojson = { type: 'FeatureCollection', features: features };
+  const geojson = { type: 'FeatureCollection', features: features, _appMeta: { groupOrder: groupOrder.slice(), groupSortDir: JSON.parse(JSON.stringify(groupSortDir)) } };
   const blob = new Blob([JSON.stringify(geojson, null, 2)], {type: 'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'railway_data.json'; a.click();
-}
-function exportOsmLinesGeoJSON() {
-  const features = [];
-  const nodes = {};
-  if (osmRawData) osmRawData.elements.forEach(el => { if (el.type === 'node') nodes[el.id] = [el.lat + osmOffsetLat, el.lon + osmOffsetLng]; });
-  osmLineData.forEach(d => {
-    if (d._hidden) return;
-    let coords = [];
-    if (d._mergedCoords && d._mergedCoords.length >= 2) {
-      coords = d._mergedCoords.map(c => [c[0], c[1]]);
-    } else if (osmRawData) {
-      const el = osmRawData.elements[d.id];
-      if (el && el.type === 'way' && el.nodes) {
-        coords = el.nodes.map(nid => { const n = nodes[nid]; return n ? [n[1], n[0]] : null; }).filter(c => c !== null);
-      }
-    }
-    if (coords.length >= 2) {
-      features.push({
-        type: 'Feature',
-        properties: {
-          name: d.name,
-          railway: 'rail',
-          color: d.color,
-          width: d.width,
-          outlineColor: d.outlineColor,
-          outlineWidth: d.outlineWidth,
-          opacity: d.opacity,
-          _type: d._type || 'normal'
-        },
-        geometry: { type: 'LineString', coordinates: coords }
-      });
-    }
-  });
-  // 导出车站（跳过已删除的）
-  if (osmRawData) {
-    osmRawData.elements.forEach(el => {
-      if (el.type === 'node' && el.tags && el.tags.railway && /station|halt/.test(el.tags.railway) && el._hidden !== true) {
-        features.push({
-          type: 'Feature',
-          properties: {
-            name: el.tags.name || el.tags.name_zh || '车站',
-            railway: el.tags.railway,
-            _lineName: el._lineName || undefined
-          },
-          geometry: { type: 'Point', coordinates: [el.lon + osmOffsetLng, el.lat + osmOffsetLat] }
-        });
-      }
-    });
-  }
-  return { type: 'FeatureCollection', features: features };
 }
 
 function importGeoJSON(input) {
@@ -5129,6 +4823,11 @@ function importGeoJSON(input) {
       }
     });
     deselect(); updateLayerList();
+    // 恢复分组排序状态（如果导出文件包含）
+    if (data._appMeta) {
+      if (data._appMeta.groupOrder) groupOrder = data._appMeta.groupOrder.slice();
+      if (data._appMeta.groupSortDir) groupSortDir = JSON.parse(JSON.stringify(data._appMeta.groupSortDir));
+    }
     if (layers.length > 0) { const group = L.featureGroup(layers.map(l => l.layer)); map.fitBounds(group.getBounds().pad(0.2)); }
   };
   reader.readAsText(file);
@@ -5344,27 +5043,6 @@ function importOSMGeoJSONOverlay(input) {
     alert(msg);
   };
   reader.readAsText(file);
-}
-
-
-function toggleMapSelectMode() {
-  mapSelectMode = !mapSelectMode;
-  const btn = document.getElementById('map-select-btn');
-  if (btn) {
-    if (mapSelectMode) {
-      btn.style.background = '#1976d2';
-      btn.style.color = 'white';
-      btn.style.borderColor = '#1976d2';
-      btn.innerText = '地图选 ';
-      map.getContainer().style.cursor = 'crosshair';
-    } else {
-      btn.style.background = '#757575';
-      btn.style.color = 'white';
-      btn.style.borderColor = '#757575';
-      btn.innerText = '地图选';
-      map.getContainer().style.cursor = '';
-    }
-  }
 }
 
 function pointToSegmentDistance(p, a, b) {
@@ -5836,17 +5514,24 @@ function initTrainDisplay() {
   buildKmChains();
   if (trainPollTimer) clearInterval(trainPollTimer);
   if (trainAnimTimer) clearInterval(trainAnimTimer);
-  trainPollTimer = setInterval(pollTrains, REFRESH_MS);
+  trainPollTimer = setInterval(pollTrains, refreshMs);
   trainAnimTimer = setInterval(animateTrains, 100);
 }
 
 function pollTrains() {
-  fetch(API_URL)
-    .then(function(r) { return r.json(); })
+  updateTrainStatus('connecting', '连接中...');
+  fetch(apiUrl)
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
     .then(function(data) {
+      updateTrainStatus('connected', '已连接');
       updateTrainMarkers(data);
     })
-    .catch(function() {});
+    .catch(function(err) {
+      updateTrainStatus('disconnected', '断开');
+    });
 }
 
 function updateTrainMarkers(data) {
@@ -5896,6 +5581,42 @@ function updateTrainMarkers(data) {
       }
     }
   }
+}
+
+
+// ==================== 列车设置面板 ====================
+function toggleSettingsPanel() {
+  var panel = document.getElementById('settings-panel');
+  if (panel) {
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+function applyTrainSettings() {
+  var urlInput = document.getElementById('api-url-input');
+  var msInput = document.getElementById('refresh-ms-input');
+  if (urlInput) apiUrl = urlInput.value.trim() || apiUrl;
+  if (msInput) refreshMs = parseInt(msInput.value) || 300;
+  // 重启轮询
+  if (trainPollTimer) clearInterval(trainPollTimer);
+  trainPollTimer = setInterval(pollTrains, refreshMs);
+  updateTrainStatus('connecting', '连接中...');
+  // 立即执行一次
+  pollTrains();
+}
+
+function updateTrainStatus(status, text) {
+  var dot = document.getElementById('status-dot');
+  var txt = document.getElementById('status-text');
+  if (!dot || !txt) return;
+  var colors = {
+    connected: '#4caf50',
+    connecting: '#ff9800',
+    disconnected: '#f44336',
+    idle: '#888'
+  };
+  dot.style.background = colors[status] || colors.idle;
+  txt.innerText = text || status;
 }
 
 function animateTrains() {
