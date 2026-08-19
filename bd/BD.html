@@ -662,6 +662,7 @@
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -994,6 +995,8 @@ let nextPointGroupId = 1;
 // 列表分组排序状态
 let groupOrder = []; // 用户拖拽后的分组名称顺序
 let groupSortDir = {}; // { "南昆客专": "asc", "田靖线": "desc" }
+let groupHidden = {}; // { "南昆客专": true } 分组显隐状态
+let groupCollapsed = {}; // { "南昆客专": true } 分组折叠状态
 
 // OSM
 let osmRailwayLayer = null;
@@ -1258,7 +1261,11 @@ function saveState() {
     pointGroups: JSON.parse(JSON.stringify(pointGroups)),
     nextPointGroupId,
     groupOrder: groupOrder.slice(),
-    groupSortDir: JSON.parse(JSON.stringify(groupSortDir))
+    groupSortDir: JSON.parse(JSON.stringify(groupSortDir)),
+    groupHidden: JSON.parse(JSON.stringify(groupHidden)),
+    groupCollapsed: JSON.parse(JSON.stringify(groupCollapsed)),
+    osmGroupOrder: osmGroupOrder.slice(),
+    stationGroupOrder: stationGroupOrder.slice()
   };
   undoStack.push(state);
   if (undoStack.length > MAX_UNDO) undoStack.shift();
@@ -1368,6 +1375,14 @@ function restoreState(state) {
   else groupOrder = [];
   if (state.groupSortDir) groupSortDir = JSON.parse(JSON.stringify(state.groupSortDir));
   else groupSortDir = {};
+  if (state.groupHidden) groupHidden = JSON.parse(JSON.stringify(state.groupHidden));
+  else groupHidden = {};
+  if (state.groupCollapsed) groupCollapsed = JSON.parse(JSON.stringify(state.groupCollapsed));
+  else groupCollapsed = {};
+  if (state.osmGroupOrder) osmGroupOrder = state.osmGroupOrder.slice();
+  else osmGroupOrder = [];
+  if (state.stationGroupOrder) stationGroupOrder = state.stationGroupOrder.slice();
+  else stationGroupOrder = [];
   updateLayerList();
   renderPointGroupList();
   updateOsmOffsetDisplay();
@@ -1392,9 +1407,12 @@ function redo() {
 let selectedOsmLineIdx = -1;
 let osmSelectedIds = new Set();
 let osmSelectedStationIds = new Set();
+let stationGroupOrder = []; // 车站分组拖拽顺序
+let stationGroupCollapsed = {}; // 车站分组折叠状态
 // 统一分组系统：树状结构
 // group: { id, name, lineIds: [], childIds: [], parentId: null, _visible: true, _expanded: true }
 let osmGroups = [];
+let osmGroupOrder = []; // 线路分组拖拽顺序
 let nextGroupId = 1;
 let mapSelectMode = false;
 
@@ -1427,9 +1445,17 @@ function renderOsmLineList() {
   }
   osmGroups.forEach(g => collectGroupLines(g));
   const ungrouped = osmLineData.filter(d => !d._hidden && !groupedLineIds.has(d.id));
+  // 同步 osmGroupOrder
+  const topGroups = osmGroups.filter(g => g.parentId === null);
+  const topIds = topGroups.map(g => g.id);
+  const existingOrder = osmGroupOrder.filter(function(id) { return topIds.indexOf(id) !== -1; });
+  const newIds = topIds.filter(function(id) { return osmGroupOrder.indexOf(id) === -1; });
+  osmGroupOrder = existingOrder.concat(newIds);
   let html = '';
-  osmGroups.filter(g => g.parentId === null).forEach(g => {
-    html += renderGroupNode(g, 0);
+  // 按 osmGroupOrder 渲染顶层分组
+  osmGroupOrder.forEach(function(gid) {
+    const g = osmGroups.find(function(x) { return x.id === gid && x.parentId === null; });
+    if (g) html += renderGroupNode(g, 0);
   });
   if (ungrouped.length > 0) {
     html += '<div style="border:1px solid #ccc;border-radius:3px;margin-bottom:4px;overflow:hidden;">';
@@ -1502,7 +1528,8 @@ function renderGroupNode(group, depth) {
   const visibleLines = Array.from(allLineIds).map(id => osmLineData.find(d => d.id === id)).filter(d => d && !d._hidden);
   const childGroups = osmGroups.filter(g => g.parentId === group.id);
   let html = '<div style="border:1px solid #ccc;border-radius:3px;margin-bottom:4px;overflow:hidden;">';
-  html += '<div style="display:flex;align-items:center;gap:4px;padding:6px;background:#e8eaf6;' + padLeft + '">';
+  const isTopLevel = group.parentId === null;
+  html += '<div style="display:flex;align-items:center;gap:4px;padding:6px;background:#e8eaf6;' + padLeft + '"' + (isTopLevel ? ' draggable="true" ondragstart="onOsmGroupDragStart(event,' + group.id + ')" ondragover="onOsmGroupDragOver(event)" ondrop="onOsmGroupDrop(event,' + group.id + ')" ondragend="onOsmGroupDragEnd(event)" style="display:flex;align-items:center;gap:4px;padding:6px;background:#e8eaf6;' + padLeft + 'cursor:grab;"' : '') + '>';
   // 计算该分组（含子分组）内所有线路是否全选
   const allGroupLineIds = new Set();
   function collectLineIds(g) {
@@ -1777,8 +1804,14 @@ function renderOsmStationList() {
     }
   });
 
-  const groupNames = Object.keys(groupMap).sort();
+  var groupNames = Object.keys(groupMap);
   if (groupNames.length === 0) { container.innerHTML = ''; return; }
+
+  // 同步 stationGroupOrder
+  const existingOrder = stationGroupOrder.filter(function(n) { return groupNames.indexOf(n) !== -1; });
+  const newNames = groupNames.filter(function(n) { return stationGroupOrder.indexOf(n) === -1; }).sort(function(a, b) { return a.localeCompare(b, 'zh-CN'); });
+  stationGroupOrder = existingOrder.concat(newNames);
+  groupNames = stationGroupOrder.slice();
 
   var total = 0;
   groupNames.forEach(function(gn) { total += groupMap[gn].length; });
@@ -1792,13 +1825,15 @@ function renderOsmStationList() {
     var groupAllChecked = sts.length > 0 && sts.every(function(s) { return osmSelectedStationIds.has(s._stationId); });
 
     html += '<div style="border:1px solid #ccc;border-radius:3px;margin-bottom:3px;overflow:hidden;">';
-    html += '<div style="display:flex;align-items:center;gap:4px;padding:5px 6px;background:#f3e5f5;">';
-    html += '<span style="font-size:11px;color:#333;">▼</span>';
-    html += '<span onclick="event.stopPropagation();toggleStationGroupVisible(' + "'" + gn.replace(/'/g, "\'") + "'" + ')" style="cursor:pointer;font-size:12px;width:14px;text-align:center;">' + (groupVisible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
+    var isCollapsed = !!stationGroupCollapsed[gn];
+    html += '<div data-station-group="' + gn.replace(/"/g, '&quot;') + '" style="display:flex;align-items:center;gap:4px;padding:5px 6px;background:#f3e5f5;cursor:grab;" draggable="true" ondragstart="onStationGroupDragStart(event,this)" ondragover="onStationGroupDragOver(event)" ondrop="onStationGroupDrop(event,this)" ondragend="onStationGroupDragEnd(event)">';
+    html += '<span style="cursor:pointer;font-size:11px;color:#333;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleStationGroupCollapse(' + "'" + gn.replace(/'/g, "\'") + "'" + ')">' + (isCollapsed ? '▶' : '▼') + '</span>';
+    html += '<span onclick="event.stopPropagation();toggleStationGroupVisible(' + "'" + gn.replace(/'/g, "\'") + "'" + ')" style="cursor:pointer;font-size:12px;width:14px;text-align:center;flex-shrink:0;">' + (groupVisible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
     html += '<input type="checkbox" ' + (groupAllChecked ? 'checked' : '') + ' onchange="event.stopPropagation();toggleStationGroupCheck(' + "'" + gn.replace(/'/g, "\'") + "'" + ', this.checked)" style="cursor:pointer;flex-shrink:0;">';
     html += '<span style="flex:1;font-size:12px;color:#4a148c;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + gn + '</span>';
     html += '<span style="font-size:10px;color:#666;flex-shrink:0;">(' + sts.length + ')</span>';
     html += '</div>';
+    if (!isCollapsed) {
     html += '<div style="padding:2px 4px;background:white;">';
     sts.forEach(function(st) {
       var visible = st._visible !== false;
@@ -1812,6 +1847,9 @@ function renderOsmStationList() {
       html += '</div>';
     });
     html += '</div></div>';
+    } else {
+      html += '</div>';
+    }
   });
 
   container.innerHTML = html;
@@ -2273,6 +2311,42 @@ function renderStationManageList() {
     html += '</div></div>';
   });
   container.innerHTML = html;
+}
+
+// 车站分组拖拽
+let dragStationGroupName = null;
+function onStationGroupDragStart(e, el) {
+  dragStationGroupName = el.dataset.stationGroup;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dragStationGroupName);
+  el.style.opacity = '0.5';
+}
+function onStationGroupDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function onStationGroupDrop(e, el) {
+  e.preventDefault();
+  var targetName = el.dataset.stationGroup;
+  if (!dragStationGroupName || dragStationGroupName === targetName) return;
+  var fromIdx = stationGroupOrder.indexOf(dragStationGroupName);
+  var toIdx = stationGroupOrder.indexOf(targetName);
+  if (fromIdx === -1 || toIdx === -1) return;
+  stationGroupOrder.splice(fromIdx, 1);
+  stationGroupOrder.splice(toIdx, 0, dragStationGroupName);
+  renderOsmStationList();
+  saveState();
+}
+function onStationGroupDragEnd(e) {
+  dragStationGroupName = null;
+  document.querySelectorAll('#osm-station-list [draggable="true"]').forEach(function(el) { el.style.opacity = '1'; });
+}
+
+function toggleStationGroupCollapse(groupName) {
+  if (stationGroupCollapsed[groupName]) delete stationGroupCollapsed[groupName];
+  else stationGroupCollapsed[groupName] = true;
+  renderOsmStationList();
+  saveState();
 }
 
 function toggleManageStationCheck(stationId, checked) {
@@ -4837,9 +4911,15 @@ function updateLayerList() {
   currentNames.forEach(function(n) {
     if (!groupSortDir[n]) groupSortDir[n] = 'asc';
   });
-  // 清理已不存在的分组排序方向
+  // 清理已不存在的分组状态
   Object.keys(groupSortDir).forEach(function(n) {
     if (currentNames.indexOf(n) === -1) delete groupSortDir[n];
+  });
+  Object.keys(groupHidden).forEach(function(n) {
+    if (currentNames.indexOf(n) === -1) delete groupHidden[n];
+  });
+  Object.keys(groupCollapsed).forEach(function(n) {
+    if (currentNames.indexOf(n) === -1) delete groupCollapsed[n];
   });
   let html = '';
   let globalIdx = 0;
@@ -4856,32 +4936,48 @@ function updateLayerList() {
       return dir === 'asc' ? ka - kb : kb - ka;
     });
     const sortedItems = g.lines.concat(g.points);
-    // 分组标题行：眼睛 + 拖拽手柄 + 名称 + 排序按钮
+    const isHidden = !!groupHidden[gn];
+    const isCollapsed = !!groupCollapsed[gn];
     const sortLabel = dir === 'asc' ? '排序↑' : '排序↓';
-    html += '<div data-group-name="' + gn + '" style="padding:4px 6px;background:#f5f5f5;font-size:11px;font-weight:bold;color:#555;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:4px;cursor:grab;" draggable="true" ondragstart="onGroupDragStart(event,this)" ondragover="onGroupDragOver(event)" ondrop="onGroupDrop(event,this)" ondragend="onGroupDragEnd(event)">';
-    html += '<span style="cursor:pointer;flex-shrink:0;" onclick="event.stopPropagation();toggleGroupVisible(' + "'" + gn.replace(/'/g, "\'") + "'" + ',this)" title="显隐">' + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' + '</span>';
-    html += '<span style="flex:1;">' + gn + ' (' + sortedItems.length + ')</span>';
-    html += '<span style="cursor:pointer;font-size:10px;color:#2196F3;flex-shrink:0;padding:2px 4px;border:1px solid #2196F3;border-radius:4px;" onclick="event.stopPropagation();toggleGroupSort(' + "'" + gn.replace(/'/g, "\'") + "'" + ')">' + sortLabel + '</span>';
+    // 分组卡片容器
+    html += '<div style="border:1px solid #ccc;border-radius:3px;margin-bottom:4px;overflow:hidden;">';
+    // 分组标题行：折叠箭头 + 眼睛 + 全选 + 名称 + 排序按钮
+    const groupAllChecked = sortedItems.length > 0 && sortedItems.every(function(f) { return multiSelectedIds.has(f.id); });
+    html += '<div data-group-name="' + gn + '" style="padding:5px 6px;background:#e8eaf6;font-size:13px;font-weight:bold;color:#1a237e;display:flex;align-items:center;gap:4px;cursor:grab;" draggable="true" ondragstart="onGroupDragStart(event,this)" ondragover="onGroupDragOver(event)" ondrop="onGroupDrop(event,this)" ondragend="onGroupDragEnd(event)">';
+    // 折叠箭头
+    html += '<span style="cursor:pointer;font-size:11px;color:#333;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleGroupCollapse(' + "'" + gn.replace(/'/g, "\'") + "'" + ')" title="折叠/展开">' + (isCollapsed ? '▶' : '▼') + '</span>';
+    // 眼睛图标
+    html += '<span style="cursor:pointer;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleGroupVisible(' + "'" + gn.replace(/'/g, "\'") + "'" + ')" title="显隐">' + (isHidden ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>') + '</span>';
+    // 全选复选框
+    html += '<input type="checkbox" ' + (groupAllChecked ? 'checked' : '') + ' onclick="event.stopPropagation();togglePointGroupCheck(' + "'" + gn.replace(/'/g, "\'") + "'" + ', this.checked)" style="cursor:pointer;flex-shrink:0;">';
+    html += '<span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + gn + '</span>';
+    html += '<span style="font-size:10px;color:#666;flex-shrink:0;">(' + sortedItems.length + ')</span>';
+    html += '<span style="cursor:pointer;font-size:10px;color:#1976d2;flex-shrink:0;padding:2px 4px;border:1px solid #1976d2;border-radius:4px;" onclick="event.stopPropagation();toggleGroupSort(' + "'" + gn.replace(/'/g, "\'") + "'" + ')">' + sortLabel + '</span>';
     html += '</div>';
-    sortedItems.forEach(function(f) {
-      globalIdx++;
-      const isSel = f.id === selectedId;
-      const isChecked = multiSelectedIds.has(f.id);
-      const displayName = f.type === 'line' ? (f.props.name || '线路') : (f.props.name || '公里标');
-      const visible = f._visible !== false;
-      html += '<div data-layer-id="' + f.id + '" style="display:flex;align-items:center;gap:4px;padding:4px 6px;border-bottom:1px solid #f0f0f0;' + (isSel || isChecked ? 'background:#e3f2fd;' : '') + '">';
-      html += '<span style="cursor:pointer;font-size:10px;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleLayerVisible(' + f.id + ')">' + (visible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
-      html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();onLayerCheck(event, ' + f.id + ')" style="cursor:pointer;flex-shrink:0;">';
-      html += '<span style="color:#999;font-size:10px;flex-shrink:0;">' + globalIdx + '.</span>';
-      html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;cursor:pointer;" onclick="event.stopPropagation();panToLayer(' + f.id + ')">' + displayName + '</span>';
-      if (f.type === 'point' && f.props.km_post) {
-        html += '<span style="font-size:10px;background:#2196F3;color:#fff;padding:1px 6px;border-radius:8px;flex-shrink:0;">K' + f.props.km_post + '</span>';
-      } else {
-        html += '<span style="font-size:10px;color:#888;flex-shrink:0;">-</span>';
-      }
-      html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deleteLayerItem(' + f.id + ')" title="删除">[x]</span>';
-      html += '</div>';
-    });
+    // 折叠时不渲染子项
+    if (!isCollapsed) {
+      html += '<div style="padding:2px 4px;background:white;">';
+      sortedItems.forEach(function(f) {
+        globalIdx++;
+        const isSel = f.id === selectedId;
+        const isChecked = multiSelectedIds.has(f.id);
+        const displayName = f.type === 'line' ? (f.props.name || '线路') : (f.props.name || '公里标');
+        const visible = f._visible !== false;
+        html += '<div data-layer-id="' + f.id + '" style="display:flex;align-items:center;gap:4px;padding:4px 6px;border-bottom:1px solid #f0f0f0;' + (isSel || isChecked ? 'background:#e3f2fd;' : '') + '">';
+        html += '<span style="cursor:pointer;font-size:10px;flex-shrink:0;width:14px;text-align:center;" onclick="event.stopPropagation();toggleLayerVisible(' + f.id + ')">' + (visible ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>') + '</span>';
+        html += '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="event.stopPropagation();onLayerCheck(event, ' + f.id + ')" style="cursor:pointer;flex-shrink:0;">';
+        html += '<span style="color:#999;font-size:10px;flex-shrink:0;">' + globalIdx + '.</span>';
+        html += '<span style="flex:1;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#333;cursor:pointer;" onclick="event.stopPropagation();panToLayer(' + f.id + ')">' + displayName + '</span>';
+        if (f.type === 'point' && f.props.km_post) {
+          html += '<span style="font-size:10px;background:#2196F3;color:#fff;padding:1px 6px;border-radius:8px;flex-shrink:0;">K' + f.props.km_post + '</span>';
+        } else {
+          html += '<span style="font-size:10px;color:#888;flex-shrink:0;">-</span>';
+        }
+        html += '<span style="font-size:10px;color:#d32f2f;cursor:pointer;flex-shrink:0;padding:0 2px;" onclick="event.stopPropagation();deleteLayerItem(' + f.id + ')" title="删除">[x]</span>';
+        html += '</div>';
+      });
+    }
+    html += '</div>'; // 关闭分组卡片
   });
   container.innerHTML = html;
   if (title) title.innerText = '标点列表 (' + layers.length + ')';
@@ -4893,15 +4989,68 @@ function toggleGroupSort(groupName) {
   saveState();
 }
 
-function toggleGroupVisible(groupName, el) {
-  const isHidden = el.dataset.hidden === 'true';
+function toggleGroupCollapse(groupName) {
+  if (groupCollapsed[groupName]) delete groupCollapsed[groupName];
+  else groupCollapsed[groupName] = true;
+  updateLayerList();
+  saveState();
+}
+
+function togglePointGroupCheck(groupName, checked) {
+  layers.forEach(function(f) {
+    if ((f.props.name || '未命名') === groupName) {
+      if (checked) {
+        multiSelectedIds.add(f.id);
+        highlightLayerItem(f.id);
+      } else {
+        multiSelectedIds.delete(f.id);
+        unhighlightLayerItem(f.id);
+      }
+    }
+  });
+  updateLayerList();
+  saveState();
+}
+
+// OSM线路分组拖拽
+let dragOsmGroupId = null;
+function onOsmGroupDragStart(e, gid) {
+  dragOsmGroupId = gid;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', String(gid));
+  if (e.target && e.target.style) e.target.style.opacity = '0.5';
+}
+function onOsmGroupDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function onOsmGroupDrop(e, targetId) {
+  e.preventDefault();
+  if (!dragOsmGroupId || dragOsmGroupId === targetId) return;
+  const fromIdx = osmGroupOrder.indexOf(dragOsmGroupId);
+  const toIdx = osmGroupOrder.indexOf(targetId);
+  if (fromIdx === -1 || toIdx === -1) return;
+  osmGroupOrder.splice(fromIdx, 1);
+  osmGroupOrder.splice(toIdx, 0, dragOsmGroupId);
+  renderOsmLineList();
+  saveState();
+}
+function onOsmGroupDragEnd(e) {
+  dragOsmGroupId = null;
+  document.querySelectorAll('#osm-line-list [draggable="true"]').forEach(function(el) { el.style.opacity = '1'; });
+}
+
+function toggleGroupVisible(groupName) {
+  const isHidden = !!groupHidden[groupName];
   layers.forEach(function(f) {
     if ((f.props.name || '未命名') === groupName) {
       if (isHidden) {
         if (f._groupHiddenPrev !== undefined) {
           f._visible = f._groupHiddenPrev;
-          delete f._groupHiddenPrev;
+        } else {
+          delete f._visible;
         }
+        delete f._groupHiddenPrev;
         if (f.layer && !map.hasLayer(f.layer)) f.layer.addTo(map);
         if (f.outlineLayer && !map.hasLayer(f.outlineLayer)) f.outlineLayer.addTo(map);
         if (f.labelLayer && !map.hasLayer(f.labelLayer)) f.labelLayer.addTo(map);
@@ -4914,9 +5063,10 @@ function toggleGroupVisible(groupName, el) {
       }
     }
   });
-  el.dataset.hidden = isHidden ? '' : 'true';
-  el.innerHTML = isHidden ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  if (isHidden) delete groupHidden[groupName];
+  else groupHidden[groupName] = true;
   updateLayerList();
+  saveState();
 }
 
 let dragGroupName = null;
@@ -5153,7 +5303,7 @@ function doExportGeoJSON(mode) {
   if (mode === 'lines' || mode === 'all') {
     features = features.concat(exportOsmLinesGeoJSON().features);
   }
-  const geojson = { type: 'FeatureCollection', features: features, _appMeta: { groupOrder: groupOrder.slice(), groupSortDir: JSON.parse(JSON.stringify(groupSortDir)) } };
+  const geojson = { type: 'FeatureCollection', features: features, _appMeta: { groupOrder: groupOrder.slice(), groupSortDir: JSON.parse(JSON.stringify(groupSortDir)), groupHidden: JSON.parse(JSON.stringify(groupHidden)), groupCollapsed: JSON.parse(JSON.stringify(groupCollapsed)), osmGroupOrder: osmGroupOrder.slice(), stationGroupOrder: stationGroupOrder.slice() } };
   const blob = new Blob([JSON.stringify(geojson, null, 2)], {type: 'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'railway_data.json'; a.click();
 }
@@ -5248,12 +5398,21 @@ function importGeoJSON(input) {
         layers.push(item);
       }
     });
-    deselect(); updateLayerList();
+    deselect();
     // 恢复分组排序状态（如果导出文件包含）
     if (data._appMeta) {
       if (data._appMeta.groupOrder) groupOrder = data._appMeta.groupOrder.slice();
       if (data._appMeta.groupSortDir) groupSortDir = JSON.parse(JSON.stringify(data._appMeta.groupSortDir));
+      if (data._appMeta.groupHidden) groupHidden = JSON.parse(JSON.stringify(data._appMeta.groupHidden));
+      else groupHidden = {};
+      if (data._appMeta.groupCollapsed) groupCollapsed = JSON.parse(JSON.stringify(data._appMeta.groupCollapsed));
+      else groupCollapsed = {};
+      if (data._appMeta.osmGroupOrder) osmGroupOrder = data._appMeta.osmGroupOrder.slice();
+      else osmGroupOrder = [];
+      if (data._appMeta.stationGroupOrder) stationGroupOrder = data._appMeta.stationGroupOrder.slice();
+      else stationGroupOrder = [];
     }
+    updateLayerList();
     if (layers.length > 0) { const group = L.featureGroup(layers.map(l => l.layer)); map.fitBounds(group.getBounds().pad(0.2)); }
   };
   reader.readAsText(file);
