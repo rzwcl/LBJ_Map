@@ -175,6 +175,7 @@
 </style>
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -187,11 +188,11 @@
 
 <div class="track-panel" id="trackPanel">
   <div class="track-panel-header" onclick="toggleTrackPanel()">
-    <span>追踪列车 (<span id="trackCount">0</span>)</span>
+    <span>列车列表 (<span id="trackCount">0</span>)</span>
     <span id="trackToggleBtn">收起</span>
   </div>
   <div class="track-panel-body" id="trackPanelBody">
-    <div class="hint" style="text-align:center;padding:20px 0;">暂无追踪数据</div>
+    <div class="hint" style="text-align:center;padding:20px 0;">暂无列车数据</div>
   </div>
 </div>
 
@@ -284,20 +285,7 @@
 
   <div class="spanel-section">
     <h4>显示设置</h4>
-    <div class="checkbox-row">
-      <input type="checkbox" id="showStationLabels" checked onchange="renderAllLabels()">
-      <label for="showStationLabels">显示车站标签</label>
-    </div>
-    <div class="checkbox-row">
-      <input type="checkbox" id="showTrainTrail" checked>
-      <label for="showTrainTrail">显示列车轨迹</label>
-    </div>
-    <div class="checkbox-row">
-      <input type="checkbox" id="forceShowAllKm" onchange="updateKmLabelVisibility()">
-      <label for="forceShowAllKm">强制显示所有公里标（忽略密度）</label>
-    </div>
-    <label>轨迹保留点数</label>
-    <input type="number" id="trailPoints" value="50" min="10" max="500">
+    <button onclick="openDisplaySettings()" style="width:100%;padding:8px;background:#444;color:#fff;border:none;border-radius:4px;cursor:pointer;">打开显示设置</button>
   </div>
 
   <div class="spanel-section">
@@ -822,7 +810,11 @@ function rebuildAllChains() {
     }
     for (key in lineChains) {
         if (!lineChains.hasOwnProperty(key)) continue;
-        lineChains[key].sort(function(a, b) { return a.km - b.km; });
+        if (key.indexOf('|上行') >= 0) {
+            lineChains[key].sort(function(a, b) { return b.km - a.km; });
+        } else {
+            lineChains[key].sort(function(a, b) { return a.km - b.km; });
+        }
     }
 }
 
@@ -834,14 +826,20 @@ function kmToLatLng(lineName, direction, km) {
         chain = lineChains[key];
     }
     if (!chain || chain.length < 2) return null;
-    // 范围内插值
-    if (km >= chain[0].km && km <= chain[chain.length - 1].km) {
+
+    var isUp = (direction === '上行');
+    var inRange = isUp ? (km <= chain[0].km && km >= chain[chain.length - 1].km) 
+                         : (km >= chain[0].km && km <= chain[chain.length - 1].km);
+
+    if (inRange) {
         var i, d, t;
         for (i = 0; i < chain.length - 1; i++) {
-            if (km >= chain[i].km && km <= chain[i+1].km) {
-                d = chain[i+1].km - chain[i].km;
+            var inSeg = isUp ? (km <= chain[i].km && km >= chain[i+1].km)
+                             : (km >= chain[i].km && km <= chain[i+1].km);
+            if (inSeg) {
+                d = Math.abs(chain[i+1].km - chain[i].km);
                 if (d === 0) return [chain[i].lat, chain[i].lng];
-                t = (km - chain[i].km) / d;
+                t = Math.abs(km - chain[i].km) / d;
                 return [chain[i].lat + (chain[i+1].lat - chain[i].lat) * t, chain[i].lng + (chain[i+1].lng - chain[i].lng) * t];
             }
         }
@@ -917,6 +915,15 @@ function updateTrainTargets(data) {
     var lat = parseDMS(info.lat);
     var color, initLat, initLon, pos, marker, trail, label;
 
+    // 错误数据过滤（新车也过滤）
+    if (trainDisplays[trainNo]) {
+        var d0 = trainDisplays[trainNo];
+        var speedDiff = Math.abs((info.speed !== undefined ? info.speed : 0) - d0.lastSpeed);
+        var kmDiff = Math.abs((info.km !== undefined ? info.km : 0) - d0.currentKm);
+        if (speedDiff > 70 && d0.lastSpeed > 30) return;
+        if (kmDiff > 80) return;
+    }
+
     var inRange = checkInRange(info.line, info.direction, info.km);
     if (!inRange) {
         if (trainDisplays[trainNo]) {
@@ -932,12 +939,13 @@ function updateTrainTargets(data) {
     if (!trainDisplays[trainNo]) {
         color = getTrainColor(trainNo);
         initLat = 23.7754; initLon = 106.9055;
-        if (info.line && info.km !== undefined && info.km !== null && info.direction) {
+        // 优先用经纬度，没有经纬度才用标定链
+        if (lat !== null && lon !== null) {
+            initLat = lat; initLon = lon;
+        } else if (info.line && info.km !== undefined && info.km !== null && info.direction) {
             pos = kmToLatLng(info.line, info.direction, info.km);
             if (pos) { initLat = pos[0]; initLon = pos[1]; }
         }
-        if (lat !== null) initLat = lat;
-        if (lon !== null) initLon = lon;
         marker = L.marker([initLat, initLon], {
             icon: createTrainIcon(info.direction, color), zIndexOffset: 2000
         }).addTo(map);
@@ -972,19 +980,6 @@ function updateTrainTargets(data) {
     d.line = info.line || d.line;
     d.trainType = info.type || d.trainType || '';
     if (lon !== null && lat !== null) { d.lastLon = lon; d.lastLat = lat; }
-
-    // 超过30秒没信号的车，清理
-    var now2 = Date.now() / 1000;
-    for (var tn in trainDisplays) {
-        if (!trainDisplays.hasOwnProperty(tn)) continue;
-        var d0 = trainDisplays[tn];
-        if (now2 - d0.lastSignalTime > 30) {
-            map.removeLayer(d0.marker); map.removeLayer(d0.trail); map.removeLayer(d0.label);
-            if (d0.leader) map.removeLayer(d0.leader);
-            if (d0.leaderOutline) map.removeLayer(d0.leaderOutline);
-            delete trainDisplays[tn];
-        }
-    }
 }
 
 function cleanupDeadTrains() {
@@ -1042,10 +1037,16 @@ function animateTrains() {
             }
         }
 
-        lat = d.lastLat; lon = d.lastLon;
-        pos = null;
-        if (d.line && d.direction) pos = kmToLatLng(d.line, d.direction, d.currentKm);
-        if (pos) { lat = pos[0]; lon = pos[1]; d.lastLat = lat; d.lastLon = lon; }
+        lat = null; lon = null;
+        // 优先用标定链插值，车持续移动
+        if (d.line && d.direction) {
+            pos = kmToLatLng(d.line, d.direction, d.currentKm);
+            if (pos) { lat = pos[0]; lon = pos[1]; }
+        }
+        // 标定链失败时fallback到上次经纬度
+        if (lat === null && d.lastLat !== null && d.lastLon !== null) {
+            lat = d.lastLat; lon = d.lastLon;
+        }
 
         if (lat !== null && lon !== null && lat !== undefined && lon !== undefined) {
             d.marker.setLatLng([lat, lon]);
@@ -1073,18 +1074,30 @@ function animateTrains() {
 function updateTrackPanel() {
     var container = document.getElementById('trackPanelBody');
     var countEl = document.getElementById('trackCount');
+    if (!container || !countEl) return;
+    var now = Date.now() / 1000;
     var trains = [], trainNo;
-    for (trainNo in trainDisplays) { if (trainDisplays.hasOwnProperty(trainNo)) trains.push(trainNo); }
+
+    // 只收集5分钟内有信号的车
+    for (trainNo in trainDisplays) {
+        if (!trainDisplays.hasOwnProperty(trainNo)) continue;
+        var d = trainDisplays[trainNo];
+        var gap = now - d.lastSignalTime;
+        if (gap <= 300) trains.push(trainNo);
+    }
     countEl.textContent = trains.length;
 
+    // 有车时先清除"暂无..."提示
+    var hints = container.querySelectorAll('.hint');
+    for (var h = 0; h < hints.length; h++) {
+        container.removeChild(hints[h]);
+    }
+
     if (trains.length === 0) {
-        if (container.innerHTML.indexOf('暂无追踪数据') < 0) {
-            container.innerHTML = '<div class="hint" style="text-align:center;padding:20px 0;">暂无追踪数据</div>';
-        }
+        container.innerHTML = '<div class="hint" style="text-align:center;padding:20px 0;">暂无列车数据</div>';
         return;
     }
 
-    var now = Date.now() / 1000;
     var existingIds = {};
     var items = container.querySelectorAll('.track-item');
     for (var k = 0; k < items.length; k++) {
@@ -1092,13 +1105,12 @@ function updateTrackPanel() {
         if (tid) existingIds[tid] = items[k];
     }
 
-    var html = '';
     for (var i = 0; i < trains.length; i++) {
         trainNo = trains[i];
         var d = trainDisplays[trainNo];
         var gap = now - d.lastSignalTime;
         var statusClass = 'status-ok', statusText = '在线';
-        if (gap > 300) { statusClass = 'status-gray'; statusText = '丢失 ' + Math.floor(gap) + 's'; }
+        if (gap > 120) { statusClass = 'status-gray'; statusText = '丢失 ' + Math.floor(gap) + 's'; }
         else if (gap > 30) { statusClass = 'status-warn'; statusText = '延迟 ' + Math.floor(gap) + 's'; }
 
         var typeStr = d.trainType ? '[' + d.trainType + '] ' : '';
@@ -1107,10 +1119,8 @@ function updateTrackPanel() {
             '<div class="train-status ' + statusClass + '">' + statusText + '</div>';
 
         if (existingIds[trainNo]) {
-            // 增量更新：只改文本，不动 DOM 结构
             existingIds[trainNo].innerHTML = itemHtml;
         } else {
-            // 新车：插入新节点
             var div = document.createElement('div');
             div.className = 'track-item';
             div.setAttribute('onclick', "flyToTrain('" + trainNo + "')");
@@ -1120,7 +1130,7 @@ function updateTrackPanel() {
         }
     }
 
-    // 删除已不存在的车
+    // 删除已不存在的车（包括超时的）
     for (var eid in existingIds) {
         if (!existingIds.hasOwnProperty(eid)) continue;
         if (trains.indexOf(eid) < 0) {
@@ -1153,8 +1163,112 @@ window.addEventListener('load', function() {
     map.on('moveend', function() { updateKmLabelVisibility(); renderLineLabels(); });
     setTimeout(startTracking, 500);
   setTimeout(renderLineLabels, 600);
+    // 初始化线路名称显示
+    setTimeout(function() {
+        renderLineLabels();
+    }, 600);
+    map.on('zoomend', function() {
+        renderLineLabels();
+    });
+    map.on('moveend', function() {
+        renderLineLabels();
+    });
 });
 
+function openDisplaySettings() {
+    document.getElementById('displaySettingsModal').style.display = 'flex';
+    updateFixedKmList();
+}
+function closeDisplaySettings() {
+    document.getElementById('displaySettingsModal').style.display = 'none';
+}
+function switchDisplayTab(tab) {
+    document.getElementById('tab-station').style.borderBottom = tab === 'station' ? '2px solid #4CAF50' : '2px solid transparent';
+    document.getElementById('tab-station').style.color = tab === 'station' ? '#fff' : '#888';
+    document.getElementById('tab-station').style.fontWeight = tab === 'station' ? 'bold' : 'normal';
+    document.getElementById('tab-km').style.borderBottom = tab === 'km' ? '2px solid #4CAF50' : '2px solid transparent';
+    document.getElementById('tab-km').style.color = tab === 'km' ? '#fff' : '#888';
+    document.getElementById('tab-km').style.fontWeight = tab === 'km' ? 'bold' : 'normal';
+    document.getElementById('content-station').style.display = tab === 'station' ? 'block' : 'none';
+    document.getElementById('content-km').style.display = tab === 'km' ? 'block' : 'none';
+    if (tab === 'km') updateFixedKmList();
+}
+function saveDisplaySettings() {
+    lsSet('showStationLabels', document.getElementById('showStationLabels').checked);
+    lsSet('showTrainTrail', document.getElementById('showTrainTrail').checked);
+    lsSet('trailPoints', document.getElementById('trailPoints').value);
+}
+function loadDisplaySettings() {
+    var v;
+    v = lsGet('showStationLabels'); if (v !== null) document.getElementById('showStationLabels').checked = v;
+    v = lsGet('showTrainTrail'); if (v !== null) document.getElementById('showTrainTrail').checked = v;
+    v = lsGet('trailPoints'); if (v !== null) document.getElementById('trailPoints').value = v;
+}
+function updateFixedKmList() {
+    var container = document.getElementById('fixedKmList');
+    if (!container) return;
+    var lineGroups = {};
+    for (var i = 0; i < pointLayers.length; i++) {
+        var p = pointLayers[i];
+        if (p.props._type === 'station') continue;
+        var name = p._lineName || '未分组';
+        if (!lineGroups[name]) lineGroups[name] = [];
+        lineGroups[name].push(p);
+    }
+    var html = '';
+    for (var lineName in lineGroups) {
+        if (!lineGroups.hasOwnProperty(lineName)) continue;
+        var pts = lineGroups[lineName].sort(function(a, b) {
+            return parseFloat(a.props.km_post || 0) - parseFloat(b.props.km_post || 0);
+        });
+        html += '<div style="margin:6px 0;">';
+        html += '<div style="font-weight:bold;color:#ccc;margin-bottom:4px;">' + lineName + '</div>';
+        for (var j = 0; j < pts.length; j++) {
+            var p = pts[j];
+            var km = p.props.km_post || '';
+            var pid = p.id;
+            var checked = fixedPointIds[pid] ? 'checked' : '';
+            html += '<label style="display:block;margin:2px 0 2px 12px;font-size:12px;cursor:pointer;">' +
+                '<input type="checkbox" ' + checked + ' onchange="toggleFixedKm(' + pid + ', this.checked)"> K' + km +
+                '</label>';
+        }
+        html += '</div>';
+    }
+    container.innerHTML = html || '<div style="color:#888;font-size:12px;">无公里标数据</div>';
+}
+function toggleFixedKm(pid, checked) {
+    if (checked) fixedPointIds[pid] = true;
+    else delete fixedPointIds[pid];
+    lsSet('fixedPointIds', fixedPointIds);
+    updateKmLabelVisibility();
+}
 </script>
+<div id="displaySettingsModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#2a2a2a;border-radius:8px;width:420px;max-height:85vh;overflow-y:auto;padding:16px;color:#fff;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <span style="font-weight:bold;">显示设置</span>
+      <span onclick="closeDisplaySettings()" style="cursor:pointer;font-size:18px;">&times;</span>
+    </div>
+    <!-- 选项卡 -->
+    <div style="display:flex;border-bottom:1px solid #444;margin-bottom:12px;">
+      <div id="tab-station" onclick="switchDisplayTab('station')" style="flex:1;padding:8px;text-align:center;cursor:pointer;border-bottom:2px solid #4CAF50;color:#fff;font-weight:bold;">车站 / 轨迹</div>
+      <div id="tab-km" onclick="switchDisplayTab('km')" style="flex:1;padding:8px;text-align:center;cursor:pointer;border-bottom:2px solid transparent;color:#888;">公里标</div>
+    </div>
+    <!-- 车站/轨迹内容 -->
+    <div id="content-station">
+      <label style="display:block;margin:8px 0;cursor:pointer;"><input type="checkbox" id="showStationLabels" checked onchange="saveDisplaySettings()"> 显示车站标签</label>
+      <label style="display:block;margin:8px 0;cursor:pointer;"><input type="checkbox" id="showTrainTrail" checked onchange="saveDisplaySettings()"> 显示列车轨迹</label>
+      <label style="display:block;margin:8px 0;cursor:pointer;">轨迹保留点数 <input type="number" id="trailPoints" value="50" min="10" max="500" style="width:60px;background:#333;color:#fff;border:1px solid #555;border-radius:3px;" onchange="saveDisplaySettings()"></label>
+    </div>
+    <!-- 公里标内容 -->
+    <div id="content-km" style="display:none;">
+      <label style="display:block;margin:8px 0;cursor:pointer;"><input type="checkbox" id="forceShowAllKm" onchange="toggleForceShowAllKm()"> 强制显示所有公里标（忽略密度）</label>
+      <div style="margin-top:12px;border-top:1px solid #444;padding-top:8px;">
+        <div style="font-weight:bold;margin-bottom:6px;color:#ccc;">固定显示公里标</div>
+        <div id="fixedKmList" style="max-height:220px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
