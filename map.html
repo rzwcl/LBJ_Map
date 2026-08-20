@@ -110,15 +110,11 @@
     pointer-events: none;
   }
   .line-label-div {
-    background: rgba(255,255,255,0.92); color: #222;
-    padding: 2px 8px; border-radius: 3px;
-    font-size: 12px; font-weight: bold;
-    white-space: nowrap;
-    border: 1px solid rgba(0,0,0,0.25);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-    pointer-events: none;
-    z-index: 1000 !important;
-    position: relative;
+    font-size: 11px; font-weight: bold; color: #ffffff;
+    white-space: nowrap; pointer-events: none;
+    text-align: center; line-height: 16px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0px 0px 4px #000;
+    z-index: 1000 !important; position: relative; display: inline-block;
   }
   .station-label-div {
     background: rgba(255,255,255,0.92); color: #222;
@@ -177,6 +173,7 @@
     .settings-panel { width: 300px; }
   }
 </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -295,6 +292,10 @@
       <input type="checkbox" id="showTrainTrail" checked>
       <label for="showTrainTrail">显示列车轨迹</label>
     </div>
+    <div class="checkbox-row">
+      <input type="checkbox" id="forceShowAllKm" onchange="updateKmLabelVisibility()">
+      <label for="forceShowAllKm">强制显示所有公里标（忽略密度）</label>
+    </div>
     <label>轨迹保留点数</label>
     <input type="number" id="trailPoints" value="50" min="10" max="500">
   </div>
@@ -307,6 +308,7 @@
     <input type="number" id="pollInterval" value="300" min="100" max="5000" step="100">
     <label>动画帧率 (ms)</label>
     <input type="number" id="animInterval" value="100" min="50" max="500" step="10">
+
     <div class="btn-group" style="margin-top:6px;">
       <button class="btn-success" onclick="startTracking()">启动追踪</button>
       <button class="btn-danger" onclick="stopTracking()">停止追踪</button>
@@ -335,7 +337,7 @@ var pollTimer = null;
 var animTimer = null;
 var panelTimer = null;
 var isTracking = false;
-var lastApiData = {};
+var trainStates = {};
 
 var lineChains = {};
 var builtinLineNames = [];
@@ -463,17 +465,7 @@ function doImportGeoJSON(data, isOverlay) {
             c = props.color || '#1976d2'; w = props.width || 4; o = props.opacity !== undefined ? props.opacity : 0.9;
             poly = L.polyline(latlngs, { color: c, weight: w, opacity: o, lineCap: 'round', lineJoin: 'round' }).addTo(map);
             lineName = props.name || '';
-            // BD.html 方式：中点 marker + divIcon，过滤无名称或"线路\d+"
-            if (lineName && !/^线路\d+$/.test(lineName)) {
-                var midIdx = Math.floor(latlngs.length / 2);
-                nameLabel = L.marker(latlngs[midIdx], {
-                    icon: L.divIcon({ className: '', html: '<div class="line-label-div">' + lineName + '</div>', iconSize: null, iconAnchor: [0, -10] }),
-                    interactive: false, zIndexOffset: 1000
-                }).addTo(map);
-            } else {
-                nameLabel = null;
-            }
-            lineLayers.push({ id: id, type: 'line', layer: poly, labelLayer: nameLabel, props: props, geojson: feat });
+            lineLayers.push({ id: id, type: 'line', layer: poly, labelLayer: null, props: props, geojson: feat, _latlngs: latlngs, _name: lineName });
         } else if (geom.type === 'Point') {
             ll = L.latLng(geom.coordinates[1], geom.coordinates[0]);
             isStation = props.railway === 'station' || props.railway === 'halt';
@@ -501,14 +493,82 @@ function doImportGeoJSON(data, isOverlay) {
                     icon: L.divIcon({ className: '', html: labelHtml, iconSize: null, iconAnchor: [0, -12] }),
                     interactive: false, zIndexOffset: -100
                 }).addTo(map);
-                pointLayers.push({ id: id, type: 'point', layer: marker2, labelLayer: label2, props: props, geojson: feat, _lineName: name, _lineDir: dir });
+                var randomSeed = Math.floor(Math.random() * 100);
+                pointLayers.push({ id: id, type: 'point', layer: marker2, labelLayer: label2, props: props, geojson: feat, _lineName: name, _lineDir: dir, randomSeed: randomSeed });
             }
         }
     }
     rebuildAllChains();
     renderAllLabels();
+    renderLineLabels();
     updateFixedPointList();
     updateRangeListUI();
+}
+
+var lineNameLabels = [];
+function renderLineLabels() {
+    lineNameLabels.forEach(function(l) { if (map.hasLayer(l)) map.removeLayer(l); });
+    lineNameLabels = [];
+    if (!map) return;
+    var bounds = map.getBounds();
+    var zoom = map.getZoom();
+    if (zoom < 8) return;
+    var placedBoxes = [];
+    lineLayers.forEach(function(d) {
+        var lineName = d._name || '';
+        if (!lineName || /^线路\d+$/.test(lineName)) return;
+        var latlngs = d._latlngs;
+        if (!latlngs || latlngs.length < 2) return;
+        var visibleSegs = [];
+        var curSeg = [];
+        for (var k = 0; k < latlngs.length; k++) {
+            if (bounds.contains(latlngs[k])) { curSeg.push(latlngs[k]); }
+            else { if (curSeg.length >= 2) visibleSegs.push(curSeg); curSeg = []; }
+        }
+        if (curSeg.length >= 2) visibleSegs.push(curSeg);
+        visibleSegs.forEach(function(seg) {
+            var pixelPts = seg.map(function(c) { return map.latLngToContainerPoint(c); });
+            var pixelLen = 0;
+            for (var m = 1; m < pixelPts.length; m++) { pixelLen += pixelPts[m-1].distanceTo(pixelPts[m]); }
+            if (pixelLen < 80) return;
+            var targetDist = pixelLen / 2;
+            var accumulated = 0;
+            var midPt = pixelPts[0];
+            var p1 = pixelPts[0], p2 = pixelPts[1];
+            for (var m = 1; m < pixelPts.length; m++) {
+                var segDist = pixelPts[m-1].distanceTo(pixelPts[m]);
+                if (accumulated + segDist >= targetDist) {
+                    p1 = pixelPts[m-1]; p2 = pixelPts[m];
+                    var ratio = segDist > 0 ? (targetDist - accumulated) / segDist : 0;
+                    midPt = L.point(p1.x + (p2.x - p1.x) * ratio, p1.y + (p2.y - p1.y) * ratio);
+                    break;
+                }
+                accumulated += segDist;
+            }
+            var angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+            if (angle > 90) angle -= 180;
+            else if (angle < -90) angle += 180;
+            var textW = lineName.length * 12 + 8;
+            var box = { x: midPt.x - textW / 2, y: midPt.y - 8, w: textW, h: 16 };
+            var overlap = placedBoxes.some(function(b) {
+                return !(box.x + box.w < b.x - 10 || box.x > b.x + b.w + 10 || box.y + box.h < b.y - 5 || box.y > b.y + b.h + 5);
+            });
+            if (overlap) return;
+            placedBoxes.push(box);
+            var latlng = map.containerPointToLatLng(midPt);
+            var label = L.marker(latlng, {
+                icon: L.divIcon({
+                    className: '',
+                    html: '<div class="line-label-div" style="transform:rotate(' + angle.toFixed(1) + 'deg);transform-origin:center center;">' + lineName + '</div>',
+                    iconSize: [textW, 16],
+                    iconAnchor: [textW / 2, 8]
+                }),
+                interactive: false,
+                zIndexOffset: 1000
+            }).addTo(map);
+            lineNameLabels.push(label);
+        });
+    });
 }
 
 function exportGeoJSON() {
@@ -541,30 +601,46 @@ function updateKmLabelVisibility() {
     var bounds = map.getBounds();
     var showStation = document.getElementById('showStationLabels').checked;
 
+    // 车站：圆点和标签一起控制
     stationLayers.forEach(function(l) {
-        if (l.labelLayer) {
-            if (showStation) { if (!map.hasLayer(l.labelLayer)) map.addLayer(l.labelLayer); }
-            else { if (map.hasLayer(l.labelLayer)) map.removeLayer(l.labelLayer); }
+        var ll = l.layer.getLatLng();
+        var inView = bounds.contains(ll);
+        if (inView && showStation) {
+            if (!map.hasLayer(l.layer)) map.addLayer(l.layer);
+            if (!map.hasLayer(l.labelLayer)) map.addLayer(l.labelLayer);
+        } else {
+            if (map.hasLayer(l.layer)) map.removeLayer(l.layer);
+            if (map.hasLayer(l.labelLayer)) map.removeLayer(l.labelLayer);
         }
     });
 
-    var ratio = 0;
-    if (zoom < 12) ratio = 0;
-    else if (zoom < 14) ratio = 0.3;
-    else if (zoom < 16) ratio = 0.6;
-    else ratio = 1.0;
+    var threshold = 10;
+    if (zoom < 12) threshold = 10;
+    else if (zoom < 13) threshold = 20;
+    else if (zoom < 14) threshold = 35;
+    else if (zoom < 15) threshold = 55;
+    else if (zoom < 16) threshold = 80;
+    else threshold = 100;
 
+    var forceAll = document.getElementById('forceShowAllKm') && document.getElementById('forceShowAllKm').checked;
+
+    // 公里标：圆点和标签一起控制
     pointLayers.forEach(function(l) {
         if (!l.labelLayer) return;
         var ll = l.layer.getLatLng();
         var inView = bounds.contains(ll);
-        var isFixed = !!fixedPointIds[l.id];
+        var isFixed = !!fixedPointIds[l._lineName || l._lineDir || l.id];
         var shouldShow = false;
-        if (isFixed) shouldShow = true;
-        else if (inView && ratio > 0) shouldShow = Math.random() < ratio;
+        if (forceAll || isFixed) shouldShow = true;
+        else if (inView && threshold > 0) shouldShow = l.randomSeed < threshold;
 
-        if (shouldShow) { if (!map.hasLayer(l.labelLayer)) map.addLayer(l.labelLayer); }
-        else { if (map.hasLayer(l.labelLayer)) map.removeLayer(l.labelLayer); }
+        if (shouldShow) {
+            if (!map.hasLayer(l.layer)) map.addLayer(l.layer);
+            if (!map.hasLayer(l.labelLayer)) map.addLayer(l.labelLayer);
+        } else {
+            if (map.hasLayer(l.layer)) map.removeLayer(l.layer);
+            if (map.hasLayer(l.labelLayer)) map.removeLayer(l.labelLayer);
+        }
     });
 }
 
@@ -758,18 +834,26 @@ function kmToLatLng(lineName, direction, km) {
         chain = lineChains[key];
     }
     if (!chain || chain.length < 2) return null;
-    if (km <= chain[0].km) return [chain[0].lat, chain[0].lng];
-    if (km >= chain[chain.length - 1].km) return [chain[chain.length - 1].lat, chain[chain.length - 1].lng];
-    var i, d, t;
-    for (i = 0; i < chain.length - 1; i++) {
-        if (km >= chain[i].km && km <= chain[i+1].km) {
-            d = chain[i+1].km - chain[i].km;
-            if (d === 0) return [chain[i].lat, chain[i].lng];
-            t = (km - chain[i].km) / d;
-            return [chain[i].lat + (chain[i+1].lat - chain[i].lat) * t, chain[i].lng + (chain[i+1].lng - chain[i].lng) * t];
+    // 范围内插值
+    if (km >= chain[0].km && km <= chain[chain.length - 1].km) {
+        var i, d, t;
+        for (i = 0; i < chain.length - 1; i++) {
+            if (km >= chain[i].km && km <= chain[i+1].km) {
+                d = chain[i+1].km - chain[i].km;
+                if (d === 0) return [chain[i].lat, chain[i].lng];
+                t = (km - chain[i].km) / d;
+                return [chain[i].lat + (chain[i+1].lat - chain[i].lat) * t, chain[i].lng + (chain[i+1].lng - chain[i].lng) * t];
+            }
         }
     }
-    return null;
+    // 超出范围：找最近标定点
+    var nearest = chain[0];
+    var minDist = Math.abs(km - chain[0].km);
+    for (var j = 1; j < chain.length; j++) {
+        var dist = Math.abs(km - chain[j].km);
+        if (dist < minDist) { minDist = dist; nearest = chain[j]; }
+    }
+    return [nearest.lat, nearest.lng];
 }
 
 // ==================== 列车追踪 ====================
@@ -795,85 +879,111 @@ function startTracking() {
     if (isTracking) return;
     isTracking = true;
     var apiUrl = document.getElementById('apiUrl').value.trim();
-    var pollMs = parseInt(document.getElementById('pollInterval').value) || 300;
     var animMs = parseInt(document.getElementById('animInterval').value) || 100;
-    document.getElementById('trackStatus').innerHTML = '<span class="status-ok">确定 追踪运行中</span>';
+    document.getElementById('trackStatus').innerHTML = '<span class="status-ok">SSE 追踪运行中</span>';
 
-    pollTimer = setInterval(function() {
-        fetch(apiUrl)
-            .then(function(r) { return r.ok ? r.json() : Promise.reject('HTTP ' + r.status); })
-            .then(function(data) { lastApiData = data; updateTrainTargets(data); })
-            .catch(function() {});
-    }, pollMs);
+    if (pollTimer) { pollTimer.close(); pollTimer = null; }
+    pollTimer = new EventSource(apiUrl);
+    pollTimer.onmessage = function(event) {
+        try {
+            var data = JSON.parse(event.data);
+            trainStates[data.train_no] = data;
+            updateTrainTargets(data);
+        } catch(e) {}
+    };
+    pollTimer.onerror = function() {
+        document.getElementById('trackStatus').innerHTML = '<span class="status-err">SSE 断开，5秒后重连...</span>';
+        if (pollTimer) { pollTimer.close(); pollTimer = null; }
+        setTimeout(function() { if (isTracking) startTracking(); }, 5000);
+    };
 
     animTimer = setInterval(function() { animateTrains(); }, animMs);
-    // 面板更新独立定时器，1秒一次，避免闪烁
     panelTimer = setInterval(function() { updateTrackPanel(); }, 1000);
 }
 
 function stopTracking() {
     isTracking = false;
-    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    if (pollTimer) { pollTimer.close(); pollTimer = null; }
     if (animTimer) { clearInterval(animTimer); animTimer = null; }
     if (panelTimer) { clearInterval(panelTimer); panelTimer = null; }
-    document.getElementById('trackStatus').innerHTML = '<span class="status-err">取消 已停止</span>';
+    document.getElementById('trackStatus').innerHTML = '<span class="status-err">已停止</span>';
 }
 
 function updateTrainTargets(data) {
     var now = Date.now() / 1000;
-    var trainNo, info, lon, lat, color, initLat, initLon, pos, marker, trail, label;
-    for (trainNo in data) {
-        if (!data.hasOwnProperty(trainNo)) continue;
-        info = data[trainNo];
-        lon = parseDMS(info.lon);
-        lat = parseDMS(info.lat);
+    var trainNo = data.train_no;
+    var info = data;
+    var lon = parseDMS(info.lon);
+    var lat = parseDMS(info.lat);
+    var color, initLat, initLon, pos, marker, trail, label;
 
-        var inRange = checkInRange(info.line, info.direction, info.km);
-        if (!inRange) {
-            if (trainDisplays[trainNo]) {
-                var d0 = trainDisplays[trainNo];
-                map.removeLayer(d0.marker); map.removeLayer(d0.trail); map.removeLayer(d0.label);
-                delete trainDisplays[trainNo];
-            }
-            continue;
+    var inRange = checkInRange(info.line, info.direction, info.km);
+    if (!inRange) {
+        if (trainDisplays[trainNo]) {
+            var d0 = trainDisplays[trainNo];
+            map.removeLayer(d0.marker); map.removeLayer(d0.trail); map.removeLayer(d0.label);
+            if (d0.leader) map.removeLayer(d0.leader);
+            if (d0.leaderOutline) map.removeLayer(d0.leaderOutline);
+            delete trainDisplays[trainNo];
         }
+        return;
+    }
 
-        if (!trainDisplays[trainNo]) {
-            color = getTrainColor(trainNo);
-            initLat = 23.7754; initLon = 106.9055;
-            if (info.line && info.km !== undefined && info.km !== null && info.direction) {
-                pos = kmToLatLng(info.line, info.direction, info.km);
-                if (pos) { initLat = pos[0]; initLon = pos[1]; }
-            }
-            if (lat !== null) initLat = lat;
-            if (lon !== null) initLon = lon;
-            marker = L.marker([initLat, initLon], {
-                icon: createTrainIcon(info.direction, color), zIndexOffset: 2000
-            }).addTo(map);
-            trail = L.polyline([], { color: color, weight: 3, opacity: 0.7 }).addTo(map);
-            label = L.marker([initLat, initLon], {
-                icon: L.divIcon({ className: '', html: '<div class="train-label-div">' + trainNo + '</div>', iconSize: null, iconAnchor: [0, -18] }),
-                interactive: false, zIndexOffset: 2001
-            }).addTo(map);
-            trainDisplays[trainNo] = {
-                marker: marker, trail: trail, label: label, color: color,
-                currentKm: info.km || 0, targetKm: info.km || 0,
-                lastSignalTime: info.last_update || now,
-                lastSpeed: (info.speed !== undefined && info.speed !== null) ? info.speed : 0,
-                direction: info.direction || '', line: info.line || '',
-                lastLon: lon, lastLat: lat, trailPoints: []
-            };
+    if (!trainDisplays[trainNo]) {
+        color = getTrainColor(trainNo);
+        initLat = 23.7754; initLon = 106.9055;
+        if (info.line && info.km !== undefined && info.km !== null && info.direction) {
+            pos = kmToLatLng(info.line, info.direction, info.km);
+            if (pos) { initLat = pos[0]; initLon = pos[1]; }
         }
-        var d = trainDisplays[trainNo];
-        if (info.km !== undefined && info.km !== null) {
-            if (Math.abs(info.km - d.currentKm) > 0.5) d.currentKm = info.km;
-            d.targetKm = info.km;
+        if (lat !== null) initLat = lat;
+        if (lon !== null) initLon = lon;
+        marker = L.marker([initLat, initLon], {
+            icon: createTrainIcon(info.direction, color), zIndexOffset: 2000
+        }).addTo(map);
+        trail = L.polyline([], { color: color, weight: 3, opacity: 0.7 }).addTo(map);
+        label = L.marker([initLat, initLon], {
+            icon: L.divIcon({ className: '', html: '<div class="train-label-div">' + trainNo + '</div>', iconSize: null, iconAnchor: [0, -18] }),
+            interactive: false, zIndexOffset: 2001
+        }).addTo(map);
+        var leaderOutline = L.polyline([[initLat, initLon], [initLat, initLon]], {
+            color: '#ffffff', weight: 3, opacity: 0.9
+        }).addTo(map);
+        var leader = L.polyline([[initLat, initLon], [initLat, initLon]], {
+            color: '#000000', weight: 1.5, opacity: 1.0
+        }).addTo(map);
+        trainDisplays[trainNo] = {
+            marker: marker, trail: trail, label: label, leader: leader, leaderOutline: leaderOutline, color: color,
+            currentKm: info.km || 0, targetKm: info.km || 0,
+            lastSignalTime: info.last_update || now,
+            lastSpeed: (info.speed !== undefined && info.speed !== null) ? info.speed : 0,
+            direction: info.direction || '', line: info.line || '', trainType: info.type || '',
+            lastLon: lon, lastLat: lat, trailPoints: []
+        };
+    }
+    var d = trainDisplays[trainNo];
+    if (info.km !== undefined && info.km !== null) {
+        if (Math.abs(info.km - d.currentKm) > 0.5) d.currentKm = info.km;
+        d.targetKm = info.km;
+    }
+    d.lastSignalTime = info.last_update || now;
+    if (info.speed !== undefined && info.speed !== null) d.lastSpeed = info.speed;
+    d.direction = info.direction || d.direction;
+    d.line = info.line || d.line;
+    d.trainType = info.type || d.trainType || '';
+    if (lon !== null && lat !== null) { d.lastLon = lon; d.lastLat = lat; }
+
+    // 超过30秒没信号的车，清理
+    var now2 = Date.now() / 1000;
+    for (var tn in trainDisplays) {
+        if (!trainDisplays.hasOwnProperty(tn)) continue;
+        var d0 = trainDisplays[tn];
+        if (now2 - d0.lastSignalTime > 30) {
+            map.removeLayer(d0.marker); map.removeLayer(d0.trail); map.removeLayer(d0.label);
+            if (d0.leader) map.removeLayer(d0.leader);
+            if (d0.leaderOutline) map.removeLayer(d0.leaderOutline);
+            delete trainDisplays[tn];
         }
-        d.lastSignalTime = info.last_update || now;
-        if (info.speed !== undefined && info.speed !== null) d.lastSpeed = info.speed;
-        d.direction = info.direction || d.direction;
-        d.line = info.line || d.line;
-        if (lon !== null && lat !== null) { d.lastLon = lon; d.lastLat = lat; }
     }
 }
 
@@ -884,7 +994,7 @@ function cleanupDeadTrains() {
         if (!trainDisplays.hasOwnProperty(trainNo)) continue;
         d = trainDisplays[trainNo];
         if (now - d.lastSignalTime > 300) {
-            map.removeLayer(d.marker); map.removeLayer(d.trail); map.removeLayer(d.label);
+            map.removeLayer(d.marker); map.removeLayer(d.trail); map.removeLayer(d.label); if (d.leader) map.removeLayer(d.leader); if (d.leaderOutline) map.removeLayer(d.leaderOutline);
             delete trainDisplays[trainNo];
         }
     }
@@ -915,7 +1025,8 @@ function animateTrains() {
         if (d.direction === '下行') d.targetKm += distKm;
         else if (d.direction === '上行') d.targetKm -= distKm;
 
-        d.currentKm += (d.targetKm - d.currentKm) * 0.3;
+        // 直接推算，不缓动
+        d.currentKm = d.targetKm;
 
         inRange = checkInRange(d.line, d.direction, d.currentKm);
         if (!inRange) {
@@ -938,7 +1049,12 @@ function animateTrains() {
 
         if (lat !== null && lon !== null && lat !== undefined && lon !== undefined) {
             d.marker.setLatLng([lat, lon]);
-            d.label.setLatLng([lat, lon]);
+            var iconPoint = map.latLngToLayerPoint([lat, lon]);
+            var labelPoint = L.point(iconPoint.x, iconPoint.y + 40);
+            var labelLatLng = map.layerPointToLatLng(labelPoint);
+            d.label.setLatLng(labelLatLng);
+            if (d.leader) d.leader.setLatLngs([[lat, lon], [labelLatLng.lat, labelLatLng.lng]]);
+            if (d.leaderOutline) d.leaderOutline.setLatLngs([[lat, lon], [labelLatLng.lat, labelLatLng.lng]]);
             d.label.setIcon(L.divIcon({
                 className: '',
                 html: '<div class="train-label-div">' + trainNo + ' ' + d.lastSpeed + 'km/h K' + d.currentKm.toFixed(2) + '</div>',
@@ -985,8 +1101,9 @@ function updateTrackPanel() {
         if (gap > 300) { statusClass = 'status-gray'; statusText = '丢失 ' + Math.floor(gap) + 's'; }
         else if (gap > 30) { statusClass = 'status-warn'; statusText = '延迟 ' + Math.floor(gap) + 's'; }
 
+        var typeStr = d.trainType ? '[' + d.trainType + '] ' : '';
         var itemHtml = '<div class="train-name" style="color:' + d.color + '">● ' + trainNo + ' ' + d.direction + '</div>' +
-            '<div class="train-info">K' + d.currentKm.toFixed(2) + ' | ' + d.lastSpeed + 'km/h | ' + (d.line || '未知线路') + '</div>' +
+            '<div class="train-info">' + typeStr + 'K' + d.currentKm.toFixed(2) + ' | ' + d.lastSpeed + 'km/h | ' + (d.line || '未知线路') + '</div>' +
             '<div class="train-status ' + statusClass + '">' + statusText + '</div>';
 
         if (existingIds[trainNo]) {
@@ -1032,9 +1149,10 @@ window.addEventListener('load', function() {
     loadFixedPoints();
     loadBuiltinCache();
     loadRangeRules();
-    map.on('zoomend', updateKmLabelVisibility);
-    map.on('moveend', updateKmLabelVisibility);
+    map.on('zoomend', function() { updateKmLabelVisibility(); renderLineLabels(); });
+    map.on('moveend', function() { updateKmLabelVisibility(); renderLineLabels(); });
     setTimeout(startTracking, 500);
+  setTimeout(renderLineLabels, 600);
 });
 
 </script>
