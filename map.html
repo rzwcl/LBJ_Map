@@ -10,7 +10,7 @@
   html, body { width: 100%; height: 100%; overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 
-  #map { position: absolute; top: 44px; left: 0; right: 0; bottom: 0; z-index: 1; }
+  #map { position: absolute; top: 44px; left: 0; right: 0; bottom: 0; z-index: 1; will-change: transform; transform: translateZ(0); }
 
   .topbar {
     position: fixed; top: 0; left: 0; right: 0; height: 44px;
@@ -34,7 +34,16 @@
     z-index: 1000; display: flex; flex-direction: column;
     transition: transform 0.25s ease;
   }
-  .track-panel.collapsed { transform: translateX(-240px); }
+  .track-panel.collapsed { transform: translateX(-238px); }
+  .track-panel-tab {
+    position: fixed; left: 0; top: 54px; width: 18px; height: 60px;
+    background: rgba(255,255,255,0.95); border: 1px solid #ddd;
+    border-left: none; border-radius: 0 4px 4px 0;
+    z-index: 1000; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 11px; color: #666;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.15); user-select: none;
+  }
+  .track-panel-tab:hover { background: #f5f5f5; }
   .track-panel-header {
     padding: 8px 10px; border-bottom: 1px solid #eee;
     font-size: 13px; font-weight: bold; color: #333;
@@ -45,10 +54,15 @@
   .track-item {
     padding: 6px 8px; border-radius: 4px; margin-bottom: 4px;
     cursor: pointer; border-left: 3px solid transparent;
+    border-bottom: 1px solid #eee;
     transition: background 0.15s;
   }
   .track-item:hover { background: #f5f5f5; }
-  .track-item.active { background: #e3f2fd; }
+  .track-item:active { background: #e3f2fd; transform: scale(0.98); transition: transform 0.05s, background 0.05s; }
+  .track-item.active { background: #1976d2; }
+  .track-item.active .train-name { color: #fff !important; }
+  .track-item.active .train-info { color: rgba(255,255,255,0.8) !important; }
+  .track-item.active .train-status { color: #fff !important; }
   .track-item .train-name { font-size: 13px; font-weight: bold; color: #222; }
   .track-item .train-info { font-size: 11px; color: #666; margin-top: 2px; }
   .track-item .train-status { font-size: 10px; margin-top: 2px; }
@@ -71,7 +85,10 @@
   .settings-overlay.open { display: block; }
 
   .spanel-section { padding: 10px; border-bottom: 1px solid #ddd; }
-  .spanel-section h4 { font-size: 13px; color: #333; margin-bottom: 8px; }
+  .spanel-section.collapsed > *:not(h4) { display: none; }
+  .spanel-section h4 { font-size: 13px; color: #333; margin-bottom: 8px; cursor: pointer; user-select: none; display: flex; align-items: center; gap: 6px; }
+  .spanel-section.collapsed h4 { margin-bottom: 0; }
+  .spanel-section h4 .fold-arrow { font-size: 11px; color: #666; }
   .spanel-section label { display: block; margin-bottom: 3px; color: #555; font-size: 11px; }
   .spanel-section input[type="text"], .spanel-section input[type="number"], .spanel-section select {
     width: 100%; padding: 5px; margin-bottom: 6px;
@@ -117,12 +134,12 @@
     z-index: 1000 !important; position: relative; display: inline-block;
   }
   .station-label-div {
-    background: rgba(0,0,0,0.5); color: #fff;
-    padding: 2px 5px; border-radius: 3px;
-    font-size: 11px; font-weight: bold;
+    background: #FF5722; color: #fff;
+    padding: 2px 6px; border-radius: 3px;
+    font-size: 12px; font-weight: bold;
     white-space: nowrap;
-    border: 1px solid rgba(0,0,0,0.25);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     pointer-events: none;
   }
   .train-label-div {
@@ -173,7 +190,13 @@
     .track-panel { width: 180px; }
     .settings-panel { width: 300px; }
   }
+
+  .line-import-item:hover { background: #f5f5f5 !important; }
 </style>
+<base target="_blank">
+<base target="_blank">
+<base target="_blank">
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
@@ -186,10 +209,12 @@
   <span class="title">列车实时追踪地图</span>
   <div class="spacer"></div>
   <span id="zoomDisplay" style="font-size:12px;color:#666;margin-right:8px;">Zoom: 8</span>
-  <button class="btn-icon" onclick="toggleTrackPanel()" title="追踪列表">列表</button>
   <button class="btn-icon" onclick="toggleSettings()" title="设置">设置</button>
 </div>
 
+<div class="track-panel-tab" id="trackPanelTab" onclick="toggleTrackPanel()" title="展开/收起列表">
+  <span id="trackPanelTabArrow">◀</span>
+</div>
 <div class="track-panel" id="trackPanel">
   <div class="track-panel-header" onclick="toggleTrackPanel()">
     <span>列车列表 (<span id="trackCount">0</span>)</span>
@@ -210,7 +235,7 @@
   <button class="spanel-close" onclick="toggleSettings()">关闭</button>
 
   <div class="spanel-section">
-    <h4>底图设置</h4>
+    <h4 onclick="toggleSettingsSection(this)"><span class="fold-arrow">▼</span>底图设置</h4>
     <label>底图提供商</label>
     <select id="cfg-provider" onchange="onCfgProviderChange()">
       <option value="esri_sat" selected>ESRI 世界卫星影像</option>
@@ -237,80 +262,67 @@
     </div>
 
     <button class="btn-primary" onclick="applyBaseMapFromSettings()">加载底图</button>
-    <div id="cfg-map-status" class="hint" style="margin-top:4px;"></div>
+    
   </div>
 
-  <div class="spanel-section">
-    <h4>内置线路</h4>
-    <div id="builtinLinesList" style="margin-bottom:8px;">
-      <div class="hint">首次使用请选择线路文件夹</div>
-    </div>
-    <button class="btn-primary" onclick="scanBuiltinFolder()">选择线路文件夹</button>
-    <button class="btn-secondary" onclick="clearBuiltinCache()">清除缓存</button>
-    <button class="btn-warn" onclick="loadSelectedBuiltinLines()">加载选中内置线路</button>
-    <input type="file" id="folderInput" class="file-input" webkitdirectory directory onchange="onFolderSelected(this)">
-  </div>
+
 
   <div class="spanel-section">
-    <h4>线路数据</h4>
+    <h4 onclick="toggleSettingsSection(this)"><span class="fold-arrow">▼</span>线路数据</h4>
+    <button class="btn-primary" onclick="openLineImportModal()">从主程序加载线路</button>
+    <div style="font-size:10px;color:#888;margin-top:2px;margin-bottom:6px;">从主程序获取线路标定数据并选择导入</div>
     <button class="btn-primary" onclick="document.getElementById('importInput').click()">导入 GeoJSON</button>
     <input type="file" id="importInput" class="file-input" accept=".json,.geojson" onchange="importGeoJSON(this, false)">
     <button class="btn-success" onclick="document.getElementById('overlayInput').click()">叠加导入 GeoJSON</button>
     <input type="file" id="overlayInput" class="file-input" accept=".json,.geojson" onchange="importGeoJSON(this, true)">
     <button class="btn-primary" onclick="exportGeoJSON()" style="margin-top:6px;">导出 GeoJSON</button>
-    <button class="btn-danger" onclick="clearAllData()" style="margin-top:4px;">清空全部数据</button>
-  </div>
-
-  <div class="spanel-section">
-    <h4>线路显示范围</h4>
-    <div id="rangeList" style="margin-bottom:8px;">
-      <div class="hint">未设置范围限制</div>
-    </div>
-    <div class="range-item">
-      <div class="range-row">
-        <select id="range-line" style="flex:1;"><option value="">选择线路</option></select>
-        <select id="range-dir">
-          <option value="">全部方向</option>
-          <option value="上行">上行</option>
-          <option value="下行">下行</option>
-        </select>
-      </div>
-      <div class="range-row">
-        <input type="number" id="range-start" placeholder="起始公里标">
-        <input type="number" id="range-end" placeholder="结束公里标">
-      </div>
-      <button class="btn-info" onclick="addRangeRule()">添加范围</button>
+    <button class="btn-danger" onclick="openClearDataModal()">清除数据</button>
+    <div style="margin-top:10px;border-top:1px solid #ddd;padding-top:10px;">
+      <label>框选工具</label>
+      <select id="rangeBoxShape" style="width:100%;padding:5px;margin-bottom:6px;border:1px solid #ccc;border-radius:3px;font-size:12px;">
+        <option value="rect">矩形框选</option>
+        <option value="polygon">多边形框选</option>
+      </select>
+      <button id="btn-range-box" class="btn-primary" onclick="toggleRangeBoxMode()" style="width:100%;">框选范围</button>
+      <div id="rangeBoxList" style="margin-top:8px;max-height:200px;overflow-y:auto;"></div>
     </div>
   </div>
 
-  <div class="spanel-section">
-    <h4>显示设置</h4>
-    <button onclick="openDisplaySettings()" style="width:100%;padding:8px;background:#2196F3;color:#fff;border:none;border-radius:4px;cursor:pointer;">显示设置</button>
-  </div>
+
+
+
+
+
 
   <div class="spanel-section">
-    <h4>车站管理</h4>
-    <button onclick="openStationManager()" style="width:100%;padding:8px;background:#FF9800;color:#fff;border:none;border-radius:4px;cursor:pointer;">车站管理</button>
-  </div>
-
-  <div class="spanel-section">
-    <h4>追踪接口</h4>
+    <h4 onclick="toggleSettingsSection(this)"><span class="fold-arrow">▼</span>其它功能</h4>
+    <div style="display:flex;gap:6px;margin-bottom:10px;">
+      <button onclick="openDisplaySettings()" style="flex:1;padding:8px;background:#2196F3;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;">显示设置</button>
+      <button onclick="openStationManager()" style="flex:1;padding:8px;background:#FF9800;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;">车站管理</button>
+    </div>
     <label>接口地址</label>
-    <input type="text" id="apiUrl" value="http://127.0.0.1:8765/api/trains">
-    <label>轮询间隔 (ms)</label>
-    <input type="number" id="pollInterval" value="300" min="100" max="5000" step="100">
-    <label>动画帧率 (ms)</label>
-    <input type="number" id="animInterval" value="100" min="50" max="500" step="10">
-    <label>追踪时长 (秒)</label>
-    <input type="number" id="trackTimeout" value="800" min="30" max="3600" step="30">
+    <input type="text" id="apiUrl" value="http://127.0.0.1:8765/api/trains" autocomplete="off">
+    <label>断线重连间隔 (ms)</label>
+    <input type="number" id="pollInterval" value="5000" min="1000" max="30000" step="1000" autocomplete="off">
+    <div style="font-size:10px;color:#888;margin-top:2px;margin-bottom:6px;">与主程序 SSE 断开后的自动重连等待时间</div>
+    <label>列车动画帧率 (ms)</label>
+    <input type="number" id="animInterval" value="100" min="50" max="500" step="10" autocomplete="off">
+    <div style="font-size:10px;color:#888;margin-top:2px;margin-bottom:6px;">列车地图上移动的流畅频率</div>
+    <label>无信号自动移除时间 (秒)</label>
+    <input type="number" id="trackTimeout" value="800" min="30" max="3600" step="30" autocomplete="off">
+    <div style="font-size:10px;color:#888;margin-top:2px;margin-bottom:6px;">超过此时长无信号则将该车移入离去列表</div>
+    <label>超时失联判定 (秒)</label>
+    <input type="number" id="disconnectTimeout" value="300" min="60" max="600" step="30" autocomplete="off">
+    <div style="font-size:10px;color:#888;margin-top:2px;margin-bottom:6px;">超过此时长无信号则图标变淡（但不删除）</div>
 
     <div class="btn-group" style="margin-top:6px;">
       <button class="btn-success" onclick="startTracking()">启动追踪</button>
       <button class="btn-danger" onclick="stopTracking()">停止追踪</button>
     </div>
-    <div id="trackStatus" class="hint" style="margin-top:4px;">状态: 已停止</div>
+    <button onclick="saveTrackSettings()" style="margin-top:10px;width:100%;padding:10px;background:#4CAF50;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:bold;">保存设置</button>
+    <div id="trackStatus" class="hint">状态: 已停止</div>
   </div>
-</div>
+  </div>
 
 <div id="map"></div>
 
@@ -338,6 +350,16 @@ var lineChains = {};
 var builtinLineNames = [];
 var fixedPointIds = {};
 var rangeRules = [];
+var rangePickMode = false;
+var rangePickStep = 0;
+var rangePickStart = null;
+var rangePickHighlight = [];
+var rangeBoxMode = false;
+var rangeBoxStart = null;
+var rangeBoxRect = null;
+var debugAngleOffset = 0;
+var debugAngleFlip = false;
+var trainIconSizeMap = {A:1.0, B:1.0, C:1.0, G:1.0, E:1.0};
 
 // ==================== LocalStorage 工具 ====================
 function lsGet(key) {
@@ -380,7 +402,6 @@ function onCfgProviderChange() {
 
 function applyBaseMapFromSettings() {
     var p = document.getElementById('cfg-provider').value;
-    var status = document.getElementById('cfg-map-status');
     if (currentBaseLayer) map.removeLayer(currentBaseLayer);
     var url, opts = { maxZoom: 22, attribution: '' }, name = '';
     if (p === 'geovis_open') {
@@ -408,20 +429,32 @@ function applyBaseMapFromSettings() {
         if (!localUrl) { status.innerHTML = '<span class="status-err">取消 未输入地址</span>'; return; }
         url = localUrl; opts.maxNativeZoom = 13; opts.attribution = '本地离线'; name = '本地离线';
     }
+    opts.updateWhenIdle = true;
+    opts.keepBuffer = 1;
+    opts.updateInterval = 200;
     currentBaseLayer = L.tileLayer(url, opts);
     currentBaseLayer.addTo(map);
     status.innerHTML = '<span class="status-ok">确定 ' + name + ' 已加载</span>';
 }
 
 // ==================== 面板控制 ====================
+function toggleSettingsSection(el) {
+    var section = el.parentElement;
+    var isCollapsed = section.classList.toggle('collapsed');
+    el.querySelector('.fold-arrow').textContent = isCollapsed ? '▶' : '▼';
+}
 function toggleSettings() {
     document.getElementById('settingsPanel').classList.toggle('open');
     document.getElementById('settingsOverlay').classList.toggle('open');
 }
 function toggleTrackPanel() {
-    document.getElementById('trackPanel').classList.toggle('collapsed');
+    var panel = document.getElementById('trackPanel');
+    var arrow = document.getElementById('trackPanelTabArrow');
+    panel.classList.toggle('collapsed');
+    var isCollapsed = panel.classList.contains('collapsed');
+    if (arrow) arrow.textContent = isCollapsed ? '▶' : '◀';
     var btn = document.getElementById('trackToggleBtn');
-    btn.textContent = document.getElementById('trackPanel').classList.contains('collapsed') ? '展开' : '收起';
+    if (btn) btn.textContent = isCollapsed ? '展开' : '收起';
 }
 
 // ==================== 导入导出 ====================
@@ -441,7 +474,7 @@ function importGeoJSON(input, isOverlay) {
     reader.readAsText(file);
 }
 
-function doImportGeoJSON(data, isOverlay) {
+function doImportGeoJSON(data, isOverlay, _sourceKey) {
     if (!isOverlay) {
         lineLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
         pointLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
@@ -460,36 +493,62 @@ function doImportGeoJSON(data, isOverlay) {
             c = props.color || '#1976d2'; w = props.width || 4; o = props.opacity !== undefined ? props.opacity : 0.9;
             poly = L.polyline(latlngs, { color: c, weight: w, opacity: o, lineCap: 'round', lineJoin: 'round' }).addTo(map);
             lineName = props.name || '';
-            lineLayers.push({ id: id, type: 'line', layer: poly, labelLayer: null, props: props, geojson: feat, _latlngs: latlngs, _name: lineName });
+            lineLayers.push({ id: id, type: 'line', layer: poly, labelLayer: null, props: props, geojson: feat, _latlngs: latlngs, _name: lineName, _sourceKey: _sourceKey || '' });
         } else if (geom.type === 'Point') {
             ll = L.latLng(geom.coordinates[1], geom.coordinates[0]);
-            isStation = props.railway === 'station' || props.railway === 'halt' || props.type === 'station' || props.category === 'station' || (props.name && props.name.indexOf('站') >= 0);
+            isStation = (props.railway && (props.railway.toLowerCase() === 'station' || props.railway.toLowerCase() === 'halt' || props.railway.toLowerCase() === 'service_station')) || (props.type && props.type.toLowerCase() === 'station') || (props.category && props.category.toLowerCase() === 'station') || (props.name && props.name.indexOf('站') >= 0);
             if (isStation) {
-                pc = props.color || '#1976d2'; r = props.radius || 6;
-                marker = L.circleMarker(ll, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 }).addTo(map);
+                var stationSvg = '<svg width="48" height="54" viewBox="0 -6 28 38" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">' +
+                    '<defs><linearGradient id="hg' + id + '" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#18CD6A"/><stop offset="100%" stop-color="#0B9A2A"/></linearGradient></defs>' +
+                    '<rect x="4" y="14" width="20" height="16" rx="1" fill="url(#hg' + id + ')" stroke="#fff" stroke-width="2"/>' +
+                    '<path d="M2 14 L14 4 L26 14 Z" fill="url(#hg' + id + ')" stroke="#fff" stroke-width="2"/>' +
+                    '<rect x="11" y="20" width="6" height="8" rx="1" fill="none" stroke="#fff" stroke-width="1.5"/>' +
+                    '<line x1="14" y1="4" x2="14" y2="-4" stroke="#fff" stroke-width="1.5"/>' +
+                    '<path d="M14 -4 L22 0 L14 4 Z" fill="#facc15" stroke="#fff" stroke-width="1"/>' +
+                    '</svg>';
+                marker = L.marker(ll, {
+                    icon: L.divIcon({ className: '', html: stationSvg, iconSize: [48, 54], iconAnchor: [24, 51] }),
+                    zIndexOffset: 500
+                }).addTo(map);
                 stationName = props.name || '车站';
                 label = L.marker(ll, {
-                    icon: L.divIcon({ className: '', html: '<div class="station-label-div">' + stationName + '</div>', iconSize: null, iconAnchor: [0, -12] }),
-                    interactive: false, zIndexOffset: -100
+                    icon: L.divIcon({ className: '', html: '<div class="station-label-div" style="position:absolute;left:50%;transform:translateX(-50%);bottom:100%;margin-bottom:52px;">' + stationName + '</div>', iconSize: [1, 1], iconAnchor: [0, 0] }),
+                    interactive: false, zIndexOffset: 501
                 }).addTo(map);
-                stationLayers.push({ id: id, type: 'station', layer: marker, labelLayer: label, props: props, geojson: feat });
+                var importance = 4;
+                if (props.railway) {
+                    var r = props.railway.toLowerCase();
+                    if (r === 'station') importance = 4;
+                    else if (r === 'halt') importance = 8;
+                    else if (r === 'service_station') importance = 7;
+                }
+                if (props.name) {
+                    var n = props.name;
+                    if (n.indexOf('线路所') >= 0) importance = 7;
+                    else if (n.indexOf('乘降所') >= 0) importance = 8;
+                    else if (n.indexOf('废弃') >= 0) importance = 9;
+                }
+                stationLayers.push({ id: id, type: 'station', layer: marker, labelLayer: label, props: props, geojson: feat, _visible: true, _importance: importance, _sourceKey: _sourceKey || '' });
             } else {
                 pc = props.color || '#d32f2f'; r = props.radius || 6;
                 marker2 = L.circleMarker(ll, { radius: r, color: pc, weight: 2, fillColor: pc, fillOpacity: 0.9 }).addTo(map);
                 kmPost = props.km_post || props.kmPost || '0.000';
                 pointName = props.name || '';
                 // 解析线路名和方向
-                name = pointName; dir = '';
+                name = pointName.trim(); dir = '';
                 if (name.slice(-2) === '上行') { dir = '上行'; name = name.slice(0, -2).trim(); }
                 else if (name.slice(-2) === '下行') { dir = '下行'; name = name.slice(0, -2).trim(); }
-                // BD.html 原始样式：白底黑字
-                labelHtml = '<div class="km-label-div">K' + kmPost + '</div>';
+                // 去掉名字中的公里标部分（如"田靖线 K123" → "田靖线"）
+                var kmIdx = name.search(/\s+K\d/);
+                if (kmIdx > 0) name = name.substring(0, kmIdx).trim();
+                var kmPosStyle = dir === '上行' ? 'bottom:100%;margin-bottom:12px;' : 'top:100%;margin-top:12px;';
+                labelHtml = '<div class="km-label-div" style="position:absolute;left:50%;transform:translateX(-50%);' + kmPosStyle + '">K' + kmPost + '</div>';
                 label2 = L.marker(ll, {
-                    icon: L.divIcon({ className: '', html: labelHtml, iconSize: null, iconAnchor: [0, -12] }),
+                    icon: L.divIcon({ className: '', html: labelHtml, iconSize: [1, 1], iconAnchor: [0, 0] }),
                     interactive: false, zIndexOffset: -100
                 }).addTo(map);
                 var randomSeed = Math.floor(Math.random() * 100);
-                pointLayers.push({ id: id, type: 'point', layer: marker2, labelLayer: label2, props: props, geojson: feat, _lineName: name, _lineDir: dir, randomSeed: randomSeed });
+                pointLayers.push({ id: id, type: 'point', layer: marker2, labelLayer: label2, props: props, geojson: feat, _lineName: name, _lineDir: dir, _sourceKey: _sourceKey || '', randomSeed: randomSeed });
             }
         }
     }
@@ -498,6 +557,7 @@ function doImportGeoJSON(data, isOverlay) {
     renderLineLabels();
     updateFixedPointList();
     updateRangeListUI();
+    updateRangeLineSelect();
 }
 
 var lineNameLabels = [];
@@ -579,6 +639,23 @@ function exportGeoJSON() {
     a.click();
 }
 
+function updateRangeLineSelect() {
+    var sel = document.getElementById('range-line');
+    if (!sel) return;
+    var lines = new Set();
+    lineLayers.forEach(function(l) { if (l._name) lines.add(l._name); });
+    pointLayers.forEach(function(l) { if (l._lineName) lines.add(l._lineName); });
+    var currentVal = sel.value;
+    sel.innerHTML = '<option value="">选择线路</option>';
+    lines.forEach(function(name) {
+        var opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        sel.appendChild(opt);
+    });
+    sel.value = currentVal;
+}
+
 function clearAllData() {
     if (!confirm('确定清空所有线路和标点数据？')) return;
     lineLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
@@ -591,18 +668,91 @@ function clearAllData() {
 }
 
 // ==================== 公里标标签随机显示 ====================
+function openClearDataModal() {
+    document.getElementById('clearDataModal').style.display = 'flex';
+}
+function closeClearDataModal() {
+    document.getElementById('clearDataModal').style.display = 'none';
+}
+function doClearData() {
+    var type = document.querySelector('input[name="clearType"]:checked').value;
+    var msg = '';
+    if (type === 'points') msg = '确定清空所有标点数据？';
+    else if (type === 'lines') msg = '确定清空所有线路数据？';
+    else msg = '确定清空所有线路和标点数据？';
+    if (!confirm(msg)) return;
+    if (type === 'points') {
+        pointLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
+        pointLayers = [];
+        fixedPointIds = {}; lsSet('map_fixed_labels', {});
+    } else if (type === 'lines') {
+        lineLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
+        lineLayers = []; lineChains = {};
+    } else {
+        lineLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
+        pointLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
+        stationLayers.forEach(function(l) { map.removeLayer(l.layer); if (l.labelLayer) map.removeLayer(l.labelLayer); });
+        lineLayers = []; pointLayers = []; stationLayers = []; nextId = 1; lineChains = {};
+        fixedPointIds = {}; lsSet('map_fixed_labels', {});
+    }
+    renderAllLabels();
+    updateFixedPointList();
+    updateFixedKmList();
+    var modal = document.getElementById('lineImportModal');
+    if (modal && modal.style.display === 'flex') {
+        renderLineImportList();
+    }
+    closeClearDataModal();
+}
+
 function updateKmLabelVisibility() {
     var zoom = map.getZoom();
     var bounds = map.getBounds();
     var showStation = document.getElementById('showStationLabels').checked;
 
-    // 车站：圆点和标签一起控制
+    // 车站：语义缩放 + 显示控制
     stationLayers.forEach(function(l) {
+        if (l._visible === false) {
+            if (map.hasLayer(l.layer)) map.removeLayer(l.layer);
+            if (map.hasLayer(l.labelLayer)) map.removeLayer(l.labelLayer);
+            return;
+        }
         var ll = l.layer.getLatLng();
         var inView = bounds.contains(ll);
-        if (inView && showStation) {
+        var importance = l._importance !== undefined ? l._importance : 4;
+        var shouldShowStation = false;
+        if (zoom >= 14) shouldShowStation = true;
+            else if (zoom >= 11) shouldShowStation = (importance <= 5);
+            else if (zoom >= 9) shouldShowStation = (importance <= 3);
+            else if (zoom >= 7) shouldShowStation = (importance <= 2);
+            else if (zoom >= 5) shouldShowStation = (importance <= 1);
+            else shouldShowStation = (importance <= 0);
+        if (inView && showStation && shouldShowStation) {
             if (!map.hasLayer(l.layer)) map.addLayer(l.layer);
             if (!map.hasLayer(l.labelLayer)) map.addLayer(l.labelLayer);
+            // 车站标签字体随 zoom 动态放大
+            var labelFontSize = zoom >= 15 ? '14px' : (zoom >= 13 ? '12px' : '10px');
+            var labelEl = l.labelLayer.getElement();
+            if (labelEl) {
+                var labelDiv = labelEl.querySelector('.station-label-div');
+                if (labelDiv) labelDiv.style.fontSize = labelFontSize;
+            }
+            var baseSize = 48;
+            if (importance <= 1) baseSize = 48;
+            else if (importance <= 3) baseSize = 42;
+            else if (importance <= 5) baseSize = 38;
+            else if (importance <= 8) baseSize = 34;
+            else baseSize = 32;
+            var zoomBonus = Math.min(5, Math.max(0, zoom - 12));
+            var iconSize = baseSize + zoomBonus;
+            var iconEl = l.layer.getElement();
+            if (iconEl) {
+                var svgEl = iconEl.querySelector('svg');
+                if (svgEl) {
+                    svgEl.style.width = iconSize + 'px';
+                    svgEl.style.height = (iconSize * 54 / 48) + 'px';
+                }
+            }
         } else {
             if (map.hasLayer(l.layer)) map.removeLayer(l.layer);
             if (map.hasLayer(l.labelLayer)) map.removeLayer(l.labelLayer);
@@ -613,11 +763,11 @@ function updateKmLabelVisibility() {
 
     // 网格大小根据 zoom 决定（度）
     var gridSize = 0.5;
-    if (zoom >= 17) gridSize = 0.005;   // ~500m
-    else if (zoom >= 15) gridSize = 0.012; // ~1.2km
-    else if (zoom >= 13) gridSize = 0.025; // ~2.5km
-    else if (zoom >= 11) gridSize = 0.06; // ~6km
-    else gridSize = 0.15;                  // ~15km
+    if (zoom >= 17) gridSize = 0.003;   // ~300m
+    else if (zoom >= 15) gridSize = 0.008; // ~800m
+    else if (zoom >= 13) gridSize = 0.018; // ~1.8km
+    else if (zoom >= 11) gridSize = 0.04; // ~4km
+    else gridSize = 0.10;                  // ~10km
 
     // 网格采样：每个网格只保留一个点
     var grid = {};
@@ -759,14 +909,268 @@ function loadSelectedBuiltinLines() {
     alert('内置线路加载需要服务器环境支持。请使用"导入 GeoJSON"或"叠加导入"手动选择文件。');
 }
 
-// ==================== 线路显示范围管理 ====================
+// ==================== 线路限制范围管理 ====================
 function loadRangeRules() {
     var saved = lsGet('map_line_ranges');
     if (saved) rangeRules = saved;
     updateRangeListUI();
 }
 
+function showRangePickToast(msg) {
+    var el = document.getElementById('rangePickToast');
+    if (!el) {
+        el = document.createElement('div');
+        el.id = 'rangePickToast';
+        el.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;z-index:10000;pointer-events:none;white-space:nowrap;';
+        document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+
+function hideRangePickToast() {
+    var el = document.getElementById('rangePickToast');
+    if (el) el.style.display = 'none';
+}
+
+var rangeBoxPoints = [];
+var rangeBoxPolyline = null;
+
+function pointInPolygon(point, polygon) {
+    var x = point[0], y = point[1];
+    var inside = false;
+    for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        var xi = polygon[i][0], yi = polygon[i][1];
+        var xj = polygon[j][0], yj = polygon[j][1];
+        var intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    return inside;
+}
+
+function createRangePolygonOverlay() {
+    rangeBoxPoints = [];
+    if (rangeBoxPolyline) { map.removeLayer(rangeBoxPolyline); rangeBoxPolyline = null; }
+
+    var container = map.getContainer();
+    var overlay = document.createElement('div');
+    overlay.id = 'rangeBoxOverlay';
+    overlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:1000;cursor:crosshair;';
+    container.appendChild(overlay);
+
+    overlay.onclick = function(e) {
+        var latlng = map.containerPointToLatLng(L.point(e.offsetX, e.offsetY));
+        rangeBoxPoints.push([latlng.lat, latlng.lng]);
+        if (rangeBoxPolyline) map.removeLayer(rangeBoxPolyline);
+        if (rangeBoxPoints.length >= 2) {
+            rangeBoxPolyline = L.polyline(rangeBoxPoints, { color: '#d32f2f', weight: 2, dashArray: '5,5' }).addTo(map);
+        }
+        showRangePickToast('已放置 ' + rangeBoxPoints.length + ' 个点，双击完成');
+    };
+
+    overlay.ondblclick = function(e) {
+        e.stopPropagation();
+        if (rangeBoxPoints.length < 3) {
+            showRangePickToast('至少需要3个点');
+            setTimeout(function() { hideRangePickToast(); }, 2000);
+            return;
+        }
+        if (rangeBoxPolyline) map.removeLayer(rangeBoxPolyline);
+        var poly = L.polygon(rangeBoxPoints, { color: '#d32f2f', weight: 2, fillColor: '#d32f2f', fillOpacity: 0.15 }).addTo(map);
+
+        var pointsInPoly = [];
+        for (var i = 0; i < pointLayers.length; i++) {
+            var p = pointLayers[i];
+            var ll = p.layer.getLatLng();
+            if (pointInPolygon([ll.lat, ll.lng], rangeBoxPoints)) {
+                pointsInPoly.push(p);
+            }
+        }
+
+        if (pointsInPoly.length === 0) {
+            showRangePickToast('多边形内无标定点');
+        } else {
+            var groups = {};
+            for (var i = 0; i < pointsInPoly.length; i++) {
+                var p = pointsInPoly[i];
+                var key = (p._lineName || '未命名') + '|' + (p._lineDir || '');
+                if (!groups[key]) groups[key] = [];
+                groups[key].push(p);
+            }
+            var addedCount = 0;
+            for (var key in groups) {
+                if (!groups.hasOwnProperty(key)) continue;
+                var pts = groups[key];
+                var kms = pts.map(function(p) { return parseFloat(p.props.km_post || p.props.kmPost || 0); }).sort(function(a, b) { return a - b; });
+                var lineName = pts[0]._lineName || '';
+                var dir = pts[0]._lineDir || '';
+                if (lineName) {
+                    rangeRules.push({ line: lineName, direction: dir, start: kms[0], end: kms[kms.length - 1] });
+                    rangeBoxResults.push({ line: lineName, direction: dir, start: kms[0], end: kms[kms.length - 1] });
+                    addedCount++;
+                }
+            }
+            if (addedCount > 0) {
+                lsSet('map_line_ranges', rangeRules);
+                updateRangeListUI();
+                updateRangeBoxResults();
+                showRangePickToast('已添加 ' + addedCount + ' 条范围规则');
+            }
+            setTimeout(function() { hideRangePickToast(); }, 2000);
+        }
+
+        removeRangeBoxOverlay();
+        toggleRangeBoxMode();
+    };
+}
+
+function toggleRangeBoxMode() {
+    if (pointLayers.length === 0 && lineLayers.length === 0) {
+        alert('请先导入线路数据（GeoJSON）');
+        return;
+    }
+    rangeBoxMode = !rangeBoxMode;
+    var btn = document.getElementById('btn-range-box');
+    var shape = document.getElementById('rangeBoxShape');
+    var shapeType = shape ? shape.value : 'rect';
+    if (rangeBoxMode) {
+        btn.style.background = '#1976d2';
+        btn.style.color = '#fff';
+        btn.textContent = '取消框选';
+        map.dragging.disable();
+        if (shapeType === 'polygon') {
+            showRangePickToast('单击放置点，双击完成多边形');
+            createRangePolygonOverlay();
+        } else {
+            showRangePickToast('在地图上拖拽框选一段线路范围');
+            createRangeBoxOverlay();
+        }
+    } else {
+        btn.style.background = '#fff';
+        btn.style.color = '#1976d2';
+        btn.textContent = '框选范围';
+        map.dragging.enable();
+        hideRangePickToast();
+        removeRangeBoxOverlay();
+    }
+}
+
+function createRangeBoxOverlay() {
+    var container = map.getContainer();
+    var overlay = document.createElement('div');
+    overlay.id = 'rangeBoxOverlay';
+    overlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:1000;cursor:crosshair;';
+    container.appendChild(overlay);
+
+    var box = document.createElement('div');
+    box.id = 'rangeBoxRect';
+    box.style.cssText = 'position:absolute;border:2px solid #1976d2;background:rgba(25,118,210,0.15);display:none;pointer-events:none;';
+    overlay.appendChild(box);
+
+    var startX, startY, isDragging = false;
+
+    overlay.onmousedown = function(e) {
+        isDragging = true;
+        startX = e.offsetX;
+        startY = e.offsetY;
+        box.style.left = startX + 'px';
+        box.style.top = startY + 'px';
+        box.style.width = '0px';
+        box.style.height = '0px';
+        box.style.display = 'block';
+    };
+
+    overlay.onmousemove = function(e) {
+        if (!isDragging) return;
+        var x = e.offsetX;
+        var y = e.offsetY;
+        var left = Math.min(startX, x);
+        var top = Math.min(startY, y);
+        var width = Math.abs(x - startX);
+        var height = Math.abs(y - startY);
+        box.style.left = left + 'px';
+        box.style.top = top + 'px';
+        box.style.width = width + 'px';
+        box.style.height = height + 'px';
+    };
+
+    overlay.onmouseup = function(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        var x = e.offsetX;
+        var y = e.offsetY;
+        var left = Math.min(startX, x);
+        var top = Math.min(startY, y);
+        var width = Math.abs(x - startX);
+        var height = Math.abs(y - startY);
+
+        // 转换到 lat/lng
+        var sw = map.containerPointToLatLng(L.point(left, top + height));
+        var ne = map.containerPointToLatLng(L.point(left + width, top));
+        var bounds = L.latLngBounds(sw, ne);
+
+        // 收集框内的标定点
+        var pointsInBox = [];
+        for (var i = 0; i < pointLayers.length; i++) {
+            var p = pointLayers[i];
+            if (bounds.contains(p.layer.getLatLng())) {
+                pointsInBox.push(p);
+            }
+        }
+
+        if (pointsInBox.length === 0) {
+            showRangePickToast('框选区域内无标定点，请重新框选');
+            setTimeout(function() { hideRangePickToast(); }, 2000);
+        } else {
+            // 按线路分组
+            var groups = {};
+            for (var i = 0; i < pointsInBox.length; i++) {
+                var p = pointsInBox[i];
+                var key = (p._lineName || '未命名') + '|' + (p._lineDir || '');
+                if (!groups[key]) groups[key] = [];
+                groups[key].push(p);
+            }
+            var addedCount = 0;
+            for (var key in groups) {
+                if (!groups.hasOwnProperty(key)) continue;
+                var pts = groups[key];
+                var kms = pts.map(function(p) { return parseFloat(p.props.km_post || p.props.kmPost || 0); }).sort(function(a, b) { return a - b; });
+                var lineName = pts[0]._lineName || '';
+                var dir = pts[0]._lineDir || '';
+                if (lineName) {
+                    rangeRules.push({ line: lineName, direction: dir, start: kms[0], end: kms[kms.length - 1] });
+                    rangeBoxResults.push({ line: lineName, direction: dir, start: kms[0], end: kms[kms.length - 1] });
+                    addedCount++;
+                }
+            }
+            if (addedCount > 0) {
+                lsSet('map_line_ranges', rangeRules);
+                updateRangeListUI();
+                updateRangeBoxResults();
+                showRangePickToast('已添加 ' + addedCount + ' 条范围规则');
+            } else {
+                showRangePickToast('未识别到有效线路');
+            }
+            setTimeout(function() { hideRangePickToast(); }, 2000);
+        }
+
+        removeRangeBoxOverlay();
+        toggleRangeBoxMode();
+    };
+}
+
+function removeRangeBoxOverlay() {
+    var overlay = document.getElementById('rangeBoxOverlay');
+    if (overlay) overlay.remove();
+    if (rangeBoxPolyline) { map.removeLayer(rangeBoxPolyline); rangeBoxPolyline = null; }
+    rangeBoxPoints = [];
+}
+
 function addRangeRule() {
+    if (pointLayers.length === 0 && lineLayers.length === 0) {
+        alert('请先导入线路数据（GeoJSON）');
+        return;
+    }
     var line = document.getElementById('range-line').value.trim();
     var dir = document.getElementById('range-dir').value;
     var start = parseFloat(document.getElementById('range-start').value);
@@ -786,21 +1190,77 @@ function delRangeRule(idx) {
     updateRangeListUI();
 }
 
+function getLineColor(lineName) {
+    for (var i = 0; i < lineLayers.length; i++) {
+        if (lineLayers[i]._name === lineName) return lineLayers[i].props.color || '#1976d2';
+    }
+    return '#999';
+}
+
 function updateRangeListUI() {
     var container = document.getElementById('rangeList');
+    if (!container) return;
     if (rangeRules.length === 0) {
-        container.innerHTML = '<div class="hint">未设置范围限制</div>';
+        var hasData = pointLayers.length > 0 || lineLayers.length > 0;
+        if (!hasData) {
+            container.innerHTML = '<div style="text-align:center;padding:12px;color:#d32f2f;font-size:12px;background:#ffebee;border-radius:4px;">⚠️ 请先导入线路数据（GeoJSON）才能设置范围限制</div>';
+        } else {
+            container.innerHTML = '<div style="text-align:center;padding:12px;color:#999;font-size:12px;background:#fafafa;border-radius:4px;">未设置范围限制，所有线路全段显示</div>';
+        }
         return;
     }
-    var html = '';
+    var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
+        '<span style="font-size:11px;color:#666;font-weight:bold;">已设置 ' + rangeRules.length + ' 条</span>' +
+        '<button onclick="clearAllRangeRules()" style="padding:3px 10px;background:transparent;border:1px solid #d32f2f;border-radius:3px;cursor:pointer;font-size:11px;color:#d32f2f;">清空全部</button>' +
+        '</div>';
     for (var i = 0; i < rangeRules.length; i++) {
         var r = rangeRules[i];
-        html += '<div class="range-item">' +
-            '<div>' + r.line + ' ' + (r.direction || '全部') + ' K' + r.start + ' ~ K' + r.end + '</div>' +
-            '<div class="range-del" onclick="delRangeRule(' + i + ')">删除</div>' +
+        var color = getLineColor(r.line);
+        html += '<div style="display:flex;align-items:center;background:#fff;border:1px solid #e0e0e0;border-radius:4px;padding:8px 10px;margin-bottom:5px;gap:8px;">' +
+            '<div style="width:4px;height:28px;background:' + color + ';border-radius:2px;flex-shrink:0;"></div>' +
+            '<div style="flex:1;min-width:0;">' +
+            '<div style="font-size:12px;font-weight:bold;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + r.line + '</div>' +
+            '<div style="font-size:11px;color:#666;">' + (r.direction || '全部方向') + ' · K' + r.start + ' ~ K' + r.end + '</div>' +
+            '</div>' +
+            '<button onclick="delRangeRule(' + i + ')" title="删除" style="width:24px;height:24px;background:transparent;border:1px solid #ddd;border-radius:3px;cursor:pointer;font-size:14px;color:#999;line-height:1;">×</button>' +
             '</div>';
     }
     container.innerHTML = html;
+}
+
+function clearAllRangeRules() {
+    if (!confirm('确定清空所有范围限制？')) return;
+    rangeRules = [];
+    lsSet('map_line_ranges', rangeRules);
+    updateRangeListUI();
+}
+
+var rangeBoxResults = []; // 框选结果列表
+
+function updateRangeBoxResults() {
+    var container = document.getElementById('rangeBoxList');
+    if (!container) return;
+    if (rangeBoxResults.length === 0) {
+        container.innerHTML = '<span style="color:#999;font-size:12px;">暂无框选范围</span>';
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < rangeBoxResults.length; i++) {
+        var r = rangeBoxResults[i];
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:#f5f5f5;border-radius:4px;margin-bottom:4px;">' +
+            '<span style="font-size:12px;color:#333;">' + r.line + ' ' + (r.direction || '全部') + ' K' + r.start + '~K' + r.end + '</span>' +
+            '<button onclick="deleteRangeBoxResult(' + i + ')" style="padding:2px 8px;background:#d32f2f;color:#fff;border:none;border-radius:3px;cursor:pointer;font-size:10px;">删除</button>' +
+            '</div>';
+    }
+    container.innerHTML = html;
+}
+
+function deleteRangeBoxResult(idx) {
+    if (idx < 0 || idx >= rangeBoxResults.length) return;
+    rangeBoxResults.splice(idx, 1);
+    rangeRules.splice(idx, 1);
+    lsSet('map_line_ranges', rangeRules);
+    updateRangeBoxResults();
 }
 
 function checkInRange(line, direction, km) {
@@ -832,6 +1292,14 @@ function rebuildAllChains() {
             key = name + '|' + dir;
             if (!lineChains[key]) lineChains[key] = [];
             lineChains[key].push({ km: km, lat: lat, lng: lng });
+        } else {
+            // 单线铁路：无方向标定点同时放入上行/下行，确保列车任何方向都能找到
+            key = name + '|上行';
+            if (!lineChains[key]) lineChains[key] = [];
+            lineChains[key].push({ km: km, lat: lat, lng: lng });
+            key = name + '|下行';
+            if (!lineChains[key]) lineChains[key] = [];
+            lineChains[key].push({ km: km, lat: lat, lng: lng });
         }
         key2 = name + '|*';
         if (!lineChains[key2]) lineChains[key2] = [];
@@ -848,7 +1316,7 @@ function rebuildAllChains() {
 }
 
 function kmToLatLng(lineName, direction, km) {
-    var key = lineName + '|' + direction;
+    var key = direction ? (lineName + '|' + direction) : (lineName + '|*');
     var chain = lineChains[key];
     if (!chain || chain.length < 2) {
         key = lineName + '|*';
@@ -856,15 +1324,16 @@ function kmToLatLng(lineName, direction, km) {
     }
     if (!chain || chain.length < 2) return null;
 
-    var isUp = (direction === '上行');
-    var inRange = isUp ? (km <= chain[0].km && km >= chain[chain.length - 1].km) 
-                         : (km >= chain[0].km && km <= chain[chain.length - 1].km);
+    var chainAsc = chain[0].km <= chain[chain.length - 1].km;
+    var minKm = Math.min(chain[0].km, chain[chain.length - 1].km);
+    var maxKm = Math.max(chain[0].km, chain[chain.length - 1].km);
+    var inRange = (km >= minKm && km <= maxKm);
 
     if (inRange) {
         var i, d, t;
         for (i = 0; i < chain.length - 1; i++) {
-            var inSeg = isUp ? (km <= chain[i].km && km >= chain[i+1].km)
-                             : (km >= chain[i].km && km <= chain[i+1].km);
+            var inSeg = chainAsc ? (km >= chain[i].km && km <= chain[i+1].km)
+                                 : (km <= chain[i].km && km >= chain[i+1].km);
             if (inSeg) {
                 d = Math.abs(chain[i+1].km - chain[i].km);
                 if (d === 0) return [chain[i].lat, chain[i].lng];
@@ -893,18 +1362,515 @@ function getTrainColor(trainNo) {
     return trainDisplays[trainNo].color;
 }
 
-function createTrainIcon(direction, color) {
-    var svg = '<svg class="train-icon-svg" width="28" height="36" viewBox="0 0 28 36" style="filter:drop-shadow(0 3px 5px rgba(0,0,0,0.6));">' +
-        '<defs><radialGradient id="g" cx="50%" cy="25%" r="55%"><stop offset="0%" stop-color="' + color + '"/><stop offset="70%" stop-color="' + color + '"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0.8"/></radialGradient></defs>' +
-        '<path d="M14 0 C6.27 0 0 6.27 0 14 C0 24.5 14 36 14 36 C14 36 28 24.5 28 14 C28 6.27 21.73 0 14 0 Z" fill="url(#g)" stroke="#fff" stroke-width="2"/>' +
-        '<circle cx="14" cy="12" r="5" fill="#fff"/>' +
+var trainIconStyle = lsGet('trainIconStyle') || 'E';
+function getTrainSvgA(color) {
+    // 方案A：2.5D 透视车头（前宽后窄，大玻璃=车头，尾灯=车尾）
+    return '<svg width="60" height="36" viewBox="0 0 60 36" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
+        '<path d="M10 22 L50 22 L54 30 L6 30 Z" fill="rgba(0,0,0,0.25)"/>' +
+        '<path d="M8 10 L46 10 L50 22 L4 22 Z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+        '<path d="M10 8 L44 8 L46 10 L8 10 Z" fill="#b71c1c"/>' +
+        '<rect x="40" y="12" width="8" height="7" fill="rgba(255,255,255,0.95)" rx="1"/>' +
+        '<rect x="14" y="13" width="7" height="5" fill="rgba(255,255,255,0.8)" rx="1"/>' +
+        '<rect x="26" y="13" width="6" height="5" fill="rgba(255,255,255,0.8)" rx="1"/>' +
+        '<ellipse cx="14" cy="26" rx="4" ry="2.5" fill="#333"/>' +
+        '<ellipse cx="42" cy="26" rx="4" ry="2.5" fill="#333"/>' +
+        '<circle cx="4" cy="15" r="2" fill="#ff1744"/>' +
         '</svg>';
-    return L.divIcon({ className: '', html: svg, iconSize: [28, 36], iconAnchor: [14, 34] });
+}
+function getTrainSvgE(color) {
+    // 方案E：正后上方俯视高铁（简化版）
+    return '<svg width="20" height="50" viewBox="0 0 180 600" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
+        '<rect x="20" y="112" width="140" height="376" rx="20" fill="#e0e0e0" stroke="#fff" stroke-width="3"/>' +
+        '<rect x="31" y="105" width="118" height="390" rx="15" fill="#f5f5f5" stroke="#d0d0d0" stroke-width="2"/>' +
+        '<path d="M31 105 C35 80 45 60 59 45 C73 30 90 25 90 25 C90 25 107 30 121 45 C135 60 145 80 149 105 C130 95 110 90 90 90 C70 90 50 95 31 105 Z" fill="' + color + '" opacity="0.85" stroke="#fff" stroke-width="2"/>' +
+        '<path d="M48 68 C53 55 59 46 67 40 C73 36 81 34 90 34 C99 34 107 36 113 40 C121 46 127 55 132 68 C121 74 107 78 90 79 C73 78 59 74 48 68 Z" fill="rgba(20,30,50,0.8)" stroke="#fff" stroke-width="3"/>' +
+        '<path d="M90 35 C90 48 90 64 90 78" fill="none" stroke="#555" stroke-width="2"/>' +
+        '<path d="M31 495 C35 520 45 540 59 555 C73 570 90 575 90 575 C90 575 107 570 121 555 C135 540 145 520 149 495 C130 505 110 510 90 510 C70 510 50 505 31 495 Z" fill="#d0d0d0" opacity="0.9" stroke="#fff" stroke-width="2"/>' +
+        '<path d="M48 532 C53 545 59 554 67 560 C73 564 81 566 90 566 C99 566 107 564 113 560 C121 554 127 545 132 532 C121 526 107 522 90 521 C73 522 59 526 48 532 Z" fill="rgba(20,30,50,0.7)" stroke="#fff" stroke-width="3"/>' +
+        '<rect x="76" y="128" width="28" height="260" rx="4" fill="#d1d1d1" stroke="#999" stroke-width="1.5"/>' +
+        '<rect x="80" y="136" width="20" height="244" rx="2" fill="#e6e6e6"/>' +
+        '<rect x="76" y="414" width="28" height="32" rx="3" fill="#cecece" stroke="#999" stroke-width="1.5"/>' +
+        '<rect x="80" y="418" width="20" height="24" rx="2" fill="#e7e7e7"/>' +
+        '<path d="M21 113 C27 109 33 107 40 105 L40 495 C33 493 27 491 21 487 Z" fill="' + color + '" opacity="0.92"/>' +
+        '<path d="M159 113 C153 109 147 107 140 105 L140 495 C147 493 153 491 159 487 Z" fill="' + color + '" opacity="0.92"/>' +
+        '</svg>';
 }
 
+function getTrainSvgG(color) {
+    // 方案G：精细高铁侧面
+    return '<svg width="70" height="40" viewBox="0 0 70 40" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
+        '<path d="M8 14 Q8 8 14 8 L52 8 Q58 8 60 14 L62 20 L62 28 L6 28 L6 20 Z" fill="' + color + '" stroke="#fff" stroke-width="1"/>' +
+        '<path d="M52 8 Q62 10 64 18 L64 28 L58 28 L58 14 Z" fill="#c62828" stroke="#fff" stroke-width="0.8"/>' +
+        '<rect x="16" y="14" width="8" height="6" rx="1" fill="rgba(200,230,255,0.8)"/>' +
+        '<rect x="28" y="14" width="8" height="6" rx="1" fill="rgba(200,230,255,0.8)"/>' +
+        '<circle cx="16" cy="32" r="3.5" fill="#111"/>' +
+        '<circle cx="48" cy="32" r="3.5" fill="#111"/>' +
+        '<circle cx="62" cy="18" r="1.5" fill="#ffeb3b"/>' +
+        '</svg>';
+}
+
+function getTrainSvgB(color) {
+    // 方案B：2D 俯视 + 车尾箭头
+    return '<svg width="60" height="36" viewBox="0 0 60 36" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
+        '<rect x="6" y="6" width="38" height="14" rx="2" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+        '<path d="M6 6 L-2 10 L-2 16 L6 20 Z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+        '<rect x="10" y="9" width="9" height="6" fill="#fff" opacity="0.9" rx="1"/>' +
+        '<rect x="24" y="9" width="9" height="6" fill="#fff" opacity="0.9" rx="1"/>' +
+        '<circle cx="16" cy="25" r="3.5" fill="#333"/>' +
+        '<circle cx="36" cy="25" r="3.5" fill="#333"/>' +
+        '<line x1="-2" y1="13" x2="6" y2="13" stroke="#fff" stroke-width="1"/>' +
+        '<path d="M30 28 L38 32 L30 36 Z" fill="#facc15" stroke="#fff" stroke-width="1"/>' +
+        '</svg>';
+}
+function getTrainSvgC(color) {
+    // 方案C：Isometric 立体方块
+    return '<svg width="60" height="36" viewBox="0 0 60 36" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));">' +
+        '<path d="M16 8 L44 8 L52 16 L24 16 Z" fill="#b71c1c"/>' +
+        '<path d="M8 16 L24 16 L24 28 L8 28 Z" fill="' + color + '" stroke="#fff" stroke-width="1"/>' +
+        '<path d="M24 16 L52 16 L52 28 L24 28 Z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+        '<rect x="30" y="18" width="10" height="7" fill="rgba(255,255,255,0.9)" rx="1"/>' +
+        '<rect x="14" y="19" width="6" height="5" fill="rgba(255,255,255,0.8)" rx="1"/>' +
+        '<ellipse cx="14" cy="30" rx="3" ry="2" fill="#333"/>' +
+        '<ellipse cx="40" cy="30" rx="3" ry="2" fill="#333"/>' +
+        '</svg>';
+}
+
+
+
+function getTrainSvg(color) {
+    if (trainIconStyle === 'B') return getTrainSvgB(color);
+    if (trainIconStyle === 'C') return getTrainSvgC(color);
+    if (trainIconStyle === 'E') return getTrainSvgE(color);
+    if (trainIconStyle === 'G') return getTrainSvgG(color);
+    return getTrainSvgA(color);
+}
+function createTrainIcon(direction, color) {
+    return L.divIcon({ className: '', html: getTrainSvg(color), iconSize: [60, 36], iconAnchor: [30, 18] });
+}
+
+function getTrainIconSize(style) {
+    var z = map ? map.getZoom() : 14;
+    var metersPerPixel = 156543.03 * Math.cos(map.getCenter().lat * Math.PI / 180) / Math.pow(2, z);
+    var trainLengthMeters = 300;
+    var trainWidthMeters = 60;
+    var lengthPx = Math.round(trainLengthMeters / metersPerPixel);
+    var widthPx = Math.round(trainWidthMeters / metersPerPixel);
+    var minLength = 64, minWidth = 26;
+    if (lengthPx < minLength) lengthPx = minLength;
+    if (widthPx < minWidth) widthPx = minWidth;
+    var maxLength = 240, maxWidth = 96;
+    if (lengthPx > maxLength) lengthPx = maxLength;
+    if (widthPx > maxWidth) widthPx = maxWidth;
+    var s = style || trainIconStyle || 'E';
+    var coef = trainIconSizeMap[s] || 1.0;
+    // E方案(高铁俯视)硬编码系数：zoom<=15.5为1.0，<=16.5为0.6，>16.5为0.5
+    if (s === 'E') {
+        if (z <= 15.5) coef = 1.0;
+        else if (z <= 16.5) coef = 0.6;
+        else coef = 0.5;
+    }
+    lengthPx = Math.round(lengthPx * coef);
+    widthPx = Math.round(widthPx * coef);
+    return { length: lengthPx, width: widthPx };
+}
+
+function createTrainIconWithAngle(direction, color, angle, style) {
+    var autoAngle = (angle !== undefined && angle !== null) ? angle : 0;
+    var displayAngle = autoAngle + debugAngleOffset;
+    var autoFlip = debugAngleFlip;
+    // 横向图标自动翻转修正：避免|角度|>90°时"轮胎朝天"
+    if (trainIconStyle !== 'E') {
+        while (displayAngle > 180) displayAngle -= 360;
+        while (displayAngle < -180) displayAngle += 360;
+        if (Math.abs(displayAngle) > 90) {
+            autoFlip = !autoFlip;
+            displayAngle = displayAngle > 0 ? displayAngle - 180 : displayAngle + 180;
+        }
+    }
+    var transform = 'rotate(' + displayAngle.toFixed(1) + 'deg)' + (autoFlip ? ' scaleX(-1)' : '');
+    var useStyle = style || trainIconStyle || 'E';
+    var sz = getTrainIconSize(useStyle);
+    var svgContent = '';
+    if (useStyle === 'E') {
+        var eBaseAngle = ((angle !== undefined && angle !== null) ? (angle + 90) : 90) + debugAngleOffset;
+        var eAngle = eBaseAngle;
+        var eAutoFlip = debugAngleFlip;
+        // 纵向图标自动翻转修正：避免车头朝下
+        while (eAngle > 180) eAngle -= 360;
+        while (eAngle < -180) eAngle += 360;
+        if (Math.abs(eAngle) > 90) {
+            eAutoFlip = !eAutoFlip;
+            eAngle = eAngle > 0 ? eAngle - 180 : eAngle + 180;
+        }
+        var eTransform = 'rotate(' + eAngle.toFixed(1) + 'deg)' + (eAutoFlip ? ' scaleX(-1)' : '');
+        var ew = sz.width, eh = sz.length;
+        svgContent = '<svg width="' + ew + '" height="' + eh + '" viewBox="0 0 180 600" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));transform:' + eTransform + ';transform-origin:center center;">' +
+            '<rect x="20" y="112" width="140" height="376" rx="20" fill="#e0e0e0" stroke="#fff" stroke-width="3"/>' +
+            '<rect x="31" y="105" width="118" height="390" rx="15" fill="#f5f5f5" stroke="#d0d0d0" stroke-width="2"/>' +
+            '<path d="M31 105 C35 80 45 60 59 45 C73 30 90 25 90 25 C90 25 107 30 121 45 C135 60 145 80 149 105 C130 95 110 90 90 90 C70 90 50 95 31 105 Z" fill="' + color + '" opacity="0.85" stroke="#fff" stroke-width="2"/>' +
+            '<path d="M48 68 C53 55 59 46 67 40 C73 36 81 34 90 34 C99 34 107 36 113 40 C121 46 127 55 132 68 C121 74 107 78 90 79 C73 78 59 74 48 68 Z" fill="rgba(20,30,50,0.8)" stroke="#fff" stroke-width="3"/>' +
+            '<path d="M90 35 C90 48 90 64 90 78" fill="none" stroke="#555" stroke-width="2"/>' +
+            '<path d="M31 495 C35 520 45 540 59 555 C73 570 90 575 90 575 C90 575 107 570 121 555 C135 540 145 520 149 495 C130 505 110 510 90 510 C70 510 50 505 31 495 Z" fill="#d0d0d0" opacity="0.9" stroke="#fff" stroke-width="2"/>' +
+            '<path d="M48 532 C53 545 59 554 67 560 C73 564 81 566 90 566 C99 566 107 564 113 560 C121 554 127 545 132 532 C121 526 107 522 90 521 C73 522 59 526 48 532 Z" fill="rgba(20,30,50,0.7)" stroke="#fff" stroke-width="3"/>' +
+            '<rect x="76" y="128" width="28" height="260" rx="4" fill="#d1d1d1" stroke="#999" stroke-width="1.5"/>' +
+            '<rect x="80" y="136" width="20" height="244" rx="2" fill="#e6e6e6"/>' +
+            '<rect x="76" y="414" width="28" height="32" rx="3" fill="#cecece" stroke="#999" stroke-width="1.5"/>' +
+            '<rect x="80" y="418" width="20" height="24" rx="2" fill="#e7e7e7"/>' +
+            '<path d="M18 113 C26 108 34 106 40 105 L40 495 C34 494 26 492 18 487 Z" fill="' + color + '" stroke="' + color + '" stroke-width="2"/>' +
+            '<path d="M162 113 C154 108 146 106 140 105 L140 495 C146 494 154 492 162 487 Z" fill="' + color + '" stroke="' + color + '" stroke-width="2"/>' +
+            '</svg>';
+        return L.divIcon({ className: '', html: svgContent, iconSize: [ew, eh], iconAnchor: [Math.round(ew/2), Math.round(eh/2)] });
+    } else if (useStyle === 'G') {
+        var gw = Math.round(sz.length * 70 / 60), gh = Math.round(sz.width * 40 / 24);
+        svgContent = '<svg width="' + gw + '" height="' + gh + '" viewBox="0 0 70 40" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));transform:' + transform + ';transform-origin:center center;">' +
+            '<path d="M8 14 Q8 8 14 8 L52 8 Q58 8 60 14 L62 20 L62 28 L6 28 L6 20 Z" fill="' + color + '" stroke="#fff" stroke-width="1"/>' +
+            '<path d="M52 8 Q62 10 64 18 L64 28 L58 28 L58 14 Z" fill="#c62828" stroke="#fff" stroke-width="0.8"/>' +
+            '<rect x="16" y="14" width="8" height="6" rx="1" fill="rgba(200,230,255,0.8)"/>' +
+            '<rect x="28" y="14" width="8" height="6" rx="1" fill="rgba(200,230,255,0.8)"/>' +
+            '<circle cx="16" cy="32" r="3.5" fill="#111"/>' +
+            '<circle cx="48" cy="32" r="3.5" fill="#111"/>' +
+            '<circle cx="62" cy="18" r="1.5" fill="#ffeb3b"/>' +
+            '</svg>';
+        return L.divIcon({ className: '', html: svgContent, iconSize: [gw, gh], iconAnchor: [Math.round(gw/2), Math.round(gh/2)] });
+    } else if (useStyle === 'B') {
+        var bw = Math.round(sz.length * 60 / 60), bh = Math.round(sz.width * 36 / 24);
+        svgContent = '<svg width="' + bw + '" height="' + bh + '" viewBox="0 0 60 36" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));transform:' + transform + ';transform-origin:center center;">' +
+            '<rect x="6" y="6" width="38" height="14" rx="2" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+            '<path d="M6 6 L-2 10 L-2 16 L6 20 Z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+            '<rect x="10" y="9" width="9" height="6" fill="#fff" opacity="0.9" rx="1"/>' +
+            '<rect x="24" y="9" width="9" height="6" fill="#fff" opacity="0.9" rx="1"/>' +
+            '<circle cx="16" cy="25" r="3.5" fill="#333"/>' +
+            '<circle cx="36" cy="25" r="3.5" fill="#333"/>' +
+            '<line x1="-2" y1="13" x2="6" y2="13" stroke="#fff" stroke-width="1"/>' +
+            '<path d="M30 28 L38 32 L30 36 Z" fill="#facc15" stroke="#fff" stroke-width="1"/>' +
+            '</svg>';
+    } else if (useStyle === 'C') {
+        var cw = Math.round(sz.length * 60 / 60), ch = Math.round(sz.width * 36 / 24);
+        svgContent = '<svg width="' + cw + '" height="' + ch + '" viewBox="0 0 60 36" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));transform:' + transform + ';transform-origin:center center;">' +
+            '<path d="M16 8 L44 8 L52 16 L24 16 Z" fill="#b71c1c"/>' +
+            '<path d="M8 16 L24 16 L24 28 L8 28 Z" fill="' + color + '" stroke="#fff" stroke-width="1"/>' +
+            '<path d="M24 16 L52 16 L52 28 L24 28 Z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+            '<rect x="30" y="18" width="10" height="7" fill="rgba(255,255,255,0.9)" rx="1"/>' +
+            '<rect x="14" y="19" width="6" height="5" fill="rgba(255,255,255,0.8)" rx="1"/>' +
+            '<ellipse cx="14" cy="30" rx="3" ry="2" fill="#333"/>' +
+            '<ellipse cx="40" cy="30" rx="3" ry="2" fill="#333"/>' +
+            '</svg>';
+    } else {
+        var aw = Math.round(sz.length * 60 / 60), ah = Math.round(sz.width * 36 / 24);
+        svgContent = '<svg width="' + aw + '" height="' + ah + '" viewBox="0 0 60 36" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));transform:' + transform + ';transform-origin:center center;">' +
+            '<path d="M10 22 L50 22 L54 30 L6 30 Z" fill="rgba(0,0,0,0.25)"/>' +
+            '<path d="M8 10 L46 10 L50 22 L4 22 Z" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>' +
+            '<path d="M10 8 L44 8 L46 10 L8 10 Z" fill="#b71c1c"/>' +
+            '<rect x="40" y="12" width="8" height="7" fill="rgba(255,255,255,0.95)" rx="1"/>' +
+            '<rect x="14" y="13" width="7" height="5" fill="rgba(255,255,255,0.8)" rx="1"/>' +
+            '<rect x="26" y="13" width="6" height="5" fill="rgba(255,255,255,0.8)" rx="1"/>' +
+            '<ellipse cx="14" cy="26" rx="4" ry="2.5" fill="#333"/>' +
+            '<ellipse cx="42" cy="26" rx="4" ry="2.5" fill="#333"/>' +
+            '<circle cx="4" cy="15" r="2" fill="#ff1744"/>' +
+            '</svg>';
+    }
+    var baseW = Math.round(sz.length * 60 / 60), baseH = Math.round(sz.width * 36 / 24);
+    return L.divIcon({ className: '', html: svgContent, iconSize: [baseW, baseH], iconAnchor: [Math.round(baseW/2), Math.round(baseH/2)] });
+}
+function getTrainScreenAngle(trainNo) {
+    var d = trainDisplays[trainNo];
+    if (!d || !d.line) return 0;
+    var chain = lineChains[d.line + '|' + d.direction] || lineChains[d.line + '|*'];
+    var isFallback = !lineChains[d.line + '|' + d.direction];
+    if (!chain || chain.length < 2) return 0;
+    var idx = 0;
+    var found = false;
+    for (var i = 0; i < chain.length - 1; i++) {
+        var inSeg = (d.direction === '上行')
+            ? (d.currentKm <= chain[i].km && d.currentKm >= chain[i+1].km)
+            : (d.currentKm >= chain[i].km && d.currentKm <= chain[i+1].km);
+        if (inSeg) { idx = i; found = true; break; }
+    }
+    if (!found) {
+        // 超出范围：找最近的点
+        var nearestIdx = 0;
+        var minDist = Math.abs(d.currentKm - chain[0].km);
+        for (var j = 1; j < chain.length; j++) {
+            var dist = Math.abs(d.currentKm - chain[j].km);
+            if (dist < minDist) { minDist = dist; nearestIdx = j; }
+        }
+        idx = Math.max(0, Math.min(chain.length - 2, nearestIdx));
+    }
+    // 前后点平滑：取 idx-1 到 idx+2 的跨度，弯道更平滑
+    var prevIdx = Math.max(0, idx - 1);
+    var nextIdx = Math.min(chain.length - 1, idx + 2);
+    var start = [chain[prevIdx].lat, chain[prevIdx].lng];
+    var end = [chain[nextIdx].lat, chain[nextIdx].lng];
+    // 只有 fallback 到 |* 链时才交换（客专无上下行的情况）
+    if (isFallback && d.direction === '上行') { var tmp = start; start = end; end = tmp; }
+    var p1 = map.latLngToContainerPoint(start);
+    var p2 = map.latLngToContainerPoint(end);
+    return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+}
+
+function refreshTrainIcons() {
+    for (var tn in trainDisplays) {
+        if (!trainDisplays.hasOwnProperty(tn)) continue;
+        var d = trainDisplays[tn];
+        var angle = getTrainScreenAngle(tn);
+        d.marker.setIcon(createTrainIconWithAngle(d.direction, d.color, angle, d.iconStyle));
+    }
+}
+function applyDebugAngle() {
+    var input = document.getElementById('debugAngleInput');
+    var val = parseFloat(input.value);
+    if (isNaN(val)) { alert('请输入有效角度'); return; }
+    debugAngleOffset = val;
+    refreshTrainIcons();
+    refreshDebugPanel();
+}
+function resetDebugAngle() {
+    debugAngleOffset = 0;
+    debugAngleFlip = false;
+    document.getElementById('debugAngleInput').value = '';
+    refreshTrainIcons();
+    refreshDebugPanel();
+}
+function rotateDebugAngle(delta) {
+    debugAngleOffset += delta;
+    document.getElementById('debugAngleInput').value = debugAngleOffset.toFixed(0);
+    refreshTrainIcons();
+    refreshDebugPanel();
+}
+function toggleDebugFlip() {
+    debugAngleFlip = !debugAngleFlip;
+    refreshTrainIcons();
+    refreshDebugPanel();
+}
+function refreshDebugPanel() {
+    var trainNoEl = document.getElementById('debugTrainNo');
+    var autoAngleEl = document.getElementById('debugAutoAngle');
+    var overrideEl = document.getElementById('debugOverrideAngle');
+    var flipEl = document.getElementById('debugFlipState');
+    var flipBtn = document.getElementById('btn-debug-flip');
+    if (!trainNoEl || !autoAngleEl || !overrideEl) return;
+    if (flipEl) flipEl.textContent = debugAngleFlip ? '开' : '关';
+    if (flipEl) flipEl.style.color = debugAngleFlip ? '#388e3c' : '#d32f2f';
+    if (flipBtn) {
+        flipBtn.style.background = debugAngleFlip ? '#e8f5e9' : '#757575';
+        flipBtn.style.color = debugAngleFlip ? '#388e3c' : '#fff';
+        flipBtn.textContent = debugAngleFlip ? '已翻转' : '水平翻转';
+    }
+    if (!lockedTrain || !trainDisplays[lockedTrain]) {
+        trainNoEl.textContent = '无';
+        autoAngleEl.textContent = '--';
+        overrideEl.textContent = debugAngleOffset.toFixed(1);
+        return;
+    }
+    var d = trainDisplays[lockedTrain];
+    trainNoEl.textContent = lockedTrain;
+    var autoAngle = getTrainScreenAngle(lockedTrain);
+    autoAngleEl.textContent = autoAngle.toFixed(1);
+    overrideEl.textContent = debugAngleOffset.toFixed(1);
+}
+
+function saveTrackSettings() {
+    lsSet('track_apiUrl', document.getElementById('apiUrl').value);
+    lsSet('track_pollInterval', document.getElementById('pollInterval').value);
+    lsSet('track_animInterval', document.getElementById('animInterval').value);
+    lsSet('track_trackTimeout', document.getElementById('trackTimeout').value);
+    lsSet('track_disconnectTimeout', document.getElementById('disconnectTimeout').value);
+    alert('追踪设置已保存');
+}
+function loadTrackSettings() {
+    var v;
+    v = lsGet('track_apiUrl'); if (v) document.getElementById('apiUrl').value = v;
+    v = lsGet('track_pollInterval'); if (v) document.getElementById('pollInterval').value = v;
+    v = lsGet('track_animInterval'); if (v) document.getElementById('animInterval').value = v;
+    v = lsGet('track_trackTimeout'); if (v) document.getElementById('trackTimeout').value = v;
+    v = lsGet('track_disconnectTimeout'); if (v) document.getElementById('disconnectTimeout').value = v;
+}
+function openLineImportModal() {
+    document.getElementById('lineImportModal').style.display = 'flex';
+    if (!window._lineImportAutoRefreshed) {
+        window._lineImportAutoRefreshed = true;
+        refreshLineImportModal();
+    } else {
+        renderLineImportList();
+    }
+}
+function closeLineImportModal() {
+    document.getElementById('lineImportModal').style.display = 'none';
+}
+function refreshLineImportModal() {
+    var statusEl = document.getElementById('lineImportStatus');
+    if (statusEl) statusEl.innerHTML = '<span style="color:#f57c00;">正在请求...</span>';
+    var apiUrl = document.getElementById('apiUrl').value.trim();
+    var baseUrl = apiUrl.replace(/\/api\/[^/]+$/, '');
+    var linesUrl = baseUrl + '/api/refresh_lines';
+    fetch(linesUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            window._pendingServerLines = data;
+            renderLineImportList();
+            if (statusEl) statusEl.innerHTML = '';
+        })
+        .catch(function(e) {
+            if (statusEl) statusEl.innerHTML = '<span style="color:#d32f2f;">请求失败：' + (e.message || '无法连接主程序') + '</span>';
+        });
+}
+function renderLineImportList() {
+    var container = document.getElementById('lineImportList');
+    if (!container) return;
+    var data = window._pendingServerLines || {};
+
+    // 获取当前已加载的线路名称（同时匹配_name/_sourceKey/_lineName，全部trim）
+    var loadedNames = {};
+    for (var li = 0; li < lineLayers.length; li++) {
+        var n1 = (lineLayers[li]._name || '').trim();
+        var s1 = (lineLayers[li]._sourceKey || '').trim();
+        if (n1) loadedNames[n1] = true;
+        if (s1) loadedNames[s1] = true;
+    }
+    for (var pi = 0; pi < pointLayers.length; pi++) {
+        var n2 = (pointLayers[pi]._lineName || '').trim();
+        if (n2) loadedNames[n2] = true;
+    }
+    for (var si = 0; si < stationLayers.length; si++) {
+        var n3 = (stationLayers[si].props.line || stationLayers[si].props.name || '').trim();
+        if (n3) loadedNames[n3] = true;
+    }
+
+    // 读取上次保存的勾选状态
+    var savedChecked = lsGet('lineImportChecked') || [];
+    var savedCheckedMap = {};
+    for (var sc = 0; sc < savedChecked.length; sc++) {
+        savedCheckedMap[savedChecked[sc]] = true;
+    }
+
+    var listHtml = '';
+    var count = 0;
+    for (var lineName in data) {
+        if (!data.hasOwnProperty(lineName)) continue;
+        var geojson = data[lineName];
+        var featureCount = (geojson && geojson.features) ? geojson.features.length : 0;
+        var safeName = lineName.replace(/"/g, '&quot;');
+        var isLoaded = !!loadedNames[lineName];
+        var checked = (savedCheckedMap[lineName] || isLoaded) ? 'checked' : '';
+        var bgStyle = isLoaded ? 'background:#e8f5e9;border-color:#388e3c;' : 'background:#fff;border-color:#e8e8e8;';
+        listHtml += '<label class="line-import-item" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid;border-radius:6px;margin-bottom:6px;cursor:pointer;transition:background 0.15s;' + bgStyle + '">' +
+            '<input type="checkbox" value="' + safeName + '" ' + checked + ' style="width:18px;height:18px;cursor:pointer;flex-shrink:0;">' +
+            '<div style="flex:1;min-width:0;">' +
+            '<div style="font-size:14px;font-weight:bold;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + lineName + '</div>' +
+            '<div style="font-size:12px;color:#888;">' + featureCount + ' 个要素' + (isLoaded ? ' <span style="color:#388e3c;font-weight:bold;">● 已加载</span>' : '') + '</div>' +
+            '</div>' +
+            '</label>';
+        count++;
+    }
+    if (count === 0) {
+        listHtml = '<div style="text-align:center;padding:30px 0;color:#999;font-size:14px;">主程序暂无线路数据<br><span style="font-size:12px;">请确认主程序已启动且线路文件存在</span></div>';
+    }
+    container.innerHTML = listHtml;
+}
+function importSelectedLines() {
+    var container = document.getElementById('lineImportList');
+    if (!container) { closeLineImportModal(); return; }
+    var checkboxes = container.querySelectorAll('input[type="checkbox"]');
+    var data = window._pendingServerLines || {};
+    var imported = 0, removed = 0;
+
+    // 获取当前已加载的线路名称（同时匹配_name/_sourceKey/_lineName，全部trim）
+    var loadedNames = {};
+    for (var li = 0; li < lineLayers.length; li++) {
+        var n1 = (lineLayers[li]._name || '').trim();
+        var s1 = (lineLayers[li]._sourceKey || '').trim();
+        if (n1) loadedNames[n1] = true;
+        if (s1) loadedNames[s1] = true;
+    }
+    for (var pi = 0; pi < pointLayers.length; pi++) {
+        var n2 = (pointLayers[pi]._lineName || '').trim();
+        if (n2) loadedNames[n2] = true;
+    }
+    for (var si = 0; si < stationLayers.length; si++) {
+        var n3 = (stationLayers[si].props.line || stationLayers[si].props.name || '').trim();
+        if (n3) loadedNames[n3] = true;
+    }
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        var lineName = checkboxes[i].value;
+        var isChecked = checkboxes[i].checked;
+        var trimName = lineName.trim();
+        var isLoaded = !!loadedNames[trimName];
+
+        if (isChecked && !isLoaded) {
+            if (data[lineName] && data[lineName].features) {
+                doImportGeoJSON(data[lineName], true, lineName);
+                imported++;
+            }
+        }
+        if (!isChecked) {
+            for (var j = lineLayers.length - 1; j >= 0; j--) {
+                var lnName = (lineLayers[j]._name || '').trim();
+                var lnKey = (lineLayers[j]._sourceKey || '').trim();
+                if (lnName === trimName || lnKey === trimName) {
+                    map.removeLayer(lineLayers[j].layer);
+                    if (lineLayers[j].labelLayer) map.removeLayer(lineLayers[j].labelLayer);
+                    lineLayers.splice(j, 1);
+                    removed++;
+                }
+            }
+            for (var k = pointLayers.length - 1; k >= 0; k--) {
+                var ptName = (pointLayers[k]._lineName || '').trim();
+                var ptKey = (pointLayers[k]._sourceKey || '').trim();
+                if (ptName === trimName || ptKey === trimName) {
+                    map.removeLayer(pointLayers[k].layer);
+                    if (pointLayers[k].labelLayer) map.removeLayer(pointLayers[k].labelLayer);
+                    pointLayers.splice(k, 1);
+                    removed++;
+                }
+            }
+            for (var s = stationLayers.length - 1; s >= 0; s--) {
+                var stName = (stationLayers[s].props.line || stationLayers[s].props.name || '').trim();
+                var stKey = (stationLayers[s]._sourceKey || '').trim();
+                if (stName === trimName || stKey === trimName) {
+                    map.removeLayer(stationLayers[s].layer);
+                    if (stationLayers[s].labelLayer) map.removeLayer(stationLayers[s].labelLayer);
+                    stationLayers.splice(s, 1);
+                    removed++;
+                }
+            }
+        }
+    }
+
+    rebuildAllChains();
+    renderAllLabels();
+    updateFixedPointList();
+    updateRangeListUI();
+    updateRangeLineSelect();
+
+    // 保存勾选状态到localStorage
+    var checkedNames = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) checkedNames.push(checkboxes[i].value);
+    }
+    lsSet('lineImportChecked', checkedNames);
+
+    var msg = '';
+    if (imported > 0) msg += '已导入 ' + imported + ' 条线路';
+    if (removed > 0) msg += (msg ? '，' : '') + '已卸载 ' + removed + ' 条线路';
+    if (!msg) msg = '无变化';
+    showRangePickToast(msg);
+    setTimeout(function() { hideRangePickToast(); }, 2000);
+    closeLineImportModal();
+}
 function startTracking() {
     if (isTracking) return;
     isTracking = true;
+    // 补偿暂停时间：把 lastSignalTime 往后推，防止 cleanup 误删
+    if (window._trackPausedAt) {
+        var pausedGap = Date.now() / 1000 - window._trackPausedAt;
+        for (var tn in trainDisplays) {
+            if (!trainDisplays.hasOwnProperty(tn)) continue;
+            trainDisplays[tn].lastSignalTime += pausedGap;
+            if (trainDisplays[tn].lastHighSpeedTime) trainDisplays[tn].lastHighSpeedTime += pausedGap;
+        }
+        window._trackPausedAt = null;
+    }
     var apiUrl = document.getElementById('apiUrl').value.trim();
     var animMs = parseInt(document.getElementById('animInterval').value) || 100;
     document.getElementById('trackStatus').innerHTML = '<span class="status-ok">SSE 追踪运行中</span>';
@@ -919,10 +1885,31 @@ function startTracking() {
             addHistoryRecord(data);
         } catch(e) {}
     };
+    pollTimer.addEventListener('lines', function(event) {
+        try {
+            var lineData = JSON.parse(event.data);
+            window._pendingServerLines = lineData;
+            console.log('已接收主程序推送的线路数据');
+        } catch(e) { console.log('线路数据接收失败:', e); }
+    });
     pollTimer.onerror = function() {
-        document.getElementById('trackStatus').innerHTML = '<span class="status-err">SSE 断开，5秒后重连...</span>';
         if (pollTimer) { pollTimer.close(); pollTimer = null; }
-        setTimeout(function() { if (isTracking) startTracking(); }, 5000);
+        var reconnectMs = parseInt(document.getElementById('pollInterval').value) || 5000;
+        var reconnectDelay = Math.ceil(reconnectMs / 1000); // 秒
+        var countdownEl = document.getElementById('trackStatus');
+        var countdownTimer = setInterval(function() {
+            reconnectDelay--;
+            if (reconnectDelay > 0) {
+                countdownEl.innerHTML = '<span class="status-err">SSE 断开，' + reconnectDelay + '秒后自动重连...</span>';
+            } else {
+                clearInterval(countdownTimer);
+            }
+        }, 1000);
+        countdownEl.innerHTML = '<span class="status-err">SSE 断开，' + reconnectDelay + '秒后自动重连...</span>';
+        setTimeout(function() {
+            clearInterval(countdownTimer);
+            if (isTracking) startTracking();
+        }, reconnectMs);
     };
 
     animTimer = setInterval(function() { animateTrains(); }, animMs);
@@ -934,6 +1921,8 @@ function stopTracking() {
     if (pollTimer) { pollTimer.close(); pollTimer = null; }
     if (animTimer) { clearInterval(animTimer); animTimer = null; }
     if (panelTimer) { clearInterval(panelTimer); panelTimer = null; }
+    // 记录暂停时间，防止重新启动后 cleanup 把旧车删掉
+    window._trackPausedAt = Date.now() / 1000;
     document.getElementById('trackStatus').innerHTML = '<span class="status-err">已停止</span>';
 }
 
@@ -969,7 +1958,6 @@ function updateTrainTargets(data) {
     var now = Date.now() / 1000;
     var trainNo = data.train_no;
     var info = data;
-    // 线路修正
     if (info.line && info.km !== undefined && info.direction) {
         info.line = fixLineByKm(trainNo, info.line, info.direction, info.km);
     }
@@ -977,7 +1965,6 @@ function updateTrainTargets(data) {
     var lat = parseDMS(info.lat);
     var color, initLat, initLon, pos, marker, trail, label;
 
-    // 错误数据过滤（新车也过滤）
     if (trainDisplays[trainNo]) {
         var d0 = trainDisplays[trainNo];
         var speedDiff = Math.abs((info.speed !== undefined ? info.speed : 0) - d0.lastSpeed);
@@ -1001,7 +1988,6 @@ function updateTrainTargets(data) {
     if (!trainDisplays[trainNo]) {
         color = getTrainColor(trainNo);
         initLat = 23.7754; initLon = 106.9055;
-        // 优先用经纬度，没有经纬度才用标定链
         if (lat !== null && lon !== null) {
             initLat = lat; initLon = lon;
         } else if (info.line && info.km !== undefined && info.km !== null && info.direction) {
@@ -1014,35 +2000,224 @@ function updateTrainTargets(data) {
         trail = L.polyline([], { color: color, weight: 3, opacity: 0.7 }).addTo(map);
         var anchorY = info.direction === '上行' ? 36 : 0;
         label = L.marker([initLat, initLon], {
-            icon: L.divIcon({ className: '', html: '<div class="train-label-div" style="width:130px;height:36px;box-sizing:border-box;"><div style="display:flex;justify-content:space-between;white-space:nowrap;"><span>' + trainNo + '</span><span style="color:#888;font-size:10px;">' + (info.line || '') + '</span><span style="color:#666;">' + (info.direction || '') + '</span></div><div style="display:flex;justify-content:space-between;white-space:nowrap;margin-top:2px;"><span>K' + (info.km !== undefined ? info.km : '?.?') + '</span><span>' + (info.speed !== undefined ? info.speed : 0) + 'km/h</span></div></div>', iconSize: [130, 36], iconAnchor: [65, anchorY] }),
+            icon: L.divIcon({ className: '', html: '<div class="train-label-div" style="width:140px;height:40px;box-sizing:border-box;"><div style="display:flex;justify-content:center;align-items:center;white-space:nowrap;gap:6px;"><span style="font-weight:bold;font-size:12px;">' + trainNo + '</span><span style="color:#666;font-size:10px;">' + (info.line || '') + '</span><span style="color:#888;font-size:10px;">' + (info.direction || '') + '</span></div><div style="display:flex;justify-content:space-between;white-space:nowrap;margin-top:3px;font-size:10px;"><span>K' + (info.km !== undefined ? info.km : '?.?') + '</span><span>' + (info.speed !== undefined ? info.speed : 0) + 'km/h</span></div></div>', iconSize: [140, 40], iconAnchor: [70, anchorY] }),
             interactive: false, zIndexOffset: 2001
         }).addTo(map);
         var leaderOutline = L.polyline([[initLat, initLon], [initLat, initLon]], {
-            color: '#fffef0', weight: 4, opacity: 0.95
+            color: '#333333', weight: 3, opacity: 0.9
         }).addTo(map);
         var leader = L.polyline([[initLat, initLon], [initLat, initLon]], {
-            color: '#000000', weight: 2, opacity: 1.0
+            color: '#facc15', weight: 1.5, opacity: 0.9
         }).addTo(map);
         trainDisplays[trainNo] = {
             marker: marker, trail: trail, label: label, leader: leader, leaderOutline: leaderOutline, color: color,
+            iconStyle: '',
+            lastUpdate: now,
             currentKm: info.km || 0, targetKm: info.km || 0,
-            lastSignalTime: info.last_update || now,
+            lastSignalTime: now,
             lastSpeed: (info.speed !== undefined && info.speed !== null) ? info.speed : 0,
             direction: info.direction || '', line: info.line || '', trainType: info.type || '',
-            lastLon: lon, lastLat: lat, trailPoints: []
+            lastLon: lon, lastLat: lat, trailPoints: [],
+            speedHistory: (info.speed !== undefined && info.speed !== null) ? [info.speed] : [],
+            directionHistory: info.direction ? [info.direction] : [],
+            lockedDirection: info.direction || '',
+            lastLatLonUpdate: now,
+            hasKmSpeed: (info.km !== undefined && info.speed !== undefined),
+            _useLatLonOnly: (info.km === undefined || info.km === null),
+            lastHighSpeedTime: now,
+            kmHistory: (info.km !== undefined && info.km !== null) ? [info.km] : [],
+            isShunting: false
         };
     }
     var d = trainDisplays[trainNo];
-    if (info.km !== undefined && info.km !== null) {
-        if (Math.abs(info.km - d.currentKm) > 0.5) d.currentKm = info.km;
-        d.targetKm = info.km;
+
+    if (info.direction) {
+        if (!d.directionHistory) d.directionHistory = [];
+        d.directionHistory.push(info.direction);
+        if (d.directionHistory.length > 5) d.directionHistory.shift();
+        if (d.directionHistory.length >= 5) {
+            var allSame = true;
+            for (var di = 1; di < d.directionHistory.length; di++) {
+                if (d.directionHistory[di] !== d.directionHistory[0]) { allSame = false; break; }
+            }
+            if (allSame) d.lockedDirection = d.directionHistory[0];
+        }
+        if (d.lockedDirection && info.direction !== d.lockedDirection) {
+        } else {
+            d.direction = info.direction;
+        }
+    } else if (info.line) {
+        var inferredDir = '';
+        for (var tn in trainDisplays) {
+            if (!trainDisplays.hasOwnProperty(tn)) continue;
+            if (tn === trainNo) continue;
+            var other = trainDisplays[tn];
+            if (other.line === info.line && other.direction) {
+                inferredDir = other.direction;
+                break;
+            }
+        }
+        if (inferredDir) d.direction = inferredDir;
     }
-    d.lastSignalTime = info.last_update || now;
-    if (info.speed !== undefined && info.speed !== null) d.lastSpeed = info.speed;
-    d.direction = info.direction || d.direction;
+
+    if (info.km !== undefined && info.km !== null) {
+        var isKmValid = true;
+        if (info.km < 1 && d.currentKm > 10) isKmValid = false;
+        if (isKmValid) d.targetKm = info.km;
+        // kmHistory 维护（扩到8条）
+        if (!d.kmHistory) d.kmHistory = [];
+        d.kmHistory.push(info.km);
+        if (d.kmHistory.length > 8) d.kmHistory.shift();
+        // 经纬度历史（用于徘徊检测）
+        if (!d.latLonHistory) d.latLonHistory = [];
+        if (lat !== null && lon !== null) d.latLonHistory.push({lat: lat, lon: lon, time: now});
+        if (d.latLonHistory.length > 10) d.latLonHistory.shift();
+
+        // 调车检测
+        var shuntingSuspect = false;
+
+        // 检测1：方向来回切换
+        if (d.directionHistory && d.directionHistory.length >= 3) {
+            var dirChanges = 0;
+            for (var di = 1; di < d.directionHistory.length; di++) {
+                if (d.directionHistory[di] !== d.directionHistory[di-1]) dirChanges++;
+            }
+            if (dirChanges >= 2) shuntingSuspect = true;
+        }
+
+        // 检测2：km 反复震荡（0.3km 阈值，至少2个来回）
+        if (d.kmHistory && d.kmHistory.length >= 4) {
+            var oscillations = 0;
+            for (var khi = 2; khi < d.kmHistory.length; khi++) {
+                var d1 = d.kmHistory[khi] - d.kmHistory[khi-1];
+                var d2 = d.kmHistory[khi-1] - d.kmHistory[khi-2];
+                if (d1 * d2 < 0 && Math.abs(d1) > 0.05 && Math.abs(d2) > 0.05) oscillations++;
+            }
+            var kmRange = 0;
+            if (d.kmHistory.length > 0) {
+                var minK = d.kmHistory[0], maxK = d.kmHistory[0];
+                for (var k = 1; k < d.kmHistory.length; k++) {
+                    if (d.kmHistory[k] < minK) minK = d.kmHistory[k];
+                    if (d.kmHistory[k] > maxK) maxK = d.kmHistory[k];
+                }
+                kmRange = maxK - minK;
+            }
+            if (oscillations >= 2 && kmRange > 0.3) shuntingSuspect = true;
+        }
+
+        // 检测3：经纬度在5km半径内徘徊（至少5个点）
+        if (d.latLonHistory && d.latLonHistory.length >= 5) {
+            var latSum = 0, lonSum = 0;
+            for (var li = 0; li < d.latLonHistory.length; li++) {
+                latSum += d.latLonHistory[li].lat;
+                lonSum += d.latLonHistory[li].lon;
+            }
+            var avgLat = latSum / d.latLonHistory.length;
+            var avgLon = lonSum / d.latLonHistory.length;
+            var maxD = 0;
+            for (var li = 0; li < d.latLonHistory.length; li++) {
+                var dLat = (d.latLonHistory[li].lat - avgLat) * 111000;
+                var dLon = (d.latLonHistory[li].lon - avgLon) * 111000 * Math.cos(avgLat * Math.PI / 180);
+                var dist = Math.sqrt(dLat * dLat + dLon * dLon);
+                if (dist > maxD) maxD = dist;
+            }
+            if (maxD < 5000) shuntingSuspect = true;
+        }
+
+        if (shuntingSuspect) d.isShunting = true;
+
+        // 调车恢复：连续3条同方向 + km 单向变化 + 均速>30
+        if (d.isShunting && d.directionHistory && d.directionHistory.length >= 3 && d.kmHistory && d.kmHistory.length >= 3) {
+            var dirStable = true;
+            for (var di = 1; di < d.directionHistory.length; di++) {
+                if (d.directionHistory[di] !== d.directionHistory[0]) { dirStable = false; break; }
+            }
+            var kmMono = true;
+            for (var khi = 1; khi < d.kmHistory.length; khi++) {
+                if ((d.directionHistory[0] === '上行' && d.kmHistory[khi] > d.kmHistory[khi-1]) ||
+                    (d.directionHistory[0] === '下行' && d.kmHistory[khi] < d.kmHistory[khi-1])) {
+                    kmMono = false; break;
+                }
+            }
+            var recentAvg = 0, rcnt = 0;
+            if (d.speedHistory) {
+                for (var si = 0; si < d.speedHistory.length; si++) {
+                    recentAvg += d.speedHistory[si]; rcnt++;
+                }
+                if (rcnt > 0) recentAvg /= rcnt;
+            }
+            if (dirStable && kmMono && recentAvg > 30) d.isShunting = false;
+        }
+    }
+
+    d.lastSignalTime = now;
+    d.lastUpdate = (data.last_update !== undefined && data.last_update !== null) ? data.last_update : now;
+
+    if (info.speed !== undefined && info.speed !== null) {
+        var isSpeedValid = true;
+        // 场景：速度大幅降低，检查是否合理（距离/时间是否匹配）
+        if (info.speed < d.lastSpeed * 0.4 && d.lastSpeed > 30) {
+            var kmDiff = Math.abs((info.km !== undefined ? info.km : d.currentKm) - d.currentKm);
+            var timeDiff = now - d.lastSignalTime;
+            if (timeDiff > 0 && kmDiff > 0.1) {
+                var avgSpeed = (d.lastSpeed + info.speed) / 2;
+                var expectedTime = (kmDiff / avgSpeed) * 3600;
+                // 允许±50%误差
+                if (timeDiff < expectedTime * 0.5 || timeDiff > expectedTime * 1.5) {
+                    isSpeedValid = false;
+                }
+            }
+        }
+        // 简单过滤：突然变得很小（<5）且之前速度较大（>20）
+        if (info.speed < 5 && d.lastSpeed > 20) isSpeedValid = false;
+        if (isSpeedValid) {
+            d.lastSpeed = info.speed;
+            if (!d.speedHistory) d.speedHistory = [];
+            d.speedHistory.push(info.speed);
+            if (d.speedHistory.length > 10) d.speedHistory.shift();
+            // 高速信号时间更新
+            if (info.speed > 40) {
+                d.lastHighSpeedTime = now;
+                d.isShunting = false;
+            }
+        }
+    }
+
     d.line = info.line || d.line;
     d.trainType = info.type || d.trainType || '';
-    if (lon !== null && lat !== null) { d.lastLon = lon; d.lastLat = lat; }
+    d.locoType = info.loco_type || d.locoType || '';
+    d.locoNum = info.loco_num || d.locoNum || '';
+    // 有 km 时恢复 km 模式，没 km 时标记为纯经纬度模式
+    if (info.km !== undefined && info.km !== null) d._useLatLonOnly = false;
+    else d._useLatLonOnly = true;
+
+    if (lon !== null && lat !== null) {
+        // 经纬度-only 处理：没 km/speed 时，用经纬度变化推算速度
+        if (d.lastLon !== null && d.lastLat !== null && (info.km === undefined || info.speed === undefined)) {
+            var latDiff = lat - d.lastLat;
+            var lonDiff = lon - d.lastLon;
+            var timeDiff = now - d.lastLatLonUpdate;
+            // 经纬度变化超过阈值且时间差合理，才推算速度
+            if (timeDiff > 1 && timeDiff < 300 && (Math.abs(latDiff) > 0.00001 || Math.abs(lonDiff) > 0.00001)) {
+                var latM = latDiff * 111000;
+                var lonM = lonDiff * 111000 * Math.cos(d.lastLat * Math.PI / 180);
+                var distM = Math.sqrt(latM * latM + lonM * lonM);
+                var gpsSpeed = (distM / timeDiff) * 3.6; // m/s → km/h
+                if (gpsSpeed > 1 && gpsSpeed < 400) {
+                    d.lastSpeed = gpsSpeed;
+                    if (!d.speedHistory) d.speedHistory = [];
+                    d.speedHistory.push(gpsSpeed);
+                    if (d.speedHistory.length > 10) d.speedHistory.shift();
+                    if (gpsSpeed > 25) d.lastHighSpeedTime = now;
+                }
+            }
+        }
+        d.lastLon = lon;
+        d.lastLat = lat;
+        d.lastLatLonUpdate = now;
+    }
+
+    d.hasKmSpeed = (info.km !== undefined && info.speed !== undefined);
 }
 
 function cleanupDeadTrains() {
@@ -1072,29 +2247,96 @@ function animateTrains() {
         gap = now - d.lastSignalTime;
 
         var trackTimeout = parseInt(document.getElementById('trackTimeout').value) || 300;
-        if (gap > trackTimeout) { d.marker.setOpacity(0.2); d.label.setOpacity(0.2); continue; }
-        else if (gap > 300) { d.marker.setOpacity(0.3); d.label.setOpacity(0.3); }
-        else { d.marker.setOpacity(1.0); d.label.setOpacity(1.0); }
-
-        // 2分钟无信号默认停车
-        if (gap > 120) {
-            effSpeed = 0;
+        // 缓慢停车：速度<=1km/h，变淡但不踢出
+        var isSlowParking = (d.lastSpeed <= 1);
+        if (isSlowParking) {
+            d.marker.setOpacity(0.55);
+            d.label.setOpacity(0.55);
+            d._isParking = true;
+        } else if (gap > trackTimeout) {
+            d.marker.setOpacity(0.45); d.label.setOpacity(0.45); continue;
+        } else if (gap > (parseInt(document.getElementById('disconnectTimeout').value) || 300)) {
+            d.marker.setOpacity(0.5); d.label.setOpacity(0.5); d._isParking = false;
         } else {
-            effSpeed = d.lastSpeed;
-            if (gap > 30 && gap <= 120) effSpeed = d.lastSpeed * 0.7;
+            d.marker.setOpacity(1.0); d.label.setOpacity(1.0); d._isParking = false;
         }
 
-        dt = 0.1;
-        distKm = (effSpeed / 3.6) * dt / 1000;
+        // 方案C：无信号时按最后一次正常速度匀速跑，不衰减
+        var avgSpeed = d.lastSpeed;
+        if (d.speedHistory && d.speedHistory.length > 0) {
+            var sum = 0, validCount = 0;
+            for (var si = 0; si < d.speedHistory.length; si++) {
+                if (d.speedHistory[si] > 1) { sum += d.speedHistory[si]; validCount++; }
+            }
+            if (validCount > 0) avgSpeed = sum / validCount;
+        }
+
+        // 停车策略：双规则
+        var avgSpeedForParking = d.lastSpeed;
+        if (d.speedHistory && d.speedHistory.length > 0) {
+            var sum = 0, cnt = 0;
+            for (var si = 0; si < d.speedHistory.length; si++) {
+                if (d.speedHistory[si] >= 0) { sum += d.speedHistory[si]; cnt++; }
+            }
+            if (cnt > 0) avgSpeedForParking = sum / cnt;
+        }
+
+        // 规则1：低速停车（原逻辑）
+        var isParkingRule1 = (avgSpeedForParking <= 30 && (now - (d.lastHighSpeedTime || d.lastSignalTime)) > 120);
+
+        // 规则2：信号中断停车（减速趋势 + 300秒没消息）
+        var isParkingRule2 = false;
+        if (d.lastSpeed <= 50 && d.speedHistory && d.speedHistory.length >= 3) {
+            var decreasing = 0;
+            for (var si = 1; si < d.speedHistory.length; si++) {
+                if (d.speedHistory[si] < d.speedHistory[si - 1]) decreasing++;
+            }
+            var isDecelerating = decreasing >= 2;
+            var timeSinceLastUpdate = now - (d.lastUpdate || d.lastSignalTime);
+            if (isDecelerating && timeSinceLastUpdate > 300) {
+                isParkingRule2 = true;
+            }
+        }
+
+        var isParking = isParkingRule1 || isParkingRule2;
+
+        // 120~300秒信号中断期间：速度线性衰减，位置继续惯性推算
+        var displaySpeed = d.lastSpeed;
+        var effSpeed = avgSpeed;
+        if (!isParking && d.lastSpeed <= 50 && d.speedHistory && d.speedHistory.length >= 3) {
+            var decCount = 0;
+            for (var si = 1; si < d.speedHistory.length; si++) {
+                if (d.speedHistory[si] < d.speedHistory[si - 1]) decCount++;
+            }
+            var timeSinceLastUpdate = now - (d.lastUpdate || d.lastSignalTime);
+            if (decCount >= 2 && timeSinceLastUpdate > 120 && timeSinceLastUpdate <= 300) {
+                displaySpeed = Math.round(d.lastSpeed * (1 - (timeSinceLastUpdate - 120) / 180));
+                if (displaySpeed < 0) displaySpeed = 0;
+                effSpeed = displaySpeed;
+            }
+        }
+
+        if (isParking) {
+            effSpeed = 0;
+            displaySpeed = 0;
+        }
+
+        // 用实际时间差代替硬编码 dt
+        var lastAnimTime = d._lastAnimTime || now;
+        var realDt = now - lastAnimTime;
+        d._lastAnimTime = now;
+        if (realDt <= 0 || realDt > 5) realDt = 0.1; // 兜底
+        var distKm = (effSpeed / 3.6) * realDt / 1000;
+        // 调车检测：km 波动 + 速度<30 → 停止惯性推算
+        if (d.isShunting) distKm = 0;
         if (d.direction === '下行') d.targetKm += distKm;
         else if (d.direction === '上行') d.targetKm -= distKm;
+        else d.targetKm += distKm;
 
-        // 直接推算，不缓动
         d.currentKm = d.targetKm;
 
         inRange = checkInRange(d.line, d.direction, d.currentKm);
         if (!inRange) {
-            // 超出范围：直接停止追踪，删除该车
             map.removeLayer(d.marker); map.removeLayer(d.trail); map.removeLayer(d.label);
             if (d.leader) map.removeLayer(d.leader);
             if (d.leaderOutline) map.removeLayer(d.leaderOutline);
@@ -1103,31 +2345,62 @@ function animateTrains() {
         }
 
         lat = null; lon = null;
-        // 优先用标定链插值，车持续移动
-        if (d.line && d.direction) {
+        // 纯经纬度模式：直接用经纬度，不走 kmToLatLng
+        if (d._useLatLonOnly && d.lastLat !== null && d.lastLon !== null) {
+            lat = d.lastLat; lon = d.lastLon;
+        } else if (d.line) {
             pos = kmToLatLng(d.line, d.direction, d.currentKm);
             if (pos) { lat = pos[0]; lon = pos[1]; }
         }
-        // 标定链失败时fallback到上次经纬度
         if (lat === null && d.lastLat !== null && d.lastLon !== null) {
             lat = d.lastLat; lon = d.lastLon;
         }
 
         if (lat !== null && lon !== null && lat !== undefined && lon !== undefined) {
+            // 多车重叠偏移：同线路0.5km内自动错开
+            if (d.line) {
+                var offsetCount = 0;
+                for (var otherNo in trainDisplays) {
+                    if (otherNo === trainNo) continue;
+                    var other = trainDisplays[otherNo];
+                    if (!other.line || other.line !== d.line) continue;
+                    if (Math.abs(other.currentKm - d.currentKm) < 0.5) {
+                        offsetCount++;
+                    }
+                }
+                if (offsetCount > 0) {
+                    var offsetAngle = (offsetCount * 45) * (Math.PI / 180);
+                    var offsetDist = 0.00018; // 约20米
+                    lat += Math.sin(offsetAngle) * offsetDist;
+                    lon += Math.cos(offsetAngle) * offsetDist;
+                }
+            }
             d.marker.setLatLng([lat, lon]);
+            // 无线路列车：隐藏图标（丢到离最近线路20km之外）
+            if (!d.line) {
+                d.marker.setOpacity(0);
+                d.label.setOpacity(0);
+            } else {
+                d.marker.setOpacity(1.0);
+                d.label.setOpacity(1.0);
+            }
+
+            var screenAngle = getTrainScreenAngle(trainNo);
+            var iconHtml = createTrainIconWithAngle(d.direction, d.color, screenAngle, d.iconStyle);
+            d.marker.setIcon(iconHtml);
+
             var iconPoint = map.latLngToLayerPoint([lat, lon]);
             var labelOffset = d.direction === '上行' ? -40 : 40;
             var labelPoint = L.point(iconPoint.x, iconPoint.y + labelOffset);
             var labelLatLng = map.layerPointToLatLng(labelPoint);
             d.label.setLatLng(labelLatLng);
-            // leader连到div边缘（iconAnchor已对齐）
             if (d.leader) d.leader.setLatLngs([[lat, lon], [labelLatLng.lat, labelLatLng.lng]]);
             if (d.leaderOutline) d.leaderOutline.setLatLngs([[lat, lon], [labelLatLng.lat, labelLatLng.lng]]);
             var anchorY = d.direction === '上行' ? 36 : 0;
             d.label.setIcon(L.divIcon({
                 className: '',
-                html: '<div class="train-label-div" style="width:110px;height:36px;box-sizing:border-box;"><div style="display:flex;justify-content:space-between;white-space:nowrap;"><span>' + trainNo + '</span><span style="color:#666;">' + d.direction + '</span></div><div style="display:flex;justify-content:space-between;white-space:nowrap;margin-top:2px;"><span>K' + d.currentKm.toFixed(1) + '</span><span>' + d.lastSpeed + 'km/h</span></div></div>',
-                iconSize: [110, 36], iconAnchor: [55, anchorY]
+                html: '<div class="train-label-div" style="width:140px;height:40px;box-sizing:border-box;"><div style="display:flex;justify-content:center;align-items:center;white-space:nowrap;gap:6px;"><span style="font-weight:bold;font-size:12px;">' + trainNo + '</span><span style="color:#666;font-size:10px;">' + (d.line || '') + '</span><span style="color:#888;font-size:10px;">' + d.direction + '</span></div><div style="display:flex;justify-content:space-between;white-space:nowrap;margin-top:3px;font-size:10px;"><span>k' + d.currentKm.toFixed(1) + '</span><span>' + d.lastSpeed + 'km/h</span></div></div>',
+                iconSize: [140, 40], iconAnchor: [70, anchorY]
             }));
             if (showTrail) {
                 d.trailPoints.push([lat, lon]);
@@ -1144,44 +2417,135 @@ function updateTrackPanel() {
     var countEl = document.getElementById('trackCount');
     if (!container || !countEl) return;
 
-    // 清除旧内容
+    var activeSelect = container.querySelector('select:focus');
+    if (activeSelect) return;
+
     container.innerHTML = '';
+
+    function getStyleOpts(selected) {
+        var opts = [['E','俯视'],['A','2.5D'],['B','箭头'],['C','方块'],['G','侧面']];
+        var actual = selected || trainIconStyle || 'E';
+        var html = '';
+        for (var i = 0; i < opts.length; i++) {
+            html += '<option value="' + opts[i][0] + '"' + (actual === opts[i][0] ? ' selected' : '') + '>' + opts[i][1] + '</option>';
+        }
+        return html;
+    }
 
     if (currentTrackTab === 'realtime') {
         var now = Date.now() / 1000;
-        var trains = [], trainNo;
+        var runningTrains = [], parkingTrains = [], trainNo;
         for (trainNo in trainDisplays) {
             if (!trainDisplays.hasOwnProperty(trainNo)) continue;
             var d = trainDisplays[trainNo];
             var gap = now - d.lastSignalTime;
-            if (gap <= 300) trains.push(trainNo);
+            var disconnectSec = parseInt(document.getElementById('disconnectTimeout').value) || 300;
+            // 双规则停车检测（与 animateTrains 一致）
+            var avgSpeedForParking = d.lastSpeed;
+            if (d.speedHistory && d.speedHistory.length > 0) {
+                var sum = 0, cnt = 0;
+                for (var si = 0; si < d.speedHistory.length; si++) {
+                    if (d.speedHistory[si] >= 0) { sum += d.speedHistory[si]; cnt++; }
+                }
+                if (cnt > 0) avgSpeedForParking = sum / cnt;
+            }
+            var isParkingRule1 = (avgSpeedForParking <= 30 && (now - (d.lastHighSpeedTime || d.lastSignalTime)) > 120);
+            var isParkingRule2 = false;
+            if (d.lastSpeed <= 50 && d.speedHistory && d.speedHistory.length >= 3) {
+                var decCount = 0;
+                for (var si = 1; si < d.speedHistory.length; si++) {
+                    if (d.speedHistory[si] < d.speedHistory[si - 1]) decCount++;
+                }
+                var timeSinceLastUpdate = now - (d.lastUpdate || d.lastSignalTime);
+                if (decCount >= 2 && timeSinceLastUpdate > 300) isParkingRule2 = true;
+            }
+            var isParking = isParkingRule1 || isParkingRule2;
+            // 停车状态：即使超时也保留在停车分组
+            if (isParking) {
+                parkingTrains.push(trainNo);
+            } else if (gap > disconnectSec) {
+                // 非停车且超时：不显示
+                continue;
+            } else {
+                runningTrains.push(trainNo);
+            }
         }
-        countEl.textContent = trains.length;
+        countEl.textContent = runningTrains.length + parkingTrains.length;
 
-        if (trains.length === 0) {
+        if (runningTrains.length === 0 && parkingTrains.length === 0) {
             container.innerHTML = '<div class="hint" style="text-align:center;padding:20px 0;">暂无列车数据</div>';
             return;
         }
 
-        for (var i = 0; i < trains.length; i++) {
-            trainNo = trains[i];
-            var d = trainDisplays[trainNo];
-            var gap = now - d.lastSignalTime;
-            var statusClass = 'status-ok', statusText = '在线';
-            if (gap > 120) { statusClass = 'status-gray'; statusText = '停车 ' + Math.floor(gap) + 's'; }
-            else if (gap > 30) { statusClass = 'status-warn'; statusText = '延迟 ' + Math.floor(gap) + 's'; }
+        // 正常行驶
+        if (runningTrains.length > 0) {
+            var runHeader = document.createElement('div');
+            runHeader.style.cssText = 'font-size:11px;color:#388e3c;font-weight:bold;padding:4px 8px;background:#e8f5e9;border-radius:3px;margin-bottom:4px;text-align:center;';
+            runHeader.textContent = '正常行驶 (' + runningTrains.length + ')';
+            container.appendChild(runHeader);
+            for (var i = 0; i < runningTrains.length; i++) {
+                trainNo = runningTrains[i];
+                var d = trainDisplays[trainNo];
+                var gap = now - d.lastSignalTime;
+                var statusClass = 'status-ok', statusText = '在线';
+                if (gap > 30) { statusClass = 'status-warn'; statusText = '延迟 ' + Math.floor(gap) + 's'; }
+                var locoStr = (d.locoType && d.locoNum) ? (d.locoType + '-' + d.locoNum) : (d.locoType || '');
+                var div = document.createElement('div');
+                div.className = 'track-item';
+                div.setAttribute('onclick', "flyToTrain('" + trainNo + "')");
+                div.setAttribute('data-train', trainNo);
+                div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">' +
+                    '<span style="color:' + d.color + ';font-weight:bold;font-size:16px;">' + trainNo + '</span>' +
+                    '<span style="font-size:11px;color:#888;">' + d.direction + '</span>' +
+                    '<span class="train-status ' + statusClass + '" style="font-size:10px;padding:1px 4px;border-radius:2px;background:' + (statusClass === 'status-warn' ? '#fff3e0' : '#e8f5e9') + ';">' + statusText + '</span>' +
+                    '</div>' +
+                    (locoStr ? '<div style="font-size:11px;color:#555;margin-bottom:2px;">' + locoStr + '</div>' : '') +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#666;margin-bottom:1px;">' +
+                    '<span>' + (d.line || '未知线路') + (d.trainType ? ' | ' + d.trainType : '') + '</span>' +
+                    '<select onchange="setTrainIconStyleForTrain(\'' + trainNo + '\', this.value)" onclick="event.stopPropagation()" style="font-size:10px;padding:1px 2px;border:1px solid #ccc;border-radius:2px;width:50px;">' + getStyleOpts(d.iconStyle) + '</select>' +
+                    '</div>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:bold;color:#333;">' +
+                    '<span style="color:#1976d2;">k' + d.currentKm.toFixed(2) + '</span>' +
+                    '<span>' + d.lastSpeed + 'km/h</span>' +
+                    '</div>';
+                container.appendChild(div);
+            }
+        }
 
-            var typeStr = d.trainType ? '[' + d.trainType + '] ' : '';
-            var div = document.createElement('div');
-            div.className = 'track-item';
-            div.setAttribute('onclick', "flyToTrain('" + trainNo + "')");
-            div.setAttribute('data-train', trainNo);
-            div.innerHTML = '<div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;"><div style="width:3px;height:14px;background:' + d.color + ';border-radius:2px;flex-shrink:0;"></div><span class="train-name" style="color:' + d.color + ';font-weight:bold;">' + trainNo + '</span><span style="color:#666;font-size:11px;">' + d.direction + '</span></div>' +
-                '<div class="train-info">' + typeStr + '</div>' +
-                '<div class="train-info">K' + d.currentKm.toFixed(2) + '  ' + d.lastSpeed + 'km/h</div>' +
-                '<div class="train-info">' + (d.line || '未知线路') + '</div>' +
-                '<div class="train-status ' + statusClass + '">' + statusText + '</div>';
-            container.appendChild(div);
+        // 停车
+        if (parkingTrains.length > 0) {
+            var parkHeader = document.createElement('div');
+            parkHeader.style.cssText = 'font-size:11px;color:#888;font-weight:bold;padding:4px 8px;background:#f5f5f5;border-radius:3px;margin-top:8px;margin-bottom:4px;text-align:center;';
+            parkHeader.textContent = '停车 (' + parkingTrains.length + ')';
+            parkHeader.style.borderTop = '2px solid #ddd';
+            parkHeader.style.paddingTop = '8px';;
+            container.appendChild(parkHeader);
+            for (var j = 0; j < parkingTrains.length; j++) {
+                trainNo = parkingTrains[j];
+                var d = trainDisplays[trainNo];
+                var gap = now - d.lastSignalTime;
+                var statusText = (d.isShunting ? '调车 ' : '停车 ') + Math.floor(gap) + 's';
+                var locoStr = (d.locoType && d.locoNum) ? (d.locoType + '-' + d.locoNum) : (d.locoType || '');
+                var div = document.createElement('div');
+                div.className = 'track-item';
+                div.setAttribute('onclick', "flyToTrain('" + trainNo + "')");
+                div.setAttribute('data-train', trainNo);
+                div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">' +
+                    '<span style="color:' + d.color + ';font-weight:bold;font-size:16px;">' + trainNo + '</span>' +
+                    '<span style="font-size:11px;color:#888;">' + d.direction + '</span>' +
+                    '<span class="train-status status-gray" style="font-size:10px;padding:1px 4px;border-radius:2px;background:#f5f5f5;">' + statusText + '</span>' +
+                    '</div>' +
+                    (locoStr ? '<div style="font-size:11px;color:#555;margin-bottom:2px;">' + locoStr + '</div>' : '') +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#666;margin-bottom:1px;">' +
+                    '<span>' + (d.line || '未知线路') + (d.trainType ? ' | ' + d.trainType : '') + '</span>' +
+                    '<select onchange="setTrainIconStyleForTrain(\'' + trainNo + '\', this.value)" onclick="event.stopPropagation()" style="font-size:10px;padding:1px 2px;border:1px solid #ccc;border-radius:2px;width:50px;">' + getStyleOpts(d.iconStyle) + '</select>' +
+                    '</div>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:bold;color:#333;">' +
+                    '<span style="color:#1976d2;">k' + d.currentKm.toFixed(2) + '</span>' +
+                    '<span>' + d.lastSpeed + 'km/h</span>' +
+                    '</div>';
+                container.appendChild(div);
+            }
         }
     } else {
         // 离去/历史 选项卡
@@ -1207,7 +2571,7 @@ function focusHistoryTrain(trainNo) {
     if (trainDisplays[trainNo]) {
         flyToTrain(trainNo);
     } else {
-        alert('该车已离线');
+        alert('该车已离开');
     }
 }
 
@@ -1217,15 +2581,21 @@ var lockTimer = null;
 function flyToTrain(trainNo) {
     var d = trainDisplays[trainNo];
     if (!d) return;
-    var latlng = d.marker.getLatLng();
-    map.flyTo(latlng, Math.max(map.getZoom(), 14), { duration: 1 });
+    if (lockedTrain === trainNo) {
+        unlockTracking();
+        var items = document.querySelectorAll('.track-item');
+        for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
+        return;
+    }
+    unlockTracking();
     var items = document.querySelectorAll('.track-item');
     for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
     var el = document.querySelector('.track-item[data-train="' + trainNo + '"]');
     if (el) el.classList.add('active');
-    // 锁定跟踪
+    var latlng = d.marker.getLatLng();
+    map.flyTo(latlng, Math.max(map.getZoom(), 14), { duration: 1 });
     lockedTrain = trainNo;
-    if (lockTimer) clearInterval(lockTimer);
+    refreshDebugPanel();
     lockTimer = setInterval(function() {
         if (!lockedTrain || !trainDisplays[lockedTrain]) {
             lockedTrain = null;
@@ -1241,28 +2611,132 @@ function flyToTrain(trainNo) {
 function unlockTracking() {
     lockedTrain = null;
     if (lockTimer) { clearInterval(lockTimer); lockTimer = null; }
+    refreshDebugPanel();
 }
 
 // ==================== 页面加载完成后初始化 ====================
 window.addEventListener('load', function() {
-    map = L.map('map', { zoomControl: false, zoomSnap: 0.5, zoomDelta: 0.5 }).setView([23.897, 106.618], 11);
+    map = L.map('map', { zoomControl: false, zoomSnap: 0.5, zoomDelta: 0.5 }).setView([23.77628, 106.80456], 11.5);
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
     document.getElementById('cfg-provider').value = 'esri_sat';
     onCfgProviderChange();
     applyBaseMapFromSettings();
+    loadTrackSettings();
     loadFixedPoints();
     loadBuiltinCache();
-    loadRangeRules();
-    map.on('zoomend', function() { updateKmLabelVisibility(); renderLineLabels(); updateZoomDisplay(); });
-    map.on('moveend', function() { updateKmLabelVisibility(); renderLineLabels(); });
+    rangeRules = []; lsSet("map_line_ranges", []); // 清空旧范围限制
+    var labelThrottleTimer = null;
+    function throttledLabelUpdate() {
+        if (labelThrottleTimer) clearTimeout(labelThrottleTimer);
+        labelThrottleTimer = setTimeout(function() {
+            updateKmLabelVisibility();
+            renderLineLabels();
+        }, 150);
+    }
+    map.on('zoomstart', function() {
+        for (var tn in trainDisplays) {
+            if (!trainDisplays.hasOwnProperty(tn)) continue;
+            var el = trainDisplays[tn].marker.getElement();
+            if (el) el.style.visibility = 'hidden';
+        }
+    });
+    map.on('zoom', function() { updateZoomDisplay(); });
+    map.on('zoomend', function() {
+        for (var tn in trainDisplays) {
+            if (!trainDisplays.hasOwnProperty(tn)) continue;
+            var el = trainDisplays[tn].marker.getElement();
+            if (el) el.style.visibility = '';
+        }
+        throttledLabelUpdate(); updateZoomDisplay(); refreshTrainIcons();
+    });
+    map.on('moveend', function() { throttledLabelUpdate(); });
     map.on('click', function() { unlockTracking(); });
+    // 停车状态鼠标悬停恢复
+    document.getElementById('map').addEventListener('mouseover', function(e) {
+        var el = e.target.closest('.leaflet-marker-icon');
+        if (!el) return;
+        var trainNo = el.getAttribute('data-train');
+        if (!trainNo) {
+            // 尝试从父元素找
+            var parent = el.parentElement;
+            if (parent) {
+                var icons = parent.querySelectorAll('.leaflet-marker-icon');
+                for (var ii = 0; ii < icons.length; ii++) {
+                    var tn = icons[ii].getAttribute('data-train');
+                    if (tn && trainDisplays[tn] && trainDisplays[tn]._isParking) {
+                        trainDisplays[tn].marker.setOpacity(1.0);
+                        trainDisplays[tn].label.setOpacity(1.0);
+                    }
+                }
+            }
+            return;
+        }
+        if (trainDisplays[trainNo] && trainDisplays[trainNo]._isParking) {
+            trainDisplays[trainNo].marker.setOpacity(1.0);
+            trainDisplays[trainNo].label.setOpacity(1.0);
+        }
+    });
+    document.getElementById('map').addEventListener('mouseout', function(e) {
+        var el = e.target.closest('.leaflet-marker-icon');
+        if (!el) return;
+        var trainNo = el.getAttribute('data-train');
+        if (!trainNo) return;
+        if (trainDisplays[trainNo] && trainDisplays[trainNo]._isParking) {
+            trainDisplays[trainNo].marker.setOpacity(0.35);
+            trainDisplays[trainNo].label.setOpacity(0.35);
+        }
+    });
     setTimeout(startTracking, 500);
     setTimeout(loadTodayHistory, 800);
     setTimeout(renderLineLabels, 600);
     updateZoomDisplay();
+
+    window.addEventListener('resize', function() {
+        map.invalidateSize();
+        setTimeout(function() {
+            for (var tn in trainDisplays) {
+                if (!trainDisplays.hasOwnProperty(tn)) continue;
+                var d = trainDisplays[tn];
+                if (d.line && d.direction) {
+                    var pos = kmToLatLng(d.line, d.direction, d.currentKm);
+                    if (pos) {
+                        d.marker.setLatLng([pos[0], pos[1]]);
+                        d.label.setLatLng([pos[0], pos[1]]);
+                        if (d.leader) d.leader.setLatLngs([[pos[0], pos[1]], [pos[0], pos[1]]]);
+                        if (d.leaderOutline) d.leaderOutline.setLatLngs([[pos[0], pos[1]], [pos[0], pos[1]]]);
+                    }
+                }
+            }
+        }, 100);
+    });
+
+    // tab 上下拖动（panel 跟着一起动）
+    var tabEl = document.getElementById('trackPanelTab');
+    var panelEl = document.getElementById('trackPanel');
+    var isTabDragging = false;
+    var tabDragStartY = 0;
+    var tabStartY = 0;
+    tabEl.addEventListener('mousedown', function(e) {
+        isTabDragging = true;
+        tabDragStartY = e.clientY;
+        tabStartY = parseInt(tabEl.style.top || '54');
+        e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e) {
+        if (!isTabDragging) return;
+        var dy = e.clientY - tabDragStartY;
+        var newTop = Math.max(44, Math.min(window.innerHeight - 80, tabStartY + dy));
+        tabEl.style.top = newTop + 'px';
+        panelEl.style.top = newTop + 'px';
+    });
+    document.addEventListener('mouseup', function() { isTabDragging = false; });
 });
 
 function openDisplaySettings() {
+    if (pointLayers.length === 0 && lineLayers.length === 0) {
+        alert('请先导入线路数据（GeoJSON）');
+        return;
+    }
     document.getElementById('displaySettingsModal').style.display = 'flex';
     updateFixedKmList();
 }
@@ -1285,11 +2759,78 @@ function saveDisplaySettings() {
     lsSet('showTrainTrail', document.getElementById('showTrainTrail').checked);
     lsSet('trailPoints', document.getElementById('trailPoints').value);
 }
+function saveIconSize() {
+    trainIconSizeMap.A = parseFloat(document.getElementById('size-A').value) || 1.0;
+    trainIconSizeMap.B = parseFloat(document.getElementById('size-B').value) || 1.0;
+    trainIconSizeMap.C = parseFloat(document.getElementById('size-C').value) || 1.0;
+    trainIconSizeMap.G = parseFloat(document.getElementById('size-G').value) || 1.0;
+    trainIconSizeMap.E = parseFloat(document.getElementById('size-E').value) || 1.0;
+    lsSet('trainIconSizeMap', trainIconSizeMap);
+    document.getElementById('size-A-val').textContent = trainIconSizeMap.A.toFixed(1) + 'x';
+    document.getElementById('size-B-val').textContent = trainIconSizeMap.B.toFixed(1) + 'x';
+    document.getElementById('size-C-val').textContent = trainIconSizeMap.C.toFixed(1) + 'x';
+    document.getElementById('size-G-val').textContent = trainIconSizeMap.G.toFixed(1) + 'x';
+    document.getElementById('size-E-val').textContent = trainIconSizeMap.E.toFixed(1) + 'x';
+    refreshTrainIcons();
+}
+function loadIconSize() {
+    var saved = lsGet('trainIconSizeMap');
+    if (saved) {
+        if (saved.A !== undefined) trainIconSizeMap.A = saved.A;
+        if (saved.B !== undefined) trainIconSizeMap.B = saved.B;
+        if (saved.C !== undefined) trainIconSizeMap.C = saved.C;
+        if (saved.G !== undefined) trainIconSizeMap.G = saved.G;
+        if (saved.E !== undefined) trainIconSizeMap.E = saved.E;
+    }
+    var elA = document.getElementById('size-A'); if (elA) elA.value = trainIconSizeMap.A;
+    var elB = document.getElementById('size-B'); if (elB) elB.value = trainIconSizeMap.B;
+    var elC = document.getElementById('size-C'); if (elC) elC.value = trainIconSizeMap.C;
+    var elG = document.getElementById('size-G'); if (elG) elG.value = trainIconSizeMap.G;
+    var elE = document.getElementById('size-E'); if (elE) elE.value = trainIconSizeMap.E;
+    var vA = document.getElementById('size-A-val'); if (vA) vA.textContent = trainIconSizeMap.A.toFixed(1) + 'x';
+    var vB = document.getElementById('size-B-val'); if (vB) vB.textContent = trainIconSizeMap.B.toFixed(1) + 'x';
+    var vC = document.getElementById('size-C-val'); if (vC) vC.textContent = trainIconSizeMap.C.toFixed(1) + 'x';
+    var vG = document.getElementById('size-G-val'); if (vG) vG.textContent = trainIconSizeMap.G.toFixed(1) + 'x';
+    var vE = document.getElementById('size-E-val'); if (vE) vE.textContent = trainIconSizeMap.E.toFixed(1) + 'x';
+}
+function setTrainIconStyleForTrain(trainNo, style) {
+    if (!trainDisplays[trainNo]) return;
+    trainDisplays[trainNo].iconStyle = style || '';
+    var angle = getTrainScreenAngle(trainNo);
+    trainDisplays[trainNo].marker.setIcon(createTrainIconWithAngle(trainDisplays[trainNo].direction, trainDisplays[trainNo].color, angle, trainDisplays[trainNo].iconStyle));
+}
+function setTrainIconStyle(style) {
+    trainIconStyle = style;
+    lsSet('trainIconStyle', style);
+    document.getElementById('btn-icon-E').style.border = style === 'E' ? '2px solid #2196F3' : '1px solid #ccc';
+    document.getElementById('btn-icon-E').style.background = style === 'E' ? '#e3f2fd' : '#fff';
+    document.getElementById('btn-icon-A').style.border = style === 'A' ? '2px solid #2196F3' : '1px solid #ccc';
+    document.getElementById('btn-icon-A').style.background = style === 'A' ? '#e3f2fd' : '#fff';
+    document.getElementById('btn-icon-B').style.border = style === 'B' ? '2px solid #2196F3' : '1px solid #ccc';
+    document.getElementById('btn-icon-B').style.background = style === 'B' ? '#e3f2fd' : '#fff';
+    document.getElementById('btn-icon-C').style.border = style === 'C' ? '2px solid #2196F3' : '1px solid #ccc';
+    document.getElementById('btn-icon-C').style.background = style === 'C' ? '#e3f2fd' : '#fff';
+    document.getElementById('btn-icon-G').style.border = style === 'G' ? '2px solid #2196F3' : '1px solid #ccc';
+    document.getElementById('btn-icon-G').style.background = style === 'G' ? '#e3f2fd' : '#fff';
+    // 立即刷新地图上所有列车图标
+    for (var tn in trainDisplays) {
+        if (!trainDisplays.hasOwnProperty(tn)) continue;
+        var d = trainDisplays[tn];
+        var latlng = d.marker.getLatLng();
+        var angle = getTrainScreenAngle(tn);
+        d.marker.setIcon(createTrainIconWithAngle(d.direction, d.color, angle, d.iconStyle));
+        d.marker.setLatLng(latlng);
+        if (d.marker.update) d.marker.update();
+    }
+
+}
 function loadDisplaySettings() {
     var v;
     v = lsGet('showStationLabels'); if (v !== null) document.getElementById('showStationLabels').checked = v;
     v = lsGet('showTrainTrail'); if (v !== null) document.getElementById('showTrainTrail').checked = v;
     v = lsGet('trailPoints'); if (v !== null) document.getElementById('trailPoints').value = v;
+    v = lsGet('trainIconStyle'); if (v) setTrainIconStyle(v); else setTrainIconStyle('E');
+    loadIconSize();
 }
 function updateFixedKmList() {
     var container = document.getElementById('fixedKmList');
@@ -1297,31 +2838,44 @@ function updateFixedKmList() {
     var lineGroups = {};
     for (var i = 0; i < pointLayers.length; i++) {
         var p = pointLayers[i];
-        if (p.props._type === 'station') continue;
+        var isStation = (p.props.railway && (p.props.railway.toLowerCase() === 'station' || p.props.railway.toLowerCase() === 'halt' || p.props.railway.toLowerCase() === 'service_station')) || (p.props.type && p.props.type.toLowerCase() === 'station') || (p.props.category && p.props.category.toLowerCase() === 'station') || (p.props.name && p.props.name.indexOf('站') >= 0);
+        if (isStation) continue;
         var name = p._lineName || '未分组';
         if (!lineGroups[name]) lineGroups[name] = [];
         lineGroups[name].push(p);
     }
+    var collapsedGroups = lsGet('fixedKmCollapsed') || {};
     var html = '';
     for (var lineName in lineGroups) {
         if (!lineGroups.hasOwnProperty(lineName)) continue;
         var pts = lineGroups[lineName].sort(function(a, b) {
             return parseFloat(a.props.km_post || 0) - parseFloat(b.props.km_post || 0);
         });
-        html += '<div style="margin:6px 0;">';
-        html += '<div style="font-weight:bold;color:#ccc;margin-bottom:4px;">' + lineName + '</div>';
+        var isCollapsed = !!collapsedGroups[lineName];
+        var arrow = isCollapsed ? '▶' : '▼';
+        var displayStyle = isCollapsed ? 'display:none;' : '';
+        html += '<div style="margin:4px 0;">';
+        html += '<div onclick="toggleKmGroup(&#39;' + lineName + '&#39;)" style="font-weight:bold;color:#333;margin-bottom:2px;cursor:pointer;user-select:none;padding:4px 6px;background:#f5f5f5;border-radius:3px;font-size:13px;">' + arrow + ' ' + lineName + '</div>';
+        html += '<div id="km-group-' + lineName + '" style="' + displayStyle + '">';
         for (var j = 0; j < pts.length; j++) {
             var p = pts[j];
-            var km = p.props.km_post || '';
+            var km = p.props.km_post;
+            var labelText = (km !== undefined && km !== null && km !== '') ? 'K' + km : (p.props.name || '未命名');
             var pid = p.id;
             var checked = fixedPointIds[pid] ? 'checked' : '';
             html += '<label style="display:block;margin:2px 0 2px 12px;font-size:12px;cursor:pointer;">' +
-                '<input type="checkbox" ' + checked + ' onchange="toggleFixedKm(' + pid + ', this.checked)"> K' + km +
+                '<input type="checkbox" ' + checked + ' onchange="toggleFixedKm(' + pid + ', this.checked)"> ' + labelText +
                 '</label>';
         }
-        html += '</div>';
+        html += '</div></div>';
     }
     container.innerHTML = html || '<div style="color:#888;font-size:12px;">无公里标数据</div>';
+}
+function toggleKmGroup(lineName) {
+    var collapsedGroups = lsGet('fixedKmCollapsed') || {};
+    collapsedGroups[lineName] = !collapsedGroups[lineName];
+    lsSet('fixedKmCollapsed', collapsedGroups);
+    updateFixedKmList();
 }
 function toggleFixedKm(pid, checked) {
     if (checked) fixedPointIds[pid] = true;
@@ -1377,7 +2931,7 @@ function closeAllKmLabels() {
 
 function updateZoomDisplay() {
     var el = document.getElementById('zoomDisplay');
-    if (el && map) el.textContent = 'Zoom: ' + map.getZoom();
+    if (el && map) el.textContent = 'Zoom: ' + map.getZoom().toFixed(1);
 }
 
 // 列车列表选项卡
@@ -1426,13 +2980,28 @@ function addHistoryRecord(data) {
 }
 
 function loadTodayHistory() {
-    fetch('http://127.0.0.1:8765/api/history?limit=100')
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-            if (Array.isArray(data)) {
-                historyRecords = data.slice(0, maxHistoryRecords);
-                if (currentTrackTab === 'history') updateTrackPanel();
+    var today = new Date().toISOString().slice(0, 10);
+    fetch('history/' + today + '.jsonl')
+        .then(function(r) { return r.text(); })
+        .then(function(text) {
+            var lines = text.trim().split('\n');
+            var seen = {};
+            var records = [];
+            for (var i = 0; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                try {
+                    var rec = JSON.parse(lines[i]);
+                    if (rec.train_no) {
+                        seen[rec.train_no] = rec;
+                    }
+                } catch(e) {}
             }
+            for (var tn in seen) {
+                if (!seen.hasOwnProperty(tn)) continue;
+                records.push(seen[tn]);
+            }
+            historyRecords = records.slice(-maxHistoryRecords);
+            if (currentTrackTab === 'history') updateTrackPanel();
         })
         .catch(function(e) { console.log('历史记录加载失败:', e); });
 }
@@ -1454,24 +3023,86 @@ function addStation() {
     var name = document.getElementById('station-name').value.trim();
     var km = parseFloat(document.getElementById('station-km').value);
     if (!line || !name || isNaN(km)) { alert('请填写完整信息'); return; }
+    // 验证公里标是否在线路标定链中有对应点
+    var pos = kmToLatLng(line, dir, km);
+    if (!pos) {
+        alert('该公里标 (' + km + ') 在线路标定链中无对应点，请检查线路名、方向和公里标是否正确');
+        return;
+    }
     stations.push({ line: line, direction: dir, name: name, km: km });
     var pos = kmToLatLng(line, dir, km);
     if (pos) {
-        var marker = L.circleMarker([pos[0], pos[1]], {
-            radius: 8, fillColor: '#FF5722', color: '#fff', weight: 2, fillOpacity: 1
+        var stationSvg2 = '<svg width="40" height="24" viewBox="0 0 60 36"><circle cx="30" cy="18" r="12" fill="#fff" stroke="#000" stroke-width="2"/><path d="M18 15 L34 15 L34 11 L42 18 L34 25 L34 21 L18 21 Z" fill="#000" stroke="#000" stroke-width="1" stroke-linejoin="round"/></svg>';
+        var marker = L.marker([pos[0], pos[1]], {
+            icon: L.divIcon({ className: '', html: stationSvg2, iconSize: [48, 54], iconAnchor: [24, 51] }),
+            zIndexOffset: 500
         }).addTo(map);
         var label = L.marker([pos[0], pos[1]], {
             icon: L.divIcon({
                 className: '',
-                html: '<div style="background:#FF5722;color:#fff;padding:2px 6px;border-radius:3px;font-size:11px;white-space:nowrap;font-weight:bold;">' + name + '</div>',
-                iconSize: null, iconAnchor: [0, -10]
-            }), interactive: false
+                html: '<div class="station-label-div" style="position:absolute;left:50%;transform:translateX(-50%);bottom:100%;margin-bottom:52px;">' + name + '</div>',
+                iconSize: [1, 1], iconAnchor: [0, 0]
+            }), interactive: false, zIndexOffset: 501
         }).addTo(map);
-        stationLayers.push({ id: 'manual-station-' + Date.now(), type: 'station', layer: marker, labelLayer: label, props: { name: name, line: line, direction: dir, km_post: km } });
+        stationLayers.push({ id: 'manual-station-' + Date.now(), type: 'station', layer: marker, labelLayer: label, props: { name: name, line: line, direction: dir, km_post: km }, _visible: true, _importance: 4 });
     }
     updateStationList();
     document.getElementById('station-name').value = '';
     document.getElementById('station-km').value = '';
+}
+
+
+function toggleStationVisibility(id, el) {
+    for (var i = 0; i < stationLayers.length; i++) {
+        if (stationLayers[i].id == id) {
+            stationLayers[i]._visible = !stationLayers[i]._visible;
+            break;
+        }
+    }
+    updateKmLabelVisibility();
+    updateStationList();
+}
+
+function updateStationKm(id, newKm) {
+    var km = parseFloat(newKm);
+    if (isNaN(km)) return;
+    // 更新stationLayers
+    for (var i = 0; i < stationLayers.length; i++) {
+        if (stationLayers[i].id == id) {
+            stationLayers[i].props.km_post = km;
+            // 重新计算位置
+            var line = stationLayers[i].props.line || '';
+            var dir = stationLayers[i].props.direction || '下行';
+            var pos = kmToLatLng(line, dir, km);
+            if (pos) {
+                stationLayers[i].layer.setLatLng([pos[0], pos[1]]);
+                if (stationLayers[i].labelLayer) stationLayers[i].labelLayer.setLatLng([pos[0], pos[1]]);
+            }
+            break;
+        }
+    }
+    // 更新stations数组
+    for (var j = 0; j < stations.length; j++) {
+        if (stations[j]._id == id) {
+            stations[j].km = km;
+            break;
+        }
+    }
+}
+
+function deleteStationById(id) {
+    for (var i = 0; i < stationLayers.length; i++) {
+        if (stationLayers[i].id == id) {
+            map.removeLayer(stationLayers[i].layer);
+            if (stationLayers[i].labelLayer) map.removeLayer(stationLayers[i].labelLayer);
+            stationLayers.splice(i, 1);
+            break;
+        }
+    }
+    for (var j = 0; j < stations.length; j++) {
+        if (stations[j]._id == id) { stations.splice(j, 1); break; }
+    }
+    updateStationList();
 }
 
 function deleteStation(idx) {
@@ -1484,21 +3115,31 @@ function deleteStation(idx) {
 function updateStationList() {
     var container = document.getElementById('stationList');
     if (!container) return;
-    if (stations.length === 0) {
+    if (stationLayers.length === 0) {
         container.innerHTML = '<div style="color:#888;font-size:12px;">暂无车站</div>';
         return;
     }
     var html = '';
-    for (var i = 0; i < stations.length; i++) {
-        var s = stations[i];
-        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:#f9f9f9;border-radius:4px;margin-bottom:4px;">' +
-            '<span style="font-size:13px;">' + s.name + ' (' + s.line + '|' + s.direction + ' K' + s.km + ')</span>' +
-            '<button onclick="deleteStation(' + i + ')" style="padding:2px 8px;background:#c44;color:#fff;border:none;border-radius:3px;cursor:pointer;font-size:11px;">删除</button>' +
+    stationLayers.forEach(function(l) {
+        var name = l.props.name || '车站';
+        var lineName = l.props._lineName || l.props.line || '';
+        var isVisible = l._visible !== false;
+        var eyeSvg = isVisible
+            ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="vertical-align:middle;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+            : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" style="vertical-align:middle;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+        var isManual = (typeof l.id === 'string' && l.id.indexOf('manual-station-') === 0);
+        var delBtn = isManual ? '<button onclick="deleteStationById(' + JSON.stringify(l.id) + ')" style="padding:2px 6px;background:#c44;color:#fff;border:none;border-radius:3px;cursor:pointer;font-size:10px;margin-left:4px;">删除</button>' : '';
+                    var sid = JSON.stringify(l.id);
+        var kmVal = l.props.km_post || l.props.kmPost || '';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;margin-bottom:2px;border-bottom:1px solid #f0f0f0;">' +
+            '<div style="font-size:13px;flex:1;min-width:0;"><span style="font-weight:bold;">' + name + '</span>' + (lineName ? '<span style="color:#888;font-size:11px;margin-left:6px;">' + lineName + '</span>' : '') + '</div>' +
+            '<input type="number" step="0.1" value="' + kmVal + '" onchange="updateStationKm(' + sid + ', this.value)" style="width:70px;padding:2px 4px;border:1px solid #ccc;border-radius:3px;font-size:11px;margin-right:6px;" title="公里标">' +
+            '<div style="display:flex;align-items:center;gap:4px;">' +
+            delBtn + '<span style="cursor:pointer;padding:2px;" onclick="toggleStationVisibility(' + sid + ', this)" title="' + (isVisible ? '隐藏' : '显示') + '">' + eyeSvg + '</span></div>' +
             '</div>';
-    }
+    });
     container.innerHTML = html;
 }
-
 function addSpeedLimit() {
     var line = document.getElementById('limit-line').value.trim();
     var dir = document.getElementById('limit-dir').value.trim() || '下行';
@@ -1567,12 +3208,79 @@ function getSpeedLimit(line, direction, km) {
         <label style="display:flex;align-items:center;margin:12px 0;cursor:pointer;font-size:14px;"><input type="checkbox" id="showStationLabels" checked onchange="saveDisplaySettings()" style="margin-right:8px;"> 显示车站标签</label>
         <label style="display:flex;align-items:center;margin:12px 0;cursor:pointer;font-size:14px;"><input type="checkbox" id="showTrainTrail" checked onchange="saveDisplaySettings()" style="margin-right:8px;"> 显示列车轨迹</label>
         <label style="display:flex;align-items:center;margin:12px 0;font-size:14px;">轨迹保留点数 <input type="number" id="trailPoints" value="50" min="10" max="500" style="width:60px;background:#fff;color:#333;border:1px solid #ccc;border-radius:4px;padding:4px 8px;margin-left:8px;" onchange="saveDisplaySettings()"></label>
+        <div style="margin:16px 0;padding-top:12px;border-top:1px solid #e0e0e0;">
+          <div style="font-weight:bold;margin-bottom:10px;color:#555;font-size:14px;">列车图标样式</div>
+          <div style="display:flex;gap:8px;">
+            <button id="btn-icon-E" onclick="setTrainIconStyle('E')" style="flex:1;padding:10px 4px;border:2px solid #2196F3;background:#e3f2fd;border-radius:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <span style="font-size:13px;font-weight:bold;color:#333;">高铁俯视</span>
+              <svg width="16" height="40" viewBox="0 0 180 600"><rect x="20" y="112" width="140" height="376" rx="20" fill="#e0e0e0" stroke="#fff" stroke-width="3"/><rect x="31" y="105" width="118" height="390" rx="15" fill="#f5f5f5" stroke="#d0d0d0" stroke-width="2"/><path d="M31 105 C35 80 45 60 59 45 C73 30 90 25 90 25 C90 25 107 30 121 45 C135 60 145 80 149 105 C130 95 110 90 90 90 C70 90 50 95 31 105 Z" fill="#e53935" opacity="0.85" stroke="#fff" stroke-width="2"/><path d="M48 68 C53 55 59 46 67 40 C73 36 81 34 90 34 C99 34 107 36 113 40 C121 46 127 55 132 68 C121 74 107 78 90 79 C73 78 59 74 48 68 Z" fill="rgba(20,30,50,0.8)" stroke="#fff" stroke-width="3"/><path d="M31 495 C35 520 45 540 59 555 C73 570 90 575 90 575 C90 575 107 570 121 555 C135 540 145 520 149 495 C130 505 110 510 90 510 C70 510 50 505 31 495 Z" fill="#d0d0d0" opacity="0.9" stroke="#fff" stroke-width="2"/><rect x="76" y="128" width="28" height="260" rx="4" fill="#d1d1d1" stroke="#999" stroke-width="1.5"/><rect x="76" y="414" width="28" height="32" rx="3" fill="#cecece" stroke="#999" stroke-width="1.5"/><path d="M21 113 C27 109 33 107 40 105 L40 495 C33 493 27 491 21 487 Z" fill="#e53935" opacity="0.92"/><path d="M159 113 C153 109 147 107 140 105 L140 495 C147 493 153 491 159 487 Z" fill="#e53935" opacity="0.92"/></svg>
+            </button>
+            <button id="btn-icon-A" onclick="setTrainIconStyle('A')" style="flex:1;padding:10px 4px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <span style="font-size:13px;font-weight:bold;color:#333;">2.5D透视车头</span>
+              <svg width="40" height="24" viewBox="0 0 60 36"><path d="M8 10 L46 10 L50 22 L4 22 Z" fill="#e53935" stroke="#fff" stroke-width="1"/><path d="M10 8 L44 8 L46 10 L8 10 Z" fill="#b71c1c"/><rect x="40" y="12" width="8" height="7" fill="rgba(255,255,255,0.95)" rx="1"/><rect x="14" y="13" width="7" height="5" fill="rgba(255,255,255,0.8)" rx="1"/><rect x="26" y="13" width="6" height="5" fill="rgba(255,255,255,0.8)" rx="1"/><ellipse cx="14" cy="26" rx="4" ry="2.5" fill="#333"/><ellipse cx="42" cy="26" rx="4" ry="2.5" fill="#333"/><circle cx="4" cy="15" r="2" fill="#ff1744"/></svg>
+            </button>
+            <button id="btn-icon-B" onclick="setTrainIconStyle('B')" style="flex:1;padding:10px 4px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <span style="font-size:13px;font-weight:bold;color:#333;">箭头指向</span>
+              <svg width="40" height="24" viewBox="0 0 60 36"><rect x="6" y="6" width="38" height="14" rx="2" fill="#e53935" stroke="#fff" stroke-width="1"/><path d="M6 6 L-2 10 L-2 16 L6 20 Z" fill="#e53935" stroke="#fff" stroke-width="1"/><rect x="10" y="9" width="9" height="6" fill="#fff" opacity="0.9" rx="1"/><rect x="24" y="9" width="9" height="6" fill="#fff" opacity="0.9" rx="1"/><circle cx="16" cy="25" r="3.5" fill="#333"/><circle cx="36" cy="25" r="3.5" fill="#333"/><line x1="-2" y1="13" x2="6" y2="13" stroke="#fff" stroke-width="1"/><path d="M30 28 L38 32 L30 36 Z" fill="#facc15" stroke="#fff" stroke-width="1"/></svg>
+            </button>
+            <button id="btn-icon-C" onclick="setTrainIconStyle('C')" style="flex:1;padding:10px 4px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <span style="font-size:13px;font-weight:bold;color:#333;">立体方块</span>
+              <svg width="40" height="24" viewBox="0 0 60 36"><path d="M16 8 L44 8 L52 16 L24 16 Z" fill="#b71c1c"/><path d="M8 16 L24 16 L24 28 L8 28 Z" fill="#e53935" stroke="#fff" stroke-width="1"/><path d="M24 16 L52 16 L52 28 L24 28 Z" fill="#e53935" stroke="#fff" stroke-width="1.5"/><rect x="30" y="18" width="10" height="7" fill="rgba(255,255,255,0.9)" rx="1"/><rect x="14" y="19" width="6" height="5" fill="rgba(255,255,255,0.8)" rx="1"/><ellipse cx="14" cy="30" rx="3" ry="2" fill="#333"/><ellipse cx="40" cy="30" rx="3" ry="2" fill="#333"/></svg>
+            </button>
+            
+            <button id="btn-icon-G" onclick="setTrainIconStyle('G')" style="flex:1;padding:10px 4px;border:1px solid #ccc;background:#fff;border-radius:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <span style="font-size:13px;font-weight:bold;color:#333;">高铁侧面</span>
+              <svg width="40" height="24" viewBox="0 0 70 40"><path d="M8 14 Q8 8 14 8 L52 8 Q58 8 60 14 L62 20 L62 28 L6 28 L6 20 Z" fill="#e53935" stroke="#fff" stroke-width="1"/><path d="M52 8 Q62 10 64 18 L64 28 L58 28 L58 14 Z" fill="#c62828" stroke="#fff" stroke-width="0.8"/><rect x="16" y="14" width="8" height="6" rx="1" fill="rgba(200,230,255,0.8)"/><rect x="28" y="14" width="8" height="6" rx="1" fill="rgba(200,230,255,0.8)"/><circle cx="16" cy="32" r="3.5" fill="#111"/><circle cx="48" cy="32" r="3.5" fill="#111"/><circle cx="62" cy="18" r="1.5" fill="#ffeb3b"/></svg>
+            </button>
+          </div>
+        </div>
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #e0e0e0;">
+        <div style="font-weight:bold;margin-bottom:10px;color:#555;font-size:14px;">图标大小调整</div>
+        <div style="font-size:11px;color:#888;margin-bottom:8px;">每个样式可单独调整大小系数</div>
+        <div style="margin-bottom:8px;"><label style="font-size:12px;color:#555;">高铁俯视 (E)</label><input type="range" id="size-E" min="0.5" max="3" step="0.1" value="1" style="width:100%;" onchange="saveIconSize()"> <span id="size-E-val" style="font-size:11px;color:#666;">1.0x</span></div>
+        <div style="margin-bottom:8px;"><label style="font-size:12px;color:#555;">2.5D透视车头 (A)</label><input type="range" id="size-A" min="0.5" max="3" step="0.1" value="1" style="width:100%;" onchange="saveIconSize()"> <span id="size-A-val" style="font-size:11px;color:#666;">1.0x</span></div>
+        <div style="margin-bottom:8px;"><label style="font-size:12px;color:#555;">箭头指向 (B)</label><input type="range" id="size-B" min="0.5" max="3" step="0.1" value="1" style="width:100%;" onchange="saveIconSize()"> <span id="size-B-val" style="font-size:11px;color:#666;">1.0x</span></div>
+        <div style="margin-bottom:8px;"><label style="font-size:12px;color:#555;">立体方块 (C)</label><input type="range" id="size-C" min="0.5" max="3" step="0.1" value="1" style="width:100%;" onchange="saveIconSize()"> <span id="size-C-val" style="font-size:11px;color:#666;">1.0x</span></div>
+        <div style="margin-bottom:8px;"><label style="font-size:12px;color:#555;">高铁侧面 (G)</label><input type="range" id="size-G" min="0.5" max="3" step="0.1" value="1" style="width:100%;" onchange="saveIconSize()"> <span id="size-G-val" style="font-size:11px;color:#666;">1.0x</span></div>
       </div>
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid #e0e0e0;">
+        <div style="font-weight:bold;margin-bottom:10px;color:#555;font-size:14px;">方向调试</div>
+        <div style="font-size:11px;color:#666;margin-bottom:6px;">当前锁定: <span id="debugTrainNo" style="font-weight:bold;color:#333;">无</span></div>
+        <div style="font-size:11px;color:#666;margin-bottom:6px;">自动角度: <span id="debugAutoAngle" style="font-weight:bold;color:#1976d2;">--</span>°</div>
+        <div style="font-size:11px;color:#666;margin-bottom:6px;">偏移角度: <span id="debugOverrideAngle" style="font-weight:bold;color:#d32f2f;">--</span>°</div>
+        <div style="font-size:11px;color:#666;margin-bottom:6px;">水平翻转: <span id="debugFlipState" style="font-weight:bold;color:#d32f2f;">关</span></div>
+        <label style="font-size:12px;color:#555;">手动偏移角度</label>
+        <div style="display:flex;gap:6px;margin-bottom:6px;">
+          <input type="number" id="debugAngleInput" placeholder="偏移角度" step="1" style="flex:1;padding:10px 12px;border:1px solid #ccc;border-radius:4px;font-size:16px;height:42px;min-width:100px;">
+          <button onclick="applyDebugAngle()" style="padding:10px 16px;background:#1976d2;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;white-space:nowrap;">应用</button>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:6px;">
+          <button onclick="rotateDebugAngle(-15)" style="flex:1;padding:8px;background:#f5f5f5;color:#333;border:1px solid #ccc;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;">↺ -15°</button>
+          <button onclick="rotateDebugAngle(15)" style="flex:1;padding:8px;background:#f5f5f5;color:#333;border:1px solid #ccc;border-radius:4px;cursor:pointer;font-size:13px;font-weight:bold;">+15° ↻</button>
+        </div>
+        <div class="btn-group" style="margin-bottom:6px;">
+          <button onclick="toggleDebugFlip()" id="btn-debug-flip" class="btn-secondary" style="flex:1;">水平翻转</button>
+          <button onclick="resetDebugAngle()" class="btn-secondary" style="flex:1;">恢复自动</button>
+        </div>
+        <button onclick="refreshDebugPanel()" class="btn-secondary" style="width:100%;margin-bottom:6px;">刷新</button>
+        <div class="hint" style="margin-top:6px;">锁定列车后在此调整图标旋转偏移和翻转。偏移量在自动角度基础上叠加，图标仍随线路转弯。</div>
+      </div>
+      </div>
+      
       <div id="content-km" style="display:none;">
-        <label style="display:flex;align-items:center;margin:12px 0;cursor:pointer;font-size:14px;"><input type="checkbox" id="forceShowAllKm" onchange="toggleForceShowAllKm()" style="margin-right:8px;"> 显示所有公里标</label>
-        <label style="display:flex;align-items:center;margin:12px 0;cursor:pointer;font-size:14px;"><input type="checkbox" id="hideAllKm" onchange="onHideAllKmChange(this)" style="margin-right:8px;"> 隐藏所有公里标</label>
-        <div style="margin-top:16px;border-top:1px solid #e0e0e0;padding-top:12px;">
-          <div style="font-weight:bold;margin-bottom:10px;color:#555;font-size:14px;">固定显示公里标</div>
+        <div style="background:#f8f9fa;border-radius:8px;padding:16px;margin-bottom:16px;">
+          <div style="font-weight:bold;margin-bottom:12px;color:#333;font-size:14px;">公里标显示控制</div>
+          <div style="display:flex;gap:12px;margin-bottom:8px;">
+            <label style="display:flex;align-items:center;cursor:pointer;font-size:13px;padding:8px 12px;background:#fff;border-radius:6px;border:1px solid #e0e0e0;flex:1;"><input type="checkbox" id="forceShowAllKm" onchange="toggleForceShowAllKm()" style="margin-right:8px;"> 显示所有</label>
+            <label style="display:flex;align-items:center;cursor:pointer;font-size:13px;padding:8px 12px;background:#fff;border-radius:6px;border:1px solid #e0e0e0;flex:1;"><input type="checkbox" id="hideAllKm" onchange="onHideAllKmChange(this)" style="margin-right:8px;"> 全部隐藏</label>
+          </div>
+          <div style="font-size:11px;color:#888;margin-top:4px;">默认根据缩放级别自动显示，勾选"显示所有"可强制显示全部公里标</div>
+        </div>
+        <div style="background:#fff;border-radius:8px;padding:16px;border:1px solid #e8e8e8;">
+          <div style="font-weight:bold;margin-bottom:12px;color:#333;font-size:14px;display:flex;align-items:center;gap:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            固定显示公里标
+          </div>
           <div id="fixedKmList" style="max-height:340px;overflow-y:auto;"></div>
         </div>
       </div>
@@ -1625,5 +3333,50 @@ function getSpeedLimit(line, direction, km) {
   </div>
 </div>
 
+
+<!-- 清除数据弹窗 -->
+<div id="clearDataModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:10px;width:320px;padding:0;color:#333;box-shadow:0 8px 32px rgba(0,0,0,0.25);overflow:hidden;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:#fafafa;border-bottom:1px solid #e0e0e0;">
+      <span style="font-weight:bold;font-size:16px;color:#222;">清除数据</span>
+      <span onclick="closeClearDataModal()" style="cursor:pointer;font-size:22px;line-height:1;color:#999;">&times;</span>
+    </div>
+    <div style="padding:20px;">
+      <div style="margin-bottom:16px;">
+        <label style="display:flex;align-items:center;margin-bottom:10px;cursor:pointer;font-size:14px;">
+          <input type="radio" name="clearType" value="points" style="margin-right:10px;"> 清空标点
+        </label>
+        <label style="display:flex;align-items:center;margin-bottom:10px;cursor:pointer;font-size:14px;">
+          <input type="radio" name="clearType" value="lines" style="margin-right:10px;"> 清空线路
+        </label>
+        <label style="display:flex;align-items:center;cursor:pointer;font-size:14px;">
+          <input type="radio" name="clearType" value="all" checked style="margin-right:10px;"> 清空全部
+        </label>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="doClearData()" style="flex:1;padding:10px;background:#d32f2f;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:bold;">确定</button>
+        <button onclick="closeClearDataModal()" style="flex:1;padding:10px;background:#757575;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 线路导入弹窗 -->
+<div id="lineImportModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:10px;width:480px;max-height:600px;overflow:hidden;padding:0;color:#333;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.25);">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:#fafafa;border-bottom:1px solid #e0e0e0;flex-shrink:0;">
+      <span style="font-weight:bold;font-size:16px;color:#222;">从主程序加载线路</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button onclick="refreshLineImportModal()" style="padding:4px 12px;background:#fff;color:#1976d2;border:1px solid #1976d2;border-radius:4px;cursor:pointer;font-size:12px;font-weight:bold;">🔄 刷新</button>
+        <span onclick="closeLineImportModal()" style="cursor:pointer;font-size:22px;line-height:1;color:#999;">&times;</span>
+      </div>
+    </div>
+    <div id="lineImportStatus" style="padding:8px 20px;font-size:12px;min-height:20px;"></div>
+    <div id="lineImportList" style="flex:1;overflow-y:auto;padding:0 20px 10px 20px;"></div>
+    <div style="display:flex;gap:10px;padding:14px 20px;background:#fafafa;border-top:1px solid #e0e0e0;flex-shrink:0;">
+      <button onclick="importSelectedLines()" style="flex:1;padding:10px;background:#1976d2;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;font-weight:bold;">确定</button>
+      <button onclick="closeLineImportModal()" style="flex:1;padding:10px;background:#757575;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:14px;">取消</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
