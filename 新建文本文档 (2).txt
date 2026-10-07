@@ -1,0 +1,1962 @@
+可以。下面这份可以直接作为**下一会话的完整项目上下文**继续用。我把「为什么做、目标、已经证明了什么、排除了什么、Ghidra 当前状态、DIAG 状态、下一步应该怎么走」全部整理出来，并把前面走错的路线明确标出来，避免新会话重复踩坑。
+
+---
+
+# 一、项目最终目标
+
+当前这个逆向项目的目标非常明确：
+
+> **在 Xiaomi Mi 10 Ultra（M2007J1SC / `cas`）上，利用手机内部 Qualcomm Snapdragon X55 的 RF RX 链路，让基带/RF 子系统接收固定频率 `821.2375 MHz`。**
+
+范围严格限定：
+
+* **RX only**
+* 不发射 TX
+* 不打开 PA
+* 不做功率校准
+* 不改 NV
+* 不改 EFS
+* 不刷 modem firmware
+* 尽可能不影响正常蜂窝网络
+* 当前优先做**静态逆向和参数结构确认**
+* 在 RFDEBUG 包格式、dispatcher、handler 没有证明之前，**不继续盲发 DIAG 命令**
+
+用户希望的是最终真正找到：
+
+```text
+DIAG
+  ↓
+RFDEBUG subsystem
+  ↓
+RFDEBUG dispatcher
+  ↓
+RADIO_CONFIGURE
+  ↓
+property/value
+  ↓
+FREQUENCY
+  ↓
+RFFE/RF tune
+  ↓
+821.2375 MHz RX
+```
+
+而不是停留在“理论上 Qualcomm 有 RFDEBUG”这一层。
+
+---
+
+# 二、手机环境已经确认
+
+设备：
+
+```text
+Xiaomi Mi 10 Ultra
+Model: M2007J1SC
+Codename: cas
+```
+
+系统：
+
+```text
+Android 13
+MIUI: V816.0.4.0.TJJCNXM
+Security Patch: 2024-03-01
+```
+
+基带：
+
+```text
+2.5.c1-50.1a-14515.23-0521_0210_d46c7e8c13
+```
+
+Kernel：
+
+```text
+4.19.157-perf-g19050d39787c
+```
+
+权限：
+
+```text
+uid=0
+gid=0
+SELinux: u:r:magisk:s0
+```
+
+已经确认：
+
+```text
+/dev/diag
+```
+
+存在，而且：
+
+```text
+crwxrwxrwx ...
+```
+
+可以访问。
+
+DIAG 相关线程也已经确认存在：
+
+```text
+diag_real_time_
+diag_wq
+DIAG_USB_diag
+DIAG_CTRL
+DIAG_DATA
+DIAG_CMD
+DIAG_DCI_DATA
+DIAG_RPMSG_DIAG
+diag_mhi_MDM
+```
+
+此外：
+
+```text
+/dev/socket/qmux_radio/ril_ipc
+```
+
+存在。
+
+以及：
+
+```text
+ro.ril.factory_id=1
+sys.usb.config=mtp,adb
+```
+
+---
+
+# 三、X55 固件已经找到
+
+核心 modem DSP firmware：
+
+```text
+/vendor/firmware_mnt/image/sdx55m/qdsp6sw.mbn
+```
+
+大小大约：
+
+```text
+84,017,300 bytes
+```
+
+MCFG：
+
+```text
+/vendor/firmware_mnt/image/modem_pr/mcfg/configs/mcfg_hw/generic/common/SDX55/FUSION/LA/DSDS/mcfg_hw.mbn
+```
+
+profile：
+
+```text
+SR_DSDS-SDX55_Fusion
+```
+
+`qdsp6sw.mbn` 静态分析信息已经确认：
+
+```text
+32-bit
+LSB
+Hexagon
+static
+stripped
+entry = 0x81600000
+29 program headers
+没有 section headers
+```
+
+---
+
+# 四、Ghidra 地址映射最重要的结论
+
+这个 MBN 的加载地址不是简单按照我们最初的想法来。
+
+对所有 LOAD segment，已经发现：
+
+```text
+p_vaddr - p_paddr = 0x40000000
+```
+
+因此：
+
+```text
+runtime-style address = p_vaddr
+
+static/load address = p_paddr
+                       = p_vaddr - 0x40000000
+```
+
+例如：
+
+```text
+C4953DF8 -> 84953DF8
+C50847FF -> 850847FF
+C919A020 -> 8919A020
+C9199FB8 -> 89199FB8
+C5084658 -> 85084658
+```
+
+但目前 Ghidra 项目里仍大量使用 `Cxxxxxxx` 这一套**程序静态逻辑地址**查看反汇编和数据。
+
+因此以后看到：
+
+```text
+C919A028
+```
+
+不要随便把它当成：
+
+```text
+850...
+```
+
+也不要再次混用 runtime/static 地址，除非正在明确做运行时映射。
+
+---
+
+# 五、Ghidra 本身现在已经做到了什么
+
+Ghidra：
+
+```text
+12.1.4_PUBLIC_20260921
+```
+
+SHA-256：
+
+```text
+DDAC49F903DA9D5BAC833E5CC79395098B9C33CFD3279BE5F31BD00387D2D4DB
+```
+
+Java：
+
+```text
+openjdk 21.0.12.1
+javac 21.0.12.1
+```
+
+Processor：
+
+```text
+Hexagon:LE:32:default (2.5)
+Hexagon
+Compiler default
+ELF
+```
+
+最初导入后：
+
+```text
+Instructions = 0
+Functions = 0
+Symbols = 0
+```
+
+后来已经执行了：
+
+```text
+Analysis → Auto Analyze...
+```
+
+使用默认分析选项。
+
+现在已经得到大量反汇编，例如：
+
+```text
+Instructions scanned: 1415334
+```
+
+说明 Auto Analyze 确实已经把大量固件建立成了指令/函数分析对象。
+
+---
+
+# 六、一个非常重要的早期假线索：C1600000
+
+最早手工分析：
+
+```text
+C1600000
+```
+
+Ghidra 将其识别成了 THUNK：
+
+```text
+C1600000
+   ↓
+thunk_FUN_c1601834
+   ↓
+FUN_c1601834
+```
+
+这是底层启动/系统/硬件初始化性质的代码。
+
+**它不是我们要找的 RFDEBUG dispatcher。**
+
+所以后续不要再把：
+
+```text
+C1600000
+```
+
+当 RFDEBUG 入口。
+
+---
+
+# 七、DIAG 实际通信已经打通
+
+已经通过 rooted Android 使用：
+
+```text
+/dev/diag
+```
+
+配合：
+
+```text
+/data/local/tmp/libdiag.so
+```
+
+进行测试。
+
+原因是直接使用：
+
+```text
+/vendor/lib64/libdiag.so
+```
+
+受 Android linker namespace 限制，所以先复制：
+
+```text
+/vendor/lib64/libdiag.so
+→
+/data/local/tmp/libdiag.so
+```
+
+之后：
+
+```text
+Diag_LSM_Init
+```
+
+成功。
+
+已经确认：
+
+```text
+MDM remote mask = 0x0003
+```
+
+日志切换成功。
+
+callback mode：
+
+```text
+6
+```
+
+USB mode：
+
+```text
+1
+```
+
+MDM：
+
+```text
+1
+```
+
+也就是说：
+
+> **DIAG → MDM/X55 的通信链路确实已经工作。**
+
+这一点已经不是猜测。
+
+---
+
+# 八、RFDEBUG Probe 已经实际跑过
+
+我们发过最基础 RFDEBUG command 1 probe。
+
+请求：
+
+```text
+4B 0B 7B 00 01 00 1A 00
+16 00
+00 00 00 00
+00 00 00 00
+00 00 00 03
+00 00 00 00
+```
+
+实际记录是：
+
+```text
+4B 0B 7B 00 01 00 1A 00 16 00 00 00 00 00 00 00 00 00 03 00 00 00 00 00 00 00
+```
+
+响应：
+
+```text
+4B 0B 7B 00 01 00 1A 00 16 00 00 00 00 00 00 04 00 00 00 A2 78 7E
+```
+
+解析已经确认：
+
+```text
+rf_subsys_id = 0x007B = 123
+command = 1
+common error = 4
+```
+
+Qualcomm 公共 RFDEBUG error 定义：
+
+```text
+FTM_RF_DEBUG_EC_BAD_CMD = 4
+```
+
+因此：
+
+> **这个包确实走到了 RFDEBUG 路由附近，但是 command 1 当前请求没有被接受。**
+
+这已经证明：
+
+* DIAG 路由不是完全错的
+* `0x7B` 确实是 RFDEBUG subsys id
+* 但是我们当前 command packet/header/状态/handler 路径不正确，至少不能仅凭这个包继续猜。
+
+---
+
+# 九、其他 command 也试过，但全部 common error 4
+
+此前还试过：
+
+```text
+command 4 = DISCOVERY
+command 5 = PROPERTY_DISCOVERY
+```
+
+结果也是：
+
+```text
+common error = 4
+```
+
+所以现在已经明确：
+
+> **不能拿 Qualcomm 公共源码里的命令号直接硬凑一个包，就认为 X55 这版 firmware 一定会接受。**
+
+很可能存在：
+
+* header 细节不同
+* firmware variant 差异
+* packet packing 差异
+* technology/command header 不对
+* dispatcher 入口不同
+* state requirement
+* 当前 X55 firmware 根本没开放同样的路径
+* 或 Xiaomi / Qualcomm 集成版本发生过修改
+
+因此当前策略已经改成：
+
+**先静态逆向，再发包。**
+
+---
+
+# 十、Qualcomm 公共源码已经找到
+
+公开仓库：
+
+```text
+arzekrasr/MPSS.HA.1.1
+commit:
+06e735b4036be9280985accc611ba052a7be77e0
+```
+
+关键文件：
+
+```text
+modem_proc/rffactory/intf/ftm_rf_debug_interface.h
+modem_proc/rffactory/src/ftm_rf_debug_interface.c
+
+modem_proc/rfa/rf/common/ftm/src/ftm_common_dispatch.c
+modem_proc/rfa/rf/common/ftm/src/ftmdiag.c
+modem_proc/rfa/rf/common/ftm/src/ftm_rf_test_control.c
+modem_proc/rfa/rf/common/ftm/src/ftm_rf_test_radio_config.c
+```
+
+---
+
+# 十一、公共源码中的 RFDEBUG header 已确认
+
+公共头里：
+
+```c
+typedef uint16 ftm_rf_debug_command_type;
+
+typedef PACK(struct) {
+  uint8  diag_cmd;
+  uint8  diag_subsys_id;
+  uint16 rf_subsys_id;
+  ftm_rf_debug_command_type debug_command;
+  uint16 req_len;
+  uint16 rsp_len;
+} ftm_rf_debug_diag_header_type;
+```
+
+总长度：
+
+```text
+10 bytes
+```
+
+后面还有：
+
+```c
+typedef PACK(struct) {
+  uint32 reserved;
+  uint32 version;
+  uint32 technology;
+} ftm_rf_debug_command_header_type;
+```
+
+也是：
+
+```text
+12 bytes
+```
+
+所以：
+
+```text
+10 + 12 = 22 bytes
+```
+
+这是之前构造 packet 的重要依据。
+
+---
+
+# 十二、RFDEBUG command 编号
+
+公共源码定义：
+
+```text
+1  RADIO_CONFIGURE
+2  TX_OVERRIDE
+3  RX_OVERRIDE
+4  DISCOVERY
+5  PROPERTY_DISCOVERY
+6  TX_MEASURE
+7  LOAD_UNITY_DPD
+8  VDPD_CAL
+9  VDPD_CONVERSION
+10 LOAD_DPD
+11 RX_MEASURE
+12 CODEBOOK_OVERRIDE
+13 TX_MEASURE_ADV
+14 SET_DPD_DEBUG_MODE
+15 IDC_CAL
+16 MPE_TEST
+17 TECH_ENTER_EXIT
+18 THERM_READ
+19 DEVICE_CAL
+20 HWID
+21 DCOC_OVERRIDE
+```
+
+注意：
+
+**command 1 ≠ 一定已经成功进入 RADIO_CONFIGURE handler。**
+
+目前只有：
+
+```text
+common error 4
+```
+
+不能说明具体在哪里被拒绝。
+
+---
+
+# 十三、RFDEBUG 错误码
+
+公共源码里：
+
+```text
+1 = FTM_RF_DEBUG_CMD_HANDLER_FAIL
+2 = NULL_PARAM
+3 = RESPONSE_CREATION_FAIL
+4 = FTM_RF_DEBUG_EC_BAD_CMD
+5 = FTM_RF_DEBUG_EC_BAD_CMD_HANDLER
+6 = UNCOMPRESS_FAIL
+7 = MALLOC
+```
+
+我们实际收到的是：
+
+```text
+4
+```
+
+这也是为什么现在必须逆向 dispatcher，而不是继续猜 packet。
+
+---
+
+# 十四、Radio Configure property ID 已经完整确定
+
+公共 Qualcomm 源码里的 Radio Config property ID：
+
+```text
+0  UNASSIGNED
+1  IS_TEARDOWN
+2  RADIO_SETUP_TYPE
+3  RFM_DEVICE
+4  SIG_PATH
+5  ANT_PATH
+6  RFM_PATH_TYPE
+7  BAND
+8  SUBBAND
+9  RESERVED
+10 CHANNEL
+11 WAVEFORM
+12 BANDWIDTH
+13 NUM_RB
+14 START_RB
+15 CW_OFFSET
+16 IS_DC
+17 MOD_TYPE
+18 LOOPBACK_TYPE
+19 BEAM_ID
+20 CC_INDEX
+21 CC_START_RB
+22 CC_NUM_RB
+23 CC_BANDWIDTH
+24 LOOPBACK_RFM_DEVICE
+25 PLL_ID
+26 TUNE_TX_TO_RX_FREQ
+27 LOAD_CODEBOOK
+28 FREQUENCY
+29 VERSION
+30 SWITCH_TDSCDMA_WAVEFORM
+31 SET_MOD
+32 CC_SCS
+33 WAVEFORM_ORIGIN
+34 NDR_STATE
+35 NR5G_MOD_TYPE
+36 WAVEFORM_IMMEDIATE_TRIGGER
+```
+
+公共源码较新的版本还有：
+
+```text
+37 VPA_MAX_MV
+```
+
+但是：
+
+> **当前这个 X55 固件里，从实际 property name table 看，只看到 0–36，暂时不要假设 37 存在。**
+
+---
+
+# 十五、最重要的两个 property
+
+我们真正关心：
+
+```text
+26 = TUNE_TX_TO_RX_FREQ
+28 = FREQUENCY
+```
+
+也就是说最终如果想把 RX tuning 到固定频率，极大概率会涉及：
+
+```text
+FREQUENCY
+```
+
+以及可能：
+
+```text
+TUNE_TX_TO_RX_FREQ
+```
+
+用户目标：
+
+```text
+821.2375 MHz
+```
+
+但现在还没到可以填这个值发送的阶段。
+
+---
+
+# 十六、固件里实际找到了 Radio Configure property_names[] 表
+
+这部分非常重要，因为它不是单纯来自公共源码，而是在**你这个 X55 firmware** 里实际找到的。
+
+表起始：
+
+```text
+C9199FB8
+```
+
+第一项：
+
+```text
+C9199FB8 -> C49535C6
+```
+
+对应：
+
+```text
+UNASSIGNED
+```
+
+中间一直到：
+
+```text
+C919A020 -> C50847FF
+```
+
+对应：
+
+```text
+TUNE_TX_TO_RX_FREQ
+```
+
+而：
+
+```text
+C919A028 -> C5084812
+```
+
+对应：
+
+```text
+FREQUENCY
+```
+
+然后：
+
+```text
+C919A02C -> C508481C
+```
+
+对应：
+
+```text
+VERSION
+```
+
+等等。
+
+`C919A04C-C919A04F`：
+
+```text
+00 00 00 00
+```
+
+然后从：
+
+```text
+C919A050
+```
+
+开始，是另一个 property table。
+
+它里面有：
+
+```text
+UNASSIGNED
+PATH_INDEX
+SIG_PATH
+RFM_DEVICE
+ANTENNA_PORT
+EXPECTED_AGC
+LNA_GAIN_STATE
+SIGNAL_TYPE
+DATA_TYPE
+MEAS_RSSI
+RX_ENABLE
+PLL_ID
+...
+```
+
+这第二个表明显是：
+
+> **RX_OVERRIDE 的 property names[]**
+
+因此整个结构与 Qualcomm 公共 RFDEBUG 源码高度吻合。
+
+---
+
+# 十七、我们已经在 Ghidra 确认了 FREQUENCY 是真实字符串
+
+你实际看到：
+
+```text
+c919a028  12 48 08 c5    addr s_FREQUENCY_c5084812
+                         XREF[1]: c919a028 (*)
+
+c5084812  46 52 45
+          51 55 45
+          4e 43 59 00
+```
+
+也就是：
+
+```text
+C919A028
+    ↓
+C5084812
+    ↓
+"FREQUENCY"
+```
+
+所以这个不是我们猜出来的。
+
+**它就是 firmware 内真实的 RFDEBUG Radio Configure property table。**
+
+---
+
+# 十八、为什么后面的 XREF 全是 0
+
+我们写过脚本：
+
+```text
+CheckRFDebugXrefs.java
+```
+
+实际结果：
+
+```text
+TARGET: c9199fb8
+TOTAL: 0
+
+TARGET: c919a028
+TOTAL: 0
+
+TARGET: c5084812
+FROM: c919a028 TYPE: DATA OP: 0
+TOTAL: 1
+
+TARGET: c919a020
+TOTAL: 0
+
+TARGET: c50847ff
+FROM: c919a020 TYPE: DATA OP: 0
+TOTAL: 1
+```
+
+这说明：
+
+### 对字符串：
+
+```text
+C5084812
+```
+
+Ghidra 能知道：
+
+```text
+C919A028 -> C5084812
+```
+
+因为这是明确的数据指针。
+
+### 但对：
+
+```text
+C919A028
+C919A020
+C9199FB8
+```
+
+没有识别到任何代码引用。
+
+这意味着：
+
+> Ghidra 的 ReferenceManager 没有记录“哪个代码读取 property_names[]”。
+
+这并不证明代码没用这个表。
+
+很可能代码是通过：
+
+* address arithmetic
+* table base + offset
+* linker/generated constant
+* PC-relative/特殊 Hexagon 地址生成
+* 间接结构体
+* 通用 property descriptor API
+
+等方式访问。
+
+所以普通 XREF 追不到。
+
+---
+
+# 十九、Raw 32-bit pointer 搜索也做过
+
+脚本：
+
+```text
+FindRFDebugPropertyTablePtr.java
+```
+
+搜索：
+
+```text
+C9199FB8
+C919A020
+C919A028
+```
+
+作为裸 32 位绝对指针。
+
+实际结果：
+
+```text
+TARGET POINTER: 0xC9199FB8
+TOTAL HITS: 0
+
+TARGET POINTER: 0xC919A020
+TOTAL HITS: 0
+
+TARGET POINTER: 0xC919A028
+TOTAL HITS: 0
+```
+
+因此：
+
+> `property_names[]` 的地址没有以裸 32-bit `C919xxxx` 指针形式存在于 firmware 的其它位置。
+
+所以也排除了最简单的：
+
+```text
+某结构体
+   ↓
+32-bit pointer = C9199FB8
+```
+
+这种情况。
+
+---
+
+# 二十、后来做了指令 Scalar 扫描
+
+脚本：
+
+```text
+FindRFDebugAddressConstants.java
+```
+
+扫了：
+
+```text
+1,415,334 instructions
+```
+
+目标：
+
+```text
+C9199FB8
+C919A020
+C919A028
+```
+
+没有出现：
+
+```text
+FULL HIT
+```
+
+也就是没有指令操作数直接出现完整：
+
+```text
+0xC9199FB8
+0xC919A020
+0xC919A028
+```
+
+于是脚本继续查 16-bit 片段。
+
+得到了很多**碰巧低 16 位相同**的命中。
+
+例如：
+
+```text
+C1993A94
+add R1,R4,add(R3,##0x9fb8)
+
+C1993ACC
+add R1,R3,##0x9fb8
+```
+
+还有：
+
+```text
+C1C14444
+assign R20,##0xcf8ec919
+```
+
+等等。
+
+对于：
+
+```text
+A020
+A028
+C919
+```
+
+也有大量随机命中。
+
+---
+
+# 二十一、非常重要：C1993ACC 已经被确认不是可靠的 RFDEBUG 证据
+
+之前一度认为：
+
+```text
+C1993ACC
+add R1,R3,##0x9fb8
+```
+
+可能是在：
+
+```text
+C9190000 + 0x9fb8 = C9199fb8
+```
+
+从而构造：
+
+```text
+property_names[]
+```
+
+这是**错误推断**。
+
+原因：
+
+`immext` + Hexagon immediate 的解释不能简单按：
+
+```text
+低16位 = 地址低16位
+```
+
+来断言。
+
+所以：
+
+```text
+C1993A94
+C1993ACC
+```
+
+目前**不能证明跟 RFDEBUG property table 有关**。
+
+新会话里一定不要再把这两个地址当成已确认 RFDEBUG handler。
+
+---
+
+# 二十二、另一个已经正式排除的巨大假线索：C4721xxx / C4722xxx
+
+这是之前浪费最多时间的路线之一，现在已经**彻底废弃**。
+
+此前看到：
+
+```text
+C4721F78 -> C4953DF8
+C4721F68 -> C4953DA4
+C4721E68 -> C4953710
+C4721F18 -> C4953B62
+C4721F08 -> C4953A44
+C4721F38 -> C4953C50
+C4721DC8 -> C49531FC
+C4722D28 -> C49CAAE5
+```
+
+因此一度怀疑：
+
+```text
+C4721xxx / C4722xxx
+```
+
+是 RFDEBUG handler table。
+
+后来扫描：
+
+```text
+C4721C00–C4723000
+```
+
+结果：
+
+```text
+EXECUTABLE POINTER HITS: 0
+OTHER MAPPED POINTER HITS: 640
+```
+
+并发现 7 个来自其它 segment 的 data-to-data pointers：
+
+```text
+CBFA3C90 -> C472221A
+CCD516C4 -> C4722B23
+CCE0CC90 -> C4722040
+CCFB3F58 -> C47229C2
+CD4FE194 -> C4722804
+CD764CEC -> C47220AA
+CDCC89C0 -> C472254C
+```
+
+比如：
+
+```text
+C4722804
+```
+
+附近数据：
+
+```text
+04 00 00 00
+C496A6C2
+C4968C74
+49 09 5B 00
+```
+
+随后继续查：
+
+```text
+C4968C74
+```
+
+得到：
+
+```text
+xiaomi_rf_ant_control.c
+```
+
+以及：
+
+```text
+C496A6C2
+```
+
+得到：
+
+```text
+ptr_device_param_info[%d]: device_type(%d), device_id(%d), instance(%d):
+```
+
+所以最终确认：
+
+> `C4721xxx/C4722xxx` 是 Xiaomi RF antenna control / logging descriptor 相关数据，不是 RFDEBUG dispatcher/handler table。
+
+**以后不要重新走这条路线。**
+
+---
+
+# 二十三、固件中的 RFDEBUG 日志字符串
+
+已经找到很多真实 RFDEBUG format strings。
+
+例如：
+
+```text
+C49531FC
+[FTM.RFDEBUG][LOAD_DPD][UNPACK]:[%3d][ %12s ][ %12d ]
+```
+
+```text
+C4953391
+[FTM.RFDEBUG][VDPD_CAL][UNPACK]:...
+```
+
+以及：
+
+```text
+C49533E1
+C495342A
+C4953473
+C49534B2
+```
+
+VDPD 相关日志。
+
+还有：
+
+```text
+C49534E7
+SET_DPD_DEBUG_MODE
+```
+
+```text
+C4953578
+IDC_CAL
+```
+
+```text
+C49535F5
+THERM_READ REPACK
+```
+
+```text
+C4953710
+[FTM.RFDEBUG][RX_OVERRIDE][REPACK]: [%3d][ %12s ][ %4d ][ 0x%8x ]
+```
+
+```text
+C495376F
+RX_OVERRIDE NOT PACKED
+```
+
+```text
+C49537A7
+VDPD_CONVERSION
+```
+
+：
+
+```text
+C4953805
+C495384A
+C495388F
+C49538D4
+C495391A
+```
+
+继续：
+
+```text
+C4953988
+TX_MEASURE_ADV REPACK
+```
+
+```text
+C49539F2
+TX_MEASURE_ADV NOT PACKED
+```
+
+```text
+C4953A44
+DEVICE_CAL UNPACK
+```
+
+```text
+C4953B62
+RX_MEASURE REPACK
+```
+
+```text
+C4953BC4
+RX_MEASURE NOT PACKED
+```
+
+```text
+C4953C50
+LOAD_UNITY_DPD UNPACK
+```
+
+```text
+C4953CAC
+LOAD_UNITY_DPD REPACK
+```
+
+```text
+C4953CF1
+LOAD_UNITY_DPD NOT PACKED
+```
+
+```text
+C4953DA4
+TX_OVERRIDE UNPACK
+```
+
+```text
+C4953DF8
+TECH_ENTER_EXIT UNPACK
+```
+
+```text
+C49CAAE5
+tx_measure UNPACK
+```
+
+这些字符串**确认 firmware 中确实有 RFDEBUG 相关逻辑代码/数据**。
+
+但是：
+
+> Ghidra 的 ReferenceManager 对这些字符串地址全部返回 `0 references`。
+
+---
+
+# 二十四、刚刚才又做了一次字符串 XREF 脚本
+
+脚本：
+
+```text
+RFDebugStringXrefs.java
+```
+
+查了：
+
+```text
+C4953DF8  TECH_ENTER_EXIT UNPACK
+C4953DA4  TX_OVERRIDE UNPACK
+C4953710  RX_OVERRIDE REPACK
+C4953B62  RX_MEASURE REPACK
+C4953A44  DEVICE_CAL UNPACK
+C4953C50  LOAD_UNITY_DPD UNPACK
+C49531FC  LOAD_DPD UNPACK
+C49CAAE5  TX_MEASURE UNPACK
+```
+
+结果：
+
+```text
+TOTAL REFERENCES: 0
+```
+
+全部是 0。
+
+所以目前可以下结论：
+
+> **不能通过 Ghidra 自动 XREF，从这些 format strings 直接反查 RFDEBUG handler。**
+
+这可能是 stripped firmware、Hexagon 特定地址/数据组织、分析模型或字符串地址生成方式造成的。
+
+所以新会话不要再重复：
+
+```text 字符串 → X
+字符串 → References
+```
+
+因为我们已经证明这条路线当前不通。
+
+---
+
+# 二十五、目前真正确定的 RFDEBUG 结构关系
+
+现在已经可靠知道：
+
+```text
+                    X55 qdsp6sw.mbn
+                           │
+                           ▼
+                    FTM / RFDEBUG
+                           │
+             ┌─────────────┴──────────────┐
+             │                            │
+             ▼                            ▼
+      Radio Configure                 RX Override
+             │
+             ▼
+      property_names[]
+             │
+   ┌─────────┼──────────┐
+   │         │          │
+   ▼         ▼          ▼
+ 26        28          ...
+   │         │
+   ▼         ▼
+TUNE_TX_    FREQUENCY
+TO_RX_FREQ
+```
+
+其中：
+
+```text
+property_names[] start = C9199FB8
+```
+
+并且：
+
+```text
+C919A020 = TUNE_TX_TO_RX_FREQ
+C919A028 = FREQUENCY
+```
+
+这部分已经可以当作**固件事实**。
+
+---
+
+# 二十六、公共源码中的 Radio Config property 数据格式
+
+另一个公开源码：
+
+```text
+dehuiwei/Test-tools-base-on-mutiple-wireless-instrument
+commit 5ed0af40535bce2d82b2805ad4aa80457388cc0a
+```
+
+文件：
+
+```text
+fwk/ftm_interface.py
+```
+
+里面有非常关键的注释：
+
+```text
+prop: 4bytes
+value: 8 bytes
+```
+
+即 Radio Config property/value 很可能采用：
+
+```text
+uint32 property
++
+uint64 value
+```
+
+这样的格式。
+
+另外：
+
+```text
+fwk/QCOM.py
+```
+
+还有被注释掉的：
+
+```python
+ftm_rf_debug_radio_config_cmd =
+    ftm_rf_debug_radio_cmd_type()
+
+cmd =
+ftm_rf_debug_radio_config_cmd.get_radio_config_cmd_for_diag(
+    ftm_rf_technology_type.FTM_RF_TECH_LTE,
+    RF_TEST_LTE_BandClasstype.RF_TEST_LTE_BAND_1,
+    300,
+    18300)
+```
+
+所以公开工具也印证：
+
+* technology
+* band
+* channel
+* property/value
+
+构成 RADIO_CONFIGURE 请求的一部分。
+
+但是该仓库没有暴露：
+
+```text
+ftm_rf_debug_radio_cmd_type
+```
+
+的完整实现。
+
+因此不能直接拿这个 Python 代码生成当前 X55 可用 packet。
+
+---
+
+# 二十七、QMSL 也印证 Radio Configure 的存在
+
+公开：
+
+```text
+Junshucn/YVRMMI
+```
+
+中的：
+
+```text
+PIN_TEST/include/QMSL_WWAN/inc/QMSL_FTM_RF.h
+```
+
+存在：
+
+```text
+QLIB_FTM_RF_DEBUG_CMD_RADIO_CONFIGURE(...)
+```
+
+并明确说明：
+
+```text
+request_data
+```
+
+指向：
+
+```text
+ftm_rf_debug_property_data
+```
+
+其中就是 property/value pairs。
+
+所以：
+
+```text
+RADIO_CONFIGURE
++
+property/value
+```
+
+是可靠的公开 Qualcomm 架构事实。
+
+---
+
+# 二十八、曾经实际发过一个 PROPERTY_DISCOVERY packet
+
+旧实验中有：
+
+```text
+4B 0B 7B 00
+05 00
+26 00
+32 00
+
+00 00 00 00
+00 00 00 00
+
+03 00 00 00
+
+01 00 00 00
+01 00 00 00
+01 00 00 00
+00 00 00 00
+```
+
+解释：
+
+```text
+command = 5
+req_len = 38
+rsp_len = 50
+version = 0
+technology = LTE (3)
+property count = 1
+type = SUBCOMMAND (1)
+value = 1
+```
+
+这里意图是：
+
+> Property Discovery 查询 `RADIO_CONFIGURE` 支持的属性。
+
+响应：
+
+```text
+4B 0B 7B 00
+05 00
+26 00
+16 00
+
+00 00 00 00
+00 00 00 00
+
+04 00 00 00
+22 11 7E
+```
+
+依然：
+
+```text
+common error = 4
+```
+
+所以这个 packet 目前不能证明当前固件实际接受这种 request layout。
+
+---
+
+# 二十九、当前最重要的结论
+
+到这里，已经不是“什么都没找到”。
+
+我们已经确定了很多关键东西：
+
+## 已经确认
+
+### 1. 手机内部 X55 modem 存在、能访问
+
+### 2. `/dev/diag` 已经打通
+
+### 3. Diag_LSM → MDM callback 工作
+
+### 4. RFDEBUG subsystem ID：
+
+```text
+0x7B
+```
+
+### 5. RFDEBUG command 体系确实存在于 firmware
+
+### 6. Qualcomm 公共源码与 firmware 内结构能够对应
+
+尤其：
+
+```text
+RADIO_CONFIGURE
+RX_OVERRIDE
+RX_MEASURE
+TECH_ENTER_EXIT
+...
+```
+
+### 7. firmware 中实际存在：
+
+```text
+Radio Configure property_names[]
+```
+
+### 8. 其中：
+
+```text
+26 = TUNE_TX_TO_RX_FREQ
+28 = FREQUENCY
+```
+
+### 9. firmware 中实际字符串：
+
+```text
+"FREQUENCY"
+"TUNE_TX_TO_RX_FREQ"
+```
+
+都确认存在。
+
+### 10. 但目前没有找到：
+
+```text
+RFDEBUG dispatcher
+```
+
+或者：
+
+```text
+RADIO_CONFIGURE handler
+```
+
+的直接 Ghidra XREF。
+
+---
+
+# 三十、当前明确排除
+
+下面这些现在不要再浪费时间：
+
+### ❌ C4721xxx/C4722xxx
+
+已经确定是 Xiaomi RF antenna control logging/data descriptor。
+
+### ❌ 单纯对 `"FREQUENCY"` 按 X
+
+只能得到：
+
+```text
+C919A028 -> C5084812
+```
+
+这是数据表→字符串。
+
+### ❌ 对 `C919A028` / `C919A020` 用普通 XREF
+
+目前：
+
+```text
+TOTAL = 0
+```
+
+### ❌ 全固件搜裸指针：
+
+```text
+C9199FB8
+C919A020
+C919A028
+```
+
+结果：
+
+```text
+0
+```
+
+### ❌ 把 C1993A94/C1993ACC 的 `0x9fb8` 当成属性表引用
+
+已经纠正，这是未经证明的错误推断。
+
+### ❌ 继续盲发 command 1/4/5
+
+至少当前 packet 结构还没有完全证明。
+
+---
+
+# 三十一、我们目前真正卡在哪里
+
+真正的瓶颈已经变成：
+
+```text
+已知：
+0x7B RFDEBUG
+      ↓
+command = 1 RADIO_CONFIGURE
+      ↓
+property ID 28 = FREQUENCY
+      ↓
+firmware 中确有 property table
+
+未知：
+      ↓
+RFDEBUG dispatcher 在哪里？
+      ↓
+command 1 实际 handler 在哪里？
+      ↓
+handler 怎样解析 property/value？
+      ↓
+FREQUENCY 最终怎样进入 RFA/RF path？
+```
+
+因此现在应该：
+
+> **从 RFDEBUG dispatcher / command dispatch table 入手。**
+
+而不是继续从 property name 或字符串反查。
+
+---
+
+# 三十二、下一阶段最合理的逆向路线
+
+建议严格按这个顺序：
+
+```text
+① 找 RFDEBUG dispatcher
+        ↓
+② 找 command = 1 的 case / handler
+        ↓
+③ 确认 RADIO_CONFIGURE request struct
+        ↓
+④ 找 property parsing loop
+        ↓
+⑤ 找 property == 28 的处理
+        ↓
+⑥ 确认 FREQUENCY value 的单位/类型
+        ↓
+⑦ 确认如何调用 RF tune / RFM
+        ↓
+⑧ 再构造最小 RX-only DIAG request
+        ↓
+⑨ 在安全状态下验证 821.2375 MHz
+```
+
+这才是现在应该继续的方向。
+
+---
+
+# 三十三、下一会话最应该先做什么
+
+**不要重新跑前面那些脚本。**
+
+最优先目标是：
+
+> 从已经分析完成的 `qdsp6sw.mbn` 中找 **RFDEBUG command dispatcher 的实际地址**。
+
+现在我们已经有一些很好的静态锚点：
+
+```text
+RFDEBUG strings
+C4953DF8
+C4953DA4
+C4953710
+C4953B62
+...
+```
+
+以及：
+
+```text
+property_names[]
+C9199FB8
+```
+
+还有公共源码定义：
+
+```text
+RADIO_CONFIGURE = 1
+RX_OVERRIDE = 3
+DISCOVERY = 4
+PROPERTY_DISCOVERY = 5
+...
+```
+
+下一步应该利用这些**结构性特征**找：
+
+* command switch
+* handler table
+* `debug_command`
+* `rf_subsys_id`
+* `req_len`
+* `rsp_len`
+* error `FTM_RF_DEBUG_EC_BAD_CMD`
+
+而不是继续拿字符串做普通 XREF。
+
+---
+
+# 三十四、当前 Ghidra 项目可直接继续使用
+
+不需要重新导入。
+
+当前项目已经：
+
+```text
+Auto Analyze 完成
+约 1,415,334 条指令可扫描
+```
+
+而且已经能够正常看到类似：
+
+```text
+c1993a88  memuh
+c1993a8c  memw
+c1993a90  immext
+c1993a94  add
+c1993a98  call
+...
+```
+
+说明 Hexagon 反汇编已经能正常进行。
+
+---
+
+# 三十五、脚本经验，下一会话必须记住
+
+之前几次脚本有错误，原因主要是 Ghidra 12 API 和我们假设的旧 API 不一致。
+
+当前可用方式已经验证：
+
+### 可以用
+
+```java
+currentProgram.getReferenceManager()
+    .getReferencesTo(address);
+```
+
+返回：
+
+```java
+ReferenceIterator
+```
+
+可以用：
+
+```java
+currentProgram.getListing().getInstructions(true)
+```
+
+可以用：
+
+```java
+MemoryBlock.isInitialized()
+MemoryBlock.isExecute()
+```
+
+可以用：
+
+```java
+println(...)
+```
+
+最好不要用：
+
+```java
+System.out
+```
+
+### 不要再用那些已知错误写法
+
+不要假设：
+
+```java
+getInstructions(start, end, true)
+```
+
+这种签名。
+
+不要调用：
+
+```java
+Memory.isInitialized(...)
+```
+
+不存在。
+
+不要对：
+
+```text
+Memory.findBytes
+```
+
+写错误的 checked exception catch。
+
+不要使用：
+
+```text
+PyGhidra / Python
+```
+
+当前 Ghidra 环境按原方式没有启用 PyGhidra。
+
+**以后给脚本前，一定先按 Ghidra 12.1.4 的 API 思路写。**
+
+---
+
+# 三十六、当前状态一句话版
+
+如果下一会话只需要一段摘要，直接给它下面这一段即可：
+
+> 我在 Xiaomi Mi 10 Ultra（M2007J1SC/cas，Android 13，X55）上做严格 RX-only 的 RFDEBUG 静态逆向，最终目标是让 X55 内部 RF RX 接收 821.2375 MHz。`/dev/diag` + `libdiag.so` 已打通，MDM callback 工作，RFDEBUG subsystem ID 已确认 `0x7B`。实际发送 command 1/4/5 都返回 common error `4 = FTM_RF_DEBUG_EC_BAD_CMD`，因此现在停止盲发包。`qdsp6sw.mbn` 已用 Ghidra 12.1.4 Auto Analyze 完成分析，约 1,415,334 条指令。固件里已经实际找到 RFDEBUG Radio Configure 的 property_names[]：起始 `C9199FB8`，其中 `C919A020 = TUNE_TX_TO_RX_FREQ`（property 26），`C919A028 = FREQUENCY`（property 28），字符串分别在 `C50847FF` 和 `C5084812`。这些数据表项有数据 XREF，但 `ReferenceManager.getReferencesTo(C9199FB8/C919A020/C919A028)` 全部为 0；直接扫描裸 32-bit 指针也全部为 0；扫描完整地址常量也没有 FULL HIT。此前 C4721xxx/C4722xxx 路线已经明确排除，是 Xiaomi RF antenna-control logging descriptor，不是 RFDEBUG handler。C4953xxx 的 RFDEBUG format strings 也全部没有代码 XREF，因此不能从字符串直接反查 handler。之前对 C1993ACC 的 `add R1,R3,##0x9fb8` 的判断已经纠正，不能证明它在构造 C9199FB8。现在真正的下一目标是：**从已分析 firmware 里找 RFDEBUG dispatcher / command switch / handler table，锁定 command 1 RADIO_CONFIGURE，再找到 property parsing loop，最后追到 property 28 FREQUENCY 的实际处理。不要再重复字符串 XREF、C4722xxx、裸指针扫描或盲发 command。**
+
+---
+
+# 三十七、最核心的路线图
+
+目前项目已经从：
+
+```text
+“X55 有没有办法调 RF？”
+```
+
+推进到了：
+
+```text
+“X55 firmware 里已经确认存在 Qualcomm RFDEBUG，
+而且已经实际确认 Radio Configure 的 FREQUENCY property = 28。
+现在只差找 command dispatcher / handler。”
+```
+
+也就是说目前真正缺的不是：
+
+```text
+821.2375 MHz 是什么
+```
+
+也不是：
+
+```text RFDEBUG 存不存在
+```
+
+而是：
+
+```text
+0x7B
+ ↓
+RFDEBUG dispatcher
+ ↓
+command 1
+ ↓
+RADIO_CONFIGURE handler
+ ↓
+property 28
+ ↓
+FREQUENCY
+ ↓
+RF tune
+```
+
+**下一会话应该从这里继续。**
+
+最重要的是：**不要再从字符串表本身硬找 XREF，而要转向 RFDEBUG dispatcher 的静态特征定位。**
