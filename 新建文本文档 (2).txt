@@ -1,363 +1,793 @@
+0[0] + 0x42;
+    piVar16 = piVar33;
+    if (CONCAT22((sbyte)param_2[2] >> 7,(short)(sbyte)param_2[2]) != 1) {
+      piVar16 = piVar34;
+    }
+    local_64 = local_60[0] + 0x3a;
+    local_60[0] = local_60[0] + 0x3e;
+    FUN_c18faa8c(sVar18 + -0x68,piVar16,(sbyte)((uint)*(undefined4 *)(iVar35 + 0x58) >> 8),
+                 (sbyte)&local_68,*(undefined1 *)(iVar35 + 0xe),sVar21,&local_6a);
+    uVar41 = CONCAT22(extraout_R0_H_07,CONCAT11(extraout_var_07,extraout_R0_L_09));
+    if ((CONCAT22((sbyte)param_2[0x16] >> 7,(short)(sbyte)param_2[0x16]) == 1) && (uVar41 == 2)) {
+      if ((sbyte)local_6a == 0) {
+        piVar16 = piVar33;
+        if (CONCAT22((sbyte)param_2[2] >> 7,(short)(sbyte)param_2[2]) != 1) {
+          piVar16 = piVar34;
+        }
+        FUN_c18f8410(sVar18 + -0x50,piVar16,(sbyte)((uint)*(undefined4 *)(iVar35 + 0x58) >> 8),
+                     (sbyte)&stack0xfffffff8 + -0x60,*(undefined1 *)((int)uVar29 + 0xc),
+                     *(undefined1 *)(iVar35 + 0xe),*(int *)(param_2 + 0xa2c) + 0x13e);
+        if (CONCAT22(extraout_R0_H_08,CONCAT11(extraout_var_08,extraout_R0_L_10)) == 0) {
+          uVar41 = 0;
+        }
+        else {
+          uVar41 = 2;
+        }
+      }
+    }
+    FUN_c18d4fe0((sbyte)*(undefined4 *)(*param_1 + 0x18));
+    *(bool *)(CONCAT22(extraout_R0_H_09,CONCAT11(extraout_var_09,extraout_R0_L_11)) + 0x8844) =
+         uVar41 != 0;
+    sVar21 = *psVar32;
+    sVar12 = sVar21 + 1;
+    if (sVar12 == 5) {
+      sVar12 = 0;
+    }
+    *psVar32 = sVar12;
+    iVar31 = *(int *)(param_2 + 0xa2c);
+    piVar43[(uint)(char)sVar21 * 0x22 + 3] = iVar31;
+    *(ushort *)(iVar31 + 6) = *(ushort *)(iVar31 + 6) & 0x1fff | (ushort)(char)param_2[9] << 0xd;
+    puVar3 = (undefined2 *)piVar43[(uint)(char)sVar21 * 0x22 + 3];
+    *puVar3 = 0xc;
+    puVar3[1] = (short)*(undefined4 *)(param_2 + 0x1c);
+    if (uVar41 < 2) {
+      puVar3[3] = puVar3[3] | 2;
+      *(ushort *)(piVar43[(uint)(char)sVar21 * 0x22 + 3] + 6) =
+           *(ushort *)(piVar43[(uint)(char)sVar21 * 0x22 + 3] + 6) & 0xff87;
+      iVar31 = *param_1;
+      *(undefined4 *)(piVar43[(uint)(char)sVar21 * 0x22 + 3] + 8) = 0x7fff7fff;
+      iVar6 = *param_1;
+      *(undefined1 *)((uint)(char)param_2[9] + *(int *)(iVar31 + 0x2c) + 0x1e9c) = 1;
+      uVar13 = (undefined1)iVar6;
+      uVar19 = (undefined1)((uint)iVar6 >> 8);
+      uVar20 = (undefined2)((uint)iVar6 >> 0x10);
+      sVar21 = *(sbyte *)(*(int *)(iVar6 + 8) + 0x4e2);
+      if (CONCAT22(sVar21 >> 7,(short)sVar21) == 1) {
+LAB_c18e5f04:
+        uVar13 = FUN_c18e9250((sbyte)*(undefined4 *)(CONCAT22(uVar20,CONCAT11(uVar19,uVar13)) + 4));
+        FUN_c18d0a04(uVar13,3,0x4f,0);
+      }
+      else {
+        FUN_c18e0040();
+        if (CONCAT22(extraout_R0_H_10,CONCAT11(extraout_var_10,extraout_R0_L_12)) != 0) {
+          iVar31 = *param_1;
+          uVar13 = (undefined1)iVar31;
+          uVar19 = (undefined1)((uint)iVar31 >> 8);
+          uVar20 = (undefined2)((uint)iVar31 >> 0x10);
+          sVar21 = *(sbyte *)(*(int *)(iVar31 + 8) + 0x4e3);
+          if (CONCAT22(sVar21 >> 7,(short)sVar21) == 1) goto LAB_c18e5f04;
+        }
+        sVar21 = *(sbyte *)((int)uVar29 + 0xc);
+        if ((CONCAT22(sVar21 >> 7,(short)sVar21) != 0) &&
+           (FUN_c18e0040((sbyte)*(undefined4 *)(*param_1 + 8)),
+           (bool)(-(CONCAT22(extraout_R0_H_11,CONCAT11(extraout_var_11,extraout_R0_L_13)) == 0) &
+                 '\x01'))) {
+          FUN_c18e0620((sbyte)*(undefined4 *)((undefined1 *)*param_1 + 8),*(undefined1 *)*param_1,3)
+          ;
+        }
+      }
+      FUN_c18c3b70((sbyte)*(undefined4 *)(*param_1 + 0x28),*(undefined4 *)(param_2 + 0xab0));
+    }
+    else {
+      puVar3[3] = puVar3[3] & 0xfffd;
+      FUN_c18c3b70((sbyte)*(undefined4 *)(*param_1 + 0x28),*(undefined4 *)(param_2 + 0xab0));
+    }
+    FUN_c18e1308((sbyte)*(undefined4 *)(*param_1 + 8),(uint)(char)param_2[9],
+                 (sbyte)*(undefined2 *)(param_2 + 0x1c),
+                 *(undefined1 *)(*(int *)(*param_1 + 0x2c) + (uint)(char)param_2[9] + 0x1e9c),0);
+    param_2[1] = 0;
+  }
+  if (((char)param_2[3] < '\x18') &&
+     (iVar31 = (int)((uint)(char)param_2[3] << 0x19) >> 0x19,
+     ((uint)(-1 < iVar31) * (1 << iVar31) & 0xa00003) != 0)) {
+    uVar19 = (undefined1)*(undefined4 *)(param_2 + 0x1c);
+    uVar13 = param_2[9];
+    bVar27 = false;
+    uVar2 = *(undefined4 *)(*param_1 + 8);
+    if ((CONCAT22((sbyte)param_1[0x2c5f] >> 7,(short)(sbyte)param_1[0x2c5f]) == 0) &&
+       (param_1[0x2c63] == param_1[0x2c5b])) {
+      bVar27 = param_1[0x2c5b] == param_1[0x2c64];
+    }
+    FUN_c18e1744((sbyte)(uVar29 >> 0x20));
+    uVar29 = uVar29 & 0xffffffff;
+    FUN_c18e1308((sbyte)uVar2,uVar13,uVar19,bVar27,
+                 CONCAT22(extraout_R0_H_12,CONCAT11(extraout_var_12,extraout_R0_L_14)));
+  }
+  piVar16 = (int *)uVar29;
+  if ((CONCAT22((sbyte)param_2[2] >> 7,(short)(sbyte)param_2[2]) == 3) &&
+     (CONCAT22((sbyte)param_2[0xa48] >> 7,(short)(sbyte)param_2[0xa48]) == 2)) {
+    iVar31 = *piVar26 + piVar26[1] + piVar26[2];
+    FUN_c18e45c8((sbyte)iVar31,param_2,(sbyte)((uint)(iVar31 * 0x5555) >> 0x10));
+    *(ushort *)(*(int *)(*param_1 + 0x2c) + (uint)(char)param_2[9] * 2 + 0x1ecc) =
+         CONCAT11(extraout_var_13,extraout_R0_L_15) | 0x8000;
+    uVar13 = FUN_c18c5730();
+    FUN_c18c5750(0x51,CONCAT22(extraout_R0_H_13,CONCAT11(extraout_var_13,extraout_R0_L_15)),uVar13);
+    FUN_c1619338(0xb4,CONCAT22(extraout_R0_H_14,CONCAT11(extraout_var_14,extraout_R0_L_16)),0x51,
+                 extraout_R0_L_15);
+  }
+  iVar31 = 1;
+  bVar27 = false;
+  local_a4 = 0;
+  if (CONCAT22((sbyte)param_2[1] >> 7,(short)(sbyte)param_2[1]) == 0) {
+    if (CONCAT22((sbyte)param_2[2] >> 7,(short)(sbyte)param_2[2]) == 3) {
+      sVar21 = param_2[0xa48];
+      if ((char)(sVar21 + -1) < '\x02') {
+        bVar27 = sVar21 == 1;
+        if (bVar27) {
+          uVar41 = 0x3fb27;
+        }
+        else {
+          uVar41 = 0x2830b;
+        }
+        FUN_c18c5730();
+        uVar13 = FUN_c1619338(5,CONCAT22(extraout_R0_H_15,CONCAT11(extraout_var_15,extraout_R0_L_17)
+                                        ),sVar21,(sbyte)uVar46,uVar41);
+        if (uVar41 < uVar46) {
+          FUN_c18e6c08(uVar13,param_2);
+          iVar31 = CONCAT22(extraout_R0_H_16,CONCAT11(extraout_var_16,extraout_R0_L_18));
+          uVar13 = FUN_c18f7cb0((sbyte)puVar39,iVar31);
+          param_2[0xa20] = uVar13;
+          FUN_c18c5730();
+          FUN_c1619338(0x52,CONCAT22(extraout_R0_H_17,CONCAT11(extraout_var_17,extraout_R0_L_19)),
+                       extraout_R0_L_18,param_2[0xa20]);
+          sVar12 = param_2[0xa20];
+          if (sVar12 == 0x27) {
+            if (bVar27) {
+              uVar41 = 0x5030a;
+            }
+            else {
+              uVar41 = 0x2830b;
+            }
+          }
+          else if (((sVar12 != 0x25) && (uVar41 = 0xffffffff, sVar12 == 0x21)) &&
+                  (uVar41 = 0xffffffff, !bVar27)) {
+            uVar41 = 0x71457;
+          }
+          FUN_c18c5730();
+          FUN_c1619338(0xa4,CONCAT22(extraout_R0_H_18,CONCAT11(extraout_var_18,extraout_R0_L_20)),
+                       sVar21,(sbyte)uVar46,uVar41);
+          FUN_c18c5730();
+          FUN_c1619338(0xf7,CONCAT22(extraout_R0_H_19,CONCAT11(extraout_var_19,extraout_R0_L_21)),
+                       sVar21,param_2[0xa53]);
+          bVar27 = false;
+          bVar10 = true;
+          if ((bool)(-(uVar41 < uVar46) & '\x01')) {
+            bVar27 = CONCAT22((sbyte)param_2[0xa53] >> 7,(short)(sbyte)param_2[0xa53]) == 0;
+            bVar10 = true;
+            if (bVar27) {
+              param_2[0xa50] = 1;
+            }
+          }
+        }
+        else {
+          bVar27 = false;
+          bVar10 = false;
+        }
+      }
+      else {
+        bVar10 = false;
+        bVar27 = false;
+      }
+    }
+    else {
+      bVar10 = false;
+      bVar27 = false;
+    }
+  }
+  else {
+    bVar10 = false;
+  }
+  FUN_c18c5730();
+  FUN_c1619338(0x52,CONCAT22(extraout_R0_H_20,CONCAT11(extraout_var_20,extraout_R0_L_22)),param_2[9]
+               ,param_2[0xa48],param_2[2]);
+  FUN_c18c5730();
+  FUN_c1619338(0x9d,CONCAT22(extraout_R0_H_21,CONCAT11(extraout_var_21,extraout_R0_L_23)),param_2[1]
+               ,bVar27);
+  *(uint *)(param_2 + 0xa3c) = uVar46;
+  if ((((bool)(-(CONCAT22((sbyte)param_2[2] >> 7,(short)(sbyte)param_2[2]) == 3) & '\x01')) &&
+      (CONCAT22((sbyte)param_2[0xa4a] >> 7,(short)(sbyte)param_2[0xa4a]) == 0)) &&
+     ((CONCAT22((sbyte)param_2[0xa48] >> 7,(short)(sbyte)param_2[0xa48]) == 2 &&
+      (CONCAT22((sbyte)param_2[0xa54] >> 7,(short)(sbyte)param_2[0xa54]) == 0)))) {
+    FUN_c18e7038(sVar18,param_2);
+    local_a4 = CONCAT22(extraout_R0_H_22,CONCAT11(extraout_var_22,extraout_R0_L_24));
+  }
+  bVar27 = !bVar27;
+  if ((((bVar27) && (param_2[1] != 1)) &&
+      (CONCAT22((sbyte)param_2[0xa51] >> 7,(short)(sbyte)param_2[0xa51]) != 1)) ||
+     (CONCAT22((sbyte)param_2[0xa54] >> 7,(short)(sbyte)param_2[0xa54]) != 0)) {
+    if (CONCAT22((sbyte)param_2[0xaa8] >> 7,(short)(sbyte)param_2[0xaa8]) == 1) {
+      FUN_c18ccf40((sbyte)*(undefined4 *)(*param_1 + 0x2c),*(undefined4 *)(param_2 + 0xaa4));
+      FUN_c18e1308((sbyte)*(undefined4 *)(*param_1 + 8),param_2[9],
+                   (sbyte)*(undefined2 *)(param_2 + 0x1c),0,0);
+    }
+    goto LAB_c18e6ba8;
+  }
+  sVar18 = param_2[3];
+  if ((CONCAT22(sVar18 >> 7,(short)sVar18) == 0x1d) || (sVar18 == 4)) {
+    iVar24 = (char)piVar16[3] + 1;
+  }
+  else {
+    sVar21 = -('\b' < (char)(sVar18 + -0x21));
+    if (!(bool)(sVar21 & '\x01')) {
+      sVar18 = param_2[0xa48];
+    }
+    if (!(bool)(sVar21 & '\x01')) {
+      iVar24 = (char)sVar18 + 1;
+    }
+  }
+  param_2[0xa4b] = (sbyte)iVar24;
+  FUN_c18c806c((sbyte)piVar26,iVar24,sVar17,param_2[0xa49]);
+  uVar46 = CONCAT22(extraout_R0_H_23,CONCAT11(extraout_var_23,extraout_R0_L_25));
+  uVar41 = (uint)(char)*psVar32;
+  sVar18 = (sbyte)(uVar41 + 1);
+  if ((uVar41 + 1 & 0xff) == 5) {
+    sVar18 = 0;
+  }
+  *psVar32 = sVar18;
+  sVar18 = param_2[2];
+  uVar13 = extraout_R0_L_25;
+  if ((sVar18 & 0xfe) == 2) {
+    if ((!bVar27) && (CONCAT22((sbyte)param_2[0xa48] >> 7,(short)(sbyte)param_2[0xa48]) < 3)) {
+      iVar24 = 3;
+      piVar26 = piVar28 + 6;
+      do {
+        FUN_c18c5730();
+        FUN_c1619338(4,CONCAT22(extraout_R0_H_24,CONCAT11(extraout_var_24,extraout_R0_L_26)),
+                     (sbyte)iVar24,param_2[0xa48]);
+        iVar24 = iVar24 + -1;
+        cVar9 = param_2[0xa48];
+        *piVar26 = piVar28[(uint)cVar9 * 2];
+        piVar26 = piVar26 + -2;
+      } while ((int)(uint)cVar9 < iVar24);
+    }
+    uVar13 = FUN_c18cf160(0,8,0xcb,4,0xc000,0x8000,0x7fffbfff,piVar28,1);
+    sVar18 = param_2[2];
+  }
+  if (sVar18 == 2) {
+    uVar20 = 0xc000;
+    uVar13 = FUN_c18f9a80(0,0xc000,(sbyte)piVar42,(sbyte)puVar39);
+    sVar18 = param_2[0xb];
+    iVar31 = 1;
+    bVar10 = CONCAT22(sVar18 >> 7,(short)sVar18) == 0;
+    if (!bVar10) {
+      uVar13 = 8;
+    }
+    bVar10 = !(bool)-bVar10 || bVar10;
+    param_2[3] = uVar13;
+LAB_c18e64ac:
+    *(undefined2 *)(param_1 + uVar41 * 0x22 + 0x1d8f) = uVar20;
+    sVar17 = sVar18;
+  }
+  else {
+    if (sVar18 != 3) {
+      sVar18 = param_2[0xb];
+      iVar31 = 1;
+      bVar10 = true;
+      uVar20 = 0xc000;
+      goto LAB_c18e64ac;
+    }
+    if (!bVar10) {
+      FUN_c18e6c08(uVar13,param_2);
+      iVar31 = CONCAT22(extraout_R0_H_25,CONCAT11(extraout_var_25,extraout_R0_L_27));
+      uVar13 = FUN_c18f7cb0((sbyte)puVar39,iVar31);
+      param_2[0xa20] = uVar13;
+    }
+    sVar18 = param_2[0xb];
+    if (CONCAT22(sVar18 >> 7,(short)sVar18) != 0) {
+      sVar17 = 0;
+LAB_c18e63dc:
+      bVar10 = (bool)(!(bool)-sVar17 | sVar17);
+      iVar31 = 1;
+      *(undefined2 *)(param_2 + 2) = 0x802;
+      uVar20 = 0xc000;
+      goto LAB_c18e64ac;
+    }
+    sVar17 = 1;
+    if (CONCAT22((sbyte)param_2[0xa20] >> 7,(short)(sbyte)param_2[0xa20]) == 8) goto LAB_c18e63dc;
+    sVar17 = 0;
+    sVar18 = 0;
+    if (iVar31 == 1) {
+      bVar10 = true;
+      uVar20 = 0xc000;
+      goto LAB_c18e64ac;
+    }
+    if ((sbyte)iVar31 == -1) {
+      iVar31 = 0xff;
+      bVar10 = false;
+      uVar20 = 0xe666;
+      goto LAB_c18e64ac;
+    }
+    bVar10 = false;
+  }
+  iVar24 = *param_1;
+  piVar26 = param_1 + uVar41 * 0x22;
+  piVar26[0x1d8e] = 0;
+  *(sbyte *)(piVar26 + 0x1d9a) = sVar17;
+  *(undefined1 *)(piVar26 + 0x1d9b) = param_2[0xd];
+  piVar26[0x1da4] = (int)(param_1 + 0x174);
+  piVar26[0x1da8] = (int)(param_1 + 0x1758);
+  iVar24 = *(int *)(iVar24 + 0x2c);
+  piVar26[0x1da5] = (int)(param_1 + 10);
+  *piVar16 = iVar24;
+  piVar26[0x1da6] = (int)(param_1 + 0x240);
+  *(undefined2 *)(piVar26 + 0x1da7) = *(undefined2 *)(iVar35 + 0x10);
+  *(undefined1 *)((int)piVar26 + 0x766d) = param_2[0xe];
+  *(undefined2 *)((int)piVar26 + 0x766e) = *(undefined2 *)(param_2 + 0x10);
+  *(undefined2 *)(piVar26 + 0x1d9c) = *(undefined2 *)(param_2 + 0x12);
+  if (CONCAT22((sbyte)param_2[1] >> 7,(short)(sbyte)param_2[1]) == 0) {
+    *(uint *)(param_2 + 0xa2c) = iVar24 + (uint)(char)param_2[9] * 0x178 + 0x12d8;
+  }
+  if (CONCAT22((sbyte)param_2[0xa51] >> 7,(short)(sbyte)param_2[0xa51]) == 1) {
+    *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+         *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xfffffdff;
+    *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+         *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xfffffe7f |
+         ((char)param_2[0xa48] + 1 & 3) << 7;
+  }
+  sVar18 = (sbyte)iVar31;
+  if (!bVar27) {
+    if (sVar18 == -1) {
+      uVar45 = 0;
+    }
+    else {
+      uVar45 = 8;
+    }
+    *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+         uVar45 | *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xfffffff7;
+    *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+         *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xffffffcf |
+         (char)(param_2[0xa48] * 0x10 + 0x10) & 0x30;
+    *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+         *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xfffffffe;
+    *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+         *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xffffffbf;
+    sVar17 = param_2[0xa20];
+    uVar13 = 0;
+    uVar20 = 0;
+    if (sVar17 == 0x27) {
+      *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+           *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xfffffff9 | 4;
+    }
+    else if (sVar17 == 0x25) {
+      *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+           *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xfffffff9 | 2;
+    }
+    else {
+      bVar47 = sVar17 == 0x21;
+      if (!(bool)(-bVar47 & '\x01')) {
+        uVar2 = *(undefined4 *)(param_2 + 0xa2c);
+        sVar17 = (sbyte)uVar2;
+        uVar13 = (undefined1)((uint)uVar2 >> 8);
+        uVar20 = (undefined2)((uint)uVar2 >> 0x10);
+      }
+      if ((bool)(-bVar47 & '\x01')) {
+        *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) =
+             *(uint *)(*(int *)(param_2 + 0xa2c) + 0xd8) & 0xfffffff9;
+      }
+      else {
+        puVar1 = (uint *)(CONCAT22(uVar20,CONCAT11(uVar13,sVar17)) + 0xd8);
+        *puVar1 = *puVar1 | 6;
+      }
+    }
+  }
+  if (CONCAT22(*(sbyte *)(iVar35 + 8) >> 7,(short)*(sbyte *)(iVar35 + 8)) == 0x16) {
+    if (CONCAT22((sbyte)param_2[0xa55] >> 7,(short)(sbyte)param_2[0xa55]) == 4) {
+      piVar26[0x1daa] = (int)(param_2 + 0xa58);
+    }
+    else if (CONCAT22((sbyte)param_2[0xa56] >> 7,(short)(sbyte)param_2[0xa56]) == 4) {
+      piVar26[0x1daa] = (int)(param_2 + 0xa7c);
+    }
+    else {
+      piVar26[0x1daa] = 0;
+      FUN_c18c5730();
+      FUN_c1619338(0x60,CONCAT22(extraout_R0_H_26,CONCAT11(extraout_var_26,extraout_R0_L_28)),
+                   param_2[0xa55],param_2[0xa56]);
+    }
+  }
+  piVar26[0x1d8d] = *(int *)(param_2 + 0xa2c);
+  piVar26[0x1d98] = uVar46;
+  piVar26[0x1d99] = iVar25;
+  *(undefined1 *)((int)piVar26 + 0x7669) = param_2[6];
+  *(undefined2 *)((int)piVar26 + 0x764e) = *(undefined2 *)(param_2 + 0x18);
+  iVar24 = *(int *)(param_2 + 0xa2c);
+  piVar26[0x1da3] = (int)(param_1 + 0x1e34);
+  *(short *)(iVar24 + 2) = (short)*(undefined4 *)(param_2 + 0x1c);
+  *(undefined1 *)(iVar24 + 0x13c) = *(undefined1 *)(iVar35 + 0xb);
+  FUN_c18c5730();
+  FUN_c1619338(0x93,CONCAT22(extraout_R0_H_27,CONCAT11(extraout_var_27,extraout_R0_L_29)),
+               (sbyte)*(undefined4 *)(param_2 + 0x1c));
+  iVar35 = *(int *)(param_2 + 0xa2c);
+  *(undefined2 *)(*(int *)(param_2 + 0xa2c) + 4) = 0;
+  *(ushort *)(iVar35 + 6) = *(ushort *)(iVar35 + 6) & 0x1fff | (ushort)(char)param_2[9] << 0xd;
+  *(ushort *)(piVar26 + 0x1d96) = (ushort)(char)param_2[9];
+  if (param_2[2] == 2) {
+    *(ushort *)(*(int *)(param_2 + 0xa2c) + 6) =
+         *(ushort *)(*(int *)(param_2 + 0xa2c) + 6) & 0xff87 | (char)(param_2[3] * 8 + 0x40) & 0x78;
+  }
+  else if ((bool)(-(param_2[2] == 3) & '\x01')) {
+    *(ushort *)(*(int *)(param_2 + 0xa2c) + 6) = *(ushort *)(*(int *)(param_2 + 0xa2c) + 6) & 0xff87
+    ;
+  }
+  *(sbyte *)((int)piVar26 + 0x7645) = (sbyte)param_1[0x2c00];
+  *(undefined1 *)((int)piVar26 + 0x7646) = *(undefined1 *)((int)param_1 + 0xb001);
+  *(undefined1 *)((int)piVar26 + 0x7647) = *(undefined1 *)((int)param_1 + 0xb002);
+  *(undefined1 *)(piVar26 + 0x1d92) = *(undefined1 *)((int)param_1 + 0xb003);
+  sVar17 = param_2[3];
+  iVar35 = (int)sVar17;
+  sVar21 = sVar17 >> 7;
+  sVar22 = (short)(sVar17 >> 7);
+  *(sbyte *)(piVar26 + 0x1d91) = sVar17;
+  if ((CONCAT22(sVar22,(short)sVar17) == 4) &&
+     (CONCAT22((sbyte)piVar26[0x1d9b] >> 7,(short)(sbyte)piVar26[0x1d9b]) != 0)) {
+    bVar47 = true;
+  }
+  else {
+    bVar47 = CONCAT22(sVar22,(short)sVar17) == 0x16;
+  }
+  *(bool *)((int)piVar26 + 0x768a) = bVar47;
+  piVar43 = piVar43 + uVar41 * 0x22;
+  piVar28 = param_1 + uVar41 * 0x22 + 0x1d8a;
+  sVar12 = param_2[2];
+  if ((char)sVar12 - 2 < 2) {
+    *(undefined2 *)(piVar26 + 0x1d90) = 0x19;
+    piVar26[0x1d8c] = (int)piVar42;
+    *piVar28 = 0;
+    piVar26[0x1d8b] = (int)puVar39;
+    if (((!bVar27) || (local_a4 == 1)) &&
+       (uVar45 = (char)param_2[0xa48] + 1, puVar39 = param_2, (uVar45 & 0xff) < 4)) {
+      do {
+        puVar39 = puVar39 + 0x200;
+        FUN_c1620d4c((sbyte)puVar39,0,0x60);
+        FUN_c18c5730();
+        uVar45 = uVar45 + 1;
+        FUN_c1619338(0xda,CONCAT22(extraout_R0_H_28,CONCAT11(extraout_var_28,extraout_R0_L_30)),
+                     (sbyte)puVar39,param_2[0xa48]);
+      } while ((uVar45 & 0xff) < 4);
+      sVar12 = param_2[2];
+    }
+    piVar26[0x1d9d] = (int)(param_2 + 0x200);
+    piVar26[0x1d9e] = (int)(param_2 + 0x400);
+    piVar26[0x1d9f] = (int)(param_2 + 0x600);
+    piVar26[0x1da0] = (int)(param_2 + 0x800);
+LAB_c18e68f0:
+    if ((sVar12 & 0xfe) == 2) {
+      local_6a = 0xd8f0;
+      cVar9 = ~(0x10000 < uVar46);
+      *(uint *)(param_2 + 0xa40) = CONCAT22(uVar15,CONCAT11(uVar14,uVar11));
+      uVar11 = extraout_R0_L_25;
+      uVar14 = extraout_var_23;
+      uVar15 = extraout_R0_H_23;
+      if ((bool)(!bVar10 | cVar9)) {
+        uVar11 = 0;
+        uVar14 = 0xb0;
+        uVar15 = 0;
+      }
+      if (!bVar10 || (bool)(cVar9 & '\x01')) {
+        iVar35 = CONCAT22(uVar15,CONCAT11(uVar14,uVar11)) + 0x4fff;
+        if ((0x10000 < uVar46) && ((bool)(-(sVar18 == -1) & '\x01'))) {
+          piVar23 = param_1 + uVar41 * 0x22 + 0x1d9d;
+          uVar11 = SUB41(piVar23,0);
+          uVar14 = (undefined1)((uint)piVar23 >> 8);
+          uVar15 = (undefined2)((uint)piVar23 >> 0x10);
+          uVar13 = 0;
+          uVar19 = 0;
+          uVar20 = 0;
+          uVar46 = 4;
+          while( true ) {
+            iVar31 = CONCAT22(uVar20,CONCAT11(uVar19,uVar13));
+            iVar35 = CONCAT22(uVar15,CONCAT11(uVar14,uVar11)) + 4;
+            iVar24 = *(int *)CONCAT22(uVar15,CONCAT11(uVar14,uVar11));
+            uVar11 = (undefined1)iVar35;
+            uVar14 = (undefined1)((uint)iVar35 >> 8);
+            uVar15 = (undefined2)((uint)iVar35 >> 0x10);
+            iVar25 = CONCAT22(uVar20,CONCAT11(uVar19,uVar13)) + 9;
+            iVar35 = CONCAT22(uVar20,CONCAT11(uVar19,uVar13));
+            uVar13 = (undefined1)iVar25;
+            uVar19 = (undefined1)((uint)iVar25 >> 8);
+            uVar20 = (undefined2)((uint)iVar25 >> 0x10);
+            *(undefined1 *)((int)&local_68 + iVar35) = *(undefined1 *)(iVar24 + 0xa8);
+            *(undefined1 *)((int)&local_68 + iVar31 + 1) = *(undefined1 *)(iVar24 + 0xa9);
+            *(undefined1 *)((int)&local_68 + iVar31 + 2) = *(undefined1 *)(iVar24 + 0x96);
+            *(undefined1 *)((int)&local_68 + iVar31 + 3) = *(undefined1 *)(iVar24 + 0xab);
+            *(undefined1 *)((int)local_60 + iVar31 + -4) = *(undefined1 *)(iVar24 + 0xac);
+            *(undefined1 *)((int)local_60 + iVar31 + -3) = *(undefined1 *)(iVar24 + 0x97);
+            *(undefined1 *)((int)local_60 + iVar31 + -2) = *(undefined1 *)(iVar24 + 0xc3);
+            *(undefined1 *)((int)local_60 + iVar31 + -1) = *(undefined1 *)(iVar24 + 0xb1);
+            *(undefined1 *)((int)local_60 + iVar31) = *(undefined1 *)(iVar24 + 0xb2);
+            if (uVar46 < 2) break;
+            uVar46 = uVar46 - 1;
+          }
+          FUN_c18f9b58((sbyte)&local_68,piVar26[0x1d8c],0,0x24);
+          FUN_c18f98c8(0x98,&local_68,8,0x24,&local_6a);
+          iVar35 = CONCAT22(extraout_R0_H_30,CONCAT11(extraout_var_30,extraout_R0_L_32));
+        }
+      }
+      else if (CONCAT22((sbyte)param_2[3] >> 7,(short)(sbyte)param_2[3]) == 8) {
+        FUN_c18f99e8((sbyte)piVar43);
+        iVar35 = CONCAT22(extraout_R0_H_34,CONCAT11(extraout_var_34,extraout_R0_L_36));
+      }
+      else {
+        piVar23 = param_1 + uVar41 * 0x22 + 0x1d9d;
+        uVar46 = 4;
+        uVar11 = SUB41(piVar23,0);
+        uVar14 = (undefined1)((uint)piVar23 >> 8);
+        uVar15 = (undefined2)((uint)piVar23 >> 0x10);
+        uVar13 = 0x71;
+        uVar19 = 0x51;
+        uVar20 = 0xc1a9;
+        piVar23 = local_60;
+        while( true ) {
+          iVar35 = CONCAT22(uVar15,CONCAT11(uVar14,uVar11)) + 4;
+          iVar24 = *(int *)CONCAT22(uVar15,CONCAT11(uVar14,uVar11));
+          iVar31 = CONCAT22(uVar20,CONCAT11(uVar19,uVar13));
+          uVar11 = (undefined1)iVar35;
+          uVar14 = (undefined1)((uint)iVar35 >> 8);
+          uVar15 = (undefined2)((uint)iVar35 >> 0x10);
+          cVar9 = *(char *)(CONCAT22(uVar20,CONCAT11(uVar19,uVar13)) + 1);
+          iVar35 = CONCAT22(uVar20,CONCAT11(uVar19,uVar13)) + 3;
+          cVar8 = *(char *)CONCAT22(uVar20,CONCAT11(uVar19,uVar13));
+          uVar13 = (undefined1)iVar35;
+          uVar19 = (undefined1)((uint)iVar35 >> 8);
+          uVar20 = (undefined2)((uint)iVar35 >> 0x10);
+          *(undefined1 *)(piVar23 + -2) = *(undefined1 *)(iVar24 + (uint)*(char *)(iVar31 + -1));
+          *(undefined1 *)(piVar23 + -1) = *(undefined1 *)(iVar24 + (uint)cVar8);
+          *(undefined1 *)piVar23 = *(undefined1 *)(iVar24 + (uint)cVar9);
+          if (uVar46 < 2) break;
+          uVar46 = uVar46 - 1;
+          piVar23 = (int *)((int)piVar23 + 1);
+        }
+        FUN_c18f9b58((sbyte)&local_68,piVar26[0x1d8c],0,0xc);
+        FUN_c18f98c8(200,&local_68,8,0xc,&local_6a);
+        iVar35 = CONCAT22(extraout_R0_H_29,CONCAT11(extraout_var_29,extraout_R0_L_31));
+      }
+      uVar11 = FUN_c18c5730();
+      FUN_c18c5750(0x51,iVar35,uVar11);
+      FUN_c1619338(0xf,CONCAT22(extraout_R0_H_31,CONCAT11(extraout_var_31,extraout_R0_L_33)),0x51,
+                   (sbyte)iVar35);
+      iVar24 = *(int *)(*param_1 + 0x2c);
+      iVar31 = *(int *)(param_2 + 0xa2c);
+      *(ushort *)(iVar24 + (uint)(char)param_2[9] * 2 + 0x1ecc) = (ushort)iVar35 | 0x8000;
+      iVar35 = *(int *)(param_2 + 0xa38);
+      *(undefined2 *)(iVar35 + 2) = *(undefined2 *)(iVar31 + 2);
+      if ((bVar27) && (local_a4 == 0)) {
+        *(int *)(iVar24 + 0x1edc) = iVar35;
+      }
+      else {
+        *(int *)(iVar24 + 0x1ee0) = iVar35;
+      }
+    }
+  }
+  else if (sVar12 == 1) {
+    sVar12 = -(CONCAT22(sVar22,(short)sVar17) == 0x1d);
+    *piVar28 = (int)piVar33;
+    bVar10 = (bool)(sVar12 & '\x01');
+    if (!bVar10) {
+      iVar35 = -0x45d1745d;
+    }
+    piVar26[0x1d8b] = (int)piVar36;
+    if (!bVar10) {
+      sVar17 = (sbyte)iVar35;
+      sVar21 = (sbyte)((uint)iVar35 >> 8);
+      sVar22 = (short)((uint)iVar35 >> 0x10);
+    }
+    piVar26[0x1d8c] = (int)piVar40;
+    *(undefined2 *)(piVar26 + 0x1d90) = 0x16;
+    if ((bool)(sVar12 & '\x01')) {
+      *(undefined2 *)((int)piVar26 + 0x7642) = 0x16;
+    }
+    else {
+      *(short *)((int)piVar26 + 0x7642) =
+           (short)((char)param_2[0x20] + 1) +
+           (short)(uint)((ulonglong)((char)param_2[0x20] + 1) *
+                         (ulonglong)CONCAT22(sVar22,CONCAT11(sVar21,sVar17)) >> 0x24) * -0x16;
+    }
+  }
+  else {
+    if (!(bool)(-(sVar12 == 0) & '\x01')) goto LAB_c18e68f0;
+    bVar10 = CONCAT22(sVar22,(short)sVar17) == 0x1c;
+    piVar26[0x1d90] = 4;
+    uVar11 = SUB41(piVar44,0);
+    uVar14 = (undefined1)((uint)piVar44 >> 8);
+    uVar15 = (undefined2)((uint)piVar44 >> 0x10);
+    if (!bVar10) {
+      uVar11 = SUB41(piVar23,0);
+      uVar14 = (undefined1)((uint)piVar23 >> 8);
+      uVar15 = (undefined2)((uint)piVar23 >> 0x10);
+    }
+    piVar26[0x1d8c] = CONCAT22(uVar15,CONCAT11(uVar14,uVar11));
+    uVar11 = SUB41(piVar34,0);
+    uVar14 = (undefined1)((uint)piVar34 >> 8);
+    uVar15 = (undefined2)((uint)piVar34 >> 0x10);
+    if (bVar10) {
+      piVar23 = param_1 + 0x1bcd;
+      uVar11 = SUB41(piVar23,0);
+      uVar14 = (undefined1)((uint)piVar23 >> 8);
+      uVar15 = (undefined2)((uint)piVar23 >> 0x10);
+    }
+    *piVar28 = CONCAT22(uVar15,CONCAT11(uVar14,uVar11));
+    uVar11 = SUB41(piVar37,0);
+    uVar14 = (undefined1)((uint)piVar37 >> 8);
+    uVar15 = (undefined2)((uint)piVar37 >> 0x10);
+    if (!bVar10) {
+      uVar11 = SUB41(piVar38,0);
+      uVar14 = (undefined1)((uint)piVar38 >> 8);
+      uVar15 = (undefined2)((uint)piVar38 >> 0x10);
+    }
+    piVar26[0x1d8b] = CONCAT22(uVar15,CONCAT11(uVar14,uVar11));
+  }
+  piVar26[0x1dab] = *(int *)(param_2 + 0xaa0);
+  uVar11 = SUB41(param_2,0);
+  if ((bVar27) && (sVar17 = param_2[0xa51], CONCAT22(sVar17 >> 7,(short)sVar17) != 1)) {
+    if (CONCAT22((sbyte)param_2[1] >> 7,(short)(sbyte)param_2[1]) != 0) {
+      *(int **)(param_2 + 0xa28) = piVar43;
+      if (CONCAT22((sbyte)param_2[2] >> 7,(short)(sbyte)param_2[2]) == 3) {
+        param_2[0x1a] = sVar18;
+        uVar14 = (undefined1)DAT_cb2b1cc4;
+        if (param_2[0xa50] == 0 && sVar17 == 0) {
+          *param_2 = 2;
+        }
+        FUN_c18d0a04(uVar14,1,0x4c,uVar11);
+      }
+      else {
+        *(short *)((int)piVar26 + 0x764a) = (short)piVar16[2];
+        *(undefined2 *)(piVar26 + 0x1d93) = *(undefined2 *)((int)piVar16 + 10);
+        uVar2 = DAT_cb2b1cc4;
+        *param_2 = 2;
+        FUN_c18d0a04((sbyte)uVar2,1,0x4b,uVar11);
+      }
+    }
+  }
+  else {
+    FUN_c18c5730();
+    FUN_c1619338(0x62,CONCAT22(extraout_R0_H_32,CONCAT11(extraout_var_32,extraout_R0_L_34)),
+                 param_2[0xa48],param_2[0xa50],param_2[0xa51]);
+    *(int **)(param_2 + 0xa28) = piVar43;
+    param_2[0x1a] = sVar18;
+    if (((bool)(-(CONCAT22((sbyte)param_2[0xa50] >> 7,(short)(sbyte)param_2[0xa50]) == 0) & '\x01'))
+       && (CONCAT22((sbyte)param_2[0xa51] >> 7,(short)(sbyte)param_2[0xa51]) == 0)) {
+      *param_2 = 2;
+    }
+    FUN_c18d0a04((sbyte)DAT_cb2b1cc4,1,0x4c,uVar11);
+  }
+LAB_c18e6ba8:
+  FUN_c18c3b70((sbyte)*(undefined4 *)(*param_1 + 0x28),*(undefined4 *)(param_2 + 0xaac));
+  uVar11 = FUN_c18c5730();
+  FUN_c18c5750(0x47,0xd,uVar11);
+  FUN_c1619338(0x97,CONCAT22(extraout_R0_H_33,CONCAT11(extraout_var_33,extraout_R0_L_35)),0x47,0xd);
+  return;
+}
 
-    c18e5fe8  assign R0,R27 
-    c18e5fec  assign R4,R0 
-    c18e5ff0  zxth R2,R26 
-    c18e5ff4  combine R1R0,R18,R22 
-    c18e5ff8  assign R3,R24 
-    c18e5ffc  call 0xc18e1308 
-    c18e6000  assign R26,R19 
-    c18e6004  memb R2,(R16+#0x2) 
->>> c18e6008  jump.if:t !cmp.eq(R2.new,#0x3),0xc18e6084 
-    c18e600c  memb R2,(R21+#0x2e8) 
-    c18e6010  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6084 
-    c18e6014  assign R3,#0x0 
-    c18e6018  assign R4,#0x5555 
-    c18e601c  assign R1,#0x0 ; memw R0,(R23) 
-    c18e6020  memw R2,(R23+#0x4) 
-    c18e6024  add R3R2,R1R0,R3R2 
-    c18e6028  memw R0,(R23+#0x8) 
-    c18e602c  add R1R0,R3R2,R1R0 
-    c18e6030  mpyu R7R6,R0,R4 
 
-------------------------------------------------------------
-HIT @ c18e60a8
-HIT INSTRUCTION:
-  jump.if:t cmp.eq(R2.new,#0x3),0xc18e60b4 
+
+============================================================
+5. R2 == 0x1C
+============================================================
+SEED:
+cmp.eq P0,R2,#0x1c ; jump.if(!P0.new):nt 0xc18e576c 
+
 CONTEXT:
-    c18e6088  assign R24,#0x0 
-    c18e608c  memb R2,(R16+#0x1) 
-    c18e6090  memw R27,(SP+#0x68) 
-    c18e6094  assign R0,#0x0 
-    c18e6098  cmp.eq P0,R2,#0x0 ; jump.if(P0.new):nt 0xc18e60a4 
-    c18e609c  memw (SP+#0x34),R0.new 
-    c18e60a0  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60a4  memb R2,(R16+#0x2) 
->>> c18e60a8  jump.if:t cmp.eq(R2.new,#0x3),0xc18e60b4 
-    c18e60ac  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60b0  assign R24,#0x0 
-    c18e60b4  memub R24,(R21+#0x2e8) 
-    c18e60b8  add R2,R24,#-0x1 
-    c18e60bc  and R2,R2,#0xff 
-    c18e60c0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18e60cc 
-    c18e60c4  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60c8  assign R24,#0x0 
-    c18e60cc  cmp.eq P0,R24,#0x1 
-    c18e60d0  immext #0x28300 
+    c18e5710  memub R2,(R20+#0x8) 
+    c18e5714  jump.if:t cmp.gt(R2.new,#0x15),0xc18e57b4 
+    c18e5718  cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e5754 
+    c18e571c  cmp.gtu P0,R2,#0x1 ; jump.if(!P0.new):nt 0xc18e5884 
+    c18e5720  add R2,R2,#-0x2 
+    c18e5724  jump.if:nt cmp.gtu(R2.new,#0x1),0xc18e576c 
+    c18e5728  add R23,R17,#0x61e8 
+    c18e572c  assign R18,#0x16 
+    c18e5730  memub R2,(R26+#0x13a) 
+    c18e5734  add R3,R2,#0x1 
+    c18e5738  and R4,R3,#0xff 
+    c18e573c  cmp.eq P0,R4,#0x16 
+    c18e5740  mux R4,P0,#0x0,R3 
+    c18e5744  assign R3,#0x16 
+    c18e5748  memb (R26+#0x13a),R4.new 
+    c18e574c  jump 0xc18e5a24 
+    c18e5750  memb (R21+#0x2e9),R3 
+    c18e5754  cmp.gt P0,R2,#0x13 ; jump.if(P0.new):t 0xc18e5764 
+    c18e5758  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):nt 0xc18e599c 
+    c18e575c  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):t 0xc18e5884 
+    c18e5760  jump 0xc18e576c 
+    c18e5764  cmp.eq P0,R2,#0x14 ; jump.if(P0.new):nt 0xc18e5810 
+    c18e5768  cmp.eq P0,R2,#0x15 ; jump.if(P0.new):t 0xc18e5884 
+    c18e576c  assign R3,#0x1 
+    c18e5770  assign R18,#0x4 
+    c18e5774  memub R4,(R16+#0x9) ; memb R2,(R16+#0x5) 
+    c18e5778  asl R4,R4,#0x4 
+    c18e577c  cmp.eq P0,R2,#0x0 
+    c18e5780  memub R2,(R21+#0x2e8) 
+    c18e5784  memb R5,(R21+#0x2ea) 
+    c18e5788  immext #0x6100 
+    c18e578c  add R23,R17,add(R4,##0x6138) 
+    c18e5790  immext #0x2c0 
+    c18e5794  memub.if(P0) R3,(R21+##0x2e9) 
+    c18e5798  add.if(P0) R3,R3,#0x1 
+    c18e579c  cmp.eq P0,R5,#0x0 
+    c18e57a0  add.if(!P0.new) R3,R3,#-0x1 
+    c18e57a4  memb (R21+#0x2e9),R3 
+    c18e57a8  jump 0xc18e5a24 
+    c18e57ac  immext #0x2c0 
+    c18e57b0  memb.if(!P0) (R21+##0x2e9),R3 
+    c18e57b4  cmp.gt P0,R2,#0x1c ; jump.if(P0.new):t 0xc18e5804 
+    c18e57b8  add R3,R2,#-0x17 
+    c18e57bc  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18e5884 
+    c18e57c0  cmp.eq P0,R2,#0x16 ; jump.if(P0.new):nt 0xc18e5810 
+>>> c18e57c4  cmp.eq P0,R2,#0x1c ; jump.if(!P0.new):nt 0xc18e576c 
+    c18e57c8  immext #0x2c0 
+    c18e57cc  memb.if(P0.new) R4,(R21+##0x2ea) 
+    c18e57d0  assign R18,#0x4 
+    c18e57d4  assign R3,#0x1 ; memb R2,(R16+#0x5) 
+    c18e57d8  cmp.eq P0,R2,#0x0 
+    c18e57dc  memub R2,(R21+#0x2e8) 
+    c18e57e0  immext #0x2c0 
+    c18e57e4  memub.if(P0.new) R3,(R21+##0x2e9) 
+    c18e57e8  add.if(P0) R3,R3,#0x1 
+    c18e57ec  cmp.eq P0,R4,#0x0 
+    c18e57f0  add.if(!P0.new) R3,R3,#-0x1 
+    c18e57f4  memb (R21+#0x2e9),R3 
+    c18e57f8  jump 0xc18e5a24 
+    c18e57fc  immext #0x2c0 
+    c18e5800  memb.if(!P0) (R21+##0x2e9),R3 
+    c18e5804  cmp.gt P0,R2,#0x1e ; jump.if(P0.new):t 0xc18e5878 
+    c18e5808  cmp.eq P0,R2,#0x1d ; jump.if(P0.new):nt 0xc18e599c 
+    c18e580c  cmp.eq P0,R2,#0x1e ; jump.if(!P0.new):nt 0xc18e576c 
+    c18e5810  add R23,R17,#0x61d8 
+    c18e5814  assign R18,#0x4 
+    c18e5818  memub R2,(R26+#0x139) 
+    c18e581c  memub R3,(R26+#0x13d) 
+    c18e5820  add R4,R2,#0x1 
+    c18e5824  and R5,R4,#0xff 
+    c18e5828  cmp.eq P0,R5,#0x4 
+    c18e582c  mux R5,P0,#0x0,R4 
+    c18e5830  memb (R26+#0x139),R5.new 
+    c18e5834  memb R0,(R16+#0x5) 
+    c18e5838  cmp.eq P0,R0,#0x0 
+    c18e583c  add.if(P0.new) R4,R3,#0x1 
+    c18e5840  immext #0x100 
+    c18e5844  memb.if(!P0.new) (R26+##0x13e),R3 
+    c18e5848  assign.if(!P0) R4,#0x1 
+    c18e584c  add R5,R4,#-0x1 
+    c18e5850  memb (R26+#0x13d),R4 
+    c18e5854  memb R3,(R21+#0x2ea) 
+    c18e5858  cmp.eq P0,R3,#0x0 
+    c18e585c  assign.if(!P0.new) R4,R5 
+    c18e5860  memub R3,(R26+#0x13e) 
+    c18e5864  add R3,R3,R4 
+    c18e5868  immext #0x100 
+    c18e586c  memb.if(!P0) (R26+##0x13d),R5 
+    c18e5870  jump 0xc18e5a24 
+    c18e5874  memb (R21+#0x2e9),R3 
+    c18e5878  cmpb.eq P0,R2,#0x20 
+    c18e587c  jump.if(P0.new):nt 0xc18e5810 
+    c18e5880  cmp.eq P0,R2,#0x1f ; jump.if(!P0.new):nt 0xc18e576c 
+    c18e5884  memub R2,(R16+#0x3) 
+    c18e5888  setbit R2,R2,#0x1 
+    c18e588c  jump.if:nt !cmp.eq(R2.new,#0x17),0xc18e5934 
+    c18e5890  memb R2,(R16+#0x5) 
+    c18e5894  jump.if:nt cmp.eq(R2.new,#0x0),0xc18e58a8 
+    c18e5898  call 0xc18e1550 
+    c18e589c  assign R0,R27 
+    c18e58a0  call 0xc18e17b8 
 
-------------------------------------------------------------
-HIT @ c18e60c0
-HIT INSTRUCTION:
-  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18e60cc 
-CONTEXT:
-    c18e60a0  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60a4  memb R2,(R16+#0x2) 
-    c18e60a8  jump.if:t cmp.eq(R2.new,#0x3),0xc18e60b4 
-    c18e60ac  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60b0  assign R24,#0x0 
-    c18e60b4  memub R24,(R21+#0x2e8) 
-    c18e60b8  add R2,R24,#-0x1 
-    c18e60bc  and R2,R2,#0xff 
->>> c18e60c0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18e60cc 
-    c18e60c4  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60c8  assign R24,#0x0 
-    c18e60cc  cmp.eq P0,R24,#0x1 
-    c18e60d0  immext #0x28300 
-    c18e60d4  assign R22,##0x2830b 
-    c18e60d8  assign R2,P0 
-    c18e60dc  immext #0x3fb00 
-    c18e60e0  mux R18,P0,##0x3fb27,R22 
-    c18e60e4  memw (SP+#0x14),R2.new 
-    c18e60e8  call 0xc18c5730 
+============================================================
+6. R3 == 0x1C
+============================================================
+SEED:
+cmp.eq P0,R3,#0x1c 
 
-------------------------------------------------------------
-HIT @ c18e60cc
-HIT INSTRUCTION:
-  cmp.eq P0,R24,#0x1 
 CONTEXT:
-    c18e60ac  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60b0  assign R24,#0x0 
-    c18e60b4  memub R24,(R21+#0x2e8) 
-    c18e60b8  add R2,R24,#-0x1 
-    c18e60bc  and R2,R2,#0xff 
-    c18e60c0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18e60cc 
-    c18e60c4  assign R22,#0x0 ; jump 0xc18e61e0 
-    c18e60c8  assign R24,#0x0 
->>> c18e60cc  cmp.eq P0,R24,#0x1 
-    c18e60d0  immext #0x28300 
-    c18e60d4  assign R22,##0x2830b 
-    c18e60d8  assign R2,P0 
-    c18e60dc  immext #0x3fb00 
-    c18e60e0  mux R18,P0,##0x3fb27,R22 
-    c18e60e4  memw (SP+#0x14),R2.new 
-    c18e60e8  call 0xc18c5730 
-    c18e60ec  immext #0xd6161000 
-    c18e60f0  combine R1R0,R0,##0xd6161005 
-    c18e60f4  combine R3R2,R27,R24 
-
-------------------------------------------------------------
-HIT @ c18e621c
-HIT INSTRUCTION:
-  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc18e6244 
-CONTEXT:
-    c18e61fc  call 0xc18c5730 
-    c18e6200  immext #0xd6161180 
-    c18e6204  combine R1R0,R0,##0xd616119d 
-    c18e6208  assign R3,R24 
-    c18e620c  memub R2,(R16+#0x1) 
-    c18e6210  call 0xc1619338 
-    c18e6214  memb R2,(R16+#0x2) 
-    c18e6218  memw (R16+#0xa3c),R27 
->>> c18e621c  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc18e6244 
-    c18e6220  memb R2,(R21+#0x2ea) 
-    c18e6224  jump.if:t !cmp.eq(R2.new,#0x0),0xc18e6244 
-    c18e6228  memb R2,(R21+#0x2e8) 
-    c18e622c  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6244 
-    c18e6230  memb R2,(R21+#0x2f4) 
-    c18e6234  jump.if:t !cmp.eq(R2.new,#0x0),0xc18e6244 
-    c18e6238  call 0xc18e7038 
-    c18e623c  combine R1R0,R16,R17 
-    c18e6240  memw (SP+#0x34),R0 
-    c18e6244  cmp.eq P1,R24,#0x0 
-
-------------------------------------------------------------
-HIT @ c18e6250
-HIT INSTRUCTION:
-  jump.if:nt cmp.eq(R2.new,#0x1),0xc18e6260 
-CONTEXT:
-    c18e6230  memb R2,(R21+#0x2f4) 
-    c18e6234  jump.if:t !cmp.eq(R2.new,#0x0),0xc18e6244 
-    c18e6238  call 0xc18e7038 
-    c18e623c  combine R1R0,R16,R17 
-    c18e6240  memw (SP+#0x34),R0 
-    c18e6244  cmp.eq P1,R24,#0x0 
-    c18e6248  jump.if(!P1.new):nt 0xc18e6260 
-    c18e624c  memub R2,(R16+#0x1) 
->>> c18e6250  jump.if:nt cmp.eq(R2.new,#0x1),0xc18e6260 
-    c18e6254  memb R2,(R21+#0x2f1) 
-    c18e6258  immext #0x900 
-    c18e625c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b78 
-    c18e6260  memb R2,(R21+#0x2f4) 
-    c18e6264  immext #0x900 
-    c18e6268  jump.if:t !cmp.eq(R2.new,#0x0),0xc18e6b78 
-    c18e626c  assign R3,P1 
-    c18e6270  memb R2,(R16+#0x3) 
-    c18e6274  memw (SP+#0x68),R3.new 
-    c18e6278  cmp.eq P0,R2,#0x1d ; jump.if(P0.new):nt 0xc18e6284 
-
-------------------------------------------------------------
-HIT @ c18e625c
-HIT INSTRUCTION:
-  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b78 
-CONTEXT:
-    c18e623c  combine R1R0,R16,R17 
-    c18e6240  memw (SP+#0x34),R0 
-    c18e6244  cmp.eq P1,R24,#0x0 
-    c18e6248  jump.if(!P1.new):nt 0xc18e6260 
-    c18e624c  memub R2,(R16+#0x1) 
-    c18e6250  jump.if:nt cmp.eq(R2.new,#0x1),0xc18e6260 
-    c18e6254  memb R2,(R21+#0x2f1) 
-    c18e6258  immext #0x900 
->>> c18e625c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b78 
-    c18e6260  memb R2,(R21+#0x2f4) 
-    c18e6264  immext #0x900 
-    c18e6268  jump.if:t !cmp.eq(R2.new,#0x0),0xc18e6b78 
-    c18e626c  assign R3,P1 
-    c18e6270  memb R2,(R16+#0x3) 
-    c18e6274  memw (SP+#0x68),R3.new 
-    c18e6278  cmp.eq P0,R2,#0x1d ; jump.if(P0.new):nt 0xc18e6284 
-    c18e627c  and R3,R2,#0xff 
-    c18e6280  jump.if:nt !cmp.eq(R3.new,#0x4),0xc18e6290 
-    c18e6284  memub R2,(R26+#0xc) 
-
-------------------------------------------------------------
-HIT @ c18e6280
-HIT INSTRUCTION:
-  jump.if:nt !cmp.eq(R3.new,#0x4),0xc18e6290 
-CONTEXT:
-    c18e6260  memb R2,(R21+#0x2f4) 
-    c18e6264  immext #0x900 
-    c18e6268  jump.if:t !cmp.eq(R2.new,#0x0),0xc18e6b78 
-    c18e626c  assign R3,P1 
-    c18e6270  memb R2,(R16+#0x3) 
-    c18e6274  memw (SP+#0x68),R3.new 
-    c18e6278  cmp.eq P0,R2,#0x1d ; jump.if(P0.new):nt 0xc18e6284 
-    c18e627c  and R3,R2,#0xff 
->>> c18e6280  jump.if:nt !cmp.eq(R3.new,#0x4),0xc18e6290 
-    c18e6284  memub R2,(R26+#0xc) 
-    c18e6288  jump 0xc18e62ac 
-    c18e628c  add R1,R2,#0x1 ; memw R2,(SP+#0x3c) 
-    c18e6290  add R2,R2,#-0x21 ; memw R1,(SP+#0x20) 
-    c18e6294  and R2,R2,#0xff 
-    c18e6298  cmp.gtu P0,R2,#0x8 
-    c18e629c  memw R2,(SP+#0x3c) 
-    c18e62a0  immext #0x2c0 
-    c18e62a4  memub.if(!P0.new) R3,(R21+##0x2e8) 
-    c18e62a8  add.if(!P0) R1,R3,#0x1 
-
-------------------------------------------------------------
-HIT @ c18e62cc
-HIT INSTRUCTION:
-  cmp.eq P0,R3,#0x5 
-CONTEXT:
-    c18e62ac  call 0xc18c806c 
-    c18e62b0  assign R0,R23 
-    c18e62b4  memub R3,(R21+#0x2e9) 
-    c18e62b8  memb (R21+#0x2eb),R1 
-    c18e62bc  memw R4,(SP+#0x60) ; memw (SP+#0x60),R0 
-    c18e62c0  memub R24,(R4) 
-    c18e62c4  add R2,R24,#0x1 
-    c18e62c8  and R3,R2,#0xff 
->>> c18e62cc  cmp.eq P0,R3,#0x5 
-    c18e62d0  mux R3,P0,#0x0,R2 
-    c18e62d4  memb (R4),R3.new 
-    c18e62d8  memub R2,(R16+#0x2) 
-    c18e62dc  and R3,R2,#0xfe 
-    c18e62e0  jump.if:t !cmp.eq(R3.new,#0x2),0xc18e6364 
-    c18e62e4  memw R2,(SP+#0x68) 
-    c18e62e8  assign P0,R2 
-    c18e62ec  jump.if(P0.new):t 0xc18e6330 
-    c18e62f0  memb R2,(R21+#0x2e8) 
-    c18e62f4  jump.if:t cmp.gtu(R2.new,#0x2),0xc18e6330 
-
-------------------------------------------------------------
-HIT @ c18e6374
-HIT INSTRUCTION:
-  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e639c 
-CONTEXT:
-    c18e6354  memw (SP+#0x8),#0x1 
-    c18e6358  immext #0x7fffbfc0 
-    c18e635c  memw (SP),##0x7fffbfff 
-    c18e6360  memub R2,(R16+#0x2) 
-    c18e6364  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0xc18e6404 
-    c18e6368  memw.if(!P0.new) R27,(SP+#0x50) 
-    c18e636c  immext #0x7600 
-    c18e6370  assign.if(!P0.new) R25,##0x7628 
->>> c18e6374  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e639c 
-    c18e6378  or P0,P0,!P0 
-    c18e637c  assign R19,#0x1 ; memub R2,(R16+#0xb) 
-    c18e6380  assign R3,P0 
-    c18e6384  memw (SP+#0x3c),R3.new 
-    c18e6388  assign R3,#0x7628 
-    c18e638c  add R18,R3,#0x49d8 
-    c18e6390  memw R3,(SP+#0x68) 
-    c18e6394  assign P1,R3 
-    c18e6398  jump 0xc18e64ac 
-    c18e639c  assign.if(P0.new) R1,R16 
-
-------------------------------------------------------------
-HIT @ c18e6454
-HIT INSTRUCTION:
-  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc18e6474 
-CONTEXT:
-    c18e6434  or P0,P0,!P0 
-    c18e6438  memb (R16+#0x3),R0 
-    c18e643c  assign R3,P0 
-    c18e6440  memw (SP+#0x3c),R3.new 
-    c18e6444  memw R3,(SP+#0x68) 
-    c18e6448  assign P1,R3 
-    c18e644c  jump 0xc18e64ac 
-    c18e6450  assign R2,#0x0 
->>> c18e6454  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc18e6474 
-    c18e6458  or P0,P0,!P0 
-    c18e645c  assign R25,#0x7628 
-    c18e6460  assign R3,P0 
-    c18e6464  memw (SP+#0x3c),R3.new 
-    c18e6468  assign R3,#0x7628 
-    c18e646c  add R18,R3,#0x49d8 
-    c18e6470  jump 0xc18e64ac 
-    c18e6474  cmpb.eq P0,R19,#0xff 
-    c18e6478  assign.if(P0.new) R19,#0xff 
-    c18e647c  jump.if(P0.new):t 0xc18e6494 
-
-------------------------------------------------------------
-HIT @ c18e6548
-HIT INSTRUCTION:
-  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e656c 
-CONTEXT:
-    c18e6528  jump.if:t !cmp.eq(R3.new,#0x0),0xc18e6544 
-    c18e652c  memub R3,(R16+#0x9) 
-    c18e6530  immext #0x140 
-    c18e6534  +mpyi R3,R3,##0x178 
-    c18e6538  immext #0x12c0 
-    c18e653c  add R2,R2,add(R3,##0x12d8) 
-    c18e6540  memw (R16+#0xa2c),R2.new 
-    c18e6544  memb R2,(R21+#0x2f1) 
->>> c18e6548  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e656c 
-    c18e654c  memw R2,(R16+#0xa2c) 
-    c18e6550  memw (R2+#0xd8),clrbit(#0x9) 
-    c18e6554  memub R3,(R21+#0x2e8) 
-    c18e6558  memw R2,(R16+#0xa2c) 
-    c18e655c  add R3,R3,#0x1 
-    c18e6560  memw R4,(R2+#0xd8) 
-    c18e6564  insert R4,R3,#0x2,#0x7 
-    c18e6568  memw (R2+#0xd8),R4.new 
-    c18e656c  jump.if(P1) 0xc18e662c 
-    c18e6570  immext #0xa00 
-
-------------------------------------------------------------
-HIT @ c18e663c
-HIT INSTRUCTION:
-  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18e6678 
-CONTEXT:
-    c18e661c  jump 0xc18e662c 
-    c18e6620  memw (R2+#0xd8),R3.new 
-    c18e6624  assign R3,#0x6 
-    c18e6628  memw|= (R2+#0xd8),R3 
-    c18e662c  memb R2,(R20+#0x8) 
-    c18e6630  jump.if:t !cmp.eq(R2.new,#0x16),0xc18e6678 
-    c18e6634  memb R2,(R21+#0x2f5) 
-    c18e6638  add R2,R16,#0xa58 
->>> c18e663c  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18e6678 
-    c18e6640  memw.if(P0.new) (R23+#0x80),R2.new 
-    c18e6644  memb R2,(R21+#0x2f6) 
-    c18e6648  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e6658 
-    c18e664c  add R2,R16,#0xa7c 
-    c18e6650  jump 0xc18e6678 
-    c18e6654  memw (R23+#0x80),R2.new 
-    c18e6658  call 0xc18c5730 
-    c18e665c  assign R2,#0x0 
-    c18e6660  memw (R23+#0x80),R2.new 
-    c18e6664  immext #0xd6161240 
-
-------------------------------------------------------------
-HIT @ c18e6648
-HIT INSTRUCTION:
-  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e6658 
-CONTEXT:
-    c18e6628  memw|= (R2+#0xd8),R3 
-    c18e662c  memb R2,(R20+#0x8) 
-    c18e6630  jump.if:t !cmp.eq(R2.new,#0x16),0xc18e6678 
-    c18e6634  memb R2,(R21+#0x2f5) 
-    c18e6638  add R2,R16,#0xa58 
-    c18e663c  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18e6678 
-    c18e6640  memw.if(P0.new) (R23+#0x80),R2.new 
-    c18e6644  memb R2,(R21+#0x2f6) 
->>> c18e6648  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e6658 
-    c18e664c  add R2,R16,#0xa7c 
-    c18e6650  jump 0xc18e6678 
-    c18e6654  memw (R23+#0x80),R2.new 
-    c18e6658  call 0xc18c5730 
-    c18e665c  assign R2,#0x0 
-    c18e6660  memw (R23+#0x80),R2.new 
-    c18e6664  immext #0xd6161240 
-    c18e6668  combine R1R0,R0,##0xd6161260 
-    c18e666c  memub R2,(R21+#0x2f5) 
-    c18e6670  memub R3,(R21+#0x2f6) 
-
-------------------------------------------------------------
-HIT @ c18e66f8
-HIT INSTRUCTION:
-  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18e673c 
-CONTEXT:
-    c18e66d8  memub R3,(R16+#0x9) 
-    c18e66dc  memuh R4,(R2+#0x6) 
-    c18e66e0  insert R4,R3,#0x13,#0xd 
-    c18e66e4  memh (R2+#0x6),R4.new 
-    c18e66e8  memub R2,(R16+#0x9) 
-    c18e66ec  memh (R23+#0x30),R2.new 
     c18e66f0  memub R2,(R16+#0x2) 
     c18e66f4  jump.if:nt cmp.eq(R2.new,#0x2),0xc18e6718 
->>> c18e66f8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18e673c 
+    c18e66f8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18e673c 
     c18e66fc  memw R4,(SP+#0x64) 
     c18e6700  immext #0xb000 
     c18e6704  assign R3,##0xb000 
@@ -368,12 +798,15 @@ CONTEXT:
     c18e6718  memw R2,(R16+#0xa2c) 
     c18e671c  memub R3,(R16+#0x3) 
     c18e6720  add R3,#0x40,asl(R3,#0x3) 
-
-------------------------------------------------------------
-HIT @ c18e6768
-HIT INSTRUCTION:
-  cmp.eq P0,R3,#0x4 
-CONTEXT:
+    c18e6724  memuh R4,(R2+#0x6) 
+    c18e6728  immext #0xff80 
+    c18e672c  and R4,R4,##0xff87 
+    c18e6730  or R3,R4,and(R3,#0x78) 
+    c18e6734  memw R4,(SP+#0x64) 
+    c18e6738  memh (R2+#0x6),R3.new 
+    c18e673c  +mpyi R20,R24,#0x88 
+    c18e6740  memub R2,(R4) 
+    c18e6744  memb (R23+#0x1d),R2.new 
     c18e6748  memub R2,(R4+#0x1) 
     c18e674c  memb (R23+#0x1e),R2.new 
     c18e6750  memub R2,(R4+#0x2) 
@@ -382,7 +815,7 @@ CONTEXT:
     c18e675c  memb (R23+#0x20),R2.new 
     c18e6760  memb R3,(R16+#0x3) 
     c18e6764  memb (R23+#0x1c),R3.new 
->>> c18e6768  cmp.eq P0,R3,#0x4 
+    c18e6768  cmp.eq P0,R3,#0x4 
     c18e676c  memw R2,(SP+#0x68) 
     c18e6770  assign P1,R2 
     c18e6774  immext #0x7640 
@@ -393,62 +826,12 @@ CONTEXT:
     c18e6788  or P0,P0,!P0 
     c18e678c  jump 0xc18e679c 
     c18e6790  memw R6,(SP+#0x48) ; memw R7,(SP+#0x5c) 
-
-------------------------------------------------------------
-HIT @ c18e67bc
-HIT INSTRUCTION:
-  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc18e6850 
-CONTEXT:
+    c18e6794  cmp.eq P0,R3,#0x16 
+    c18e6798  memw R6,(SP+#0x48) ; memw R7,(SP+#0x5c) 
     c18e679c  assign R4,R17 
     c18e67a0  mux R2,P0,#0x1,#0x0 
     c18e67a4  memw R22,(SP+#0x4c) 
     c18e67a8  memb (R23+#0x62),R2.new 
-    c18e67ac  mpyi+= R22,R24,#0x88 
-    c18e67b0  add+= R4,R20,R25 
-    c18e67b4  memub R2,(R16+#0x2) 
-    c18e67b8  add R5,R2,#-0x2 
->>> c18e67bc  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc18e6850 
-    c18e67c0  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18e6800 
-    c18e67c4  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):nt 0xc18e68f0 
-    c18e67c8  assign R2,#0x4 
-    c18e67cc  cmp.eq P0,R3,#0x1c 
-    c18e67d0  memw R3,(SP+#0x30) 
-    c18e67d4  memw (R23+#0x18),R2.new 
-    c18e67d8  memw R2,(SP+#0x18) 
-    c18e67dc  assign.if(!P0) R2,R3 
-    c18e67e0  memw R2,(SP+#0x58) ; memw (R23+#0x8),R2 
-    c18e67e4  immext #0x6f00 
-
-------------------------------------------------------------
-HIT @ c18e67c0
-HIT INSTRUCTION:
-  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18e6800 
-CONTEXT:
-    c18e67a0  mux R2,P0,#0x1,#0x0 
-    c18e67a4  memw R22,(SP+#0x4c) 
-    c18e67a8  memb (R23+#0x62),R2.new 
-    c18e67ac  mpyi+= R22,R24,#0x88 
-    c18e67b0  add+= R4,R20,R25 
-    c18e67b4  memub R2,(R16+#0x2) 
-    c18e67b8  add R5,R2,#-0x2 
-    c18e67bc  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc18e6850 
->>> c18e67c0  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18e6800 
-    c18e67c4  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):nt 0xc18e68f0 
-    c18e67c8  assign R2,#0x4 
-    c18e67cc  cmp.eq P0,R3,#0x1c 
-    c18e67d0  memw R3,(SP+#0x30) 
-    c18e67d4  memw (R23+#0x18),R2.new 
-    c18e67d8  memw R2,(SP+#0x18) 
-    c18e67dc  assign.if(!P0) R2,R3 
-    c18e67e0  memw R2,(SP+#0x58) ; memw (R23+#0x8),R2 
-    c18e67e4  immext #0x6f00 
-    c18e67e8  add.if(P0) R2,R17,##0x6f34 
-
-------------------------------------------------------------
-HIT @ c18e67cc
-HIT INSTRUCTION:
-  cmp.eq P0,R3,#0x1c 
-CONTEXT:
     c18e67ac  mpyi+= R22,R24,#0x88 
     c18e67b0  add+= R4,R20,R25 
     c18e67b4  memub R2,(R16+#0x2) 
@@ -468,12 +851,30 @@ CONTEXT:
     c18e67ec  memw R2,(SP+#0x2c) ; memw (R4),R2 
     c18e67f0  memw R3,(SP+#0x28) 
     c18e67f4  assign.if(!P0) R2,R3 
-
-------------------------------------------------------------
-HIT @ c18e6878
-HIT INSTRUCTION:
-  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
-CONTEXT:
+    c18e67f8  jump 0xc18e6ab0 
+    c18e67fc  memw (R23+#0x4),R2 
+    c18e6800  cmp.eq P0,R3,#0x1d 
+    c18e6804  assign R0,#0x16 
+    c18e6808  memw R2,(SP+#0x54) 
+    c18e680c  memw (R4),R2.new 
+    c18e6810  immext #0xba2e8b80 
+    c18e6814  assign.if(!P0) R3,##0xba2e8ba3 
+    c18e6818  memw R1,(SP+#0x38) 
+    c18e681c  memw (R23+#0x4),R1.new 
+    c18e6820  jump.if(!P0) 0xc18e6834 
+    c18e6824  memw (R23+#0x8),R6 
+    c18e6828  memh (R23+#0x18),R0.L 
+    c18e682c  assign R2,#0x0 ; jump 0xc18e6ab0 
+    c18e6830  memh (R23+#0x1a),R0.new 
+    c18e6834  memub R2,(R16+#0x20) 
+    c18e6838  add R2,R2,#0x1 
+    c18e683c  mpyu R1R0,R2,R3 
+    c18e6840  lsr R1R0,R1R0,#0x24 
+    c18e6844  mpyi-= R2,R0,#0x16 
+    c18e6848  jump 0xc18e6ab0 
+    c18e684c  memh (R23+#0x1a),R2.new 
+    c18e6850  add R22,R16,#0x400 
+    c18e6854  add R24,R16,#0x600 
     c18e6858  assign R19,R22 ; memw (SP+#0x64),R19 
     c18e685c  add R25,R16,#0x800 
     c18e6860  assign R3,#0x19 
@@ -482,7 +883,7 @@ CONTEXT:
     c18e686c  jump.if(!P1) 0xc18e687c 
     c18e6870  memw (R23+#0x4),R27 
     c18e6874  memw R3,(SP+#0x34) 
->>> c18e6878  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
+    c18e6878  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
     c18e687c  memub R3,(R21+#0x2e8) 
     c18e6880  add R27,R3,#0x1 
     c18e6884  and R3,R27,#0xff 
@@ -493,37 +894,7 @@ CONTEXT:
     c18e6898  call 0xc1620d4c 
     c18e689c  combine R1R0,#0x0,R18 
     c18e68a0  assign R2,#0x160 
-
-------------------------------------------------------------
-HIT @ c18e6888
-HIT INSTRUCTION:
-  jump.if:t cmp.gtu(R3.new,#0x3),0xc18e68d4 
-CONTEXT:
-    c18e6868  memw (R23+#0x8),R7 ; memw (R4),#0x0 
-    c18e686c  jump.if(!P1) 0xc18e687c 
-    c18e6870  memw (R23+#0x4),R27 
-    c18e6874  memw R3,(SP+#0x34) 
-    c18e6878  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
-    c18e687c  memub R3,(R21+#0x2e8) 
-    c18e6880  add R27,R3,#0x1 
-    c18e6884  and R3,R27,#0xff 
->>> c18e6888  jump.if:t cmp.gtu(R3.new,#0x3),0xc18e68d4 
-    c18e688c  asl R2,R3,#0x9 
-    c18e6890  immext #0x200 
-    c18e6894  add R18,R16,add(R2,##0x200) 
-    c18e6898  call 0xc1620d4c 
-    c18e689c  combine R1R0,#0x0,R18 
-    c18e68a0  assign R2,#0x160 
     c18e68a4  call 0xc18c5730 
-    c18e68a8  immext #0xd61612c0 
-    c18e68ac  combine R1R0,R0,##0xd61612da 
-    c18e68b0  assign R2,R18 
-
-------------------------------------------------------------
-HIT @ c18e68c8
-HIT INSTRUCTION:
-  jump.if:t !cmp.gtu(R2.new,#0x3),0xc18e6898 
-CONTEXT:
     c18e68a8  immext #0xd61612c0 
     c18e68ac  combine R1R0,R0,##0xd61612da 
     c18e68b0  assign R2,R18 
@@ -532,7 +903,7 @@ CONTEXT:
     c18e68bc  add R27,R27,#0x1 
     c18e68c0  add R18,R18,#0x200 
     c18e68c4  and R2,R27,#0xff 
->>> c18e68c8  jump.if:t !cmp.gtu(R2.new,#0x3),0xc18e6898 
+    c18e68c8  jump.if:t !cmp.gtu(R2.new,#0x3),0xc18e6898 
     c18e68cc  memub R2,(R16+#0x2) ; memw R3,(SP+#0x68) 
     c18e68d0  assign P1,R3 
     c18e68d4  memw R3,(SP+#0x24) 
@@ -543,752 +914,430 @@ CONTEXT:
     c18e68e8  memw (R23+#0x54),R24 
     c18e68ec  memw (R23+#0x58),R25 
     c18e68f0  and R2,R2,#0xfe 
+    c18e68f4  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6ab0 
+    c18e68f8  memw R2,(SP+#0x60) 
 
-------------------------------------------------------------
-HIT @ c18e6ac8
-HIT INSTRUCTION:
-  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b14 
-CONTEXT:
-    c18e6aa8  immext #0x1ec0 
-    c18e6aac  memw (R2+##0x1ee0),R3 
-    c18e6ab0  immext #0xcb2b1cc0 
-    c18e6ab4  assign R18,##0xcb2b1cc4 
-    c18e6ab8  memw R2,(R16+#0xaa0) 
-    c18e6abc  memw (R23+#0x84),R2.new 
-    c18e6ac0  jump.if(!P1) 0xc18e6acc 
-    c18e6ac4  memb R2,(R21+#0x2f1) 
->>> c18e6ac8  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b14 
-    c18e6acc  call 0xc18c5730 
-    c18e6ad0  immext #0xd6161340 
-    c18e6ad4  combine R1R0,R0,##0xd6161362 
-    c18e6ad8  memub R3,(R21+#0x2f0) 
-    c18e6adc  memub R2,(R21+#0x2e8) 
-    c18e6ae0  call 0xc1619338 
-    c18e6ae4  memub R4,(R21+#0x2f1) 
-    c18e6ae8  memb R2,(R21+#0x2f0) 
-    c18e6aec  memw (R16+#0xa28),R22 
-    c18e6af0  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc18e6b04 
+============================================================
+7. COMMON PATH @ C18E5A24
+============================================================
+    c18e59c0  immext #0x1240 
+    c18e59c4  cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):nt 0xc18e6c00 
+    c18e59c8  memb R2,(R16+#0x5) 
+    c18e59cc  jump.if:nt cmp.eq(R2.new,#0x0),0xc18e59e4 
+    c18e59d0  assign R2,#0x0 
+    c18e59d4  assign R3,#0x1 
+    c18e59d8  memb (R26+#0xc),R2.new 
+    c18e59dc  jump 0xc18e5a0c 
+    c18e59e0  memb (R21+#0x2e9),R3 
+    c18e59e4  memb R3,(R16+#0x7) 
+    c18e59e8  memub R2,(R26+#0xc) 
+    c18e59ec  cmp.eq P0,R3,#0x0 
+    c18e59f0  add.if(P0.new) R2,R2,#0x1 
+    c18e59f4  assign.if(!P0.new) R2,R3 
+    c18e59f8  memb (R26+#0xc),R2 
+    c18e59fc  memub R3,(R21+#0x2e9) 
+    c18e5a00  add.if(P0) R3,R3,#0x1 
+    c18e5a04  assign.if(!P0) R3,#0x1 
+    c18e5a08  memb (R21+#0x2e9),R3 
+    c18e5a0c  assign R18,#0x4 
+    c18e5a10  memb R4,(R21+#0x2ea) 
+    c18e5a14  cmp.eq P0,R4,#0x0 
+    c18e5a18  add.if(!P0.new) R3,R3,#-0x1 
+    c18e5a1c  immext #0x2c0 
+    c18e5a20  memb.if(!P0.new) (R21+##0x2e9),R3.new 
+>>> c18e5a24  and R19,R2,#0xff 
+    c18e5a28  memw R2,(R20+#0x58) 
+    c18e5a2c  memw (R23+R19<<#0x2),R2 
+    c18e5a30  memb R2,(R16+#0x3) 
+    c18e5a34  jump.if:t cmp.eq(R2.new,#0x4),0xc18e5a50 
+    c18e5a38  assign R1,R18 ; memb R2,(R16+#0x2) 
+    c18e5a3c  cmp.eq P0,R2,#0x3 
+    c18e5a40  immext #0x2c0 
+    c18e5a44  memub.if(P0.new) R2,(R21+##0x2e8) 
+    c18e5a48  add.if(P0) R1,R2,#0x1 
+    c18e5a4c  jump 0xc18e5a58 
+    c18e5a50  memub R2,(R21+#0x2e8) 
+    c18e5a54  add R1,R2,#0x1 
+    c18e5a58  assign R0,R23 
+    c18e5a5c  and R3,R3,#0xff ; memb R2,(R16+#0x1) 
+    c18e5a60  cmp.eq P0,R2,#0x1 
+    c18e5a64  assign R2,R19 
+    c18e5a68  immext #0x2c0 
+    c18e5a6c  memb.if(P0.new) (R21+##0x2eb),R1 
+    c18e5a70  call 0xc18c806c 
+    c18e5a74  add R25,R17,#0x5d0 
+    c18e5a78  assign R22,#0x0 
+    c18e5a7c  memub R2,(R21+#0x2e8) 
+    c18e5a80  memub R3,(R20+#0x79) 
+    c18e5a84  add R2,R2,#0x1 
+    c18e5a88  asl R2,R3,R2 
+    c18e5a8c  memb|= (R16+#0xa),R2 
+    c18e5a90  memw (SP+#0x68),R0 
+    c18e5a94  memb R2,(R20+#0x8) 
+    c18e5a98  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e5ac4 
+    c18e5a9c  assign R22,#0x0 
+    c18e5aa0  memb R2,(R16+#0x5) 
+    c18e5aa4  jump.if:nt cmp.eq(R2.new,#0x0),0xc18e5aac 
+    c18e5aa8  assign R0,#0x0 ; jump 0xc18e5af0 
+    c18e5aac  assign R0,#0x0 
+    c18e5ab0  memb R2,(R16+#0x1) 
+    c18e5ab4  jump.if:nt cmp.eq(R2.new,#0x0),0xc18e5af0 
+    c18e5ab8  call 0xc18f7e48 
+    c18e5abc  combine R1R0,R23,R25 
+    c18e5ac0  assign R22,R0 ; memub R2,(R20+#0x8) 
+    c18e5ac4  and R2,R2,#0xff 
+    c18e5ac8  jump.if:t cmp.eq(R2.new,#0xc),0xc18e5ad0 
+    c18e5acc  assign R0,#0x0 ; jump 0xc18e5af0 
+    c18e5ad0  memb R2,(R16+#0x5) 
+    c18e5ad4  jump.if:nt cmp.eq(R2.new,#0x0),0xc18e5adc 
+    c18e5ad8  assign R0,#0x0 ; jump 0xc18e5af0 
+    c18e5adc  memb R2,(R16+#0x1) 
+    c18e5ae0  cmp.eq P0,R2,#0x0 
+    c18e5ae4  immext #0xfffe2880 
+    c18e5ae8  call.if(!P0) 0xc18c8368 
+    c18e5aec  mux R0,P0,#0x0,R23 
+    c18e5af0  memw R2,(R20+#0x5c) 
+    c18e5af4  memw (SP+#0x3c),R19 
+    c18e5af8  memw (SP+#0x20),R18 ; memw (SP+#0x1c),R0 
+    c18e5afc  immext #0x1c0 
+    c18e5b00  memh (R2),##0x1f0 
+    c18e5b04  memw R3,(R16+#0x1c) 
+    c18e5b08  memh (R2+#0x2),R3.L 
+    c18e5b0c  memw R2,(R20+#0x68) 
+    c18e5b10  cmp.eq P0,R2,#0x0 
+    c18e5b14  memh.if(!P0) (R2),R3.L 
+    c18e5b18  memw R2,(R20+#0x6c) 
+    c18e5b1c  cmp.eq P0,R2,#0x0 
+    c18e5b20  call 0xc18c5730 
+    c18e5b24  memh.if(!P0) (R2),R3.L 
+    c18e5b28  call 0xc1619338 
+    c18e5b2c  immext #0xd6160f40 
+    c18e5b30  combine R1R0,R0,##0xd6160f7f 
+    c18e5b34  memw R2,(R16+#0x1c) 
+    c18e5b38  add R4,R17,#0x6308 
+    c18e5b3c  add R5,R17,#0x7104 
+    c18e5b40  memw R3,(R20+#0x5c) 
+    c18e5b44  memw (SP+#0x30),R4.new 
+    c18e5b48  add R5,R17,#0x70fc 
+    c18e5b4c  add R6,R16,#0xa30 
+    c18e5b50  memub R2,(R16+#0x9) ; memw (SP+#0x2c),R5 
+    c18e5b54  add R24,R17,#0x6328 
+    c18e5b58  add R18,R17,#0x6258 
+    c18e5b5c  memw R3,(R3) ; memh (R3+#0x4),R2 
+    c18e5b60  add R5,R16,#0x200 
+    c18e5b64  add R19,R16,#0xa00 
+    c18e5b68  memw R4,(R20+#0x64) 
+    c18e5b6c  memw (SP+#0x28),R5 
+    c18e5b70  memw (SP+#0x24),R5 ; memw (SP+#0x50),R6 
+    c18e5b74  memw (R4),R3 ; memh (R4+#0x4),R2 
+    c18e5b78  memub R3,(R16+#0x2) ; memw (SP+#0x44),R22 
+    c18e5b7c  add R4,R3,#-0x2 
+    c18e5b80  memw (SP+#0x40),R25 
+    c18e5b84  add R4,R17,#0x6d40 
+    c18e5b88  cmp.gtu P0,R4,#0x1 ; jump.if(!P0.new):nt 0xc18e5c60 
+    c18e5b8c  memw (SP+#0x38),R4.new 
+    c18e5b90  assign.if(!P0.new) R25,#0x0 
+    c18e5b94  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc18e5c08 
+    c18e5b98  memw.if(P0.new) R4,(SP+#0x38) 
+    c18e5b9c  cmp.eq P0,R3,#0x0 ; jump.if(!P0.new):nt 0xc18e5d18 
+    c18e5ba0  memb.if(P0.new) R2,(R16+#0x3) 
+    c18e5ba4  memw.if(P0.new) R3,(R20+#0x74) 
+    c18e5ba8  cmp.eq P0,R2,#0x1c 
+    c18e5bac  memub R4,(R16+#0x20) 
+    c18e5bb0  memw.if(!P0.new) R25,(SP+#0x30) 
+    c18e5bb4  asl R2,R4,#0x1 
+    c18e5bb8  assign.if(P0) R25,R24 
+    c18e5bbc  jump.if(!P0) 0xc18e5be8 
+    c18e5bc0  memw.if(!P0) R4,(SP+#0x28) 
+    c18e5bc4  memw R4,(SP+#0x2c) 
+    c18e5bc8  memw (R24+R2<<#0x2),R3 
+    c18e5bcc  memub R3,(R20+#0x71) 
+    c18e5bd0  memb (R4+R2),R3.new 
+    c18e5bd4  memub R2,(R16+#0x20) 
+    c18e5bd8  memub R3,(R20+#0x72) 
+    c18e5bdc  or R2,#0x1,asl(R2,#0x1) 
+    c18e5be0  jump 0xc18e5d18 
+    c18e5be4  memb (R4+R2),R3 
+    c18e5be8  memw (R25+R2<<#0x2),R3 
+    c18e5bec  memub R3,(R20+#0x71) 
+    c18e5bf0  memb (R4+R2),R3 
+    c18e5bf4  memub R2,(R16+#0x20) 
+    c18e5bf8  or R2,#0x1,asl(R2,#0x1) 
+    c18e5bfc  memub R3,(R20+#0x72) 
+    c18e5c00  jump 0xc18e5d18 
+    c18e5c04  memb (R4+R2),R3 
+    c18e5c08  assign R25,R18 
+    c18e5c0c  memub R2,(R16+#0x20) 
+    c18e5c10  memw R3,(R20+#0x74) 
+    c18e5c14  memw (R18+R2<<#0x3),R3.new 
+    c18e5c18  memub R3,(R20+#0x71) 
+    c18e5c1c  memb (R4+R2<<#0x1),R3.new 
+    c18e5c20  memub R2,(R16+#0x20) 
+    c18e5c24  memub R3,(R20+#0x72) 
+    c18e5c28  or R2,#0x1,asl(R2,#0x1) 
+    c18e5c2c  memb (R4+R2),R3 
+    c18e5c30  memub R2,(R16+#0x3) 
+    c18e5c34  setbit R2,R2,#0x1 
+    c18e5c38  jump.if:nt !cmp.eq(R2.new,#0x17),0xc18e5d18 
+    c18e5c3c  memb R2,(R20+#0x71) 
+    c18e5c40  jump.if:t cmp.gt(R2.new,#0x0),0xc18e5c50 
+    c18e5c44  assign R25,R18 
+    c18e5c48  memb R2,(R20+#0x72) 
+    c18e5c4c  jump.if:nt !cmp.gt(R2.new,#0x0),0xc18e5d18 
+    c18e5c50  call 0xc18e1748 
+    c18e5c54  assign R0,R27 
 
-------------------------------------------------------------
-HIT @ c18e6b28
-HIT INSTRUCTION:
-  cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):t 0xc18e6b54 
-CONTEXT:
-    c18e6b08  combine R3R2,R16,#0x4c 
-    c18e6b0c  assign R1,#0x1 ; memw R0,(R18) 
-    c18e6b10  jump 0xc18e6ba8 
-    c18e6b14  memb R3,(R16+#0x1) 
-    c18e6b18  jump.if:nt cmp.eq(R3.new,#0x0),0xc18e6ba8 
-    c18e6b1c  memb R3,(R16+#0x2) 
-    c18e6b20  memw (R16+#0xa28),R22 
-    c18e6b24  assign.if(!P0.new) R1,#0x1 
->>> c18e6b28  cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):t 0xc18e6b54 
-    c18e6b2c  memb.if(P0.new) (R16+#0x1a),R19 
-    c18e6b30  assign R1,#0x1 
-    c18e6b34  memub R3,(R21+#0x2f0) 
-    c18e6b38  or R2,R3,and(R2,#0xff) 
-    c18e6b3c  cmp.eq P0,R2,#0x0 
-    c18e6b40  combine R3R2,R16,#0x4c 
-    c18e6b44  memb.if(P0.new) (R16),#0x2 
-    c18e6b48  memw R0,(R18) 
-    c18e6b4c  call 0xc18d0a04 
-    c18e6b50  jump 0xc18e6ba8 
+============================================================
+8. CALLS INSIDE FUN_c18e56b8
+============================================================
+CALL @ c18e56cc  call 0xc18c5730 
 
-------------------------------------------------------------
-HIT @ c18e6b7c
-HIT INSTRUCTION:
-  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6ba8 
-CONTEXT:
-    c18e6b5c  memuh R2,(R26+#0xa) 
-    c18e6b60  memh (R23+#0x24),R2.new 
-    c18e6b64  call 0xc18d0a04 
-    c18e6b68  combine R3R2,R16,#0x4b 
-    c18e6b6c  memb (R16),#0x2 
-    c18e6b70  memw R0,(R18) 
-    c18e6b74  jump 0xc18e6ba8 
-    c18e6b78  memb R2,(R21+#0x348) 
->>> c18e6b7c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6ba8 
-    c18e6b80  memw R2,(R17) 
-    c18e6b84  memw R1,(R16+#0xaa4) 
-    c18e6b88  call 0xc18ccf40 
-    c18e6b8c  memw R0,(R2+#0x2c) 
-    c18e6b90  assign R3,#0x0 
-    c18e6b94  assign R4,#0x0 
-    c18e6b98  memw R5,(R17) ; memub R1,(R16+#0x9) 
-    c18e6b9c  memuh R2,(R16+#0x1c) 
-    c18e6ba0  call 0xc18e1308 
-    c18e6ba4  memw R0,(R5+#0x8) 
+CALL @ c18e56d4  call 0xc18c5750 
 
-[PROPERTY 28 / 0x1C SPECIFIC]
+CALL @ c18e56e0  call 0xc1619338 
 
-HIT 0x1C @ c18e57b4
-c18e5784  memb R5,(R21+#0x2ea) 
-c18e5788  immext #0x6100 
-c18e578c  add R23,R17,add(R4,##0x6138) 
-c18e5790  immext #0x2c0 
-c18e5794  memub.if(P0) R3,(R21+##0x2e9) 
-c18e5798  add.if(P0) R3,R3,#0x1 
-c18e579c  cmp.eq P0,R5,#0x0 
-c18e57a0  add.if(!P0.new) R3,R3,#-0x1 
-c18e57a4  memb (R21+#0x2e9),R3 
-c18e57a8  jump 0xc18e5a24 
-c18e57ac  immext #0x2c0 
-c18e57b0  memb.if(!P0) (R21+##0x2e9),R3 
-c18e57b4  cmp.gt P0,R2,#0x1c ; jump.if(P0.new):t 0xc18e5804 
-c18e57b8  add R3,R2,#-0x17 
-c18e57bc  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18e5884 
-c18e57c0  cmp.eq P0,R2,#0x16 ; jump.if(P0.new):nt 0xc18e5810 
-c18e57c4  cmp.eq P0,R2,#0x1c ; jump.if(!P0.new):nt 0xc18e576c 
-c18e57c8  immext #0x2c0 
-c18e57cc  memb.if(P0.new) R4,(R21+##0x2ea) 
-c18e57d0  assign R18,#0x4 
-c18e57d4  assign R3,#0x1 ; memb R2,(R16+#0x5) 
-c18e57d8  cmp.eq P0,R2,#0x0 
-c18e57dc  memub R2,(R21+#0x2e8) 
-c18e57e0  immext #0x2c0 
-c18e57e4  memub.if(P0.new) R3,(R21+##0x2e9) 
-c18e57e8  add.if(P0) R3,R3,#0x1 
-c18e57ec  cmp.eq P0,R4,#0x0 
-c18e57f0  add.if(!P0.new) R3,R3,#-0x1 
-c18e57f4  memb (R21+#0x2e9),R3 
-c18e57f8  jump 0xc18e5a24 
-c18e57fc  immext #0x2c0 
-c18e5800  memb.if(!P0) (R21+##0x2e9),R3 
-c18e5804  cmp.gt P0,R2,#0x1e ; jump.if(P0.new):t 0xc18e5878 
+CALL @ c18e5898  call 0xc18e1550 
 
-HIT 0x1C @ c18e57c4
-c18e5794  memub.if(P0) R3,(R21+##0x2e9) 
-c18e5798  add.if(P0) R3,R3,#0x1 
-c18e579c  cmp.eq P0,R5,#0x0 
-c18e57a0  add.if(!P0.new) R3,R3,#-0x1 
-c18e57a4  memb (R21+#0x2e9),R3 
-c18e57a8  jump 0xc18e5a24 
-c18e57ac  immext #0x2c0 
-c18e57b0  memb.if(!P0) (R21+##0x2e9),R3 
-c18e57b4  cmp.gt P0,R2,#0x1c ; jump.if(P0.new):t 0xc18e5804 
-c18e57b8  add R3,R2,#-0x17 
-c18e57bc  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18e5884 
-c18e57c0  cmp.eq P0,R2,#0x16 ; jump.if(P0.new):nt 0xc18e5810 
-c18e57c4  cmp.eq P0,R2,#0x1c ; jump.if(!P0.new):nt 0xc18e576c 
-c18e57c8  immext #0x2c0 
-c18e57cc  memb.if(P0.new) R4,(R21+##0x2ea) 
-c18e57d0  assign R18,#0x4 
-c18e57d4  assign R3,#0x1 ; memb R2,(R16+#0x5) 
-c18e57d8  cmp.eq P0,R2,#0x0 
-c18e57dc  memub R2,(R21+#0x2e8) 
-c18e57e0  immext #0x2c0 
-c18e57e4  memub.if(P0.new) R3,(R21+##0x2e9) 
-c18e57e8  add.if(P0) R3,R3,#0x1 
-c18e57ec  cmp.eq P0,R4,#0x0 
-c18e57f0  add.if(!P0.new) R3,R3,#-0x1 
-c18e57f4  memb (R21+#0x2e9),R3 
-c18e57f8  jump 0xc18e5a24 
-c18e57fc  immext #0x2c0 
-c18e5800  memb.if(!P0) (R21+##0x2e9),R3 
-c18e5804  cmp.gt P0,R2,#0x1e ; jump.if(P0.new):t 0xc18e5878 
-c18e5808  cmp.eq P0,R2,#0x1d ; jump.if(P0.new):nt 0xc18e599c 
-c18e580c  cmp.eq P0,R2,#0x1e ; jump.if(!P0.new):nt 0xc18e576c 
-c18e5810  add R23,R17,#0x61d8 
-c18e5814  assign R18,#0x4 
+CALL @ c18e58a0  call 0xc18e17b8 
 
-HIT 0x1C @ c18e5af8
-c18e5ac8  jump.if:t cmp.eq(R2.new,#0xc),0xc18e5ad0 
-c18e5acc  assign R0,#0x0 ; jump 0xc18e5af0 
-c18e5ad0  memb R2,(R16+#0x5) 
-c18e5ad4  jump.if:nt cmp.eq(R2.new,#0x0),0xc18e5adc 
-c18e5ad8  assign R0,#0x0 ; jump 0xc18e5af0 
-c18e5adc  memb R2,(R16+#0x1) 
-c18e5ae0  cmp.eq P0,R2,#0x0 
-c18e5ae4  immext #0xfffe2880 
-c18e5ae8  call.if(!P0) 0xc18c8368 
-c18e5aec  mux R0,P0,#0x0,R23 
-c18e5af0  memw R2,(R20+#0x5c) 
-c18e5af4  memw (SP+#0x3c),R19 
-c18e5af8  memw (SP+#0x20),R18 ; memw (SP+#0x1c),R0 
-c18e5afc  immext #0x1c0 
-c18e5b00  memh (R2),##0x1f0 
-c18e5b04  memw R3,(R16+#0x1c) 
-c18e5b08  memh (R2+#0x2),R3.L 
-c18e5b0c  memw R2,(R20+#0x68) 
-c18e5b10  cmp.eq P0,R2,#0x0 
-c18e5b14  memh.if(!P0) (R2),R3.L 
-c18e5b18  memw R2,(R20+#0x6c) 
-c18e5b1c  cmp.eq P0,R2,#0x0 
-c18e5b20  call 0xc18c5730 
-c18e5b24  memh.if(!P0) (R2),R3.L 
-c18e5b28  call 0xc1619338 
-c18e5b2c  immext #0xd6160f40 
-c18e5b30  combine R1R0,R0,##0xd6160f7f 
-c18e5b34  memw R2,(R16+#0x1c) 
-c18e5b38  add R4,R17,#0x6308 
-c18e5b3c  add R5,R17,#0x7104 
-c18e5b40  memw R3,(R20+#0x5c) 
-c18e5b44  memw (SP+#0x30),R4.new 
-c18e5b48  add R5,R17,#0x70fc 
+CALL @ c18e58b8  call.if(P0) 0xc18e1568 
+    TARGET FUNCTION: FUN_c18e1568 @ c18e1568
 
-HIT 0x1C @ c18e5b04
-c18e5ad4  jump.if:nt cmp.eq(R2.new,#0x0),0xc18e5adc 
-c18e5ad8  assign R0,#0x0 ; jump 0xc18e5af0 
-c18e5adc  memb R2,(R16+#0x1) 
-c18e5ae0  cmp.eq P0,R2,#0x0 
-c18e5ae4  immext #0xfffe2880 
-c18e5ae8  call.if(!P0) 0xc18c8368 
-c18e5aec  mux R0,P0,#0x0,R23 
-c18e5af0  memw R2,(R20+#0x5c) 
-c18e5af4  memw (SP+#0x3c),R19 
-c18e5af8  memw (SP+#0x20),R18 ; memw (SP+#0x1c),R0 
-c18e5afc  immext #0x1c0 
-c18e5b00  memh (R2),##0x1f0 
-c18e5b04  memw R3,(R16+#0x1c) 
-c18e5b08  memh (R2+#0x2),R3.L 
-c18e5b0c  memw R2,(R20+#0x68) 
-c18e5b10  cmp.eq P0,R2,#0x0 
-c18e5b14  memh.if(!P0) (R2),R3.L 
-c18e5b18  memw R2,(R20+#0x6c) 
-c18e5b1c  cmp.eq P0,R2,#0x0 
-c18e5b20  call 0xc18c5730 
-c18e5b24  memh.if(!P0) (R2),R3.L 
-c18e5b28  call 0xc1619338 
-c18e5b2c  immext #0xd6160f40 
-c18e5b30  combine R1R0,R0,##0xd6160f7f 
-c18e5b34  memw R2,(R16+#0x1c) 
-c18e5b38  add R4,R17,#0x6308 
-c18e5b3c  add R5,R17,#0x7104 
-c18e5b40  memw R3,(R20+#0x5c) 
-c18e5b44  memw (SP+#0x30),R4.new 
-c18e5b48  add R5,R17,#0x70fc 
-c18e5b4c  add R6,R16,#0xa30 
-c18e5b50  memub R2,(R16+#0x9) ; memw (SP+#0x2c),R5 
-c18e5b54  add R24,R17,#0x6328 
+CALL @ c18e58bc  call 0xc18e178c 
 
-HIT 0x1C @ c18e5b34
-c18e5b04  memw R3,(R16+#0x1c) 
-c18e5b08  memh (R2+#0x2),R3.L 
-c18e5b0c  memw R2,(R20+#0x68) 
-c18e5b10  cmp.eq P0,R2,#0x0 
-c18e5b14  memh.if(!P0) (R2),R3.L 
-c18e5b18  memw R2,(R20+#0x6c) 
-c18e5b1c  cmp.eq P0,R2,#0x0 
-c18e5b20  call 0xc18c5730 
-c18e5b24  memh.if(!P0) (R2),R3.L 
-c18e5b28  call 0xc1619338 
-c18e5b2c  immext #0xd6160f40 
-c18e5b30  combine R1R0,R0,##0xd6160f7f 
-c18e5b34  memw R2,(R16+#0x1c) 
-c18e5b38  add R4,R17,#0x6308 
-c18e5b3c  add R5,R17,#0x7104 
-c18e5b40  memw R3,(R20+#0x5c) 
-c18e5b44  memw (SP+#0x30),R4.new 
-c18e5b48  add R5,R17,#0x70fc 
-c18e5b4c  add R6,R16,#0xa30 
-c18e5b50  memub R2,(R16+#0x9) ; memw (SP+#0x2c),R5 
-c18e5b54  add R24,R17,#0x6328 
-c18e5b58  add R18,R17,#0x6258 
-c18e5b5c  memw R3,(R3) ; memh (R3+#0x4),R2 
-c18e5b60  add R5,R16,#0x200 
-c18e5b64  add R19,R16,#0xa00 
-c18e5b68  memw R4,(R20+#0x64) 
-c18e5b6c  memw (SP+#0x28),R5 
-c18e5b70  memw (SP+#0x24),R5 ; memw (SP+#0x50),R6 
-c18e5b74  memw (R4),R3 ; memh (R4+#0x4),R2 
-c18e5b78  memub R3,(R16+#0x2) ; memw (SP+#0x44),R22 
-c18e5b7c  add R4,R3,#-0x2 
-c18e5b80  memw (SP+#0x40),R25 
-c18e5b84  add R4,R17,#0x6d40 
+CALL @ c18e58f8  call 0xc1621160 
+    TARGET FUNCTION: FUN_c1621160 @ c1621160
 
-HIT 0x1C @ c18e5ba8
-c18e5b78  memub R3,(R16+#0x2) ; memw (SP+#0x44),R22 
-c18e5b7c  add R4,R3,#-0x2 
-c18e5b80  memw (SP+#0x40),R25 
-c18e5b84  add R4,R17,#0x6d40 
-c18e5b88  cmp.gtu P0,R4,#0x1 ; jump.if(!P0.new):nt 0xc18e5c60 
-c18e5b8c  memw (SP+#0x38),R4.new 
-c18e5b90  assign.if(!P0.new) R25,#0x0 
-c18e5b94  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc18e5c08 
-c18e5b98  memw.if(P0.new) R4,(SP+#0x38) 
-c18e5b9c  cmp.eq P0,R3,#0x0 ; jump.if(!P0.new):nt 0xc18e5d18 
-c18e5ba0  memb.if(P0.new) R2,(R16+#0x3) 
-c18e5ba4  memw.if(P0.new) R3,(R20+#0x74) 
-c18e5ba8  cmp.eq P0,R2,#0x1c 
-c18e5bac  memub R4,(R16+#0x20) 
-c18e5bb0  memw.if(!P0.new) R25,(SP+#0x30) 
-c18e5bb4  asl R2,R4,#0x1 
-c18e5bb8  assign.if(P0) R25,R24 
-c18e5bbc  jump.if(!P0) 0xc18e5be8 
-c18e5bc0  memw.if(!P0) R4,(SP+#0x28) 
-c18e5bc4  memw R4,(SP+#0x2c) 
-c18e5bc8  memw (R24+R2<<#0x2),R3 
-c18e5bcc  memub R3,(R20+#0x71) 
-c18e5bd0  memb (R4+R2),R3.new 
-c18e5bd4  memub R2,(R16+#0x20) 
-c18e5bd8  memub R3,(R20+#0x72) 
-c18e5bdc  or R2,#0x1,asl(R2,#0x1) 
-c18e5be0  jump 0xc18e5d18 
-c18e5be4  memb (R4+R2),R3 
-c18e5be8  memw (R25+R2<<#0x2),R3 
-c18e5bec  memub R3,(R20+#0x71) 
-c18e5bf0  memb (R4+R2),R3 
-c18e5bf4  memub R2,(R16+#0x20) 
-c18e5bf8  or R2,#0x1,asl(R2,#0x1) 
+CALL @ c18e58fc  call 0xc18e17b8 
 
-HIT 0x1C @ c18e5e8c
-c18e5e5c  cmp.gtu P0,R18,#0x1 
-c18e5e60  memb (R6),R3.new 
-c18e5e64  memw R3,(R16+#0xa2c) 
-c18e5e68  memw (R2+#0xc),R3.new 
-c18e5e6c  memub R4,(R16+#0x9) 
-c18e5e70  memuh R5,(R3+#0x6) 
-c18e5e74  insert R5,R4,#0x13,#0xd 
-c18e5e78  memh (R3+#0x6),R5.new 
-c18e5e7c  memw R3,(R2+#0xc) 
-c18e5e80  memuh R4,(R3+#0x6) 
-c18e5e84  memh (R3),#0xc 
-c18e5e88  jump.if(P0) 0xc18e5f54 
-c18e5e8c  memw R5,(R16+#0x1c) 
-c18e5e90  memh (R3+#0x2),R5.new 
-c18e5e94  setbit R4,R4,#0x1 
-c18e5e98  immext #0xb000 
-c18e5e9c  assign R3,##0xb000 
-c18e5ea0  memh (R3+#0x6),R4.new 
-c18e5ea4  add R3,R3,#0x4f87 
-c18e5ea8  memw R4,(R2+#0xc) 
-c18e5eac  memh&= (R4+#0x6),R3 
-c18e5eb0  memw R2,(R2+#0xc) 
-c18e5eb4  immext #0x7fff7fc0 
-c18e5eb8  memw (R2+#0x8),##0x7fff7fff 
-c18e5ebc  memw R2,(R17) 
-c18e5ec0  memub R3,(R16+#0x9) 
-c18e5ec4  memw R2,(R2+#0x2c) 
-c18e5ec8  assign R3,#0x1 ; add R2,R3,R2 
-c18e5ecc  immext #0x1e80 
-c18e5ed0  memb (R2+##0x1e9c),R3 
-c18e5ed4  memw R2,(R17) 
-c18e5ed8  memw R0,(R2+#0x8) 
-c18e5edc  immext #0x4c0 
+CALL @ c18e5904  call 0xc18e178c 
 
-HIT 0x1C @ c18e5f74
-c18e5f44  memw R1,(R16+#0xab0) 
-c18e5f48  call 0xc18c3b70 
-c18e5f4c  memw R0,(R2+#0x28) 
-c18e5f50  jump 0xc18e5f70 
-c18e5f54  immext #0xffc0 
-c18e5f58  and R2,R4,##0xfffd 
-c18e5f5c  memh (R3+#0x6),R2.new 
-c18e5f60  memw R2,(R17) 
-c18e5f64  memw R1,(R16+#0xab0) 
-c18e5f68  call 0xc18c3b70 
-c18e5f6c  memw R0,(R2+#0x28) 
-c18e5f70  memw R3,(R17) ; memub R1,(R16+#0x9) 
-c18e5f74  memuh R2,(R16+#0x1c) 
-c18e5f78  memw R4,(R3+#0x2c) 
-c18e5f7c  add R5,R4,R1 
-c18e5f80  assign R4,#0x0 ; memw R0,(R3+#0x8) 
-c18e5f84  call 0xc18e1308 
-c18e5f88  immext #0x1e80 
-c18e5f8c  memub R3,(R5+##0x1e9c) 
-c18e5f90  memw R4,(SP+#0x64) ; memb (R16+#0x1),#0x0 
-c18e5f94  memub R2,(R16+#0x3) 
-c18e5f98  memw (SP+#0x18),R24 
-c18e5f9c  cmp.gtu P0,R2,#0x17 ; jump.if(P0.new):nt 0xc18e6004 
-c18e5fa0  memw (SP+#0x4c),R19 
-c18e5fa4  immext #0xa00000 
-c18e5fa8  assign R3,##0xa00003 
-c18e5fac  tstbit P0,R3,R2 
-c18e5fb0  assign.if(P0.new) R19,R26 
-c18e5fb4  jump.if(!P0.new):nt 0xc18e6004 
-c18e5fb8  memw.if(P0.new) R26,(R16+#0x1c) 
-c18e5fbc  assign R24,#0x0 
-c18e5fc0  memw R2,(R17) ; memub R18,(R16+#0x9) 
-c18e5fc4  memw R22,(R2+#0x8) 
+CALL @ c18e5924  call.if(!P0) 0xc18e17a8 
+    TARGET FUNCTION: FUN_c18e17a8 @ c18e17a8
 
-HIT 0x1C @ c18e5fb8
-c18e5f88  immext #0x1e80 
-c18e5f8c  memub R3,(R5+##0x1e9c) 
-c18e5f90  memw R4,(SP+#0x64) ; memb (R16+#0x1),#0x0 
-c18e5f94  memub R2,(R16+#0x3) 
-c18e5f98  memw (SP+#0x18),R24 
-c18e5f9c  cmp.gtu P0,R2,#0x17 ; jump.if(P0.new):nt 0xc18e6004 
-c18e5fa0  memw (SP+#0x4c),R19 
-c18e5fa4  immext #0xa00000 
-c18e5fa8  assign R3,##0xa00003 
-c18e5fac  tstbit P0,R3,R2 
-c18e5fb0  assign.if(P0.new) R19,R26 
-c18e5fb4  jump.if(!P0.new):nt 0xc18e6004 
-c18e5fb8  memw.if(P0.new) R26,(R16+#0x1c) 
-c18e5fbc  assign R24,#0x0 
-c18e5fc0  memw R2,(R17) ; memub R18,(R16+#0x9) 
-c18e5fc4  memw R22,(R2+#0x8) 
-c18e5fc8  memb R3,(R4+#0x17c) 
-c18e5fcc  jump.if:t !cmp.eq(R3.new,#0x0),0xc18e5fe4 
-c18e5fd0  memw R2,(R4+#0x16c) 
-c18e5fd4  memw R3,(R4+#0x18c) 
-c18e5fd8  jump.if:t !cmp.eq(R3.new,R2),0xc18e5fe4 
-c18e5fdc  memw R3,(R4+#0x190) 
-c18e5fe0  cmp.eq R24,R2,R3 
-c18e5fe4  call 0xc18e1744 
-c18e5fe8  assign R0,R27 
-c18e5fec  assign R4,R0 
-c18e5ff0  zxth R2,R26 
-c18e5ff4  combine R1R0,R18,R22 
-c18e5ff8  assign R3,R24 
-c18e5ffc  call 0xc18e1308 
-c18e6000  assign R26,R19 
-c18e6004  memb R2,(R16+#0x2) 
-c18e6008  jump.if:t !cmp.eq(R2.new,#0x3),0xc18e6084 
+CALL @ c18e592c  call 0xc18e17a8 
 
-HIT 0x1C @ c18e66a8
-c18e6678  memw R3,(SP+#0x60) 
-c18e667c  memw R2,(R16+#0xa2c) 
-c18e6680  add R2,R17,#0x78d0 
-c18e6684  memw (R23+#0xc),R2 ; memw (R23+#0x38),R3 
-c18e6688  memw R3,(SP+#0x44) 
-c18e668c  memw (R23+#0x3c),R3.new 
-c18e6690  memub R3,(R16+#0x6) 
-c18e6694  memb (R23+#0x41),R3.new 
-c18e6698  memuh R3,(R16+#0x18) 
-c18e669c  memh (R23+#0x26),R3.new 
-c18e66a0  memw (R23+#0x64),R2 
-c18e66a4  memw R2,(R16+#0xa2c) 
-c18e66a8  memw R3,(R16+#0x1c) 
-c18e66ac  memh (R2+#0x2),R3.new 
-c18e66b0  call 0xc18c5730 
-c18e66b4  memub R3,(R20+#0xb) 
-c18e66b8  memb (R2+#0x13c),R3.new 
-c18e66bc  call 0xc1619338 
-c18e66c0  immext #0xd6161280 
-c18e66c4  combine R1R0,R0,##0xd6161293 
-c18e66c8  memw R2,(R16+#0x1c) 
-c18e66cc  memw R2,(R16+#0xa2c) 
-c18e66d0  memh (R2+#0x4),#0x0 
-c18e66d4  memw R2,(R16+#0xa2c) 
-c18e66d8  memub R3,(R16+#0x9) 
-c18e66dc  memuh R4,(R2+#0x6) 
-c18e66e0  insert R4,R3,#0x13,#0xd 
-c18e66e4  memh (R2+#0x6),R4.new 
-c18e66e8  memub R2,(R16+#0x9) 
-c18e66ec  memh (R23+#0x30),R2.new 
-c18e66f0  memub R2,(R16+#0x2) 
-c18e66f4  jump.if:nt cmp.eq(R2.new,#0x2),0xc18e6718 
-c18e66f8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18e673c 
+CALL @ c18e59a4  call 0xc18d1850 
 
-HIT 0x1C @ c18e66c8
-c18e6698  memuh R3,(R16+#0x18) 
-c18e669c  memh (R23+#0x26),R3.new 
-c18e66a0  memw (R23+#0x64),R2 
-c18e66a4  memw R2,(R16+#0xa2c) 
-c18e66a8  memw R3,(R16+#0x1c) 
-c18e66ac  memh (R2+#0x2),R3.new 
-c18e66b0  call 0xc18c5730 
-c18e66b4  memub R3,(R20+#0xb) 
-c18e66b8  memb (R2+#0x13c),R3.new 
-c18e66bc  call 0xc1619338 
-c18e66c0  immext #0xd6161280 
-c18e66c4  combine R1R0,R0,##0xd6161293 
-c18e66c8  memw R2,(R16+#0x1c) 
-c18e66cc  memw R2,(R16+#0xa2c) 
-c18e66d0  memh (R2+#0x4),#0x0 
-c18e66d4  memw R2,(R16+#0xa2c) 
-c18e66d8  memub R3,(R16+#0x9) 
-c18e66dc  memuh R4,(R2+#0x6) 
-c18e66e0  insert R4,R3,#0x13,#0xd 
-c18e66e4  memh (R2+#0x6),R4.new 
-c18e66e8  memub R2,(R16+#0x9) 
-c18e66ec  memh (R23+#0x30),R2.new 
-c18e66f0  memub R2,(R16+#0x2) 
-c18e66f4  jump.if:nt cmp.eq(R2.new,#0x2),0xc18e6718 
-c18e66f8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18e673c 
-c18e66fc  memw R4,(SP+#0x64) 
-c18e6700  immext #0xb000 
-c18e6704  assign R3,##0xb000 
-c18e6708  memw R2,(R16+#0xa2c) 
-c18e670c  add R3,R3,#0x4f87 
-c18e6710  jump 0xc18e673c 
-c18e6714  memh&= (R2+#0x6),R3 
-c18e6718  memw R2,(R16+#0xa2c) 
+CALL @ c18e59b0  call 0xc18c5800 
 
-HIT 0x1C @ c18e6764
-c18e6734  memw R4,(SP+#0x64) 
-c18e6738  memh (R2+#0x6),R3.new 
-c18e673c  +mpyi R20,R24,#0x88 
-c18e6740  memub R2,(R4) 
-c18e6744  memb (R23+#0x1d),R2.new 
-c18e6748  memub R2,(R4+#0x1) 
-c18e674c  memb (R23+#0x1e),R2.new 
-c18e6750  memub R2,(R4+#0x2) 
-c18e6754  memb (R23+#0x1f),R2.new 
-c18e6758  memub R2,(R4+#0x3) 
-c18e675c  memb (R23+#0x20),R2.new 
-c18e6760  memb R3,(R16+#0x3) 
-c18e6764  memb (R23+#0x1c),R3.new 
-c18e6768  cmp.eq P0,R3,#0x4 
-c18e676c  memw R2,(SP+#0x68) 
-c18e6770  assign P1,R2 
-c18e6774  immext #0x7640 
-c18e6778  add.if(P0) R2,R18,##0x766c 
-c18e677c  jump.if(!P0) 0xc18e6794 
-c18e6780  memb R2,(R2) 
-c18e6784  cmp.eq P0,R2,#0x0 ; jump.if(P0.new):nt 0xc18e6794 
-c18e6788  or P0,P0,!P0 
-c18e678c  jump 0xc18e679c 
-c18e6790  memw R6,(SP+#0x48) ; memw R7,(SP+#0x5c) 
-c18e6794  cmp.eq P0,R3,#0x16 
-c18e6798  memw R6,(SP+#0x48) ; memw R7,(SP+#0x5c) 
-c18e679c  assign R4,R17 
-c18e67a0  mux R2,P0,#0x1,#0x0 
-c18e67a4  memw R22,(SP+#0x4c) 
-c18e67a8  memb (R23+#0x62),R2.new 
-c18e67ac  mpyi+= R22,R24,#0x88 
-c18e67b0  add+= R4,R20,R25 
-c18e67b4  memub R2,(R16+#0x2) 
+CALL @ c18e5a70  call 0xc18c806c 
+    TARGET FUNCTION: FUN_c18c806c @ c18c806c
 
-HIT 0x1C @ c18e67cc
-c18e679c  assign R4,R17 
-c18e67a0  mux R2,P0,#0x1,#0x0 
-c18e67a4  memw R22,(SP+#0x4c) 
-c18e67a8  memb (R23+#0x62),R2.new 
-c18e67ac  mpyi+= R22,R24,#0x88 
-c18e67b0  add+= R4,R20,R25 
-c18e67b4  memub R2,(R16+#0x2) 
-c18e67b8  add R5,R2,#-0x2 
-c18e67bc  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc18e6850 
-c18e67c0  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18e6800 
-c18e67c4  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):nt 0xc18e68f0 
-c18e67c8  assign R2,#0x4 
-c18e67cc  cmp.eq P0,R3,#0x1c 
-c18e67d0  memw R3,(SP+#0x30) 
-c18e67d4  memw (R23+#0x18),R2.new 
-c18e67d8  memw R2,(SP+#0x18) 
-c18e67dc  assign.if(!P0) R2,R3 
-c18e67e0  memw R2,(SP+#0x58) ; memw (R23+#0x8),R2 
-c18e67e4  immext #0x6f00 
-c18e67e8  add.if(P0) R2,R17,##0x6f34 
-c18e67ec  memw R2,(SP+#0x2c) ; memw (R4),R2 
-c18e67f0  memw R3,(SP+#0x28) 
-c18e67f4  assign.if(!P0) R2,R3 
-c18e67f8  jump 0xc18e6ab0 
-c18e67fc  memw (R23+#0x4),R2 
-c18e6800  cmp.eq P0,R3,#0x1d 
-c18e6804  assign R0,#0x16 
-c18e6808  memw R2,(SP+#0x54) 
-c18e680c  memw (R4),R2.new 
-c18e6810  immext #0xba2e8b80 
-c18e6814  assign.if(!P0) R3,##0xba2e8ba3 
-c18e6818  memw R1,(SP+#0x38) 
-c18e681c  memw (R23+#0x4),R1.new 
+CALL @ c18e5ab8  call 0xc18f7e48 
 
-HIT 0x1C @ c18e6918
-c18e68e8  memw (R23+#0x54),R24 
-c18e68ec  memw (R23+#0x58),R25 
-c18e68f0  and R2,R2,#0xfe 
-c18e68f4  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6ab0 
-c18e68f8  memw R2,(SP+#0x60) 
-c18e68fc  immext #0xffffd8c0 
-c18e6900  memh (SP+#0x6e),##0xd8f0 
-c18e6904  immext #0x10000 
-c18e6908  cmp.gtu P0,R2,##0x10000 
-c18e690c  memw R1,(SP+#0x3c) 
-c18e6910  not P1,P0 
-c18e6914  assign P2,R1 
-c18e6918  memw R0,(SP+#0x1c) 
-c18e691c  memw (R16+#0xa40),R0.new 
-c18e6920  or P1,P1,!P2 
-c18e6924  immext #0xb000 
-c18e6928  assign.if(P1.new) R2,##0xb000 
-c18e692c  jump.if(P1.new):t 0xc18e69a8 
-c18e6930  memb R2,(R16+#0x3) 
-c18e6934  assign.if(P0.new) R0,R22 
-c18e6938  add.if(!P0.new) R4,SP,#0x70 
-c18e693c  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):t 0xc18e6bec 
-c18e6940  loop0 0xc18e6958,#0x4 
-c18e6944  immext #0x7640 
-c18e6948  add R2,R17,add(R20,##0x7674) 
-c18e694c  immext #0xc1a95140 
-c18e6950  assign R3,##0xc1a95171 
-c18e6954  add R4,R4,#0x8 
-c18e6958  memw R5,(R2++#0x4) 
-c18e695c  memub R6,(R3+#-0x1) 
-c18e6960  memub R7,(R3+#0x1) 
-c18e6964  memub R8,(R3++#0x3) 
-c18e6968  memub R6,(R5+R6) 
+CALL @ c18e5ae8  call.if(!P0) 0xc18c8368 
 
-HIT 0x1C @ c18e6b9c
-c18e6b6c  memb (R16),#0x2 
-c18e6b70  memw R0,(R18) 
-c18e6b74  jump 0xc18e6ba8 
-c18e6b78  memb R2,(R21+#0x348) 
-c18e6b7c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6ba8 
-c18e6b80  memw R2,(R17) 
-c18e6b84  memw R1,(R16+#0xaa4) 
-c18e6b88  call 0xc18ccf40 
-c18e6b8c  memw R0,(R2+#0x2c) 
-c18e6b90  assign R3,#0x0 
-c18e6b94  assign R4,#0x0 
-c18e6b98  memw R5,(R17) ; memub R1,(R16+#0x9) 
-c18e6b9c  memuh R2,(R16+#0x1c) 
-c18e6ba0  call 0xc18e1308 
-c18e6ba4  memw R0,(R5+#0x8) 
-c18e6ba8  memw R2,(R17) 
-c18e6bac  memw R1,(R16+#0xaac) 
-c18e6bb0  call 0xc18c3b70 
-c18e6bb4  memw R0,(R2+#0x28) 
-c18e6bb8  call 0xc18c5730 
-c18e6bbc  call 0xc18c5750 
-c18e6bc0  assign R2,R0 
-c18e6bc4  combine R1R0,#0xd,#0x47 
-c18e6bc8  call 0xc1619338 
-c18e6bcc  immext #0xd6161380 
-c18e6bd0  combine R1R0,R0,##0xd6161397 
-c18e6bd4  combine R3R2,#0xd,#0x47 
-c18e6bd8  memd R17R16,(SP+#0xc8) ; memd R19R18,(SP+#0xc0) 
-c18e6bdc  memd R21R20,(SP+#0xb8) ; memd R23R22,(SP+#0xb0) 
-c18e6be0  memd R25R24,(SP+#0xa8) 
-c18e6be4  memd R27R26,(SP+#0xa0) 
-c18e6be8  dealloc_return 
-c18e6bec  call 0xc18f99e8 
+CALL @ c18e5b20  call 0xc18c5730 
 
-[PROPERTY 26 / 0x1A SPECIFIC]
+CALL @ c18e5b28  call 0xc1619338 
 
-HIT 0x1A @ c18e6830
-c18e6800  cmp.eq P0,R3,#0x1d 
-c18e6804  assign R0,#0x16 
-c18e6808  memw R2,(SP+#0x54) 
-c18e680c  memw (R4),R2.new 
-c18e6810  immext #0xba2e8b80 
-c18e6814  assign.if(!P0) R3,##0xba2e8ba3 
-c18e6818  memw R1,(SP+#0x38) 
-c18e681c  memw (R23+#0x4),R1.new 
-c18e6820  jump.if(!P0) 0xc18e6834 
-c18e6824  memw (R23+#0x8),R6 
-c18e6828  memh (R23+#0x18),R0.L 
-c18e682c  assign R2,#0x0 ; jump 0xc18e6ab0 
-c18e6830  memh (R23+#0x1a),R0.new 
-c18e6834  memub R2,(R16+#0x20) 
-c18e6838  add R2,R2,#0x1 
-c18e683c  mpyu R1R0,R2,R3 
-c18e6840  lsr R1R0,R1R0,#0x24 
-c18e6844  mpyi-= R2,R0,#0x16 
-c18e6848  jump 0xc18e6ab0 
-c18e684c  memh (R23+#0x1a),R2.new 
-c18e6850  add R22,R16,#0x400 
-c18e6854  add R24,R16,#0x600 
-c18e6858  assign R19,R22 ; memw (SP+#0x64),R19 
-c18e685c  add R25,R16,#0x800 
-c18e6860  assign R3,#0x19 
-c18e6864  memh (R23+#0x18),R3.new 
-c18e6868  memw (R23+#0x8),R7 ; memw (R4),#0x0 
-c18e686c  jump.if(!P1) 0xc18e687c 
-c18e6870  memw (R23+#0x4),R27 
-c18e6874  memw R3,(SP+#0x34) 
-c18e6878  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
-c18e687c  memub R3,(R21+#0x2e8) 
-c18e6880  add R27,R3,#0x1 
+CALL @ c18e5c50  call 0xc18e1748 
 
-HIT 0x1A @ c18e684c
-c18e681c  memw (R23+#0x4),R1.new 
-c18e6820  jump.if(!P0) 0xc18e6834 
-c18e6824  memw (R23+#0x8),R6 
-c18e6828  memh (R23+#0x18),R0.L 
-c18e682c  assign R2,#0x0 ; jump 0xc18e6ab0 
-c18e6830  memh (R23+#0x1a),R0.new 
-c18e6834  memub R2,(R16+#0x20) 
-c18e6838  add R2,R2,#0x1 
-c18e683c  mpyu R1R0,R2,R3 
-c18e6840  lsr R1R0,R1R0,#0x24 
-c18e6844  mpyi-= R2,R0,#0x16 
-c18e6848  jump 0xc18e6ab0 
-c18e684c  memh (R23+#0x1a),R2.new 
-c18e6850  add R22,R16,#0x400 
-c18e6854  add R24,R16,#0x600 
-c18e6858  assign R19,R22 ; memw (SP+#0x64),R19 
-c18e685c  add R25,R16,#0x800 
-c18e6860  assign R3,#0x19 
-c18e6864  memh (R23+#0x18),R3.new 
-c18e6868  memw (R23+#0x8),R7 ; memw (R4),#0x0 
-c18e686c  jump.if(!P1) 0xc18e687c 
-c18e6870  memw (R23+#0x4),R27 
-c18e6874  memw R3,(SP+#0x34) 
-c18e6878  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
-c18e687c  memub R3,(R21+#0x2e8) 
-c18e6880  add R27,R3,#0x1 
-c18e6884  and R3,R27,#0xff 
-c18e6888  jump.if:t cmp.gtu(R3.new,#0x3),0xc18e68d4 
-c18e688c  asl R2,R3,#0x9 
-c18e6890  immext #0x200 
-c18e6894  add R18,R16,add(R2,##0x200) 
-c18e6898  call 0xc1620d4c 
-c18e689c  combine R1R0,#0x0,R18 
+CALL @ c18e5d30  call.if(!P0) 0xc18fdf40 
+    TARGET FUNCTION: FUN_c18fdf40 @ c18fdf40
 
-HIT 0x1A @ c18e6af4
-c18e6ac4  memb R2,(R21+#0x2f1) 
-c18e6ac8  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b14 
-c18e6acc  call 0xc18c5730 
-c18e6ad0  immext #0xd6161340 
-c18e6ad4  combine R1R0,R0,##0xd6161362 
-c18e6ad8  memub R3,(R21+#0x2f0) 
-c18e6adc  memub R2,(R21+#0x2e8) 
-c18e6ae0  call 0xc1619338 
-c18e6ae4  memub R4,(R21+#0x2f1) 
-c18e6ae8  memb R2,(R21+#0x2f0) 
-c18e6aec  memw (R16+#0xa28),R22 
-c18e6af0  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc18e6b04 
-c18e6af4  memb (R16+#0x1a),R19 
-c18e6af8  memb R2,(R21+#0x2f1) 
-c18e6afc  cmp.eq P0,R2,#0x0 
-c18e6b00  memb.if(P0.new) (R16),#0x2 
-c18e6b04  call 0xc18d0a04 
-c18e6b08  combine R3R2,R16,#0x4c 
-c18e6b0c  assign R1,#0x1 ; memw R0,(R18) 
-c18e6b10  jump 0xc18e6ba8 
-c18e6b14  memb R3,(R16+#0x1) 
-c18e6b18  jump.if:nt cmp.eq(R3.new,#0x0),0xc18e6ba8 
-c18e6b1c  memb R3,(R16+#0x2) 
-c18e6b20  memw (R16+#0xa28),R22 
-c18e6b24  assign.if(!P0.new) R1,#0x1 
-c18e6b28  cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):t 0xc18e6b54 
-c18e6b2c  memb.if(P0.new) (R16+#0x1a),R19 
-c18e6b30  assign R1,#0x1 
-c18e6b34  memub R3,(R21+#0x2f0) 
-c18e6b38  or R2,R3,and(R2,#0xff) 
-c18e6b3c  cmp.eq P0,R2,#0x0 
-c18e6b40  combine R3R2,R16,#0x4c 
-c18e6b44  memb.if(P0.new) (R16),#0x2 
+CALL @ c18e5db8  call 0xc18faa8c 
 
-HIT 0x1A @ c18e6b2c
-c18e6afc  cmp.eq P0,R2,#0x0 
-c18e6b00  memb.if(P0.new) (R16),#0x2 
-c18e6b04  call 0xc18d0a04 
-c18e6b08  combine R3R2,R16,#0x4c 
-c18e6b0c  assign R1,#0x1 ; memw R0,(R18) 
-c18e6b10  jump 0xc18e6ba8 
-c18e6b14  memb R3,(R16+#0x1) 
-c18e6b18  jump.if:nt cmp.eq(R3.new,#0x0),0xc18e6ba8 
-c18e6b1c  memb R3,(R16+#0x2) 
-c18e6b20  memw (R16+#0xa28),R22 
-c18e6b24  assign.if(!P0.new) R1,#0x1 
-c18e6b28  cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):t 0xc18e6b54 
-c18e6b2c  memb.if(P0.new) (R16+#0x1a),R19 
-c18e6b30  assign R1,#0x1 
-c18e6b34  memub R3,(R21+#0x2f0) 
-c18e6b38  or R2,R3,and(R2,#0xff) 
-c18e6b3c  cmp.eq P0,R2,#0x0 
-c18e6b40  combine R3R2,R16,#0x4c 
-c18e6b44  memb.if(P0.new) (R16),#0x2 
-c18e6b48  memw R0,(R18) 
-c18e6b4c  call 0xc18d0a04 
-c18e6b50  jump 0xc18e6ba8 
-c18e6b54  memuh R2,(R26+#0x8) 
-c18e6b58  memh (R23+#0x22),R2.new 
-c18e6b5c  memuh R2,(R26+#0xa) 
-c18e6b60  memh (R23+#0x24),R2.new 
-c18e6b64  call 0xc18d0a04 
-c18e6b68  combine R3R2,R16,#0x4b 
-c18e6b6c  memb (R16),#0x2 
-c18e6b70  memw R0,(R18) 
-c18e6b74  jump 0xc18e6ba8 
-c18e6b78  memb R2,(R21+#0x348) 
-c18e6b7c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6ba8 
+CALL @ c18e5e14  call 0xc18f8410 
+
+CALL @ c18e5e2c  call 0xc18d4fe0 
+
+CALL @ c18e5ee8  call 0xc18e0040 
+    TARGET FUNCTION: FUN_c18e0040 @ c18e0040
+
+CALL @ c18e5f04  call 0xc18e9250 
+
+CALL @ c18e5f0c  call 0xc18d0a04 
+
+CALL @ c18e5f28  call 0xc18e0040 
+
+CALL @ c18e5f38  call 0xc18e0620 
+
+CALL @ c18e5f48  call 0xc18c3b70 
+
+CALL @ c18e5f68  call 0xc18c3b70 
+
+CALL @ c18e5f84  call 0xc18e1308 
+
+CALL @ c18e5fe4  call 0xc18e1744 
+
+CALL @ c18e5ffc  call 0xc18e1308 
+
+CALL @ c18e6040  call 0xc18e45c8 
+
+CALL @ c18e605c  call 0xc18c5730 
+
+CALL @ c18e6068  call 0xc18c5750 
+
+CALL @ c18e6074  call 0xc1619338 
+
+CALL @ c18e60e8  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e60fc  call 0xc1619338 
+    TARGET FUNCTION: FUN_c1619338 @ c1619338
+
+CALL @ c18e6114  call 0xc18e6c08 
+    TARGET FUNCTION: FUN_c18e6c08 @ c18e6c08
+
+CALL @ c18e611c  call 0xc18f7cb0 
+
+CALL @ c18e6124  call 0xc18c5730 
+
+CALL @ c18e613c  call 0xc1619338 
+    TARGET FUNCTION: FUN_c1619338 @ c1619338
+
+CALL @ c18e6188  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e619c  call 0xc1619338 
+    TARGET FUNCTION: FUN_c1619338 @ c1619338
+
+CALL @ c18e61a0  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e61b4  call 0xc1619338 
+    TARGET FUNCTION: FUN_c1619338 @ c1619338
+
+CALL @ c18e61e0  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e61f4  call 0xc1619338 
+
+CALL @ c18e61fc  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e6210  call 0xc1619338 
+    TARGET FUNCTION: FUN_c1619338 @ c1619338
+
+CALL @ c18e6238  call 0xc18e7038 
+
+CALL @ c18e62ac  call 0xc18c806c 
+
+CALL @ c18e6300  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e6314  call 0xc1619338 
+    TARGET FUNCTION: FUN_c1619338 @ c1619338
+
+CALL @ c18e6350  call 0xc18cf160 
+
+CALL @ c18e63ac  call 0xc18e6c08 
+    TARGET FUNCTION: FUN_c18e6c08 @ c18e6c08
+
+CALL @ c18e63b4  call 0xc18f7cb0 
+
+CALL @ c18e641c  call 0xc18f9a80 
+
+CALL @ c18e6658  call 0xc18c5730 
+
+CALL @ c18e6674  call 0xc1619338 
+    TARGET FUNCTION: FUN_c1619338 @ c1619338
+
+CALL @ c18e66b0  call 0xc18c5730 
+
+CALL @ c18e66bc  call 0xc1619338 
+
+CALL @ c18e6898  call 0xc1620d4c 
+
+CALL @ c18e68a4  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e68b8  call 0xc1619338 
+
+CALL @ c18e6984  call 0xc18f9b58 
+
+CALL @ c18e699c  call 0xc18f98c8 
+
+CALL @ c18e6a1c  call 0xc18f9b58 
+
+CALL @ c18e6a34  call 0xc18f98c8 
+
+CALL @ c18e6a40  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e6a44  call 0xc18c5750 
+
+CALL @ c18e6a50  call 0xc1619338 
+
+CALL @ c18e6acc  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e6ae0  call 0xc1619338 
+
+CALL @ c18e6b04  call 0xc18d0a04 
+
+CALL @ c18e6b4c  call 0xc18d0a04 
+    TARGET FUNCTION: FUN_c18d0a04 @ c18d0a04
+
+CALL @ c18e6b64  call 0xc18d0a04 
+
+CALL @ c18e6b88  call 0xc18ccf40 
+
+CALL @ c18e6ba0  call 0xc18e1308 
+
+CALL @ c18e6bb0  call 0xc18c3b70 
+
+CALL @ c18e6bb8  call 0xc18c5730 
+    TARGET FUNCTION: FUN_c18c5730 @ c18c5730
+
+CALL @ c18e6bbc  call 0xc18c5750 
+
+CALL @ c18e6bc8  call 0xc1619338 
+
+CALL @ c18e6bec  call 0xc18f99e8 
+    TARGET FUNCTION: FUN_c18f99e8 @ c18f99e8
+
+CALL @ c18e6bf4  call 0xc18d09b4 
+
+CALL @ c18e6c00  call 0xc18d09b4 
+    TARGET FUNCTION: thunk_EXT_FUN_d89b2790 @ c18d09b4
+
+
+============================================================
+9. UNIQUE CALL TARGETS
+============================================================
+c1619338  FUN_c1619338
+c1621160  FUN_c1621160
+c18c5730  FUN_c18c5730
+c18c806c  FUN_c18c806c
+c18d09b4  thunk_EXT_FUN_d89b2790
+c18d0a04  FUN_c18d0a04
+c18e0040  FUN_c18e0040
+c18e1568  FUN_c18e1568
+c18e17a8  FUN_c18e17a8
+c18e6c08  FUN_c18e6c08
+c18f99e8  FUN_c18f99e8
+c18fdf40  FUN_c18fdf40
+
+TOTAL UNIQUE CALL TARGETS : 12
+
+============================================================
+10. REFERENCE CHECKS
+============================================================
+
+[C18E57C4]
+  TOTAL = 0
+
+[C18E67CC]
+  TOTAL = 0
+
+[C18E5A24]
+  FROM c18e574c
+  FROM c18e5750
+  FROM c18e57a8
+  FROM c18e57b0
+  FROM c18e57f8
+  FROM c18e5800
+  FROM c18e5870
+  FROM c18e5874
+  FROM c18e5994
+  FROM c18e5998
+  TOTAL = 10
 
 ============================================================
 DONE
 ============================================================
-RFDebugCandidateMicro_x55.java> Finished!
+TraceRFDebugC18E56B8_v4.java> Finished!
+TraceRFDebugC18E56B8_v4.java> Finished!
