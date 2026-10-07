@@ -1,1708 +1,1946 @@
-REFERENCES>
-  HIT @ c486f928 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c486f908  0x00000073
-      c486f90c  0x00002006
-      c486f910  0x00000074
-      c486f914  0x00002007
-      c486f918  0x00000077
-      c486f91c  0x0000200A
-      c486f920  0x0000007A
-      c486f924  0x0000200D
-      c486f928  0x0000007B
-      c486f92c  0x0000200E
-      c486f930  0x0000007C
-      c486f934  0x0000200F
-      c486f938  0x0000007D
-      c486f93c  0x00002010
-      c486f940  0x0000007E
-      c486f944  0x00002011
-      c486f948  0x0000007F
-    <NO REFERENCES>
-  HIT @ c487ad16 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c487acf6  0x00950049
-      c487acfa  0x0038000E
-      c487acfe  0x005400A3
-      c487ad02  0x00F900CF
-      c487ad06  0x008C0062
-      c487ad0a  0x00210017
-      c487ad0e  0x004D00BA
-      c487ad12  0x00E000D6
-      c487ad16  0x0000007B
-      c487ad1a  0x0811080F
-      c487ad1e  0x082D001E
-      c487ad22  0x003C0022
-      c487ad26  0x08550833
-      c487ad2a  0x0044005A
-      c487ad2e  0x0078084B
-      c487ad32  0x08690877
-      c487ad36  0x08A50066
-    <NO REFERENCES>
-  HIT @ c48d30d0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c48d30b0  0x0000007A
-      c48d30b4  0xC48D7690
-      c48d30b8  0x00000045
-      c48d30bc  0xC48D76B7
-      c48d30c0  0x00000046
-      c48d30c4  0xC48D76EB
-      c48d30c8  0x00000047
-      c48d30cc  0xC48D771D
-      c48d30d0  0x0000007B
-      c48d30d4  0xC48D774C
-      c48d30d8  0x00000048
-      c48d30dc  0xC48D777F
-      c48d30e0  0x00000049
-      c48d30e4  0xC48D77B0
-      c48d30e8  0x0000004A
-      c48d30ec  0xC48D77E2
-      c48d30f0  0x0000004B
-    <NO REFERENCES>
-  HIT @ c48e00d4 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c48e00b4  0x00000077
-      c48e00b8  0x00000014
-      c48e00bc  0x00000078
-      c48e00c0  0x00000015
-      c48e00c4  0x00000079
-      c48e00c8  0x0000001B
-      c48e00cc  0x0000007A
-      c48e00d0  0x0000001D
-      c48e00d4  0x0000007B
-      c48e00d8  0x0000001E
-      c48e00dc  0x0000007C
-      c48e00e0  0x00000022
-      c48e00e4  0x0000007D
-      c48e00e8  0x00000023
-      c48e00ec  0x0000007E
-      c48e00f0  0x00000024
-      c48e00f4  0x0000007F
-    <NO REFERENCES>
-  HIT @ c48e0138 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c48e0118  0x00000047
-      c48e011c  0x00000084
-      c48e0120  0x00000048
-      c48e0124  0x00000085
-      c48e0128  0x00000079
-      c48e012c  0x00000086
-      c48e0130  0x0000007A
-      c48e0134  0x00000087
-      c48e0138  0x0000007B
-      c48e013c  0x00000088
-      c48e0140  0x0000007C
-      c48e0144  0x00000089
-      c48e0148  0x0000007D
-      c48e014c  0x0000008A
-      c48e0150  0x0000007E
-      c48e0154  0x0000008B
-      c48e0158  0x0000007F
-    <NO REFERENCES>
-  HIT @ c4901c74 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4901c54  0xC49017FE
-      c4901c58  0xDD10861C
-      c4901c5c  0x00000079
-      c4901c60  0xC4901807
-      c4901c64  0xDD112630
-      c4901c68  0x0000007A
-      c4901c6c  0xC4901818
-      c4901c70  0xDD108864
-      c4901c74  0x0000007B
-      c4901c78  0xC4901824
-      c4901c7c  0xDD108850
-      c4901c80  0x0000008D
-      c4901c84  0xC4901833
-      c4901c88  0xDD11D7D0
-      c4901c8c  0x0000007C
-      c4901c90  0xC4901844
-      c4901c94  0xDD11D7E4
-    <NO REFERENCES>
-  HIT @ c4901e7c BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4901e5c  0xC4901A3B
-      c4901e60  0xDD10DBC8
-      c4901e64  0x00000079
-      c4901e68  0xC4901A49
-      c4901e6c  0xDD11797C
-      c4901e70  0x0000007A
-      c4901e74  0xC4901A58
-      c4901e78  0xDD1157B4
-      c4901e7c  0x0000007B
-      c4901e80  0xC4901A67
-      c4901e84  0xDD1180EC
-      c4901e88  0x00000086
-      c4901e8c  0xC4901A73
-      c4901e90  0xDD11A488
-      c4901e94  0x00000087
-      c4901e98  0xC4901A86
-      c4901e9c  0xDD11A4A0
-    <NO REFERENCES>
-  HIT @ c49166b8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4916698  0xD8DAB068
-      c491669c  0x00000000
-      c49166a0  0x00000138
-      c49166a4  0xC49164E8
-      c49166a8  0x00000139
-      c49166ac  0xC4915E8C
-      c49166b0  0x0000013A
-      c49166b4  0xC4915EA0
-      c49166b8  0x0000007B
-      c49166bc  0xC49164FD
-      c49166c0  0x0000013F
-      c49166c4  0xC491650E
-      c49166c8  0x00000070
-      c49166cc  0xC490F116
-      c49166d0  0x00000068
-      c49166d4  0xC4912216
-      c49166d8  0x00000069
-    <NO REFERENCES>
-  HIT @ c4988f0d BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4988eed  0x3B00007B
-      c4988ef1  0x5500007B
-      c4988ef5  0x6F00007B
-      c4988ef9  0x8800007B
-      c4988efd  0xA100007B
-      c4988f01  0xB900007B
-      c4988f05  0xD100007B
-      c4988f09  0xE900007B
-      c4988f0d  0x0000007B
-      c4988f11  0x0000007C
-      c4988f15  0x5B000000
-      c4988f19  0x43574652
-      c4988f1d  0x5D414D44
-      c4988f21  0x4C46525B
-      c4988f25  0x58522E4D
-      c4988f29  0x6672205D
-      c4988f2d  0x775F6D6C
-    <NO REFERENCES>
-  HIT @ c49ad278 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c49ad258  0x00100000
-      c49ad25c  0x00000000
-      c49ad260  0x00000000
-      c49ad264  0x00000000
-      c49ad268  0x00000000
-      c49ad26c  0x00000000
-      c49ad270  0x00000000
-      c49ad274  0x00000000
-      c49ad278  0x0000007B
-      c49ad27c  0x00000140
-      c49ad280  0x1007180D
-      c49ad284  0x1007180D
-      c49ad288  0x0000003B
-      c49ad28c  0x00180000
-      c49ad290  0x000E002F
-      c49ad294  0x000E002F
-      c49ad298  0x000E000E
-    <NO REFERENCES>
-  HIT @ c4a1fd88 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a1fd68  0x00FF00FF
-      c4a1fd6c  0x00FF00FF
-      c4a1fd70  0x00FF0FFF
-      c4a1fd74  0x00FF00FF
-      c4a1fd78  0x000000FF
-      c4a1fd7c  0x00000000
-      c4a1fd80  0x00004010
-      c4a1fd84  0x22000000
-      c4a1fd88  0x0000007B
-      c4a1fd8c  0x00000104
-      c4a1fd90  0x00000020
-      c4a1fd94  0x00000000
-      c4a1fd98  0x007B2200
-      c4a1fd9c  0x01040000
-      c4a1fda0  0x00200000
-      c4a1fda4  0xFFFF0000
-      c4a1fda8  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a1fd9a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a1fd7a  0x00000000
-      c4a1fd7e  0x40100000
-      c4a1fd82  0x00000000
-      c4a1fd86  0x007B2200
-      c4a1fd8a  0x01040000
-      c4a1fd8e  0x00200000
-      c4a1fd92  0x00000000
-      c4a1fd96  0x22000000
-      c4a1fd9a  0x0000007B
-      c4a1fd9e  0x00000104
-      c4a1fda2  0x00000020
-      c4a1fda6  0xFFFFFFFF
-      c4a1fdaa  0x00FF0FFF
-      c4a1fdae  0x00FF00FF
-      c4a1fdb2  0x0FFF00FF
-      c4a1fdb6  0x00FF00FF
-      c4a1fdba  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a1fe70 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a1fe50  0x00FF00FF
-      c4a1fe54  0x00FF00FF
-      c4a1fe58  0x00FF0FFF
-      c4a1fe5c  0x00FF00FF
-      c4a1fe60  0x000000FF
-      c4a1fe64  0x00000000
-      c4a1fe68  0x00005010
-      c4a1fe6c  0x22000000
-      c4a1fe70  0x0000007B
-      c4a1fe74  0x0000037B
-      c4a1fe78  0x00000020
-      c4a1fe7c  0x00000000
-      c4a1fe80  0x007B2200
-      c4a1fe84  0x037B0000
-      c4a1fe88  0x00200000
-      c4a1fe8c  0xFFFF0000
-      c4a1fe90  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a1fe82 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a1fe62  0x00000000
-      c4a1fe66  0x50100000
-      c4a1fe6a  0x00000000
-      c4a1fe6e  0x007B2200
-      c4a1fe72  0x037B0000
-      c4a1fe76  0x00200000
-      c4a1fe7a  0x00000000
-      c4a1fe7e  0x22000000
-      c4a1fe82  0x0000007B
-      c4a1fe86  0x0000037B
-      c4a1fe8a  0x00000020
-      c4a1fe8e  0xFFFFFFFF
-      c4a1fe92  0x00FF0FFF
-      c4a1fe96  0x00FF00FF
-      c4a1fe9a  0x0FFF00FF
-      c4a1fe9e  0x00FF00FF
-      c4a1fea2  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a1ff58 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a1ff38  0x00FF00FF
-      c4a1ff3c  0x00FF00FF
-      c4a1ff40  0x00FF0FFF
-      c4a1ff44  0x00FF00FF
-      c4a1ff48  0x000000FF
-      c4a1ff4c  0x00000000
-      c4a1ff50  0x00004020
-      c4a1ff54  0x22000000
-      c4a1ff58  0x0000007B
-      c4a1ff5c  0x00000104
-      c4a1ff60  0x00000020
-      c4a1ff64  0x00000000
-      c4a1ff68  0x007B2200
-      c4a1ff6c  0x01040000
-      c4a1ff70  0x00200000
-      c4a1ff74  0xFFFF0000
-      c4a1ff78  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a1ff6a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a1ff4a  0x00000000
-      c4a1ff4e  0x40200000
-      c4a1ff52  0x00000000
-      c4a1ff56  0x007B2200
-      c4a1ff5a  0x01040000
-      c4a1ff5e  0x00200000
-      c4a1ff62  0x00000000
-      c4a1ff66  0x22000000
-      c4a1ff6a  0x0000007B
-      c4a1ff6e  0x00000104
-      c4a1ff72  0x00000020
-      c4a1ff76  0xFFFFFFFF
-      c4a1ff7a  0x00FF0FFF
-      c4a1ff7e  0x00FF00FF
-      c4a1ff82  0x0FFF00FF
-      c4a1ff86  0x00FF00FF
-      c4a1ff8a  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a20040 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a20020  0x00FF00FF
-      c4a20024  0x00FF00FF
-      c4a20028  0x00FF0FFF
-      c4a2002c  0x00FF00FF
-      c4a20030  0x000000FF
-      c4a20034  0x00000000
-      c4a20038  0x00005020
-      c4a2003c  0x22000000
-      c4a20040  0x0000007B
-      c4a20044  0x00000209
-      c4a20048  0x00000020
-      c4a2004c  0x00000000
-      c4a20050  0x007B2200
-      c4a20054  0x02090000
-      c4a20058  0x00200000
-      c4a2005c  0xFFFF0000
-      c4a20060  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a20052 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a20032  0x00000000
-      c4a20036  0x50200000
-      c4a2003a  0x00000000
-      c4a2003e  0x007B2200
-      c4a20042  0x02090000
-      c4a20046  0x00200000
-      c4a2004a  0x00000000
-      c4a2004e  0x22000000
-      c4a20052  0x0000007B
-      c4a20056  0x00000209
-      c4a2005a  0x00000020
-      c4a2005e  0xFFFFFFFF
-      c4a20062  0x00FF0FFF
-      c4a20066  0x00FF00FF
-      c4a2006a  0x0FFF00FF
-      c4a2006e  0x00FF00FF
-      c4a20072  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a20128 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a20108  0x00FF00FF
-      c4a2010c  0x00FF00FF
-      c4a20110  0x00FF0FFF
-      c4a20114  0x00FF00FF
-      c4a20118  0x000000FF
-      c4a2011c  0x00000000
-      c4a20120  0x00005040
-      c4a20124  0x22000000
-      c4a20128  0x0000007B
-      c4a2012c  0x0000014B
-      c4a20130  0x00000020
-      c4a20134  0x00000000
-      c4a20138  0x007B2200
-      c4a2013c  0x014B0000
-      c4a20140  0x00200000
-      c4a20144  0xBEBE0000
-      c4a20148  0x0FFFBEBE
-    <NO REFERENCES>
-  HIT @ c4a2013a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a2011a  0x00000000
-      c4a2011e  0x50400000
-      c4a20122  0x00000000
-      c4a20126  0x007B2200
-      c4a2012a  0x014B0000
-      c4a2012e  0x00200000
-      c4a20132  0x00000000
-      c4a20136  0x22000000
-      c4a2013a  0x0000007B
-      c4a2013e  0x0000014B
-      c4a20142  0x00000020
-      c4a20146  0xBEBEBEBE
-      c4a2014a  0x00800FFF
-      c4a2014e  0x00800080
-      c4a20152  0x0FFF0080
-      c4a20156  0x00800080
-      c4a2015a  0x00800080
-    <NO REFERENCES>
-  HIT @ c4a20210 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a201f0  0x00800080
-      c4a201f4  0x00800080
-      c4a201f8  0x00800FFF
-      c4a201fc  0x00800080
-      c4a20200  0x00000080
-      c4a20204  0x00000000
-      c4a20208  0x00005080
-      c4a2020c  0x22000000
-      c4a20210  0x0000007B
-      c4a20214  0x0000014B
-      c4a20218  0x00000020
-      c4a2021c  0x00000000
-      c4a20220  0x007B2200
-      c4a20224  0x014B0000
-      c4a20228  0x00200000
-      c4a2022c  0xBEBE0000
-      c4a20230  0x0FFFBEBE
-    <NO REFERENCES>
-  HIT @ c4a20222 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a20202  0x00000000
-      c4a20206  0x50800000
-      c4a2020a  0x00000000
-      c4a2020e  0x007B2200
-      c4a20212  0x014B0000
-      c4a20216  0x00200000
-      c4a2021a  0x00000000
-      c4a2021e  0x22000000
-      c4a20222  0x0000007B
-      c4a20226  0x0000014B
-      c4a2022a  0x00000020
-      c4a2022e  0xBEBEBEBE
-      c4a20232  0x00800FFF
-      c4a20236  0x00800080
-      c4a2023a  0x0FFF0080
-      c4a2023e  0x00800080
-      c4a20242  0x00800080
-    <NO REFERENCES>
-  HIT @ c4a202f8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a202d8  0x00800080
-      c4a202dc  0x00800080
-      c4a202e0  0x00800FFF
-      c4a202e4  0x00800080
-      c4a202e8  0x00000080
-      c4a202ec  0x00000000
-      c4a202f0  0x00004100
-      c4a202f4  0x22000000
-      c4a202f8  0x0000007B
-      c4a202fc  0x00000068
-      c4a20300  0x00000020
-      c4a20304  0x00000000
-      c4a20308  0x007B2200
-      c4a2030c  0x00680000
-      c4a20310  0x00200000
-      c4a20314  0x6E6E0000
-      c4a20318  0x01C76E6E
-    <NO REFERENCES>
-  HIT @ c4a2030a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a202ea  0x00000000
-      c4a202ee  0x41000000
-      c4a202f2  0x00000000
-      c4a202f6  0x007B2200
-      c4a202fa  0x00680000
-      c4a202fe  0x00200000
-      c4a20302  0x00000000
-      c4a20306  0x22000000
-      c4a2030a  0x0000007B
-      c4a2030e  0x00000068
-      c4a20312  0x00000020
-      c4a20316  0x6E6E6E6E
-      c4a2031a  0x006601C7
-      c4a2031e  0x00660066
-      c4a20322  0x01C70066
-      c4a20326  0x00660066
-      c4a2032a  0x00660066
-    <NO REFERENCES>
-  HIT @ c4a203e0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a203c0  0x00660066
-      c4a203c4  0x00660066
-      c4a203c8  0x006601C7
-      c4a203cc  0x00660066
-      c4a203d0  0x00000066
-      c4a203d4  0x00000000
-      c4a203d8  0x00004040
-      c4a203dc  0x22000000
-      c4a203e0  0x0000007B
-      c4a203e4  0x00000104
-      c4a203e8  0x00000020
-      c4a203ec  0x00000000
-      c4a203f0  0x007B2200
-      c4a203f4  0x01040000
-      c4a203f8  0x00200000
-      c4a203fc  0xBEBE0000
-      c4a20400  0x0FFFBEBE
-    <NO REFERENCES>
-  HIT @ c4a203f2 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a203d2  0x00000000
-      c4a203d6  0x40400000
-      c4a203da  0x00000000
-      c4a203de  0x007B2200
-      c4a203e2  0x01040000
-      c4a203e6  0x00200000
-      c4a203ea  0x00000000
-      c4a203ee  0x22000000
-      c4a203f2  0x0000007B
-      c4a203f6  0x00000104
-      c4a203fa  0x00000020
-      c4a203fe  0xBEBEBEBE
-      c4a20402  0x00800FFF
-      c4a20406  0x00800080
-      c4a2040a  0x0FFF0080
-      c4a2040e  0x00800080
-      c4a20412  0x00800080
-    <NO REFERENCES>
-  HIT @ c4a204c8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a204a8  0x00800080
-      c4a204ac  0x00800080
-      c4a204b0  0x00800FFF
-      c4a204b4  0x00800080
-      c4a204b8  0x00000080
-      c4a204bc  0x00000000
-      c4a204c0  0x00004080
-      c4a204c4  0x22000000
-      c4a204c8  0x0000007B
-      c4a204cc  0x000000D9
-      c4a204d0  0x00000020
-      c4a204d4  0x00000000
-      c4a204d8  0x007B2200
-      c4a204dc  0x00D90000
-      c4a204e0  0x00200000
-      c4a204e4  0xBEBE0000
-      c4a204e8  0x0FFFBEBE
-    <NO REFERENCES>
-  HIT @ c4a204da BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a204ba  0x00000000
-      c4a204be  0x40800000
-      c4a204c2  0x00000000
-      c4a204c6  0x007B2200
-      c4a204ca  0x00D90000
-      c4a204ce  0x00200000
-      c4a204d2  0x00000000
-      c4a204d6  0x22000000
-      c4a204da  0x0000007B
-      c4a204de  0x000000D9
-      c4a204e2  0x00000020
-      c4a204e6  0xBEBEBEBE
-      c4a204ea  0x00800FFF
-      c4a204ee  0x00800080
-      c4a204f2  0x0FFF0080
-      c4a204f6  0x00800080
-      c4a204fa  0x00800080
-    <NO REFERENCES>
-  HIT @ c4a205b0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a20590  0x00800080
-      c4a20594  0x00800080
-      c4a20598  0x00800FFF
-      c4a2059c  0x00800080
-      c4a205a0  0x00000080
-      c4a205a4  0x00000000
-      c4a205a8  0x00004010
-      c4a205ac  0x22000000
-      c4a205b0  0x0000007B
-      c4a205b4  0x0000037B
-      c4a205b8  0x00000020
-      c4a205bc  0x00000000
-      c4a205c0  0x007B2200
-      c4a205c4  0x037B0000
-      c4a205c8  0x00200000
-      c4a205cc  0xFFFF0000
-      c4a205d0  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a205c2 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a205a2  0x00000000
-      c4a205a6  0x40100000
-      c4a205aa  0x00000000
-      c4a205ae  0x007B2200
-      c4a205b2  0x037B0000
-      c4a205b6  0x00200000
-      c4a205ba  0x00000000
-      c4a205be  0x22000000
-      c4a205c2  0x0000007B
-      c4a205c6  0x0000037B
-      c4a205ca  0x00000020
-      c4a205ce  0xFFFFFFFF
-      c4a205d2  0x00FF0FFF
-      c4a205d6  0x00FF00FF
-      c4a205da  0x0FFF00FF
-      c4a205de  0x00FF00FF
-      c4a205e2  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a20698 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a20678  0x00FF00FF
-      c4a2067c  0x00FF00FF
-      c4a20680  0x00FF0FFF
-      c4a20684  0x00FF00FF
-      c4a20688  0x000000FF
-      c4a2068c  0x00000000
-      c4a20690  0x00004020
-      c4a20694  0x22000000
-      c4a20698  0x0000007B
-      c4a2069c  0x00000209
-      c4a206a0  0x00000020
-      c4a206a4  0x00000000
-      c4a206a8  0x007B2200
-      c4a206ac  0x02090000
-      c4a206b0  0x00200000
-      c4a206b4  0xFFFF0000
-      c4a206b8  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a206aa BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a2068a  0x00000000
-      c4a2068e  0x40200000
-      c4a20692  0x00000000
-      c4a20696  0x007B2200
-      c4a2069a  0x02090000
-      c4a2069e  0x00200000
-      c4a206a2  0x00000000
-      c4a206a6  0x22000000
-      c4a206aa  0x0000007B
-      c4a206ae  0x00000209
-      c4a206b2  0x00000020
-      c4a206b6  0xFFFFFFFF
-      c4a206ba  0x00FF0FFF
-      c4a206be  0x00FF00FF
-      c4a206c2  0x0FFF00FF
-      c4a206c6  0x00FF00FF
-      c4a206ca  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a22ad8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22ab8  0x00280028
-      c4a22abc  0x00280028
-      c4a22ac0  0x00280208
-      c4a22ac4  0x00280028
-      c4a22ac8  0x00000028
-      c4a22acc  0x00000000
-      c4a22ad0  0x00004080
-      c4a22ad4  0x22000000
-      c4a22ad8  0x0000007B
-      c4a22adc  0x000000DE
-      c4a22ae0  0x00000020
-      c4a22ae4  0x00000000
-      c4a22ae8  0x007B2200
-      c4a22aec  0x00DE0000
-      c4a22af0  0x00200000
-      c4a22af4  0xBEBE0000
-      c4a22af8  0x0E38BEBE
-    <NO REFERENCES>
-  HIT @ c4a22aea BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22aca  0x00000000
-      c4a22ace  0x40800000
-      c4a22ad2  0x00000000
-      c4a22ad6  0x007B2200
-      c4a22ada  0x00DE0000
-      c4a22ade  0x00200000
-      c4a22ae2  0x00000000
-      c4a22ae6  0x22000000
-      c4a22aea  0x0000007B
-      c4a22aee  0x000000DE
-      c4a22af2  0x00000020
-      c4a22af6  0xBEBEBEBE
-      c4a22afa  0x00800E38
-      c4a22afe  0x00800080
-      c4a22b02  0x0FFF0080
-      c4a22b06  0x00800080
-      c4a22b0a  0x00800080
-    <NO REFERENCES>
-  HIT @ c4a22bc0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22ba0  0x00700070
-      c4a22ba4  0x00700070
-      c4a22ba8  0x00700E38
-      c4a22bac  0x00700070
-      c4a22bb0  0x00000070
-      c4a22bb4  0x00000000
-      c4a22bb8  0x00004100
-      c4a22bbc  0x22000000
-      c4a22bc0  0x0000007B
-      c4a22bc4  0x00000054
-      c4a22bc8  0x00000020
-      c4a22bcc  0x00000000
-      c4a22bd0  0x007B2200
-      c4a22bd4  0x00540000
-      c4a22bd8  0x00200000
-      c4a22bdc  0x6E6E0000
-      c4a22be0  0x038E6E6E
-    <NO REFERENCES>
-  HIT @ c4a22bd2 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22bb2  0x00000000
-      c4a22bb6  0x41000000
-      c4a22bba  0x00000000
-      c4a22bbe  0x007B2200
-      c4a22bc2  0x00540000
-      c4a22bc6  0x00200000
-      c4a22bca  0x00000000
-      c4a22bce  0x22000000
-      c4a22bd2  0x0000007B
-      c4a22bd6  0x00000054
-      c4a22bda  0x00000020
-      c4a22bde  0x6E6E6E6E
-      c4a22be2  0x0066038E
-      c4a22be6  0x00660066
-      c4a22bea  0x01860066
-      c4a22bee  0x00660066
-      c4a22bf2  0x00660066
-    <NO REFERENCES>
-  HIT @ c4a22ca8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22c88  0x00660066
-      c4a22c8c  0x00660066
-      c4a22c90  0x00660186
-      c4a22c94  0x00660066
-      c4a22c98  0x00000066
-      c4a22c9c  0x00000000
-      c4a22ca0  0x00004200
-      c4a22ca4  0x22000000
-      c4a22ca8  0x0000007B
-      c4a22cac  0x00000054
-      c4a22cb0  0x00000020
-      c4a22cb4  0x00000000
-      c4a22cb8  0x007B2200
-      c4a22cbc  0x00540000
-      c4a22cc0  0x00200000
-      c4a22cc4  0x6E6E0000
-      c4a22cc8  0x038E6E6E
-    <NO REFERENCES>
-  HIT @ c4a22cba BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22c9a  0x00000000
-      c4a22c9e  0x42000000
-      c4a22ca2  0x00000000
-      c4a22ca6  0x007B2200
-      c4a22caa  0x00540000
-      c4a22cae  0x00200000
-      c4a22cb2  0x00000000
-      c4a22cb6  0x22000000
-      c4a22cba  0x0000007B
-      c4a22cbe  0x00000054
-      c4a22cc2  0x00000020
-      c4a22cc6  0x6E6E6E6E
-      c4a22cca  0x0066038E
-      c4a22cce  0x00660066
-      c4a22cd2  0x01860066
-      c4a22cd6  0x00660066
-      c4a22cda  0x00660066
-    <NO REFERENCES>
-  HIT @ c4a22d90 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22d70  0x00660066
-      c4a22d74  0x00660066
-      c4a22d78  0x00660186
-      c4a22d7c  0x00660066
-      c4a22d80  0x00000066
-      c4a22d84  0x00000000
-      c4a22d88  0x00004040
-      c4a22d8c  0x22000000
-      c4a22d90  0x0000007B
-      c4a22d94  0x0000014B
-      c4a22d98  0x00000020
-      c4a22d9c  0x00000000
-      c4a22da0  0x007B2200
-      c4a22da4  0x014B0000
-      c4a22da8  0x00200000
-      c4a22dac  0xFFFF0000
-      c4a22db0  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a22da2 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22d82  0x00000000
-      c4a22d86  0x40400000
-      c4a22d8a  0x00000000
-      c4a22d8e  0x007B2200
-      c4a22d92  0x014B0000
-      c4a22d96  0x00200000
-      c4a22d9a  0x00000000
-      c4a22d9e  0x22000000
-      c4a22da2  0x0000007B
-      c4a22da6  0x0000014B
-      c4a22daa  0x00000020
-      c4a22dae  0xFFFFFFFF
-      c4a22db2  0x00FF0FFF
-      c4a22db6  0x00FF00FF
-      c4a22dba  0x0FFF00FF
-      c4a22dbe  0x00FF00FF
-      c4a22dc2  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a22e78 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22e58  0x00FF00FF
-      c4a22e5c  0x00FF00FF
-      c4a22e60  0x00FF0FFF
-      c4a22e64  0x00FF00FF
-      c4a22e68  0x000000FF
-      c4a22e6c  0x00000000
-      c4a22e70  0x00004080
-      c4a22e74  0x22000000
-      c4a22e78  0x0000007B
-      c4a22e7c  0x0000014B
-      c4a22e80  0x00000020
-      c4a22e84  0x00000000
-      c4a22e88  0x007B2200
-      c4a22e8c  0x014B0000
-      c4a22e90  0x00200000
-      c4a22e94  0xFFFF0000
-      c4a22e98  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a22e8a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22e6a  0x00000000
-      c4a22e6e  0x40800000
-      c4a22e72  0x00000000
-      c4a22e76  0x007B2200
-      c4a22e7a  0x014B0000
-      c4a22e7e  0x00200000
-      c4a22e82  0x00000000
-      c4a22e86  0x22000000
-      c4a22e8a  0x0000007B
-      c4a22e8e  0x0000014B
-      c4a22e92  0x00000020
-      c4a22e96  0xFFFFFFFF
-      c4a22e9a  0x00FF0FFF
-      c4a22e9e  0x00FF00FF
-      c4a22ea2  0x0FFF00FF
-      c4a22ea6  0x00FF00FF
-      c4a22eaa  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a22f60 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22f40  0x00FF00FF
-      c4a22f44  0x00FF00FF
-      c4a22f48  0x00FF0FFF
-      c4a22f4c  0x00FF00FF
-      c4a22f50  0x000000FF
-      c4a22f54  0x00000000
-      c4a22f58  0x00004020
-      c4a22f5c  0x22000000
-      c4a22f60  0x0000007B
-      c4a22f64  0x00000209
-      c4a22f68  0x00000020
-      c4a22f6c  0x00000000
-      c4a22f70  0x007B2200
-      c4a22f74  0x02090000
-      c4a22f78  0x00200000
-      c4a22f7c  0xFFFF0000
-      c4a22f80  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a22f72 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a22f52  0x00000000
-      c4a22f56  0x40200000
-      c4a22f5a  0x00000000
-      c4a22f5e  0x007B2200
-      c4a22f62  0x02090000
-      c4a22f66  0x00200000
-      c4a22f6a  0x00000000
-      c4a22f6e  0x22000000
-      c4a22f72  0x0000007B
-      c4a22f76  0x00000209
-      c4a22f7a  0x00000020
-      c4a22f7e  0xFFFFFFFF
-      c4a22f82  0x00FF0FFF
-      c4a22f86  0x00FF00FF
-      c4a22f8a  0x0FFF00FF
-      c4a22f8e  0x00FF00FF
-      c4a22f92  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a23048 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23028  0x00FF00FF
-      c4a2302c  0x00FF00FF
-      c4a23030  0x00FF0FFF
-      c4a23034  0x00FF00FF
-      c4a23038  0x000000FF
-      c4a2303c  0x00000000
-      c4a23040  0x00004040
-      c4a23044  0x22000000
-      c4a23048  0x0000007B
-      c4a2304c  0x0000014B
-      c4a23050  0x00000020
-      c4a23054  0x00000000
-      c4a23058  0x007B2200
-      c4a2305c  0x014B0000
-      c4a23060  0x00200000
-      c4a23064  0xFFFF0000
-      c4a23068  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a2305a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a2303a  0x00000000
-      c4a2303e  0x40400000
-      c4a23042  0x00000000
-      c4a23046  0x007B2200
-      c4a2304a  0x014B0000
-      c4a2304e  0x00200000
-      c4a23052  0x00000000
-      c4a23056  0x22000000
-      c4a2305a  0x0000007B
-      c4a2305e  0x0000014B
-      c4a23062  0x00000020
-      c4a23066  0xFFFFFFFF
-      c4a2306a  0x00FF0FFF
-      c4a2306e  0x00FF00FF
-      c4a23072  0x0FFF00FF
-      c4a23076  0x00FF00FF
-      c4a2307a  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a23130 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23110  0x00FF00FF
-      c4a23114  0x00FF00FF
-      c4a23118  0x00FF0FFF
-      c4a2311c  0x00FF00FF
-      c4a23120  0x000000FF
-      c4a23124  0x00000000
-      c4a23128  0x00004080
-      c4a2312c  0x22000000
-      c4a23130  0x0000007B
-      c4a23134  0x0000014B
-      c4a23138  0x00000020
-      c4a2313c  0x00000000
-      c4a23140  0x007B2200
-      c4a23144  0x014B0000
-      c4a23148  0x00200000
-      c4a2314c  0xFFFF0000
-      c4a23150  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a23142 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23122  0x00000000
-      c4a23126  0x40800000
-      c4a2312a  0x00000000
-      c4a2312e  0x007B2200
-      c4a23132  0x014B0000
-      c4a23136  0x00200000
-      c4a2313a  0x00000000
-      c4a2313e  0x22000000
-      c4a23142  0x0000007B
-      c4a23146  0x0000014B
-      c4a2314a  0x00000020
-      c4a2314e  0xFFFFFFFF
-      c4a23152  0x00FF0FFF
-      c4a23156  0x00FF00FF
-      c4a2315a  0x0FFF00FF
-      c4a2315e  0x00FF00FF
-      c4a23162  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a23218 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a231f8  0x00FF00FF
-      c4a231fc  0x00FF00FF
-      c4a23200  0x00FF0FFF
-      c4a23204  0x00FF00FF
-      c4a23208  0x000000FF
-      c4a2320c  0x00000000
-      c4a23210  0x00004040
-      c4a23214  0x22000000
-      c4a23218  0x0000007B
-      c4a2321c  0x0000014B
-      c4a23220  0x00000020
-      c4a23224  0x00000000
-      c4a23228  0x007B2200
-      c4a2322c  0x014B0000
-      c4a23230  0x00200000
-      c4a23234  0xFFFF0000
-      c4a23238  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a2322a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a2320a  0x00000000
-      c4a2320e  0x40400000
-      c4a23212  0x00000000
-      c4a23216  0x007B2200
-      c4a2321a  0x014B0000
-      c4a2321e  0x00200000
-      c4a23222  0x00000000
-      c4a23226  0x22000000
-      c4a2322a  0x0000007B
-      c4a2322e  0x0000014B
-      c4a23232  0x00000020
-      c4a23236  0xFFFFFFFF
-      c4a2323a  0x00FF0FFF
-      c4a2323e  0x00FF00FF
-      c4a23242  0x0FFF00FF
-      c4a23246  0x00FF00FF
-      c4a2324a  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a23300 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a232e0  0x00FF00FF
-      c4a232e4  0x00FF00FF
-      c4a232e8  0x00FF0FFF
-      c4a232ec  0x00FF00FF
-      c4a232f0  0x000000FF
-      c4a232f4  0x00000000
-      c4a232f8  0x00004080
-      c4a232fc  0x22000000
-      c4a23300  0x0000007B
-      c4a23304  0x0000014B
-      c4a23308  0x00000020
-      c4a2330c  0x00000000
-      c4a23310  0x007B2200
-      c4a23314  0x014B0000
-      c4a23318  0x00200000
-      c4a2331c  0xFFFF0000
-      c4a23320  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a23312 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a232f2  0x00000000
-      c4a232f6  0x40800000
-      c4a232fa  0x00000000
-      c4a232fe  0x007B2200
-      c4a23302  0x014B0000
-      c4a23306  0x00200000
-      c4a2330a  0x00000000
-      c4a2330e  0x22000000
-      c4a23312  0x0000007B
-      c4a23316  0x0000014B
-      c4a2331a  0x00000020
-      c4a2331e  0xFFFFFFFF
-      c4a23322  0x00FF0FFF
-      c4a23326  0x00FF00FF
-      c4a2332a  0x0FFF00FF
-      c4a2332e  0x00FF00FF
-      c4a23332  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a233e8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a233c8  0x00FF00FF
-      c4a233cc  0x00FF00FF
-      c4a233d0  0x00FF0FFF
-      c4a233d4  0x00FF00FF
-      c4a233d8  0x000000FF
-      c4a233dc  0x00000000
-      c4a233e0  0x00004100
-      c4a233e4  0x22000000
-      c4a233e8  0x0000007B
-      c4a233ec  0x0000014B
-      c4a233f0  0x00000020
-      c4a233f4  0x00000000
-      c4a233f8  0x007B2200
-      c4a233fc  0x014B0000
-      c4a23400  0x00200000
-      c4a23404  0xFFFF0000
-      c4a23408  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a233fa BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a233da  0x00000000
-      c4a233de  0x41000000
-      c4a233e2  0x00000000
-      c4a233e6  0x007B2200
-      c4a233ea  0x014B0000
-      c4a233ee  0x00200000
-      c4a233f2  0x00000000
-      c4a233f6  0x22000000
-      c4a233fa  0x0000007B
-      c4a233fe  0x0000014B
-      c4a23402  0x00000020
-      c4a23406  0xFFFFFFFF
-      c4a2340a  0x00FF0FFF
-      c4a2340e  0x00FF00FF
-      c4a23412  0x0FFF00FF
-      c4a23416  0x00FF00FF
-      c4a2341a  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a234d0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a234b0  0x00FF00FF
-      c4a234b4  0x00FF00FF
-      c4a234b8  0x00FF0FFF
-      c4a234bc  0x00FF00FF
-      c4a234c0  0x000000FF
-      c4a234c4  0x00000000
-      c4a234c8  0x00004040
-      c4a234cc  0x22000000
-      c4a234d0  0x0000007B
-      c4a234d4  0x00000104
-      c4a234d8  0x00000020
-      c4a234dc  0x00000000
-      c4a234e0  0x007B2200
-      c4a234e4  0x01040000
-      c4a234e8  0x00200000
-      c4a234ec  0xBEBE0000
-      c4a234f0  0x0E38BEBE
-    <NO REFERENCES>
-  HIT @ c4a234e2 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a234c2  0x00000000
-      c4a234c6  0x40400000
-      c4a234ca  0x00000000
-      c4a234ce  0x007B2200
-      c4a234d2  0x01040000
-      c4a234d6  0x00200000
-      c4a234da  0x00000000
-      c4a234de  0x22000000
-      c4a234e2  0x0000007B
-      c4a234e6  0x00000104
-      c4a234ea  0x00000020
-      c4a234ee  0xBEBEBEBE
-      c4a234f2  0x00800E38
-      c4a234f6  0x00800080
-      c4a234fa  0x0FFF0080
-      c4a234fe  0x00800080
-      c4a23502  0x00800080
-    <NO REFERENCES>
-  HIT @ c4a235b8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23598  0x00700070
-      c4a2359c  0x00700070
-      c4a235a0  0x00700E38
-      c4a235a4  0x00700070
-      c4a235a8  0x00000070
-      c4a235ac  0x00000000
-      c4a235b0  0x00004080
-      c4a235b4  0x22000000
-      c4a235b8  0x0000007B
-      c4a235bc  0x000000E4
-      c4a235c0  0x00000020
-      c4a235c4  0x00000000
-      c4a235c8  0x007B2200
-      c4a235cc  0x00E40000
-      c4a235d0  0x00200000
-      c4a235d4  0xBEBE0000
-      c4a235d8  0x0FFFBEBE
-    <NO REFERENCES>
-  HIT @ c4a235ca BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a235aa  0x00000000
-      c4a235ae  0x40800000
-      c4a235b2  0x00000000
-      c4a235b6  0x007B2200
-      c4a235ba  0x00E40000
-      c4a235be  0x00200000
-      c4a235c2  0x00000000
-      c4a235c6  0x22000000
-      c4a235ca  0x0000007B
-      c4a235ce  0x000000E4
-      c4a235d2  0x00000020
-      c4a235d6  0xBEBEBEBE
-      c4a235da  0x00800FFF
-      c4a235de  0x00800080
-      c4a235e2  0x0FFF0080
-      c4a235e6  0x00800080
-      c4a235ea  0x00800080
-    <NO REFERENCES>
-  HIT @ c4a236a0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23680  0x00800080
-      c4a23684  0x00800080
-      c4a23688  0x00800FFF
-      c4a2368c  0x00800080
-      c4a23690  0x00000080
-      c4a23694  0x00000000
-      c4a23698  0x00004010
-      c4a2369c  0x22000000
-      c4a236a0  0x0000007B
-      c4a236a4  0x00000104
-      c4a236a8  0x00000020
-      c4a236ac  0x00000000
-      c4a236b0  0x007B2200
-      c4a236b4  0x01040000
-      c4a236b8  0x00200000
-      c4a236bc  0xFFFF0000
-      c4a236c0  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a236b2 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23692  0x00000000
-      c4a23696  0x40100000
-      c4a2369a  0x00000000
-      c4a2369e  0x007B2200
-      c4a236a2  0x01040000
-      c4a236a6  0x00200000
-      c4a236aa  0x00000000
-      c4a236ae  0x22000000
-      c4a236b2  0x0000007B
-      c4a236b6  0x00000104
-      c4a236ba  0x00000020
-      c4a236be  0xFFFFFFFF
-      c4a236c2  0x00FF0FFF
-      c4a236c6  0x00FF00FF
-      c4a236ca  0x0FFF00FF
-      c4a236ce  0x00FF00FF
-      c4a236d2  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a23ec8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23ea8  0x00280028
-      c4a23eac  0x00280028
-      c4a23eb0  0x00280208
-      c4a23eb4  0x00280028
-      c4a23eb8  0x00000028
-      c4a23ebc  0x00000000
-      c4a23ec0  0x00004080
-      c4a23ec4  0x22000000
-      c4a23ec8  0x0000007B
-      c4a23ecc  0x0000014B
-      c4a23ed0  0x00000020
-      c4a23ed4  0x00000000
-      c4a23ed8  0x007B2200
-      c4a23edc  0x014B0000
-      c4a23ee0  0x00200000
-      c4a23ee4  0xFFFF0000
-      c4a23ee8  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a23eda BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23eba  0x00000000
-      c4a23ebe  0x40800000
-      c4a23ec2  0x00000000
-      c4a23ec6  0x007B2200
-      c4a23eca  0x014B0000
-      c4a23ece  0x00200000
-      c4a23ed2  0x00000000
-      c4a23ed6  0x22000000
-      c4a23eda  0x0000007B
-      c4a23ede  0x0000014B
-      c4a23ee2  0x00000020
-      c4a23ee6  0xFFFFFFFF
-      c4a23eea  0x00FF0FFF
-      c4a23eee  0x00FF00FF
-      c4a23ef2  0x0FFF00FF
-      c4a23ef6  0x00FF00FF
-      c4a23efa  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a23fb0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23f90  0x00FF00FF
-      c4a23f94  0x00FF00FF
-      c4a23f98  0x00FF0FFF
-      c4a23f9c  0x00FF00FF
-      c4a23fa0  0x000000FF
-      c4a23fa4  0x00000000
-      c4a23fa8  0x00004040
-      c4a23fac  0x22000000
-      c4a23fb0  0x0000007B
-      c4a23fb4  0x0000014B
-      c4a23fb8  0x00000020
-      c4a23fbc  0x00000000
-      c4a23fc0  0x007B2200
-      c4a23fc4  0x014B0000
-      c4a23fc8  0x00200000
-      c4a23fcc  0xFFFF0000
-      c4a23fd0  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a23fc2 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a23fa2  0x00000000
-      c4a23fa6  0x40400000
-      c4a23faa  0x00000000
-      c4a23fae  0x007B2200
-      c4a23fb2  0x014B0000
-      c4a23fb6  0x00200000
-      c4a23fba  0x00000000
-      c4a23fbe  0x22000000
-      c4a23fc2  0x0000007B
-      c4a23fc6  0x0000014B
-      c4a23fca  0x00000020
-      c4a23fce  0xFFFFFFFF
-      c4a23fd2  0x00FF0FFF
-      c4a23fd6  0x00FF00FF
-      c4a23fda  0x0FFF00FF
-      c4a23fde  0x00FF00FF
-      c4a23fe2  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a24098 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24078  0x00FF00FF
-      c4a2407c  0x00FF00FF
-      c4a24080  0x00FF0FFF
-      c4a24084  0x00FF00FF
-      c4a24088  0x000000FF
-      c4a2408c  0x00000000
-      c4a24090  0x00004010
-      c4a24094  0x22000000
-      c4a24098  0x0000007B
-      c4a2409c  0x00000104
-      c4a240a0  0x00000020
-      c4a240a4  0x00000000
-      c4a240a8  0x007B2200
-      c4a240ac  0x01040000
-      c4a240b0  0x00200000
-      c4a240b4  0xFFFF0000
-      c4a240b8  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a240aa BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a2408a  0x00000000
-      c4a2408e  0x40100000
-      c4a24092  0x00000000
-      c4a24096  0x007B2200
-      c4a2409a  0x01040000
-      c4a2409e  0x00200000
-      c4a240a2  0x00000000
-      c4a240a6  0x22000000
-      c4a240aa  0x0000007B
-      c4a240ae  0x00000104
-      c4a240b2  0x00000020
-      c4a240b6  0xFFFFFFFF
-      c4a240ba  0x00FF0FFF
-      c4a240be  0x00FF00FF
-      c4a240c2  0x0FFF00FF
-      c4a240c6  0x00FF00FF
-      c4a240ca  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a24180 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24160  0x00FF00FF
-      c4a24164  0x00FF00FF
-      c4a24168  0x00FF0FFF
-      c4a2416c  0x00FF00FF
-      c4a24170  0x000000FF
-      c4a24174  0x00000000
-      c4a24178  0x00004020
-      c4a2417c  0x22000000
-      c4a24180  0x0000007B
-      c4a24184  0x00000104
-      c4a24188  0x00000020
-      c4a2418c  0x00000000
-      c4a24190  0x007B2200
-      c4a24194  0x01040000
-      c4a24198  0x00200000
-      c4a2419c  0xFFFF0000
-      c4a241a0  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a24192 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24172  0x00000000
-      c4a24176  0x40200000
-      c4a2417a  0x00000000
-      c4a2417e  0x007B2200
-      c4a24182  0x01040000
-      c4a24186  0x00200000
-      c4a2418a  0x00000000
-      c4a2418e  0x22000000
-      c4a24192  0x0000007B
-      c4a24196  0x00000104
-      c4a2419a  0x00000020
-      c4a2419e  0xFFFFFFFF
-      c4a241a2  0x00FF0FFF
-      c4a241a6  0x00FF00FF
-      c4a241aa  0x0FFF00FF
-      c4a241ae  0x00FF00FF
-      c4a241b2  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a24268 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24248  0x00FF00FF
-      c4a2424c  0x00FF00FF
-      c4a24250  0x00FF0FFF
-      c4a24254  0x00FF00FF
-      c4a24258  0x000000FF
-      c4a2425c  0x00000000
-      c4a24260  0x00004040
-      c4a24264  0x22000000
-      c4a24268  0x0000007B
-      c4a2426c  0x00000104
-      c4a24270  0x00000020
-      c4a24274  0x00000000
-      c4a24278  0x007B2200
-      c4a2427c  0x01040000
-      c4a24280  0x00200000
-      c4a24284  0xBEBE0000
-      c4a24288  0x071CBEBE
-    <NO REFERENCES>
-  HIT @ c4a2427a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a2425a  0x00000000
-      c4a2425e  0x40400000
-      c4a24262  0x00000000
-      c4a24266  0x007B2200
-      c4a2426a  0x01040000
-      c4a2426e  0x00200000
-      c4a24272  0x00000000
-      c4a24276  0x22000000
-      c4a2427a  0x0000007B
-      c4a2427e  0x00000104
-      c4a24282  0x00000020
-      c4a24286  0xBEBEBEBE
-      c4a2428a  0x009F071C
-      c4a2428e  0x009F009F
-      c4a24292  0x071C009F
-      c4a24296  0x009F009F
-      c4a2429a  0x009F009F
-    <NO REFERENCES>
-  HIT @ c4a24350 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24330  0x00800080
-      c4a24334  0x00800080
-      c4a24338  0x0080071C
-      c4a2433c  0x00800080
-      c4a24340  0x00000080
-      c4a24344  0x00000000
-      c4a24348  0x00004080
-      c4a2434c  0x22000000
-      c4a24350  0x0000007B
-      c4a24354  0x000000DE
-      c4a24358  0x00000020
-      c4a2435c  0x00000000
-      c4a24360  0x007B2200
-      c4a24364  0x00DE0000
-      c4a24368  0x00200000
-      c4a2436c  0xBEBE0000
-      c4a24370  0x071CBEBE
-    <NO REFERENCES>
-  HIT @ c4a24362 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24342  0x00000000
-      c4a24346  0x40800000
-      c4a2434a  0x00000000
-      c4a2434e  0x007B2200
-      c4a24352  0x00DE0000
-      c4a24356  0x00200000
-      c4a2435a  0x00000000
-      c4a2435e  0x22000000
-      c4a24362  0x0000007B
-      c4a24366  0x000000DE
-      c4a2436a  0x00000020
-      c4a2436e  0xBEBEBEBE
-      c4a24372  0x009F071C
-      c4a24376  0x009F009F
-      c4a2437a  0x071C009F
-      c4a2437e  0x009F009F
-      c4a24382  0x009F009F
-    <NO REFERENCES>
-  HIT @ c4a24438 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24418  0x00800080
-      c4a2441c  0x00800080
-      c4a24420  0x0080071C
-      c4a24424  0x00800080
-      c4a24428  0x00000080
-      c4a2442c  0x00000000
-      c4a24430  0x00004100
-      c4a24434  0x22000000
-      c4a24438  0x0000007B
-      c4a2443c  0x00000054
-      c4a24440  0x00000020
-      c4a24444  0x00000000
-      c4a24448  0x007B2200
-      c4a2444c  0x00540000
-      c4a24450  0x00200000
-      c4a24454  0x6E6E0000
-      c4a24458  0x02086E6E
-    <NO REFERENCES>
-  HIT @ c4a2444a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a2442a  0x00000000
-      c4a2442e  0x41000000
-      c4a24432  0x00000000
-      c4a24436  0x007B2200
-      c4a2443a  0x00540000
-      c4a2443e  0x00200000
-      c4a24442  0x00000000
-      c4a24446  0x22000000
-      c4a2444a  0x0000007B
-      c4a2444e  0x00000054
-      c4a24452  0x00000020
-      c4a24456  0x6E6E6E6E
-      c4a2445a  0x00660208
-      c4a2445e  0x00660066
-      c4a24462  0x02080066
-      c4a24466  0x00660066
-      c4a2446a  0x00660066
-    <NO REFERENCES>
-  HIT @ c4a24520 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24500  0x00660066
-      c4a24504  0x00660066
-      c4a24508  0x00660208
-      c4a2450c  0x00660066
-      c4a24510  0x00000066
-      c4a24514  0x00000000
-      c4a24518  0x00004200
-      c4a2451c  0x22000000
-      c4a24520  0x0000007B
-      c4a24524  0x00000035
-      c4a24528  0x00000020
-      c4a2452c  0x00000000
-      c4a24530  0x007B2200
-      c4a24534  0x00350000
-      c4a24538  0x00200000
-      c4a2453c  0x6E6E0000
-      c4a24540  0x02086E6E
-    <NO REFERENCES>
-  HIT @ c4a24532 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a24512  0x00000000
-      c4a24516  0x42000000
-      c4a2451a  0x00000000
-      c4a2451e  0x007B2200
-      c4a24522  0x00350000
-      c4a24526  0x00200000
-      c4a2452a  0x00000000
-      c4a2452e  0x22000000
-      c4a24532  0x0000007B
-      c4a24536  0x00000035
-      c4a2453a  0x00000020
-      c4a2453e  0x6E6E6E6E
-      c4a24542  0x00280208
-      c4a24546  0x00280028
-      c4a2454a  0x02080028
-      c4a2454e  0x00280028
-      c4a24552  0x00280028
-    <NO REFERENCES>
-  HIT @ c4a24608 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a245e8  0x00280028
-      c4a245ec  0x00280028
-      c4a245f0  0x00280208
-      c4a245f4  0x00280028
-      c4a245f8  0x00000028
-      c4a245fc  0x00000000
-      c4a24600  0x00004400
-      c4a24604  0x22000000
-      c4a24608  0x0000007B
-      c4a2460c  0x00000029
-      c4a24610  0x00000020
-      c4a24614  0x00000000
-      c4a24618  0x007B2200
-      c4a2461c  0x00290000
-      c4a24620  0x00200000
-      c4a24624  0x6E6E0000
-      c4a24628  0x02086E6E
-    <NO REFERENCES>
-  HIT @ c4a2461a BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a245fa  0x00000000
-      c4a245fe  0x44000000
-      c4a24602  0x00000000
-      c4a24606  0x007B2200
-      c4a2460a  0x00290000
-      c4a2460e  0x00200000
-      c4a24612  0x00000000
-      c4a24616  0x22000000
-      c4a2461a  0x0000007B
-      c4a2461e  0x00000029
-      c4a24622  0x00000020
-      c4a24626  0x6E6E6E6E
-      c4a2462a  0x00280208
-      c4a2462e  0x00280028
-      c4a24632  0x02080028
-      c4a24636  0x00280028
-      c4a2463a  0x00280028
-    <NO REFERENCES>
-  HIT @ c4a246f0 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a246d0  0x00280028
-      c4a246d4  0x00280028
-      c4a246d8  0x00280208
-      c4a246dc  0x00280028
-      c4a246e0  0x00000028
-      c4a246e4  0x00000000
-      c4a246e8  0x00008010
-      c4a246ec  0x22000000
-      c4a246f0  0x0000007B
-      c4a246f4  0x0000037B
-      c4a246f8  0x00000020
-      c4a246fc  0x00000000
-      c4a24700  0x007B2200
-      c4a24704  0x037B0000
-      c4a24708  0x00200000
-      c4a2470c  0xFFFF0000
-      c4a24710  0x0FFFFFFF
-    <NO REFERENCES>
-  HIT @ c4a24702 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a246e2  0x00000000
-      c4a246e6  0x80100000
-      c4a246ea  0x00000000
-      c4a246ee  0x007B2200
-      c4a246f2  0x037B0000
-      c4a246f6  0x00200000
-      c4a246fa  0x00000000
-      c4a246fe  0x22000000
-      c4a24702  0x0000007B
-      c4a24706  0x0000037B
-      c4a2470a  0x00000020
-      c4a2470e  0xFFFFFFFF
-      c4a24712  0x00FF0FFF
-      c4a24716  0x00FF00FF
-      c4a2471a  0x0FFF00FF
-      c4a2471e  0x00FF00FF
-      c4a24722  0x00FF00FF
-    <NO REFERENCES>
-  HIT @ c4a247d8 BLOCK=segment_20
-
-    NEIGHBORHOOD:
-      c4a247b8  0x00FF00FF
-      c4a247bc  0x00FF00FF
-      c4a247c0  0x00FF0FFF
-      c4a247c4  0x00FF00FF
-      c4a247c8  0x000000FF
-      c4a247cc  0x00000000
-      c4a247d0  0x00009010
-      c4a247d4  0x22000000
-      c4a247d8  0x0000007B
-      c4a247dc  0x0000037B
-      c4a247e0  0x00000020
-      c4a247e4  0x00000000
-      c4a247e8  0x007B2200
-      c4a247ec  0x037B0000
-      c4a247f0  0x00200000
-      c4a247f4  0xFFFF0000
-      c4a247f8  0x0FFFFFFF
-    <NO REFERENCES>
-  TOTAL = 100
+x08550833
+    c487ad2a : 0x0044005A
+    c487ad2e : 0x0078084B
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #22 @ c48d30d0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c48d30d0
+    c48d30b8 : 0x00000045
+    c48d30bc : 0xC48D76B7
+    c48d30c0 : 0x00000046
+    c48d30c4 : 0xC48D76EB
+    c48d30c8 : 0x00000047
+    c48d30cc : 0xC48D771D
+    c48d30d0 : 0x0000007B
+    c48d30d4 : 0xC48D774C
+    c48d30d8 : 0x00000048
+    c48d30dc : 0xC48D777F
+    c48d30e0 : 0x00000049
+    c48d30e4 : 0xC48D77B0
+    c48d30e8 : 0x0000004A
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #23 @ c48e00d4
+BLOCK = segment_20
+
+    DWORD WINDOW @ c48e00d4
+    c48e00bc : 0x00000078
+    c48e00c0 : 0x00000015
+    c48e00c4 : 0x00000079
+    c48e00c8 : 0x0000001B
+    c48e00cc : 0x0000007A
+    c48e00d0 : 0x0000001D
+    c48e00d4 : 0x0000007B
+    c48e00d8 : 0x0000001E
+    c48e00dc : 0x0000007C
+    c48e00e0 : 0x00000022
+    c48e00e4 : 0x0000007D
+    c48e00e8 : 0x00000023
+    c48e00ec : 0x0000007E
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #24 @ c48e0138
+BLOCK = segment_20
+
+    DWORD WINDOW @ c48e0138
+    c48e0120 : 0x00000048
+    c48e0124 : 0x00000085
+    c48e0128 : 0x00000079
+    c48e012c : 0x00000086
+    c48e0130 : 0x0000007A
+    c48e0134 : 0x00000087
+    c48e0138 : 0x0000007B
+    c48e013c : 0x00000088
+    c48e0140 : 0x0000007C
+    c48e0144 : 0x00000089
+    c48e0148 : 0x0000007D
+    c48e014c : 0x0000008A
+    c48e0150 : 0x0000007E
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #25 @ c4901c74
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4901c74
+    c4901c5c : 0x00000079
+    c4901c60 : 0xC4901807
+    c4901c64 : 0xDD112630
+    c4901c68 : 0x0000007A
+    c4901c6c : 0xC4901818
+    c4901c70 : 0xDD108864
+    c4901c74 : 0x0000007B
+    c4901c78 : 0xC4901824
+    c4901c7c : 0xDD108850
+    c4901c80 : 0x0000008D
+    c4901c84 : 0xC4901833
+    c4901c88 : 0xDD11D7D0
+    c4901c8c : 0x0000007C
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #26 @ c4901e7c
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4901e7c
+    c4901e64 : 0x00000079
+    c4901e68 : 0xC4901A49
+    c4901e6c : 0xDD11797C
+    c4901e70 : 0x0000007A
+    c4901e74 : 0xC4901A58
+    c4901e78 : 0xDD1157B4
+    c4901e7c : 0x0000007B
+    c4901e80 : 0xC4901A67
+    c4901e84 : 0xDD1180EC
+    c4901e88 : 0x00000086
+    c4901e8c : 0xC4901A73
+    c4901e90 : 0xDD11A488
+    c4901e94 : 0x00000087
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #27 @ c49166b8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c49166b8
+    c49166a0 : 0x00000138
+    c49166a4 : 0xC49164E8
+    c49166a8 : 0x00000139
+    c49166ac : 0xC4915E8C
+    c49166b0 : 0x0000013A
+    c49166b4 : 0xC4915EA0
+    c49166b8 : 0x0000007B
+    c49166bc : 0xC49164FD
+    c49166c0 : 0x0000013F
+    c49166c4 : 0xC491650E
+    c49166c8 : 0x00000070
+    c49166cc : 0xC490F116
+    c49166d0 : 0x00000068
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #28 @ c4988f0d
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4988f0d
+    c4988ef5 : 0x6F00007B
+    c4988ef9 : 0x8800007B
+    c4988efd : 0xA100007B
+    c4988f01 : 0xB900007B
+    c4988f05 : 0xD100007B
+    c4988f09 : 0xE900007B
+    c4988f0d : 0x0000007B
+    c4988f11 : 0x0000007C
+    c4988f15 : 0x5B000000
+    c4988f19 : 0x43574652
+    c4988f1d : 0x5D414D44
+    c4988f21 : 0x4C46525B
+    c4988f25 : 0x58522E4D
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #29 @ c49ad278
+BLOCK = segment_20
+
+    DWORD WINDOW @ c49ad278
+    c49ad260 : 0x00000000
+    c49ad264 : 0x00000000
+    c49ad268 : 0x00000000
+    c49ad26c : 0x00000000
+    c49ad270 : 0x00000000
+    c49ad274 : 0x00000000
+    c49ad278 : 0x0000007B
+    c49ad27c : 0x00000140
+    c49ad280 : 0x1007180D
+    c49ad284 : 0x1007180D
+    c49ad288 : 0x0000003B
+    c49ad28c : 0x00180000
+    c49ad290 : 0x000E002F
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #30 @ c4a1fd88
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a1fd88
+    c4a1fd70 : 0x00FF0FFF
+    c4a1fd74 : 0x00FF00FF
+    c4a1fd78 : 0x000000FF
+    c4a1fd7c : 0x00000000
+    c4a1fd80 : 0x00004010
+    c4a1fd84 : 0x22000000
+    c4a1fd88 : 0x0000007B
+    c4a1fd8c : 0x00000104
+    c4a1fd90 : 0x00000020
+    c4a1fd94 : 0x00000000
+    c4a1fd98 : 0x007B2200
+    c4a1fd9c : 0x01040000
+    c4a1fda0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #31 @ c4a1fd9a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a1fd9a
+    c4a1fd82 : 0x00000000
+    c4a1fd86 : 0x007B2200
+    c4a1fd8a : 0x01040000
+    c4a1fd8e : 0x00200000
+    c4a1fd92 : 0x00000000
+    c4a1fd96 : 0x22000000
+    c4a1fd9a : 0x0000007B
+    c4a1fd9e : 0x00000104
+    c4a1fda2 : 0x00000020
+    c4a1fda6 : 0xFFFFFFFF
+    c4a1fdaa : 0x00FF0FFF
+    c4a1fdae : 0x00FF00FF
+    c4a1fdb2 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #32 @ c4a1fe70
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a1fe70
+    c4a1fe58 : 0x00FF0FFF
+    c4a1fe5c : 0x00FF00FF
+    c4a1fe60 : 0x000000FF
+    c4a1fe64 : 0x00000000
+    c4a1fe68 : 0x00005010
+    c4a1fe6c : 0x22000000
+    c4a1fe70 : 0x0000007B
+    c4a1fe74 : 0x0000037B
+    c4a1fe78 : 0x00000020
+    c4a1fe7c : 0x00000000
+    c4a1fe80 : 0x007B2200
+    c4a1fe84 : 0x037B0000
+    c4a1fe88 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #33 @ c4a1fe82
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a1fe82
+    c4a1fe6a : 0x00000000
+    c4a1fe6e : 0x007B2200
+    c4a1fe72 : 0x037B0000
+    c4a1fe76 : 0x00200000
+    c4a1fe7a : 0x00000000
+    c4a1fe7e : 0x22000000
+    c4a1fe82 : 0x0000007B
+    c4a1fe86 : 0x0000037B
+    c4a1fe8a : 0x00000020
+    c4a1fe8e : 0xFFFFFFFF
+    c4a1fe92 : 0x00FF0FFF
+    c4a1fe96 : 0x00FF00FF
+    c4a1fe9a : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #34 @ c4a1ff58
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a1ff58
+    c4a1ff40 : 0x00FF0FFF
+    c4a1ff44 : 0x00FF00FF
+    c4a1ff48 : 0x000000FF
+    c4a1ff4c : 0x00000000
+    c4a1ff50 : 0x00004020
+    c4a1ff54 : 0x22000000
+    c4a1ff58 : 0x0000007B
+    c4a1ff5c : 0x00000104
+    c4a1ff60 : 0x00000020
+    c4a1ff64 : 0x00000000
+    c4a1ff68 : 0x007B2200
+    c4a1ff6c : 0x01040000
+    c4a1ff70 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #35 @ c4a1ff6a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a1ff6a
+    c4a1ff52 : 0x00000000
+    c4a1ff56 : 0x007B2200
+    c4a1ff5a : 0x01040000
+    c4a1ff5e : 0x00200000
+    c4a1ff62 : 0x00000000
+    c4a1ff66 : 0x22000000
+    c4a1ff6a : 0x0000007B
+    c4a1ff6e : 0x00000104
+    c4a1ff72 : 0x00000020
+    c4a1ff76 : 0xFFFFFFFF
+    c4a1ff7a : 0x00FF0FFF
+    c4a1ff7e : 0x00FF00FF
+    c4a1ff82 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #36 @ c4a20040
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a20040
+    c4a20028 : 0x00FF0FFF
+    c4a2002c : 0x00FF00FF
+    c4a20030 : 0x000000FF
+    c4a20034 : 0x00000000
+    c4a20038 : 0x00005020
+    c4a2003c : 0x22000000
+    c4a20040 : 0x0000007B
+    c4a20044 : 0x00000209
+    c4a20048 : 0x00000020
+    c4a2004c : 0x00000000
+    c4a20050 : 0x007B2200
+    c4a20054 : 0x02090000
+    c4a20058 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #37 @ c4a20052
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a20052
+    c4a2003a : 0x00000000
+    c4a2003e : 0x007B2200
+    c4a20042 : 0x02090000
+    c4a20046 : 0x00200000
+    c4a2004a : 0x00000000
+    c4a2004e : 0x22000000
+    c4a20052 : 0x0000007B
+    c4a20056 : 0x00000209
+    c4a2005a : 0x00000020
+    c4a2005e : 0xFFFFFFFF
+    c4a20062 : 0x00FF0FFF
+    c4a20066 : 0x00FF00FF
+    c4a2006a : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #38 @ c4a20128
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a20128
+    c4a20110 : 0x00FF0FFF
+    c4a20114 : 0x00FF00FF
+    c4a20118 : 0x000000FF
+    c4a2011c : 0x00000000
+    c4a20120 : 0x00005040
+    c4a20124 : 0x22000000
+    c4a20128 : 0x0000007B
+    c4a2012c : 0x0000014B
+    c4a20130 : 0x00000020
+    c4a20134 : 0x00000000
+    c4a20138 : 0x007B2200
+    c4a2013c : 0x014B0000
+    c4a20140 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #39 @ c4a2013a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a2013a
+    c4a20122 : 0x00000000
+    c4a20126 : 0x007B2200
+    c4a2012a : 0x014B0000
+    c4a2012e : 0x00200000
+    c4a20132 : 0x00000000
+    c4a20136 : 0x22000000
+    c4a2013a : 0x0000007B
+    c4a2013e : 0x0000014B
+    c4a20142 : 0x00000020
+    c4a20146 : 0xBEBEBEBE
+    c4a2014a : 0x00800FFF
+    c4a2014e : 0x00800080
+    c4a20152 : 0x0FFF0080
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #40 @ c4a20210
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a20210
+    c4a201f8 : 0x00800FFF
+    c4a201fc : 0x00800080
+    c4a20200 : 0x00000080
+    c4a20204 : 0x00000000
+    c4a20208 : 0x00005080
+    c4a2020c : 0x22000000
+    c4a20210 : 0x0000007B
+    c4a20214 : 0x0000014B
+    c4a20218 : 0x00000020
+    c4a2021c : 0x00000000
+    c4a20220 : 0x007B2200
+    c4a20224 : 0x014B0000
+    c4a20228 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #41 @ c4a20222
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a20222
+    c4a2020a : 0x00000000
+    c4a2020e : 0x007B2200
+    c4a20212 : 0x014B0000
+    c4a20216 : 0x00200000
+    c4a2021a : 0x00000000
+    c4a2021e : 0x22000000
+    c4a20222 : 0x0000007B
+    c4a20226 : 0x0000014B
+    c4a2022a : 0x00000020
+    c4a2022e : 0xBEBEBEBE
+    c4a20232 : 0x00800FFF
+    c4a20236 : 0x00800080
+    c4a2023a : 0x0FFF0080
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #42 @ c4a202f8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a202f8
+    c4a202e0 : 0x00800FFF
+    c4a202e4 : 0x00800080
+    c4a202e8 : 0x00000080
+    c4a202ec : 0x00000000
+    c4a202f0 : 0x00004100
+    c4a202f4 : 0x22000000
+    c4a202f8 : 0x0000007B
+    c4a202fc : 0x00000068
+    c4a20300 : 0x00000020
+    c4a20304 : 0x00000000
+    c4a20308 : 0x007B2200
+    c4a2030c : 0x00680000
+    c4a20310 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #43 @ c4a2030a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a2030a
+    c4a202f2 : 0x00000000
+    c4a202f6 : 0x007B2200
+    c4a202fa : 0x00680000
+    c4a202fe : 0x00200000
+    c4a20302 : 0x00000000
+    c4a20306 : 0x22000000
+    c4a2030a : 0x0000007B
+    c4a2030e : 0x00000068
+    c4a20312 : 0x00000020
+    c4a20316 : 0x6E6E6E6E
+    c4a2031a : 0x006601C7
+    c4a2031e : 0x00660066
+    c4a20322 : 0x01C70066
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #44 @ c4a203e0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a203e0
+    c4a203c8 : 0x006601C7
+    c4a203cc : 0x00660066
+    c4a203d0 : 0x00000066
+    c4a203d4 : 0x00000000
+    c4a203d8 : 0x00004040
+    c4a203dc : 0x22000000
+    c4a203e0 : 0x0000007B
+    c4a203e4 : 0x00000104
+    c4a203e8 : 0x00000020
+    c4a203ec : 0x00000000
+    c4a203f0 : 0x007B2200
+    c4a203f4 : 0x01040000
+    c4a203f8 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #45 @ c4a203f2
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a203f2
+    c4a203da : 0x00000000
+    c4a203de : 0x007B2200
+    c4a203e2 : 0x01040000
+    c4a203e6 : 0x00200000
+    c4a203ea : 0x00000000
+    c4a203ee : 0x22000000
+    c4a203f2 : 0x0000007B
+    c4a203f6 : 0x00000104
+    c4a203fa : 0x00000020
+    c4a203fe : 0xBEBEBEBE
+    c4a20402 : 0x00800FFF
+    c4a20406 : 0x00800080
+    c4a2040a : 0x0FFF0080
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #46 @ c4a204c8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a204c8
+    c4a204b0 : 0x00800FFF
+    c4a204b4 : 0x00800080
+    c4a204b8 : 0x00000080
+    c4a204bc : 0x00000000
+    c4a204c0 : 0x00004080
+    c4a204c4 : 0x22000000
+    c4a204c8 : 0x0000007B
+    c4a204cc : 0x000000D9
+    c4a204d0 : 0x00000020
+    c4a204d4 : 0x00000000
+    c4a204d8 : 0x007B2200
+    c4a204dc : 0x00D90000
+    c4a204e0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #47 @ c4a204da
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a204da
+    c4a204c2 : 0x00000000
+    c4a204c6 : 0x007B2200
+    c4a204ca : 0x00D90000
+    c4a204ce : 0x00200000
+    c4a204d2 : 0x00000000
+    c4a204d6 : 0x22000000
+    c4a204da : 0x0000007B
+    c4a204de : 0x000000D9
+    c4a204e2 : 0x00000020
+    c4a204e6 : 0xBEBEBEBE
+    c4a204ea : 0x00800FFF
+    c4a204ee : 0x00800080
+    c4a204f2 : 0x0FFF0080
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #48 @ c4a205b0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a205b0
+    c4a20598 : 0x00800FFF
+    c4a2059c : 0x00800080
+    c4a205a0 : 0x00000080
+    c4a205a4 : 0x00000000
+    c4a205a8 : 0x00004010
+    c4a205ac : 0x22000000
+    c4a205b0 : 0x0000007B
+    c4a205b4 : 0x0000037B
+    c4a205b8 : 0x00000020
+    c4a205bc : 0x00000000
+    c4a205c0 : 0x007B2200
+    c4a205c4 : 0x037B0000
+    c4a205c8 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #49 @ c4a205c2
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a205c2
+    c4a205aa : 0x00000000
+    c4a205ae : 0x007B2200
+    c4a205b2 : 0x037B0000
+    c4a205b6 : 0x00200000
+    c4a205ba : 0x00000000
+    c4a205be : 0x22000000
+    c4a205c2 : 0x0000007B
+    c4a205c6 : 0x0000037B
+    c4a205ca : 0x00000020
+    c4a205ce : 0xFFFFFFFF
+    c4a205d2 : 0x00FF0FFF
+    c4a205d6 : 0x00FF00FF
+    c4a205da : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #50 @ c4a20698
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a20698
+    c4a20680 : 0x00FF0FFF
+    c4a20684 : 0x00FF00FF
+    c4a20688 : 0x000000FF
+    c4a2068c : 0x00000000
+    c4a20690 : 0x00004020
+    c4a20694 : 0x22000000
+    c4a20698 : 0x0000007B
+    c4a2069c : 0x00000209
+    c4a206a0 : 0x00000020
+    c4a206a4 : 0x00000000
+    c4a206a8 : 0x007B2200
+    c4a206ac : 0x02090000
+    c4a206b0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #51 @ c4a206aa
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a206aa
+    c4a20692 : 0x00000000
+    c4a20696 : 0x007B2200
+    c4a2069a : 0x02090000
+    c4a2069e : 0x00200000
+    c4a206a2 : 0x00000000
+    c4a206a6 : 0x22000000
+    c4a206aa : 0x0000007B
+    c4a206ae : 0x00000209
+    c4a206b2 : 0x00000020
+    c4a206b6 : 0xFFFFFFFF
+    c4a206ba : 0x00FF0FFF
+    c4a206be : 0x00FF00FF
+    c4a206c2 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #52 @ c4a22ad8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22ad8
+    c4a22ac0 : 0x00280208
+    c4a22ac4 : 0x00280028
+    c4a22ac8 : 0x00000028
+    c4a22acc : 0x00000000
+    c4a22ad0 : 0x00004080
+    c4a22ad4 : 0x22000000
+    c4a22ad8 : 0x0000007B
+    c4a22adc : 0x000000DE
+    c4a22ae0 : 0x00000020
+    c4a22ae4 : 0x00000000
+    c4a22ae8 : 0x007B2200
+    c4a22aec : 0x00DE0000
+    c4a22af0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #53 @ c4a22aea
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22aea
+    c4a22ad2 : 0x00000000
+    c4a22ad6 : 0x007B2200
+    c4a22ada : 0x00DE0000
+    c4a22ade : 0x00200000
+    c4a22ae2 : 0x00000000
+    c4a22ae6 : 0x22000000
+    c4a22aea : 0x0000007B
+    c4a22aee : 0x000000DE
+    c4a22af2 : 0x00000020
+    c4a22af6 : 0xBEBEBEBE
+    c4a22afa : 0x00800E38
+    c4a22afe : 0x00800080
+    c4a22b02 : 0x0FFF0080
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #54 @ c4a22bc0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22bc0
+    c4a22ba8 : 0x00700E38
+    c4a22bac : 0x00700070
+    c4a22bb0 : 0x00000070
+    c4a22bb4 : 0x00000000
+    c4a22bb8 : 0x00004100
+    c4a22bbc : 0x22000000
+    c4a22bc0 : 0x0000007B
+    c4a22bc4 : 0x00000054
+    c4a22bc8 : 0x00000020
+    c4a22bcc : 0x00000000
+    c4a22bd0 : 0x007B2200
+    c4a22bd4 : 0x00540000
+    c4a22bd8 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #55 @ c4a22bd2
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22bd2
+    c4a22bba : 0x00000000
+    c4a22bbe : 0x007B2200
+    c4a22bc2 : 0x00540000
+    c4a22bc6 : 0x00200000
+    c4a22bca : 0x00000000
+    c4a22bce : 0x22000000
+    c4a22bd2 : 0x0000007B
+    c4a22bd6 : 0x00000054
+    c4a22bda : 0x00000020
+    c4a22bde : 0x6E6E6E6E
+    c4a22be2 : 0x0066038E
+    c4a22be6 : 0x00660066
+    c4a22bea : 0x01860066
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #56 @ c4a22ca8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22ca8
+    c4a22c90 : 0x00660186
+    c4a22c94 : 0x00660066
+    c4a22c98 : 0x00000066
+    c4a22c9c : 0x00000000
+    c4a22ca0 : 0x00004200
+    c4a22ca4 : 0x22000000
+    c4a22ca8 : 0x0000007B
+    c4a22cac : 0x00000054
+    c4a22cb0 : 0x00000020
+    c4a22cb4 : 0x00000000
+    c4a22cb8 : 0x007B2200
+    c4a22cbc : 0x00540000
+    c4a22cc0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #57 @ c4a22cba
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22cba
+    c4a22ca2 : 0x00000000
+    c4a22ca6 : 0x007B2200
+    c4a22caa : 0x00540000
+    c4a22cae : 0x00200000
+    c4a22cb2 : 0x00000000
+    c4a22cb6 : 0x22000000
+    c4a22cba : 0x0000007B
+    c4a22cbe : 0x00000054
+    c4a22cc2 : 0x00000020
+    c4a22cc6 : 0x6E6E6E6E
+    c4a22cca : 0x0066038E
+    c4a22cce : 0x00660066
+    c4a22cd2 : 0x01860066
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #58 @ c4a22d90
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22d90
+    c4a22d78 : 0x00660186
+    c4a22d7c : 0x00660066
+    c4a22d80 : 0x00000066
+    c4a22d84 : 0x00000000
+    c4a22d88 : 0x00004040
+    c4a22d8c : 0x22000000
+    c4a22d90 : 0x0000007B
+    c4a22d94 : 0x0000014B
+    c4a22d98 : 0x00000020
+    c4a22d9c : 0x00000000
+    c4a22da0 : 0x007B2200
+    c4a22da4 : 0x014B0000
+    c4a22da8 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #59 @ c4a22da2
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22da2
+    c4a22d8a : 0x00000000
+    c4a22d8e : 0x007B2200
+    c4a22d92 : 0x014B0000
+    c4a22d96 : 0x00200000
+    c4a22d9a : 0x00000000
+    c4a22d9e : 0x22000000
+    c4a22da2 : 0x0000007B
+    c4a22da6 : 0x0000014B
+    c4a22daa : 0x00000020
+    c4a22dae : 0xFFFFFFFF
+    c4a22db2 : 0x00FF0FFF
+    c4a22db6 : 0x00FF00FF
+    c4a22dba : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #60 @ c4a22e78
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22e78
+    c4a22e60 : 0x00FF0FFF
+    c4a22e64 : 0x00FF00FF
+    c4a22e68 : 0x000000FF
+    c4a22e6c : 0x00000000
+    c4a22e70 : 0x00004080
+    c4a22e74 : 0x22000000
+    c4a22e78 : 0x0000007B
+    c4a22e7c : 0x0000014B
+    c4a22e80 : 0x00000020
+    c4a22e84 : 0x00000000
+    c4a22e88 : 0x007B2200
+    c4a22e8c : 0x014B0000
+    c4a22e90 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #61 @ c4a22e8a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22e8a
+    c4a22e72 : 0x00000000
+    c4a22e76 : 0x007B2200
+    c4a22e7a : 0x014B0000
+    c4a22e7e : 0x00200000
+    c4a22e82 : 0x00000000
+    c4a22e86 : 0x22000000
+    c4a22e8a : 0x0000007B
+    c4a22e8e : 0x0000014B
+    c4a22e92 : 0x00000020
+    c4a22e96 : 0xFFFFFFFF
+    c4a22e9a : 0x00FF0FFF
+    c4a22e9e : 0x00FF00FF
+    c4a22ea2 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #62 @ c4a22f60
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22f60
+    c4a22f48 : 0x00FF0FFF
+    c4a22f4c : 0x00FF00FF
+    c4a22f50 : 0x000000FF
+    c4a22f54 : 0x00000000
+    c4a22f58 : 0x00004020
+    c4a22f5c : 0x22000000
+    c4a22f60 : 0x0000007B
+    c4a22f64 : 0x00000209
+    c4a22f68 : 0x00000020
+    c4a22f6c : 0x00000000
+    c4a22f70 : 0x007B2200
+    c4a22f74 : 0x02090000
+    c4a22f78 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #63 @ c4a22f72
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a22f72
+    c4a22f5a : 0x00000000
+    c4a22f5e : 0x007B2200
+    c4a22f62 : 0x02090000
+    c4a22f66 : 0x00200000
+    c4a22f6a : 0x00000000
+    c4a22f6e : 0x22000000
+    c4a22f72 : 0x0000007B
+    c4a22f76 : 0x00000209
+    c4a22f7a : 0x00000020
+    c4a22f7e : 0xFFFFFFFF
+    c4a22f82 : 0x00FF0FFF
+    c4a22f86 : 0x00FF00FF
+    c4a22f8a : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #64 @ c4a23048
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23048
+    c4a23030 : 0x00FF0FFF
+    c4a23034 : 0x00FF00FF
+    c4a23038 : 0x000000FF
+    c4a2303c : 0x00000000
+    c4a23040 : 0x00004040
+    c4a23044 : 0x22000000
+    c4a23048 : 0x0000007B
+    c4a2304c : 0x0000014B
+    c4a23050 : 0x00000020
+    c4a23054 : 0x00000000
+    c4a23058 : 0x007B2200
+    c4a2305c : 0x014B0000
+    c4a23060 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #65 @ c4a2305a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a2305a
+    c4a23042 : 0x00000000
+    c4a23046 : 0x007B2200
+    c4a2304a : 0x014B0000
+    c4a2304e : 0x00200000
+    c4a23052 : 0x00000000
+    c4a23056 : 0x22000000
+    c4a2305a : 0x0000007B
+    c4a2305e : 0x0000014B
+    c4a23062 : 0x00000020
+    c4a23066 : 0xFFFFFFFF
+    c4a2306a : 0x00FF0FFF
+    c4a2306e : 0x00FF00FF
+    c4a23072 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #66 @ c4a23130
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23130
+    c4a23118 : 0x00FF0FFF
+    c4a2311c : 0x00FF00FF
+    c4a23120 : 0x000000FF
+    c4a23124 : 0x00000000
+    c4a23128 : 0x00004080
+    c4a2312c : 0x22000000
+    c4a23130 : 0x0000007B
+    c4a23134 : 0x0000014B
+    c4a23138 : 0x00000020
+    c4a2313c : 0x00000000
+    c4a23140 : 0x007B2200
+    c4a23144 : 0x014B0000
+    c4a23148 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #67 @ c4a23142
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23142
+    c4a2312a : 0x00000000
+    c4a2312e : 0x007B2200
+    c4a23132 : 0x014B0000
+    c4a23136 : 0x00200000
+    c4a2313a : 0x00000000
+    c4a2313e : 0x22000000
+    c4a23142 : 0x0000007B
+    c4a23146 : 0x0000014B
+    c4a2314a : 0x00000020
+    c4a2314e : 0xFFFFFFFF
+    c4a23152 : 0x00FF0FFF
+    c4a23156 : 0x00FF00FF
+    c4a2315a : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #68 @ c4a23218
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23218
+    c4a23200 : 0x00FF0FFF
+    c4a23204 : 0x00FF00FF
+    c4a23208 : 0x000000FF
+    c4a2320c : 0x00000000
+    c4a23210 : 0x00004040
+    c4a23214 : 0x22000000
+    c4a23218 : 0x0000007B
+    c4a2321c : 0x0000014B
+    c4a23220 : 0x00000020
+    c4a23224 : 0x00000000
+    c4a23228 : 0x007B2200
+    c4a2322c : 0x014B0000
+    c4a23230 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #69 @ c4a2322a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a2322a
+    c4a23212 : 0x00000000
+    c4a23216 : 0x007B2200
+    c4a2321a : 0x014B0000
+    c4a2321e : 0x00200000
+    c4a23222 : 0x00000000
+    c4a23226 : 0x22000000
+    c4a2322a : 0x0000007B
+    c4a2322e : 0x0000014B
+    c4a23232 : 0x00000020
+    c4a23236 : 0xFFFFFFFF
+    c4a2323a : 0x00FF0FFF
+    c4a2323e : 0x00FF00FF
+    c4a23242 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #70 @ c4a23300
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23300
+    c4a232e8 : 0x00FF0FFF
+    c4a232ec : 0x00FF00FF
+    c4a232f0 : 0x000000FF
+    c4a232f4 : 0x00000000
+    c4a232f8 : 0x00004080
+    c4a232fc : 0x22000000
+    c4a23300 : 0x0000007B
+    c4a23304 : 0x0000014B
+    c4a23308 : 0x00000020
+    c4a2330c : 0x00000000
+    c4a23310 : 0x007B2200
+    c4a23314 : 0x014B0000
+    c4a23318 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #71 @ c4a23312
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23312
+    c4a232fa : 0x00000000
+    c4a232fe : 0x007B2200
+    c4a23302 : 0x014B0000
+    c4a23306 : 0x00200000
+    c4a2330a : 0x00000000
+    c4a2330e : 0x22000000
+    c4a23312 : 0x0000007B
+    c4a23316 : 0x0000014B
+    c4a2331a : 0x00000020
+    c4a2331e : 0xFFFFFFFF
+    c4a23322 : 0x00FF0FFF
+    c4a23326 : 0x00FF00FF
+    c4a2332a : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #72 @ c4a233e8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a233e8
+    c4a233d0 : 0x00FF0FFF
+    c4a233d4 : 0x00FF00FF
+    c4a233d8 : 0x000000FF
+    c4a233dc : 0x00000000
+    c4a233e0 : 0x00004100
+    c4a233e4 : 0x22000000
+    c4a233e8 : 0x0000007B
+    c4a233ec : 0x0000014B
+    c4a233f0 : 0x00000020
+    c4a233f4 : 0x00000000
+    c4a233f8 : 0x007B2200
+    c4a233fc : 0x014B0000
+    c4a23400 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #73 @ c4a233fa
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a233fa
+    c4a233e2 : 0x00000000
+    c4a233e6 : 0x007B2200
+    c4a233ea : 0x014B0000
+    c4a233ee : 0x00200000
+    c4a233f2 : 0x00000000
+    c4a233f6 : 0x22000000
+    c4a233fa : 0x0000007B
+    c4a233fe : 0x0000014B
+    c4a23402 : 0x00000020
+    c4a23406 : 0xFFFFFFFF
+    c4a2340a : 0x00FF0FFF
+    c4a2340e : 0x00FF00FF
+    c4a23412 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #74 @ c4a234d0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a234d0
+    c4a234b8 : 0x00FF0FFF
+    c4a234bc : 0x00FF00FF
+    c4a234c0 : 0x000000FF
+    c4a234c4 : 0x00000000
+    c4a234c8 : 0x00004040
+    c4a234cc : 0x22000000
+    c4a234d0 : 0x0000007B
+    c4a234d4 : 0x00000104
+    c4a234d8 : 0x00000020
+    c4a234dc : 0x00000000
+    c4a234e0 : 0x007B2200
+    c4a234e4 : 0x01040000
+    c4a234e8 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #75 @ c4a234e2
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a234e2
+    c4a234ca : 0x00000000
+    c4a234ce : 0x007B2200
+    c4a234d2 : 0x01040000
+    c4a234d6 : 0x00200000
+    c4a234da : 0x00000000
+    c4a234de : 0x22000000
+    c4a234e2 : 0x0000007B
+    c4a234e6 : 0x00000104
+    c4a234ea : 0x00000020
+    c4a234ee : 0xBEBEBEBE
+    c4a234f2 : 0x00800E38
+    c4a234f6 : 0x00800080
+    c4a234fa : 0x0FFF0080
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #76 @ c4a235b8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a235b8
+    c4a235a0 : 0x00700E38
+    c4a235a4 : 0x00700070
+    c4a235a8 : 0x00000070
+    c4a235ac : 0x00000000
+    c4a235b0 : 0x00004080
+    c4a235b4 : 0x22000000
+    c4a235b8 : 0x0000007B
+    c4a235bc : 0x000000E4
+    c4a235c0 : 0x00000020
+    c4a235c4 : 0x00000000
+    c4a235c8 : 0x007B2200
+    c4a235cc : 0x00E40000
+    c4a235d0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #77 @ c4a235ca
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a235ca
+    c4a235b2 : 0x00000000
+    c4a235b6 : 0x007B2200
+    c4a235ba : 0x00E40000
+    c4a235be : 0x00200000
+    c4a235c2 : 0x00000000
+    c4a235c6 : 0x22000000
+    c4a235ca : 0x0000007B
+    c4a235ce : 0x000000E4
+    c4a235d2 : 0x00000020
+    c4a235d6 : 0xBEBEBEBE
+    c4a235da : 0x00800FFF
+    c4a235de : 0x00800080
+    c4a235e2 : 0x0FFF0080
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #78 @ c4a236a0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a236a0
+    c4a23688 : 0x00800FFF
+    c4a2368c : 0x00800080
+    c4a23690 : 0x00000080
+    c4a23694 : 0x00000000
+    c4a23698 : 0x00004010
+    c4a2369c : 0x22000000
+    c4a236a0 : 0x0000007B
+    c4a236a4 : 0x00000104
+    c4a236a8 : 0x00000020
+    c4a236ac : 0x00000000
+    c4a236b0 : 0x007B2200
+    c4a236b4 : 0x01040000
+    c4a236b8 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #79 @ c4a236b2
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a236b2
+    c4a2369a : 0x00000000
+    c4a2369e : 0x007B2200
+    c4a236a2 : 0x01040000
+    c4a236a6 : 0x00200000
+    c4a236aa : 0x00000000
+    c4a236ae : 0x22000000
+    c4a236b2 : 0x0000007B
+    c4a236b6 : 0x00000104
+    c4a236ba : 0x00000020
+    c4a236be : 0xFFFFFFFF
+    c4a236c2 : 0x00FF0FFF
+    c4a236c6 : 0x00FF00FF
+    c4a236ca : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #80 @ c4a23ec8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23ec8
+    c4a23eb0 : 0x00280208
+    c4a23eb4 : 0x00280028
+    c4a23eb8 : 0x00000028
+    c4a23ebc : 0x00000000
+    c4a23ec0 : 0x00004080
+    c4a23ec4 : 0x22000000
+    c4a23ec8 : 0x0000007B
+    c4a23ecc : 0x0000014B
+    c4a23ed0 : 0x00000020
+    c4a23ed4 : 0x00000000
+    c4a23ed8 : 0x007B2200
+    c4a23edc : 0x014B0000
+    c4a23ee0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #81 @ c4a23eda
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23eda
+    c4a23ec2 : 0x00000000
+    c4a23ec6 : 0x007B2200
+    c4a23eca : 0x014B0000
+    c4a23ece : 0x00200000
+    c4a23ed2 : 0x00000000
+    c4a23ed6 : 0x22000000
+    c4a23eda : 0x0000007B
+    c4a23ede : 0x0000014B
+    c4a23ee2 : 0x00000020
+    c4a23ee6 : 0xFFFFFFFF
+    c4a23eea : 0x00FF0FFF
+    c4a23eee : 0x00FF00FF
+    c4a23ef2 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #82 @ c4a23fb0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23fb0
+    c4a23f98 : 0x00FF0FFF
+    c4a23f9c : 0x00FF00FF
+    c4a23fa0 : 0x000000FF
+    c4a23fa4 : 0x00000000
+    c4a23fa8 : 0x00004040
+    c4a23fac : 0x22000000
+    c4a23fb0 : 0x0000007B
+    c4a23fb4 : 0x0000014B
+    c4a23fb8 : 0x00000020
+    c4a23fbc : 0x00000000
+    c4a23fc0 : 0x007B2200
+    c4a23fc4 : 0x014B0000
+    c4a23fc8 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #83 @ c4a23fc2
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a23fc2
+    c4a23faa : 0x00000000
+    c4a23fae : 0x007B2200
+    c4a23fb2 : 0x014B0000
+    c4a23fb6 : 0x00200000
+    c4a23fba : 0x00000000
+    c4a23fbe : 0x22000000
+    c4a23fc2 : 0x0000007B
+    c4a23fc6 : 0x0000014B
+    c4a23fca : 0x00000020
+    c4a23fce : 0xFFFFFFFF
+    c4a23fd2 : 0x00FF0FFF
+    c4a23fd6 : 0x00FF00FF
+    c4a23fda : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #84 @ c4a24098
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24098
+    c4a24080 : 0x00FF0FFF
+    c4a24084 : 0x00FF00FF
+    c4a24088 : 0x000000FF
+    c4a2408c : 0x00000000
+    c4a24090 : 0x00004010
+    c4a24094 : 0x22000000
+    c4a24098 : 0x0000007B
+    c4a2409c : 0x00000104
+    c4a240a0 : 0x00000020
+    c4a240a4 : 0x00000000
+    c4a240a8 : 0x007B2200
+    c4a240ac : 0x01040000
+    c4a240b0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #85 @ c4a240aa
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a240aa
+    c4a24092 : 0x00000000
+    c4a24096 : 0x007B2200
+    c4a2409a : 0x01040000
+    c4a2409e : 0x00200000
+    c4a240a2 : 0x00000000
+    c4a240a6 : 0x22000000
+    c4a240aa : 0x0000007B
+    c4a240ae : 0x00000104
+    c4a240b2 : 0x00000020
+    c4a240b6 : 0xFFFFFFFF
+    c4a240ba : 0x00FF0FFF
+    c4a240be : 0x00FF00FF
+    c4a240c2 : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #86 @ c4a24180
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24180
+    c4a24168 : 0x00FF0FFF
+    c4a2416c : 0x00FF00FF
+    c4a24170 : 0x000000FF
+    c4a24174 : 0x00000000
+    c4a24178 : 0x00004020
+    c4a2417c : 0x22000000
+    c4a24180 : 0x0000007B
+    c4a24184 : 0x00000104
+    c4a24188 : 0x00000020
+    c4a2418c : 0x00000000
+    c4a24190 : 0x007B2200
+    c4a24194 : 0x01040000
+    c4a24198 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #87 @ c4a24192
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24192
+    c4a2417a : 0x00000000
+    c4a2417e : 0x007B2200
+    c4a24182 : 0x01040000
+    c4a24186 : 0x00200000
+    c4a2418a : 0x00000000
+    c4a2418e : 0x22000000
+    c4a24192 : 0x0000007B
+    c4a24196 : 0x00000104
+    c4a2419a : 0x00000020
+    c4a2419e : 0xFFFFFFFF
+    c4a241a2 : 0x00FF0FFF
+    c4a241a6 : 0x00FF00FF
+    c4a241aa : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #88 @ c4a24268
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24268
+    c4a24250 : 0x00FF0FFF
+    c4a24254 : 0x00FF00FF
+    c4a24258 : 0x000000FF
+    c4a2425c : 0x00000000
+    c4a24260 : 0x00004040
+    c4a24264 : 0x22000000
+    c4a24268 : 0x0000007B
+    c4a2426c : 0x00000104
+    c4a24270 : 0x00000020
+    c4a24274 : 0x00000000
+    c4a24278 : 0x007B2200
+    c4a2427c : 0x01040000
+    c4a24280 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #89 @ c4a2427a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a2427a
+    c4a24262 : 0x00000000
+    c4a24266 : 0x007B2200
+    c4a2426a : 0x01040000
+    c4a2426e : 0x00200000
+    c4a24272 : 0x00000000
+    c4a24276 : 0x22000000
+    c4a2427a : 0x0000007B
+    c4a2427e : 0x00000104
+    c4a24282 : 0x00000020
+    c4a24286 : 0xBEBEBEBE
+    c4a2428a : 0x009F071C
+    c4a2428e : 0x009F009F
+    c4a24292 : 0x071C009F
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #90 @ c4a24350
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24350
+    c4a24338 : 0x0080071C
+    c4a2433c : 0x00800080
+    c4a24340 : 0x00000080
+    c4a24344 : 0x00000000
+    c4a24348 : 0x00004080
+    c4a2434c : 0x22000000
+    c4a24350 : 0x0000007B
+    c4a24354 : 0x000000DE
+    c4a24358 : 0x00000020
+    c4a2435c : 0x00000000
+    c4a24360 : 0x007B2200
+    c4a24364 : 0x00DE0000
+    c4a24368 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #91 @ c4a24362
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24362
+    c4a2434a : 0x00000000
+    c4a2434e : 0x007B2200
+    c4a24352 : 0x00DE0000
+    c4a24356 : 0x00200000
+    c4a2435a : 0x00000000
+    c4a2435e : 0x22000000
+    c4a24362 : 0x0000007B
+    c4a24366 : 0x000000DE
+    c4a2436a : 0x00000020
+    c4a2436e : 0xBEBEBEBE
+    c4a24372 : 0x009F071C
+    c4a24376 : 0x009F009F
+    c4a2437a : 0x071C009F
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #92 @ c4a24438
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24438
+    c4a24420 : 0x0080071C
+    c4a24424 : 0x00800080
+    c4a24428 : 0x00000080
+    c4a2442c : 0x00000000
+    c4a24430 : 0x00004100
+    c4a24434 : 0x22000000
+    c4a24438 : 0x0000007B
+    c4a2443c : 0x00000054
+    c4a24440 : 0x00000020
+    c4a24444 : 0x00000000
+    c4a24448 : 0x007B2200
+    c4a2444c : 0x00540000
+    c4a24450 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #93 @ c4a2444a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a2444a
+    c4a24432 : 0x00000000
+    c4a24436 : 0x007B2200
+    c4a2443a : 0x00540000
+    c4a2443e : 0x00200000
+    c4a24442 : 0x00000000
+    c4a24446 : 0x22000000
+    c4a2444a : 0x0000007B
+    c4a2444e : 0x00000054
+    c4a24452 : 0x00000020
+    c4a24456 : 0x6E6E6E6E
+    c4a2445a : 0x00660208
+    c4a2445e : 0x00660066
+    c4a24462 : 0x02080066
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #94 @ c4a24520
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24520
+    c4a24508 : 0x00660208
+    c4a2450c : 0x00660066
+    c4a24510 : 0x00000066
+    c4a24514 : 0x00000000
+    c4a24518 : 0x00004200
+    c4a2451c : 0x22000000
+    c4a24520 : 0x0000007B
+    c4a24524 : 0x00000035
+    c4a24528 : 0x00000020
+    c4a2452c : 0x00000000
+    c4a24530 : 0x007B2200
+    c4a24534 : 0x00350000
+    c4a24538 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #95 @ c4a24532
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24532
+    c4a2451a : 0x00000000
+    c4a2451e : 0x007B2200
+    c4a24522 : 0x00350000
+    c4a24526 : 0x00200000
+    c4a2452a : 0x00000000
+    c4a2452e : 0x22000000
+    c4a24532 : 0x0000007B
+    c4a24536 : 0x00000035
+    c4a2453a : 0x00000020
+    c4a2453e : 0x6E6E6E6E
+    c4a24542 : 0x00280208
+    c4a24546 : 0x00280028
+    c4a2454a : 0x02080028
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #96 @ c4a24608
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24608
+    c4a245f0 : 0x00280208
+    c4a245f4 : 0x00280028
+    c4a245f8 : 0x00000028
+    c4a245fc : 0x00000000
+    c4a24600 : 0x00004400
+    c4a24604 : 0x22000000
+    c4a24608 : 0x0000007B
+    c4a2460c : 0x00000029
+    c4a24610 : 0x00000020
+    c4a24614 : 0x00000000
+    c4a24618 : 0x007B2200
+    c4a2461c : 0x00290000
+    c4a24620 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #97 @ c4a2461a
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a2461a
+    c4a24602 : 0x00000000
+    c4a24606 : 0x007B2200
+    c4a2460a : 0x00290000
+    c4a2460e : 0x00200000
+    c4a24612 : 0x00000000
+    c4a24616 : 0x22000000
+    c4a2461a : 0x0000007B
+    c4a2461e : 0x00000029
+    c4a24622 : 0x00000020
+    c4a24626 : 0x6E6E6E6E
+    c4a2462a : 0x00280208
+    c4a2462e : 0x00280028
+    c4a24632 : 0x02080028
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #98 @ c4a246f0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a246f0
+    c4a246d8 : 0x00280208
+    c4a246dc : 0x00280028
+    c4a246e0 : 0x00000028
+    c4a246e4 : 0x00000000
+    c4a246e8 : 0x00008010
+    c4a246ec : 0x22000000
+    c4a246f0 : 0x0000007B
+    c4a246f4 : 0x0000037B
+    c4a246f8 : 0x00000020
+    c4a246fc : 0x00000000
+    c4a24700 : 0x007B2200
+    c4a24704 : 0x037B0000
+    c4a24708 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #99 @ c4a24702
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a24702
+    c4a246ea : 0x00000000
+    c4a246ee : 0x007B2200
+    c4a246f2 : 0x037B0000
+    c4a246f6 : 0x00200000
+    c4a246fa : 0x00000000
+    c4a246fe : 0x22000000
+    c4a24702 : 0x0000007B
+    c4a24706 : 0x0000037B
+    c4a2470a : 0x00000020
+    c4a2470e : 0xFFFFFFFF
+    c4a24712 : 0x00FF0FFF
+    c4a24716 : 0x00FF00FF
+    c4a2471a : 0x0FFF00FF
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #100 @ c4a247d8
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4a247d8
+    c4a247c0 : 0x00FF0FFF
+    c4a247c4 : 0x00FF00FF
+    c4a247c8 : 0x000000FF
+    c4a247cc : 0x00000000
+    c4a247d0 : 0x00009010
+    c4a247d4 : 0x22000000
+    c4a247d8 : 0x0000007B
+    c4a247dc : 0x0000037B
+    c4a247e0 : 0x00000020
+    c4a247e4 : 0x00000000
+    c4a247e8 : 0x007B2200
+    c4a247ec : 0x037B0000
+    c4a247f0 : 0x00200000
+
+REFERENCES:
+    <NO REFERENCES>
+... DWORD HIT LIMIT = 100
+
+============================================================
+GLOBAL DWORD SCAN
+TARGET = 0x007B0001
+VALUE = 0x007B0001
+============================================================
+
+DWORD HIT #1 @ cbf5af28
+BLOCK = segment_24
+
+    DWORD WINDOW @ cbf5af28
+    cbf5af10 : 0xE6E050AA
+    cbf5af14 : 0x47E01D50
+    cbf5af18 : 0xCDC04199
+    cbf5af1c : 0x83403A9B
+    cbf5af20 : 0x9B80C2AA
+    cbf5af24 : 0x17007537
+    cbf5af28 : 0x007B0001
+    cbf5af2c : 0x36810950
+    cbf5af30 : 0x3108862A
+    cbf5af34 : 0xE840405B
+    cbf5af38 : 0xB0F64056
+    cbf5af3c : 0x6807DED7
+    cbf5af40 : 0x37000554
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #2 @ cc9648b5
+BLOCK = segment_24
+
+    DWORD WINDOW @ cc9648b5
+    cc96489d : 0x6191744F
+    cc9648a1 : 0x4FE46465
+    cc9648a5 : 0x19AE2563
+    cc9648a9 : 0x0BC703F2
+    cc9648ad : 0x9CA26461
+    cc9648b1 : 0xC22ECCFD
+    cc9648b5 : 0x007B0001
+    cc9648b9 : 0x3B0031EA
+    cc9648bd : 0x08602A4B
+    cc9648c1 : 0x6128DD00
+    cc9648c5 : 0x825C0036
+    cc9648c9 : 0x1258F212
+    cc9648cd : 0x226A832F
+
+REFERENCES:
+    <NO REFERENCES>
+
+TOTAL DWORD HITS = 2
+
+============================================================
+GLOBAL DWORD SCAN
+TARGET = 0x0001007B
+VALUE = 0x0001007B
+============================================================
+
+DWORD HIT #1 @ c4e1a052
+BLOCK = segment_20
+
+    DWORD WINDOW @ c4e1a052
+    c4e1a03a : 0x000C028D
+    c4e1a03e : 0x13800000
+    c4e1a042 : 0xC1E0028D
+    c4e1a046 : 0x00000297
+    c4e1a04a : 0x12000000
+    c4e1a04e : 0x98A0007A
+    c4e1a052 : 0x0001007B
+    c4e1a056 : 0x98A00000
+    c4e1a05a : 0x1F40007B
+    c4e1a05e : 0x0002007D
+    c4e1a062 : 0x1F400000
+    c4e1a066 : 0xA5E0007D
+    c4e1a06a : 0x0003007E
+
+REFERENCES:
+    <NO REFERENCES>
+
+DWORD HIT #2 @ c5049ca0
+BLOCK = segment_20
+
+    DWORD WINDOW @ c5049ca0
+    c5049c88 : 0x00010075
+    c5049c8c : 0x00760007
+    c5049c90 : 0x00070001
+    c5049c94 : 0x00010079
+    c5049c98 : 0x007A0007
+    c5049c9c : 0x00070001
+    c5049ca0 : 0x0001007B
+    c5049ca4 : 0x007D0007
+    c5049ca8 : 0x00070001
+    c5049cac : 0x0001007E
+    c5049cb0 : 0x007F0007
+    c5049cb4 : 0x00070001
+    c5049cb8 : 0x00010082
+
+REFERENCES:
+    <NO REFERENCES>
+
+TOTAL DWORD HITS = 2
+
+============================================================
+FUNCTION NAME SCAN: da194
+============================================================
+  c169326c  thunk_EXT_FUN_da1944c0
+  c184a344  thunk_EXT_FUN_da194c98
+  c184d05c  thunk_EXT_FUN_da194f00
+  c184d064  thunk_EXT_FUN_da194ee0
+  c184d06c  thunk_EXT_FUN_da194850
+  c184d168  thunk_EXT_FUN_da194660
+  c184d170  thunk_EXT_FUN_da1946c8
+  c184d178  thunk_EXT_FUN_da194d70
+  c184d180  thunk_EXT_FUN_da194d58
+  c1882240  thunk_EXT_FUN_da194d58
+  c1882310  thunk_EXT_FUN_da194ee0
+  c18afe30  thunk_EXT_FUN_da194660
+  c18afe38  thunk_EXT_FUN_da1946c8
+  c18afe40  thunk_EXT_FUN_da194d70
+  c18afe48  thunk_EXT_FUN_da194e80
+  c18aff10  thunk_EXT_FUN_da194f00
+  c18aff20  thunk_EXT_FUN_da194850
+  c18da194  FUN_c18da194
+  c18e8778  thunk_EXT_FUN_da194660
+  c18e8780  thunk_EXT_FUN_da1946c8
+  c18e8788  thunk_EXT_FUN_da194d70
+  c18e8880  thunk_EXT_FUN_da194f00
+  c18e8888  thunk_EXT_FUN_da194850
+  c1983560  thunk_EXT_FUN_da194660
+  c1983588  thunk_EXT_FUN_da194b1c
+  c198d7bc  thunk_EXT_FUN_da194660
+  c198d7c4  thunk_EXT_FUN_da194798
+  c198d7d4  thunk_EXT_FUN_da194d78
+  c199e8cc  thunk_EXT_FUN_da194c98
+  c19c2e8c  thunk_EXT_FUN_da1946e0
+  c19c2e94  thunk_EXT_FUN_da194d78
+  c19c576c  thunk_EXT_FUN_da194610
+  c19cccc8  thunk_EXT_FUN_da194660
+  c19cccd0  thunk_EXT_FUN_da194850
+  c19cccd8  thunk_EXT_FUN_da194b1c
+  c1bbabc0  thunk_EXT_FUN_da1942a8
+  c1bbf994  thunk_EXT_FUN_da194d58
+  c1bbf9ac  thunk_EXT_FUN_da194e70
+  c1bbfa08  thunk_EXT_FUN_da194f00
+  c1bbfa2c  thunk_EXT_FUN_da194850
+  c1bbfac4  thunk_EXT_FUN_da194660
+  c1bbfacc  thunk_EXT_FUN_da194a44
+  c1bcbf18  thunk_EXT_FUN_da194798
+  c1bcffe8  thunk_EXT_FUN_da194c98
+  c1bd3e88  thunk_EXT_FUN_da194d78
+
+TOTAL FUNCTIONS CONTAINING da194 = 45
+
+============================================================
+DA194D78 THUNK NEIGHBORHOOD
+LOCAL ADDRESS = 0xC198D7D4
+WINDOW = +/- 0x300
+============================================================
+
+FUNCTION #1
+  ENTRY = c198d4d8
+  NAME  = FUN_c198d4d8
+  BODY  = c198d4d8 -> c198d4f7
+  REFERENCES TO ENTRY:
+    FROM c198e3e4 TYPE=DATA FUNC=c198e3b8 FUN_c198e3b8
+        call 0xc198d4d8 
+    FROM c198e3e8 TYPE=UNCONDITIONAL_CALL FUNC=c198e3b8 FUN_c198e3b8
+        memw R25,(R1+#0x4c) 
+
+FUNCTION #2
+  ENTRY = c198d500
+  NAME  = FUN_c198d500
+  BODY  = c198d500 -> c198d507
+  REFERENCES TO ENTRY:
+    FROM c19924bc TYPE=UNCONDITIONAL_CALL FUNC=c1992458 FUN_c1992458
+        call 0xc198d500 
+    FROM c1ab67ac TYPE=DATA FUNC=c1ab679c FUN_c1ab679c
+        call 0xc198d500 
+    FROM c1ab67b8 TYPE=UNCONDITIONAL_CALL FUNC=c1ab679c FUN_c1ab679c
+        add R1,SP,#0x6 
+
+FUNCTION #3
+  ENTRY = c198d7bc
+  NAME  = thunk_EXT_FUN_da194660
+  BODY  = c198d7bc -> c198d7c3
+  REFERENCES TO ENTRY:
+    FROM c1996434 TYPE=DATA FUNC=c19963cc FUN_c19963cc
+        call 0xc198d7bc 
+    FROM c1996438 TYPE=UNCONDITIONAL_CALL FUNC=c19963cc FUN_c19963cc
+        add R0,R23,#-0x4 
+
+FUNCTION #4
+  ENTRY = c198d7c4
+  NAME  = thunk_EXT_FUN_da194798
+  BODY  = c198d7c4 -> c198d7cb
+  REFERENCES TO ENTRY:
+    FROM c1996468 TYPE=UNCONDITIONAL_CALL FUNC=c19963cc FUN_c19963cc
+        call 0xc198d7c4 
+
+FUNCTION #5
+  ENTRY = c198d7d4
+  NAME  = thunk_EXT_FUN_da194d78
+  BODY  = c198d7d4 -> c198d7db
+  REFERENCES TO ENTRY:
+    FROM c1996494 TYPE=DATA FUNC=c19963cc FUN_c19963cc
+        call 0xc198d7d4 
+    FROM c19964a0 TYPE=UNCONDITIONAL_CALL FUNC=c19963cc FUN_c19963cc
+        assign R4,#0x6b 
+
+FUNCTION #6
+  ENTRY = c198d7dc
+  NAME  = thunk_EXT_FUN_d8103db0
+  BODY  = c198d7dc -> c198d7e3
+  REFERENCES TO ENTRY:
+    FROM c19964e8 TYPE=DATA FUNC=c19963cc FUN_c19963cc
+        call 0xc198d7dc 
+    FROM c19964f0 TYPE=UNCONDITIONAL_CALL FUNC=c19963cc FUN_c19963cc
+        combine R1R0,##0xc1c0fc00,#0x4 
+
+FUNCTION #7
+  ENTRY = c198d7e4
+  NAME  = thunk_EXT_FUN_d80f1c90
+  BODY  = c198d7e4 -> c198d7eb
+  REFERENCES TO ENTRY:
+    FROM c19963dc TYPE=DATA FUNC=c19963cc FUN_c19963cc
+        call 0xc198d7e4 
+    FROM c19963e0 TYPE=UNCONDITIONAL_CALL FUNC=c19963cc FUN_c19963cc
+        memd (SP+#0x20),R27R26 
+
+FUNCTION #8
+  ENTRY = c198d7f0
+  NAME  = FUN_c198d7f0
+  BODY  = c198d7f0 -> c198d873
+  REFERENCES TO ENTRY:
+    FROM c198cbf0 TYPE=DATA FUNC=c198c96c FUN_c198c96c
+        call 0xc198d7f0 
+    FROM c198cbf4 TYPE=UNCONDITIONAL_CALL FUNC=c198c96c FUN_c198c96c
+        combine R1R0,R16,R22 
+    FROM c1c1636c TYPE=DATA FUNC=c1c16150 FUN_c1c16150
+        call 0xc198d7f0 
+    FROM c1c16370 TYPE=UNCONDITIONAL_CALL FUNC=c1c16150 FUN_c1c16150
+        combine R1R0,R16,R20 
+
+FUNCTION #9
+  ENTRY = c198d874
+  NAME  = thunk_EXT_FUN_d9b1a114
+  BODY  = c198d874 -> c198d87b
+  REFERENCES TO ENTRY:
+    FROM c198d818 TYPE=DATA FUNC=c198d7f0 FUN_c198d7f0
+        call 0xc198d874 
+    FROM c198d820 TYPE=UNCONDITIONAL_CALL FUNC=c198d7f0 FUN_c198d7f0
+        assign R1,R17 
+
+FUNCTION #10
+  ENTRY = c198d87c
+  NAME  = FUN_c198d87c
+  BODY  = c198d87c -> c198d8af
+  REFERENCES TO ENTRY:
+    FROM c19a23e0 TYPE=DATA FUNC=c19a2290 FUN_c19a2290
+        call 0xc198d87c 
+    FROM c19a23e4 TYPE=UNCONDITIONAL_CALL FUNC=c19a2290 FUN_c19a2290
+        assign R0,R16 
+
+TOTAL FUNCTIONS IN THUNK NEIGHBORHOOD = 10
+
+============================================================
+SUMMARY
+============================================================
+Checked:
+  1. ASCII RFDEBUG
+  2. Unaligned U16 0x007B
+  3. DWORD 0x0000007B
+  4. DWORD 0x007B0001
+  5. DWORD 0x0001007B
+  6. Functions around c198d7d4
+  7. All function names containing da194
 
 ============================================================
 DONE
 ============================================================
-FindRFDebugDataRegistration_v1.java> Finished!
+FindRFDebugHiddenRoute_v1.java> Finished!
