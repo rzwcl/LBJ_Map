@@ -1,1962 +1,1890 @@
-可以。下面这份可以直接作为**下一会话的完整项目上下文**继续用。我把「为什么做、目标、已经证明了什么、排除了什么、Ghidra 当前状态、DIAG 状态、下一步应该怎么走」全部整理出来，并把前面走错的路线明确标出来，避免新会话重复踩坑。
-
----
-
-# 一、项目最终目标
-
-当前这个逆向项目的目标非常明确：
-
-> **在 Xiaomi Mi 10 Ultra（M2007J1SC / `cas`）上，利用手机内部 Qualcomm Snapdragon X55 的 RF RX 链路，让基带/RF 子系统接收固定频率 `821.2375 MHz`。**
-
-范围严格限定：
-
-* **RX only**
-* 不发射 TX
-* 不打开 PA
-* 不做功率校准
-* 不改 NV
-* 不改 EFS
-* 不刷 modem firmware
-* 尽可能不影响正常蜂窝网络
-* 当前优先做**静态逆向和参数结构确认**
-* 在 RFDEBUG 包格式、dispatcher、handler 没有证明之前，**不继续盲发 DIAG 命令**
-
-用户希望的是最终真正找到：
-
-```text
-DIAG
-  ↓
-RFDEBUG subsystem
-  ↓
-RFDEBUG dispatcher
-  ↓
-RADIO_CONFIGURE
-  ↓
-property/value
-  ↓
-FREQUENCY
-  ↓
-RFFE/RF tune
-  ↓
-821.2375 MHz RX
-```
-
-而不是停留在“理论上 Qualcomm 有 RFDEBUG”这一层。
-
----
-
-# 二、手机环境已经确认
-
-设备：
-
-```text
-Xiaomi Mi 10 Ultra
-Model: M2007J1SC
-Codename: cas
-```
-
-系统：
-
-```text
-Android 13
-MIUI: V816.0.4.0.TJJCNXM
-Security Patch: 2024-03-01
-```
-
-基带：
-
-```text
-2.5.c1-50.1a-14515.23-0521_0210_d46c7e8c13
-```
-
-Kernel：
-
-```text
-4.19.157-perf-g19050d39787c
-```
-
-权限：
-
-```text
-uid=0
-gid=0
-SELinux: u:r:magisk:s0
-```
-
-已经确认：
-
-```text
-/dev/diag
-```
-
-存在，而且：
-
-```text
-crwxrwxrwx ...
-```
-
-可以访问。
-
-DIAG 相关线程也已经确认存在：
-
-```text
-diag_real_time_
-diag_wq
-DIAG_USB_diag
-DIAG_CTRL
-DIAG_DATA
-DIAG_CMD
-DIAG_DCI_DATA
-DIAG_RPMSG_DIAG
-diag_mhi_MDM
-```
-
-此外：
-
-```text
-/dev/socket/qmux_radio/ril_ipc
-```
-
-存在。
-
-以及：
-
-```text
-ro.ril.factory_id=1
-sys.usb.config=mtp,adb
-```
-
----
-
-# 三、X55 固件已经找到
-
-核心 modem DSP firmware：
-
-```text
-/vendor/firmware_mnt/image/sdx55m/qdsp6sw.mbn
-```
-
-大小大约：
-
-```text
-84,017,300 bytes
-```
-
-MCFG：
-
-```text
-/vendor/firmware_mnt/image/modem_pr/mcfg/configs/mcfg_hw/generic/common/SDX55/FUSION/LA/DSDS/mcfg_hw.mbn
-```
-
-profile：
-
-```text
-SR_DSDS-SDX55_Fusion
-```
-
-`qdsp6sw.mbn` 静态分析信息已经确认：
-
-```text
-32-bit
-LSB
-Hexagon
-static
-stripped
-entry = 0x81600000
-29 program headers
-没有 section headers
-```
-
----
-
-# 四、Ghidra 地址映射最重要的结论
-
-这个 MBN 的加载地址不是简单按照我们最初的想法来。
-
-对所有 LOAD segment，已经发现：
-
-```text
-p_vaddr - p_paddr = 0x40000000
-```
-
-因此：
-
-```text
-runtime-style address = p_vaddr
-
-static/load address = p_paddr
-                       = p_vaddr - 0x40000000
-```
-
-例如：
-
-```text
-C4953DF8 -> 84953DF8
-C50847FF -> 850847FF
-C919A020 -> 8919A020
-C9199FB8 -> 89199FB8
-C5084658 -> 85084658
-```
-
-但目前 Ghidra 项目里仍大量使用 `Cxxxxxxx` 这一套**程序静态逻辑地址**查看反汇编和数据。
-
-因此以后看到：
-
-```text
-C919A028
-```
-
-不要随便把它当成：
-
-```text
-850...
-```
-
-也不要再次混用 runtime/static 地址，除非正在明确做运行时映射。
-
----
-
-# 五、Ghidra 本身现在已经做到了什么
-
-Ghidra：
-
-```text
-12.1.4_PUBLIC_20260921
-```
-
-SHA-256：
-
-```text
-DDAC49F903DA9D5BAC833E5CC79395098B9C33CFD3279BE5F31BD00387D2D4DB
-```
-
-Java：
-
-```text
-openjdk 21.0.12.1
-javac 21.0.12.1
-```
-
-Processor：
-
-```text
-Hexagon:LE:32:default (2.5)
-Hexagon
-Compiler default
-ELF
-```
-
-最初导入后：
-
-```text
-Instructions = 0
-Functions = 0
-Symbols = 0
-```
-
-后来已经执行了：
-
-```text
-Analysis → Auto Analyze...
-```
-
-使用默认分析选项。
-
-现在已经得到大量反汇编，例如：
-
-```text
-Instructions scanned: 1415334
-```
-
-说明 Auto Analyze 确实已经把大量固件建立成了指令/函数分析对象。
-
----
-
-# 六、一个非常重要的早期假线索：C1600000
-
-最早手工分析：
-
-```text
-C1600000
-```
-
-Ghidra 将其识别成了 THUNK：
-
-```text
-C1600000
-   ↓
-thunk_FUN_c1601834
-   ↓
-FUN_c1601834
-```
-
-这是底层启动/系统/硬件初始化性质的代码。
-
-**它不是我们要找的 RFDEBUG dispatcher。**
-
-所以后续不要再把：
-
-```text
-C1600000
-```
-
-当 RFDEBUG 入口。
-
----
-
-# 七、DIAG 实际通信已经打通
-
-已经通过 rooted Android 使用：
-
-```text
-/dev/diag
-```
-
-配合：
-
-```text
-/data/local/tmp/libdiag.so
-```
-
-进行测试。
-
-原因是直接使用：
-
-```text
-/vendor/lib64/libdiag.so
-```
-
-受 Android linker namespace 限制，所以先复制：
-
-```text
-/vendor/lib64/libdiag.so
-→
-/data/local/tmp/libdiag.so
-```
-
-之后：
-
-```text
-Diag_LSM_Init
-```
-
-成功。
-
-已经确认：
-
-```text
-MDM remote mask = 0x0003
-```
-
-日志切换成功。
-
-callback mode：
-
-```text
-6
-```
-
-USB mode：
-
-```text
-1
-```
-
-MDM：
-
-```text
-1
-```
-
-也就是说：
-
-> **DIAG → MDM/X55 的通信链路确实已经工作。**
-
-这一点已经不是猜测。
-
----
-
-# 八、RFDEBUG Probe 已经实际跑过
-
-我们发过最基础 RFDEBUG command 1 probe。
-
-请求：
-
-```text
-4B 0B 7B 00 01 00 1A 00
-16 00
-00 00 00 00
-00 00 00 00
-00 00 00 03
-00 00 00 00
-```
-
-实际记录是：
-
-```text
-4B 0B 7B 00 01 00 1A 00 16 00 00 00 00 00 00 00 00 00 03 00 00 00 00 00 00 00
-```
-
-响应：
-
-```text
-4B 0B 7B 00 01 00 1A 00 16 00 00 00 00 00 00 04 00 00 00 A2 78 7E
-```
-
-解析已经确认：
-
-```text
-rf_subsys_id = 0x007B = 123
-command = 1
-common error = 4
-```
-
-Qualcomm 公共 RFDEBUG error 定义：
-
-```text
-FTM_RF_DEBUG_EC_BAD_CMD = 4
-```
-
-因此：
-
-> **这个包确实走到了 RFDEBUG 路由附近，但是 command 1 当前请求没有被接受。**
-
-这已经证明：
-
-* DIAG 路由不是完全错的
-* `0x7B` 确实是 RFDEBUG subsys id
-* 但是我们当前 command packet/header/状态/handler 路径不正确，至少不能仅凭这个包继续猜。
-
----
-
-# 九、其他 command 也试过，但全部 common error 4
-
-此前还试过：
-
-```text
-command 4 = DISCOVERY
-command 5 = PROPERTY_DISCOVERY
-```
-
-结果也是：
-
-```text
-common error = 4
-```
-
-所以现在已经明确：
-
-> **不能拿 Qualcomm 公共源码里的命令号直接硬凑一个包，就认为 X55 这版 firmware 一定会接受。**
-
-很可能存在：
-
-* header 细节不同
-* firmware variant 差异
-* packet packing 差异
-* technology/command header 不对
-* dispatcher 入口不同
-* state requirement
-* 当前 X55 firmware 根本没开放同样的路径
-* 或 Xiaomi / Qualcomm 集成版本发生过修改
-
-因此当前策略已经改成：
-
-**先静态逆向，再发包。**
-
----
-
-# 十、Qualcomm 公共源码已经找到
-
-公开仓库：
-
-```text
-arzekrasr/MPSS.HA.1.1
-commit:
-06e735b4036be9280985accc611ba052a7be77e0
-```
-
-关键文件：
-
-```text
-modem_proc/rffactory/intf/ftm_rf_debug_interface.h
-modem_proc/rffactory/src/ftm_rf_debug_interface.c
-
-modem_proc/rfa/rf/common/ftm/src/ftm_common_dispatch.c
-modem_proc/rfa/rf/common/ftm/src/ftmdiag.c
-modem_proc/rfa/rf/common/ftm/src/ftm_rf_test_control.c
-modem_proc/rfa/rf/common/ftm/src/ftm_rf_test_radio_config.c
-```
-
----
-
-# 十一、公共源码中的 RFDEBUG header 已确认
-
-公共头里：
-
-```c
-typedef uint16 ftm_rf_debug_command_type;
-
-typedef PACK(struct) {
-  uint8  diag_cmd;
-  uint8  diag_subsys_id;
-  uint16 rf_subsys_id;
-  ftm_rf_debug_command_type debug_command;
-  uint16 req_len;
-  uint16 rsp_len;
-} ftm_rf_debug_diag_header_type;
-```
-
-总长度：
-
-```text
-10 bytes
-```
-
-后面还有：
-
-```c
-typedef PACK(struct) {
-  uint32 reserved;
-  uint32 version;
-  uint32 technology;
-} ftm_rf_debug_command_header_type;
-```
-
-也是：
-
-```text
-12 bytes
-```
-
-所以：
-
-```text
-10 + 12 = 22 bytes
-```
-
-这是之前构造 packet 的重要依据。
-
----
-
-# 十二、RFDEBUG command 编号
-
-公共源码定义：
-
-```text
-1  RADIO_CONFIGURE
-2  TX_OVERRIDE
-3  RX_OVERRIDE
-4  DISCOVERY
-5  PROPERTY_DISCOVERY
-6  TX_MEASURE
-7  LOAD_UNITY_DPD
-8  VDPD_CAL
-9  VDPD_CONVERSION
-10 LOAD_DPD
-11 RX_MEASURE
-12 CODEBOOK_OVERRIDE
-13 TX_MEASURE_ADV
-14 SET_DPD_DEBUG_MODE
-15 IDC_CAL
-16 MPE_TEST
-17 TECH_ENTER_EXIT
-18 THERM_READ
-19 DEVICE_CAL
-20 HWID
-21 DCOC_OVERRIDE
-```
-
-注意：
-
-**command 1 ≠ 一定已经成功进入 RADIO_CONFIGURE handler。**
-
-目前只有：
-
-```text
-common error 4
-```
-
-不能说明具体在哪里被拒绝。
-
----
-
-# 十三、RFDEBUG 错误码
-
-公共源码里：
-
-```text
-1 = FTM_RF_DEBUG_CMD_HANDLER_FAIL
-2 = NULL_PARAM
-3 = RESPONSE_CREATION_FAIL
-4 = FTM_RF_DEBUG_EC_BAD_CMD
-5 = FTM_RF_DEBUG_EC_BAD_CMD_HANDLER
-6 = UNCOMPRESS_FAIL
-7 = MALLOC
-```
-
-我们实际收到的是：
-
-```text
-4
-```
-
-这也是为什么现在必须逆向 dispatcher，而不是继续猜 packet。
-
----
-
-# 十四、Radio Configure property ID 已经完整确定
-
-公共 Qualcomm 源码里的 Radio Config property ID：
-
-```text
-0  UNASSIGNED
-1  IS_TEARDOWN
-2  RADIO_SETUP_TYPE
-3  RFM_DEVICE
-4  SIG_PATH
-5  ANT_PATH
-6  RFM_PATH_TYPE
-7  BAND
-8  SUBBAND
-9  RESERVED
-10 CHANNEL
-11 WAVEFORM
-12 BANDWIDTH
-13 NUM_RB
-14 START_RB
-15 CW_OFFSET
-16 IS_DC
-17 MOD_TYPE
-18 LOOPBACK_TYPE
-19 BEAM_ID
-20 CC_INDEX
-21 CC_START_RB
-22 CC_NUM_RB
-23 CC_BANDWIDTH
-24 LOOPBACK_RFM_DEVICE
-25 PLL_ID
-26 TUNE_TX_TO_RX_FREQ
-27 LOAD_CODEBOOK
-28 FREQUENCY
-29 VERSION
-30 SWITCH_TDSCDMA_WAVEFORM
-31 SET_MOD
-32 CC_SCS
-33 WAVEFORM_ORIGIN
-34 NDR_STATE
-35 NR5G_MOD_TYPE
-36 WAVEFORM_IMMEDIATE_TRIGGER
-```
-
-公共源码较新的版本还有：
-
-```text
-37 VPA_MAX_MV
-```
-
-但是：
-
-> **当前这个 X55 固件里，从实际 property name table 看，只看到 0–36，暂时不要假设 37 存在。**
-
----
-
-# 十五、最重要的两个 property
-
-我们真正关心：
-
-```text
-26 = TUNE_TX_TO_RX_FREQ
-28 = FREQUENCY
-```
-
-也就是说最终如果想把 RX tuning 到固定频率，极大概率会涉及：
-
-```text
-FREQUENCY
-```
-
-以及可能：
-
-```text
-TUNE_TX_TO_RX_FREQ
-```
-
-用户目标：
-
-```text
-821.2375 MHz
-```
-
-但现在还没到可以填这个值发送的阶段。
-
----
-
-# 十六、固件里实际找到了 Radio Configure property_names[] 表
-
-这部分非常重要，因为它不是单纯来自公共源码，而是在**你这个 X55 firmware** 里实际找到的。
-
-表起始：
-
-```text
-C9199FB8
-```
-
-第一项：
-
-```text
-C9199FB8 -> C49535C6
-```
-
-对应：
-
-```text
-UNASSIGNED
-```
-
-中间一直到：
-
-```text
-C919A020 -> C50847FF
-```
-
-对应：
-
-```text
-TUNE_TX_TO_RX_FREQ
-```
-
-而：
-
-```text
-C919A028 -> C5084812
-```
-
-对应：
-
-```text
-FREQUENCY
-```
-
-然后：
-
-```text
-C919A02C -> C508481C
-```
-
-对应：
-
-```text
-VERSION
-```
-
-等等。
-
-`C919A04C-C919A04F`：
-
-```text
-00 00 00 00
-```
-
-然后从：
-
-```text
-C919A050
-```
-
-开始，是另一个 property table。
-
-它里面有：
-
-```text
-UNASSIGNED
-PATH_INDEX
-SIG_PATH
-RFM_DEVICE
-ANTENNA_PORT
-EXPECTED_AGC
-LNA_GAIN_STATE
-SIGNAL_TYPE
-DATA_TYPE
-MEAS_RSSI
-RX_ENABLE
-PLL_ID
-...
-```
-
-这第二个表明显是：
-
-> **RX_OVERRIDE 的 property names[]**
-
-因此整个结构与 Qualcomm 公共 RFDEBUG 源码高度吻合。
-
----
-
-# 十七、我们已经在 Ghidra 确认了 FREQUENCY 是真实字符串
-
-你实际看到：
-
-```text
-c919a028  12 48 08 c5    addr s_FREQUENCY_c5084812
-                         XREF[1]: c919a028 (*)
-
-c5084812  46 52 45
-          51 55 45
-          4e 43 59 00
-```
-
-也就是：
-
-```text
-C919A028
-    ↓
-C5084812
-    ↓
-"FREQUENCY"
-```
-
-所以这个不是我们猜出来的。
-
-**它就是 firmware 内真实的 RFDEBUG Radio Configure property table。**
-
----
-
-# 十八、为什么后面的 XREF 全是 0
-
-我们写过脚本：
-
-```text
-CheckRFDebugXrefs.java
-```
-
-实际结果：
-
-```text
-TARGET: c9199fb8
-TOTAL: 0
-
-TARGET: c919a028
-TOTAL: 0
-
-TARGET: c5084812
-FROM: c919a028 TYPE: DATA OP: 0
-TOTAL: 1
-
-TARGET: c919a020
-TOTAL: 0
-
-TARGET: c50847ff
-FROM: c919a020 TYPE: DATA OP: 0
-TOTAL: 1
-```
-
-这说明：
-
-### 对字符串：
-
-```text
-C5084812
-```
-
-Ghidra 能知道：
-
-```text
-C919A028 -> C5084812
-```
-
-因为这是明确的数据指针。
-
-### 但对：
-
-```text
-C919A028
-C919A020
-C9199FB8
-```
-
-没有识别到任何代码引用。
-
-这意味着：
-
-> Ghidra 的 ReferenceManager 没有记录“哪个代码读取 property_names[]”。
-
-这并不证明代码没用这个表。
-
-很可能代码是通过：
-
-* address arithmetic
-* table base + offset
-* linker/generated constant
-* PC-relative/特殊 Hexagon 地址生成
-* 间接结构体
-* 通用 property descriptor API
-
-等方式访问。
-
-所以普通 XREF 追不到。
-
----
-
-# 十九、Raw 32-bit pointer 搜索也做过
-
-脚本：
-
-```text
-FindRFDebugPropertyTablePtr.java
-```
-
-搜索：
-
-```text
-C9199FB8
-C919A020
-C919A028
-```
-
-作为裸 32 位绝对指针。
-
-实际结果：
-
-```text
-TARGET POINTER: 0xC9199FB8
-TOTAL HITS: 0
-
-TARGET POINTER: 0xC919A020
-TOTAL HITS: 0
-
-TARGET POINTER: 0xC919A028
-TOTAL HITS: 0
-```
-
-因此：
-
-> `property_names[]` 的地址没有以裸 32-bit `C919xxxx` 指针形式存在于 firmware 的其它位置。
-
-所以也排除了最简单的：
-
-```text
-某结构体
-   ↓
-32-bit pointer = C9199FB8
-```
-
-这种情况。
-
----
-
-# 二十、后来做了指令 Scalar 扫描
-
-脚本：
-
-```text
-FindRFDebugAddressConstants.java
-```
-
-扫了：
-
-```text
-1,415,334 instructions
-```
-
-目标：
-
-```text
-C9199FB8
-C919A020
-C919A028
-```
-
-没有出现：
-
-```text
-FULL HIT
-```
-
-也就是没有指令操作数直接出现完整：
-
-```text
-0xC9199FB8
-0xC919A020
-0xC919A028
-```
-
-于是脚本继续查 16-bit 片段。
-
-得到了很多**碰巧低 16 位相同**的命中。
-
-例如：
-
-```text
-C1993A94
-add R1,R4,add(R3,##0x9fb8)
-
-C1993ACC
-add R1,R3,##0x9fb8
-```
-
-还有：
-
-```text
-C1C14444
-assign R20,##0xcf8ec919
-```
-
-等等。
-
-对于：
-
-```text
-A020
-A028
-C919
-```
-
-也有大量随机命中。
-
----
-
-# 二十一、非常重要：C1993ACC 已经被确认不是可靠的 RFDEBUG 证据
-
-之前一度认为：
-
-```text
-C1993ACC
-add R1,R3,##0x9fb8
-```
-
-可能是在：
-
-```text
-C9190000 + 0x9fb8 = C9199fb8
-```
-
-从而构造：
-
-```text
-property_names[]
-```
-
-这是**错误推断**。
-
-原因：
-
-`immext` + Hexagon immediate 的解释不能简单按：
-
-```text
-低16位 = 地址低16位
-```
-
-来断言。
-
-所以：
-
-```text
-C1993A94
-C1993ACC
-```
-
-目前**不能证明跟 RFDEBUG property table 有关**。
-
-新会话里一定不要再把这两个地址当成已确认 RFDEBUG handler。
-
----
-
-# 二十二、另一个已经正式排除的巨大假线索：C4721xxx / C4722xxx
-
-这是之前浪费最多时间的路线之一，现在已经**彻底废弃**。
-
-此前看到：
-
-```text
-C4721F78 -> C4953DF8
-C4721F68 -> C4953DA4
-C4721E68 -> C4953710
-C4721F18 -> C4953B62
-C4721F08 -> C4953A44
-C4721F38 -> C4953C50
-C4721DC8 -> C49531FC
-C4722D28 -> C49CAAE5
-```
-
-因此一度怀疑：
-
-```text
-C4721xxx / C4722xxx
-```
-
-是 RFDEBUG handler table。
-
-后来扫描：
-
-```text
-C4721C00–C4723000
-```
-
-结果：
-
-```text
-EXECUTABLE POINTER HITS: 0
-OTHER MAPPED POINTER HITS: 640
-```
-
-并发现 7 个来自其它 segment 的 data-to-data pointers：
-
-```text
-CBFA3C90 -> C472221A
-CCD516C4 -> C4722B23
-CCE0CC90 -> C4722040
-CCFB3F58 -> C47229C2
-CD4FE194 -> C4722804
-CD764CEC -> C47220AA
-CDCC89C0 -> C472254C
-```
-
-比如：
-
-```text
-C4722804
-```
-
-附近数据：
-
-```text
-04 00 00 00
-C496A6C2
-C4968C74
-49 09 5B 00
-```
-
-随后继续查：
-
-```text
-C4968C74
-```
-
-得到：
-
-```text
-xiaomi_rf_ant_control.c
-```
-
-以及：
-
-```text
-C496A6C2
-```
-
-得到：
-
-```text
-ptr_device_param_info[%d]: device_type(%d), device_id(%d), instance(%d):
-```
-
-所以最终确认：
-
-> `C4721xxx/C4722xxx` 是 Xiaomi RF antenna control / logging descriptor 相关数据，不是 RFDEBUG dispatcher/handler table。
-
-**以后不要重新走这条路线。**
-
----
-
-# 二十三、固件中的 RFDEBUG 日志字符串
-
-已经找到很多真实 RFDEBUG format strings。
-
-例如：
-
-```text
-C49531FC
-[FTM.RFDEBUG][LOAD_DPD][UNPACK]:[%3d][ %12s ][ %12d ]
-```
-
-```text
-C4953391
-[FTM.RFDEBUG][VDPD_CAL][UNPACK]:...
-```
-
-以及：
-
-```text
-C49533E1
-C495342A
-C4953473
-C49534B2
-```
-
-VDPD 相关日志。
-
-还有：
-
-```text
-C49534E7
-SET_DPD_DEBUG_MODE
-```
-
-```text
-C4953578
-IDC_CAL
-```
-
-```text
-C49535F5
-THERM_READ REPACK
-```
-
-```text
-C4953710
-[FTM.RFDEBUG][RX_OVERRIDE][REPACK]: [%3d][ %12s ][ %4d ][ 0x%8x ]
-```
-
-```text
-C495376F
-RX_OVERRIDE NOT PACKED
-```
-
-```text
-C49537A7
-VDPD_CONVERSION
-```
-
-：
-
-```text
-C4953805
-C495384A
-C495388F
-C49538D4
-C495391A
-```
-
-继续：
-
-```text
-C4953988
-TX_MEASURE_ADV REPACK
-```
-
-```text
-C49539F2
-TX_MEASURE_ADV NOT PACKED
-```
-
-```text
-C4953A44
-DEVICE_CAL UNPACK
-```
-
-```text
-C4953B62
-RX_MEASURE REPACK
-```
-
-```text
-C4953BC4
-RX_MEASURE NOT PACKED
-```
-
-```text
-C4953C50
-LOAD_UNITY_DPD UNPACK
-```
-
-```text
-C4953CAC
-LOAD_UNITY_DPD REPACK
-```
-
-```text
-C4953CF1
-LOAD_UNITY_DPD NOT PACKED
-```
-
-```text
-C4953DA4
-TX_OVERRIDE UNPACK
-```
-
-```text
-C4953DF8
-TECH_ENTER_EXIT UNPACK
-```
-
-```text
-C49CAAE5
-tx_measure UNPACK
-```
-
-这些字符串**确认 firmware 中确实有 RFDEBUG 相关逻辑代码/数据**。
-
-但是：
-
-> Ghidra 的 ReferenceManager 对这些字符串地址全部返回 `0 references`。
-
----
-
-# 二十四、刚刚才又做了一次字符串 XREF 脚本
-
-脚本：
-
-```text
-RFDebugStringXrefs.java
-```
-
-查了：
-
-```text
-C4953DF8  TECH_ENTER_EXIT UNPACK
-C4953DA4  TX_OVERRIDE UNPACK
-C4953710  RX_OVERRIDE REPACK
-C4953B62  RX_MEASURE REPACK
-C4953A44  DEVICE_CAL UNPACK
-C4953C50  LOAD_UNITY_DPD UNPACK
-C49531FC  LOAD_DPD UNPACK
-C49CAAE5  TX_MEASURE UNPACK
-```
-
-结果：
-
-```text
-TOTAL REFERENCES: 0
-```
-
-全部是 0。
-
-所以目前可以下结论：
-
-> **不能通过 Ghidra 自动 XREF，从这些 format strings 直接反查 RFDEBUG handler。**
-
-这可能是 stripped firmware、Hexagon 特定地址/数据组织、分析模型或字符串地址生成方式造成的。
-
-所以新会话不要再重复：
-
-```text 字符串 → X
-字符串 → References
-```
-
-因为我们已经证明这条路线当前不通。
-
----
-
-# 二十五、目前真正确定的 RFDEBUG 结构关系
-
-现在已经可靠知道：
-
-```text
-                    X55 qdsp6sw.mbn
-                           │
-                           ▼
-                    FTM / RFDEBUG
-                           │
-             ┌─────────────┴──────────────┐
-             │                            │
-             ▼                            ▼
-      Radio Configure                 RX Override
-             │
-             ▼
-      property_names[]
-             │
-   ┌─────────┼──────────┐
-   │         │          │
-   ▼         ▼          ▼
- 26        28          ...
-   │         │
-   ▼         ▼
-TUNE_TX_    FREQUENCY
-TO_RX_FREQ
-```
-
-其中：
-
-```text
-property_names[] start = C9199FB8
-```
-
-并且：
-
-```text
-C919A020 = TUNE_TX_TO_RX_FREQ
-C919A028 = FREQUENCY
-```
-
-这部分已经可以当作**固件事实**。
-
----
-
-# 二十六、公共源码中的 Radio Config property 数据格式
-
-另一个公开源码：
-
-```text
-dehuiwei/Test-tools-base-on-mutiple-wireless-instrument
-commit 5ed0af40535bce2d82b2805ad4aa80457388cc0a
-```
-
-文件：
-
-```text
-fwk/ftm_interface.py
-```
-
-里面有非常关键的注释：
-
-```text
-prop: 4bytes
-value: 8 bytes
-```
-
-即 Radio Config property/value 很可能采用：
-
-```text
-uint32 property
-+
-uint64 value
-```
-
-这样的格式。
-
-另外：
-
-```text
-fwk/QCOM.py
-```
-
-还有被注释掉的：
-
-```python
-ftm_rf_debug_radio_config_cmd =
-    ftm_rf_debug_radio_cmd_type()
-
-cmd =
-ftm_rf_debug_radio_config_cmd.get_radio_config_cmd_for_diag(
-    ftm_rf_technology_type.FTM_RF_TECH_LTE,
-    RF_TEST_LTE_BandClasstype.RF_TEST_LTE_BAND_1,
-    300,
-    18300)
-```
-
-所以公开工具也印证：
-
-* technology
-* band
-* channel
-* property/value
-
-构成 RADIO_CONFIGURE 请求的一部分。
-
-但是该仓库没有暴露：
-
-```text
-ftm_rf_debug_radio_cmd_type
-```
-
-的完整实现。
-
-因此不能直接拿这个 Python 代码生成当前 X55 可用 packet。
-
----
-
-# 二十七、QMSL 也印证 Radio Configure 的存在
-
-公开：
-
-```text
-Junshucn/YVRMMI
-```
-
-中的：
-
-```text
-PIN_TEST/include/QMSL_WWAN/inc/QMSL_FTM_RF.h
-```
-
-存在：
-
-```text
-QLIB_FTM_RF_DEBUG_CMD_RADIO_CONFIGURE(...)
-```
-
-并明确说明：
-
-```text
-request_data
-```
-
-指向：
-
-```text
-ftm_rf_debug_property_data
-```
-
-其中就是 property/value pairs。
-
-所以：
-
-```text
-RADIO_CONFIGURE
-+
-property/value
-```
-
-是可靠的公开 Qualcomm 架构事实。
-
----
-
-# 二十八、曾经实际发过一个 PROPERTY_DISCOVERY packet
-
-旧实验中有：
-
-```text
-4B 0B 7B 00
-05 00
-26 00
-32 00
-
-00 00 00 00
-00 00 00 00
-
-03 00 00 00
-
-01 00 00 00
-01 00 00 00
-01 00 00 00
-00 00 00 00
-```
-
-解释：
-
-```text
-command = 5
-req_len = 38
-rsp_len = 50
-version = 0
-technology = LTE (3)
-property count = 1
-type = SUBCOMMAND (1)
-value = 1
-```
-
-这里意图是：
-
-> Property Discovery 查询 `RADIO_CONFIGURE` 支持的属性。
-
-响应：
-
-```text
-4B 0B 7B 00
-05 00
-26 00
-16 00
-
-00 00 00 00
-00 00 00 00
-
-04 00 00 00
-22 11 7E
-```
-
-依然：
-
-```text
-common error = 4
-```
-
-所以这个 packet 目前不能证明当前固件实际接受这种 request layout。
-
----
-
-# 二十九、当前最重要的结论
-
-到这里，已经不是“什么都没找到”。
-
-我们已经确定了很多关键东西：
-
-## 已经确认
-
-### 1. 手机内部 X55 modem 存在、能访问
-
-### 2. `/dev/diag` 已经打通
-
-### 3. Diag_LSM → MDM callback 工作
-
-### 4. RFDEBUG subsystem ID：
-
-```text
-0x7B
-```
-
-### 5. RFDEBUG command 体系确实存在于 firmware
-
-### 6. Qualcomm 公共源码与 firmware 内结构能够对应
-
-尤其：
-
-```text
-RADIO_CONFIGURE
-RX_OVERRIDE
-RX_MEASURE
-TECH_ENTER_EXIT
-...
-```
-
-### 7. firmware 中实际存在：
-
-```text
-Radio Configure property_names[]
-```
-
-### 8. 其中：
-
-```text
-26 = TUNE_TX_TO_RX_FREQ
-28 = FREQUENCY
-```
-
-### 9. firmware 中实际字符串：
-
-```text
-"FREQUENCY"
-"TUNE_TX_TO_RX_FREQ"
-```
-
-都确认存在。
-
-### 10. 但目前没有找到：
-
-```text
-RFDEBUG dispatcher
-```
-
-或者：
-
-```text
-RADIO_CONFIGURE handler
-```
-
-的直接 Ghidra XREF。
-
----
-
-# 三十、当前明确排除
-
-下面这些现在不要再浪费时间：
-
-### ❌ C4721xxx/C4722xxx
-
-已经确定是 Xiaomi RF antenna control logging/data descriptor。
-
-### ❌ 单纯对 `"FREQUENCY"` 按 X
-
-只能得到：
-
-```text
-C919A028 -> C5084812
-```
-
-这是数据表→字符串。
-
-### ❌ 对 `C919A028` / `C919A020` 用普通 XREF
-
-目前：
-
-```text
-TOTAL = 0
-```
-
-### ❌ 全固件搜裸指针：
-
-```text
-C9199FB8
-C919A020
-C919A028
-```
-
-结果：
-
-```text
-0
-```
-
-### ❌ 把 C1993A94/C1993ACC 的 `0x9fb8` 当成属性表引用
-
-已经纠正，这是未经证明的错误推断。
-
-### ❌ 继续盲发 command 1/4/5
-
-至少当前 packet 结构还没有完全证明。
-
----
-
-# 三十一、我们目前真正卡在哪里
-
-真正的瓶颈已经变成：
-
-```text
-已知：
-0x7B RFDEBUG
-      ↓
-command = 1 RADIO_CONFIGURE
-      ↓
-property ID 28 = FREQUENCY
-      ↓
-firmware 中确有 property table
-
-未知：
-      ↓
-RFDEBUG dispatcher 在哪里？
-      ↓
-command 1 实际 handler 在哪里？
-      ↓
-handler 怎样解析 property/value？
-      ↓
-FREQUENCY 最终怎样进入 RFA/RF path？
-```
-
-因此现在应该：
-
-> **从 RFDEBUG dispatcher / command dispatch table 入手。**
-
-而不是继续从 property name 或字符串反查。
-
----
-
-# 三十二、下一阶段最合理的逆向路线
-
-建议严格按这个顺序：
-
-```text
-① 找 RFDEBUG dispatcher
-        ↓
-② 找 command = 1 的 case / handler
-        ↓
-③ 确认 RADIO_CONFIGURE request struct
-        ↓
-④ 找 property parsing loop
-        ↓
-⑤ 找 property == 28 的处理
-        ↓
-⑥ 确认 FREQUENCY value 的单位/类型
-        ↓
-⑦ 确认如何调用 RF tune / RFM
-        ↓
-⑧ 再构造最小 RX-only DIAG request
-        ↓
-⑨ 在安全状态下验证 821.2375 MHz
-```
-
-这才是现在应该继续的方向。
-
----
-
-# 三十三、下一会话最应该先做什么
-
-**不要重新跑前面那些脚本。**
-
-最优先目标是：
-
-> 从已经分析完成的 `qdsp6sw.mbn` 中找 **RFDEBUG command dispatcher 的实际地址**。
-
-现在我们已经有一些很好的静态锚点：
-
-```text
-RFDEBUG strings
-C4953DF8
-C4953DA4
-C4953710
-C4953B62
-...
-```
-
-以及：
-
-```text
-property_names[]
-C9199FB8
-```
-
-还有公共源码定义：
-
-```text
-RADIO_CONFIGURE = 1
-RX_OVERRIDE = 3
-DISCOVERY = 4
-PROPERTY_DISCOVERY = 5
-...
-```
-
-下一步应该利用这些**结构性特征**找：
-
-* command switch
-* handler table
-* `debug_command`
-* `rf_subsys_id`
-* `req_len`
-* `rsp_len`
-* error `FTM_RF_DEBUG_EC_BAD_CMD`
-
-而不是继续拿字符串做普通 XREF。
-
----
-
-# 三十四、当前 Ghidra 项目可直接继续使用
-
-不需要重新导入。
-
-当前项目已经：
-
-```text
-Auto Analyze 完成
-约 1,415,334 条指令可扫描
-```
-
-而且已经能够正常看到类似：
-
-```text
-c1993a88  memuh
-c1993a8c  memw
-c1993a90  immext
-c1993a94  add
-c1993a98  call
-...
-```
-
-说明 Hexagon 反汇编已经能正常进行。
-
----
-
-# 三十五、脚本经验，下一会话必须记住
-
-之前几次脚本有错误，原因主要是 Ghidra 12 API 和我们假设的旧 API 不一致。
-
-当前可用方式已经验证：
-
-### 可以用
-
-```java
-currentProgram.getReferenceManager()
-    .getReferencesTo(address);
-```
-
-返回：
-
-```java
-ReferenceIterator
-```
-
-可以用：
-
-```java
-currentProgram.getListing().getInstructions(true)
-```
-
-可以用：
-
-```java
-MemoryBlock.isInitialized()
-MemoryBlock.isExecute()
-```
-
-可以用：
-
-```java
-println(...)
-```
-
-最好不要用：
-
-```java
-System.out
-```
-
-### 不要再用那些已知错误写法
-
-不要假设：
-
-```java
-getInstructions(start, end, true)
-```
-
-这种签名。
-
-不要调用：
-
-```java
-Memory.isInitialized(...)
-```
-
-不存在。
-
-不要对：
-
-```text
-Memory.findBytes
-```
-
-写错误的 checked exception catch。
-
-不要使用：
-
-```text
-PyGhidra / Python
-```
-
-当前 Ghidra 环境按原方式没有启用 PyGhidra。
-
-**以后给脚本前，一定先按 Ghidra 12.1.4 的 API 思路写。**
-
----
-
-# 三十六、当前状态一句话版
-
-如果下一会话只需要一段摘要，直接给它下面这一段即可：
-
-> 我在 Xiaomi Mi 10 Ultra（M2007J1SC/cas，Android 13，X55）上做严格 RX-only 的 RFDEBUG 静态逆向，最终目标是让 X55 内部 RF RX 接收 821.2375 MHz。`/dev/diag` + `libdiag.so` 已打通，MDM callback 工作，RFDEBUG subsystem ID 已确认 `0x7B`。实际发送 command 1/4/5 都返回 common error `4 = FTM_RF_DEBUG_EC_BAD_CMD`，因此现在停止盲发包。`qdsp6sw.mbn` 已用 Ghidra 12.1.4 Auto Analyze 完成分析，约 1,415,334 条指令。固件里已经实际找到 RFDEBUG Radio Configure 的 property_names[]：起始 `C9199FB8`，其中 `C919A020 = TUNE_TX_TO_RX_FREQ`（property 26），`C919A028 = FREQUENCY`（property 28），字符串分别在 `C50847FF` 和 `C5084812`。这些数据表项有数据 XREF，但 `ReferenceManager.getReferencesTo(C9199FB8/C919A020/C919A028)` 全部为 0；直接扫描裸 32-bit 指针也全部为 0；扫描完整地址常量也没有 FULL HIT。此前 C4721xxx/C4722xxx 路线已经明确排除，是 Xiaomi RF antenna-control logging descriptor，不是 RFDEBUG handler。C4953xxx 的 RFDEBUG format strings 也全部没有代码 XREF，因此不能从字符串直接反查 handler。之前对 C1993ACC 的 `add R1,R3,##0x9fb8` 的判断已经纠正，不能证明它在构造 C9199FB8。现在真正的下一目标是：**从已分析 firmware 里找 RFDEBUG dispatcher / command switch / handler table，锁定 command 1 RADIO_CONFIGURE，再找到 property parsing loop，最后追到 property 28 FREQUENCY 的实际处理。不要再重复字符串 XREF、C4722xxx、裸指针扫描或盲发 command。**
-
----
-
-# 三十七、最核心的路线图
-
-目前项目已经从：
-
-```text
-“X55 有没有办法调 RF？”
-```
-
-推进到了：
-
-```text
-“X55 firmware 里已经确认存在 Qualcomm RFDEBUG，
-而且已经实际确认 Radio Configure 的 FREQUENCY property = 28。
-现在只差找 command dispatcher / handler。”
-```
-
-也就是说目前真正缺的不是：
-
-```text
-821.2375 MHz 是什么
-```
-
-也不是：
-
-```text RFDEBUG 存不存在
-```
-
-而是：
-
-```text
-0x7B
- ↓
-RFDEBUG dispatcher
- ↓
-command 1
- ↓
-RADIO_CONFIGURE handler
- ↓
-property 28
- ↓
-FREQUENCY
- ↓
-RF tune
-```
-
-**下一会话应该从这里继续。**
-
-最重要的是：**不要再从字符串表本身硬找 XREF，而要转向 RFDEBUG dispatcher 的静态特征定位。**
+.new) R28,#0x0 
+c1c8ff7c   assign R28,#0x0 
+c1c8ff84   addasl R18,R13,R28,#0x1 
+c1c8ff88   cmp.gtu P0,R28,R8 
+c1c8ff94   add R18,R28,R10 
+c1c8ff98   assign R28,#0x0 
+c1c8ffa4   add R28,R28,#0x1 
+c1c8ffc4   cmp.gtu P0,R10,R28 
+c1c8ffd0   cmp.eq P0,R28,R10 
+c1c90000   memw (R3),R28 
+c1c902b0   memw R2,(GP+#0x11c20) 
+c1c90308   assign R28,##0xffffff 
+c1c90494   cmp.gtu P0,R4,R28 
+c1c9067c   memw R2,(GP+#0x11c20) 
+c1c906c4   assign R28,##0x1fff0000 
+c1c906d4   and R4,R2,R28 
+c1c90738   and R12,R6,R28 
+c1c90768   and R8,R8,R28 
+c1c907f4   and R5,R9,R28 
+c1c90b28   memw R2,(GP+#0x11c20) 
+c1c90b80   assign R28,##0x1fff0000 
+c1c90b9c   and R7,R2,R28 
+c1c90bb8   and R5,R5,R28 
+c1c90c1c   and R9,R2,R28 
+c1c9153c   memw R3,(GP+#0x11c20) 
+c1c91870   mux R28,P0,#0x0,R13 
+c1c91880   sub R6,R0,R28 
+c1c91c40   mux R28,P0,#0x0,R13 
+c1c91c50   sub R6,R0,R28 
+c1c93688   memw R3,(GP+#0x11cb0) 
+c1c94ab0   memw R3,(GP+#0x11cec) 
+c1c94ae0   memw R3,(GP+#0x11ce8) 
+c1c958a8   memw R1,(GP+#0x11cf0) 
+c1c96340   memw R1,(GP+#0x11cf0) 
+c1c97d98   memw (GP+#0x11cb0),R2.new 
+c1c984f0   memw R1,(GP+#0x11cf0) 
+c1c986e8   memw R1,(GP+#0x11cf0) 
+c1c9aa28   memd R1R0,(GP+#0x18128) 
+c1c9ada0   memd R1R0,(GP+#0x18128) 
+c1c9b068   memd R1R0,(GP+#0x18128) 
+c1c9b134   memd R1R0,(GP+#0x18128) 
+c1c9b7e0   memb (GP+#0x1aee),R0.new 
+c1c9b7e8   memb (GP+#0x1aef),R3 
+c1c9b7ec   memb (GP+#0x10e4),R2 
+c1c9e98c   memw R2,(GP+#0x11cd4) 
+c1ca12a4   and R28,R15,#0xff 
+c1ca12a8   cmp.gtu P0,R28,#0x7 
+c1ca12bc   +mpyi R1,R28,##0x6c8 
+c1ca12c4   +mpyi R10,R28,##0x1d0 
+c1ca12c8   sub R18,#0x20,R28 
+c1ca12cc   and R19,R28,#0x1f 
+c1ca12f8   +mpyi R1,R28,#0x74 
+c1ca1324   +mpyi R10,R28,##0x1b2 
+c1ca1384   +mpyi R1,R28,#0x68 
+c1ca1400   addasl R1,R8,R28,#0x4 
+c1ca140c   asl R10,R28,#0x4 
+c1ca1418   addasl R1,R9,R28,#0x5 
+c1ca141c   asl R10,R28,#0x5 
+c1ca1444   +mpyi R19,R28,#0x88 
+c1ca1460   memw R28,(R5+R19) 
+c1ca1464   memw (R15+#0x1a8),R28 
+c1ca1470   memw R28,(R1+#0x4) 
+c1ca1474   memw (R15+#0x1c0),R28 
+c1ca1478   memw R28,(R1+#0x14) 
+c1ca147c   memw (R15+#0x1c4),R28 
+c1ca1480   memw R28,(R1+#0xc) 
+c1ca1488   memw (R15+#0x1c8),R28 
+c1ca1578   add R28,R4,#0x164 
+c1ca16fc   addasl R25,R28,R23,#0x2 
+c1ca2384   assign R28,##0xd8cfa3af 
+c1ca25f0   assign R28,##0xd8cfa3af 
+c1ca26f0   assign R28,##0xd8cfa3af 
+c1ca272c   assign R28,##0xd8cfa3af 
+c1ca2888   assign R28,##0xd8cfa3af 
+c1ca298c   assign R28,##0xd8cfa3af 
+c1ca29c8   assign R28,##0xd8cfa3af 
+c1ca2b60   assign R28,##0xd8cfa3af 
+c1ca2bc4   assign R28,##0xd8cfa3af 
+c1ca2e1c   add R5,R28,#-0x7dff 
+c1ca2e94   add R4,R28,#-0x7dff 
+c1ca3038   add R6,R28,#-0x7fff 
+c1ca33a8   assign R28,#0x0 
+c1ca3438   assign R28,R6 
+c1ca3594   memw (SP+#0x2c),R28 
+c1ca38a0   assign R28,##0xd8cfa3af 
+c1ca4104   memw R3,(GP+#0x11cb0) 
+c1ca452c   memb R2,(GP+#0x1b78) 
+c1ca552c   memb R2,(GP+#0x1b79) 
+c1ca5ca8   memw R1,(GP+#0xccf4) 
+c1ca5cd4   memw R22,(GP+#0xccf4) 
+c1ca62f0   memw (GP+#0xccf4),R0 
+c1ca637c   memd R1R0,(GP+#0x18900) 
+c1ca643c   memw R0,(GP+#0xccf4) 
+c1ca75f0   memd R3R2,(GP+#0x12168) 
+c1ca7f88   memw R2,(GP+#0xccfc) 
+c1ca8058   memw R2,(GP+#0xccfc) 
+c1ca80c0   memw R17,(GP+#0xccfc) 
+c1ca8100   memw (GP+#0xcd04),R17 
+c1ca8128   memw R2,(GP+#0xcd0c) 
+c1ca812c   memw R3,(GP+#0x11e08) 
+c1ca84ac   memw R2,(GP+#0x11e08) 
+c1ca84b0   memw (GP+#0xcd0c),R2.new 
+c1ca8530   memw R0,(GP+#0xcd00) 
+c1ca8534   memw (GP+#0xccfc),R0.new 
+c1ca8560   memw (GP+#0xcd04),R0 
+c1ca856c   memw R1,(GP+#0xcd00) 
+c1ca858c   memw R0,(GP+#0xcd00) 
+c1ca8598   memw (GP+#0xccfc),R0 
+c1ca85e4   memw R2,(GP+#0x11e08) 
+c1ca85e8   memw (GP+#0xcd0c),R2.new 
+c1ca8630   memw R17,(GP+#0xcd10) 
+c1ca8694   memw R2,(GP+#0xcd10) 
+c1ca86a4   memw (GP+#0xcd10),R17 
+c1ca8730   memw R2,(GP+#0x11e08) 
+c1ca8734   memw (GP+#0xcd0c),R2.new 
+c1ca8750   memw R1,(GP+#0xcd00) 
+c1ca889c   memw R17,(GP+#0xcd10) 
+c1ca8ae8   memw R3,(GP+#0xccfc) 
+c1ca90ec   memw R1,(GP+#0xcd08) 
+c1ca9114   memw R2,(GP+#0xcd08) 
+c1ca9138   memw R2,(GP+#0xcd08) 
+c1ca93dc   memw R5,(GP+#0xcd08) 
+c1ca9484   memw R3,(GP+#0xcd08) 
+c1ca9544   memw R2,(GP+#0xcd08) 
+c1ca9600   memw R3,(GP+#0xcd08) 
+c1ca9918   memw R4,(GP+#0xcd08) 
+c1ca9a60   memw R2,(GP+#0x7bcc) 
+c1ca9a80   memw R2,(GP+#0x7bd4) 
+c1ca9b64   memw R2,(GP+#0x11e28) 
+c1ca9b6c   memw (GP+#0x11e28),R2.new 
+c1ca9e78   memw R2,(GP+#0xcd08) 
+c1caa0c8   memw R1,(GP+#0xcd08) 
+c1caa62c   memd R25R24,(GP+#0x121d0) 
+c1caa8e8   memw R4,(GP+#0xcd08) 
+c1caabb8   memw R2,(GP+#0x11e1c) 
+c1caac14   memw R2,(GP+#0x11e20) 
+c1caac24   memw (GP+#0x11e20),R17 
+c1caae24   memw R22,(GP+#0xcd00) 
+c1caae3c   memw R22,(GP+#0xcd00) 
+c1caafe0   memw R21,(GP+#0x11e14) 
+c1cab158   memw R2,(GP+#0xccfc) 
+c1cab1a0   memw R2,(GP+#0xccfc) 
+c1cab254   memw R2,(GP+#0xcd04) 
+c1cab264   memw (GP+#0xcd04),R16 
+c1cab4a0   memw R21,(GP+#0x7bc4) 
+c1cab9fc   memw R2,(GP+#0xccfc) 
+c1caca40   memb R2,(GP+#0x0) 
+c1caca54   memw R0,(GP+#0xc4a8) 
+c1caca78   memw R0,(GP+#0xc4a8) 
+c1cacc94   memb R2,(GP+#0x0) 
+c1caccac   memw R0,(GP+#0xc4a8) 
+c1cacdd0   memub R2,(GP+#0x0) 
+c1cad310   memb R3,(GP+#0x0) 
+c1cad32c   memw R0,(GP+#0xc4a8) 
+c1cad344   memb R2,(GP+#0x0) 
+c1cad358   memw R0,(GP+#0xc4a8) 
+c1cad384   memw R0,(GP+#0xc4a8) 
+c1cad4e4   memb R2,(GP+#0x1128) 
+c1cad4f8   memw R0,(GP+#0xc4a8) 
+c1cad514   memub R2,(GP+#0x1128) 
+c1cad574   memw R0,(GP+#0xc4a8) 
+c1cad718   memub R2,(GP+#0x0) 
+c1cad7fc   memub R2,(GP+#0x0) 
+c1cad95c   memub R2,(GP+#0x0) 
+c1cada18   memub R2,(GP+#0x0) 
+c1cadb20   memub R2,(GP+#0x0) 
+c1cadbd8   memub R2,(GP+#0x0) 
+c1cadd00   memub R2,(GP+#0x0) 
+c1cae028   memb R2,(GP+#0x0) 
+c1cae03c   memw R0,(GP+#0xc4a8) 
+c1cae094   memub R2,(GP+#0x0) 
+c1cae0f4   memb R2,(GP+#0x0) 
+c1cae108   memw R0,(GP+#0xc4a8) 
+c1cae154   memub R2,(GP+#0x0) 
+c1cae1ac   memb R2,(GP+#0x0) 
+c1cae1c0   memw R0,(GP+#0xc4a8) 
+c1cae218   memub R2,(GP+#0x0) 
+c1cae270   memb R2,(GP+#0x0) 
+c1cae284   memw R0,(GP+#0xc4a8) 
+c1cae2d8   memub R2,(GP+#0x0) 
+c1cae340   memb R2,(GP+#0x0) 
+c1cae354   memw R0,(GP+#0xc4a8) 
+c1cae3a0   memub R2,(GP+#0x0) 
+c1cae3f4   memb R2,(GP+#0x0) 
+c1cae408   memw R0,(GP+#0xc4a8) 
+c1cae45c   memub R2,(GP+#0x0) 
+c1cae4c4   memb R2,(GP+#0x0) 
+c1cae4d8   memw R0,(GP+#0xc4a8) 
+c1cae584   memb R2,(GP+#0x0) 
+c1cae78c   memw R0,(GP+#0xc4a8) 
+c1caebbc   memw R0,(GP+#0xc4a8) 
+c1caf26c   memw R0,(GP+#0xc4a8) 
+c1caf86c   memb R2,(GP+#0x0) 
+c1caf880   memw R0,(GP+#0xc4a8) 
+c1caf91c   memb R2,(GP+#0x0) 
+c1caf998   memb R2,(GP+#0x0) 
+c1caf9ac   memw R0,(GP+#0xc4a8) 
+c1caf9fc   memub R2,(GP+#0x0) 
+c1cafac0   memw R0,(GP+#0xc4a8) 
+c1cafb18   memw R0,(GP+#0xc4a8) 
+c1cafbbc   memw R0,(GP+#0xc4a8) 
+c1cafc34   memb R3,(GP+#0x0) 
+c1cafc40   memw R0,(GP+#0xc4a8) 
+c1cafc68   memb R3,(GP+#0x0) 
+c1cafc74   memw R0,(GP+#0xc4a8) 
+c1cafca8   memb R3,(GP+#0x0) 
+c1cafcb4   memw R0,(GP+#0xc4a8) 
+c1cafebc   memw R0,(GP+#0xc4a8) 
+c1cafee0   memw R0,(GP+#0xc4a8) 
+c1caff04   memw R0,(GP+#0xc4a8) 
+c1caff44   memw R0,(GP+#0xc4a8) 
+c1caff68   memw R0,(GP+#0xc4a8) 
+c1cb0834   memub R28,(R9+#0x6) 
+c1cb0850   add R28,R15,R28 
+c1cb0854   add R0,R28,R0 
+c1cb0858   add+= R0,R15,R28 
+c1cb08d0   memub R28,(R5+#0x6) 
+c1cb08f8   add R28,R15,R28 
+c1cb08fc   add R0,R28,R0 
+c1cb0900   add+= R0,R15,R28 
+c1cb09e0   memub R28,(R1+#0x6) 
+c1cb09f4   add R13,R12,R28 
+c1cb0a0c   add R28,R5,R0 
+c1cb0a14   add+= R28,R4,R5 
+c1cb0a18   add R9,R28,R11 
+c1cb0a24   add+= R13,R28,R9 
+c1cb0a64   memub R28,(R2+#0x4) 
+c1cb0a84   add R28,R15,R28 
+c1cb0a90   add R0,R28,R0 
+c1cb0a94   add+= R0,R15,R28 
+c1cb328c   add R28,R9,#-0x106 
+c1cb3298   maxu R12,R12,R28 
+c1cb32d0   sub R12,R12,R28 
+c1cb32dc   sxtb R28,R13 
+c1cb32e4   jump.if:t !cmp.eq(R10.new,R28),0xc1cb33fc 
+c1cb32e8   add R28,R15,R2 
+c1cb32f0   memb R28,(R28+#-0x1) 
+c1cb32f4   jump.if:t !cmp.eq(R28.new,R10),0xc1cb33fc 
+c1cb32f8   memb R28,(R15) 
+c1cb3300   jump.if:t !cmp.eq(R10.new,R28),0xc1cb33fc 
+c1cb3304   memb R28,(R15+#0x1) 
+c1cb330c   jump.if:t !cmp.eq(R10.new,R28),0xc1cb33fc 
+c1cb3314   assign R28,#0x0 
+c1cb3318   add R16,R4,R28 
+c1cb331c   add R11,R15,R28 
+c1cb33a8   add R17,R28,#0x2 
+c1cb33bc   add R28,R28,#0x8 
+c1cb33d0   add R17,R4,add(R28,#0x3) 
+c1cb33d4   sub R28,R17,R8 
+c1cb33d8   add R15,R28,#0x102 
+c1cb33f0   add R14,R4,R28 
+c1cb4f60   assign R28,#0x0 
+c1cb5038   mux R17,P2,R28,R12 
+c1cb5d0c   add R28,R14,#0x1 
+c1cb5d10   memw (R0+#0x14),R28.new 
+c1cb61e0   assign R28,#-0x1 
+c1cb6220   assign.if(P0.new) R8,R28 
+c1cb6264   memuh R28,(R9) 
+c1cb626c   asl|= R28,R15,R12 
+c1cb6274   memh (R9),R28.new 
+c1cb6278   memb (R10+R11),R28 
+c1cb627c   memw R28,(R0+#0x14) 
+c1cb6280   add R10,R28,#0x1 
+c1cb6290   memb (R12+R28),R10.new 
+c1cb62ac   add R28,R0,#0x16b8 
+c1cb62bc   memh|= (R28),R15 
+c1cb62d8   cmp.eq P0,R8,R28 
+c1cb62e4   memw.if(!P0.new) R28,(R9+#0x4) 
+c1cb62f0   memw R28,(R9+#0x4) 
+c1cb62fc   cmp.gt P0,R28,R10 
+c1cb6304   asl|= R10,R14,R28 
+c1cb6308   add.if(!P0) R28,R28,R15 
+c1cb6314   memw R28,(R0+#0x14) 
+c1cb631c   add R16,R28,#0x1 
+c1cb6324   memb (R11+R28),R10 
+c1cb6328   memw R28,(R0+#0x14) 
+c1cb632c   add R11,R28,#0x1 
+c1cb633c   memb (R10+R28),R11.new 
+c1cb6340   memw R28,(R9+#0x4) 
+c1cb6344   add R28,R15,add(R28,#-0x10) 
+c1cb6348   sub R10,#0x10,R28 
+c1cb6354   memw (R9+#0x4),R28 
+c1cb6368   asl|= R14,R13,R28 
+c1cb636c   cmp.gt P0,R28,R10 
+c1cb6378   memw R28,(R0+#0x14) 
+c1cb6380   add R11,R28,#0x1 
+c1cb6388   memb (R10+R28),R14 
+c1cb6394   memw R28,(R0+#0x8) 
+c1cb63a0   memb (R28+R14),R10.new 
+c1cb63bc   add R15,R28,R15 
+c1cb63ec   add R28,R13,#0x1 
+c1cb63f0   memw (R0+#0x14),R28.new 
+c1cb643c   memw R28,(R9+#0x4) 
+c1cb6444   asl|= R14,R13,R28 
+c1cb6448   cmp.gt P0,R28,R10 
+c1cb6454   memw R28,(R0+#0x14) 
+c1cb645c   add R11,R28,#0x1 
+c1cb6464   memb (R10+R28),R14 
+c1cb6470   memw R28,(R0+#0x8) 
+c1cb647c   memb (R28+R14),R10.new 
+c1cb6498   add R15,R28,R15 
+c1cb64c8   add R28,R13,#0x1 
+c1cb64cc   memw (R0+#0x14),R28.new 
+c1cb6510   memw R28,(R9+#0x4) 
+c1cb6518   asl|= R14,R13,R28 
+c1cb651c   cmp.gt P0,R28,R10 
+c1cb6528   memw R28,(R0+#0x14) 
+c1cb6530   add R11,R28,#0x1 
+c1cb6538   memb (R10+R28),R14 
+c1cb6544   memw R28,(R0+#0x8) 
+c1cb6550   memb (R28+R14),R10.new 
+c1cb656c   add R15,R28,R15 
+c1cb659c   add R28,R13,#0x1 
+c1cb65a0   memw (R0+#0x14),R28.new 
+c1cb65f8   assign R28,R8 
+c1cb670c   memw R28,(R2+#0x4c) 
+c1cb676c   addasl R16,R28,R11,#0x2 
+c1cb6780   memb R11,(R28+R11<<#0x2) 
+c1cb6ad8   addasl R16,R28,R11,#0x2 
+c1cb6aec   memb R11,(R28+R11<<#0x2) 
+c1cb6c78   memb R2,(GP+#0x178c) 
+c1cb6cd4   memb R2,(GP+#0x178c) 
+c1cb6d40   memb R2,(GP+#0x178c) 
+c1cb6de4   memb R2,(GP+#0x178c) 
+c1cb6e8c   memb R2,(GP+#0x178c) 
+c1cb6ef8   memub R2,(GP+#0x178c) 
+c1cb701c   memb R3,(GP+#0x178c) 
+c1cb7068   memb R3,(GP+#0x178c) 
+c1cb733c   memb R3,(GP+#0x178c) 
+c1cb75f0   memb R2,(GP+#0x178c) 
+c1cb7648   memb R2,(GP+#0x178c) 
+c1cb76cc   memb R2,(GP+#0x178c) 
+c1cb7764   memb R2,(GP+#0x178c) 
+c1cb79ac   memb R2,(GP+#0x178c) 
+c1cb7a38   memb R2,(GP+#0x178c) 
+c1cb7afc   memb R2,(GP+#0x178c) 
+c1cb7c78   memb R2,(GP+#0x178c) 
+c1cb7dd0   memb R3,(GP+#0x178c) 
+c1cb7f3c   memb R2,(GP+#0x178c) 
+c1cb80d4   memb R2,(GP+#0x178c) 
+c1cb8298   memb R2,(GP+#0x178c) 
+c1cb8414   memb R2,(GP+#0x178c) 
+c1cb85a4   memb R2,(GP+#0x178c) 
+c1cb8744   memb R2,(GP+#0x178c) 
+c1cb88b8   memb R2,(GP+#0x178c) 
+c1cb8a38   memb R2,(GP+#0x178c) 
+c1cb8bfc   memb R2,(GP+#0x178c) 
+c1cb8d60   memb R2,(GP+#0x178c) 
+c1cb8ee8   memb R2,(GP+#0x178c) 
+c1cb9048   memb R3,(GP+#0x178c) 
+c1cb90f0   memb R2,(GP+#0x178c) 
+c1cb94a4   memb R2,(GP+#0x178c) 
+c1cb950c   memb R2,(GP+#0x178c) 
+c1cb97b8   memb R3,(GP+#0x178c) 
+c1cb984c   memb R2,(GP+#0x178c) 
+c1cb9a34   memb R3,(GP+#0x178c) 
+c1cb9c38   memd R5R4,(GP+#0x11ef8) 
+c1cb9cb8   memub R2,(GP+#0x178c) 
+c1cb9e90   memb R2,(GP+#0x178c) 
+c1cb9f54   memb R2,(GP+#0x178c) 
+c1cb9fb8   memb R2,(GP+#0x178c) 
+c1cba05c   memw R0,(GP+#0xc7cc) 
+c1cba0f0   memb R3,(GP+#0x178c) 
+c1cba228   memb R3,(GP+#0x178c) 
+c1cba30c   memb R2,(GP+#0x178c) 
+c1cba38c   memb R2,(GP+#0x178c) 
+c1cba460   memb R2,(GP+#0x178c) 
+c1cba4b4   memub R2,(GP+#0x178c) 
+c1cba52c   memb R2,(GP+#0x178c) 
+c1cba5c8   memb R2,(GP+#0x178c) 
+c1cba67c   memb R6,(GP+#0x178c) 
+c1cba7c4   memb R2,(GP+#0x178c) 
+c1cba908   memb R2,(GP+#0x178c) 
+c1cba984   memub R2,(GP+#0x178c) 
+c1cbaa44   memb R2,(GP+#0x178c) 
+c1cbaae4   memb R2,(GP+#0x178c) 
+c1cbac54   memb R4,(GP+#0x178c) 
+c1cbb8ec   memw R28,(R5+R15) 
+c1cbb8f0   memw (R19+R15),R28.new 
+c1cbb8f4   memw R28,(R14+#0x4) 
+c1cbb8f8   minu R28,R28,R13 
+c1cbb8fc   memw (R15+#0x4),R28.new 
+c1cbb900   memw R28,(R14+#0x4) 
+c1cbb904   cmp.eq P0,R28,#0x0 
+c1cbb908   assign.if(!P0.new) R28,#0x0 
+c1cbb918   add R28,R28,#0x1 
+c1cbb92c   cmp.gtu P0,R11,R28 
+c1cbb93c   memub R28,(R14+#0x1c) 
+c1cbb940   memb (R15+#0x1c),R28.new 
+c1cbb944   assign R28,R9 
+c1cbb950   memd (R28++#0x8),R11R10  :endloop0
+c1cbbdfc   memb R2,(GP+#0x178c) 
+c1cbbf28   memb R2,(GP+#0x178c) 
+c1cbbf90   memb R2,(GP+#0x178c) 
+c1cbc0a4   memub R2,(GP+#0x178c) 
+c1cbc220   memb R2,(GP+#0x178c) 
+c1cbc490   memub R2,(GP+#0x178c) 
+c1cbc5c4   memb R2,(GP+#0x178c) 
+c1cbc6a0   memub R2,(GP+#0x178c) 
+c1cbc778   memb R2,(GP+#0x178c) 
+c1cbc7d4   memb R3,(GP+#0x178c) 
+c1cbc848   memb R2,(GP+#0x178c) 
+c1cbc988   memb R2,(GP+#0x178c) 
+c1cbcbe0   memb R2,(GP+#0x178c) 
+c1cbcd10   memb R2,(GP+#0x178c) 
+c1cbcf2c   memb R2,(GP+#0x178c) 
+c1cbd040   memb R2,(GP+#0x178c) 
+c1cbd240   memb R3,(GP+#0x178c) 
+c1cbd360   memb R2,(GP+#0x178c) 
+c1cbd4a8   memb R6,(GP+#0x178c) 
+c1cbd584   memb R2,(GP+#0x178c) 
+c1cbd614   memb R2,(GP+#0x178c) 
+c1cbd6b8   memb R2,(GP+#0x178c) 
+c1cbd844   memb R2,(GP+#0x178c) 
+c1cbda24   memb R2,(GP+#0x178c) 
+c1cbdaa8   memb R2,(GP+#0x178c) 
+c1cbdbdc   memb R5,(GP+#0x178c) 
+c1cbdc98   memb R5,(GP+#0x178c) 
+c1cbdd6c   memb R3,(GP+#0x178c) 
+c1cbde9c   memb R2,(GP+#0x178c) 
+c1cbdf3c   memub R2,(GP+#0x178c) 
+c1cbe030   memb R2,(GP+#0x178c) 
+c1cbe0f4   memb R3,(GP+#0x178c) 
+c1cbe19c   memb R2,(GP+#0x178c) 
+c1cbe298   memb R2,(GP+#0x178c) 
+c1cbe308   memw R0,(GP+#0xc7cc) 
+c1cbe3a0   memb R2,(GP+#0x178c) 
+c1cbe408   memb R2,(GP+#0x178c) 
+c1cbe48c   memw R0,(GP+#0xc7cc) 
+c1cbe518   memb R2,(GP+#0x178c) 
+c1cbe580   memb R2,(GP+#0x178c) 
+c1cbe604   memw R0,(GP+#0xc7d8) 
+c1cbe67c   memb R2,(GP+#0x178c) 
+c1cbe718   memw R0,(GP+#0xc7e4) 
+c1cbe76c   memw R0,(GP+#0xc7e4) 
+c1cbe7a0   memw R0,(GP+#0xc7e4) 
+c1cbe7a8   memw R0,(GP+#0x6f64) 
+c1cbe7c0   memw R0,(GP+#0xc7e4) 
+c1cbe814   memb R2,(GP+#0x178c) 
+c1cbe87c   memb R2,(GP+#0x178c) 
+c1cbe8fc   memw R0,(GP+#0xc7f0) 
+c1cbe954   memb R2,(GP+#0x178c) 
+c1cbe9b8   memb R2,(GP+#0x178c) 
+c1cbeaec   memw R3,(GP+#0x11b54) 
+c1cbeb64   memw R3,(GP+#0x11b54) 
+c1cbeb90   memw R5,(GP+#0x11b54) 
+c1cbebdc   memw R4,(GP+#0x11b54) 
+c1cbfe68   memub R28,(R5+#0x3) 
+c1cbfe6c   memb (R3+#-0x5),R28 
+c1cc2c98   extractu R28,R2,#0x1,#0x17 
+c1cc2d04   memw R6,(R28<<#0x2+##0xc5129510) 
+c1cc38f4   add R28,R9,add(R8,##0x24) 
+c1cc3930   memw R11,(R28) 
+c1cc7b6c   assign R3,GP 
+c1cd2828   asl R28,R14,#0x1 
+c1cd282c   and|= R14,R28,R15 
+c1cd288c   xor R28,R2,R8 
+c1cd2894   and|= R15,R0,R28 
+c1cd3b78   assign R4,GP 
+c1cd431c   assign R4,GP 
+c1cd97a0   assign R28,##0x47f00000 
+c1cd9978   and R7,R25,R28 
+c1cdca84   memd R1R0,(GP+#0x18d10) 
+c1cdca90   memd R1R0,(GP+#0x124d8) 
+c1cdcdf0   memd R5R4,(GP+#0x124d8) 
+c1cdce50   memd R1R0,(GP+#0x124d8) 
+c1cdcf10   memd R5R4,(GP+#0x124d8) 
+c1cdd150   memw R2,(GP+#0xc294) 
+c1cdd1e0   memd R1R0,(GP+#0x13660) 
+c1cdd1f4   memd R1R0,(GP+#0x18d18) 
+c1cdd218   memd R3R2,(GP+#0x124d0) 
+c1cdd234   memd R3R2,(GP+#0x12e98) 
+c1cdd250   memd R3R2,(GP+#0x12860) 
+c1cdd26c   memd R3R2,(GP+#0x124d8) 
+c1cdd278   memd R1R0,(GP+#0x12870) 
+c1cdd284   memd R3R2,(GP+#0x124d8) 
+c1cdded4   memd R7R6,(GP+#0x124d0) 
+c1cddeec   memd R7R6,(GP+#0x12860) 
+c1cddfa0   memd R1R0,(GP+#0x18d10) 
+c1cddfd0   memd R1R0,(GP+#0x18d20) 
+c1cddfd4   memd R5R4,(GP+#0x124d0) 
+c1cddfe0   memd R9R8,(GP+#0x13490) 
+c1cde05c   memd R7R6,(GP+#0x124d8) 
+c1cde09c   memd R3R2,(GP+#0x12870) 
+c1cde0d4   memd R5R4,(GP+#0x18d28) 
+c1cde0e8   memd R7R6,(GP+#0x18d30) 
+c1cde12c   memd R5R4,(GP+#0x18d38) 
+c1cde140   memd R5R4,(GP+#0x13958) 
+c1cde154   memd R5R4,(GP+#0x14540) 
+c1cde1d8   memd R11R10,(GP+#0x12870) 
+c1cde26c   memd R3R2,(GP+#0x13380) 
+c1cde460   memd R3R2,(GP+#0x12870) 
+c1cde49c   memd R3R2,(GP+#0x124d8) 
+c1cde580   memd R21R20,(GP+#0x191f0) 
+c1cdee78   memw R17,(GP+#0x11eb8) 
+c1cdee84   memw R18,(GP+#0x11eb0) 
+c1cdee98   memw R2,(GP+#0x11eb4) 
+c1cdeeb0   memw R18,(GP+#0x11eb0) 
+c1cdeeb4   memw R2,(GP+#0x11eb4) 
+c1cdeec8   memw R17,(GP+#0x11eb8) 
+c1cdeed0   memw R0,(GP+#0x11eb4) 
+c1cdeef8   memw R0,(GP+#0x11eb4) 
+c1cdef14   memw R17,(GP+#0x11eb8) 
+c1cdef24   memw (GP+#0x11eb8),R18 
+c1cdef38   memw R2,(GP+#0x11eb4) 
+c1cdef3c   memw (GP+#0x11eb8),R3.new 
+c1cdef60   memw R17,(GP+#0x11eb8) 
+c1cdef64   memw R2,(GP+#0x11eb0) 
+c1cdef6c   memw R2,(GP+#0xc298) 
+c1cdef78   memw R4,(GP+#0x11eb4) 
+c1cdef7c   memw (GP+#0xc298),R2.new 
+c1cdefa4   memw R2,(GP+#0xc298) 
+c1cdefac   memw R0,(GP+#0x11eb4) 
+c1cdeffc   memw R2,(GP+#0x11eb8) 
+c1cdf000   memw R3,(GP+#0xc298) 
+c1cdf014   memw R2,(GP+#0x11eb8) 
+c1cdf01c   memw R3,(GP+#0x11eb4) 
+c1cdf020   memw (GP+#0x11eb8),R2.new 
+c1cdf02c   memw R3,(GP+#0x11eb4) 
+c1cdf03c   memw R3,(GP+#0x11eb4) 
+c1cdf090   memw R2,(GP+#0xcd44) 
+c1cdf0a0   memw (GP+#0xcd44),R0 
+c1cdfc20   memw R2,(GP+#0xc29c) 
+c1cdfc30   memw R2,(GP+#0xc2a0) 
+c1cdfc44   memb R2,(GP+#0x1ba6) 
+c1cdfc48   memw R3,(GP+#0x11ebc) 
+c1cdfc84   memw (GP+#0x11ebc),R3.new 
+c1cdfca4   memw (GP+#0x11ebc),R3 
+c1cdfccc   memw (GP+#0x11ebc),R3 
+c1ce0330   memw R2,(GP+#0xc29c) 
+c1ce034c   memw R2,(GP+#0xc2a0) 
+c1ce0360   memw (GP+#0x11ebc),R16 
+c1ce0530   memw R2,(GP+#0xc2a4) 
+c1ce094c   memd R1R0,(GP+#0x12e98) 
+c1ce0980   memd R15R14,(GP+#0x18d40) 
+c1ce0984   memd R9R8,(GP+#0x18d48) 
+c1ce0988   memd R7R6,(GP+#0x18d50) 
+c1ce09cc   memd R13R12,(GP+#0x18d58) 
+c1ce0a18   memd R7R6,(GP+#0x18d60) 
+c1ce0a1c   memd R15R14,(GP+#0x18d68) 
+c1ce0a60   memd R7R6,(GP+#0x124d8) 
+c1ce0bc0   memd R5R4,(GP+#0x18d70) 
+c1ce0be4   memd R1R0,(GP+#0x18d78) 
+c1ce0be8   memd R5R4,(GP+#0x12e98) 
+c1ce0c4c   memd R9R8,(GP+#0x18d80) 
+c1ce0c50   memd R5R4,(GP+#0x18d88) 
+c1ce0c54   memd R3R2,(GP+#0x18d90) 
+c1ce0c58   memd R21R20,(GP+#0x18d98) 
+c1ce0c98   memd R7R6,(GP+#0x18da0) 
+c1ce0cd0   memd R3R2,(GP+#0x18da8) 
+c1ce0d14   memd R3R2,(GP+#0x18db0) 
+c1ce0d48   memd R7R6,(GP+#0x124d8) 
+c1ce0da8   memw R3,(GP+#0x11eb8) 
+c1ce0db4   memw R2,(GP+#0xc298) 
+c1ce0dd8   memw R3,(GP+#0x11eb4) 
+c1ce0ddc   memw (GP+#0xc298),R0.new 
+c1ce0de8   memw R3,(GP+#0x11eb4) 
+c1ce0df4   memw R3,(GP+#0x11eb4) 
+c1ce0e08   memw R2,(GP+#0xc2a4) 
+c1ce0e28   memw R2,(GP+#0xc2a8) 
+c1ce0e40   memw R0,(GP+#0x11ec0) 
+c1ce0ec4   memd R5R4,(GP+#0x18db8) 
+c1ce0ed8   memd R5R4,(GP+#0x18dc0) 
+c1ce0f44   memd R3R2,(GP+#0x18dc8) 
+c1ce0f68   memd R5R4,(GP+#0x18dd0) 
+c1ce0f84   memd R7R6,(GP+#0x18dd8) 
+c1ce109c   memd R13R12,(GP+#0x18de0) 
+c1ce10a0   memd R7R6,(GP+#0x18de8) 
+c1ce10a4   memd R5R4,(GP+#0x18df0) 
+c1ce10d0   memd R13R12,(GP+#0x18df8) 
+c1ce1104   memd R7R6,(GP+#0x124d0) 
+c1ce114c   memd R7R6,(GP+#0x124d8) 
+c1ce2874   memd R3R2,(GP+#0x18d10) 
+c1ce28b8   memd R3R2,(GP+#0x12e98) 
+c1ce28bc   memd R5R4,(GP+#0x124d8) 
+c1ce28e8   memd R5R4,(GP+#0x18e00) 
+c1ce2904   memd R7R6,(GP+#0x18e08) 
+c1ce2924   memd R7R6,(GP+#0x18e10) 
+c1ce2944   memd R7R6,(GP+#0x18e18) 
+c1ce2964   memd R7R6,(GP+#0x18e20) 
+c1ce2984   memd R7R6,(GP+#0x18e28) 
+c1ce29a4   memd R7R6,(GP+#0x18e30) 
+c1ce29f0   memd R7R6,(GP+#0x18e38) 
+c1ce29f4   memd R5R4,(GP+#0x18e40) 
+c1ce2a00   memd R9R8,(GP+#0x18e48) 
+c1ce2a04   memd R23R22,(GP+#0x18e50) 
+c1ce2a10   memd R3R2,(GP+#0x18e58) 
+c1ce2a90   memd R5R4,(GP+#0x18e60) 
+c1ce2a94   memd R7R6,(GP+#0x18e68) 
+c1ce2ad8   memd R5R4,(GP+#0x18e70) 
+c1ce2adc   memd R7R6,(GP+#0x18e78) 
+c1ce2ae8   memd R9R8,(GP+#0x18e80) 
+c1ce2b4c   memd R3R2,(GP+#0x18e00) 
+c1ce2b68   memd R3R2,(GP+#0x18e08) 
+c1ce2b88   memd R3R2,(GP+#0x18e10) 
+c1ce2ba8   memd R3R2,(GP+#0x18e18) 
+c1ce2bc8   memd R3R2,(GP+#0x18e20) 
+c1ce2be8   memd R3R2,(GP+#0x18e28) 
+c1ce2c08   memd R1R0,(GP+#0x18e30) 
+c1ce3548   memd R3R2,(GP+#0x12e98) 
+c1ce3554   memd R1R0,(GP+#0x124d8) 
+c1ce35a4   memd R3R2,(GP+#0x124d8) 
+c1ce3604   memd R1R0,(GP+#0x124d8) 
+c1ce3694   memd R1R0,(GP+#0x124d8) 
+c1ce36b8   memd R23R22,(GP+#0x12860) 
+c1ce36bc   memd R25R24,(GP+#0x135f0) 
+c1ce4500   memd R21R20,(GP+#0x18e88) 
+c1ce4524   memd R1R0,(GP+#0x18e90) 
+c1ce453c   memd R1R0,(GP+#0x18e98) 
+c1ce45a0   memd R3R2,(GP+#0x131a8) 
+c1ce45a4   memd R5R4,(GP+#0x18ea0) 
+c1ce45c8   memd R9R8,(GP+#0x18ea8) 
+c1ce45dc   memd R5R4,(GP+#0x18eb0) 
+c1ce45e0   memd R7R6,(GP+#0x18eb8) 
+c1ce461c   memd R13R12,(GP+#0x18ec0) 
+c1ce462c   memd R15R14,(GP+#0x18ec8) 
+c1ce4764   memd R5R4,(GP+#0x18e90) 
+c1ce478c   memd R23R22,(GP+#0x18ed0) 
+c1ce4790   memd R25R24,(GP+#0x18ed8) 
+c1ce4890   memd R5R4,(GP+#0x18e90) 
+c1ce48b8   memd R3R2,(GP+#0x18e98) 
+c1ce4968   memd R3R2,(GP+#0x18ee0) 
+c1ce4984   memd R1R0,(GP+#0x18ea0) 
+c1ce49d0   memd R3R2,(GP+#0x18ee8) 
+c1ce49e4   memd R3R2,(GP+#0x18d18) 
+c1ce49fc   memd R3R2,(GP+#0x18ef0) 
+c1ce4a48   memd R3R2,(GP+#0x18ef8) 
+c1ce4a60   memd R3R2,(GP+#0x18f00) 
+c1ce4a78   memd R3R2,(GP+#0x18f08) 
+c1ce4a84   memd R5R4,(GP+#0x18f10) 
+c1ce4a94   memd R13R12,(GP+#0x18f18) 
+c1ce4acc   memd R7R6,(GP+#0x12860) 
+c1ce4af4   memd R9R8,(GP+#0x18f20) 
+c1ce4b0c   memd R7R6,(GP+#0x124d0) 
+c1ce4f34   memw R2,(GP+#0xc2a4) 
+c1ce4f54   memw R2,(GP+#0xc2c0) 
+c1ce4f7c   memw R2,(GP+#0xc2a8) 
+c1ce4f88   memw R2,(GP+#0xc2b8) 
+c1ce4f8c   memw (GP+#0x11ec0),R17 
+c1ce4f9c   memw R2,(GP+#0xc2bc) 
+c1ce4fa0   memw (GP+#0x11ec4),R17 
+c1ce4fb4   memw R2,(GP+#0xc2b0) 
+c1ce4fc4   memw (GP+#0x11ec8),R17 
+c1ce4fcc   memw R2,(GP+#0xc2b4) 
+c1ce4fd0   memb (GP+#0x1122),R17 
+c1ce4ff0   memw R2,(GP+#0xc2c4) 
+c1ce5014   memw R2,(GP+#0xc2c8) 
+c1ce5020   memw R2,(GP+#0xc2cc) 
+c1ce5024   memw (GP+#0x11ecc),R17 
+c1ce5038   memw (GP+#0x11ed0),R17 
+c1ce503c   memw R2,(GP+#0xc2d4) 
+c1ce50b4   memw R2,(GP+#0xc2d4) 
+c1ce5108   memw R2,(GP+#0xc2d0) 
+c1ce512c   memw R2,(GP+#0xc2d4) 
+c1ce5180   memd R1R0,(GP+#0x124d8) 
+c1ce51dc   memd R1R0,(GP+#0x124d8) 
+c1ce5228   memd R7R6,(GP+#0x18f28) 
+c1ce5244   memd R7R6,(GP+#0x18f30) 
+c1ce5268   memd R7R6,(GP+#0x18f38) 
+c1ce5288   memd R7R6,(GP+#0x18f40) 
+c1ce52a8   memd R7R6,(GP+#0x18f48) 
+c1ce52d8   memd R7R6,(GP+#0x18f50) 
+c1ce5308   memd R3R2,(GP+#0x18f58) 
+c1ce5324   memd R3R2,(GP+#0x18f60) 
+c1ce5344   memd R3R2,(GP+#0x18f68) 
+c1ce5364   memd R3R2,(GP+#0x18f70) 
+c1ce5384   memd R3R2,(GP+#0x18f78) 
+c1ce53a4   memd R3R2,(GP+#0x18f80) 
+c1ce53c4   memd R1R0,(GP+#0x124d8) 
+c1ce53e8   memw R2,(GP+#0xc2b0) 
+c1ce5400   memub R0,(GP+#0x1122) 
+c1ce5408   memw R2,(GP+#0xc2b4) 
+c1ce54ac   memd R1R0,(GP+#0x18f88) 
+c1ce5570   memd R3R2,(GP+#0x133d0) 
+c1ce6c38   memw R2,(GP+#0xc2b8) 
+c1ce6c50   memw R0,(GP+#0x11ec4) 
+c1ce6c58   memw R2,(GP+#0xc2bc) 
+c1ce6c70   memw R0,(GP+#0x11ec8) 
+c1ce6c78   memw R2,(GP+#0xc2c0) 
+c1ce6c98   memw R2,(GP+#0xc2c4) 
+c1ce6ecc   memw R3,(GP+#0xc2b4) 
+c1ce6eec   memw R2,(GP+#0xc2c4) 
+c1ce6f18   memw R2,(GP+#0xc2c8) 
+c1ce6f30   memw R0,(GP+#0x11ecc) 
+c1ce6f38   memw R2,(GP+#0xc2cc) 
+c1ce6f50   memw R0,(GP+#0x11ed0) 
+c1ce6f58   memw R2,(GP+#0xc2d0) 
+c1ce6fa0   memw R2,(GP+#0x11eb0) 
+c1ce6fc4   memw R2,(GP+#0xc298) 
+c1ce6fc8   memw R1,(GP+#0x11eb4) 
+c1ce6fd4   memw R2,(GP+#0x11eb8) 
+c1ce6fd8   memw R3,(GP+#0x11eb0) 
+c1ce6fe0   memw R5,(GP+#0x11eb4) 
+c1ce6ffc   memw R0,(GP+#0x11eb4) 
+c1ce7024   memw (GP+#0x11eb4),R16 
+c1ce7130   memd R1R0,(GP+#0x13300) 
+c1ce7238   memw R2,(GP+#0x11ed4) 
+c1ce7280   memw R2,(GP+#0xc2d4) 
+c1ce72dc   memd R19R18,(GP+#0x124d8) 
+c1ce7368   memd R19R18,(GP+#0x18f90) 
+c1ce73bc   memd R3R2,(GP+#0x124d8) 
+c1ce73f8   memd R1R0,(GP+#0x124d8) 
+c1ce745c   memd R19R18,(GP+#0x18f98) 
+c1ce915c   memd R3R2,(GP+#0x12698) 
+c1ce9278   memd R21R20,(GP+#0x124d8) 
+c1ce92fc   memd R3R2,(GP+#0x13308) 
+c1cea1f4   memw R4,(GP+#0xc2b4) 
+c1cea39c   memd R1R0,(GP+#0x18f88) 
+c1cea460   memd R3R2,(GP+#0x133d0) 
+c1cea5a0   memd R3R2,(GP+#0x18fa0) 
+c1cec03c   memd R19R18,(GP+#0x124d8) 
+c1cec0c8   memd R19R18,(GP+#0x18f90) 
+c1cec11c   memd R3R2,(GP+#0x124d8) 
+c1cec158   memd R1R0,(GP+#0x124d8) 
+c1cec1bc   memd R19R18,(GP+#0x18f98) 
+c1cf0e30   memd R1R0,(GP+#0x18fc8) 
+c1d04f2c   memd R7R6,(GP+#0x18fa8) 
+c1d083a8   memd R1R0,(GP+#0x12f20) 
+c1d09bf8   memd R1R0,(GP+#0x12f20) 
+c1d0d544   memw R2,(GP+#0xc2dc) 
+c1d0d574   memw R2,(GP+#0xc2e0) 
+c1d0d5a0   memw R2,(GP+#0xc2e4) 
+c1d0d5d0   memw R2,(GP+#0xc2e8) 
+c1d0d5fc   memw R2,(GP+#0xc388) 
+c1d0d62c   memw R2,(GP+#0xc38c) 
+c1d0d658   memw R2,(GP+#0xc380) 
+c1d0d688   memw R2,(GP+#0xc384) 
+c1d0d6b4   memw R2,(GP+#0xc390) 
+c1d0d6e4   memw R2,(GP+#0xc394) 
+c1d0d710   memw R2,(GP+#0xc398) 
+c1d0d740   memw R2,(GP+#0xc39c) 
+c1d0d76c   memw R2,(GP+#0xc3a0) 
+c1d0d79c   memw R2,(GP+#0xc3a4) 
+c1d0d7c8   memw R2,(GP+#0xc3a8) 
+c1d0d7f8   memw R2,(GP+#0xc3ac) 
+c1d0d824   memw R2,(GP+#0xc3b0) 
+c1d0d854   memw R2,(GP+#0xc3b4) 
+c1d0d880   memw R2,(GP+#0xc3b8) 
+c1d0d8b0   memw R2,(GP+#0xc3bc) 
+c1d0d8dc   memw R2,(GP+#0xc2ec) 
+c1d0d90c   memw R2,(GP+#0xc2f0) 
+c1d0d938   memw R2,(GP+#0xc2f4) 
+c1d0d968   memw R2,(GP+#0xc2f8) 
+c1d0d994   memw R2,(GP+#0xc2fc) 
+c1d0d9c4   memw R2,(GP+#0xc300) 
+c1d0d9f0   memw R2,(GP+#0xc304) 
+c1d0da20   memw R2,(GP+#0xc308) 
+c1d0da4c   memw R2,(GP+#0xc32c) 
+c1d0da7c   memw R2,(GP+#0xc330) 
+c1d0daa8   memw R2,(GP+#0xc334) 
+c1d0dad8   memw R2,(GP+#0xc338) 
+c1d0db04   memw R2,(GP+#0xc33c) 
+c1d0db34   memw R2,(GP+#0xc340) 
+c1d0db60   memw R2,(GP+#0xc344) 
+c1d0db90   memw R2,(GP+#0xc348) 
+c1d0dbbc   memw R2,(GP+#0xc34c) 
+c1d0dbec   memw R2,(GP+#0xc350) 
+c1d0dc18   memw R2,(GP+#0xc354) 
+c1d0dc48   memw R2,(GP+#0xc358) 
+c1d0dc74   memw R2,(GP+#0xc35c) 
+c1d0dca4   memw R2,(GP+#0xc360) 
+c1d0dcd0   memw R2,(GP+#0xc364) 
+c1d0dd00   memw R2,(GP+#0xc368) 
+c1d0dd2c   memw R2,(GP+#0xc30c) 
+c1d0dd5c   memw R2,(GP+#0xc310) 
+c1d0dd88   memw R2,(GP+#0xc314) 
+c1d0ddb8   memw R2,(GP+#0xc318) 
+c1d0dde4   memw R2,(GP+#0xc31c) 
+c1d0de14   memw R2,(GP+#0xc320) 
+c1d0de40   memw R2,(GP+#0xc324) 
+c1d0de70   memw R2,(GP+#0xc328) 
+c1d0de9c   memw R2,(GP+#0xc36c) 
+c1d0decc   memw R2,(GP+#0xc370) 
+c1d0def8   memw R2,(GP+#0xc374) 
+c1d0df28   memw R2,(GP+#0xc378) 
+c1d0df54   memw R2,(GP+#0xc2dc) 
+c1d0df84   memw R2,(GP+#0xc2e0) 
+c1d0dfb0   memw R2,(GP+#0xc2e4) 
+c1d0dfe0   memw R2,(GP+#0xc2e8) 
+c1d0e00c   memw R2,(GP+#0xc388) 
+c1d0e03c   memw R2,(GP+#0xc38c) 
+c1d0e068   memw R2,(GP+#0xc380) 
+c1d0e098   memw R2,(GP+#0xc384) 
+c1d0e0c4   memw R2,(GP+#0xc390) 
+c1d0e0f4   memw R2,(GP+#0xc394) 
+c1d0e120   memw R2,(GP+#0xc398) 
+c1d0e150   memw R2,(GP+#0xc39c) 
+c1d0e17c   memw R2,(GP+#0xc3a0) 
+c1d0e1ac   memw R2,(GP+#0xc3a4) 
+c1d0e1d8   memw R2,(GP+#0xc3a8) 
+c1d0e208   memw R2,(GP+#0xc3ac) 
+c1d0e234   memw R2,(GP+#0xc3b0) 
+c1d0e264   memw R2,(GP+#0xc3b4) 
+c1d0e290   memw R2,(GP+#0xc3b8) 
+c1d0e2c0   memw R2,(GP+#0xc3bc) 
+c1d0e2ec   memw R2,(GP+#0xc32c) 
+c1d0e31c   memw R2,(GP+#0xc330) 
+c1d0e348   memw R2,(GP+#0xc334) 
+c1d0e378   memw R2,(GP+#0xc338) 
+c1d0e3a4   memw R2,(GP+#0xc33c) 
+c1d0e3d4   memw R2,(GP+#0xc340) 
+c1d0e400   memw R2,(GP+#0xc344) 
+c1d0e430   memw R2,(GP+#0xc348) 
+c1d0e45c   memw R2,(GP+#0xc30c) 
+c1d0e48c   memw R2,(GP+#0xc310) 
+c1d0e4b8   memw R2,(GP+#0xc314) 
+c1d0e4e8   memw R2,(GP+#0xc318) 
+c1d0e514   memw R2,(GP+#0xc31c) 
+c1d0e544   memw R2,(GP+#0xc320) 
+c1d0e570   memw R2,(GP+#0xc324) 
+c1d0e5a0   memw R2,(GP+#0xc328) 
+c1d0e5cc   memw R2,(GP+#0xc36c) 
+c1d0e5fc   memw R2,(GP+#0xc370) 
+c1d0e628   memw R2,(GP+#0xc374) 
+c1d0e658   memw R2,(GP+#0xc378) 
+c1d0f314   memd R5R4,(GP+#0x12100) 
+c1d0f4e0   memd R1R0,(GP+#0x124b8) 
+c1d158d4   memd R11R10,(GP+#0x18fd8) 
+c1d16b38   memd R1R0,(GP+#0x11ee0) 
+c1d16cf4   memd R5R4,(GP+#0x18fe0) 
+c1d183bc   memd R3R2,(GP+#0x18fe8) 
+c1d18448   memd R5R4,(GP+#0x18fe0) 
+c1d184c0   memd R5R4,(GP+#0x18fe0) 
+c1d185e0   memd R5R4,(GP+#0x18fe8) 
+c1d18674   memd R7R6,(GP+#0x18fe0) 
+c1d18708   memd R3R2,(GP+#0x18ff0) 
+c1d18e80   memd R23R22,(GP+#0x18fe8) 
+c1d18f6c   memd R3R2,(GP+#0x18ff0) 
+c1d26888   assign R28,R4 
+c1d26890   assign R28,R4 
+c1d268b8   add SP,SP,R28 
+c1d2851c   assign.if(!P0.new) R28,#0x2 
+c1d28670   assign R28,#0x2 
+c1d28b60   memb (R26+R2<<#0x3),R28 
+c1d28be0   memb (SP+#0x14),R28 
+c1d2918c   memw R21,(GP+#0xcd44) 
+c1d2920c   memw R4,(GP+#0xc2d0) 
+c1d295a0   memw R2,(GP+#0xc2c0) 
+c1d29c80   memw R2,(GP+#0xc2c8) 
+c1d29c98   memw R3,(GP+#0x11ecc) 
+c1d29d64   asl R28,R7,#0x8 
+c1d29d68   assign.if(!P1) R7,R28 
+c1d29d74   zxth R28,R7 
+c1d29d7c   memw (R12),R28.new 
+c1d29e30   memw R2,(GP+#0xc2cc) 
+c1d29e4c   memw R3,(GP+#0x11ed0) 
+c1d2b28c   memd R1R0,(GP+#0x18f88) 
+c1d2b350   memd R3R2,(GP+#0x133d0) 
+c1d2c32c   memd R3R2,(GP+#0x124d8) 
+c1d2c3b4   memd R3R2,(GP+#0x124d8) 
+c1d2c424   memd R5R4,(GP+#0x13308) 
+c1d2d5c4   memub R2,(GP+#0x1bf8) 
+c1d2d6e8   memub R1,(GP+#0x14e) 
+c1d2d7b8   memub R2,(GP+#0x162a) 
+c1d2d824   memub R2,(GP+#0x1bd8) 
+c1d2d82c   memub R0,(GP+#0x162a) 
+c1d2d990   memub R1,(GP+#0x1bdc) 
+c1d2daec   memub R3,(GP+#0x163b) 
+c1d2db68   memub R0,(GP+#0x1636) 
+c1d2dc68   memw R2,(GP+#0x6d04) 
+c1d2e2d8   memub R2,(GP+#0x1bf7) 
+c1d2e320   memub R2,(GP+#0x1bf8) 
+c1d2e3e0   memub R1,(GP+#0x1644) 
+c1d2e3ec   memub R1,(GP+#0x1643) 
+c1d2e3f4   memub R1,(GP+#0x1642) 
+c1d2e548   memub R1,(GP+#0x14e) 
+c1d2e59c   memub R3,(GP+#0x1646) 
+c1d2e7ac   memub R4,(GP+#0x151) 
+c1d2e960   memub R1,(GP+#0x1648) 
+c1d2e974   memub R0,(GP+#0x1645) 
+c1d2ea04   memub R2,(GP+#0x164e) 
+c1d2eb58   memub R0,(GP+#0x1c02) 
+c1d2ec24   memw R2,(GP+#0x6d30) 
+c1d2ed2c   memub R2,(GP+#0x1c02) 
+c1d2ed4c   memb R0,(GP+#0x1c02) 
+c1d31880   memw R4,(GP+#0xc6e8) 
+c1d3194c   memw R3,(GP+#0xc6e8) 
+c1d32304   memw R3,(GP+#0xc6e8) 
+c1d34f78   memw R2,(GP+#0xcd58) 
+c1d34fb4   memw R2,(GP+#0xcd58) 
+c1d36f44   memd R3R2,(GP+#0x11ef0) 
+c1d37208   memd R3R2,(GP+#0x11ef0) 
+c1d372b4   memd R3R2,(GP+#0x11ef0) 
+c1d373b0   memd R3R2,(GP+#0x11ef0) 
+c1d3742c   memd R3R2,(GP+#0x11ef0) 
+c1d37508   memd R3R2,(GP+#0x11ef0) 
+c1d375ac   memd R3R2,(GP+#0x11ef0) 
+c1d37654   memd R3R2,(GP+#0x11ef0) 
+c1d37894   add R28,R3,R13 
+c1d378a8   add R7,R28,add(R7,##0xc1bdceee) 
+c1d378ac   memw R28,(SP+#0x20) 
+c1d37920   add R11,R28,R11 
+c1d37b58   add R21,R28,R25 
+c1d37c04   add R21,R28,R23 
+c1d37e48   add R28,R28,R19 
+c1d37ebc   add R28,R28,add(R11,##0x6fa87e4f) 
+c1d37ec8   rol+= R14,R28,#0x6 
+c1d38400   memh R2,(GP+#0x5ea2) 
+c1d385b4   memuh R2,(GP+#0x5ea2) 
+c1d385bc   memh (GP+#0x5ea2),R3.new 
+c1d388f8   memuh R2,(GP+#0x5ea2) 
+c1d38900   memh (GP+#0x5ea2),R3.new 
+c1d3b31c   memw (GP+#0xcd60),R3 
+c1d3b498   memh R2,(GP+#0x5ea4) 
+c1d3b544   memuh R3,(GP+#0x5ea2) 
+c1d3b73c   memuh R3,(GP+#0x5ea2) 
+c1d3b928   memuh R6,(GP+#0x5ea4) 
+c1d3b95c   add R28,R12,##-0x36ce31a1 
+c1d3b968   memb (R28+#0x2),R9 
+c1d3b990   memb (R28+#0x6),R13.new 
+c1d3b998   memb (R28+#0x1),R11 
+c1d3b99c   memb (R28),R7 
+c1d3b9b8   memw R28,(R0+#0x308) 
+c1d3b9cc   memw R9,(R28+R2) 
+c1d3bab0   memub R28,(R12+#0x2) 
+c1d3bacc   asl|= R28,R13,#0x8 
+c1d3baec   asl|= R9,R28,#0x10 
+c1d3bb14   memub R28,(R7+#0x13) 
+c1d3bb2c   asl|= R28,R1,#0x8 
+c1d3bb3c   asl|= R8,R28,#0x10 
+c1d3bb84   memuh R3,(GP+#0x5ea2) 
+c1d3bcf4   memuh R3,(GP+#0x5ea2) 
+c1d3be74   memw (GP+#0x6518),R0 
+c1d3bea4   memw R0,(GP+#0x6518) 
+c1d3c4c8   memw R0,(GP+#0xc3c8) 
+c1d3c644   memw R0,(GP+#0xc3c8) 
+c1d3c6c0   memw R0,(GP+#0xc3c8) 
+c1d3c880   memuh R2,(GP+#0x5ea2) 
+c1d3c8d8   memh (GP+#0x5ea2),R6.new 
+c1d3cc00   memw R0,(GP+#0xc3d0) 
+c1d3ccc0   memuh R2,(GP+#0x5ea2) 
+c1d3d5b8   memw R2,(GP+#0x6520) 
+c1d3d62c   memuh R28,(R12+#0x4) 
+c1d3d634   xor^= R10,R13,R28 
+c1d3d678   memuh R28,(R14+#0x4) 
+c1d3d680   xor^= R28,R13,R11 
+c1d3d68c   xor^= R16,R28,R15 
+c1d3d6c4   zxth R28,R13 
+c1d3d6f4   xor^= R28,R16,R14 
+c1d3d6f8   jump.if:nt !cmp.eq(R28.new,R11),0xc1d3d7ac 
+c1d3d780   memw (GP+#0x6520),R2.new 
+c1d3d828   memw R0,(GP+#0xc3d8) 
+c1d3d84c   memw R3,(GP+#0xc3d8) 
+c1d3d85c   memw R2,(GP+#0x6510) 
+c1d3dcbc   memuh R4,(GP+#0x5ea6) 
+c1d3f0f8   memw R0,(GP+#0xc4a4) 
+c1d3f678   memw R0,(GP+#0xc4a4) 
+c1d3f698   memw R0,(GP+#0xc4a4) 
+c1d44900   memw R0,(GP+#0xc4b0) 
+c1d44940   memw R0,(GP+#0xc4b0) 
+c1d449f4   memw R0,(GP+#0xc4b0) 
+c1d44a30   memw R0,(GP+#0xc4b0) 
+c1d44a68   memw R0,(GP+#0xc4b0) 
+c1d44a90   memw R0,(GP+#0xc4b0) 
+c1d44ab4   memw R0,(GP+#0xc4b0) 
+c1d44adc   memw R0,(GP+#0xc4b0) 
+c1d44d18   memw R0,(GP+#0xc4b0) 
+c1d44d64   memw R0,(GP+#0xc4b0) 
+c1d44dc4   memw R0,(GP+#0xc4b0) 
+c1d44ea4   memw R0,(GP+#0xc4b0) 
+c1d44fec   memw R0,(GP+#0xc4b0) 
+c1d4500c   memw R0,(GP+#0xc4b0) 
+c1d45120   memw R0,(GP+#0xc4b0) 
+c1d45140   memw R0,(GP+#0xc4b0) 
+c1d45410   memw R0,(GP+#0xc4b0) 
+c1d45470   memw R0,(GP+#0xc4b0) 
+c1d4583c   memw R0,(GP+#0xc4b0) 
+c1d45e38   memw R0,(GP+#0xc4b0) 
+c1d45fc4   memw R0,(GP+#0xc4b0) 
+c1d46004   memw R0,(GP+#0xc4b0) 
+c1d4671c   memw R2,(GP+#0x6574) 
+c1d46b7c   memw R3,(GP+#0xc500) 
+c1d46ba4   memw R2,(GP+#0xc500) 
+c1d46c0c   memw R2,(GP+#0xc500) 
+c1d46c44   memw R2,(GP+#0xc500) 
+c1d46cd0   memw R2,(GP+#0xc500) 
+c1d46d78   memw R2,(GP+#0xc500) 
+c1d46dc8   memw R2,(GP+#0xc500) 
+c1d46e40   memw R2,(GP+#0xc500) 
+c1d46eb8   memw R2,(GP+#0xc500) 
+c1d46f4c   memub R1,(GP+#0x1137) 
+c1d46f88   memw R2,(GP+#0xc500) 
+c1d46fec   memw R2,(GP+#0xc500) 
+c1d47050   memw R2,(GP+#0xc500) 
+c1d470bc   memw R2,(GP+#0xc500) 
+c1d47104   memw R2,(GP+#0xc500) 
+c1d4714c   memw R2,(GP+#0xc500) 
+c1d47174   memw R2,(GP+#0xc500) 
+c1d471c0   memw R2,(GP+#0xc500) 
+c1d47328   memw R2,(GP+#0xc500) 
+c1d473a4   memw R4,(GP+#0xc500) 
+c1d473ec   memw R3,(GP+#0xc500) 
+c1d47408   memw R2,(GP+#0xc500) 
+c1d4750c   memw R2,(GP+#0xc500) 
+c1d47568   memw R2,(GP+#0xc500) 
+c1d47598   memw R2,(GP+#0xc500) 
+c1d47800   memw R2,(GP+#0xc500) 
+c1d47830   memw R2,(GP+#0xc500) 
+c1d47858   memw R2,(GP+#0xc500) 
+c1d47880   memw R2,(GP+#0xc500) 
+c1d478d0   memw R2,(GP+#0xc500) 
+c1d478f8   memw R2,(GP+#0xc500) 
+c1d48334   memw R2,(GP+#0xc500) 
+c1d483cc   memw R3,(GP+#0xc454) 
+c1d48668   memw R2,(GP+#0xc500) 
+c1d4869c   memw R2,(GP+#0xc500) 
+c1d4877c   memw R2,(GP+#0xc500) 
+c1d487c4   memw R2,(GP+#0xc500) 
+c1d48a58   memw R2,(GP+#0xc500) 
+c1d48ae8   memw R3,(GP+#0xc500) 
+c1d48b90   memw R3,(GP+#0xc500) 
+c1d48bac   memw R2,(GP+#0xc500) 
+c1d48bf8   memw R2,(GP+#0xc500) 
+c1d48c4c   memw R5,(GP+#0xc500) 
+c1d48c88   memw R3,(GP+#0xc500) 
+c1d48ca4   memw R2,(GP+#0xc500) 
+c1d48dc4   memw R2,(GP+#0xc500) 
+c1d48e04   memw R2,(GP+#0xc500) 
+c1d48e34   memw R2,(GP+#0xc500) 
+c1d48e88   memw R2,(GP+#0xc500) 
+c1d48ea0   memw R2,(GP+#0xc500) 
+c1d494c0   memw R3,(GP+#0xc448) 
+c1d4962c   memw R18,(GP+#0xc448) 
+c1d4967c   memw (GP+#0xc448),R0 
+c1d4cfc8   memw R3,(GP+#0x11b3c) 
+c1d4d018   memw R3,(GP+#0x11b3c) 
+c1d4d050   memw R3,(GP+#0x11b3c) 
+c1d4d184   memw R3,(GP+#0x11b3c) 
+c1d4d1a4   memw R2,(GP+#0x11b3c) 
+c1d4d1e0   memw R2,(GP+#0x11b3c) 
+c1d4d24c   memw R3,(GP+#0x11b3c) 
+c1d4d264   memw R4,(GP+#0x11b3c) 
+c1d4d314   memw R2,(GP+#0x11cac) 
+c1d4d34c   memw (GP+#0xcb50),R0 
+c1d4d3dc   memw R2,(GP+#0x79b4) 
+c1d4d414   memw (GP+#0xcb54),R0 
+c1d4d764   memw R2,(GP+#0x79c4) 
+c1d4d79c   memw (GP+#0xcb60),R0 
+c1d4da7c   memw R2,(GP+#0x79c8) 
+c1d4dab4   memw (GP+#0xcb64),R0 
+
+TOTAL GP-RELATED INSTRUCTIONS : 23018
+
+------------------------------------------------------------
+3. CANDIDATE GP CONSTANTS
+------------------------------------------------------------
+CANDIDATE GP CONSTANTS : 826
+  0x00000000
+  0x00000001
+  0x00000002
+  0x00000003
+  0x00000004
+  0x00000005
+  0x00000006
+  0x00000007
+  0x00000008
+  0x00000009
+  0x0000000A
+  0x0000000C
+  0x0000000E
+  0x0000000F
+  0x00000010
+  0x00000014
+  0x00000018
+  0x0000001C
+  0x0000001E
+  0x0000001F
+  0x00000020
+  0x00000024
+  0x00000026
+  0x00000028
+  0x00000030
+  0x00000034
+  0x00000038
+  0x0000003F
+  0x00000040
+  0x0000004C
+  0x00000054
+  0x0000005C
+  0x00000068
+  0x0000006C
+  0x00000070
+  0x00000072
+  0x00000074
+  0x00000078
+  0x0000007F
+  0x00000080
+  0x00000098
+  0x000000A0
+  0x000000BE
+  0x000000C0
+  0x000000D0
+  0x000000D4
+  0x000000E0
+  0x000000E4
+  0x000000F5
+  0x000000FE
+  0x000000FF
+  0x00000100
+  0x00000102
+  0x00000118
+  0x00000140
+  0x00000144
+  0x00000154
+  0x00000164
+  0x0000018C
+  0x000001C4
+  0x00000200
+  0x00000203
+  0x0000020A
+  0x00000216
+  0x00000221
+  0x00000227
+  0x00000233
+  0x0000023E
+  0x00000244
+  0x0000024A
+  0x0000024E
+  0x00000252
+  0x00000255
+  0x00000258
+  0x0000025B
+  0x0000025F
+  0x00000262
+  0x00000266
+  0x0000026A
+  0x00000272
+  0x0000027F
+  0x00000283
+  0x00000288
+  0x0000028C
+  0x000002D5
+  0x000002DA
+  0x000002DD
+  0x000002E1
+  0x000002E5
+  0x000002E8
+  0x000002EC
+  0x000002EF
+  0x000002F3
+  0x000002F6
+  0x00000327
+  0x00000339
+  0x0000033D
+  0x00000341
+  0x00000345
+  0x0000034D
+  0x000003A7
+  0x000003B1
+  0x000004B8
+  0x00000510
+  0x00000588
+  0x00000609
+  0x00000610
+  0x00000616
+  0x0000061C
+  0x00000622
+  0x00000629
+  0x00000630
+  0x00000637
+  0x0000063C
+  0x00000642
+  0x00000648
+  0x0000067E
+  0x00000686
+  0x0000068E
+  0x00000696
+  0x000006B2
+  0x0000076D
+  0x00000784
+  0x00000870
+  0x0000088C
+  0x0000091C
+  0x00000D64
+  0x00000E34
+  0x00000E68
+  0x00000F00
+  0x00001004
+  0x0000100B
+  0x00001012
+  0x00001019
+  0x00001020
+  0x00001025
+  0x0000102B
+  0x00001032
+  0x00001038
+  0x0000103F
+  0x00001047
+  0x0000104F
+  0x00001056
+  0x0000105B
+  0x0000105E
+  0x00001065
+  0x0000106A
+  0x0000106D
+  0x00001072
+  0x0000107A
+  0x00001080
+  0x00001086
+  0x0000108C
+  0x00001091
+  0x00001095
+  0x0000109B
+  0x000010A1
+  0x000010A7
+  0x000010AE
+  0x000010B3
+  0x000010BA
+  0x000010C0
+  0x000010C7
+  0x000010CE
+  0x000010D4
+  0x000010D9
+  0x000010DE
+  0x000010E6
+  0x000010ED
+  0x000010F3
+  0x000010F7
+  0x000010FE
+  0x00001104
+  0x0000110B
+  0x00001112
+  0x00001119
+  0x0000111F
+  0x00001126
+  0x0000112C
+  0x00001132
+  0x00001139
+  0x0000113F
+  0x00001145
+  0x0000114E
+  0x00001153
+  0x00001158
+  0x0000115D
+  0x00001162
+  0x00001169
+  0x0000116F
+  0x0000117A
+  0x00001185
+  0x0000118D
+  0x00001193
+  0x000011A4
+  0x000011B0
+  0x000011B5
+  0x000011BB
+  0x000011C2
+  0x000011CA
+  0x000011D1
+  0x000011D9
+  0x000011DF
+  0x000011E9
+  0x000011EE
+  0x000011F6
+  0x000011FD
+  0x00001207
+  0x00001208
+  0x00001212
+  0x0000121F
+  0x00001227
+  0x00001231
+  0x00001237
+  0x00001244
+  0x0000124C
+  0x00001254
+  0x0000125B
+  0x00001267
+  0x0000126E
+  0x00001278
+  0x00001282
+  0x0000128C
+  0x00001294
+  0x00001299
+  0x000012A5
+  0x000012B3
+  0x000012BE
+  0x000012CA
+  0x000012D6
+  0x000012E1
+  0x000012ED
+  0x000012F9
+  0x000012FB
+  0x00001306
+  0x00001312
+  0x0000131C
+  0x00001327
+  0x00001333
+  0x00001355
+  0x00001362
+  0x0000136F
+  0x0000137C
+  0x00001380
+  0x00001385
+  0x0000138C
+  0x00001395
+  0x000013A7
+  0x000013B0
+  0x000013B7
+  0x000013C1
+  0x000013CE
+  0x000013D4
+  0x000013DC
+  0x000013E3
+  0x000013ED
+  0x000013F4
+  0x000013FB
+  0x000016B8
+  0x00001B80
+  0x00001EBC
+  0x000022A8
+  0x00002540
+  0x00004000
+  0x00005A44
+  0x00005E1F
+  0x00005E22
+  0x00005E28
+  0x00005E64
+  0x00005E75
+  0x00005E79
+  0x00005E7B
+  0x00005E7E
+  0x00005E81
+  0x00005E83
+  0x00005E8D
+  0x00005EA3
+  0x00005EAC
+  0x00005EC0
+  0x00005EE9
+  0x00005EEE
+  0x00005F9B
+  0x00005FA1
+  0x00005FA9
+  0x00005FB3
+  0x00006106
+  0x00007FFF
+  0x000084D8
+  0x0000FFFC
+  0x00025800
+  0x08000000
+  0x0FFF0000
+  0x0FFFC000
+  0x2A30001C
+  0x3FFFFFFF
+  0x6FA87E4F
+  0x78000000
+  0x87FFFFFF
+  0xC0D6013F
+  0xC16012E4
+  0xC1613840
+  0xC161588C
+  0xC16159B0
+  0xC1615A3C
+  0xC1615B6C
+  0xC1615D34
+  0xC1617A14
+  0xC1619434
+  0xC1619730
+  0xC161F208
+  0xC161F444
+  0xC161F7E4
+  0xC1622278
+  0xC16A35E8
+  0xC16A3A60
+  0xC16A3B70
+  0xC16A3BAC
+  0xC16A3BB4
+  0xC16A3BE8
+  0xC16A3BF0
+  0xC16A3FB8
+  0xC16B0394
+  0xC16B051C
+  0xC16B09C4
+  0xC16B11D0
+  0xC16B3328
+  0xC16B3498
+  0xC16B34A0
+  0xC16B351C
+  0xC1729038
+  0xC172958C
+  0xC1783A0C
+  0xC17851DC
+  0xC1785D84
+  0xC1790784
+  0xC1792A1C
+  0xC1797680
+  0xC179DF78
+  0xC179DF88
+  0xC179DF94
+  0xC179DFC4
+  0xC17A3B88
+  0xC17A3BA4
+  0xC17A5850
+  0xC17A61EC
+  0xC17A6370
+  0xC17A6374
+  0xC17A6C40
+  0xC17A6C60
+  0xC17A7230
+  0xC17A7248
+  0xC17A9410
+  0xC17AA208
+  0xC17AA218
+  0xC17AA270
+  0xC17AA29C
+  0xC17AA754
+  0xC17AAD98
+  0xC17AD984
+  0xC17AF6EC
+  0xC17B3728
+  0xC17B6DF4
+  0xC17B6F64
+  0xC17BFB58
+  0xC17CF424
+  0xC17D1C0C
+  0xC17D4A44
+  0xC17D4AA0
+  0xC17D5B0C
+  0xC17D5B70
+  0xC17ECE98
+  0xC17ECFAC
+  0xC1802978
+  0xC1802B40
+  0xC1809BB0
+  0xC1809CD8
+  0xC1809CDC
+  0xC1809CF4
+  0xC1809D14
+  0xC1809D1C
+  0xC180A8AC
+  0xC180A974
+  0xC18103C8
+  0xC1813F68
+  0xC1826218
+  0xC18278E8
+  0xC1829158
+  0xC1829CB4
+  0xC182B528
+  0xC182BCDC
+  0xC182CDD0
+  0xC182D0EC
+  0xC182DE94
+  0xC182E554
+  0xC18359A8
+  0xC1835CEC
+  0xC183648C
+  0xC183FB58
+  0xC184111C
+  0xC18411D4
+  0xC1852FA4
+  0xC1852FA8
+  0xC1852FAC
+  0xC1852FD8
+  0xC1852FF0
+  0xC185300C
+  0xC18531A4
+  0xC18693E4
+  0xC1879CBC
+  0xC1879D18
+  0xC188434C
+  0xC18843B8
+  0xC188B324
+  0xC188DA64
+  0xC188F6E0
+  0xC188F814
+  0xC18909D4
+  0xC189FA50
+  0xC18A6200
+  0xC18A6210
+  0xC18A8880
+  0xC18A8C50
+  0xC18C0434
+  0xC18CEC3C
+  0xC18CECB4
+  0xC18CECC4
+  0xC18CECD8
+  0xC18CF6A4
+  0xC18D0BA4
+  0xC18D4668
+  0xC18DA680
+  0xC18DD1A0
+  0xC18F7750
+  0xC18F9C2C
+  0xC18FE510
+  0xC1903AB0
+  0xC1905ED8
+  0xC19072B4
+  0xC19073D8
+  0xC1908210
+  0xC1908314
+  0xC1908320
+  0xC1908880
+  0xC1908D10
+  0xC19097F0
+  0xC190FDA0
+  0xC190FE30
+  0xC1911008
+  0xC1911080
+  0xC191984C
+  0xC1919890
+  0xC1919A6C
+  0xC1919AB0
+  0xC191AF40
+  0xC1926168
+  0xC19261B0
+  0xC19261B4
+  0xC192682C
+  0xC192AABC
+  0xC192ACE8
+  0xC192B44C
+  0xC192D9D0
+  0xC192DB58
+  0xC193B5D0
+  0xC193B600
+  0xC193E664
+  0xC19430D4
+  0xC19430E4
+  0xC194312C
+  0xC1948490
+  0xC194E1F4
+  0xC194E218
+  0xC1953AA0
+  0xC195596C
+  0xC1955A18
+  0xC19756F4
+  0xC197573C
+  0xC1975A70
+  0xC1975D00
+  0xC1975DB8
+  0xC197610C
+  0xC197A99C
+  0xC197AA90
+  0xC197B294
+  0xC197E344
+  0xC197E348
+  0xC1985590
+  0xC1988604
+  0xC1988840
+  0xC1988884
+  0xC1988918
+  0xC1988948
+  0xC1988ACC
+  0xC1988B18
+  0xC1988B44
+  0xC1988B90
+  0xC1988C5C
+  0xC1988C90
+  0xC19A656C
+  0xC19A658C
+  0xC19A92B8
+  0xC19A938C
+  0xC19B174C
+  0xC19BBC84
+  0xC19BBD40
+  0xC19BBDA0
+  0xC19BBE58
+  0xC19BF6A8
+  0xC19C0C50
+  0xC19C10DC
+  0xC19C12A8
+  0xC19C134C
+  0xC19C1378
+  0xC19C13A0
+  0xC19C1484
+  0xC19C152C
+  0xC19C20E8
+  0xC19C2188
+  0xC19C2484
+  0xC19C24AC
+  0xC19E1838
+  0xC19E4128
+  0xC19EBC10
+  0xC19F583C
+  0xC1A056B4
+  0xC1A0FC50
+  0xC1A159E8
+  0xC1A25CE8
+  0xC1A25E38
+  0xC1A2D790
+  0xC1A2D988
+  0xC1A48B4C
+  0xC1A4F064
+  0xC1A508F8
+  0xC1A9C158
+  0xC1A9C724
+  0xC1AA3154
+  0xC1AA3488
+  0xC1AA3560
+  0xC1AA5B64
+  0xC1AA8F1C
+  0xC1AAD640
+  0xC1AB2AB0
+  0xC1AB2AD0
+  0xC1AB2B34
+  0xC1AB4524
+  0xC1AB4534
+  0xC1AB4568
+  0xC1AB4578
+  0xC1AC060C
+  0xC1AC2F74
+  0xC1AC3108
+  0xC1AC32D4
+  0xC1AC32E0
+  0xC1AC3374
+  0xC1AC3738
+  0xC1AC373C
+  0xC1AC6C0C
+  0xC1AEA69C
+  0xC1B83518
+  0xC1B8CF74
+  0xC1B8CFA4
+  0xC1B8CFA8
+  0xC1BB4C18
+  0xC1BB4D04
+  0xC1BC1110
+  0xC1BC1130
+  0xC1BC1150
+  0xC1BC116C
+  0xC1BC1184
+  0xC1BC119C
+  0xC1BC11BC
+  0xC1BC11DC
+  0xC1BC11FC
+  0xC1BC120C
+  0xC1BC1348
+  0xC1BC135C
+  0xC1BC13A4
+  0xC1BC1430
+  0xC1BC1444
+  0xC1BC148C
+  0xC1BC1558
+  0xC1BC156C
+  0xC1BC1598
+  0xC1BC162C
+  0xC1BC163C
+  0xC1BC164C
+  0xC1BC165C
+  0xC1BC166C
+  0xC1BC167C
+  0xC1BC16A0
+  0xC1BC16BC
+  0xC1BC1768
+  0xC1BC17EC
+  0xC1BC1840
+  0xC1BC18C4
+  0xC1BC190C
+  0xC1BC195C
+  0xC1BD294C
+  0xC1BDCEEE
+  0xC1BDFC08
+  0xC1BDFF34
+  0xC1BE067C
+  0xC1BE06D4
+  0xC1BE0718
+  0xC1BE3D60
+  0xC1BE3DBC
+  0xC1BE45C8
+  0xC1BE5150
+  0xC1BE5184
+  0xC1BE51D4
+  0xC1BE5240
+  0xC1BE54AC
+  0xC1BE5598
+  0xC1BE5758
+  0xC1BE57A4
+  0xC1BE58B8
+  0xC1BE5944
+  0xC1BE598C
+  0xC1BE5A38
+  0xC1BE5AE0
+  0xC1BE5B04
+  0xC1BE5B84
+  0xC1BE5C08
+  0xC1BE5C3C
+  0xC1BE5CE0
+  0xC1BE5E9C
+  0xC1BE601C
+  0xC1BE6074
+  0xC1BE6168
+  0xC1BE6218
+  0xC1BE737C
+  0xC1BE73D4
+  0xC1BE74EC
+  0xC1BE77B0
+  0xC1BE7818
+  0xC1BE787C
+  0xC1BE7924
+  0xC1BE7954
+  0xC1BE7A68
+  0xC1BE7AC0
+  0xC1BE7B2C
+  0xC1BE7C54
+  0xC1BE7C80
+  0xC1BE7D74
+  0xC1BE7E14
+  0xC1BE7E90
+  0xC1BE7F50
+  0xC1BE7FDC
+  0xC1BE81F0
+  0xC1BE82F0
+  0xC1BE836C
+  0xC1BE8468
+  0xC1BE856C
+  0xC1BE8678
+  0xC1BE86DC
+  0xC1BE8730
+  0xC1BE8800
+  0xC1BE8894
+  0xC1BE8990
+  0xC1BE8A34
+  0xC1BE8B3C
+  0xC1BE8CA4
+  0xC1BE8D38
+  0xC1BE8DCC
+  0xC1BE94C0
+  0xC1BE94FC
+  0xC1BE9564
+  0xC1BE980C
+  0xC1BE9974
+  0xC1BE9C1C
+  0xC1BE9C70
+  0xC1BE9E7C
+  0xC1BE9EAC
+  0xC1BE9ED8
+  0xC1BEA090
+  0xC1BEA0E4
+  0xC1BEABA4
+  0xC1C10848
+  0xC1C128C4
+  0xC1C1296C
+  0xC1C3C840
+  0xC1C3C85C
+  0xC1C3CBE0
+  0xC1C3CC6C
+  0xC1C3CD0C
+  0xC1C3D6D0
+  0xC1C3E568
+  0xC1C4D56C
+  0xC1C4D570
+  0xC1C4D58C
+  0xC1C4DDC0
+  0xC1C4DF10
+  0xC1C4DF90
+  0xC1C4DFD4
+  0xC1C53810
+  0xC1C63360
+  0xC1C761B4
+  0xC1C761DC
+  0xC1C76440
+  0xC1C76634
+  0xC1C770A0
+  0xC1C777C4
+  0xC1C77890
+  0xC1C77924
+  0xC1C779DC
+  0xC1C77A74
+  0xC1C77AA0
+  0xC1C77AE8
+  0xC1C77B30
+  0xC1C77B4C
+  0xC1C77B68
+  0xC1C77BCC
+  0xC1C77BF4
+  0xC1C77C10
+  0xC1C77C2C
+  0xC1C77C48
+  0xC1C77CE0
+  0xC1C77D50
+  0xC1C77D9C
+  0xC1C77E3C
+  0xC1C77EE4
+  0xC1C77EFC
+  0xC1C77F14
+  0xC1C77F34
+  0xC1C77F4C
+  0xC1C77F64
+  0xC1C77F84
+  0xC1C77FAC
+  0xC1C77FC4
+  0xC1C77FDC
+  0xC1C78014
+  0xC1C78050
+  0xC1C7806C
+  0xC1C78098
+  0xC1C780B4
+  0xC1C780DC
+  0xC1C780F8
+  0xC1C78120
+  0xC1C7813C
+  0xC1C7815C
+  0xC1C78174
+  0xC1C7818C
+  0xC1C782C0
+  0xC1C78488
+  0xC1C78540
+  0xC1C78644
+  0xC1C78758
+  0xC1C7889C
+  0xC1C789B4
+  0xC1C78A48
+  0xC1C78CC4
+  0xC1C78DCC
+  0xC1C78EAC
+  0xC1C78F20
+  0xC1C78FB0
+  0xC1C79294
+  0xC1C792F8
+  0xC1C79388
+  0xC1C898AC
+  0xC1C898B0
+  0xC1C8FF5C
+  0xC1C9076C
+  0xC1C907F8
+  0xC1C90BA0
+  0xC1C90BBC
+  0xC1C91884
+  0xC1C91C54
+  0xC1CA12A8
+  0xC1CB0854
+  0xC1CB0858
+  0xC1CB08FC
+  0xC1CB0900
+  0xC1CB0A94
+  0xC1CB3320
+  0xC1CB33D4
+  0xC1CB33D8
+  0xC1CB634C
+  0xC1CB63C0
+  0xC1CB649C
+  0xC1CB6570
+  0xC1CB6770
+  0xC1CB6ADC
+  0xC1CD2830
+  0xC1CD2898
+  0xC1CD997C
+  0xC1D268BC
+  0xC1D37898
+  0xC1D37924
+  0xC1D37B5C
+  0xC1D37C08
+  0xC1D3B960
+  0xC1D84740
+  0xC1DBD076
+  0xC8EA3DE8
+  0xC931CE5F
+  0xC9BD3F68
+  0xCA392EA4
+  0xCA392EA5
+  0xCB8E9E90
+  0xFFC2013F
+  0xFFFF8001
+  0xFFFF801A
+  0xFFFF8201
+  0xFFFFC000
+  0xFFFFD180
+  0xFFFFFC01
+  0xFFFFFCFF
+  0xFFFFFEFA
+  0xFFFFFF00
+  0xFFFFFF3F
+  0xFFFFFF59
+  0xFFFFFF84
+  0xFFFFFF88
+  0xFFFFFFC0
+  0xFFFFFFC1
+  0xFFFFFFE0
+  0xFFFFFFE4
+  0xFFFFFFE8
+  0xFFFFFFF0
+  0xFFFFFFF3
+  0xFFFFFFF8
+  0xFFFFFFFC
+  0xFFFFFFFD
+  0xFFFFFFFE
+  0xFFFFFFFF
+
+Known RFDEBUG targets:
+  PROPERTY TABLE = 0xC9199FB8
+  TUNE_RX        = 0xC50847FF
+  FREQUENCY      = 0xC5084812
+  VERSION        = 0xC508481C
+
+------------------------------------------------------------
+4. POSSIBLE GP -> RFDEBUG TARGET MAPPINGS
+------------------------------------------------------------
+
+NO DIRECT GP -> RFDEBUG TARGET MAPPING FOUND.
+
+============================================================
+DONE
+============================================================
+FindGPSetupAndRefs_x55.java> Finished!
