@@ -1,1507 +1,1648 @@
-
-  c18c322c <- FUN_c18c320c
-  c18d6208 <- FUN_c18d61d8
-  c18d6210 <- FUN_c18d61d8
-  c18d9a40 <- FUN_c18d9998
-  c18d9a48 <- FUN_c18d9998
-  c18d9aec <- FUN_c18d6340
-  c18d9af4 <- FUN_c18d6340
-  c18d9b70 <- FUN_c18d9b40
-  c18d9b74 <- FUN_c18d9b40
-  c18c3628 <- FUN_c18c35c0
-  c18c362c <- FUN_c18c35c0
-  c18e9e08 <- FUN_c18e9bb8
-  c18e9e0c <- FUN_c18e9bb8
-  c18dedec <- FUN_c18dedc4
-  c18dedf0 <- FUN_c18dedc4
-  c18df3f0 <- FUN_c18df3e8
-  c18df254 <- FUN_c18df108
-  c18df258 <- FUN_c18df108
-  c18df3f4 <- FUN_c18df3e8
-  ...
-
-------------------------------------------------------------
-#48 SCORE=15
-FUNCTION : FUN_c1902c74
-ENTRY    : c1902c74
-BODY     : [[c1902c74, c1902d93]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1902ca4 : cmp.eq P0,R2,#0x4b 
-
-CONTEXT @ c1902ca4
-    c1902c84 : add R2,SP,#0x0 
-    c1902c88 : assign R20,#0xd1 
-    c1902c8c : setbit R17,R2,#0x0 
-    c1902c90 : setbit R18,R2,#0x2 
-    c1902c94 : call 0xc18d0a18 
-    c1902c98 : combine R3R2,R18,R17 
-    c1902c9c : add R1,SP,#0x0 ; memw R0,(R16+#0x18) 
-    c1902ca0 : memub R2,(SP+#0x1) 
- >>> c1902ca4 : cmp.eq P0,R2,#0x4b 
-    c1902ca8 : jump.if(P0.new):nt 0xc1902d4c 
-    c1902cac : cmpb.eq P0,R2,#0x4c 
-    c1902cb0 : jump.if(P0.new):nt 0xc1902cc8 
-    c1902cb4 : cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc1902c94 
-    c1902cb8 : memw.if(P0.new) R0,(R16+#0x28) 
-    c1902cbc : call 0xc18e78c0 
-    c1902cc0 : memd R17R16,(SP+#0x18) ; memd R19R18,(SP+#0x10) 
-    c1902cc4 : memd R21R20,(SP+#0x8) ; dealloc_return 
-
-DIRECT REFERENCES:
-  c1902c70 <- <NO FUNCTION>
-
-------------------------------------------------------------
-#49 SCORE=15
-FUNCTION : FUN_c1926870
-ENTRY    : c1926870
-BODY     : [[c1926870, c1926b87]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1926ab4 : cmp.gt P0,R21,#0x4b 
-
-CONTEXT @ c1926ab4
-    c1926a94 : jump.if:nt cmp.eq(R22.new,#0x0),0xc1926b54 
-    c1926a98 : immext #0xd60f3780 
-    c1926a9c : combine R1R0,R16,##0xd60f37a5 
-    c1926aa0 : assign R3,R17 ; sxtb R4,R3 
-    c1926aa4 : call 0xc1619338 
-    c1926aa8 : add R2,R18,#-0x8 
-    c1926aac : add R3,R22,R17 
-    c1926ab0 : assign R17,#0x96 
- >>> c1926ab4 : cmp.gt P0,R21,#0x4b 
-    c1926ab8 : modwrap R3,R3,R17 
-    c1926abc : memh|= (R2),R19 
-    c1926ac0 : immext #0xd60f3800 
-    c1926ac4 : combine R1R0,R16,##0xd60f3804 
-    c1926ac8 : memuh R4,(R18) ; memb (R20+#0x3),R3 
-    c1926acc : sxtb R2,R22 
-    c1926ad0 : and R3,R3,#0xff 
-    c1926ad4 : or.if(P0) R5,R19,R4 
-
-DIRECT REFERENCES:
-  c1926218 <- FUN_c19261cc
-  c192621c <- FUN_c19261cc
-
-------------------------------------------------------------
-#50 SCORE=15
-FUNCTION : FUN_c1941da8
-ENTRY    : c1941da8
-BODY     : [[c1941da8, c1941feb]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1941f54 : cmp.gt P0,R4,#0x4b 
-  c1941f70 : cmp.gt P0,R4,#0x4b 
-
-CONTEXT @ c1941f54
-    c1941f34 : cmp.gtu P0,R3,#0x9 
-    c1941f38 : add.if(P0.new) R3,R3,#-0xa 
-    c1941f3c : assign.if(!P0.new) R0,R2 
-    c1941f40 : assign R2,R3 
-    c1941f44 : mpyi+= R2,R0,#0xa 
-    c1941f48 : immext #0x40 
-    c1941f4c : add R4,R2,sub(##0x4b,R1) 
-    c1941f50 : modwrap R4,R4,R5 
- >>> c1941f54 : cmp.gt P0,R4,#0x4b 
-    c1941f58 : jump.if(!P0.new):nt 0xc1941fcc 
-    c1941f5c : immext #0xc0 
-    c1941f60 : memub.if(P0.new) R1,(R17+##0xc6) 
-    c1941f64 : immext #0x40 
-    c1941f68 : add R4,R2,sub(##0x4b,R1) 
-    c1941f6c : modwrap R4,R4,R5 
-    c1941f70 : cmp.gt P0,R4,#0x4b 
-    c1941f74 : jump.if(!P0.new):nt 0xc1941fdc 
-CONTEXT @ c1941f70
-    c1941f50 : modwrap R4,R4,R5 
-    c1941f54 : cmp.gt P0,R4,#0x4b 
-    c1941f58 : jump.if(!P0.new):nt 0xc1941fcc 
-    c1941f5c : immext #0xc0 
-    c1941f60 : memub.if(P0.new) R1,(R17+##0xc6) 
-    c1941f64 : immext #0x40 
-    c1941f68 : add R4,R2,sub(##0x4b,R1) 
-    c1941f6c : modwrap R4,R4,R5 
- >>> c1941f70 : cmp.gt P0,R4,#0x4b 
-    c1941f74 : jump.if(!P0.new):nt 0xc1941fdc 
-    c1941f78 : immext #0x880 
-    c1941f7c : memh.if(P0.new) R5,(R16+##0x8bc) 
-    c1941f80 : assign R4,R3 
-    c1941f84 : immext #0x19999980 
-    c1941f88 : assign R2,##0x1999999a ; assign R1,R3 
-    c1941f8c : mpyu R2,R3,R2 
-    c1941f90 : memd R23R22,(SP+#0x18) 
-
-DIRECT REFERENCES:
-  c1942568 <- FUN_c1942324
-  c1942570 <- FUN_c1942324
-
-------------------------------------------------------------
-#51 SCORE=15
-FUNCTION : FUN_c1979f04
-ENTRY    : c1979f04
-BODY     : [[c1979f04, c1979f73]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1979f38 : combine R3R2,#0x0,#0x4b 
-
-CONTEXT @ c1979f38
-    c1979f18 : memw R5,(R0<<#0x2+##0xcb33a870) 
-    c1979f1c : call 0xc1621c20 
-    c1979f20 : memw R0,(R5+#0x48) 
-    c1979f24 : immext #0x7800 
-    c1979f28 : +mpyi R2,R16,##0x7800 
-    c1979f2c : assign R3,#0x0 
-    c1979f30 : memd R5R4,(GP+#0x15958) 
-    c1979f34 : asl+= R1R0,R3R2,#0x20 
- >>> c1979f38 : combine R3R2,#0x0,#0x4b 
-    c1979f3c : lsr R7R6,R1R0,#0x36 
-    c1979f40 : cmp.gtu P0,R3R2,R7R6 
-    c1979f44 : add R3R2,R1R0,R5R4 
-    c1979f48 : memd R7R6,(GP+#0x15968) 
-    c1979f4c : assign.if(!P0) R1,R3 
-    c1979f50 : memd R3R2,(GP+#0x15948) 
-    c1979f54 : add R3R2,R19R18,R3R2 
-    c1979f58 : cmp.gtu P0,R1R0,R19R18 
-
-DIRECT REFERENCES:
-  c19778d8 <- FUN_c19778c4
-  c19778dc <- FUN_c19778c4
-
-------------------------------------------------------------
-#52 SCORE=15
-FUNCTION : FUN_c19cf234
-ENTRY    : c19cf234
-BODY     : [[c19cf234, c19cf3ef]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c19cf3b4 : combine R1R0,#0x4b,R19 
-
-CONTEXT @ c19cf3b4
-    c19cf394 : cmp.eq P0,R0,R17 
-    c19cf398 : immext #0x140 
-    c19cf39c : memub.if(!P0.new) R18,(R17+##0x169) 
-    c19cf3a0 : memb.if(!P0.new) (SP+#0xf),R0.new 
-    c19cf3a4 : assign.if(P0) R18,#0x0 
-    c19cf3a8 : memb.if(P0) (SP+#0xf),#0x0 
-    c19cf3ac : assign R19,#0x0 ; jump 0xc19cf3c4 
-    c19cf3b0 : call 0xc19cf3f0 
- >>> c19cf3b4 : combine R1R0,#0x4b,R19 
-    c19cf3b8 : add R3,SP,#0xc 
-    c19cf3bc : memub R18,(SP+#0xf) 
-    c19cf3c0 : memuh R19,(R19+#0x38c) 
-    c19cf3c4 : call 0xc19cf3f8 
-    c19cf3c8 : assign R1,R17 
-    c19cf3cc : combine R3R2,R18,R16 
-    c19cf3d0 : immext #0x1000 
-    c19cf3d4 : combine R5R4,##0x1017,R19 
-
-DIRECT REFERENCES:
-  <none>
-
-------------------------------------------------------------
-#53 SCORE=15
-FUNCTION : FUN_c1a46a70
-ENTRY    : c1a46a70
-BODY     : [[c1a46a70, c1a46b8f]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1a46b40 : cmph.gtu P0,R2,#0x4b 
-
-CONTEXT @ c1a46b40
-    c1a46b20 : add.if(P0) R2,R16,##0xffffdbeb 
-    c1a46b24 : jump.if(!P0):t 0xc1a46b8c 
-    c1a46b28 : immext #0x80 
-    c1a46b2c : cmph.gtu P0,R2,##0x96 
-    c1a46b30 : assign R0,#0x6 
-    c1a46b34 : immext #0xfffff180 
-    c1a46b38 : add.if(P0) R2,R16,##0xfffff180 
-    c1a46b3c : jump.if(!P0):t 0xc1a46b8c 
- >>> c1a46b40 : cmph.gtu P0,R2,#0x4b 
-    c1a46b44 : assign R0,#0x7 
-    c1a46b48 : immext #0xfffffd00 
-    c1a46b4c : add.if(P0.new) R2,R16,##0xfffffd38 
-    c1a46b50 : assign.if(P0) R0,#0x8 
-    c1a46b54 : jump.if(!P0):t 0xc1a46b8c 
-    c1a46b58 : cmph.gtu P0,R2,#0x33 
-    c1a46b5c : immext #0xfffffcc0 
-    c1a46b60 : add.if(P0.new) R2,R16,##0xfffffced 
-
-DIRECT REFERENCES:
-  c1a219b8 <- thunk_FUN_c1a46a70
-  c19a8c48 <- <NO FUNCTION>
-  c19a8c4c <- <NO FUNCTION>
-
-------------------------------------------------------------
-#54 SCORE=15
-FUNCTION : FUN_c1aafbc0
-ENTRY    : c1aafbc0
-BODY     : [[c1aa9328, c1aa94af] [c1aafbc0, c1aafeff]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1aafbf4 : cmpb.eq P1,R22,#0x4b 
-  c1aafc10 : cmpb.eq P1,R22,#0x4b 
-  c1aafc1c : cmpb.eq P0,R22,#0x4b 
-
-CONTEXT @ c1aafbf4
-    c1aafbd4 : memd (SP+#0x38),R19R18 ; memd (SP+#0x30),R21R20 
-    c1aafbd8 : jump.if(P2) 0xc1aafc30 
-    c1aafbdc : memd (SP+#0x28),R23R22 
-    c1aafbe0 : cmp.eq P0,R17,#0x0 ; jump.if(P0.new):nt 0xc1aaff18 
-    c1aafbe4 : memub R22,(R17) 
-    c1aafbe8 : cmpb.eq P0,R22,#0x80 
-    c1aafbec : assign.if(P0.new) R20,#0x80 
-    c1aafbf0 : jump.if(P0.new):nt 0xc1aafc74 
- >>> c1aafbf4 : cmpb.eq P1,R22,#0x4b 
-    c1aafbf8 : assign.if(P1.new) R20,#0xff 
-    c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
-    c1aafc00 : immext #0xffff98c0 
-    c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
-    c1aafc08 : assign.if(!P0) R21,#0xff 
-    c1aafc0c : jump.if(P0) 0xc1aafe4c 
-    c1aafc10 : cmpb.eq P1,R22,#0x4b 
-    c1aafc14 : jump.if(P0) 0xc1aafe54 
-CONTEXT @ c1aafc10
-    c1aafbf0 : jump.if(P0.new):nt 0xc1aafc74 
-    c1aafbf4 : cmpb.eq P1,R22,#0x4b 
-    c1aafbf8 : assign.if(P1.new) R20,#0xff 
-    c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
-    c1aafc00 : immext #0xffff98c0 
-    c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
-    c1aafc08 : assign.if(!P0) R21,#0xff 
-    c1aafc0c : jump.if(P0) 0xc1aafe4c 
- >>> c1aafc10 : cmpb.eq P1,R22,#0x4b 
-    c1aafc14 : jump.if(P0) 0xc1aafe54 
-    c1aafc18 : memub.if(P1) R21,(R17+#0x1) 
-    c1aafc1c : cmpb.eq P0,R22,#0x4b 
-    c1aafc20 : immext #0xffc0 
-    c1aafc24 : assign R22,##0xffff 
-    c1aafc28 : jump 0xc1aafc88 
-    c1aafc2c : memuh.if(P0) R22,(R17+#0x2) 
-    c1aafc30 : memub R22,(R17) 
-CONTEXT @ c1aafc1c
-    c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
-    c1aafc00 : immext #0xffff98c0 
-    c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
-    c1aafc08 : assign.if(!P0) R21,#0xff 
-    c1aafc0c : jump.if(P0) 0xc1aafe4c 
-    c1aafc10 : cmpb.eq P1,R22,#0x4b 
-    c1aafc14 : jump.if(P0) 0xc1aafe54 
-    c1aafc18 : memub.if(P1) R21,(R17+#0x1) 
- >>> c1aafc1c : cmpb.eq P0,R22,#0x4b 
-    c1aafc20 : immext #0xffc0 
-    c1aafc24 : assign R22,##0xffff 
-    c1aafc28 : jump 0xc1aafc88 
-    c1aafc2c : memuh.if(P0) R22,(R17+#0x2) 
-    c1aafc30 : memub R22,(R17) 
-    c1aafc34 : cmp.gt P0,R22,#0x7c 
-    c1aafc38 : jump.if(!P0.new):nt 0xc1aafc58 
-    c1aafc3c : cmpb.eq P0,R22,#0x7d 
-
-DIRECT REFERENCES:
-  c1ab0790 <- FUN_c1ab0668
-  c1ab0798 <- FUN_c1ab0668
-  c1ab08dc <- FUN_c1ab0668
-  c1ab08e4 <- FUN_c1ab0668
-  c1ade1ec <- FUN_c1ade0a4
-  c1ade1f4 <- FUN_c1ade0a4
-  c1acef00 <- FUN_c1acee14
-
-------------------------------------------------------------
-#55 SCORE=15
-FUNCTION : FUN_c1ab1a4c
-ENTRY    : c1ab1a4c
-BODY     : [[c1aa7d38, c1aa7d43] [c1ab1a4c, c1ab1ab3]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1ab1a7c : combine R1R0,R18,#0x4b 
-
-CONTEXT @ c1ab1a7c
-    c1ab1a5c : immext #0xcbf1b540 
-    c1ab1a60 : memw R2,(##0xcbf1b554) 
-    c1ab1a64 : immext #0xffff62c0 
-    c1ab1a68 : jump.if:nt !cmp.eq(R2.new,R0),0xc1aa7d38 
-    c1ab1a6c : cmp.gtu P0,R18,#0x3 ; jump.if(!P0.new):t 0xc1ab1a94 
-    c1ab1a70 : immext #0xc93a4dc0 
-    c1ab1a74 : memw.if(!P0.new) R0,(##0xc93a4df0) 
-    c1ab1a78 : call 0xc1ab009c 
- >>> c1ab1a7c : combine R1R0,R18,#0x4b 
-    c1ab1a80 : cmp.eq P0,R0,#0x0 
-    c1ab1a84 : assign.if(P0.new) R0,#0x0 
-    c1ab1a88 : memb.if(!P0.new) (R0+#0x1),R17 
-    c1ab1a8c : memh.if(!P0.new) (R0+#0x2),R16.L 
-    c1ab1a90 : jump 0xc1ab1aac 
-    c1ab1a94 : assign R1,#0x3 ; memw (SP+#0x0),R18 
-    c1ab1a98 : immext #0xc47ba2c0 
-    c1ab1a9c : assign R2,##0xc47ba2c0 
-
-DIRECT REFERENCES:
-  c1abbe64 <- FUN_c1abbe48
-  c1abbe68 <- FUN_c1abbe48
-  c1abbf98 <- FUN_c1abbf8c
-  c1abbf9c <- FUN_c1abbf8c
-  c1abc248 <- FUN_c1abc238
-  c1abc24c <- FUN_c1abc238
-  c1abc3a8 <- FUN_c1abc320
-  c1abc3ac <- FUN_c1abc320
-  c1abc724 <- FUN_c1abc6ec
-  c1abc728 <- FUN_c1abc6ec
-  c1abc7dc <- FUN_c1abc7a4
-  c1abc7e0 <- FUN_c1abc7a4
-  c1abc958 <- FUN_c1abc920
-  c1abc95c <- FUN_c1abc920
-  c1abcb98 <- FUN_c1abcb8c
-  c1abcb9c <- FUN_c1abcb8c
-  c1abcc74 <- FUN_c1abcc54
-  c1abcc7c <- FUN_c1abcc54
-  c1abcd9c <- FUN_c1abcd78
-  c1abcda0 <- FUN_c1abcd78
-  ...
-
-------------------------------------------------------------
-#56 SCORE=15
-FUNCTION : FUN_c1ab5394
-ENTRY    : c1ab5394
-BODY     : [[c1ab5394, c1ab53bf]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1ab53b4 : cmpb.eq P0,R3,#0x4b 
-
-CONTEXT @ c1ab53b4
-    c1ab5394 : cmp.eq P0,R0,#0x0 
-    c1ab5398 : immext #0xffc0 
-    c1ab539c : assign R0,##0xffff ; assign R2,R0 
-    c1ab53a0 : jump.if(P0) 0xc1ab53bc 
-    c1ab53a4 : memub.if(!P0) R3,(R2) 
-    c1ab53a8 : cmp.eq P0,R3,#0x80 
-    c1ab53ac : jump.if(P0.new):nt 0xc1ab53bc 
-    c1ab53b0 : memuh.if(P0.new) R0,(R2+#0x2) 
- >>> c1ab53b4 : cmpb.eq P0,R3,#0x4b 
-    c1ab53b8 : memuh.if(P0.new) R0,(R2+#0x2) 
-    c1ab53bc : jumpr LR 
-    c1ab53c0 : assign R17,R0 
-    c1ab53c4 : memd (SP+#-0x10),R17R16 ; allocframe #0x30 
-    c1ab53c8 : memw R0,(R0+#0xc) ; memd (SP+#0x10),R23R22 
-    c1ab53cc : memd (SP+#0x20),R19R18 ; memd (SP+#0x18),R21R20 
-    c1ab53d0 : call 0xc1ab5640 
-    c1ab53d4 : immext #0xc95c67c0 
-
-DIRECT REFERENCES:
-  c1abbe50 <- FUN_c1abbe48
-  c1abbe54 <- FUN_c1abbe48
-  c1abbf8c <- FUN_c1abbf8c
-  c1abbf90 <- FUN_c1abbf8c
-  c1abc23c <- FUN_c1abc238
-  c1abc240 <- FUN_c1abc238
-  c1abcb8c <- FUN_c1abcb8c
-  c1abcb90 <- FUN_c1abcb8c
-  c1abcc54 <- FUN_c1abcc54
-  c1abcc5c <- FUN_c1abcc54
-  c1abcd8c <- FUN_c1abcd78
-  c1abcd90 <- FUN_c1abcd78
-  c1abce08 <- FUN_c1abcdf4
-  c1abce0c <- FUN_c1abcdf4
-  c1abd310 <- FUN_c1abd2f4
-  c1ac01dc <- FUN_c1ac01c0
-  c1ac10ac <- FUN_c1ac1090
-  c1ac10b0 <- FUN_c1ac1090
-  c1ac1154 <- FUN_c1ac1138
-  c1ac1158 <- FUN_c1ac1138
-  ...
-
-------------------------------------------------------------
-#57 SCORE=15
-FUNCTION : FUN_c1ab5514
-ENTRY    : c1ab5514
-BODY     : [[c1ab5514, c1ab553b]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1ab5530 : cmpb.eq P0,R3,#0x4b 
-
-CONTEXT @ c1ab5530
-    c1ab5510 : jumpr LR 
-    c1ab5514 : assign R2,R0 
-    c1ab5518 : assign R0,#0xff 
-    c1ab551c : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1ab5538 
-    c1ab5520 : memub R3,(R2) 
-    c1ab5524 : cmp.eq P0,R3,#0x80 
-    c1ab5528 : jump.if(P0.new):nt 0xc1ab5538 
-    c1ab552c : memub.if(P0.new) R0,(R2+#0x1) 
- >>> c1ab5530 : cmpb.eq P0,R3,#0x4b 
-    c1ab5534 : memub.if(P0.new) R0,(R2+#0x1) 
-    c1ab5538 : jumpr LR 
-    c1ab556c : jumpr LR 
-    c1ab5570 : memw (R0+#0x20),#0x0 
-    c1ab5574 : assign.if(!P0.new) R0,R1 
-    c1ab5578 : immext #0xffff21c0 
-    c1ab557c : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):t 0xc1aa7748 
-    c1ab5580 : jump 0xc1695a84 
-
-DIRECT REFERENCES:
-  c1ad05e0 <- <NO FUNCTION>
-  c1ad05e4 <- <NO FUNCTION>
-
-------------------------------------------------------------
-#58 SCORE=15
-FUNCTION : FUN_c1b103d0
-ENTRY    : c1b103d0
-BODY     : [[c1b103d0, c1b10713]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1b10460 : assign R0,#0x4b 
-  c1b10468 : assign.if(!P0.new) R0,#0x4b 
-
-CONTEXT @ c1b10460
-    c1b10440 : assign R0,##0xc4712dd0 ; memw (SP+#0x0),R16 
-    c1b10444 : immext #0xca432f80 
-    c1b10448 : assign R18,##0xca432f80 ; cmp.eq P0,R16,#0x0 
-    c1b1044c : assign R2,P0 
-    c1b10450 : add.if(P0) R0,R18,#0x8 
-    c1b10454 : jump.if(P0) 0xc1b106cc 
-    c1b10458 : memw (SP+#0x1c),R2.new 
-    c1b1045c : call 0xc1b07800 
- >>> c1b10460 : assign R0,#0x4b 
-    c1b10464 : add R1,SP,#0x24 
-    c1b10468 : assign.if(!P0.new) R0,#0x4b 
-    c1b1046c : add.if(!P0.new) R1,SP,#0x23 
-    c1b10470 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1b10480 
-    c1b10474 : call 0xc1b07950 
-    c1b10478 : add R2,SP,#0x22 
-    c1b1047c : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1b104e8 
-    c1b10480 : memb R2,(GP+#0x178c) 
-CONTEXT @ c1b10468
-    c1b10448 : assign R18,##0xca432f80 ; cmp.eq P0,R16,#0x0 
-    c1b1044c : assign R2,P0 
-    c1b10450 : add.if(P0) R0,R18,#0x8 
-    c1b10454 : jump.if(P0) 0xc1b106cc 
-    c1b10458 : memw (SP+#0x1c),R2.new 
-    c1b1045c : call 0xc1b07800 
-    c1b10460 : assign R0,#0x4b 
-    c1b10464 : add R1,SP,#0x24 
- >>> c1b10468 : assign.if(!P0.new) R0,#0x4b 
-    c1b1046c : add.if(!P0.new) R1,SP,#0x23 
-    c1b10470 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1b10480 
-    c1b10474 : call 0xc1b07950 
-    c1b10478 : add R2,SP,#0x22 
-    c1b1047c : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1b104e8 
-    c1b10480 : memb R2,(GP+#0x178c) 
-    c1b10484 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1b104cc 
-    c1b10488 : call 0xc1b0dffc 
-
-DIRECT REFERENCES:
-  <none>
-
-------------------------------------------------------------
-#59 SCORE=15
-FUNCTION : FUN_c1b10718
-ENTRY    : c1b10718
-BODY     : [[c1b10718, c1b109f3]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1b1088c : assign R0,#0x4b 
-
-CONTEXT @ c1b1088c
-    c1b1086c : assign R0,##0xc4947deb 
-    c1b10870 : call 0xc1ab5450 
-    c1b10874 : immext #0xf80032c0 
-    c1b10878 : assign R0,##0xf80032f0 
-    c1b1087c : jump 0xc1b109e0 
-    c1b10880 : memw R2,(SP+#0x1c) 
-    c1b10884 : jump.if:t !cmp.eq(R2.new,#0x0),0xc1b108b4 
-    c1b10888 : call 0xc1b074fc 
- >>> c1b1088c : assign R0,#0x4b 
-    c1b10890 : add R1,SP,#0x1c 
-    c1b10894 : immext #0xc4947e00 
-    c1b10898 : assign.if(P0.new) R0,##0xc4947e34 
-    c1b1089c : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1b108b4 
-    c1b108a0 : call 0xc1b0bd60 
-    c1b108a4 : call 0xc1ab5450 
-    c1b108a8 : immext #0xf80032c0 
-    c1b108ac : assign R0,##0xf80032f8 ; assign R19,#0x0 
-
-DIRECT REFERENCES:
-  c1b10708 <- FUN_c1b103d0
-  c1b1070c <- FUN_c1b103d0
-
-------------------------------------------------------------
-#60 SCORE=15
-FUNCTION : FUN_c1bb7268
-ENTRY    : c1bb7268
-BODY     : [[c1bb7268, c1bb7823]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1bb75e0 : assign R23,#0x4b 
-
-CONTEXT @ c1bb75e0
-    c1bb75c0 : jump.if(!P0.new):t 0xc1bb75e4 
-    c1bb75c4 : assign R1,#0x1313 
-    c1bb75c8 : memd R5R4,(GP+#0x15408) 
-    c1bb75cc : memw R2,(R21) 
-    c1bb75d0 : call 0xc1620be0 
-    c1bb75d4 : memd (SP+#0x428),R5R4 
-    c1bb75d8 : add R2,R18,#0x398 
-    c1bb75dc : assign R25,#0x2d 
- >>> c1bb75e0 : assign R23,#0x4b 
-    c1bb75e4 : immext #0xf930f9c0 
-    c1bb75e8 : assign R0,##0xf930f9fb 
-    c1bb75ec : memw R20,(SP+#0x430) 
-    c1bb75f0 : jump.if:t cmp.gtu(R20.new,#0x4),0xc1bb7604 
-    c1bb75f4 : cmp.eq P0,R17,#0x1 ; jump.if(P0.new):nt 0xc1bb7618 
-    c1bb75f8 : immext #0xf930fa40 
-    c1bb75fc : assign R0,##0xf930fa64 
-    c1bb7600 : cmp.eq P0,R20,#0x3 ; jump.if(!P0.new):nt 0xc1bb7618 
-
-DIRECT REFERENCES:
-  c1bb5620 <- FUN_c1bb5544
-
-------------------------------------------------------------
-#61 SCORE=15
-FUNCTION : FUN_c1bcdbf0
-ENTRY    : c1bcdbf0
-BODY     : [[c1bcdbf0, c1bcdf5b]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1bcdde4 : assign R4,#0x4b 
-
-CONTEXT @ c1bcdde4
-    c1bcddc4 : memw R3,(R0+#0x8) 
-    c1bcddc8 : memw (R2+#0x110),R3.new 
-    c1bcddcc : jumpr LR 
-    c1bcddd0 : memw R3,(R0+#0x8) 
-    c1bcddd4 : memw (R2+#0x11c),R3.new 
-    c1bcddd8 : jumpr LR 
-    c1bcdddc : memw R3,(R0+#0x8) 
-    c1bcdde0 : memb (R2+#0x124),R3.new 
- >>> c1bcdde4 : assign R4,#0x4b 
-    c1bcdde8 : memw R3,(R0+#0x8) 
-    c1bcddec : minu R3,R3,R4 
-    c1bcddf0 : jumpr LR 
-    c1bcddf4 : memw (R2+#0x128),R3.new 
-    c1bcddf8 : assign R4,#0x64 
-    c1bcddfc : memw R3,(R0+#0x8) 
-    c1bcde00 : minu R3,R3,R4 
-    c1bcde04 : jumpr LR 
-
-DIRECT REFERENCES:
-  c1c97d44 <- FUN_c1c97c90
-
-------------------------------------------------------------
-#62 SCORE=15
-FUNCTION : FUN_c1c44500
-ENTRY    : c1c44500
-BODY     : [[c1c44500, c1c4486f]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1c445d8 : cmpb.eq P0,R4,#0x4b 
-
-CONTEXT @ c1c445d8
-    c1c445b8 : memw (R21+#0x68),R2.new 
-    c1c445bc : memub R4,(R18+#0x11) 
-    c1c445c0 : cmp.gt P0,R4,#0x59 
-    c1c445c4 : assign.if(P0.new) R3,#0x4 
-    c1c445c8 : jump.if(P0.new):t 0xc1c445e8 
-    c1c445cc : cmpb.eq P0,R4,#0x32 
-    c1c445d0 : assign R3,#0x1 
-    c1c445d4 : jump.if(P0.new):t 0xc1c445fc 
- >>> c1c445d8 : cmpb.eq P0,R4,#0x4b 
-    c1c445dc : assign R3,#0x0 
-    c1c445e0 : assign.if(P0) R3,#0x2 
-    c1c445e4 : jump 0xc1c445fc 
-    c1c445e8 : cmpb.eq P0,R4,#0x5a 
-    c1c445ec : assign.if(!P0.new) R3,#0x0 
-    c1c445f0 : jump.if(P0.new):t 0xc1c445fc 
-    c1c445f4 : cmpb.eq P0,R4,#0x64 
-    c1c445f8 : assign.if(P0) R3,#0x5 
-
-DIRECT REFERENCES:
-  c1c43d78 <- FUN_c1c43d18
-  c1c43dac <- FUN_c1c43d18
-
-------------------------------------------------------------
-#63 SCORE=15
-FUNCTION : FUN_c1c96540
-ENTRY    : c1c96540
-BODY     : [[c1c96540, c1c96857]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1c966e8 : cmpb.eq P0,R6,#0x4b 
-
-CONTEXT @ c1c966e8
-    c1c966c8 : call 0xc16fd420 
-    c1c966cc : cmp.gt P0,R6,#0x4a 
-    c1c966d0 : jump.if(P0.new):t 0xc1c966e8 
-    c1c966d4 : cmp.eq P0,R6,#0x18 ; jump.if(P0.new):nt 0xc1c967e0 
-    c1c966d8 : cmp.eq P0,R6,#0x19 ; jump.if(P0.new):nt 0xc1c967c0 
-    c1c966dc : cmpb.eq P0,R6,#0x20 
-    c1c966e0 : jump.if(P0.new):t 0xc1c9680c 
-    c1c966e4 : jump 0xc1c96828 
- >>> c1c966e8 : cmpb.eq P0,R6,#0x4b 
-    c1c966ec : jump.if(P0.new):nt 0xc1c9680c 
-    c1c966f0 : cmpb.eq P0,R6,#0x54 
-    c1c966f4 : jump.if(P0.new):nt 0xc1c9680c 
-    c1c966f8 : cmpb.eq P0,R6,#0x57 
-    c1c966fc : jump.if(!P0.new):nt 0xc1c96828 
-    c1c96700 : assign R0,R16 
-    c1c96704 : memub R1,(R17+#0x10) 
-    c1c96708 : memd R17R16,(SP+#0x18) 
-
-DIRECT REFERENCES:
-  c1c96d50 <- thunk_FUN_c1c96540
-
-------------------------------------------------------------
-#64 SCORE=15
-FUNCTION : FUN_c1caba58
-ENTRY    : c1caba58
-BODY     : [[c1caba58, c1cabaf7]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1caba90 : combine R3R2,##0xc5034659,#0x4b 
-  c1cabab0 : combine R3R2,##0xc5034659,#0x4b 
-
-CONTEXT @ c1caba90
-    c1caba70 : jump.if:t !cmp.eq(R2.new,#0x0),0xc1cabaa0 
-    c1caba74 : assign R16,#0x0 
-    c1caba78 : immext #0xcbd8a5c0 
-    c1caba7c : memw R4,(##0xcbd8a5f8) 
-    c1caba80 : jump.if:nt cmp.eq(R4.new,#0x0),0xc1cabaf0 
-    c1caba84 : immext #0xc5034600 
-    c1caba88 : combine R1R0,##0xc5034632,#0x3 
-    c1caba8c : immext #0xc5034640 
- >>> c1caba90 : combine R3R2,##0xc5034659,#0x4b 
-    c1caba94 : callr R4 
-    c1caba98 : memw (SP),R17 
-    c1caba9c : jump 0xc1cabaf0 
-    c1cabaa0 : assign R4,R2 
-    c1cabaa4 : immext #0xc5034600 
-    c1cabaa8 : combine R1R0,##0xc5034632,#0x3 
-    c1cabaac : immext #0xc5034640 
-    c1cabab0 : combine R3R2,##0xc5034659,#0x4b 
-CONTEXT @ c1cabab0
-    c1caba90 : combine R3R2,##0xc5034659,#0x4b 
-    c1caba94 : callr R4 
-    c1caba98 : memw (SP),R17 
-    c1caba9c : jump 0xc1cabaf0 
-    c1cabaa0 : assign R4,R2 
-    c1cabaa4 : immext #0xc5034600 
-    c1cabaa8 : combine R1R0,##0xc5034632,#0x3 
-    c1cabaac : immext #0xc5034640 
- >>> c1cabab0 : combine R3R2,##0xc5034659,#0x4b 
-    c1cabab4 : callr R4 
-    c1cabab8 : assign R16,#0x0 ; memw (SP+#0x0),R17 
-    c1cababc : jump 0xc1cabaf0 
-    c1cabac0 : memw R3,(R0+#0xd0) 
-    c1cabac4 : memw (SP+#0x8),R17 
-    c1cabac8 : memw R2,(R0+#0xcc) 
-    c1cabacc : memw (SP+#0xc),R2.new 
-    c1cabad0 : add R0,SP,#0x8 
-
-DIRECT REFERENCES:
-  c1cabaf8 <- FUN_c1cabaf8
-  c1cabafc <- FUN_c1cabaf8
-
-------------------------------------------------------------
-#65 SCORE=15
-FUNCTION : FUN_c1cc76d4
-ENTRY    : c1cc76d4
-BODY     : [[c1cc76d4, c1cc76e3]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1cc76d8 : combine R3R2,R0,#0x4b 
-
-CONTEXT @ c1cc76d8
-    c1cc76b8 : combine R3R2,R0,#0x48 
-    c1cc76bc : combine R1R0,#0x4,#0x0 
-    c1cc76c0 : jump 0xc1704fac 
-    c1cc76c4 : assign R4,R1 
-    c1cc76c8 : combine R3R2,R0,#0x4a 
-    c1cc76cc : combine R1R0,#0x4,#0x0 
-    c1cc76d0 : jump 0xc1704fac 
-    c1cc76d4 : assign R4,R1 
- >>> c1cc76d8 : combine R3R2,R0,#0x4b 
-    c1cc76dc : combine R1R0,#0x4,#0x0 
-    c1cc76e0 : jump 0xc1704fac 
-    c1cc76e4 : assign R4,R1 
-    c1cc76e8 : assign R3,R0 
-    c1cc76ec : cmp.eq P0,R2,#0x0 ; allocframe #0x8 
-    c1cc76f0 : jump.if(P0) 0xc1cc7718 
-    c1cc76f4 : assign.if(!P0) R17,#0x0 ; memd (SP+#0x0),R17R16 
-    c1cc76f8 : combine R1R0,#0x4,#0x0 
-
-DIRECT REFERENCES:
-  c1adf01c <- FUN_c1adede8
-  c1adf020 <- FUN_c1adede8
-  c1d49cd0 <- FUN_c1d49c74
-  c1d49cd4 <- FUN_c1d49c74
-
-------------------------------------------------------------
-#66 SCORE=15
-FUNCTION : FUN_c1d1a760
-ENTRY    : c1d1a760
-BODY     : [[c1d1a760, c1d1be3b]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1d1a798 : cmp.eq P0,R2,#0x4b 
-  c1d1a7e0 : cmpb.eq P1,R2,#0x4b 
-
-CONTEXT @ c1d1a798
-    c1d1a778 : memd (SP+#0x28),R25R24 
-    c1d1a77c : jump.if(P0) 0xc1d1aadc 
-    c1d1a780 : memd (SP+#0x20),R27R26 
-    c1d1a784 : assign R17,R2 
-    c1d1a788 : assign R19,R1 
-    c1d1a78c : assign R23,#0x0 ; assign R22,R18 
-    c1d1a790 : add R16,R17,#0x8c 
-    c1d1a794 : memb R2,(R22++#0x1) 
- >>> c1d1a798 : cmp.eq P0,R2,#0x4b 
-    c1d1a79c : assign.if(P0.new) R22,R18 
-    c1d1a7a0 : jump.if(P0.new):nt 0xc1d1a7d0 
-    c1d1a7a4 : cmpb.eq P0,R2,#0x56 
-    c1d1a7a8 : assign.if(P0.new) R22,R18 
-    c1d1a7ac : jump.if(P0.new):nt 0xc1d1a9b8 
-    c1d1a7b0 : cmpb.eq P0,R2,#0x72 
-    c1d1a7b4 : combine.if(!P0.new) R1R0,R19,R18 
-    c1d1a7b8 : assign.if(!P0.new) R2,R17 
-CONTEXT @ c1d1a7e0
-    c1d1a7c0 : assign R23,#0x4 ; memub R2,(R22) 
-    c1d1a7c4 : cmpb.eq P0,R2,#0x56 
-    c1d1a7c8 : jump.if(!P0.new):t 0xc1d1a7e0 
-    c1d1a7cc : jump 0xc1d1a7d8 
-    c1d1a7d0 : cmpb.eq P0,R2,#0x56 
-    c1d1a7d4 : jump.if(!P0.new):t 0xc1d1a7e0 
-    c1d1a7d8 : setbit R23,R23,#0x1 
-    c1d1a7dc : add R22,R22,#0x1 ; memub R2,(R22+#0x1) 
- >>> c1d1a7e0 : cmpb.eq P1,R2,#0x4b 
-    c1d1a7e4 : assign R20,R18 
-    c1d1a7e8 : add.if(P1.new) R21,R22,#0x1 
-    c1d1a7ec : assign.if(!P1.new) R21,R22 
-    c1d1a7f0 : combine R1R0,R19,R21 
-    c1d1a7f4 : cmp.eq P0,R21,R18 ; jump.if(P0.new):nt 0xc1d1aadc 
-    c1d1a7f8 : memw.if(!P0.new) R22,(R17+#0x4) 
-    c1d1a7fc : assign R2,P1 
-    c1d1a800 : memw (SP+#0x8),R2.new 
-
-DIRECT REFERENCES:
-  c1d19d14 <- FUN_c1d199fc
-  c1d19d18 <- FUN_c1d199fc
-  c1d1a1b8 <- FUN_c1d199fc
-  c1d1a804 <- FUN_c1d1a760
-  c1d1a810 <- FUN_c1d1a760
-  c1d1e630 <- FUN_c1d1e310
-  c1d1e638 <- FUN_c1d1e310
-  c1d24710 <- FUN_c1d24644
-  c1d20704 <- FUN_c1d20664
-  c1d20708 <- FUN_c1d20664
-  c1d24714 <- FUN_c1d24644
-  c1d20154 <- FUN_c1d1e9f8
-  c1d1fa34 <- FUN_c1d1e9f8
-  c1d1fb74 <- FUN_c1d1e9f8
-  c1d1f720 <- FUN_c1d1e9f8
-  c1d202a8 <- FUN_c1d1e9f8
-  c1d202b0 <- FUN_c1d1e9f8
-  c1d1fe1c <- FUN_c1d1e9f8
-  c1d1eb88 <- FUN_c1d1e9f8
-  c1d1f5c0 <- FUN_c1d1e9f8
-  ...
-
-------------------------------------------------------------
-#67 SCORE=15
-FUNCTION : FUN_c1d1be3c
-ENTRY    : c1d1be3c
-BODY     : [[c1d1be3c, c1d1cccb]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1d1bed4 : cmpb.eq P0,R2,#0x4b 
-
-CONTEXT @ c1d1bed4
-    c1d1beb4 : cmp.eq P0,R2,#0x72 
-    c1d1beb8 : assign.if(P0.new) R23,#0x4 
-    c1d1bebc : assign.if(P0.new) R4,R3 
-    c1d1bec0 : memub.if(P0.new) R2,(R3) 
-    c1d1bec4 : cmpb.eq P0,R2,#0x56 
-    c1d1bec8 : jump.if(!P0.new):t 0xc1d1bed4 
-    c1d1becc : setbit R23,R23,#0x1 
-    c1d1bed0 : add R4,R4,#0x1 ; memub R2,(R4+#0x1) 
- >>> c1d1bed4 : cmpb.eq P0,R2,#0x4b 
-    c1d1bed8 : add.if(P0.new) R22,R4,#0x1 
-    c1d1bedc : assign R2,P0 
-    c1d1bee0 : assign.if(!P0) R22,R4 
-    c1d1bee4 : memw (SP+#0x1c),R2.new 
-    c1d1bee8 : assign R2,R19 
-    c1d1beec : cmp.eq P0,R22,R20 ; jump.if(P0.new):nt 0xc1d1bf8c 
-    c1d1bef0 : assign R2,#0x0 
-    c1d1bef4 : memb (R18+#0x1dd),R2.new 
-
-DIRECT REFERENCES:
-  c1d1d21c <- FUN_c1d1d0e4
-  c1d1d304 <- FUN_c1d1d0e4
-  c1d1d308 <- FUN_c1d1d0e4
-  c1d19b94 <- FUN_c1d199fc
-  c1d19b9c <- FUN_c1d199fc
-  c1d19bfc <- FUN_c1d199fc
-  c1d19c04 <- FUN_c1d199fc
-  c1d19c74 <- FUN_c1d199fc
-  c1d19c7c <- FUN_c1d199fc
-  c1d1bdf4 <- FUN_c1d1a760
-  c1d1bdf8 <- FUN_c1d1a760
-  c1d19dd8 <- FUN_c1d199fc
-  c1d19ddc <- FUN_c1d199fc
-  c1d19fd4 <- FUN_c1d199fc
-  c1d19fd8 <- FUN_c1d199fc
-  c1d1b178 <- FUN_c1d1a760
-  c1d1b17c <- FUN_c1d1a760
-
-------------------------------------------------------------
-#68 SCORE=15
-FUNCTION : FUN_c1d20cc0
-ENTRY    : c1d20cc0
-BODY     : [[c1d20cc0, c1d20f5f]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1d20d1c : cmpb.eq P0,R4,#0x4b 
-  c1d20dd8 : cmpb.eq P0,R4,#0x4b 
-
-CONTEXT @ c1d20d1c
-    c1d20cfc : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
-    c1d20d00 : memb.if(!P0.new) R4,(R2) 
-    c1d20d04 : cmp.eq P0,R4,#0x72 
-    c1d20d08 : assign.if(P0.new) R2,R3 
-    c1d20d0c : memub.if(P0.new) R4,(R3) 
-    c1d20d10 : cmpb.eq P0,R4,#0x56 
-    c1d20d14 : add.if(P0.new) R2,R2,#0x1 
-    c1d20d18 : memub.if(P0.new) R4,(R2+#0x1) 
- >>> c1d20d1c : cmpb.eq P0,R4,#0x4b 
-    c1d20d20 : add.if(P0.new) R18,R2,#0x1 
-    c1d20d24 : assign.if(!P0.new) R18,R2 
-    c1d20d28 : cmp.eq P0,R18,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
-    c1d20d2c : assign R2,R18 ; assign R19,R18 
-    c1d20d30 : memb R3,(R2++#0x1) 
-    c1d20d34 : cmp.eq P0,R3,#0x6e 
-    c1d20d38 : assign.if(!P0.new) R2,R18 
-    c1d20d3c : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20e34 
-CONTEXT @ c1d20dd8
-    c1d20db8 : jump.if:nt cmp.eq(R3.new,R1),0xc1d20eb4 
-    c1d20dbc : memb R4,(R3) 
-    c1d20dc0 : cmp.eq P0,R4,#0x72 
-    c1d20dc4 : add.if(P0.new) R3,R2,#0x2 
-    c1d20dc8 : memub.if(P0.new) R4,(R2+#0x2) 
-    c1d20dcc : cmpb.eq P0,R4,#0x56 
-    c1d20dd0 : add.if(P0.new) R3,R3,#0x1 
-    c1d20dd4 : memub.if(P0.new) R4,(R3+#0x1) 
- >>> c1d20dd8 : cmpb.eq P0,R4,#0x4b 
-    c1d20ddc : add.if(P0.new) R18,R3,#0x1 
-    c1d20de0 : assign.if(!P0.new) R18,R3 
-    c1d20de4 : cmp.eq P0,R18,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
-    c1d20de8 : assign R2,R18 ; assign R19,R18 
-    c1d20dec : memb R3,(R2++#0x1) 
-    c1d20df0 : cmp.eq P0,R3,#0x6e 
-    c1d20df4 : assign.if(!P0.new) R2,R18 
-    c1d20df8 : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20edc 
-
-DIRECT REFERENCES:
-  c1d1ecf0 <- FUN_c1d1e9f8
-  c1d20230 <- FUN_c1d1e9f8
-  c1d1ecf4 <- FUN_c1d1e9f8
-
-------------------------------------------------------------
-#69 SCORE=15
-FUNCTION : FUN_c1d43fcc
-ENTRY    : c1d43fcc
-BODY     : [[c1d43fcc, c1d44027]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1d43fe0 : combine R1R0,#0x1e,#0x4b 
-
-CONTEXT @ c1d43fe0
-    c1d43ec8 : jumpr LR 
-    c1d43fbc : immext #0x1632a9c0 
-    c1d43fc0 : jump 0xd806e998 
-    c1d43fcc : allocframe #0x0 
-    c1d43fd0 : immext #0xc9396840 
-    c1d43fd4 : memw R2,(##0xc9396860) 
-    c1d43fd8 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d44004 
-    c1d43fdc : call 0xc1ab1a4c 
- >>> c1d43fe0 : combine R1R0,#0x1e,#0x4b 
-    c1d43fe4 : assign R2,#0x10 
-    c1d43fe8 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1d44010 
-    c1d43fec : memb.if(!P0.new) (R0+#0xf),#-0x1 
-    c1d43ff0 : memb.if(!P0.new) (R0+#0xe),#-0x1 
-    c1d43ff4 : memw (R0+#0x4),#0x1 ; memw (R0+#0x8),#0x0 
-    c1d43ff8 : memb (R0+#0xd),#-0x1 
-    c1d43ffc : memb (R0+#0xc),#-0x1 
-    c1d44000 : dealloc_return 
-
-DIRECT REFERENCES:
-  <none>
-
-------------------------------------------------------------
-#70 SCORE=15
-FUNCTION : FUN_c1d441b4
-ENTRY    : c1d441b4
-BODY     : [[c1d441b4, c1d44357]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1d441f8 : combine R1R0,#0x23,#0x4b 
-
-CONTEXT @ c1d441f8
-    c1d441d8 : cmp.gtu P0,R17,#0xf ; jump.if(!P0.new):t 0xc1d442ec 
-    c1d441dc : memuh R2,(R16+#0x4) 
-    c1d441e0 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d44310 
-    c1d441e4 : add R2,R2,#-0x1 
-    c1d441e8 : assign R3,R2 
-    c1d441ec : add R3,#0x10,asl(R3,#0x3) 
-    c1d441f0 : jump.if:t !cmp.eq(R3.new,R17),0xc1d44334 
-    c1d441f4 : add R2,#0x18,mpyi(R2,#0xc) 
- >>> c1d441f8 : combine R1R0,#0x23,#0x4b 
-    c1d441fc : call 0xc1ab1a4c 
-    c1d44200 : zxth R2,R2 
-    c1d44204 : assign.if(P0.new) R17,#0x0 
-    c1d44208 : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1d44220 
-    c1d4420c : add R0,R18,#-0x7fff 
-    c1d44210 : immext #0xc4797800 
-    c1d44214 : assign R2,##0xc479783f ; assign R1,#0x2 
-    c1d44218 : call 0xc1d3ee2c 
-
-DIRECT REFERENCES:
-  <none>
-
-------------------------------------------------------------
-#71 SCORE=15
-FUNCTION : FUN_c1d44358
-ENTRY    : c1d44358
-BODY     : [[c1d44358, c1d4450f]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1d4439c : combine R1R0,#0x24,#0x4b 
-
-CONTEXT @ c1d4439c
-    c1d4437c : cmp.gtu P0,R17,#0xf ; jump.if(!P0.new):t 0xc1d444a4 
-    c1d44380 : memuh R2,(R16+#0x4) 
-    c1d44384 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d444c8 
-    c1d44388 : add R2,R2,#-0x1 
-    c1d4438c : assign R3,R2 
-    c1d44390 : add R3,#0x10,asl(R3,#0x3) 
-    c1d44394 : jump.if:t !cmp.eq(R3.new,R17),0xc1d444ec 
-    c1d44398 : add R2,#0x2c,mpyi(R2,#0x24) 
- >>> c1d4439c : combine R1R0,#0x24,#0x4b 
-    c1d443a0 : call 0xc1ab1a4c 
-    c1d443a4 : zxth R2,R2 
-    c1d443a8 : assign.if(P0.new) R17,#0x0 
-    c1d443ac : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1d443c4 
-    c1d443b0 : add R0,R18,#-0x7fff 
-    c1d443b4 : immext #0xc4797800 
-    c1d443b8 : assign R2,##0xc479783f ; assign R1,#0x2 
-    c1d443bc : call 0xc1d3ee2c 
-
-DIRECT REFERENCES:
-  <none>
-
-------------------------------------------------------------
-#72 SCORE=15
-FUNCTION : FUN_c1d44510
-ENTRY    : c1d44510
-BODY     : [[c1d44510, c1d4468b]]
-
-SEMANTIC FLAGS:
-  0x4B = true
-  0x0B = false
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1d44554 : combine R1R0,#0x25,#0x4b 
-
-CONTEXT @ c1d44554
-    c1d44534 : cmp.gtu P0,R17,#0xf ; jump.if(!P0.new):t 0xc1d44620 
-    c1d44538 : memuh R2,(R16+#0x4) 
-    c1d4453c : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d44644 
-    c1d44540 : add R2,R2,#-0x1 
-    c1d44544 : assign R3,R2 
-    c1d44548 : add R3,#0x10,asl(R3,#0x3) 
-    c1d4454c : jump.if:t !cmp.eq(R3.new,R17),0xc1d44668 
-    c1d44550 : add R2,#0x14,mpyi(R2,#0xc) 
- >>> c1d44554 : combine R1R0,#0x25,#0x4b 
-    c1d44558 : call 0xc1ab1a4c 
-    c1d4455c : zxth R2,R2 
-    c1d44560 : assign.if(P0.new) R17,#0x0 
-    c1d44564 : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1d4457c 
-    c1d44568 : add R0,R18,#-0x7fff 
-    c1d4456c : immext #0xc4797800 
-    c1d44570 : assign R2,##0xc479783f ; assign R1,#0x2 
-    c1d44574 : call 0xc1d3ee2c 
-
-DIRECT REFERENCES:
-  <none>
-
-------------------------------------------------------------
-#73 SCORE=10
-FUNCTION : FUN_c1601fc8
-ENTRY    : c1601fc8
-BODY     : [[c1601fc8, c1602013]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1601ffc : assign R2,#0xb 
-
-CONTEXT @ c1601ffc
-    c1601fdc : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc1602010 
-    c1601fe0 : cmp.gt P0,R3,#0x20 
-    c1601fe4 : jump.if(!P0.new):nt 0xc1602010 
-    c1601fe8 : immext #0xc173b180 
-    c1601fec : memw R0,(##0xc173b19c) 
-    c1601ff0 : lsr R2,R3,#0x2 
-    c1601ff4 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1602010 
-    c1601ff8 : loop0 0xc1602000,R2 
- >>> c1601ffc : assign R2,#0xb 
-    c1602000 : lsr R4,R0,R2 
-    c1602004 : memw_phys R5,R0,R4 
-    c1602008 : add R0,R0,#0x4 
-    c160200c : memw (R1++#0x4),R5  :endloop0
-    c1602010 : jumpr LR 
-    c1602014 : immext #0xc173b0c0 
-    c1602018 : memw R0,(##0xc173b0f8) 
-    c160201c : cmp.eq P0,R0,#0x0 
-
-DIRECT REFERENCES:
-  c171e058 <- <NO FUNCTION>
-  c171e3c4 <- <NO FUNCTION>
-
-------------------------------------------------------------
-#74 SCORE=10
-FUNCTION : FUN_c16020b8
-ENTRY    : c16020b8
-BODY     : [[c16020b8, c1602147]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1602118 : assign R2,#0xb ; assign R7,#0x0 
-
-CONTEXT @ c1602118
-    c16020f8 : sub R5,R1,R0 
-    c16020fc : sub R9,R9,R8 
-    c1602100 : immext #0xc1610000 
-    c1602104 : assign R3,##0xc1610000 
-    c1602108 : add R3,R3,R9 
-    c160210c : immext #0xc1731280 
-    c1602110 : assign R6,##0xc17312a0 ; add R3,R5,R3 
-    c1602114 : loop0 0xc160211c,R2 
- >>> c1602118 : assign R2,#0xb ; assign R7,#0x0 
-    c160211c : lsr R4,R3,R2 
-    c1602120 : memw R0,(R1) 
-    c1602124 : memw_phys R5,R3,R4 
-    c1602128 : cmp.eq P0,R5,R0 ; jump.if(P0.new):nt 0xc160213c 
-    c160212c : cmp.gt P0,R7,#0x3 ; jump.if(P0.new):nt 0xc1602144 
-    c1602130 : add R7,R7,#0x1 
-    c1602134 : memw (R6++#0x4),R3 
-    c1602138 : memw (R6++#0x4),R5 
-
-DIRECT REFERENCES:
-  c171e068 <- <NO FUNCTION>
-  c171e40c <- <NO FUNCTION>
-
-------------------------------------------------------------
-#75 SCORE=10
-FUNCTION : FUN_c16161c0
-ENTRY    : c16161c0
-BODY     : [[c16161c0, c16162bb]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c16162a0 : assign R1,#0xb 
-
-CONTEXT @ c16162a0
-    c1616280 : memub R1,(R6+#0x15) 
-    c1616284 : assign R1,#0x0 
-    c1616288 : jumpr R10 
-    c161628c : immext #0xffffeb00 
-    c1616290 : call 0xc1614db4 
-    c1616294 : crswap R9,SGP0 
-    c1616298 : memw (R9+#0x28),R7 
-    c161629c : assign R0,#0x5 
- >>> c16162a0 : assign R1,#0xb 
-    c16162a4 : memd (R9+#0x38),R1R0 
-    c16162a8 : crswap R9,SGP0 
-    c16162ac : asl|= R0,R1,#0x8 
-    c16162b0 : memw R1,(R9+#0x28) 
-    c16162b4 : immext #0x9a600 
-    c16162b8 : jump 0xc16b08cc 
-    c16162c0 : k0lock 
-    c16162c4 : combine R9R8,R1,R0 
-
-DIRECT REFERENCES:
-  c16b277c <- FUN_c16b25ec
-  c16b2784 <- FUN_c16b25ec
-
-------------------------------------------------------------
-#76 SCORE=10
-FUNCTION : FUN_c1619ae0
-ENTRY    : c1619ae0
-BODY     : [[c1619ae0, c1619e17]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c1619d30 : cmp.gt P0,R3,#0xb ; jump.if(P0.new):nt 0xc1619dfc 
-
-CONTEXT @ c1619d30
-    c1619d10 : assign.if(P0.new) R18,#0x1 
-    c1619d14 : jump 0xc1619db0 
-    c1619d18 : assign R16,R3 
-    c1619d1c : memw R3,(R12) 
-    c1619d20 : add R3,R3,#0x1 
-    c1619d24 : memw (R12),R3.new 
-    c1619d28 : immext #0xc8df85c0 
-    c1619d2c : assign.if(!P0.new) R7,##0xc8df85c5 
- >>> c1619d30 : cmp.gt P0,R3,#0xb ; jump.if(P0.new):nt 0xc1619dfc 
-    c1619d34 : addasl R3,R12,R3,#0x3 
-    c1619d38 : combine R9R8,#0x0,#0x0 
-    c1619d3c : assign R18,R12 
-    c1619d40 : memw R0,(SP+#0x4) 
-    c1619d44 : memd (R3+#0x68),R9R8 
-    c1619d48 : memw (R3+#0x8),R5 
-    c1619d4c : memw (R3+#0xc),R6 
-    c1619d50 : memub R5,(R4+#0xa) 
-
-DIRECT REFERENCES:
-  c1619a74 <- FUN_c1619a18
-  c1619a7c <- FUN_c1619a18
-  c161a000 <- FUN_c1619fa8
-  c161a008 <- FUN_c1619fa8
-
-------------------------------------------------------------
-#77 SCORE=10
-FUNCTION : FUN_c1619fa8
-ENTRY    : c1619fa8
-BODY     : [[c1619fa8, c161a0f7]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c161a030 : cmp.gtu P0,R1,#0xb ; jump.if(P0.new):nt 0xc161a0dc 
-
-CONTEXT @ c161a030
-    c161a010 : memb R2,(R16) 
-    c161a014 : jump.if:nt cmp.eq(R2.new,#0x0),0xc161a068 
-    c161a018 : call 0xc161a0f8 
-    c161a01c : memb R0,(R16+#0x2) 
-    c161a020 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):t 0xc161a068 
-    c161a024 : cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):nt 0xc161a0d0 
-    c161a028 : memw.if(P0.new) R1,(R17) 
-    c161a02c : add R2,R1,#0x1 
- >>> c161a030 : cmp.gtu P0,R1,#0xb ; jump.if(P0.new):nt 0xc161a0dc 
-    c161a034 : memw (R17),R2.new 
-    c161a038 : addasl R2,R17,R1,#0x3 
-    c161a03c : assign R22,#0x2 ; combine R1R0,#0x0,#0x0 
-    c161a040 : memw R3,(R2+#0x8) 
-    c161a044 : memd (R2+#0x68),R1R0 
-    c161a048 : insert R3,R21,#0x18,#0x8 
-    c161a04c : memw R4,(R2+#0xc) 
-    c161a050 : memw (R2+#0x8),R3.new 
-
-DIRECT REFERENCES:
-  c18e0820 <- FUN_c18e07a4
-  c18e0828 <- FUN_c18e07a4
-
-------------------------------------------------------------
-#78 SCORE=10
-FUNCTION : FUN_c16982e4
-ENTRY    : c16982e4
-BODY     : [[c1690d28, c1690da7] [c16982e4, c1698317]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c16982fc : cmp.gtu P0,R1,#0xb ; jump.if(!P0.new):nt 0xc1690d68 
-
-CONTEXT @ c16982fc
-    c16982dc : assign R16,##0xcf8002a8 
-    c16982e0 : jump 0xc1697fc4 
-    c16982e4 : cmp.eq P0,R0,#0x0 
-    c16982e8 : assign.if(!P0.new) R17,R1 
-    c16982ec : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-    c16982f0 : immext #0xffff8a00 
-    c16982f4 : jump.if(P0) 0xc1690d28 
-    c16982f8 : immext #0xffff8a40 
- >>> c16982fc : cmp.gtu P0,R1,#0xb ; jump.if(!P0.new):nt 0xc1690d68 
-    c1698300 : call 0xc1620d4c 
-    c1698304 : assign R2,#0xc 
-    c1698308 : assign R1,#0x0 ; assign R16,R0 
-    c169830c : memb (R16+#0x3),#0x40 
-    c1698310 : memw (R16+#0x4),R17 
-    c1698314 : memd R17R16,(SP+#0x0) ; dealloc_return 
-    c1698318 : call 0xc1695ca0 
-    c169831c : call 0xc16fd418 
-
-DIRECT REFERENCES:
-  c1697e24 <- <NO FUNCTION>
-  c1697e28 <- <NO FUNCTION>
-  c1698130 <- FUN_c1692498
-  c1698134 <- FUN_c1692498
-
-------------------------------------------------------------
-#79 SCORE=10
-FUNCTION : FUN_c16983d4
-ENTRY    : c16983d4
-BODY     : [[c16983d4, c1698827]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c16984ac : cmp.gtu P0,R3,#0xb ; jump.if(!P0.new):nt 0xc1692a1c 
-
-CONTEXT @ c16984ac
-    c169848c : xor R5,R4,R5 
-    c1698490 : xor^= R7,R5,R3 
-    c1698494 : lsr R5,R17,#0x10 
-    c1698498 : xor^= R6,R7,R8 
-    c169849c : zxth R6,R6 
-    c16984a0 : immext #0xffffa540 
-    c16984a4 : jump.if:nt !cmp.eq(R6.new,R5),0xc16929e4 
-    c16984a8 : immext #0xffffa540 
- >>> c16984ac : cmp.gtu P0,R3,#0xb ; jump.if(!P0.new):nt 0xc1692a1c 
-    c16984b0 : and R3,R4,#0xff 
-    c16984b4 : immext #0xffffa580 
-    c16984b8 : jump.if:nt cmp.gtu(R3.new,#0x1f),0xc1692a54 
-    c16984bc : memw R3,(R16+#0x28) 
-    c16984c0 : jump.if:nt cmp.eq(R3.new,#0x0),0xc16984d0 
-    c16984c4 : assign R0,R16 
-    c16984c8 : callr R3 
-    c16984cc : memub R2,(R18+#-0xd) 
-
-DIRECT REFERENCES:
-  c1d3945c <- FUN_c1d392a8
-  c1d39464 <- FUN_c1d392a8
-  c1d39608 <- FUN_c1d392a8
-  c1d39610 <- FUN_c1d392a8
-  c1697880 <- FUN_c1697828
-  c1697884 <- FUN_c1697828
-  c1690c38 <- FUN_c1b7cf30
-  c1690c3c <- FUN_c1b7cf30
-  c1ae5dd0 <- FUN_c1ae5dd0
-  c1ae5ddc <- FUN_c1ae5dd0
-  c1ab26a0 <- FUN_c1ab26a0
-  c1ab26ac <- FUN_c1ab26a0
-  c1d38e74 <- FUN_c1d38cfc
-  c1d38e78 <- FUN_c1d38cfc
-  c1d38ef8 <- FUN_c1d38cfc
-  c1d38efc <- FUN_c1d38cfc
-  c1ab08e8 <- FUN_c1ab0668
-  c1ab08f0 <- FUN_c1ab0668
-  c1ae7424 <- FUN_c1ae7424
-  c1ae7430 <- FUN_c1ae7424
-  ...
-
-------------------------------------------------------------
-#80 SCORE=10
-FUNCTION : FUN_c16a4ae4
-ENTRY    : c16a4ae4
-BODY     : [[c16a4ae4, c16a4c6f]]
-
-SEMANTIC FLAGS:
-  0x4B = false
-  0x0B = true
-  0x7B = false
-  0x65 = false
-
-EXACT MATCH INSTRUCTIONS:
-  c16a4ba8 : cmp.gtu P0,R3,#0xb ; jump.if(P0.new):nt 0xc16a4c64 
-
-CONTEXT @ c16a4ba8
-    c16a4b88 : memh R4,(R0+#0x2) 
-    c16a4b8c : memh R6,(R0+#0x4) 
-    c16a4b90 : cmp.gt P0,R4,R6 
-    c16a4b94 : mux R4,P0,#0x8,#0x9 
-    c16a4b98 : memb (R1+#0xd),R4.new 
-    c16a4b9c : memub R4,(R5+#0x6) 
-    c16a4ba0 : memb (R1+#0xe),R4.new 
-    c16a4ba4 : immext #0xc0 
- >>> c16a4ba8 : cmp.gtu P0,R3,#0xb ; jump.if(P0.new):nt 0xc16a4c64 
-    c16a4bac : addasl R2,R2,R3,#0x2 
-    c16a4bb0 : immext #0x9940 
-    c16a4bb4 : memw R2,(R2+##0x9960) 
-    c16a4bb8 : add R2,R2,#0xd43 
-    c16a4bbc : dcfetch (R2) 
-    c16a4bc0 : memd R17R16,(SP+#0x0) ; dealloc_return 
-    c16a4bc4 : jump 0xc16a4ba4 
-    c16a4bc8 : memb (R1+#0xd),R4 
-
-DIRECT REFERENCES:
-  c19f18e8 <- FUN_c19f161c
-  c19f18f0 <- FUN_c19f161c
+1924648 <- FUN_c1924544
+  c1926c54 <- FUN_c1926bb8
+  c1926c7c <- FUN_c1926bb8
+  c1926c80 <- FUN_c1926bb8
+  c1926238 <- FUN_c19261cc
+  c1926aa4 <- FUN_c1926870
+  c1926ae0 <- FUN_c1926870
+  c1926ae4 <- FUN_c1926870
+  c1926b3c <- FUN_c1926870
+  c1926b40 <- FUN_c1926870
+  c1926e3c <- FUN_c1926d68
+  c1926e40 <- FUN_c1926d68
+  c1927b04 <- FUN_c1927950
+  c1927d98 <- FUN_c1927950
+  c1927da0 <- FUN_c1927950
+  c1927dcc <- FUN_c1927950
+  c1927dd8 <- FUN_c1927950
+  c1927f78 <- FUN_c1927950
+  c1927f84 <- FUN_c1927950
+  c192ab00 <- FUN_c192aa38
+  c192ab04 <- FUN_c192aa38
+  c192ab60 <- FUN_c192aa38
+  c192abc4 <- FUN_c192aa38
+  c192abc8 <- FUN_c192aa38
+  c192ac20 <- FUN_c192aa38
+  c192ac24 <- FUN_c192aa38
+  c192ac44 <- FUN_c192aa38
+  c192ac48 <- FUN_c192aa38
+  c192c3a4 <- FUN_c192c278
+  c192c3ac <- FUN_c192c278
+  c192c408 <- FUN_c192c278
+  c192c414 <- FUN_c192c278
+  c192c5d0 <- FUN_c192c278
+  c192c5d8 <- FUN_c192c278
+  c192ca18 <- FUN_c192c278
+  c192ca20 <- FUN_c192c278
+  c192cce4 <- FUN_c192c278
+  c192cfc4 <- FUN_c192c278
+  c192cfc8 <- FUN_c192c278
+  c192d1bc <- FUN_c192c278
+  c192d1c4 <- FUN_c192c278
+  c192d1f4 <- FUN_c192c278
+  c192d1fc <- FUN_c192c278
+  c192d800 <- FUN_c192c278
+  c192d808 <- FUN_c192c278
+  c192d8a0 <- FUN_c192c278
+  c192d8a4 <- FUN_c192c278
+  c192735c <- FUN_c1927300
+  c1927364 <- FUN_c1927300
+  c19273a0 <- FUN_c1927300
+  c19273a8 <- FUN_c1927300
+  c1927130 <- FUN_c1926fc0
+  c1927134 <- FUN_c1926fc0
+  c19271b0 <- FUN_c1926fc0
+  c19271b4 <- FUN_c1926fc0
+  c192bdc4 <- FUN_c192bcec
+  c192bdc8 <- FUN_c192bcec
+  c192be50 <- FUN_c192bcec
+  c192c004 <- FUN_c192bf94
+  c192c01c <- FUN_c192bf94
+  c192c024 <- FUN_c192bf94
+  c192c048 <- FUN_c192bf94
+  c192c054 <- FUN_c192bf94
+  c192e044 <- FUN_c192dee0
+  c192e050 <- FUN_c192dee0
+  c1924704 <- FUN_c1924650
+  c192543c <- FUN_c1925350
+  c1925440 <- FUN_c1925350
+  c1926374 <- FUN_c19262b8
+  c1926378 <- FUN_c19262b8
+  c19263c0 <- FUN_c19262b8
+  c19263c4 <- FUN_c19262b8
+  c192e338 <- FUN_c192e330
+  c192e340 <- FUN_c192e330
+  c191ec98 <- FUN_c191ec30
+  c191ec9c <- FUN_c191ec30
+  c191ed40 <- FUN_c191ecc0
+  c191ed44 <- FUN_c191ecc0
+  c192e6b8 <- FUN_c192e5ec
+  c192e6ec <- FUN_c192e5ec
+  c192e880 <- FUN_c192e868
+  c192e888 <- FUN_c192e868
+  c192ee8c <- FUN_c192ee0c
+  c192ee94 <- FUN_c192ee0c
+  c192eed0 <- FUN_c192ee0c
+  c192eed8 <- FUN_c192ee0c
+  c192efd8 <- FUN_c192ef0c
+  c192efe0 <- FUN_c192ef0c
+  c192f118 <- FUN_c192f0cc
+  c192f124 <- FUN_c192f0cc
+  c192f348 <- FUN_c192f0cc
+  c192f354 <- FUN_c192f0cc
+  c192f374 <- FUN_c192f0cc
+  c192f38c <- FUN_c192f0cc
+  c192f390 <- FUN_c192f0cc
+  c192f988 <- FUN_c192f938
+  c192fc08 <- FUN_c192f938
+  c192fc0c <- FUN_c192f938
+  c193027c <- FUN_c19300d0
+  c1930288 <- FUN_c19300d0
+  c19302e0 <- FUN_c19300d0
+  c1932114 <- FUN_c1932100
+  c1932118 <- FUN_c1932100
+  c193241c <- FUN_c19323b8
+  c1932428 <- FUN_c19323b8
+  c1932498 <- FUN_c19323b8
+  c1932608 <- FUN_c19325fc
+  c1932614 <- FUN_c19325fc
+  c1932b30 <- FUN_c1932a70
+  c1932b34 <- FUN_c1932a70
+  c1932b84 <- FUN_c1932a70
+  c1932b88 <- FUN_c1932a70
+  c1932c3c <- FUN_c1932a70
+  c1932c44 <- FUN_c1932a70
+  c1932ccc <- FUN_c1932a70
+  c1932cd4 <- FUN_c1932a70
+  c19331e8 <- FUN_c1932e60
+  c19331ec <- FUN_c1932e60
+  c1933280 <- FUN_c1932e60
+  c1933284 <- FUN_c1932e60
+  c19329f0 <- FUN_c1932820
+  c1932a14 <- FUN_c1932820
+  c1935748 <- FUN_c19356d0
+  c1935768 <- FUN_c19356d0
+  c1935770 <- FUN_c19356d0
+  c1935870 <- FUN_c19357e4
+  c19358a0 <- FUN_c19357e4
+  c19358a8 <- FUN_c19357e4
+  c1935904 <- FUN_c19357e4
+  c1935928 <- FUN_c19357e4
+  c1938470 <- FUN_c193843c
+  c19383a4 <- FUN_c19382f8
+  c19383b0 <- FUN_c19382f8
+  c19383d8 <- FUN_c19383bc
+  c19383dc <- FUN_c19383bc
+  c19391ec <- FUN_c1939174
+  c19391f4 <- FUN_c1939174
+  c1939278 <- FUN_c1939174
+  c193e18c <- FUN_c193e184
+  c193e194 <- FUN_c193e184
+  c193e258 <- FUN_c193e250
+  c193e260 <- FUN_c193e250
+  c1941e20 <- FUN_c1941da8
+  c1941e24 <- FUN_c1941da8
+  c1941e84 <- FUN_c1941da8
+  c1941e98 <- FUN_c1941da8
+  c1941ea0 <- FUN_c1941da8
+  c1942288 <- FUN_c1942100
+  c19422c4 <- FUN_c1942100
+  c19422f4 <- FUN_c1942100
+  c1942398 <- FUN_c1942324
+  c19423a0 <- FUN_c1942324
+  c19423e8 <- FUN_c1942324
+  c19423f0 <- FUN_c1942324
+  c1942498 <- FUN_c1942324
+  c194249c <- FUN_c1942324
+  c19424b8 <- FUN_c1942324
+  c19424c4 <- FUN_c1942324
+  c19426d4 <- FUN_c1942670
+  c19426dc <- FUN_c1942670
+  c1942714 <- FUN_c1942670
+  c1942720 <- FUN_c1942670
+  c19427a0 <- FUN_c1942670
+  c19427bc <- FUN_c1942670
+  c19427c0 <- FUN_c1942670
+  c19427c4 <- FUN_c1942670
+  c19427cc <- FUN_c1942670
+  c1942858 <- FUN_c1942670
+  c1942860 <- FUN_c1942670
+  c1942868 <- FUN_c1942670
+  c1942870 <- FUN_c1942670
+  c19428d4 <- FUN_c1942670
+  c19428d8 <- FUN_c1942670
+  c1942910 <- FUN_c1942670
+  c1942918 <- FUN_c1942670
+  c1942980 <- FUN_c1942978
+  c1942988 <- FUN_c1942978
+  c1942ee8 <- FUN_c1942eb8
+  c1942ef0 <- FUN_c1942eb8
+  c1943764 <- FUN_c1943648
+  c194376c <- FUN_c1943648
+  c1943810 <- FUN_c1943648
+  c1943814 <- FUN_c1943648
+  c1943904 <- FUN_c1943648
+  c1943910 <- FUN_c1943648
+  c194391c <- FUN_c1943648
+  c1943924 <- FUN_c1943648
+  c194395c <- FUN_c1943648
+  c1943960 <- FUN_c1943648
+  c19439d8 <- FUN_c1943648
+  c19439e0 <- FUN_c1943648
+  c1943a6c <- FUN_c1943648
+  c1943a74 <- FUN_c1943648
+  c1943af8 <- FUN_c1943648
+  c1943b00 <- FUN_c1943648
+  c1943bc0 <- FUN_c1943648
+  c1943bc8 <- FUN_c1943648
+  c1943bd8 <- FUN_c1943648
+  c1943bf4 <- FUN_c1943648
+  c1943eec <- FUN_c1943648
+  c1943ef4 <- FUN_c1943648
+  c1943f18 <- FUN_c1943648
+  c1943f54 <- FUN_c1943648
+  c19440ac <- FUN_c1943648
+  c194411c <- FUN_c1943648
+  c1944128 <- FUN_c1943648
+  c194426c <- FUN_c1943648
+  c19443b0 <- FUN_c1943648
+  c19443b8 <- FUN_c1943648
+  c19443e0 <- FUN_c1943648
+  c19443e4 <- FUN_c1943648
+  c194440c <- FUN_c1943648
+  c1944414 <- FUN_c1943648
+  c194446c <- FUN_c1943648
+  c1944474 <- FUN_c1943648
+  c1944718 <- FUN_c1943648
+  c194471c <- FUN_c1943648
+  c1944734 <- FUN_c1943648
+  c1944738 <- FUN_c1943648
+  c1944790 <- FUN_c1943648
+  c1944820 <- FUN_c1943648
+  c194482c <- FUN_c1943648
+  c1944924 <- FUN_c1943648
+  c1944944 <- FUN_c1943648
+  c1944948 <- FUN_c1943648
+  c19449ac <- FUN_c1943648
+  c19449b4 <- FUN_c1943648
+  c19449cc <- FUN_c1943648
+  c19449d4 <- FUN_c1943648
+  c1944d58 <- FUN_c1943648
+  c1944d5c <- FUN_c1943648
+  c1944d74 <- FUN_c1943648
+  c1944d78 <- FUN_c1943648
+  c194526c <- FUN_c1943648
+  c1945274 <- FUN_c1943648
+  c19453a8 <- FUN_c1943648
+  c19455c0 <- FUN_c1943648
+  c19455c4 <- FUN_c1943648
+  c1945b8c <- FUN_c1943648
+  c1945b98 <- FUN_c1943648
+  c1945be0 <- FUN_c1943648
+  c19461b0 <- FUN_c1943648
+  c19461b4 <- FUN_c1943648
+  c1945064 <- FUN_c1943648
+  c194506c <- FUN_c1943648
+  c19450e0 <- FUN_c1943648
+  c19450ec <- FUN_c1943648
+  c1945140 <- FUN_c1943648
+  c1945148 <- FUN_c1943648
+  c1945330 <- FUN_c1943648
+  c1945338 <- FUN_c1943648
+  c1945358 <- FUN_c1943648
+  c1945364 <- FUN_c1943648
+  c194543c <- FUN_c1943648
+  c1945440 <- FUN_c1943648
+  c1945654 <- FUN_c1943648
+  c194565c <- FUN_c1943648
+  c194573c <- FUN_c1943648
+  c1945908 <- FUN_c1943648
+  c1945b2c <- FUN_c1943648
+  c1945b34 <- FUN_c1943648
+  c1945bf8 <- FUN_c1943648
+  c1945c00 <- FUN_c1943648
+  c1945c78 <- FUN_c1943648
+  c1945c7c <- FUN_c1943648
+  c1945c94 <- FUN_c1943648
+  c1945ca4 <- FUN_c1943648
+  c1945cac <- FUN_c1943648
+  c1945cfc <- FUN_c1943648
+  c1945d04 <- FUN_c1943648
+  c1945dd0 <- FUN_c1943648
+  c1945ddc <- FUN_c1943648
+  c1945de4 <- FUN_c1943648
+  c1945e08 <- FUN_c1943648
+  c1945e2c <- FUN_c1943648
+  c1945e7c <- FUN_c1943648
+  c1945e80 <- FUN_c1943648
+  c1945eec <- FUN_c1943648
+  c1945ef4 <- FUN_c1943648
+  c1945f0c <- FUN_c1943648
+  c1945f68 <- FUN_c1943648
+  c1945f74 <- FUN_c1943648
+  c1945fb4 <- FUN_c1943648
+  c1946034 <- FUN_c1943648
+  c19460fc <- FUN_c1943648
+  c19461f0 <- FUN_c1943648
+  c19462dc <- FUN_c1943648
+  c1946330 <- FUN_c1943648
+  c1946338 <- FUN_c1943648
+  c1946354 <- FUN_c1943648
+  c19463d8 <- FUN_c1943648
+  c19463dc <- FUN_c1943648
+  c194640c <- FUN_c1943648
+  c1946414 <- FUN_c1943648
+  c194645c <- FUN_c1943648
+  c19464b4 <- FUN_c1943648
+  c19464c0 <- FUN_c1943648
+  c19342a8 <- FUN_c1933870
+  c19342b4 <- FUN_c1933870
+  c19343a8 <- FUN_c1933870
+  c1934754 <- FUN_c1933870
+  c193475c <- FUN_c1933870
+  c1934898 <- FUN_c1933870
+  c19348a0 <- FUN_c1933870
+  c1934950 <- FUN_c1933870
+  c19354ec <- FUN_c1933870
+  c19354f4 <- FUN_c1933870
+  c1935564 <- FUN_c1935520
+  c193556c <- FUN_c1935520
+  c19355a4 <- FUN_c1935520
+  c19355a8 <- FUN_c1935520
+  c19355f0 <- FUN_c1935520
+  c193b1c4 <- FUN_c193b0f0
+  c193b1cc <- FUN_c193b0f0
+  c193b1f4 <- FUN_c193b0f0
+  c193bca4 <- FUN_c193b270
+  c193bca8 <- FUN_c193b270
+  c194906c <- FUN_c1948dc0
+  c1949070 <- FUN_c1948dc0
+  c194914c <- FUN_c1948dc0
+  c1949154 <- FUN_c1948dc0
+  c1949240 <- FUN_c1948dc0
+  c194924c <- FUN_c1948dc0
+  c19493e0 <- FUN_c1949300
+  c1949530 <- FUN_c19494d0
+  c1949534 <- FUN_c19494d0
+  c1949614 <- FUN_c194954c
+  c1949618 <- FUN_c194954c
+  c1949678 <- FUN_c194954c
+  c19496a8 <- FUN_c1949680
+  c19496b0 <- FUN_c1949680
+  c194972c <- FUN_c194970c
+  c1949730 <- FUN_c194970c
+  c19498cc <- FUN_c194970c
+  c19498d4 <- FUN_c194970c
+  c1949920 <- FUN_c194970c
+  c1949978 <- FUN_c194970c
+  c1949984 <- FUN_c194970c
+  c19499bc <- FUN_c194970c
+  c19499c4 <- FUN_c194970c
+  c19499f4 <- FUN_c194970c
+  c19499fc <- FUN_c194970c
+  c1949a28 <- FUN_c194970c
+  c1949a40 <- FUN_c194970c
+  c1943584 <- FUN_c1943578
+  c194358c <- FUN_c1943578
+  c1948c98 <- FUN_c1948c10
+  c1948c9c <- FUN_c1948c10
+  c194a63c <- FUN_c1949a70
+  c194aa0c <- FUN_c1949a70
+  c194aa18 <- FUN_c1949a70
+  c194aca4 <- FUN_c1949a70
+  c1947cf4 <- FUN_c1947c34
+  c1947cf8 <- FUN_c1947c34
+  c194aecc <- FUN_c194acd4
+  c194afc0 <- FUN_c194aee0
+  c194afcc <- FUN_c194aee0
+  c194b080 <- FUN_c194b000
+  c194b09c <- FUN_c194b000
+  c194b0a0 <- FUN_c194b000
+  c194b0b4 <- FUN_c194b000
+  c194b0bc <- FUN_c194b000
+  c194b0c8 <- FUN_c194b000
+  c194b0d4 <- FUN_c194b000
+  c194b0e0 <- FUN_c194b000
+  c194b0ec <- FUN_c194b000
+  c194b1d8 <- FUN_c194b000
+  c194b1dc <- FUN_c194b000
+  c194b324 <- FUN_c194b000
+  c194b32c <- FUN_c194b000
+  c194b33c <- FUN_c194b000
+  c194b364 <- FUN_c194b000
+  c194b370 <- FUN_c194b000
+  c194b3c4 <- FUN_c194b000
+  c194b3c8 <- FUN_c194b000
+  c194b3f4 <- FUN_c194b000
+  c194b3f8 <- FUN_c194b000
+  c194b690 <- FUN_c194b000
+  c194b694 <- FUN_c194b000
+  c194b758 <- FUN_c194b000
+  c194b760 <- FUN_c194b000
+  c194b7dc <- FUN_c194b000
+  c194b7e4 <- FUN_c194b000
+  c194bce0 <- FUN_c194b850
+  c194bce4 <- FUN_c194b850
+  c194bd20 <- FUN_c194b850
+  c194bd40 <- FUN_c194b850
+  c194bd48 <- FUN_c194b850
+  c194bf0c <- FUN_c194b850
+  c194bf10 <- FUN_c194b850
+  c194bfdc <- FUN_c194b850
+  c194c06c <- FUN_c194b850
+  c194c074 <- FUN_c194b850
+  c194c0b4 <- FUN_c194b850
+  c194c0bc <- FUN_c194b850
+  c194c12c <- FUN_c194b850
+  c194c168 <- FUN_c194b850
+  c194c170 <- FUN_c194b850
+  c194c1f8 <- FUN_c194b850
+  c194c1fc <- FUN_c194b850
+  c194c21c <- FUN_c194b850
+  c194c220 <- FUN_c194b850
+  c194c230 <- FUN_c194b850
+  c194c234 <- FUN_c194b850
+  c1943204 <- FUN_c1943198
+  c19432ac <- FUN_c1943198
+  c19432b4 <- FUN_c1943198
+  c19432c0 <- FUN_c1943198
+  c19432c8 <- FUN_c1943198
+  c1943310 <- FUN_c1943198
+  c1943314 <- FUN_c1943198
+  c19433f0 <- FUN_c1943198
+  c1943408 <- FUN_c1943198
+  c1943410 <- FUN_c1943198
+  c194c488 <- FUN_c194c460
+  c194c664 <- FUN_c194c460
+  c194c66c <- FUN_c194c460
+  c194c68c <- FUN_c194c460
+  c194c710 <- FUN_c194c6e0
+  c194d57c <- FUN_c194d4b0
+  c194d59c <- FUN_c194d4b0
+  c194d628 <- FUN_c194d4b0
+  c194d62c <- FUN_c194d4b0
+  c194e2f4 <- FUN_c194e258
+  c194e2f8 <- FUN_c194e258
+  c19507c0 <- FUN_c19507a8
+  c1950b64 <- FUN_c1950b44
+  c1950b70 <- FUN_c1950b44
+  c1950be4 <- FUN_c1950b44
+  c1952400 <- FUN_c1952358
+  c195243c <- FUN_c1952358
+  c1952448 <- FUN_c1952358
+  c1952450 <- FUN_c1952358
+  c1952458 <- FUN_c1952358
+  c195248c <- FUN_c1952480
+  c1952490 <- FUN_c1952480
+  c19524a8 <- FUN_c1952480
+  c19524b4 <- FUN_c1952480
+  c19524c0 <- FUN_c1952480
+  c19524cc <- FUN_c1952480
+  c1952c04 <- FUN_c1952b50
+  c1952c44 <- FUN_c1952b50
+  c1952c6c <- FUN_c1952b50
+  c1952c74 <- FUN_c1952b50
+  c1952c98 <- FUN_c1952b50
+  c1952cb8 <- FUN_c1952b50
+  c1952cc0 <- FUN_c1952b50
+  c1953d64 <- FUN_c1953d2c
+  c1953d6c <- FUN_c1953d2c
+  c1953e1c <- FUN_c1953d2c
+  c1953e40 <- FUN_c1953d2c
+  c1955228 <- FUN_c19551d8
+  c1955280 <- FUN_c19551d8
+  c195528c <- FUN_c19551d8
+  c19552d4 <- FUN_c19551d8
+  c195540c <- FUN_c1955370
+  c1955410 <- FUN_c1955370
+  c1955430 <- FUN_c1955370
+  c1955438 <- FUN_c1955370
+  c19554e8 <- FUN_c1955370
+  c19554ec <- FUN_c1955370
+  c19551c0 <- FUN_c19551c0
+  c19551cc <- FUN_c19551c0
+  c1955740 <- FUN_c19556f0
+  c1955748 <- FUN_c19556f0
+  c1946668 <- FUN_c1946640
+  c194666c <- FUN_c1946640
+  c19467cc <- FUN_c1946640
+  c19467d4 <- FUN_c1946640
+  c1946830 <- FUN_c1946640
+  c1946834 <- FUN_c1946640
+  c194685c <- FUN_c1946640
+  c194e6e4 <- FUN_c194e580
+  c194e6f0 <- FUN_c194e580
+  c194e9d0 <- FUN_c194e8b4
+  c194ec80 <- FUN_c194ea50
+  c194ec88 <- FUN_c194ea50
+  c194f300 <- FUN_c194f2b8
+  c194f3f0 <- FUN_c194f2b8
+  c194f3f4 <- FUN_c194f2b8
+  c194f428 <- FUN_c194f2b8
+  c194f430 <- FUN_c194f2b8
+  c1950ea4 <- FUN_c1950e00
+  c1950ea8 <- FUN_c1950e00
+  c1950ebc <- FUN_c1950e00
+  c1950ec0 <- FUN_c1950e00
+  c195103c <- FUN_c1950f28
+  c1951044 <- FUN_c1950f28
+  c1951130 <- FUN_c1950f28
+  c1951154 <- FUN_c1950f28
+  c1951178 <- FUN_c1950f28
+  c19511e4 <- FUN_c1950f28
+  c19511ec <- FUN_c1950f28
+  c1951238 <- FUN_c1950f28
+  c195123c <- FUN_c1950f28
+  c1951264 <- FUN_c1950f28
+  c195126c <- FUN_c1950f28
+  c19512ec <- FUN_c1950f28
+  c1951310 <- FUN_c1950f28
+  c1951334 <- FUN_c1950f28
+  c19513ac <- FUN_c1950f28
+  c19513f0 <- FUN_c1950f28
+  c1951438 <- FUN_c1951400
+  c195143c <- FUN_c1951400
+  c1951604 <- FUN_c19515c0
+  c1951678 <- FUN_c19515c0
+  c1951680 <- FUN_c19515c0
+  c195168c <- FUN_c19515c0
+  c1951694 <- FUN_c19515c0
+  c19516b4 <- FUN_c19515c0
+  c19516bc <- FUN_c19515c0
+  c1951ba4 <- FUN_c1951ad0
+  c1951b8c <- FUN_c1951ad0
+  c1951c20 <- FUN_c1951bc8
+  c1951c24 <- FUN_c1951bc8
+  c19514f8 <- FUN_c19514b4
+  c1951500 <- FUN_c19514b4
+  c1951580 <- FUN_c19514b4
+  c1951588 <- FUN_c19514b4
+  c19518d8 <- FUN_c1951734
+  c19518e0 <- FUN_c1951734
+  c1951914 <- FUN_c1951734
+  c195191c <- FUN_c1951734
+  c1951aa8 <- FUN_c1951734
+  c195095c <- FUN_c1950918
+  c1950970 <- FUN_c1950918
+  c19509ec <- FUN_c1950918
+  c19509f0 <- FUN_c1950918
+  c1950a24 <- FUN_c1950918
+  c1950a28 <- FUN_c1950918
+  c1950a98 <- FUN_c1950918
+  c1950aa0 <- FUN_c1950918
+  c1951e10 <- FUN_c1951db4
+  c1951e14 <- FUN_c1951db4
+  c1951f94 <- FUN_c1951db4
+  c1951f9c <- FUN_c1951db4
+  c195218c <- FUN_c1951fe0
+  c1952194 <- FUN_c1951fe0
+  c19521e4 <- FUN_c1951fe0
+  c19521e8 <- FUN_c1951fe0
+  c1952230 <- FUN_c1951fe0
+  c1952640 <- FUN_c1952604
+  c1952714 <- FUN_c1952604
+  c1952718 <- FUN_c1952604
+  c1952720 <- FUN_c1952604
+  c1952728 <- FUN_c1952604
+  c1952744 <- FUN_c1952604
+  c195274c <- FUN_c1952604
+  c1952790 <- FUN_c1952604
+  c1952794 <- FUN_c1952604
+  c19527a8 <- FUN_c1952604
+  c19527ac <- FUN_c1952604
+  c1952804 <- FUN_c19527c0
+  c1952808 <- FUN_c19527c0
+  c1952e3c <- FUN_c1952df8
+  c1952e40 <- FUN_c1952df8
+  c1952f48 <- FUN_c1952df8
+  c1952f4c <- FUN_c1952df8
+  c1953014 <- FUN_c1952df8
+  c1953084 <- FUN_c195301c
+  c1953088 <- FUN_c195301c
+  c195354c <- FUN_c195301c
+  c19535dc <- FUN_c1953558
+  c19535e0 <- FUN_c1953558
+  c19536a0 <- FUN_c1953558
+  c19536a4 <- FUN_c1953558
+  c19536ec <- FUN_c1953558
+  c19536f4 <- FUN_c1953558
+  c1953b24 <- FUN_c1953558
+  c1953b58 <- FUN_c1953558
+  c1953f9c <- FUN_c1953f58
+  c1953fa0 <- FUN_c1953f58
+  c195420c <- FUN_c1953fd8
+  c1954214 <- FUN_c1953fd8
+  c19542b0 <- FUN_c1953fd8
+  c19542b8 <- FUN_c1953fd8
+  c1954300 <- FUN_c1953fd8
+  c1954304 <- FUN_c1953fd8
+  c195438c <- FUN_c1953fd8
+  c1954394 <- FUN_c1953fd8
+  c1954398 <- FUN_c1953fd8
+  c19543a0 <- FUN_c1953fd8
+  c1954458 <- FUN_c19543d8
+  c195445c <- FUN_c19543d8
+  c19544b0 <- FUN_c1954468
+  c195454c <- FUN_c1954468
+  c1954554 <- FUN_c1954468
+  c1954584 <- FUN_c1954468
+  c1954590 <- FUN_c1954468
+  c1954600 <- FUN_c1954468
+  c1954604 <- FUN_c1954468
+  c1954630 <- FUN_c1954468
+  c1954634 <- FUN_c1954468
+  c19546c8 <- FUN_c1954468
+  c19546ec <- FUN_c1954468
+  c1954710 <- FUN_c1954468
+  c1954764 <- FUN_c1954468
+  c1954794 <- FUN_c1954468
+  c19547e0 <- FUN_c1954468
+  c19547e8 <- FUN_c1954468
+  c195483c <- FUN_c1954468
+  c1954840 <- FUN_c1954468
+  c19548d4 <- FUN_c1954468
+  c1954a20 <- FUN_c1954978
+  c1954a24 <- FUN_c1954978
+  c1954aa8 <- FUN_c1954978
+  c1954ab0 <- FUN_c1954978
+  c1954ad0 <- FUN_c1954978
+  c1954ad8 <- FUN_c1954978
+  c1954fd4 <- FUN_c1954ee8
+  c195501c <- FUN_c1954ee8
+  c1955020 <- FUN_c1954ee8
+  c195507c <- FUN_c1954ee8
+  c1955084 <- FUN_c1954ee8
+  c19550d4 <- FUN_c1954ee8
+  c19550fc <- FUN_c1954ee8
+  c1955104 <- FUN_c1954ee8
+  c1954b2c <- FUN_c1954b00
+  c1954b34 <- FUN_c1954b00
+  c1954c40 <- FUN_c1954b00
+  c1954c48 <- FUN_c1954b00
+  c1954c6c <- FUN_c1954b00
+  c1954c74 <- FUN_c1954b00
+  c1954d4c <- FUN_c1954cc4
+  c1954d50 <- FUN_c1954cc4
+  c1954dfc <- FUN_c1954cc4
+  c1954e04 <- FUN_c1954cc4
+  c1954e98 <- FUN_c1954cc4
+  c1954ea0 <- FUN_c1954cc4
+  c1954ed0 <- FUN_c1954cc4
+  c1954ed8 <- FUN_c1954cc4
+  c1953be8 <- FUN_c1953ba4
+  c1953bec <- FUN_c1953ba4
+  c1953c2c <- FUN_c1953ba4
+  c1953c34 <- FUN_c1953ba4
+  c1953c94 <- FUN_c1953ba4
+  c1953cac <- FUN_c1953ba4
+  c1953cd4 <- FUN_c1953ba4
+  c1953cdc <- FUN_c1953ba4
+  c1953d24 <- FUN_c1953ba4
+  c17935b8 <- FUN_c1793580
+  c17935bc <- FUN_c1793580
+  c1793628 <- FUN_c1793580
+  c179362c <- FUN_c1793580
+  c1793a1c <- FUN_c1793580
+  c1793a28 <- FUN_c1793580
+  c1793b4c <- FUN_c1793580
+  c1794170 <- FUN_c1793580
+  c17941ac <- FUN_c1793580
+  c17941b8 <- FUN_c1793580
+  c1aa03ac <- FUN_c1aa03a0
+  c1aa03b4 <- FUN_c1aa03a0
+  c1aa03f8 <- FUN_c1aa03e0
+  c1aa0400 <- FUN_c1aa03e0
+  c1aa0438 <- FUN_c1aa042c
+  c1aa0440 <- FUN_c1aa042c
+  c1aa045c <- FUN_c1aa042c
+  c1aa0464 <- FUN_c1aa042c
+  c1aa0488 <- FUN_c1aa042c
+  c1aa0490 <- FUN_c1aa042c
+  c1aa0944 <- FUN_c1aa0900
+  c1aa0950 <- FUN_c1aa0900
+  c1aa0a40 <- FUN_c1aa09c0
+  c1aa0a44 <- FUN_c1aa09c0
+  c1aa0a78 <- FUN_c1aa09c0
+  c1aa0a94 <- FUN_c1aa09c0
+  c1aa0a9c <- FUN_c1aa09c0
+  c1aa0ccc <- FUN_c1aa0c28
+  c1aa0cd4 <- FUN_c1aa0c28
+  c1aa0d14 <- FUN_c1aa0c28
+  c1aa0d1c <- FUN_c1aa0c28
+  c1aa2c1c <- FUN_c1aa2a80
+  c1aa2c24 <- FUN_c1aa2a80
+  c1aa2c70 <- FUN_c1aa2a80
+  c1aa2c78 <- FUN_c1aa2a80
+  c1aa3200 <- FUN_c1aa3100
+  c1aa3a2c <- FUN_c1aa3a20
+  c1aa3a34 <- FUN_c1aa3a20
+  c1aa3b0c <- FUN_c1aa3b00
+  c1aa3b14 <- FUN_c1aa3b00
+  c161cac4 <- FUN_c161ca28
+  c161ce80 <- FUN_c161cd9c
+  c161ce90 <- FUN_c161cd9c
+  c161cea0 <- FUN_c161cd9c
+  c161ceb0 <- FUN_c161cd9c
+  c161cec0 <- FUN_c161cd9c
+  c161ced0 <- FUN_c161cd9c
+  c161cfc0 <- FUN_c161cedc
+  c161cfd0 <- FUN_c161cedc
+  c161cfe0 <- FUN_c161cedc
+  c161cff0 <- FUN_c161cedc
+  c161d000 <- FUN_c161cedc
+  c161d010 <- FUN_c161cedc
+  c1780944 <- FUN_c17806e0
+  c179cc04 <- FUN_c179ca78
+  c178c080 <- FUN_c178bea8
+  c1782a28 <- FUN_c1782790
+  c1782a3c <- FUN_c1782790
+  c1782ec0 <- FUN_c1782b74
+  c1786eb4 <- FUN_c1786de8
+  c17831cc <- FUN_c1783030
+  c17833b8 <- FUN_c1783030
+  c178344c <- FUN_c1783030
+  c178346c <- FUN_c1783030
+  c1784994 <- FUN_c1784810
+  c1789700 <- FUN_c17895b8
+  c178ba34 <- FUN_c178b9c0
+  c1793568 <- FUN_c1793490
+  c17995dc <- FUN_c17994bc
+  c179b950 <- FUN_c179b910
+  c178cde0 <- FUN_c178c768
+  c178cf6c <- FUN_c178ce88
+  c179ad54 <- FUN_c179acb0
+  c1aa16a0 <- FUN_c1aa0f5c
+  c1aa3fd4 <- FUN_c1aa3de0
+  c17a3038 <- FUN_c17a2d60
+  c17a3134 <- FUN_c17a303c
+  c17a3d88 <- FUN_c17a3c30
+  c17a3f30 <- FUN_c17a3e80
+  c17a3fac <- FUN_c17a3f3c
+  c1806170 <- FUN_c1805f50
+  c17ad2f8 <- FUN_c17ad1b8
+  c17ec024 <- FUN_c17ebf00
+  c17eebec <- FUN_c17ee760
+  c17f3620 <- FUN_c17f30b8
+  c17c987c <- FUN_c17c96b8
+  c17d1e28 <- FUN_c17d1d60
+  c17d5050 <- FUN_c17d4afc
+  c17cadc8 <- FUN_c1806508
+  c18113a4 <- FUN_c18111c0
+  c17d7008 <- FUN_c17d6f2c
+  c17a80f4 <- FUN_c17a7d18
+  c17ac86c <- FUN_c17ac81c
+  c1805f48 <- FUN_c1805e60
+  c17b1e98 <- FUN_c17b1dd0
+  c17c96b4 <- FUN_c17c95c4
+  c17a5c04 <- FUN_c17a58d4
+  c17b29c8 <- FUN_c17b28f0
+  c17f01d8 <- FUN_c17efef0
+  c17ba83c <- FUN_c17ba7c0
+  c17b9030 <- FUN_c17b9000
+  c17cbce8 <- FUN_c17cbc50
+  c17d69c4 <- FUN_c17d6804
+  c17e9f48 <- FUN_c17e9ef0
+  c17bfe88 <- FUN_c17bfd70
+  c17edc94 <- FUN_c17edbc0
+  c17edcb4 <- FUN_c17edbc0
+  c17f40a8 <- FUN_c17f3c50
+  c1802250 <- FUN_c1802060
+  c17e5d40 <- FUN_c17e5aa4
+  c180d5ec <- FUN_c180d4d8
+  c180e248 <- FUN_c180d4d8
+  c17d6c94 <- FUN_c17d6aa4
+  c17a4fbc <- FUN_c17a4ae0
+  c17b0038 <- FUN_c17afe70
+  c17b7d3c <- FUN_c17b7c90
+  c17d1698 <- FUN_c17d1590
+  c17e1494 <- FUN_c17e1430
+  c180e6f8 <- FUN_c180e580
+  c17eb6d4 <- FUN_c17eb4e0
+  c17efe48 <- FUN_c17ef8c0
+  c180f7d8 <- FUN_c180f770
+  c181077c <- FUN_c1810648
+  c17dd02c <- FUN_c17dcee0
+  c17e07c0 <- FUN_c17e0658
+  c17cd610 <- FUN_c17cbd98
+  c17cd72c <- FUN_c17cbd98
+  c17bff24 <- FUN_c17bfec8
+  c17d14e0 <- FUN_c17d1420
+  c1803d58 <- FUN_c1803a70
+  c1810c24 <- FUN_c1810bf0
+  c184710c <- FUN_c1847090
+  c1817c10 <- FUN_c1817bb0
+  c1817cbc <- FUN_c1817c14
+  c1817d04 <- FUN_c1817c14
+  c1817d40 <- FUN_c1817c14
+  c1818054 <- FUN_c1817f6c
+  c18199fc <- FUN_c18192c0
+  c1817b0c <- FUN_c1817a58
+  c1817b5c <- FUN_c1817a58
+  c1817b9c <- FUN_c1817a58
+  c18430e4 <- FUN_c1843038
+  c1843144 <- FUN_c1843038
+  c1852ad8 <- FUN_c1852a20
+  c184470c <- FUN_c18445d0
+  c1827600 <- FUN_c1827544
+  c18293e4 <- FUN_c1828c38
+  c1826474 <- FUN_c18263bc
+  c1825934 <- FUN_c1825920
+  c1827270 <- FUN_c182721c
+  c182c428 <- FUN_c182c3b0
+  c182c440 <- FUN_c182c3b0
+  c182d60c <- FUN_c182d564
+  c182d630 <- FUN_c182d564
+  c18301bc <- FUN_c18300d4
+  c1836f18 <- FUN_c1836e80
+  c18316d8 <- FUN_c1831618
+  c1859080 <- FUN_c1859014
+  c1831304 <- FUN_c18311f0
+  c1835058 <- FUN_c183502c
+  c1833eac <- FUN_c1833df4
+  c183406c <- FUN_c1833ec8
+  c1835378 <- FUN_c1835258
+  c1835198 <- FUN_c1835170
+  c18351b8 <- FUN_c1835170
+  c183571c <- FUN_c18356e4
+  c18357ac <- FUN_c18356e4
+  c183583c <- FUN_c18356e4
+  c1835254 <- FUN_c18351bc
+  c18392e0 <- FUN_c1839250
+  c184d25c <- FUN_c184d208
+  c184d280 <- FUN_c184d208
+  c1859138 <- FUN_c185909c
+  c1859168 <- FUN_c185909c
+  c185917c <- FUN_c185909c
+  c1859208 <- FUN_c1859338
+  c1859410 <- FUN_c1859338
+  c1837c38 <- FUN_c1837bcc
+  c18384c4 <- FUN_c18382a0
+  c1838d94 <- FUN_c1838ca8
+  c183b77c <- FUN_c183b6f4
+  c185cf88 <- FUN_c185ced0
+  c185cfa4 <- FUN_c185ced0
+  c185cfc0 <- FUN_c185ced0
+  c1847dec <- FUN_c1847dc0
+  c1847e08 <- FUN_c1847dc0
+  c1847e2c <- FUN_c1847e10
+  c1846cfc <- FUN_c1846cc8
+  c1846d58 <- FUN_c1846cc8
+  c18577c4 <- FUN_c1857760
+  c1857814 <- FUN_c1857760
+  c1857870 <- FUN_c1857760
+  c18578a4 <- FUN_c1857760
+  c18578d4 <- FUN_c1857760
+  c18578ec <- FUN_c1857760
+  c1857914 <- FUN_c1857760
+  c1857934 <- FUN_c1857760
+  c18424a4 <- FUN_c1842420
+  c18426d0 <- FUN_c1842664
+  c1842744 <- FUN_c18426ec
+  c18439a4 <- FUN_c1843910
+  c1843850 <- FUN_c18436b8
+  c1844d60 <- FUN_c1844c78
+  c1844de0 <- FUN_c1844d64
+  c1844ee4 <- FUN_c1844e30
+  c184334c <- FUN_c18432d4
+  c1844f84 <- FUN_c1844ee8
+  c184687c <- FUN_c1846838
+  c1853980 <- FUN_c1853854
+  c185841c <- FUN_c18583d0
+  c1843540 <- FUN_c1843460
+  c18453b0 <- FUN_c18451a4
+  c1845560 <- FUN_c184547c
+  c1848dd0 <- FUN_c1848d18
+  c1848dec <- FUN_c1848d18
+  c1848e08 <- FUN_c1848d18
+  c1848ef0 <- FUN_c1848e9c
+  c1848f10 <- FUN_c1848e9c
+  c1848f78 <- FUN_c1848f14
+  c184f68c <- FUN_c184f530
+  c184e52c <- FUN_c184e480
+  c184eef8 <- FUN_c184eea4
+  c18516a4 <- FUN_c1851588
+  c1852844 <- FUN_c1852810
+  c185a208 <- FUN_c185a1dc
+  c185a294 <- FUN_c185a1dc
+  c185a0d8 <- FUN_c1859f60
+  c185a1c0 <- FUN_c185a0e8
+  c1850538 <- FUN_c18504c0
+  c18517b4 <- FUN_c1851740
+  c185a2c4 <- FUN_c185a298
+  c185a310 <- FUN_c185a298
+  c185048c <- FUN_c18503e0
+  c1850684 <- FUN_c18505e0
+  c1851f50 <- FUN_c1851ec8
+  c185bd88 <- FUN_c185ba40
+  c184a5a4 <- FUN_c184a38c
+  c184a768 <- FUN_c184a38c
+  c184b3b8 <- FUN_c184a38c
+  c184b404 <- FUN_c184a38c
+  c184b568 <- FUN_c184a38c
+  c184b798 <- FUN_c184a38c
+  c184c200 <- FUN_c184a38c
+  c184c93c <- FUN_c184a38c
+  c184cdf4 <- FUN_c184a38c
+  c184ce68 <- FUN_c184a38c
+  c184c0fc <- FUN_c184a38c
+  c184c808 <- FUN_c184a38c
+  c184c87c <- FUN_c184a38c
+  c184ceb0 <- FUN_c184a38c
+  c183721c <- FUN_c18371e0
+  c18503a8 <- FUN_c1850380
+  c1831af0 <- FUN_c1831ad8
+  c1850578 <- FUN_c1850540
+  c185e534 <- FUN_c185e500
+  c1861b1c <- FUN_c1861ac0
+  c187de38 <- FUN_c187ddd0
+  c18b544c <- FUN_c18b5404
+  c18725e4 <- FUN_c18725a4
+  c187a62c <- FUN_c187a588
+  c187fd64 <- FUN_c187fca4
+  c18b2cc8 <- FUN_c18b2c40
+  c18b2de0 <- FUN_c18b2ce0
+  c18b6050 <- FUN_c18b5f20
+  c18b765c <- FUN_c18b7610
+  c18b72c4 <- FUN_c18b7250
+  c18b78a8 <- FUN_c18b77f0
+  c18b794c <- FUN_c18b78ac
+  c18b7ed8 <- FUN_c18b7e30
+  c18b7fec <- FUN_c18b7f60
+  c18b8014 <- FUN_c18b7f60
+  c189eda4 <- FUN_c189ece0
+  c18c094c <- FUN_c18c06bc
+  c18bd5bc <- FUN_c18bd278
+  c18c0bec <- FUN_c18c06bc
+  c189ebb4 <- FUN_c189ea80
+  c18bde14 <- FUN_c18bd5ec
+  c18c0c1c <- FUN_c18c0bf0
+  c18c0df4 <- FUN_c18c0c50
+  c18bffd0 <- FUN_c18bf7d0
+  c1862718 <- FUN_c18625bc
+  c1863c3c <- FUN_c1863be0
+  c18b6514 <- FUN_c18b64c0
+  c18b767c <- FUN_c18b7660
+  c18b7694 <- FUN_c18b7660
+  c187d784 <- FUN_c187d730
+  c1874bb0 <- FUN_c1874774
+  c187460c <- FUN_c1874560
+  c185fde8 <- FUN_c185f7ac
+  c1861d38 <- FUN_c1861b60
+  c1861e50 <- FUN_c1861d54
+  c18b2094 <- FUN_c18b1fd0
+  c18b5948 <- FUN_c18b58c0
+  c18b5e2c <- FUN_c18b5e10
+  c18b5e60 <- FUN_c18b5e10
+  c1862b04 <- FUN_c18629dc
+  c1862ba0 <- FUN_c1862b08
+  c18634e4 <- FUN_c18633fc
+  c186350c <- FUN_c18633fc
+  c1863538 <- FUN_c18633fc
+  c18b16d0 <- FUN_c18b15bc
+  c18b5d44 <- FUN_c18b5d20
+  c1866100 <- FUN_c1866068
+  c1893d44 <- FUN_c1893c8c
+  c189ea7c <- FUN_c189e970
+  c189fcd8 <- FUN_c189fc88
+  c18a58d8 <- FUN_c18a58c0
+  c186696c <- FUN_c18668b4
+  c18669e8 <- FUN_c18668b4
+  c1867170 <- FUN_c18668b4
+  c1867c1c <- FUN_c1867740
+  c1868698 <- FUN_c1867c2c
+  c18a9400 <- FUN_c18a931c
+  c18aaee4 <- FUN_c18aad18
+  c18ab258 <- FUN_c18ab15c
+  c186c918 <- FUN_c186c6d8
+  c186cd40 <- FUN_c186c928
+  c186e484 <- FUN_c186e1bc
+  c18764f0 <- FUN_c18764a0
+  c18806cc <- FUN_c1880624
+  c1880a50 <- FUN_c1880998
+  c1880bf8 <- FUN_c1880ad8
+  c18844f4 <- FUN_c1884200
+  c1884a28 <- FUN_c1884a20
+  c187eec8 <- FUN_c187ee60
+  c187f94c <- FUN_c187f8d4
+  c187f990 <- FUN_c187f8d4
+  c187fa90 <- FUN_c187fa2c
+  c187faac <- FUN_c187fa2c
+  c187fad0 <- FUN_c187fa2c
+  c187faec <- FUN_c187fa2c
+  c18851c4 <- FUN_c1884f70
+  c18853dc <- FUN_c18851c8
+  c18855a4 <- FUN_c18854d4
+  c1885da8 <- FUN_c1885bf0
+  c18884cc <- FUN_c1888460
+  c1888f88 <- FUN_c18884e0
+  c1889170 <- FUN_c18884e0
+  c18891d4 <- FUN_c18884e0
+  c1889214 <- FUN_c18884e0
+  c188a324 <- FUN_c188a2ac
+  c189d2fc <- FUN_c189d294
+  c188ca14 <- FUN_c188c988
+  c18898f8 <- FUN_c1889834
+  c188b7b0 <- FUN_c188b690
+  c188c3f0 <- FUN_c188c2c8
+  c188cef8 <- FUN_c188cdd0
+  c18750d4 <- FUN_c1875030
+  c188e388 <- FUN_c188e340
+  c188fddc <- FUN_c188fd40
+  c189d290 <- FUN_c189d268
+  c189d928 <- FUN_c189d6f4
+  c186e88c <- FUN_c186e488
+  c186ea0c <- FUN_c186e8b0
+  c1870dc8 <- FUN_c1870aa4
+  c1871c44 <- FUN_c1871b80
+  c1871cec <- FUN_c1871c48
+  c1873d1c <- FUN_c1873b84
+  c1876588 <- FUN_c1876500
+  c1878458 <- FUN_c1878400
+  c1878604 <- FUN_c1878468
+  c1878784 <- FUN_c18786b8
+  c1878bec <- FUN_c1878978
+  c1878c08 <- FUN_c1878978
+  c18791cc <- FUN_c18790cc
+  c1879254 <- FUN_c18791d0
+  c187cb74 <- FUN_c187c2ec
+  c187cb94 <- FUN_c187c2ec
+  c187d064 <- FUN_c187cf34
+  c187c01c <- FUN_c187beac
+  c1880278 <- FUN_c18801b8
+  c187d35c <- FUN_c187d204
+  c187d400 <- FUN_c187d378
+  c187d84c <- FUN_c187d788
+  c187e8d0 <- FUN_c187e830
+  c187e8ec <- FUN_c187e830
+  c187e8f8 <- FUN_c187e830
+  c187f3c4 <- FUN_c187f13c
+  c187f718 <- FUN_c187f3dc
+  c1880590 <- FUN_c1880560
+  c1880824 <- FUN_c18806d0
+  c18822f0 <- FUN_c1882270
+  c1882724 <- FUN_c1882588
+  c1882884 <- FUN_c18827dc
+  c1882d44 <- FUN_c1882c58
+  c1883194 <- FUN_c1882d48
+  c1883544 <- FUN_c18833e4
+  c1883640 <- FUN_c18833e4
+  c1894914 <- FUN_c18948e8
+  c1899684 <- FUN_c18993d0
+  c189e434 <- FUN_c189e3b8
+  c18954ac <- FUN_c1895440
+  c18b181c <- FUN_c18b16d4
+  c18b18b4 <- FUN_c18b1824
+  c189ee28 <- FUN_c189eda8
+  c1899338 <- FUN_c1899260
+  c189daa4 <- FUN_c189d960
+  c18a5b50 <- FUN_c18a58ec
+  c18a908c <- FUN_c18a8ff0
+  c1896d74 <- FUN_c1896344
+  c189e3b4 <- FUN_c189e340
+  c189e4a8 <- FUN_c189e438
+  c18a58bc <- FUN_c18a5888
+  c18a4ba8 <- FUN_c18a4ba0
+  c18a58e8 <- FUN_c18a58e0
+  c18b5df4 <- FUN_c18b5d5c
+  c18afff4 <- FUN_c18aff9c
+  c18b0e30 <- FUN_c18b0dd0
+  c18aa20c <- FUN_c18aa1c4
+  c18afef0 <- FUN_c18afe7c
+  c18b0104 <- FUN_c18b00a0
+  c18bc3a4 <- FUN_c18bc308
+  c18b019c <- FUN_c18b0110
+  c18b6db0 <- FUN_c18b6d88
+  c18b0384 <- FUN_c18b02f8
+  c18b19b4 <- FUN_c18b1950
+  c18b6de0 <- FUN_c18b6db8
+  c18b0730 <- FUN_c18b0700
+  c18b0774 <- FUN_c18b073c
+  c18b008c <- FUN_c18afff8
+  c18b0bb0 <- FUN_c18b0b48
+  c18bc304 <- FUN_c18bc264
+  c18b371c <- FUN_c18b3638
+  c18b3a00 <- FUN_c18b3960
+  c18b4a9c <- FUN_c18b45b4
+  c18b3cf0 <- FUN_c18b3be0
+  c18b42f0 <- FUN_c18b4120
+  c18b6e20 <- FUN_c18b6df0
+  c18b3840 <- FUN_c18b3720
+  c18b51ac <- FUN_c18b4ac0
+  c18b549c <- FUN_c18b5450
+  c18b54b8 <- FUN_c18b5450
+  c18b52d0 <- FUN_c18b51d0
+  c18b559c <- FUN_c18b54c4
+  c18b5638 <- FUN_c18b54c4
+  c18b565c <- FUN_c18b54c4
+  c18b64bc <- FUN_c18b6340
+  c18b8678 <- FUN_c18b862c
+  c18b94d8 <- FUN_c18b944c
+  c18ba540 <- FUN_c18ba480
+  c18ba558 <- FUN_c18ba480
+  c18c0e7c <- FUN_c18c0e18
+  c18b9f5c <- FUN_c18b9f10
+  c18b724c <- FUN_c18b7220
+  c18b7f58 <- FUN_c18b7ee0
+  c18d558c <- FUN_c18d5540
+  c18e3138 <- FUN_c18e2f68
+  c18e75b0 <- FUN_c18e74e8
+  c18e76a4 <- FUN_c18e75b4
+  c18d4db8 <- FUN_c18d4cd4
+  c18d4dec <- FUN_c18d4cd4
+  c18e91c0 <- FUN_c18e9158
+  c18e9240 <- FUN_c18e91d0
+  c18d6334 <- FUN_c18d61d8
+  c18c5408 <- FUN_c18c5378
+  c18d6878 <- FUN_c18d6800
+  c18d6a90 <- FUN_c18d6a20
+  c18d6c60 <- FUN_c18d6a98
+  c18d6c94 <- FUN_c18d6a98
+  c18d7c14 <- FUN_c18d79e8
+  c18d7fe8 <- FUN_c18d7c80
+  c18d871c <- FUN_c18d84e8
+  c18d8770 <- FUN_c18d84e8
+  c18d880c <- FUN_c18d8778
+  c18d88b4 <- FUN_c18d8810
+  c18d9148 <- FUN_c18d9030
+  c18d9b38 <- FUN_c18d6340
+  c18d9bdc <- FUN_c18d9b40
+  c18d9d90 <- FUN_c18d9d00
+  c18da118 <- FUN_c18da01c
+  c18c67a4 <- FUN_c18c6730
+  c18ffa14 <- FUN_c18ff9ac
+  c18d2668 <- FUN_c18d2514
+  c18f08d4 <- FUN_c18f08c0
+  c1901ac8 <- FUN_c1901990
+  c1901b50 <- FUN_c1901990
+  c190b14c <- FUN_c190ae28
+  c18c3668 <- FUN_c18c35c0
+  c18c555c <- FUN_c18c5518
+  c18c66c4 <- FUN_c18c6678
+  c18c9650 <- FUN_c18c9404
+  c18c99f8 <- FUN_c18c985c
+  c18cb204 <- FUN_c18cada4
+  c18dce28 <- FUN_c18dcd10
+  c18cd178 <- FUN_c18cd108
+  c18f08bc <- FUN_c18f0848
+  c18e5470 <- FUN_c18e494c
+  c18e55d4 <- FUN_c18e5480
+  c18ff9a8 <- FUN_c18ff8e8
+  c190dbdc <- FUN_c190db30
+  c192335c <- FUN_c1923330
+  c191c648 <- FUN_c191c598
+  c191c500 <- FUN_c191c400
+  c191c6ec <- FUN_c191c64c
+  c191c884 <- FUN_c191c73c
+  c191cfec <- FUN_c191cf90
+  c191d098 <- FUN_c191d008
+  c191d0bc <- FUN_c191d008
+  c191d5d8 <- FUN_c191d39c
+  c191d9e4 <- FUN_c191d860
+  c192114c <- FUN_c19210f0
+  c192464c <- FUN_c1924544
+  c192623c <- FUN_c19261cc
+  c19266b8 <- FUN_c19265e0
+  c192ab64 <- FUN_c192aa38
+  c192e6f0 <- FUN_c192e5ec
+  c193249c <- FUN_c19323b8
+  c19329f8 <- FUN_c1932820
+  c1932a18 <- FUN_c1932820
+  c1935908 <- FUN_c19357e4
+  c19422c8 <- FUN_c1942100
+  c19422f8 <- FUN_c1942100
+  c19354c0 <- FUN_c1933870
+  c19355f4 <- FUN_c1935520
+  c1949660 <- FUN_c194954c
+  c194967c <- FUN_c194954c
+  c1949708 <- FUN_c1949680
+  c1949a2c <- FUN_c194970c
+  c1949a44 <- FUN_c194970c
+  c194aed0 <- FUN_c194acd4
+  c194c690 <- FUN_c194c460
+  c194c718 <- FUN_c194c6e0
+  c1950b34 <- FUN_c1950ae0
+  c1950b40 <- FUN_c1950ae0
+  c1950be8 <- FUN_c1950b44
+  c1952354 <- FUN_c1952320
+  c1953e44 <- FUN_c1953d2c
+  c1946860 <- FUN_c1946640
+  c19513b0 <- FUN_c1950f28
+  c19513f4 <- FUN_c1950f28
+  c1951aac <- FUN_c1951734
+  c1953018 <- FUN_c1952df8
+  c1953554 <- FUN_c195301c
+  c1953b2c <- FUN_c1953558
+  c1953b5c <- FUN_c1953558
+  c1953f54 <- FUN_c1953ed8
+  c1953c98 <- FUN_c1953ba4
+  c1953d28 <- FUN_c1953ba4
+  c1aa03dc <- FUN_c1aa03a0
+  c1aa0428 <- FUN_c1aa03e0
+  c1aa3b54 <- FUN_c1aa3b00
+  c1904e4c <- FUN_c1904cb0
+  c1904e54 <- FUN_c1904cb0
+  c178c0e8 <- FUN_c178c098
+  c178c120 <- FUN_c178c098
+  c178c12c <- FUN_c178c098
+  c178c15c <- FUN_c178c098
+  c178c164 <- FUN_c178c098
+  c178c17c <- FUN_c178c098
+  c178c180 <- FUN_c178c098
+  c1819c94 <- FUN_c1819c5c
+  c1819c9c <- FUN_c1819c5c
+  c181a014 <- <NO FUNCTION>
+  c181a01c <- <NO FUNCTION>
+  c181a058 <- <NO FUNCTION>
+  c181bf5c <- <NO FUNCTION>
+  c181bf64 <- <NO FUNCTION>
+  c181c014 <- <NO FUNCTION>
+  c181c01c <- <NO FUNCTION>
+  c181c064 <- <NO FUNCTION>
+  c181c06c <- <NO FUNCTION>
+  c181c0ac <- <NO FUNCTION>
+  c181c0b8 <- <NO FUNCTION>
+  c181c12c <- <NO FUNCTION>
+  c181c138 <- <NO FUNCTION>
+  c181c1f8 <- <NO FUNCTION>
+  c181c200 <- <NO FUNCTION>
+  c1836b60 <- <NO FUNCTION>
+  c1836b6c <- <NO FUNCTION>
+  c1836be8 <- <NO FUNCTION>
+  c1836bf0 <- <NO FUNCTION>
+  c1837738 <- <NO FUNCTION>
+  c1837740 <- <NO FUNCTION>
+  c1837770 <- <NO FUNCTION>
+  c183dee0 <- <NO FUNCTION>
+  c183dee8 <- <NO FUNCTION>
+  c1846d74 <- <NO FUNCTION>
+  c1846d78 <- <NO FUNCTION>
+  c1846dd0 <- <NO FUNCTION>
+  c1846dd4 <- <NO FUNCTION>
+  c1846e08 <- <NO FUNCTION>
+  c1846e20 <- <NO FUNCTION>
+  c1846e28 <- <NO FUNCTION>
+  c185ea98 <- <NO FUNCTION>
+  c185eaa0 <- <NO FUNCTION>
+  c185ec80 <- <NO FUNCTION>
+  c185ec88 <- <NO FUNCTION>
+  c185ecac <- <NO FUNCTION>
+  c185ecb4 <- <NO FUNCTION>
+  c185ed00 <- <NO FUNCTION>
+  c185ed08 <- <NO FUNCTION>
+  c18ade1c <- FUN_c18addd0
+  c18ade24 <- FUN_c18addd0
+  c18ade64 <- FUN_c18ade30
+  c18ade6c <- FUN_c18ade30
+  c1875120 <- <NO FUNCTION>
+  c1875124 <- <NO FUNCTION>
+  c1875240 <- <NO FUNCTION>
+  c1875244 <- <NO FUNCTION>
+  c18752a4 <- <NO FUNCTION>
+  c18752a8 <- <NO FUNCTION>
+  c1875564 <- <NO FUNCTION>
+  c187556c <- <NO FUNCTION>
+  c187560c <- <NO FUNCTION>
+  c1875610 <- <NO FUNCTION>
+  c1875850 <- <NO FUNCTION>
+  c1875854 <- <NO FUNCTION>
+  c18758f0 <- <NO FUNCTION>
+  c18758f4 <- <NO FUNCTION>
+  c18759ac <- <NO FUNCTION>
+  c18759b0 <- <NO FUNCTION>
+  c1875a3c <- <NO FUNCTION>
+  c1875a54 <- <NO FUNCTION>
+  c1875a5c <- <NO FUNCTION>
+  c1875a78 <- <NO FUNCTION>
+  c1875a7c <- <NO FUNCTION>
+  c1875ab8 <- <NO FUNCTION>
+  c1875abc <- <NO FUNCTION>
+  c1875b00 <- <NO FUNCTION>
+  c1875b08 <- <NO FUNCTION>
+  c1875b7c <- <NO FUNCTION>
+  c1875b80 <- <NO FUNCTION>
+  c1875b94 <- <NO FUNCTION>
+  c1875ce8 <- <NO FUNCTION>
+  c1875cf0 <- <NO FUNCTION>
+  c1875d20 <- <NO FUNCTION>
+  c1875d24 <- <NO FUNCTION>
+  c1875d90 <- <NO FUNCTION>
+  c1875da0 <- <NO FUNCTION>
+  c1875dac <- <NO FUNCTION>
+  c18bc114 <- <NO FUNCTION>
+  c18bc11c <- <NO FUNCTION>
+  c18be660 <- <NO FUNCTION>
+  c18be668 <- <NO FUNCTION>
+  c18be730 <- <NO FUNCTION>
+  c18be89c <- <NO FUNCTION>
+  c18be8a8 <- <NO FUNCTION>
+  c18be8b4 <- <NO FUNCTION>
+  c18be900 <- <NO FUNCTION>
+  c18be908 <- <NO FUNCTION>
+  c18be9c4 <- <NO FUNCTION>
+  c18be9d0 <- <NO FUNCTION>
+  c18be9dc <- <NO FUNCTION>
+  c18bea24 <- <NO FUNCTION>
+  c189369c <- FUN_c18934c0
+  c18936a4 <- FUN_c18934c0
+  c18c4e00 <- <NO FUNCTION>
+  c18c4e04 <- <NO FUNCTION>
+  c18c4e38 <- <NO FUNCTION>
+  c18c4e40 <- <NO FUNCTION>
+  c18ff7bc <- <NO FUNCTION>
+  c18ff7c4 <- <NO FUNCTION>
+  c18ff7d8 <- <NO FUNCTION>
+  c18ff7e4 <- <NO FUNCTION>
+  c18ce2d4 <- <NO FUNCTION>
+  c18ce2e0 <- <NO FUNCTION>
+  c18d60a4 <- FUN_c18d5fe0
+  c18d60b0 <- FUN_c18d5fe0
+  c18d6190 <- FUN_c18d5fe0
+  c18d619c <- FUN_c18d5fe0
+  c18e32d4 <- FUN_c18e328c
+  c18e32e0 <- FUN_c18e328c
+  c18e3688 <- FUN_c18e328c
+  c18e376c <- FUN_c18e328c
+  c18e3778 <- FUN_c18e328c
+  c18e39d0 <- FUN_c18e328c
+  c18e3b00 <- FUN_c18e328c
+  c18e3b08 <- FUN_c18e328c
+  c18e3b2c <- FUN_c18e328c
+  c18e3b78 <- FUN_c18e328c
+  c18e3b84 <- FUN_c18e328c
+  c18e3bb8 <- FUN_c18e328c
+  c18e3bc4 <- FUN_c18e328c
+  c18e3bf8 <- FUN_c18e328c
+  c18e3c04 <- FUN_c18e328c
+  c18e3c38 <- FUN_c18e328c
+  c18e3c44 <- FUN_c18e328c
+  c18e2f14 <- FUN_c18e2ef8
+  c18e2f20 <- FUN_c18e2ef8
+  c18e2f60 <- FUN_c18e2ef8
+  c18e1a00 <- FUN_c18e19e0
+  c18e1a0c <- FUN_c18e19e0
+  c18e1ac0 <- FUN_c18e19e0
+  c18e1ac4 <- FUN_c18e19e0
+  c18e7f64 <- <NO FUNCTION>
+  c18e7f70 <- <NO FUNCTION>
+  c18e7f78 <- <NO FUNCTION>
+  c18e7f84 <- <NO FUNCTION>
+  c18e7fac <- <NO FUNCTION>
+  c18e7fb8 <- <NO FUNCTION>
+  c18e803c <- <NO FUNCTION>
+  c18e8048 <- <NO FUNCTION>
+  c18e8070 <- <NO FUNCTION>
+  c18e807c <- <NO FUNCTION>
+  c18e80a8 <- <NO FUNCTION>
+  c18e80b4 <- <NO FUNCTION>
+  c18e80e4 <- <NO FUNCTION>
+  c18e80f0 <- <NO FUNCTION>
+  c18e812c <- <NO FUNCTION>
+  c18e8138 <- <NO FUNCTION>
+  c18e8174 <- <NO FUNCTION>
+  c18e8180 <- <NO FUNCTION>
+  c18e81dc <- <NO FUNCTION>
+  c18e81e8 <- <NO FUNCTION>
+  c18e823c <- <NO FUNCTION>
+  c18e8248 <- <NO FUNCTION>
+  c18e8274 <- <NO FUNCTION>
+  c18e8280 <- <NO FUNCTION>
+  c18e82d8 <- <NO FUNCTION>
+  c18e82e4 <- <NO FUNCTION>
+  c18e82fc <- <NO FUNCTION>
+  c18e8308 <- <NO FUNCTION>
+  c18e8320 <- <NO FUNCTION>
+  c18e832c <- <NO FUNCTION>
+  c18e8350 <- <NO FUNCTION>
+  c18e835c <- <NO FUNCTION>
+  c18dee14 <- FUN_c18dedc4
+  c18dee1c <- FUN_c18dedc4
+  c18df350 <- FUN_c18df340
+  c18df35c <- FUN_c18df340
+  c18df3a0 <- FUN_c18df340
+  c18df3a8 <- FUN_c18df340
+  c18e04fc <- FUN_c18e04b0
+  c190e634 <- <NO FUNCTION>
+  c190e640 <- <NO FUNCTION>
+  c190e73c <- <NO FUNCTION>
+  c190e740 <- <NO FUNCTION>
+  c190e788 <- <NO FUNCTION>
+  c190e78c <- <NO FUNCTION>
+  c190e7bc <- <NO FUNCTION>
+  c190e7c4 <- <NO FUNCTION>
+  c190e7f8 <- <NO FUNCTION>
+  c190e800 <- <NO FUNCTION>
+  c190e834 <- <NO FUNCTION>
+  c190e9b0 <- <NO FUNCTION>
+  c190e9b4 <- <NO FUNCTION>
+  c190ea24 <- <NO FUNCTION>
+  c190ea28 <- <NO FUNCTION>
+  c190ea3c <- <NO FUNCTION>
+  c190ea40 <- <NO FUNCTION>
+  c190eb04 <- <NO FUNCTION>
+  c190eb0c <- <NO FUNCTION>
+  c190ec04 <- <NO FUNCTION>
+  c190ec10 <- <NO FUNCTION>
+  c18e3e14 <- FUN_c18e3db0
+  c18e3e20 <- FUN_c18e3db0
+  c18e3e58 <- FUN_c18e3db0
+  c18e3e64 <- FUN_c18e3db0
+  c18c6b7c <- FUN_c18c6b30
+  c18c6b88 <- FUN_c18c6b30
+  c1951c90 <- <NO FUNCTION>
+  c1951c98 <- <NO FUNCTION>
+  c1951d24 <- <NO FUNCTION>
+  c1951d28 <- <NO FUNCTION>
+  c1aa4754 <- <NO FUNCTION>
+  c1aa4760 <- <NO FUNCTION>
+  c1aa4780 <- <NO FUNCTION>
+  c1aa4788 <- <NO FUNCTION>
+  c1aa4798 <- <NO FUNCTION>
+  c1aa47a0 <- <NO FUNCTION>
+  c1aa47f8 <- <NO FUNCTION>
+  c18367b8 <- <NO FUNCTION>
+  c18e2f64 <- FUN_c18e2ef8
+  c18e0500 <- FUN_c18e04b0
+  c1940918 <- <NO FUNCTION>
+  c1940920 <- <NO FUNCTION>
+  c1940930 <- <NO FUNCTION>
+  c1940938 <- <NO FUNCTION>
+  c193fbc4 <- <NO FUNCTION>
+  c193fbcc <- <NO FUNCTION>
+  c193fc28 <- <NO FUNCTION>
+  c193fc30 <- <NO FUNCTION>
+  c1941a84 <- <NO FUNCTION>
+  c1941a8c <- <NO FUNCTION>
+  c1941aac <- <NO FUNCTION>
+  c1941ab4 <- <NO FUNCTION>
+  c1946fa8 <- FUN_c1946890
+  c1946fb4 <- FUN_c1946890
+  c194761c <- FUN_c1946890
+  c1947620 <- FUN_c1946890
+  c193ca38 <- FUN_c193c880
+  c193ca40 <- FUN_c193c880
+  c1948afc <- FUN_c1948790
+  c1948b00 <- FUN_c1948790
+  c1941ae0 <- <NO FUNCTION>
+  c18acc78 <- <NO FUNCTION>
+  c18acc80 <- <NO FUNCTION>
+  c18acd20 <- <NO FUNCTION>
+  c18acd28 <- <NO FUNCTION>
+  c18acd60 <- <NO FUNCTION>
+  c18acd68 <- <NO FUNCTION>
+  c18acd80 <- <NO FUNCTION>
+  c18acd88 <- <NO FUNCTION>
+  c18acda8 <- <NO FUNCTION>
+  c18acdb0 <- <NO FUNCTION>
+  c18acde4 <- <NO FUNCTION>
+  c18ace30 <- <NO FUNCTION>
+  c18ad520 <- <NO FUNCTION>
+  c18ad528 <- <NO FUNCTION>
+  c18ad538 <- <NO FUNCTION>
+  c18ad540 <- <NO FUNCTION>
+  c18ad580 <- <NO FUNCTION>
+  c18ad5a8 <- <NO FUNCTION>
+  c18ad5f4 <- <NO FUNCTION>
+  c18ad5fc <- <NO FUNCTION>
+  c18ad724 <- <NO FUNCTION>
+  c18ad728 <- <NO FUNCTION>
+  c18ad748 <- <NO FUNCTION>
+  c18ad754 <- <NO FUNCTION>
+  c18ad75c <- <NO FUNCTION>
+  c18ad89c <- <NO FUNCTION>
+  c18ad8a4 <- <NO FUNCTION>
+  c18ad8b4 <- <NO FUNCTION>
+  c18ad8bc <- <NO FUNCTION>
+  c18f4058 <- <NO FUNCTION>
+  c18cf740 <- <NO FUNCTION>
+  c18cf74c <- <NO FUNCTION>
+  c18cf76c <- <NO FUNCTION>
+  c18cf778 <- <NO FUNCTION>
 
 ============================================================
-DONE
+ [5] OTHER CALLERS OF THE SAME THUNK
 ============================================================
-RFDEBUG_SemanticRouteHunter.java> Finished!
+
+------------------------------------------------------------
+ CALLER: c18451a4
+------------------------------------------------------------
+FUNCTION: FUN_c18451a4
+ENTRY   : c18451a4
+
+    c184516c : assign R5,##0xaaaaaaab ; add R3,R3,#0x1 
+    c1845170 : mpyu R1R0,R4,R5 
+    c1845174 : lsr R1R0,R1R0,#0x2d 
+    c1845178 : immext #0x3000 
+    c184517c : mpyi-= R4,R0,##0x3000 
+    c1845180 : extractu R4,R4,#0xe,#0x0 
+    c1845184 : combine R1R0,#0x8,R16 
+    c1845188 : insert R2,R4,#0x1b,#0x0 
+    c184518c : insert R2,R3,#0xd,#0xe 
+    c1845190 : memw (R17+#0x14),R2.new 
+    c1845194 : memd R3R2,(R17+#0x10) 
+    c1845198 : memd R17R16,(SP) 
+    c184519c : jump 0xc16227d8 
+    c18451a0 : deallocframe 
+ >>> c18451a4 : assign R17,R0 
+    c18451a8 : memd (SP+#-0x10),R17R16 ; allocframe #0x20 
+    c18451ac : immext #0x2ab09040 
+    c18451b0 : assign R19,##0x2ab09053 
+    c18451b4 : memd (SP+#0x10),R19R18 ; memd (SP+#0x8),R21R20 
+    c18451b8 : add R18,R19,#-0x7fff 
+    c18451bc : immext #0xc1d80180 
+    c18451c0 : assign R21,##0xc1d801b0 ; memd (SP+#0x0),R23R22 
+    c18451c4 : memw (R18),#0x0 
+    c18451c8 : memw R16,(R0+#0x4c) 
+    c18451cc : memw (R21),R16 
+    c18451d0 : assign R3R2,G25G24 
+    c18451d4 : assign R0,R16 
+    c18451d8 : immext #0xcaf68600 
+    c18451dc : memw R4,(R22=##0xcaf68630) 
+
+------------------------------------------------------------
+ CALLER: c18520d0
+------------------------------------------------------------
+FUNCTION: FUN_c18520d0
+ENTRY   : c18520d0
+
+    c1852098 : assign R2,R16 
+    c185209c : combine R1R0,R18,R17 
+    c18520a0 : add R2,#0x8,asl(R2,#0x2) 
+    c18520a4 : call 0xc16b3900 
+    c18520a8 : +mpyi R2,R16,#0x28 
+    c18520ac : memh R3,(R19+#0x2) 
+    c18520b0 : +mpyi R3,R3,#0x28 
+    c18520b4 : immext #0x80 
+    c18520b8 : add R0,R17,add(R3,##0x88) 
+    c18520bc : immext #0x80 
+    c18520c0 : add R1,R18,add(R3,##0x88) 
+    c18520c4 : memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0) 
+    c18520c8 : jump 0xc16b3900 
+    c18520cc : deallocframe 
+ >>> c18520d0 : combine R17R16,R1,R0 
+    c18520d4 : cmp.eq P1,R0,#0x2 
+    c18520d8 : memd (SP+#-0x10),R17R16 ; allocframe #0x38 
+    c18520dc : immext #0xcaf95780 
+    c18520e0 : assign R19,##0xcaf957b4 
+    c18520e4 : memd (SP+#0x28),R19R18 ; memd (SP+#0x20),R21R20 
+    c18520e8 : add R18,R19,#0xb80 
+    c18520ec : jump.if(P1) 0xc18520f8 
+    c18520f0 : add R18,R19,#0xb94 
+    c18520f4 : cmp.eq P0,R16,#0x3 ; jump.if(!P0.new):nt 0xc1852248 
+    c18520f8 : assign R20,R18 
+    c18520fc : memub R2,(R20++#0x4) 
+    c1852100 : cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc185210c 
+    c1852104 : jump 0xc185213c 
+    c1852108 : memub.if(!P0.new) R3,(R17) 
+
+------------------------------------------------------------
+ CALLER: c185d4e0
+------------------------------------------------------------
+FUNCTION: FUN_c185d4e0
+ENTRY   : c185d4e0
+
+    c185d4a8 : immext #0x180 
+    c185d4ac : mpyi+= R2,R3,##0x1b5 
+    c185d4b0 : asl R3,R0,R1 
+    c185d4b4 : asr R2,R2,#0xb 
+    c185d4b8 : sath R3,R3 
+    c185d4bc : memh (R17+#0x30),R3.new 
+    c185d4c0 : asl R2,R2,#0x2 
+    c185d4c4 : sath R2,R2 
+    c185d4c8 : immext #0xffc0 
+    c185d4cc : and R2,R2,##0xfffc 
+    c185d4d0 : lsr R2,R2,#0x2 
+    c185d4d4 : memd R17R16,(SP+#0x8) 
+    c185d4d8 : memh (R17+#0x10),R2.new 
+    c185d4dc : dealloc_return 
+ >>> c185d4e0 : assign R1,#0x80 
+    c185d4e4 : immext #0xcaf94dc0 
+    c185d4e8 : memw R2,(##0xcaf94dc0) 
+    c185d4ec : allocframe #0x10 
+    c185d4f0 : assign R16,R0 
+    c185d4f4 : add R0,R2,#0xba0 
+    c185d4f8 : memd (SP+#0x8),R17R16 ; memd (SP+#0x0),R19R18 
+    c185d4fc : call 0xc16192b0 
+    c185d500 : immext #0xcaf94dc0 
+    c185d504 : memw R3,(##0xcaf94dc0) 
+    c185d508 : memw R2,(R3+#0xbac) 
+    c185d50c : extractu R17,R2,#0x1,#0x5 
+    c185d510 : extractu R18,R2,#0x3,#0x6 
+    c185d514 : immext #0xcaf95180 
+    c185d518 : memuh R1,(##0xcaf951b0) 
+
+============================================================
+ [6] EXACT CALL SITE ARGUMENT CONTEXT
+============================================================
+    c184b670 : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
+    c184b674 : memd R21R20,(SP+#0x40) ; memd R23R22,(SP+#0x38) 
+    c184b678 : memd R25R24,(SP+#0x30) 
+    c184b67c : memd R27R26,(SP+#0x28) 
+    c184b680 : jump 0xc1848f14 
+    c184b684 : deallocframe 
+    c184b688 : cmpb.eq P0,R3,#0x7a 
+    c184b68c : immext #0x8008200 
+    c184b690 : assign.if(!P0.new) R6,##0x8008211 
+    c184b694 : jump.if(P0.new):nt 0xc184cd94 
+    c184b698 : cmpb.eq P0,R3,#0x7b 
+    c184b69c : jump.if(!P0.new):nt 0xc184cdd4 
+    c184b6a0 : memub R1,(R17) ; memub R2,(R17+#0x1) 
+    c184b6a4 : or R3,R2,R1 
+    c184b6a8 : immext #0x1300 
+    c184b6ac : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):t 0xc184c9c8 
+    c184b6b0 : memuh R3,(R21) 
+    c184b6b4 : memub R4,(R20+#0x22) 
+    c184b6b8 : call 0xc1619338 
+    c184b6bc : immext #0xd61538c0 
+    c184b6c0 : assign R0,##0xd61538dc 
+    c184b6c4 : immext #0xcf853fc0 
+    c184b6c8 : assign R0,##0xcf853fd4 
+    c184b6cc : memub R1,(R17) ; memuh R3,(R21) 
+ >>> c184b6d0 : call 0xc18453bc 
+    c184b6d4 : memub R2,(R17+#0x1) 
+    c184b6d8 : memub R4,(R20+#0x22) 
+    c184b6dc : call 0xc1619338 
+    c184b6e0 : memub R2,(R19) 
+    c184b6e4 : setbit R2,R2,#0x2 
+    c184b6e8 : immext #0x1740 
+    c184b6ec : jump.if:nt !cmp.eq(R2.new,#0x6),0xc184ce4c 
+    c184b6f0 : immext #0xcaf8e700 
+    c184b6f4 : assign R8,##0xcaf8e700 
+    c184b6f8 : memuh R2,(R16+#0x10) 
+    c184b6fc : cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184b79c 
+    c184b700 : loop0 0xc184b714,#0x8 
+
+============================================================
+ [7] GLOBALS USED IMMEDIATELY BEFORE CALL
+============================================================
+
+ADDRESS: d61538dc
+
+SYMBOLS AT d61538dc:
+  <none>
+  DATA: <none>
+  XREF: <none>
+
+ADDRESS: cf853fd4
+
+SYMBOLS AT cf853fd4:
+  <none>
+  DATA: <none>
+  XREF: <none>
+
+ADDRESS: caf98960
+
+SYMBOLS AT caf98960:
+  DAT_caf98960 [DEFAULT]
+  DATA: undefined4 00000000h
+  TYPE: undefined4
+  VALUE: 0x0
+  XREF: c185b618 <- FUN_c185b5f0
+  XREF: c185b650 <- FUN_c185b5f0
+  XREF: c185b614 <- FUN_c185b5f0
+  XREF: c185b6d0 <- FUN_c185b5f0
+  XREF: c185b6c4 <- FUN_c185b5f0
+
+============================================================
+ DONE
+============================================================
+RFDEBUG_Trace_DispatchChain.java> Finished!
