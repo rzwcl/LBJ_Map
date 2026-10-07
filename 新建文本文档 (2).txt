@@ -1,1126 +1,1507 @@
- addasl R0,R12,R3,#0x2 
-  c17ad3f4 : cmp.gtu P1,R12,#0x2 
-  c17ad40c : memb (R19+#0x3),R6 
-  c17ad41c : addasl R7,R6,R3,#0x2 
-  c17ad428 : cmp.eq P0,R16,#0x1 ; jump.if(!P0.new):nt 0xc17ad45c 
-  c17ad444 : memb.if(!P0.new) (R19+#0x1),#0x0 
-  c17ad448 : addasl R5,R7,R23,#0x1 
-  c17ad464 : memb (R19+#0x1),R4.new 
-  c17ad468 : cmp.eq P0,R4,#0x2 ; jump.if(!P0.new):t 0xc17ad448 
-  c17ad46c : addasl R5,R7,R23,#0x1 
-  c17ad47c : addasl R5,R7,R23,#0x1 
-  c17ad494 : memh (R19+#0x1a),R4.new 
-  c17ad49c : memh (R19+#0x1c),R4.new 
-  c17ad4ac : addasl R3,R4,R3,#0x2 
-  c17ad4bc : memub.if(P0.new) R4,(R20+#0x3) 
-  c17ad4c0 : memub R4,(R3+R23<<#0x2) 
-  c17ad4cc : memub R4,(R3+R4<<#0x2) 
-  c17ad4d4 : memub R4,(R20+#0x3) 
-  c17ad4d8 : addasl R3,R3,R4,#0x2 
-  c17ad4ec : memub R3,(R3+#0x1) 
-  c17ad504 : memub R5,(R22+#0x2) 
-  c17ad508 : memb (R19+#0x2),R5.new 
-  c17ad538 : !tstbit P0,R2,#0x5 
-  c17ad544 : addasl R2,R17,R23,#0x1 
-  c17ad550 : asl R4,R23,#0x3 
-  c17ad554 : asl R5,R24,#0x5 
-  c17ad560 : extractu R8,R4,#0x9,#0x2 
-  c17ad568 : add R9,##0x3bb,asl(R9,#0x2) 
-  c17ad59c : loop0 0xc17ad5a0,#0x2 
-  c17ad5cc : assign R12,#0x1 
-  c17ad5d4 : add R4,R4,#0x2 
-  c17ad5e0 : add R3,R3,#0x4 
-  c17ad5e4 : add R5,R5,#0x4 
+
+  c18c322c <- FUN_c18c320c
+  c18d6208 <- FUN_c18d61d8
+  c18d6210 <- FUN_c18d61d8
+  c18d9a40 <- FUN_c18d9998
+  c18d9a48 <- FUN_c18d9998
+  c18d9aec <- FUN_c18d6340
+  c18d9af4 <- FUN_c18d6340
+  c18d9b70 <- FUN_c18d9b40
+  c18d9b74 <- FUN_c18d9b40
+  c18c3628 <- FUN_c18c35c0
+  c18c362c <- FUN_c18c35c0
+  c18e9e08 <- FUN_c18e9bb8
+  c18e9e0c <- FUN_c18e9bb8
+  c18dedec <- FUN_c18dedc4
+  c18dedf0 <- FUN_c18dedc4
+  c18df3f0 <- FUN_c18df3e8
+  c18df254 <- FUN_c18df108
+  c18df258 <- FUN_c18df108
+  c18df3f4 <- FUN_c18df3e8
   ...
 
-CALLERS:
-  c17b4094 : FUN_c17b4094
+------------------------------------------------------------
+#48 SCORE=15
+FUNCTION : FUN_c1902c74
+ENTRY    : c1902c74
+BODY     : [[c1902c74, c1902d93]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1902ca4 : cmp.eq P0,R2,#0x4b 
+
+CONTEXT @ c1902ca4
+    c1902c84 : add R2,SP,#0x0 
+    c1902c88 : assign R20,#0xd1 
+    c1902c8c : setbit R17,R2,#0x0 
+    c1902c90 : setbit R18,R2,#0x2 
+    c1902c94 : call 0xc18d0a18 
+    c1902c98 : combine R3R2,R18,R17 
+    c1902c9c : add R1,SP,#0x0 ; memw R0,(R16+#0x18) 
+    c1902ca0 : memub R2,(SP+#0x1) 
+ >>> c1902ca4 : cmp.eq P0,R2,#0x4b 
+    c1902ca8 : jump.if(P0.new):nt 0xc1902d4c 
+    c1902cac : cmpb.eq P0,R2,#0x4c 
+    c1902cb0 : jump.if(P0.new):nt 0xc1902cc8 
+    c1902cb4 : cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc1902c94 
+    c1902cb8 : memw.if(P0.new) R0,(R16+#0x28) 
+    c1902cbc : call 0xc18e78c0 
+    c1902cc0 : memd R17R16,(SP+#0x18) ; memd R19R18,(SP+#0x10) 
+    c1902cc4 : memd R21R20,(SP+#0x8) ; dealloc_return 
+
+DIRECT REFERENCES:
+  c1902c70 <- <NO FUNCTION>
 
 ------------------------------------------------------------
-#54  SCORE=41  INSNS=297
-FUNCTION : FUN_c17ee760
-ENTRY    : c17ee760
-BODY     : [[c17ee760, c17eec03]]
+#49 SCORE=15
+FUNCTION : FUN_c1926870
+ENTRY    : c1926870
+BODY     : [[c1926870, c1926b87]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : false
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
+EXACT MATCH INSTRUCTIONS:
+  c1926ab4 : cmp.gt P0,R21,#0x4b 
 
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
+CONTEXT @ c1926ab4
+    c1926a94 : jump.if:nt cmp.eq(R22.new,#0x0),0xc1926b54 
+    c1926a98 : immext #0xd60f3780 
+    c1926a9c : combine R1R0,R16,##0xd60f37a5 
+    c1926aa0 : assign R3,R17 ; sxtb R4,R3 
+    c1926aa4 : call 0xc1619338 
+    c1926aa8 : add R2,R18,#-0x8 
+    c1926aac : add R3,R22,R17 
+    c1926ab0 : assign R17,#0x96 
+ >>> c1926ab4 : cmp.gt P0,R21,#0x4b 
+    c1926ab8 : modwrap R3,R3,R17 
+    c1926abc : memh|= (R2),R19 
+    c1926ac0 : immext #0xd60f3800 
+    c1926ac4 : combine R1R0,R16,##0xd60f3804 
+    c1926ac8 : memuh R4,(R18) ; memb (R20+#0x3),R3 
+    c1926acc : sxtb R2,R22 
+    c1926ad0 : and R3,R3,#0xff 
+    c1926ad4 : or.if(P0) R5,R19,R4 
 
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
+DIRECT REFERENCES:
+  c1926218 <- FUN_c19261cc
+  c192621c <- FUN_c19261cc
 
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xC(12), 0x11(17), 0x12(18), 0x17(23), 0x18(24), 0x19(25), 0x1A(26), 0x1B(27), 0x1C(28), 0x1D(29), 0x20(32), 0x24(36), 0x25(37), 0x28(40), 0x30(48), 0x33(51), 0x38(56), 0x39(57), 0x3A(58), 0x3B(59), 0x3C(60), 0x3D(61), 0x40(64), 0x42(66), 0x48(72), 0x4B(75), 0x4C(76), 0x54(84), 0x56(86), 0x58(88), 0x74(116), 0x76(118), 0xDE(222), 0xE5(229), 0xE6(230), 0xF4(244), 0xFF(255), 0x100(256), 0x101(257), 0x1D8(472), 0x371(881), 0x38E(910), 0x391(913), 0x500(1280), 0x501(1281), 0x540(1344), 0x568(1384), 0xD80(3456), 0xD92(3474), 0x54A0(21664), 0xC8D66380(3369493376), 0xC8D663A4(3369493412), 0xC8DBEC40(3369856064), 0xC9902740(3381667648), 0xC9902744(3381667652), 0xD609A740(3590956864), 0xD609A77A(3590956922), 0xD609A780(3590956928), 0xD609A7B9(3590956985), 0xD609A7C0(3590956992), 0xD609A7DC(3590957020), 0xD609A800(3590957056), 0xD609A81C(3590957084), 0xD609A840(3590957120), 0xD609A85E(3590957150), 0xFFFFFFF0(4294967280), 0xFFFFFFF7(4294967287), 0xFFFFFFFF(4294967295)
+------------------------------------------------------------
+#50 SCORE=15
+FUNCTION : FUN_c1941da8
+ENTRY    : c1941da8
+BODY     : [[c1941da8, c1941feb]]
 
-SELECTED INSTRUCTIONS:
-  c17ee7a0 : add R2,##0xc8d663a4,asl(R2,#0x5) 
-  c17ee7a8 : add R4,##0xc9902744,asl(R4,#0x2) 
-  c17ee7b4 : memw R25,(R2+R16<<#0x2) 
-  c17ee7d8 : memb (R22+#0x4b),R18 
-  c17ee7fc : assign R3,#0x1 
-  c17ee800 : memub R2,(R5+#0x1) 
-  c17ee810 : memb R3,(R24+#0x3) 
-  c17ee818 : memb.if(P0.new) R3,(R24+#0x4) 
-  c17ee824 : assign.if(!P0.new) R18,#0x1 
-  c17ee82c : memb.if(!P0.new) (R24+#0x1d),#0x1 
-  c17ee83c : memb.if(P0.new) (R24+#0x7),#0x1 
-  c17ee840 : cmp.eq P0,R2,#0x2 
-  c17ee848 : memb.if(P0.new) (R24+#0x7),#0x1 
-  c17ee84c : memub R3,(R21+#0x2) 
-  c17ee850 : memb (R24+#0x7),#0x1 
-  c17ee85c : memub R4,(R21+#0x3) 
-  c17ee898 : assign R3,#0x1 
-  c17ee8a0 : cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):t 0xc17ee8b4 
-  c17ee8ac : cmp.eq R2,R2,#0x1 
-  c17ee8b4 : memb R2,(R17+#0x2) 
-  c17ee8bc : memb R2,(R17+#0x3) 
-  c17ee8d0 : jump.if:nt cmp.eq(R2.new,#0x1),0xc17ee8f0 
-  c17ee90c : memb R2,(R17+#0x2) 
-  c17ee914 : memb R2,(R17+#0x3) 
-  c17ee944 : cmp.gtu P0,R2,#0x2 
-  c17ee948 : mux R2,P0,#0x4,#0x3 
-  c17ee9a4 : cmp.eq P0,R4,#0x1 ; jump.if(!P0.new):t 0xc17eea34 
-  c17ee9c0 : add R26,R20,#0x1c 
-  c17ee9c4 : assign R18,#0x1 ; assign R21,R0 
-  c17ee9e4 : jump.if:t !cmp.eq(R2.new,#0x1),0xc17eea1c 
-  c17ee9ec : jump.if:t !cmp.eq(R2.new,#0x1),0xc17eea10 
-  c17ee9f4 : memb (R25),#0x1 
-  c17ee9fc : memb (R24+#0x8),#0x1 
-  c17eea00 : add R3,R2,#0x1 
-  c17eea08 : memb (R24+#0x11),#0x1 
-  c17eea18 : memb.if(P0.new) (R24+#0x1a),#0x1 
-  c17eea1c : add R23,R23,#0x1 
-  c17eea20 : add R25,R25,#0x1 
-  c17eea24 : add R26,R26,#0x1 
-  c17eea34 : assign R3,#0x0 ; cmp.eq P0,R4,#0x2 
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1941f54 : cmp.gt P0,R4,#0x4b 
+  c1941f70 : cmp.gt P0,R4,#0x4b 
+
+CONTEXT @ c1941f54
+    c1941f34 : cmp.gtu P0,R3,#0x9 
+    c1941f38 : add.if(P0.new) R3,R3,#-0xa 
+    c1941f3c : assign.if(!P0.new) R0,R2 
+    c1941f40 : assign R2,R3 
+    c1941f44 : mpyi+= R2,R0,#0xa 
+    c1941f48 : immext #0x40 
+    c1941f4c : add R4,R2,sub(##0x4b,R1) 
+    c1941f50 : modwrap R4,R4,R5 
+ >>> c1941f54 : cmp.gt P0,R4,#0x4b 
+    c1941f58 : jump.if(!P0.new):nt 0xc1941fcc 
+    c1941f5c : immext #0xc0 
+    c1941f60 : memub.if(P0.new) R1,(R17+##0xc6) 
+    c1941f64 : immext #0x40 
+    c1941f68 : add R4,R2,sub(##0x4b,R1) 
+    c1941f6c : modwrap R4,R4,R5 
+    c1941f70 : cmp.gt P0,R4,#0x4b 
+    c1941f74 : jump.if(!P0.new):nt 0xc1941fdc 
+CONTEXT @ c1941f70
+    c1941f50 : modwrap R4,R4,R5 
+    c1941f54 : cmp.gt P0,R4,#0x4b 
+    c1941f58 : jump.if(!P0.new):nt 0xc1941fcc 
+    c1941f5c : immext #0xc0 
+    c1941f60 : memub.if(P0.new) R1,(R17+##0xc6) 
+    c1941f64 : immext #0x40 
+    c1941f68 : add R4,R2,sub(##0x4b,R1) 
+    c1941f6c : modwrap R4,R4,R5 
+ >>> c1941f70 : cmp.gt P0,R4,#0x4b 
+    c1941f74 : jump.if(!P0.new):nt 0xc1941fdc 
+    c1941f78 : immext #0x880 
+    c1941f7c : memh.if(P0.new) R5,(R16+##0x8bc) 
+    c1941f80 : assign R4,R3 
+    c1941f84 : immext #0x19999980 
+    c1941f88 : assign R2,##0x1999999a ; assign R1,R3 
+    c1941f8c : mpyu R2,R3,R2 
+    c1941f90 : memd R23R22,(SP+#0x18) 
+
+DIRECT REFERENCES:
+  c1942568 <- FUN_c1942324
+  c1942570 <- FUN_c1942324
+
+------------------------------------------------------------
+#51 SCORE=15
+FUNCTION : FUN_c1979f04
+ENTRY    : c1979f04
+BODY     : [[c1979f04, c1979f73]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1979f38 : combine R3R2,#0x0,#0x4b 
+
+CONTEXT @ c1979f38
+    c1979f18 : memw R5,(R0<<#0x2+##0xcb33a870) 
+    c1979f1c : call 0xc1621c20 
+    c1979f20 : memw R0,(R5+#0x48) 
+    c1979f24 : immext #0x7800 
+    c1979f28 : +mpyi R2,R16,##0x7800 
+    c1979f2c : assign R3,#0x0 
+    c1979f30 : memd R5R4,(GP+#0x15958) 
+    c1979f34 : asl+= R1R0,R3R2,#0x20 
+ >>> c1979f38 : combine R3R2,#0x0,#0x4b 
+    c1979f3c : lsr R7R6,R1R0,#0x36 
+    c1979f40 : cmp.gtu P0,R3R2,R7R6 
+    c1979f44 : add R3R2,R1R0,R5R4 
+    c1979f48 : memd R7R6,(GP+#0x15968) 
+    c1979f4c : assign.if(!P0) R1,R3 
+    c1979f50 : memd R3R2,(GP+#0x15948) 
+    c1979f54 : add R3R2,R19R18,R3R2 
+    c1979f58 : cmp.gtu P0,R1R0,R19R18 
+
+DIRECT REFERENCES:
+  c19778d8 <- FUN_c19778c4
+  c19778dc <- FUN_c19778c4
+
+------------------------------------------------------------
+#52 SCORE=15
+FUNCTION : FUN_c19cf234
+ENTRY    : c19cf234
+BODY     : [[c19cf234, c19cf3ef]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c19cf3b4 : combine R1R0,#0x4b,R19 
+
+CONTEXT @ c19cf3b4
+    c19cf394 : cmp.eq P0,R0,R17 
+    c19cf398 : immext #0x140 
+    c19cf39c : memub.if(!P0.new) R18,(R17+##0x169) 
+    c19cf3a0 : memb.if(!P0.new) (SP+#0xf),R0.new 
+    c19cf3a4 : assign.if(P0) R18,#0x0 
+    c19cf3a8 : memb.if(P0) (SP+#0xf),#0x0 
+    c19cf3ac : assign R19,#0x0 ; jump 0xc19cf3c4 
+    c19cf3b0 : call 0xc19cf3f0 
+ >>> c19cf3b4 : combine R1R0,#0x4b,R19 
+    c19cf3b8 : add R3,SP,#0xc 
+    c19cf3bc : memub R18,(SP+#0xf) 
+    c19cf3c0 : memuh R19,(R19+#0x38c) 
+    c19cf3c4 : call 0xc19cf3f8 
+    c19cf3c8 : assign R1,R17 
+    c19cf3cc : combine R3R2,R18,R16 
+    c19cf3d0 : immext #0x1000 
+    c19cf3d4 : combine R5R4,##0x1017,R19 
+
+DIRECT REFERENCES:
+  <none>
+
+------------------------------------------------------------
+#53 SCORE=15
+FUNCTION : FUN_c1a46a70
+ENTRY    : c1a46a70
+BODY     : [[c1a46a70, c1a46b8f]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1a46b40 : cmph.gtu P0,R2,#0x4b 
+
+CONTEXT @ c1a46b40
+    c1a46b20 : add.if(P0) R2,R16,##0xffffdbeb 
+    c1a46b24 : jump.if(!P0):t 0xc1a46b8c 
+    c1a46b28 : immext #0x80 
+    c1a46b2c : cmph.gtu P0,R2,##0x96 
+    c1a46b30 : assign R0,#0x6 
+    c1a46b34 : immext #0xfffff180 
+    c1a46b38 : add.if(P0) R2,R16,##0xfffff180 
+    c1a46b3c : jump.if(!P0):t 0xc1a46b8c 
+ >>> c1a46b40 : cmph.gtu P0,R2,#0x4b 
+    c1a46b44 : assign R0,#0x7 
+    c1a46b48 : immext #0xfffffd00 
+    c1a46b4c : add.if(P0.new) R2,R16,##0xfffffd38 
+    c1a46b50 : assign.if(P0) R0,#0x8 
+    c1a46b54 : jump.if(!P0):t 0xc1a46b8c 
+    c1a46b58 : cmph.gtu P0,R2,#0x33 
+    c1a46b5c : immext #0xfffffcc0 
+    c1a46b60 : add.if(P0.new) R2,R16,##0xfffffced 
+
+DIRECT REFERENCES:
+  c1a219b8 <- thunk_FUN_c1a46a70
+  c19a8c48 <- <NO FUNCTION>
+  c19a8c4c <- <NO FUNCTION>
+
+------------------------------------------------------------
+#54 SCORE=15
+FUNCTION : FUN_c1aafbc0
+ENTRY    : c1aafbc0
+BODY     : [[c1aa9328, c1aa94af] [c1aafbc0, c1aafeff]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1aafbf4 : cmpb.eq P1,R22,#0x4b 
+  c1aafc10 : cmpb.eq P1,R22,#0x4b 
+  c1aafc1c : cmpb.eq P0,R22,#0x4b 
+
+CONTEXT @ c1aafbf4
+    c1aafbd4 : memd (SP+#0x38),R19R18 ; memd (SP+#0x30),R21R20 
+    c1aafbd8 : jump.if(P2) 0xc1aafc30 
+    c1aafbdc : memd (SP+#0x28),R23R22 
+    c1aafbe0 : cmp.eq P0,R17,#0x0 ; jump.if(P0.new):nt 0xc1aaff18 
+    c1aafbe4 : memub R22,(R17) 
+    c1aafbe8 : cmpb.eq P0,R22,#0x80 
+    c1aafbec : assign.if(P0.new) R20,#0x80 
+    c1aafbf0 : jump.if(P0.new):nt 0xc1aafc74 
+ >>> c1aafbf4 : cmpb.eq P1,R22,#0x4b 
+    c1aafbf8 : assign.if(P1.new) R20,#0xff 
+    c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
+    c1aafc00 : immext #0xffff98c0 
+    c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
+    c1aafc08 : assign.if(!P0) R21,#0xff 
+    c1aafc0c : jump.if(P0) 0xc1aafe4c 
+    c1aafc10 : cmpb.eq P1,R22,#0x4b 
+    c1aafc14 : jump.if(P0) 0xc1aafe54 
+CONTEXT @ c1aafc10
+    c1aafbf0 : jump.if(P0.new):nt 0xc1aafc74 
+    c1aafbf4 : cmpb.eq P1,R22,#0x4b 
+    c1aafbf8 : assign.if(P1.new) R20,#0xff 
+    c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
+    c1aafc00 : immext #0xffff98c0 
+    c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
+    c1aafc08 : assign.if(!P0) R21,#0xff 
+    c1aafc0c : jump.if(P0) 0xc1aafe4c 
+ >>> c1aafc10 : cmpb.eq P1,R22,#0x4b 
+    c1aafc14 : jump.if(P0) 0xc1aafe54 
+    c1aafc18 : memub.if(P1) R21,(R17+#0x1) 
+    c1aafc1c : cmpb.eq P0,R22,#0x4b 
+    c1aafc20 : immext #0xffc0 
+    c1aafc24 : assign R22,##0xffff 
+    c1aafc28 : jump 0xc1aafc88 
+    c1aafc2c : memuh.if(P0) R22,(R17+#0x2) 
+    c1aafc30 : memub R22,(R17) 
+CONTEXT @ c1aafc1c
+    c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
+    c1aafc00 : immext #0xffff98c0 
+    c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
+    c1aafc08 : assign.if(!P0) R21,#0xff 
+    c1aafc0c : jump.if(P0) 0xc1aafe4c 
+    c1aafc10 : cmpb.eq P1,R22,#0x4b 
+    c1aafc14 : jump.if(P0) 0xc1aafe54 
+    c1aafc18 : memub.if(P1) R21,(R17+#0x1) 
+ >>> c1aafc1c : cmpb.eq P0,R22,#0x4b 
+    c1aafc20 : immext #0xffc0 
+    c1aafc24 : assign R22,##0xffff 
+    c1aafc28 : jump 0xc1aafc88 
+    c1aafc2c : memuh.if(P0) R22,(R17+#0x2) 
+    c1aafc30 : memub R22,(R17) 
+    c1aafc34 : cmp.gt P0,R22,#0x7c 
+    c1aafc38 : jump.if(!P0.new):nt 0xc1aafc58 
+    c1aafc3c : cmpb.eq P0,R22,#0x7d 
+
+DIRECT REFERENCES:
+  c1ab0790 <- FUN_c1ab0668
+  c1ab0798 <- FUN_c1ab0668
+  c1ab08dc <- FUN_c1ab0668
+  c1ab08e4 <- FUN_c1ab0668
+  c1ade1ec <- FUN_c1ade0a4
+  c1ade1f4 <- FUN_c1ade0a4
+  c1acef00 <- FUN_c1acee14
+
+------------------------------------------------------------
+#55 SCORE=15
+FUNCTION : FUN_c1ab1a4c
+ENTRY    : c1ab1a4c
+BODY     : [[c1aa7d38, c1aa7d43] [c1ab1a4c, c1ab1ab3]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1ab1a7c : combine R1R0,R18,#0x4b 
+
+CONTEXT @ c1ab1a7c
+    c1ab1a5c : immext #0xcbf1b540 
+    c1ab1a60 : memw R2,(##0xcbf1b554) 
+    c1ab1a64 : immext #0xffff62c0 
+    c1ab1a68 : jump.if:nt !cmp.eq(R2.new,R0),0xc1aa7d38 
+    c1ab1a6c : cmp.gtu P0,R18,#0x3 ; jump.if(!P0.new):t 0xc1ab1a94 
+    c1ab1a70 : immext #0xc93a4dc0 
+    c1ab1a74 : memw.if(!P0.new) R0,(##0xc93a4df0) 
+    c1ab1a78 : call 0xc1ab009c 
+ >>> c1ab1a7c : combine R1R0,R18,#0x4b 
+    c1ab1a80 : cmp.eq P0,R0,#0x0 
+    c1ab1a84 : assign.if(P0.new) R0,#0x0 
+    c1ab1a88 : memb.if(!P0.new) (R0+#0x1),R17 
+    c1ab1a8c : memh.if(!P0.new) (R0+#0x2),R16.L 
+    c1ab1a90 : jump 0xc1ab1aac 
+    c1ab1a94 : assign R1,#0x3 ; memw (SP+#0x0),R18 
+    c1ab1a98 : immext #0xc47ba2c0 
+    c1ab1a9c : assign R2,##0xc47ba2c0 
+
+DIRECT REFERENCES:
+  c1abbe64 <- FUN_c1abbe48
+  c1abbe68 <- FUN_c1abbe48
+  c1abbf98 <- FUN_c1abbf8c
+  c1abbf9c <- FUN_c1abbf8c
+  c1abc248 <- FUN_c1abc238
+  c1abc24c <- FUN_c1abc238
+  c1abc3a8 <- FUN_c1abc320
+  c1abc3ac <- FUN_c1abc320
+  c1abc724 <- FUN_c1abc6ec
+  c1abc728 <- FUN_c1abc6ec
+  c1abc7dc <- FUN_c1abc7a4
+  c1abc7e0 <- FUN_c1abc7a4
+  c1abc958 <- FUN_c1abc920
+  c1abc95c <- FUN_c1abc920
+  c1abcb98 <- FUN_c1abcb8c
+  c1abcb9c <- FUN_c1abcb8c
+  c1abcc74 <- FUN_c1abcc54
+  c1abcc7c <- FUN_c1abcc54
+  c1abcd9c <- FUN_c1abcd78
+  c1abcda0 <- FUN_c1abcd78
   ...
 
-CALLERS:
-  c17c8340 : FUN_c17c8340
+------------------------------------------------------------
+#56 SCORE=15
+FUNCTION : FUN_c1ab5394
+ENTRY    : c1ab5394
+BODY     : [[c1ab5394, c1ab53bf]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1ab53b4 : cmpb.eq P0,R3,#0x4b 
+
+CONTEXT @ c1ab53b4
+    c1ab5394 : cmp.eq P0,R0,#0x0 
+    c1ab5398 : immext #0xffc0 
+    c1ab539c : assign R0,##0xffff ; assign R2,R0 
+    c1ab53a0 : jump.if(P0) 0xc1ab53bc 
+    c1ab53a4 : memub.if(!P0) R3,(R2) 
+    c1ab53a8 : cmp.eq P0,R3,#0x80 
+    c1ab53ac : jump.if(P0.new):nt 0xc1ab53bc 
+    c1ab53b0 : memuh.if(P0.new) R0,(R2+#0x2) 
+ >>> c1ab53b4 : cmpb.eq P0,R3,#0x4b 
+    c1ab53b8 : memuh.if(P0.new) R0,(R2+#0x2) 
+    c1ab53bc : jumpr LR 
+    c1ab53c0 : assign R17,R0 
+    c1ab53c4 : memd (SP+#-0x10),R17R16 ; allocframe #0x30 
+    c1ab53c8 : memw R0,(R0+#0xc) ; memd (SP+#0x10),R23R22 
+    c1ab53cc : memd (SP+#0x20),R19R18 ; memd (SP+#0x18),R21R20 
+    c1ab53d0 : call 0xc1ab5640 
+    c1ab53d4 : immext #0xc95c67c0 
+
+DIRECT REFERENCES:
+  c1abbe50 <- FUN_c1abbe48
+  c1abbe54 <- FUN_c1abbe48
+  c1abbf8c <- FUN_c1abbf8c
+  c1abbf90 <- FUN_c1abbf8c
+  c1abc23c <- FUN_c1abc238
+  c1abc240 <- FUN_c1abc238
+  c1abcb8c <- FUN_c1abcb8c
+  c1abcb90 <- FUN_c1abcb8c
+  c1abcc54 <- FUN_c1abcc54
+  c1abcc5c <- FUN_c1abcc54
+  c1abcd8c <- FUN_c1abcd78
+  c1abcd90 <- FUN_c1abcd78
+  c1abce08 <- FUN_c1abcdf4
+  c1abce0c <- FUN_c1abcdf4
+  c1abd310 <- FUN_c1abd2f4
+  c1ac01dc <- FUN_c1ac01c0
+  c1ac10ac <- FUN_c1ac1090
+  c1ac10b0 <- FUN_c1ac1090
+  c1ac1154 <- FUN_c1ac1138
+  c1ac1158 <- FUN_c1ac1138
+  ...
 
 ------------------------------------------------------------
-#55  SCORE=41  INSNS=367
+#57 SCORE=15
+FUNCTION : FUN_c1ab5514
+ENTRY    : c1ab5514
+BODY     : [[c1ab5514, c1ab553b]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1ab5530 : cmpb.eq P0,R3,#0x4b 
+
+CONTEXT @ c1ab5530
+    c1ab5510 : jumpr LR 
+    c1ab5514 : assign R2,R0 
+    c1ab5518 : assign R0,#0xff 
+    c1ab551c : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1ab5538 
+    c1ab5520 : memub R3,(R2) 
+    c1ab5524 : cmp.eq P0,R3,#0x80 
+    c1ab5528 : jump.if(P0.new):nt 0xc1ab5538 
+    c1ab552c : memub.if(P0.new) R0,(R2+#0x1) 
+ >>> c1ab5530 : cmpb.eq P0,R3,#0x4b 
+    c1ab5534 : memub.if(P0.new) R0,(R2+#0x1) 
+    c1ab5538 : jumpr LR 
+    c1ab556c : jumpr LR 
+    c1ab5570 : memw (R0+#0x20),#0x0 
+    c1ab5574 : assign.if(!P0.new) R0,R1 
+    c1ab5578 : immext #0xffff21c0 
+    c1ab557c : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):t 0xc1aa7748 
+    c1ab5580 : jump 0xc1695a84 
+
+DIRECT REFERENCES:
+  c1ad05e0 <- <NO FUNCTION>
+  c1ad05e4 <- <NO FUNCTION>
+
+------------------------------------------------------------
+#58 SCORE=15
+FUNCTION : FUN_c1b103d0
+ENTRY    : c1b103d0
+BODY     : [[c1b103d0, c1b10713]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1b10460 : assign R0,#0x4b 
+  c1b10468 : assign.if(!P0.new) R0,#0x4b 
+
+CONTEXT @ c1b10460
+    c1b10440 : assign R0,##0xc4712dd0 ; memw (SP+#0x0),R16 
+    c1b10444 : immext #0xca432f80 
+    c1b10448 : assign R18,##0xca432f80 ; cmp.eq P0,R16,#0x0 
+    c1b1044c : assign R2,P0 
+    c1b10450 : add.if(P0) R0,R18,#0x8 
+    c1b10454 : jump.if(P0) 0xc1b106cc 
+    c1b10458 : memw (SP+#0x1c),R2.new 
+    c1b1045c : call 0xc1b07800 
+ >>> c1b10460 : assign R0,#0x4b 
+    c1b10464 : add R1,SP,#0x24 
+    c1b10468 : assign.if(!P0.new) R0,#0x4b 
+    c1b1046c : add.if(!P0.new) R1,SP,#0x23 
+    c1b10470 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1b10480 
+    c1b10474 : call 0xc1b07950 
+    c1b10478 : add R2,SP,#0x22 
+    c1b1047c : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1b104e8 
+    c1b10480 : memb R2,(GP+#0x178c) 
+CONTEXT @ c1b10468
+    c1b10448 : assign R18,##0xca432f80 ; cmp.eq P0,R16,#0x0 
+    c1b1044c : assign R2,P0 
+    c1b10450 : add.if(P0) R0,R18,#0x8 
+    c1b10454 : jump.if(P0) 0xc1b106cc 
+    c1b10458 : memw (SP+#0x1c),R2.new 
+    c1b1045c : call 0xc1b07800 
+    c1b10460 : assign R0,#0x4b 
+    c1b10464 : add R1,SP,#0x24 
+ >>> c1b10468 : assign.if(!P0.new) R0,#0x4b 
+    c1b1046c : add.if(!P0.new) R1,SP,#0x23 
+    c1b10470 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1b10480 
+    c1b10474 : call 0xc1b07950 
+    c1b10478 : add R2,SP,#0x22 
+    c1b1047c : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1b104e8 
+    c1b10480 : memb R2,(GP+#0x178c) 
+    c1b10484 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1b104cc 
+    c1b10488 : call 0xc1b0dffc 
+
+DIRECT REFERENCES:
+  <none>
+
+------------------------------------------------------------
+#59 SCORE=15
+FUNCTION : FUN_c1b10718
+ENTRY    : c1b10718
+BODY     : [[c1b10718, c1b109f3]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1b1088c : assign R0,#0x4b 
+
+CONTEXT @ c1b1088c
+    c1b1086c : assign R0,##0xc4947deb 
+    c1b10870 : call 0xc1ab5450 
+    c1b10874 : immext #0xf80032c0 
+    c1b10878 : assign R0,##0xf80032f0 
+    c1b1087c : jump 0xc1b109e0 
+    c1b10880 : memw R2,(SP+#0x1c) 
+    c1b10884 : jump.if:t !cmp.eq(R2.new,#0x0),0xc1b108b4 
+    c1b10888 : call 0xc1b074fc 
+ >>> c1b1088c : assign R0,#0x4b 
+    c1b10890 : add R1,SP,#0x1c 
+    c1b10894 : immext #0xc4947e00 
+    c1b10898 : assign.if(P0.new) R0,##0xc4947e34 
+    c1b1089c : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1b108b4 
+    c1b108a0 : call 0xc1b0bd60 
+    c1b108a4 : call 0xc1ab5450 
+    c1b108a8 : immext #0xf80032c0 
+    c1b108ac : assign R0,##0xf80032f8 ; assign R19,#0x0 
+
+DIRECT REFERENCES:
+  c1b10708 <- FUN_c1b103d0
+  c1b1070c <- FUN_c1b103d0
+
+------------------------------------------------------------
+#60 SCORE=15
 FUNCTION : FUN_c1bb7268
 ENTRY    : c1bb7268
 BODY     : [[c1bb7268, c1bb7823]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : false
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0xA(10), 0xC(12), 0x10(16), 0x14(20), 0x18(24), 0x1A(26), 0x1C(28), 0x2D(45), 0x30(48), 0x32(50), 0x46(70), 0x4B(75), 0x50(80), 0x1F4(500), 0x31E(798), 0x325(805), 0x329(809), 0x32C(812), 0x336(822), 0x339(825), 0x33F(831), 0x343(835), 0x350(848), 0x35A(858), 0x35E(862), 0x363(867), 0x367(871), 0x36C(876), 0x374(884), 0x37B(891), 0x382(898), 0x38A(906), 0x391(913), 0x398(920), 0x3AE(942), 0x400(1024), 0x408(1032), 0x40C(1036), 0x410(1040), 0x418(1048), 0x41C(1052), 0x420(1056), 0x424(1060), 0x428(1064), 0x42C(1068), 0x430(1072), 0x438(1080), 0x43C(1084), 0x470(1136), 0x4C0(1216), 0x1300(4864), 0x1313(4883), 0x1314(4884), 0x1315(4885), 0x1316(4886), 0xFFC0(65472), 0xFFFF(65535), 0x15408(87048), 0xC1BB7800(3250288640), 0xC1BB7824(3250288676), 0xC1BB7840(3250288704), 0xC1BB7860(3250288736), 0xC4F15D00(3304152320), 0xC4F15D3B(3304152379), 0xC4F15D40(3304152384), 0xC4F15D43(3304152387), 0xC4F15D4B(3304152395), 0xC4F15D4F(3304152399), 0xC4F15F80(3304152960), 0xC4F15F98(3304152984), 0xC4F15FB8(3304153016) ...
-
-SELECTED INSTRUCTIONS:
-  c1bb72b4 : assign R17,#0x1 
-  c1bb72c8 : cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1bb72e0 
-  c1bb72d0 : add R0,SP,#0x8 ; add R1,SP,#0x4 
-  c1bb72fc : cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):nt 0xc1bb77ec 
-  c1bb7304 : add R0,SP,#0x8 ; add R1,SP,#0x4 
-  c1bb7350 : memw R20,(R18<<#0x2+##0xc9153da0) 
-  c1bb7378 : memw R0,(SP+#0x4) 
-  c1bb73f8 : cmp.eq P0,R17,#0x4 ; jump.if(!P0.new):t 0xc1bb74d4 
-  c1bb741c : cmp.eq P0,R0,#0x3 ; jump.if(P0.new):t 0xc1bb7434 
-  c1bb7434 : assign R20,#0x2 ; assign R0,R19 
-  c1bb7488 : add R23,R23,#0x4 
-  c1bb7494 : +mpyi R3,R18,#0x1c 
-  c1bb74f4 : add R1,R26,#0x1 
-  c1bb7508 : jump.if:t !cmp.gtu(R20.new,#0x1),0xc1bb7524 
-  c1bb7510 : assign R20,#0x1 
+EXACT MATCH INSTRUCTIONS:
   c1bb75e0 : assign R23,#0x4b 
-  c1bb75f0 : jump.if:t cmp.gtu(R20.new,#0x4),0xc1bb7604 
-  c1bb75f4 : cmp.eq P0,R17,#0x1 ; jump.if(P0.new):nt 0xc1bb7618 
-  c1bb7600 : cmp.eq P0,R20,#0x3 ; jump.if(!P0.new):nt 0xc1bb7618 
-  c1bb7618 : +mpyi R2,R18,#0x1c 
-  c1bb7628 : memh (R4+#0x2),R26.L 
-  c1bb7634 : memh (R3+#0x4),R27.L 
-  c1bb76a0 : assign R2,#0x1 ; jump 0xc1bb76f8 
-  c1bb76b4 : assign R2,#0x2 ; jump 0xc1bb76f8 
-  c1bb76cc : assign R2,#0x3 ; jump 0xc1bb76f8 
-  c1bb76d8 : add.if(P0.new) R1,R26,#0x1 
-  c1bb76fc : add R26,R26,#0x1 
-  c1bb7710 : add R27,R27,#0x4 
-  c1bb7728 : memh.if(P0.new) R3,(R2+#0x2) 
-  c1bb7730 : memb.if(P0.new) (R2+#0x1a),#0x1 
-  c1bb7738 : mpyi+= R5,R18,#0x1c 
-  c1bb774c : memub R1,(R5+#0x1a) 
-  c1bb777c : add R17,R17,#0x1 
-  c1bb7784 : jump.if:t !cmp.eq(R17.new,#0x5),0xc1bb72b8 
-  c1bb7790 : add R19,R19,#0x1 
-  c1bb77b4 : memw R3,(R21) ; memub R1,(R18+#0x1) 
-  c1bb77bc : add R0,SP,#0x4 
-  c1bb77c0 : memw R2,(R18+#0x4) ; memub R1,(R18+#0x1) 
-  c1bb77cc : memb (R18),#0x1 
-  c1bb77d8 : assign R17,#0x1 
-  ...
 
-CALLERS:
-  c1bb5544 : FUN_c1bb5544
+CONTEXT @ c1bb75e0
+    c1bb75c0 : jump.if(!P0.new):t 0xc1bb75e4 
+    c1bb75c4 : assign R1,#0x1313 
+    c1bb75c8 : memd R5R4,(GP+#0x15408) 
+    c1bb75cc : memw R2,(R21) 
+    c1bb75d0 : call 0xc1620be0 
+    c1bb75d4 : memd (SP+#0x428),R5R4 
+    c1bb75d8 : add R2,R18,#0x398 
+    c1bb75dc : assign R25,#0x2d 
+ >>> c1bb75e0 : assign R23,#0x4b 
+    c1bb75e4 : immext #0xf930f9c0 
+    c1bb75e8 : assign R0,##0xf930f9fb 
+    c1bb75ec : memw R20,(SP+#0x430) 
+    c1bb75f0 : jump.if:t cmp.gtu(R20.new,#0x4),0xc1bb7604 
+    c1bb75f4 : cmp.eq P0,R17,#0x1 ; jump.if(P0.new):nt 0xc1bb7618 
+    c1bb75f8 : immext #0xf930fa40 
+    c1bb75fc : assign R0,##0xf930fa64 
+    c1bb7600 : cmp.eq P0,R20,#0x3 ; jump.if(!P0.new):nt 0xc1bb7618 
+
+DIRECT REFERENCES:
+  c1bb5620 <- FUN_c1bb5544
 
 ------------------------------------------------------------
-#56  SCORE=41  INSNS=257
-FUNCTION : FUN_c1c2b5d0
-ENTRY    : c1c2b5d0
-BODY     : [[c1c2b5d0, c1c2b9d3]]
+#61 SCORE=15
+FUNCTION : FUN_c1bcdbf0
+ENTRY    : c1bcdbf0
+BODY     : [[c1bcdbf0, c1bcdf5b]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : false
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
+EXACT MATCH INSTRUCTIONS:
+  c1bcdde4 : assign R4,#0x4b 
 
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
+CONTEXT @ c1bcdde4
+    c1bcddc4 : memw R3,(R0+#0x8) 
+    c1bcddc8 : memw (R2+#0x110),R3.new 
+    c1bcddcc : jumpr LR 
+    c1bcddd0 : memw R3,(R0+#0x8) 
+    c1bcddd4 : memw (R2+#0x11c),R3.new 
+    c1bcddd8 : jumpr LR 
+    c1bcdddc : memw R3,(R0+#0x8) 
+    c1bcdde0 : memb (R2+#0x124),R3.new 
+ >>> c1bcdde4 : assign R4,#0x4b 
+    c1bcdde8 : memw R3,(R0+#0x8) 
+    c1bcddec : minu R3,R3,R4 
+    c1bcddf0 : jumpr LR 
+    c1bcddf4 : memw (R2+#0x128),R3.new 
+    c1bcddf8 : assign R4,#0x64 
+    c1bcddfc : memw R3,(R0+#0x8) 
+    c1bcde00 : minu R3,R3,R4 
+    c1bcde04 : jumpr LR 
 
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0xC(12), 0xD(13), 0xE(14), 0x10(16), 0x11(17), 0x12(18), 0x13(19), 0x14(20), 0x15(21), 0x16(22), 0x18(24), 0x1A(26), 0x1C(28), 0x1D(29), 0x1E(30), 0x1F(31), 0x20(32), 0x21(33), 0x22(34), 0x24(36), 0x26(38), 0x28(40), 0x2A(42), 0x2C(44), 0x30(48), 0x31(49), 0x34(52), 0x38(56), 0x3A(58), 0x3B(59), 0x3C(60), 0x3D(61), 0x3E(62), 0x40(64), 0x42(66), 0x43(67), 0x44(68), 0x45(69), 0x46(70), 0x48(72), 0x4A(74), 0x4B(75), 0x4C(76), 0x4E(78), 0x50(80), 0x54(84), 0x56(86), 0x57(87), 0x58(88), 0x5A(90), 0x5C(92), 0x5D(93), 0x5E(94), 0x60(96), 0x62(98), 0x63(99), 0x64(100), 0x65(101), 0x68(104), 0x69(105), 0x6C(108), 0x6D(109), 0x6E(110), 0x8C(140), 0xA0(160), 0xFE(254), 0xFF(255), 0xFFFFFFF0(4294967280), 0xFFFFFFFE(4294967294), 0xFFFFFFFF(4294967295)
-
-SELECTED INSTRUCTIONS:
-  c1c2b5f4 : jump.if:nt cmp.eq(R4.new,#0x2),0xc1c2b630 
-  c1c2b604 : assign R2,#0x1 
-  c1c2b608 : cmp.eq P0,R3,#0x2 ; jump.if(P0.new):t 0xc1c2b640 
-  c1c2b610 : cmp.eq P0,R3,#0x4 ; jump.if(P0.new):t 0xc1c2b63c 
-  c1c2b618 : assign R2,#0x3 
-  c1c2b628 : assign.if(P0) R2,#0x2 
-  c1c2b63c : assign R2,#0x2 
-  c1c2b644 : memw R2,(R0+#0x4) 
-  c1c2b648 : !tstbit P0,R2,#0x2 
-  c1c2b650 : memw (R16+#0x1c),setbit(#0x6) 
-  c1c2b65c : memw R2,(R0+#0x4) 
-  c1c2b674 : memw R3,(R2+#0x4) 
-  c1c2b67c : memw (R16+#0x1c),setbit(#0x0) 
-  c1c2b694 : cmp.eq P0,R3,#0x1 
-  c1c2b6a0 : memw R3,(R2+#0x4) 
-  c1c2b6a4 : !tstbit P0,R3,#0x1 
-  c1c2b6b4 : loop0 0xc1c2b6d0,#0x4 
-  c1c2b6b8 : memw (R16+#0x1c),setbit(#0x1) 
-  c1c2b6e4 : memuh R6,(R4+#0x2) 
-  c1c2b6e8 : memh (R3+#0x2),R6.new 
-  c1c2b6ec : add R3,R3,#0x4 
-  c1c2b6f0 : add R4,R4,#0x4 ; add R5,R5,#0x1 
-  c1c2b6f4 : memw R3,(R2+#0x4) 
-  c1c2b6f8 : !tstbit P0,R3,#0x2 
-  c1c2b700 : memw (R16+#0x1c),setbit(#0x2) 
-  c1c2b710 : jump.if:t !cmp.eq(R3.new,#0x1),0xc1c2b794 
-  c1c2b730 : cmp.eq P0,R3,#0x1 
-  c1c2b73c : memuh R3,(R2+#0x1a) 
-  c1c2b744 : memub R3,(R2+#0x1c) 
-  c1c2b750 : memb (R16+#0x4b),R3.new 
-  c1c2b794 : memub R3,(R2+#0x4) 
-  c1c2b798 : !tstbit P0,R3,#0x3 
-  c1c2b7a0 : memw (R16+#0x1c),setbit(#0x3) 
-  c1c2b7b0 : jump.if:t !cmp.eq(R3.new,#0x1),0xc1c2b7ec 
-  c1c2b7ec : memub R3,(R2+#0x4) 
-  c1c2b7f0 : !tstbit P0,R3,#0x4 
-  c1c2b800 : memw (R16+#0x1c),setbit(#0x4) 
-  c1c2b830 : memub R7,(R3+#0x1) 
-  c1c2b838 : memub R7,(R3+#0x2) 
-  c1c2b840 : add R4,R4,#0x4 
-  ...
-
-CALLERS:
-  c1c2b9d4 : FUN_c1c2b9d4
+DIRECT REFERENCES:
+  c1c97d44 <- FUN_c1c97c90
 
 ------------------------------------------------------------
-#57  SCORE=41  INSNS=932
+#62 SCORE=15
+FUNCTION : FUN_c1c44500
+ENTRY    : c1c44500
+BODY     : [[c1c44500, c1c4486f]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1c445d8 : cmpb.eq P0,R4,#0x4b 
+
+CONTEXT @ c1c445d8
+    c1c445b8 : memw (R21+#0x68),R2.new 
+    c1c445bc : memub R4,(R18+#0x11) 
+    c1c445c0 : cmp.gt P0,R4,#0x59 
+    c1c445c4 : assign.if(P0.new) R3,#0x4 
+    c1c445c8 : jump.if(P0.new):t 0xc1c445e8 
+    c1c445cc : cmpb.eq P0,R4,#0x32 
+    c1c445d0 : assign R3,#0x1 
+    c1c445d4 : jump.if(P0.new):t 0xc1c445fc 
+ >>> c1c445d8 : cmpb.eq P0,R4,#0x4b 
+    c1c445dc : assign R3,#0x0 
+    c1c445e0 : assign.if(P0) R3,#0x2 
+    c1c445e4 : jump 0xc1c445fc 
+    c1c445e8 : cmpb.eq P0,R4,#0x5a 
+    c1c445ec : assign.if(!P0.new) R3,#0x0 
+    c1c445f0 : jump.if(P0.new):t 0xc1c445fc 
+    c1c445f4 : cmpb.eq P0,R4,#0x64 
+    c1c445f8 : assign.if(P0) R3,#0x5 
+
+DIRECT REFERENCES:
+  c1c43d78 <- FUN_c1c43d18
+  c1c43dac <- FUN_c1c43d18
+
+------------------------------------------------------------
+#63 SCORE=15
+FUNCTION : FUN_c1c96540
+ENTRY    : c1c96540
+BODY     : [[c1c96540, c1c96857]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1c966e8 : cmpb.eq P0,R6,#0x4b 
+
+CONTEXT @ c1c966e8
+    c1c966c8 : call 0xc16fd420 
+    c1c966cc : cmp.gt P0,R6,#0x4a 
+    c1c966d0 : jump.if(P0.new):t 0xc1c966e8 
+    c1c966d4 : cmp.eq P0,R6,#0x18 ; jump.if(P0.new):nt 0xc1c967e0 
+    c1c966d8 : cmp.eq P0,R6,#0x19 ; jump.if(P0.new):nt 0xc1c967c0 
+    c1c966dc : cmpb.eq P0,R6,#0x20 
+    c1c966e0 : jump.if(P0.new):t 0xc1c9680c 
+    c1c966e4 : jump 0xc1c96828 
+ >>> c1c966e8 : cmpb.eq P0,R6,#0x4b 
+    c1c966ec : jump.if(P0.new):nt 0xc1c9680c 
+    c1c966f0 : cmpb.eq P0,R6,#0x54 
+    c1c966f4 : jump.if(P0.new):nt 0xc1c9680c 
+    c1c966f8 : cmpb.eq P0,R6,#0x57 
+    c1c966fc : jump.if(!P0.new):nt 0xc1c96828 
+    c1c96700 : assign R0,R16 
+    c1c96704 : memub R1,(R17+#0x10) 
+    c1c96708 : memd R17R16,(SP+#0x18) 
+
+DIRECT REFERENCES:
+  c1c96d50 <- thunk_FUN_c1c96540
+
+------------------------------------------------------------
+#64 SCORE=15
+FUNCTION : FUN_c1caba58
+ENTRY    : c1caba58
+BODY     : [[c1caba58, c1cabaf7]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1caba90 : combine R3R2,##0xc5034659,#0x4b 
+  c1cabab0 : combine R3R2,##0xc5034659,#0x4b 
+
+CONTEXT @ c1caba90
+    c1caba70 : jump.if:t !cmp.eq(R2.new,#0x0),0xc1cabaa0 
+    c1caba74 : assign R16,#0x0 
+    c1caba78 : immext #0xcbd8a5c0 
+    c1caba7c : memw R4,(##0xcbd8a5f8) 
+    c1caba80 : jump.if:nt cmp.eq(R4.new,#0x0),0xc1cabaf0 
+    c1caba84 : immext #0xc5034600 
+    c1caba88 : combine R1R0,##0xc5034632,#0x3 
+    c1caba8c : immext #0xc5034640 
+ >>> c1caba90 : combine R3R2,##0xc5034659,#0x4b 
+    c1caba94 : callr R4 
+    c1caba98 : memw (SP),R17 
+    c1caba9c : jump 0xc1cabaf0 
+    c1cabaa0 : assign R4,R2 
+    c1cabaa4 : immext #0xc5034600 
+    c1cabaa8 : combine R1R0,##0xc5034632,#0x3 
+    c1cabaac : immext #0xc5034640 
+    c1cabab0 : combine R3R2,##0xc5034659,#0x4b 
+CONTEXT @ c1cabab0
+    c1caba90 : combine R3R2,##0xc5034659,#0x4b 
+    c1caba94 : callr R4 
+    c1caba98 : memw (SP),R17 
+    c1caba9c : jump 0xc1cabaf0 
+    c1cabaa0 : assign R4,R2 
+    c1cabaa4 : immext #0xc5034600 
+    c1cabaa8 : combine R1R0,##0xc5034632,#0x3 
+    c1cabaac : immext #0xc5034640 
+ >>> c1cabab0 : combine R3R2,##0xc5034659,#0x4b 
+    c1cabab4 : callr R4 
+    c1cabab8 : assign R16,#0x0 ; memw (SP+#0x0),R17 
+    c1cababc : jump 0xc1cabaf0 
+    c1cabac0 : memw R3,(R0+#0xd0) 
+    c1cabac4 : memw (SP+#0x8),R17 
+    c1cabac8 : memw R2,(R0+#0xcc) 
+    c1cabacc : memw (SP+#0xc),R2.new 
+    c1cabad0 : add R0,SP,#0x8 
+
+DIRECT REFERENCES:
+  c1cabaf8 <- FUN_c1cabaf8
+  c1cabafc <- FUN_c1cabaf8
+
+------------------------------------------------------------
+#65 SCORE=15
+FUNCTION : FUN_c1cc76d4
+ENTRY    : c1cc76d4
+BODY     : [[c1cc76d4, c1cc76e3]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1cc76d8 : combine R3R2,R0,#0x4b 
+
+CONTEXT @ c1cc76d8
+    c1cc76b8 : combine R3R2,R0,#0x48 
+    c1cc76bc : combine R1R0,#0x4,#0x0 
+    c1cc76c0 : jump 0xc1704fac 
+    c1cc76c4 : assign R4,R1 
+    c1cc76c8 : combine R3R2,R0,#0x4a 
+    c1cc76cc : combine R1R0,#0x4,#0x0 
+    c1cc76d0 : jump 0xc1704fac 
+    c1cc76d4 : assign R4,R1 
+ >>> c1cc76d8 : combine R3R2,R0,#0x4b 
+    c1cc76dc : combine R1R0,#0x4,#0x0 
+    c1cc76e0 : jump 0xc1704fac 
+    c1cc76e4 : assign R4,R1 
+    c1cc76e8 : assign R3,R0 
+    c1cc76ec : cmp.eq P0,R2,#0x0 ; allocframe #0x8 
+    c1cc76f0 : jump.if(P0) 0xc1cc7718 
+    c1cc76f4 : assign.if(!P0) R17,#0x0 ; memd (SP+#0x0),R17R16 
+    c1cc76f8 : combine R1R0,#0x4,#0x0 
+
+DIRECT REFERENCES:
+  c1adf01c <- FUN_c1adede8
+  c1adf020 <- FUN_c1adede8
+  c1d49cd0 <- FUN_c1d49c74
+  c1d49cd4 <- FUN_c1d49c74
+
+------------------------------------------------------------
+#66 SCORE=15
+FUNCTION : FUN_c1d1a760
+ENTRY    : c1d1a760
+BODY     : [[c1d1a760, c1d1be3b]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1d1a798 : cmp.eq P0,R2,#0x4b 
+  c1d1a7e0 : cmpb.eq P1,R2,#0x4b 
+
+CONTEXT @ c1d1a798
+    c1d1a778 : memd (SP+#0x28),R25R24 
+    c1d1a77c : jump.if(P0) 0xc1d1aadc 
+    c1d1a780 : memd (SP+#0x20),R27R26 
+    c1d1a784 : assign R17,R2 
+    c1d1a788 : assign R19,R1 
+    c1d1a78c : assign R23,#0x0 ; assign R22,R18 
+    c1d1a790 : add R16,R17,#0x8c 
+    c1d1a794 : memb R2,(R22++#0x1) 
+ >>> c1d1a798 : cmp.eq P0,R2,#0x4b 
+    c1d1a79c : assign.if(P0.new) R22,R18 
+    c1d1a7a0 : jump.if(P0.new):nt 0xc1d1a7d0 
+    c1d1a7a4 : cmpb.eq P0,R2,#0x56 
+    c1d1a7a8 : assign.if(P0.new) R22,R18 
+    c1d1a7ac : jump.if(P0.new):nt 0xc1d1a9b8 
+    c1d1a7b0 : cmpb.eq P0,R2,#0x72 
+    c1d1a7b4 : combine.if(!P0.new) R1R0,R19,R18 
+    c1d1a7b8 : assign.if(!P0.new) R2,R17 
+CONTEXT @ c1d1a7e0
+    c1d1a7c0 : assign R23,#0x4 ; memub R2,(R22) 
+    c1d1a7c4 : cmpb.eq P0,R2,#0x56 
+    c1d1a7c8 : jump.if(!P0.new):t 0xc1d1a7e0 
+    c1d1a7cc : jump 0xc1d1a7d8 
+    c1d1a7d0 : cmpb.eq P0,R2,#0x56 
+    c1d1a7d4 : jump.if(!P0.new):t 0xc1d1a7e0 
+    c1d1a7d8 : setbit R23,R23,#0x1 
+    c1d1a7dc : add R22,R22,#0x1 ; memub R2,(R22+#0x1) 
+ >>> c1d1a7e0 : cmpb.eq P1,R2,#0x4b 
+    c1d1a7e4 : assign R20,R18 
+    c1d1a7e8 : add.if(P1.new) R21,R22,#0x1 
+    c1d1a7ec : assign.if(!P1.new) R21,R22 
+    c1d1a7f0 : combine R1R0,R19,R21 
+    c1d1a7f4 : cmp.eq P0,R21,R18 ; jump.if(P0.new):nt 0xc1d1aadc 
+    c1d1a7f8 : memw.if(!P0.new) R22,(R17+#0x4) 
+    c1d1a7fc : assign R2,P1 
+    c1d1a800 : memw (SP+#0x8),R2.new 
+
+DIRECT REFERENCES:
+  c1d19d14 <- FUN_c1d199fc
+  c1d19d18 <- FUN_c1d199fc
+  c1d1a1b8 <- FUN_c1d199fc
+  c1d1a804 <- FUN_c1d1a760
+  c1d1a810 <- FUN_c1d1a760
+  c1d1e630 <- FUN_c1d1e310
+  c1d1e638 <- FUN_c1d1e310
+  c1d24710 <- FUN_c1d24644
+  c1d20704 <- FUN_c1d20664
+  c1d20708 <- FUN_c1d20664
+  c1d24714 <- FUN_c1d24644
+  c1d20154 <- FUN_c1d1e9f8
+  c1d1fa34 <- FUN_c1d1e9f8
+  c1d1fb74 <- FUN_c1d1e9f8
+  c1d1f720 <- FUN_c1d1e9f8
+  c1d202a8 <- FUN_c1d1e9f8
+  c1d202b0 <- FUN_c1d1e9f8
+  c1d1fe1c <- FUN_c1d1e9f8
+  c1d1eb88 <- FUN_c1d1e9f8
+  c1d1f5c0 <- FUN_c1d1e9f8
+  ...
+
+------------------------------------------------------------
+#67 SCORE=15
 FUNCTION : FUN_c1d1be3c
 ENTRY    : c1d1be3c
 BODY     : [[c1d1be3c, c1d1cccb]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : false
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x8(8), 0xC(12), 0xD(13), 0x10(16), 0x14(20), 0x15(21), 0x18(24), 0x1A(26), 0x1C(28), 0x20(32), 0x24(36), 0x30(48), 0x38(56), 0x40(64), 0x45(69), 0x48(72), 0x49(73), 0x4B(75), 0x4C(76), 0x4E(78), 0x4F(79), 0x50(80), 0x52(82), 0x53(83), 0x56(86), 0x58(88), 0x5A(90), 0x60(96), 0x72(114), 0x74(116), 0x8C(140), 0x90(144), 0x94(148), 0x98(152), 0xF8(248), 0x118(280), 0x11C(284), 0x120(288), 0x124(292), 0x1DC(476), 0x1DD(477), 0x2C0(704), 0x300(768), 0x380(896), 0x400(1024), 0x440(1088), 0x480(1152), 0x5C0(1472), 0x700(1792), 0x740(1856), 0x780(1920), 0x880(2176), 0xFC0(4032), 0xFF7(4087), 0x1000(4096), 0x11C0(4544), 0x11F0(4592), 0xC51C7540(3306976576), 0xC51C7548(3306976584), 0xC51C8180(3306979712), 0xC51C8198(3306979736), 0xC51C8200(3306979840), 0xC51C823C(3306979900), 0xC51C8940(3306981696), 0xC51C8948(3306981704), 0xC51C8E40(3306982976), 0xC51C8E74(3306983028), 0xC51C9600(3306984960), 0xC51C9607(3306984967), 0xC51C960E(3306984974), 0xFFFFF2C0(4294963904), 0xFFFFF300(4294963968), 0xFFFFF340(4294964032), 0xFFFFF680(4294964864) ...
-
-SELECTED INSTRUCTIONS:
-  c1d1be48 : cmp.gt P0,R4,#0x1 
-  c1d1be70 : add.if(P0.new) R19,R16,#0x1 
-  c1d1be80 : add.if(!P0.new) R4,R19,#0x1 
-  c1d1be84 : add.if(!P0.new) R3,R19,#0x2 
-  c1d1beb8 : assign.if(P0.new) R23,#0x4 
-  c1d1becc : setbit R23,R23,#0x1 
-  c1d1bed0 : add R4,R4,#0x1 ; memub R2,(R4+#0x1) 
+EXACT MATCH INSTRUCTIONS:
   c1d1bed4 : cmpb.eq P0,R2,#0x4b 
-  c1d1bed8 : add.if(P0.new) R22,R4,#0x1 
-  c1d1bee4 : memw (SP+#0x1c),R2.new 
-  c1d1bf00 : assign.if(P0.new) R2,#0x1 
-  c1d1bf14 : assign.if(P0.new) R2,#0x2 
-  c1d1bf54 : jump.if:t !cmp.gt(R5.new,#0x1),0xc1d1c234 
-  c1d1bf78 : memb.if(!P0.new) R2,(R19+#0x2) 
-  c1d1bf80 : add.if(P0.new) R23,R19,#0x3 
-  c1d1bfac : add R22,R22,#0x1 
-  c1d1bfbc : memw R2,(R17+#0x4) 
-  c1d1bfe0 : memw (R0),R17 ; memw (R0+#0x4),#0x0 
-  c1d1bff4 : memw (R17+#0x4),R3.new 
-  c1d1c020 : jump.if:t !cmp.gt(R2.new,#0x1),0xc1d1c054 
-  c1d1c030 : memb.if(P0.new) R2,(R22+#0x1) 
-  c1d1c048 : add R22,R22,#0x2 
-  c1d1c04c : memw R2,(R18+#0x4) 
-  c1d1c078 : memw R0,(SP+#0x1c) 
-  c1d1c0a0 : memw (SP+#0x1c),R2.new 
-  c1d1c0b0 : memw R2,(SP+#0x1c) 
-  c1d1c0cc : memw R17,(R18+#0x4) 
-  c1d1c0dc : memw R2,(R21+#0x4) 
-  c1d1c100 : memw (R0),R21 ; memw (R0+#0x4),#0x0 
-  c1d1c114 : memw (R21+#0x4),R1.new 
-  c1d1c12c : memb (R3+#0xc),#0x1a 
-  c1d1c13c : memw R2,(R18+#0x4) 
-  c1d1c164 : memw R2,(R18+#0x4) 
-  c1d1c194 : memw R20,(R18+#0x4) ; memw R2,(R18) 
-  c1d1c19c : asr R3,R3,#0x2 
-  c1d1c1a0 : jump.if:t !cmp.gtu(R3.new,#0x1),0xc1d1bf94 
-  c1d1c1b0 : memw (R18+#0x4),R3.new 
-  c1d1c1c0 : memw R2,(R16+#0x4) 
-  c1d1c1e4 : memw (R0),R16 ; memw (R0+#0x4),#0x0 
-  c1d1c1f8 : memw (R16+#0x4),R1.new 
-  ...
 
-CALLERS:
-  c1d199fc : FUN_c1d199fc
-  c1d1a760 : FUN_c1d1a760
-  c1d1d0e4 : FUN_c1d1d0e4
+CONTEXT @ c1d1bed4
+    c1d1beb4 : cmp.eq P0,R2,#0x72 
+    c1d1beb8 : assign.if(P0.new) R23,#0x4 
+    c1d1bebc : assign.if(P0.new) R4,R3 
+    c1d1bec0 : memub.if(P0.new) R2,(R3) 
+    c1d1bec4 : cmpb.eq P0,R2,#0x56 
+    c1d1bec8 : jump.if(!P0.new):t 0xc1d1bed4 
+    c1d1becc : setbit R23,R23,#0x1 
+    c1d1bed0 : add R4,R4,#0x1 ; memub R2,(R4+#0x1) 
+ >>> c1d1bed4 : cmpb.eq P0,R2,#0x4b 
+    c1d1bed8 : add.if(P0.new) R22,R4,#0x1 
+    c1d1bedc : assign R2,P0 
+    c1d1bee0 : assign.if(!P0) R22,R4 
+    c1d1bee4 : memw (SP+#0x1c),R2.new 
+    c1d1bee8 : assign R2,R19 
+    c1d1beec : cmp.eq P0,R22,R20 ; jump.if(P0.new):nt 0xc1d1bf8c 
+    c1d1bef0 : assign R2,#0x0 
+    c1d1bef4 : memb (R18+#0x1dd),R2.new 
 
-------------------------------------------------------------
-#58  SCORE=40  INSNS=324
-FUNCTION : FUN_c17e9330
-ENTRY    : c17e9330
-BODY     : [[c17e3340, c17e336b] [c17e9330, c17e9813]]
-
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : false
-  7B / RFDEBUG        : true
-
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : false
-  PROP=28 FREQUENCY     : true
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xC(12), 0xF(15), 0x10(16), 0x12(18), 0x14(20), 0x18(24), 0x1B(27), 0x1C(28), 0x1F(31), 0x20(32), 0x24(36), 0x28(40), 0x2B(43), 0x2C(44), 0x30(48), 0x34(52), 0x38(56), 0x3C(60), 0x3F(63), 0x40(64), 0x44(68), 0x48(72), 0x4C(76), 0x54(84), 0x55(85), 0x56(86), 0x58(88), 0x5A(90), 0x60(96), 0x64(100), 0x65(101), 0x68(104), 0x70(112), 0x74(116), 0x75(117), 0x76(118), 0x77(119), 0x78(120), 0x79(121), 0x7A(122), 0x7B(123), 0x7C(124), 0x7D(125), 0x80(128), 0x88(136), 0x98(152), 0xA8(168), 0xD4(212), 0xE0(224), 0xFF(255), 0x330(816), 0x340(832), 0x380(896), 0x400(1024), 0x428(1064), 0xCA80(51840), 0x1FFC0(131008), 0x1FFFE(131070), 0x2AB01100(716181760), 0xC1623840(3244439616), 0xC1624180(3244441984), 0xC16241BD(3244442045), 0xC16241BF(3244442047), 0xC8DB5AC0(3369818816), 0xC8DB5ACA(3369818826), 0xC8DB5B00(3369818880), 0xC8DB5B18(3369818904), 0xC8DB6E00(3369823744), 0xC8DB6E10(3369823760) ...
-
-SELECTED INSTRUCTIONS:
-  c17e334c : memw (R1<<#0x2+##0xc9b19b60),R3.new 
-  c17e9334 : cmp.gtu P0,R2,#0x4 
-  c17e9360 : cmp.eq P1,R3,#0x5 
-  c17e937c : cmp.gtu P0,R17,#0x3 
-  c17e938c : lsl R6,#0x1,R6 
-  c17e93a8 : mux R25,P1,#0x1,#0x7 
-  c17e93c4 : lsl R2,#0x1,R2 
-  c17e93dc : lsl R6,#0x1,R7 
-  c17e93e0 : memw (SP+#0x4),R6.new 
-  c17e93e4 : lsl R4,#0x1,R4 
-  c17e93f0 : lsl R4,#0x1,R5 
-  c17e9400 : and R9,##0x1fffe,asl(R9,#0x1) 
-  c17e9420 : memw (SP+#0x1c),R0 ; memw (SP+#0x34),R1 
-  c17e9440 : jump.if:t cmp.eq(R2.new,#0x1),0xc17e97b4 
-  c17e9474 : memb (R16+#0x7b),R2.new 
-  c17e94fc : cmp.eq R2,R4,#0x1 
-  c17e9524 : mux R24,P2,#0x6,#0x5 
-  c17e9530 : memub R3,(R19+#0x1) ; memb R2,(R19+#0x2) 
-  c17e9538 : cmp.eq P0,R2,#0x1 ; memub R2,(R19) 
-  c17e9540 : mux R2,P0,#0x4,#0x1 
-  c17e9554 : sub R3,#0x3,R3 
-  c17e9560 : memw R5,(R19+#0x4) 
-  c17e9584 : cmp.eq P0,R17,#0x5 ; jump.if(P0.new):t 0xc17e9718 
-  c17e9594 : memb.if(!P0.new) (R7),#0x1 
-  c17e95a0 : memw R19,(SP+#0x1c) 
-  c17e95c4 : lsr R4,R3,#0x4 
-  c17e9604 : cmp.eq P0,R5,#0x1 
-  c17e9618 : cmp.eq P1,R3,#0x1 
-  c17e961c : assign R3,#0x2 
-  c17e9620 : memb.if(!P0) (R21+#0x1),#0x2 
-  c17e9624 : memb.if(!P0) (R21+#0x2),#0x2 
-  c17e9668 : cmp.gtu P0,R17,#0x5 ; jump.if(!P0.new):nt 0xc17e9718 
-  c17e9698 : memb.if(!P0) (R7),#0x2 
-  c17e96a8 : memb.if(!P0.new) (R7),#0x1 
-  c17e96ac : assign R3,#0x3 
-  c17e96b8 : jump.if:t !cmp.eq(R3.new,#0x2),0xc17e9718 
-  c17e96dc : memw.if(P0.new) R3,(SP+#0x4) 
-  c17e9708 : memb.if(!P0) (R7),#0x2 
-  c17e9714 : memb.if(!P0.new) (R7),#0x1 
-  c17e9718 : add R19,R19,#0x8 ; add R16,R16,#0x1 
-  ...
-
-CALLERS:
-  c17da10c : FUN_c17da10c
+DIRECT REFERENCES:
+  c1d1d21c <- FUN_c1d1d0e4
+  c1d1d304 <- FUN_c1d1d0e4
+  c1d1d308 <- FUN_c1d1d0e4
+  c1d19b94 <- FUN_c1d199fc
+  c1d19b9c <- FUN_c1d199fc
+  c1d19bfc <- FUN_c1d199fc
+  c1d19c04 <- FUN_c1d199fc
+  c1d19c74 <- FUN_c1d199fc
+  c1d19c7c <- FUN_c1d199fc
+  c1d1bdf4 <- FUN_c1d1a760
+  c1d1bdf8 <- FUN_c1d1a760
+  c1d19dd8 <- FUN_c1d199fc
+  c1d19ddc <- FUN_c1d199fc
+  c1d19fd4 <- FUN_c1d199fc
+  c1d19fd8 <- FUN_c1d199fc
+  c1d1b178 <- FUN_c1d1a760
+  c1d1b17c <- FUN_c1d1a760
 
 ------------------------------------------------------------
-#59  SCORE=40  INSNS=210
-FUNCTION : FUN_c1942324
-ENTRY    : c1942324
-BODY     : [[c1942324, c194266b]]
+#68 SCORE=15
+FUNCTION : FUN_c1d20cc0
+ENTRY    : c1d20cc0
+BODY     : [[c1d20cc0, c1d20f5f]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : true
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : false
+EXACT MATCH INSTRUCTIONS:
+  c1d20d1c : cmpb.eq P0,R4,#0x4b 
+  c1d20dd8 : cmpb.eq P0,R4,#0x4b 
 
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : false
-  PROP=28 FREQUENCY     : false
+CONTEXT @ c1d20d1c
+    c1d20cfc : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
+    c1d20d00 : memb.if(!P0.new) R4,(R2) 
+    c1d20d04 : cmp.eq P0,R4,#0x72 
+    c1d20d08 : assign.if(P0.new) R2,R3 
+    c1d20d0c : memub.if(P0.new) R4,(R3) 
+    c1d20d10 : cmpb.eq P0,R4,#0x56 
+    c1d20d14 : add.if(P0.new) R2,R2,#0x1 
+    c1d20d18 : memub.if(P0.new) R4,(R2+#0x1) 
+ >>> c1d20d1c : cmpb.eq P0,R4,#0x4b 
+    c1d20d20 : add.if(P0.new) R18,R2,#0x1 
+    c1d20d24 : assign.if(!P0.new) R18,R2 
+    c1d20d28 : cmp.eq P0,R18,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
+    c1d20d2c : assign R2,R18 ; assign R19,R18 
+    c1d20d30 : memb R3,(R2++#0x1) 
+    c1d20d34 : cmp.eq P0,R3,#0x6e 
+    c1d20d38 : assign.if(!P0.new) R2,R18 
+    c1d20d3c : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20e34 
+CONTEXT @ c1d20dd8
+    c1d20db8 : jump.if:nt cmp.eq(R3.new,R1),0xc1d20eb4 
+    c1d20dbc : memb R4,(R3) 
+    c1d20dc0 : cmp.eq P0,R4,#0x72 
+    c1d20dc4 : add.if(P0.new) R3,R2,#0x2 
+    c1d20dc8 : memub.if(P0.new) R4,(R2+#0x2) 
+    c1d20dcc : cmpb.eq P0,R4,#0x56 
+    c1d20dd0 : add.if(P0.new) R3,R3,#0x1 
+    c1d20dd4 : memub.if(P0.new) R4,(R3+#0x1) 
+ >>> c1d20dd8 : cmpb.eq P0,R4,#0x4b 
+    c1d20ddc : add.if(P0.new) R18,R3,#0x1 
+    c1d20de0 : assign.if(!P0.new) R18,R3 
+    c1d20de4 : cmp.eq P0,R18,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
+    c1d20de8 : assign R2,R18 ; assign R19,R18 
+    c1d20dec : memb R3,(R2++#0x1) 
+    c1d20df0 : cmp.eq P0,R3,#0x6e 
+    c1d20df4 : assign.if(!P0.new) R2,R18 
+    c1d20df8 : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20edc 
 
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x6(6), 0x8(8), 0x9(9), 0xA(10), 0xB(11), 0xC(12), 0x10(16), 0x18(24), 0x20(32), 0x28(40), 0x30(48), 0x38(56), 0x40(64), 0x4B(75), 0x96(150), 0xFF(255), 0x100(256), 0x10D(269), 0x114(276), 0x118(280), 0x119(281), 0x11C(284), 0x120(288), 0x122(290), 0x124(292), 0x125(293), 0x126(294), 0x12C(300), 0x130(304), 0x140(320), 0x14E(334), 0x154(340), 0x155(341), 0x156(342), 0x158(344), 0x16B(363), 0x206(518), 0x20C(524), 0x2DD(733), 0x2DE(734), 0x2DF(735), 0x2E0(736), 0x300(768), 0x185C(6236), 0x2F40(12096), 0x2F4A(12106), 0x50000(327680), 0x10C0000(17563648), 0x19999980(429496704), 0x1999999A(429496730), 0x2AB010C0(716181696), 0x2AB010CC(716181708), 0xC1DB5FC0(3252379584), 0xC1DB5FD8(3252379608), 0xC1DB6040(3252379712), 0xC1DB605C(3252379740), 0xC1DB6080(3252379776), 0xC1DC9CC0(3252460736), 0xC1DC9CE0(3252460768), 0xC1DCA580(3252462976), 0xC1DCA590(3252462992), 0xC1DCBDC0(3252469184), 0xC1DCCAC0(3252472512), 0xC1DCCAC8(3252472520), 0xCF81B0C0(3481383104), 0xCF81B0C4(3481383108), 0xD60FE500(3591365888), 0xD60FE531(3591365937), 0xD60FE540(3591365952), 0xD60FE564(3591365988), 0xD60FE580(3591366016), 0xD60FE5AE(3591366062), 0xD60FE5C0(3591366080), 0xD60FE5F3(3591366131), 0xFFFFF750(4294965072) ...
-
-SELECTED INSTRUCTIONS:
-  c1942344 : jump.if:t !cmp.eq(R2.new,#0x2),0xc194264c 
-  c1942358 : extractu R3,R0,#0x8,#0xb 
-  c1942364 : memw (SP+#0x4),R3.new 
-  c1942368 : extractu R4,R0,#0x8,#0x3 
-  c19423a8 : assign R3,#0x1 
-  c19423ec : add R1,R3,#0x1 
-  c19423f8 : jump.if:t !cmp.eq(R2.new,#0x4),0xc1942624 
-  c1942468 : lsl R7,#0x1,R5 
-  c194246c : addasl R4,R20,R4,#0x1 
-  c1942494 : assign R0,##0xd60fe5ae ; memw R1,(SP+#0x4) 
-  c19424ec : memw R4,(R26+R2<<#0x2) 
-  c19424f0 : extractu R5,R4,#0x8,#0xb 
-  c19424f8 : add R5,R5,#0x4b 
-  c1942504 : memw R7,(R26+R6<<#0x2) 
-  c194250c : extractu R7,R7,#0x8,#0xb 
-  c1942530 : memw R3,(R26+R2<<#0x2) 
-  c1942534 : lsr R3,R3,#0xb 
-  c194253c : memw R3,(R26+R2<<#0x2) 
-  c1942540 : extractu R4,R3,#0x8,#0xb 
-  c194254c : lsr+= R4,R3,#0xb 
-  c1942554 : memw R3,(R26+R2<<#0x2) 
-  c194255c : extractu R3,R3,#0x8,#0xb 
-  c194262c : memw R2,(R17+#0x4) 
-
-CALLERS:
-  <no direct callers found>
-
-------------------------------------------------------------
-#60  SCORE=40  INSNS=298
-FUNCTION : FUN_c1c03e20
-ENTRY    : c1c03e20
-BODY     : [[c1c03e20, c1c042c7]]
-
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : false
-  7B / RFDEBUG        : true
-
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : false
-  PROP=28 FREQUENCY     : true
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xC(12), 0xE(14), 0x10(16), 0x11(17), 0x12(18), 0x13(19), 0x14(20), 0x18(24), 0x19(25), 0x1B(27), 0x1C(28), 0x20(32), 0x24(36), 0x25(37), 0x28(40), 0x2A(42), 0x2D(45), 0x2E(46), 0x30(48), 0x3F(63), 0x40(64), 0x43(67), 0x4D(77), 0x51(81), 0x52(82), 0x53(83), 0x54(84), 0x55(85), 0x56(86), 0x57(87), 0x58(88), 0x68(104), 0x6B(107), 0x6C(108), 0x70(112), 0x71(113), 0x74(116), 0x78(120), 0x79(121), 0x7A(122), 0x7B(123), 0x7C(124), 0x80(128), 0x81(129), 0x84(132), 0x89(137), 0x9E(158), 0x9F(159), 0xA0(160), 0xA1(161), 0xA2(162), 0xA3(163), 0xA4(164), 0xA5(165), 0xA6(166), 0xA7(167), 0xA8(168), 0xAA(170), 0xAB(171), 0xAC(172), 0xAD(173), 0xAE(174), 0xAF(175), 0xB0(176), 0xB1(177), 0xB2(178), 0xB3(179), 0xB4(180), 0xB6(182) ...
-
-SELECTED INSTRUCTIONS:
-  c1c03e24 : assign R1,#0x1 
-  c1c03e40 : combine R1R0,#0x1,R16 
-  c1c03e7c : insert R22,R2,#0x3,#0x6 
-  c1c03e80 : memb (R20+#0x2),R22.new 
-  c1c03e88 : memb (R20+#0x3),R2.new 
-  c1c03e90 : memb (R20+#0x1),R3.new 
-  c1c03e94 : memb (R20+#0x3),R2 ; memb (R20+#0x2),R22 
-  c1c03eb4 : memb (R20+#0x6),R22 ; memb (R20+#0x5),R22 
-  c1c03eb8 : memb (R20+#0x4),R22 ; memb (R20+#0x8),R22 
-  c1c03f2c : memb (R20+#0x1c),R2.new 
-  c1c03fa4 : memb (R20+#0x7b),R2.new 
-  c1c03ff0 : memw R1,(R22+#0x4) 
-  c1c04028 : memw R2,(R22+#0x1c) 
-  c1c04084 : !tstbit P0,R2,#0x1 
-  c1c04090 : jump.if:t cmp.eq(R2.new,#0x4),0xc1c0410c 
-  c1c040b8 : addasl R2,R4,R2,#0x4 
-  c1c040c4 : memub R5,(R23++#0x2) 
-  c1c040c8 : add R20,R20,#0x1 
-  c1c040f4 : memub R5,(R22++#0x2) 
-  c1c04100 : assign R4,R20 ; add R20,R20,#0x1 
-  c1c0411c : jump.if:t cmp.eq(R2.new,#0x4),0xc1c04280 
-  c1c04128 : and R20,R16,#0x3 
-  c1c0414c : addasl R3,R25,R24,#0x1 
-  c1c04150 : memub R4,(R22) ; memub R6,(R22+#0x1) 
-  c1c04170 : add R7,R7,#0x1 
-  c1c04188 : memb R9,(R9+#0x3) 
-  c1c04198 : add R5,R4,#0x1 ; memb (R22+#0x1),R6 
-  c1c041e0 : memub R3,(R3+#0x1) ; memub R6,(R4+#0x3) 
-  c1c041ec : memub R2,(R4+#0x4) 
-  c1c041f4 : memub R2,(R4+#0x2) 
-  c1c04204 : memub R2,(R4+#0x5) 
-  c1c0420c : memub R2,(R4+#0x1) 
-  c1c04228 : jump.if:nt cmp.eq(R3.new,#0x2),0xc1c0425c 
-  c1c0422c : cmp.eq P0,R3,#0x1 ; jump.if(!P0.new):nt 0xc1c04274 
-  c1c04274 : add R24,R24,#0x1 
-  c1c04280 : combine R1R0,#0x1,R16 
-
-CALLERS:
-  c1c96858 : FUN_c1c96858
+DIRECT REFERENCES:
+  c1d1ecf0 <- FUN_c1d1e9f8
+  c1d20230 <- FUN_c1d1e9f8
+  c1d1ecf4 <- FUN_c1d1e9f8
 
 ------------------------------------------------------------
-#61  SCORE=40  INSNS=105
+#69 SCORE=15
+FUNCTION : FUN_c1d43fcc
+ENTRY    : c1d43fcc
+BODY     : [[c1d43fcc, c1d44027]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1d43fe0 : combine R1R0,#0x1e,#0x4b 
+
+CONTEXT @ c1d43fe0
+    c1d43ec8 : jumpr LR 
+    c1d43fbc : immext #0x1632a9c0 
+    c1d43fc0 : jump 0xd806e998 
+    c1d43fcc : allocframe #0x0 
+    c1d43fd0 : immext #0xc9396840 
+    c1d43fd4 : memw R2,(##0xc9396860) 
+    c1d43fd8 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d44004 
+    c1d43fdc : call 0xc1ab1a4c 
+ >>> c1d43fe0 : combine R1R0,#0x1e,#0x4b 
+    c1d43fe4 : assign R2,#0x10 
+    c1d43fe8 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1d44010 
+    c1d43fec : memb.if(!P0.new) (R0+#0xf),#-0x1 
+    c1d43ff0 : memb.if(!P0.new) (R0+#0xe),#-0x1 
+    c1d43ff4 : memw (R0+#0x4),#0x1 ; memw (R0+#0x8),#0x0 
+    c1d43ff8 : memb (R0+#0xd),#-0x1 
+    c1d43ffc : memb (R0+#0xc),#-0x1 
+    c1d44000 : dealloc_return 
+
+DIRECT REFERENCES:
+  <none>
+
+------------------------------------------------------------
+#70 SCORE=15
 FUNCTION : FUN_c1d441b4
 ENTRY    : c1d441b4
 BODY     : [[c1d441b4, c1d44357]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : true
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : false
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : false
-  PROP=28 FREQUENCY     : false
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x8(8), 0xA(10), 0xB(11), 0xC(12), 0xF(15), 0x10(16), 0x14(20), 0x15(21), 0x18(24), 0x20(32), 0x23(35), 0x24(36), 0x28(40), 0x30(48), 0x4B(75), 0xFF(255), 0x2008040(33587264), 0x2008066(33587302), 0xC4797780(3296294784), 0xC47977A7(3296294823), 0xC47977C0(3296294848), 0xC47977DD(3296294877), 0xC4797800(3296294912), 0xC479780F(3296294927), 0xC479783F(3296294975), 0xC9396840(3375982656), 0xFFFF8001(4294934529), 0xFFFFFFF0(4294967280), 0xFFFFFFFF(4294967295)
-
-SELECTED INSTRUCTIONS:
-  c1d441dc : memuh R2,(R16+#0x4) 
-  c1d441ec : add R3,#0x10,asl(R3,#0x3) 
+EXACT MATCH INSTRUCTIONS:
   c1d441f8 : combine R1R0,#0x23,#0x4b 
-  c1d44214 : assign R2,##0xc479783f ; assign R1,#0x2 
-  c1d4422c : memw (R17+#0x4),R0 
-  c1d44230 : memh R2,(R16+#0x4) 
-  c1d44244 : assign R0,#0x3 
-  c1d4424c : memw (SP+#0x4),R2.new 
-  c1d44260 : memw R3,(R18+#0x4) 
-  c1d44274 : memw R2,(R1+#0x4) 
-  c1d44278 : add R2,SP,#0x4 ; memw R4,(R2+#0x24) 
-  c1d44284 : add R20,R20,#0x1 
-  c1d44288 : memw R2,(R18) ; memw R3,(R18+#0x4) 
-  c1d44290 : memw (R19+#0x4),R3 ; memw (R19),R2 
-  c1d4429c : cmp.eq P1,R2,#0x2 
-  c1d442a0 : memb (R19+#0xb),#-0x1 
-  c1d442a8 : mux R2,P1,#0x1,R0 
-  c1d442b8 : memh+= (R17+#0x8),#0x1 
-  c1d442bc : memuh R2,(R16+#0x4) 
-  c1d442c4 : memb (R17+#0xb),#-0x1 
-  c1d442f4 : assign R2,##0xc47977a7 ; assign R1,#0x2 
-  c1d44318 : assign R2,##0xc47977dd ; assign R1,#0x2 
-  c1d4433c : assign R2,##0xc479780f ; assign R1,#0x2 
 
-CALLERS:
-  <no direct callers found>
+CONTEXT @ c1d441f8
+    c1d441d8 : cmp.gtu P0,R17,#0xf ; jump.if(!P0.new):t 0xc1d442ec 
+    c1d441dc : memuh R2,(R16+#0x4) 
+    c1d441e0 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d44310 
+    c1d441e4 : add R2,R2,#-0x1 
+    c1d441e8 : assign R3,R2 
+    c1d441ec : add R3,#0x10,asl(R3,#0x3) 
+    c1d441f0 : jump.if:t !cmp.eq(R3.new,R17),0xc1d44334 
+    c1d441f4 : add R2,#0x18,mpyi(R2,#0xc) 
+ >>> c1d441f8 : combine R1R0,#0x23,#0x4b 
+    c1d441fc : call 0xc1ab1a4c 
+    c1d44200 : zxth R2,R2 
+    c1d44204 : assign.if(P0.new) R17,#0x0 
+    c1d44208 : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1d44220 
+    c1d4420c : add R0,R18,#-0x7fff 
+    c1d44210 : immext #0xc4797800 
+    c1d44214 : assign R2,##0xc479783f ; assign R1,#0x2 
+    c1d44218 : call 0xc1d3ee2c 
+
+DIRECT REFERENCES:
+  <none>
 
 ------------------------------------------------------------
-#62  SCORE=40  INSNS=95
+#71 SCORE=15
+FUNCTION : FUN_c1d44358
+ENTRY    : c1d44358
+BODY     : [[c1d44358, c1d4450f]]
+
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1d4439c : combine R1R0,#0x24,#0x4b 
+
+CONTEXT @ c1d4439c
+    c1d4437c : cmp.gtu P0,R17,#0xf ; jump.if(!P0.new):t 0xc1d444a4 
+    c1d44380 : memuh R2,(R16+#0x4) 
+    c1d44384 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d444c8 
+    c1d44388 : add R2,R2,#-0x1 
+    c1d4438c : assign R3,R2 
+    c1d44390 : add R3,#0x10,asl(R3,#0x3) 
+    c1d44394 : jump.if:t !cmp.eq(R3.new,R17),0xc1d444ec 
+    c1d44398 : add R2,#0x2c,mpyi(R2,#0x24) 
+ >>> c1d4439c : combine R1R0,#0x24,#0x4b 
+    c1d443a0 : call 0xc1ab1a4c 
+    c1d443a4 : zxth R2,R2 
+    c1d443a8 : assign.if(P0.new) R17,#0x0 
+    c1d443ac : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1d443c4 
+    c1d443b0 : add R0,R18,#-0x7fff 
+    c1d443b4 : immext #0xc4797800 
+    c1d443b8 : assign R2,##0xc479783f ; assign R1,#0x2 
+    c1d443bc : call 0xc1d3ee2c 
+
+DIRECT REFERENCES:
+  <none>
+
+------------------------------------------------------------
+#72 SCORE=15
 FUNCTION : FUN_c1d44510
 ENTRY    : c1d44510
 BODY     : [[c1d44510, c1d4468b]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : true
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = true
+  0x0B = false
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : false
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : false
-  PROP=28 FREQUENCY     : false
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x6(6), 0x7(7), 0x8(8), 0xA(10), 0xB(11), 0xC(12), 0xF(15), 0x10(16), 0x14(20), 0x15(21), 0x18(24), 0x20(32), 0x25(37), 0x28(40), 0x4B(75), 0xFF(255), 0x2008040(33587264), 0x2008066(33587302), 0xC4797800(3296294912), 0xC479783F(3296294975), 0xC47978C0(3296295104), 0xC47978EB(3296295147), 0xC4797900(3296295168), 0xC4797923(3296295203), 0xC4797940(3296295232), 0xC479795D(3296295261), 0xC9396840(3375982656), 0xFFFF8001(4294934529), 0xFFFFFFF0(4294967280), 0xFFFFFFFF(4294967295)
-
-SELECTED INSTRUCTIONS:
-  c1d44538 : memuh R2,(R16+#0x4) 
-  c1d44548 : add R3,#0x10,asl(R3,#0x3) 
+EXACT MATCH INSTRUCTIONS:
   c1d44554 : combine R1R0,#0x25,#0x4b 
-  c1d44570 : assign R2,##0xc479783f ; assign R1,#0x2 
-  c1d44580 : memh (R0+#0x4),#0x0 
-  c1d44584 : memh R2,(R16+#0x4) 
-  c1d44598 : assign R0,#0x3 
-  c1d445a0 : memw (SP+#0x4),R2.new 
-  c1d445a4 : memw R2,(R18+#0x4) 
-  c1d445b0 : memw R2,(R18+#0x4) 
-  c1d445c4 : memw (R19+#0x4),R2 
-  c1d445c8 : memw R2,(R1+#0x4) 
-  c1d445cc : add R2,SP,#0x4 ; memw R3,(R2+#0x28) 
-  c1d445d4 : add R20,R20,#0x1 
-  c1d445e0 : memb (R19+#0xb),#-0x1 
-  c1d445ec : memh+= (R17+#0x4),#0x1 
-  c1d445f0 : memuh R2,(R16+#0x4) 
-  c1d44628 : assign R2,##0xc47978eb ; assign R1,#0x2 
-  c1d4464c : assign R2,##0xc4797923 ; assign R1,#0x2 
-  c1d44670 : assign R2,##0xc479795d ; assign R1,#0x2 
 
-CALLERS:
-  <no direct callers found>
+CONTEXT @ c1d44554
+    c1d44534 : cmp.gtu P0,R17,#0xf ; jump.if(!P0.new):t 0xc1d44620 
+    c1d44538 : memuh R2,(R16+#0x4) 
+    c1d4453c : jump.if:nt cmp.eq(R2.new,#0x0),0xc1d44644 
+    c1d44540 : add R2,R2,#-0x1 
+    c1d44544 : assign R3,R2 
+    c1d44548 : add R3,#0x10,asl(R3,#0x3) 
+    c1d4454c : jump.if:t !cmp.eq(R3.new,R17),0xc1d44668 
+    c1d44550 : add R2,#0x14,mpyi(R2,#0xc) 
+ >>> c1d44554 : combine R1R0,#0x25,#0x4b 
+    c1d44558 : call 0xc1ab1a4c 
+    c1d4455c : zxth R2,R2 
+    c1d44560 : assign.if(P0.new) R17,#0x0 
+    c1d44564 : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1d4457c 
+    c1d44568 : add R0,R18,#-0x7fff 
+    c1d4456c : immext #0xc4797800 
+    c1d44570 : assign R2,##0xc479783f ; assign R1,#0x2 
+    c1d44574 : call 0xc1d3ee2c 
 
-------------------------------------------------------------
-#63  SCORE=39  INSNS=125
-FUNCTION : FUN_c19c2870
-ENTRY    : c19c2870
-BODY     : [[c19b63ec, c19b642f] [c19c2870, c19c2a1f]]
-
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : true
-  7B / RFDEBUG        : true
-
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : false
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : false
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : false
-  PROP=28 FREQUENCY     : false
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x4(4), 0x8(8), 0xA(10), 0xB(11), 0xC(12), 0xD(13), 0x10(16), 0x12(18), 0x14(20), 0x16(22), 0x17(23), 0x18(24), 0x1E(30), 0x1F(31), 0x20(32), 0x24(36), 0x26(38), 0x27(39), 0x28(40), 0x30(48), 0x36(54), 0x38(56), 0x69(105), 0x70(112), 0x7B(123), 0x7C(124), 0x87(135), 0x10C(268), 0x154(340), 0x300(768), 0x4A64(19044), 0x4A6B(19051), 0xC5C0(50624), 0xC600(50688), 0xC918B500(3373839616), 0xC918B524(3373839652), 0xCBF286C0(3421669056), 0xCBF286C8(3421669064), 0xCF894A80(3481881216), 0xCF894A96(3481881238), 0xFFFF3A00(4294916608), 0xFFFF3A40(4294916672), 0xFFFFFFF0(4294967280), 0xFFFFFFFF(4294967295)
-
-SELECTED INSTRUCTIONS:
-  c19b63ec : memw R2,(R2+R19<<#0x2) 
-  c19b6404 : jump.if:t !cmp.eq(R2.new,#0x1),0xc19c29e8 
-  c19c289c : add R27,##0xcbf286c8,asl(R27,#0x2) 
-  c19c28bc : cmp.eq P0,R17,#0x1 ; jump.if(!P0.new):nt 0xc19c29fc 
-  c19c28c4 : memw R3,(R2+#0x4) 
-  c19c28cc : jump.if:t !cmp.eq(R3.new,#0x1),0xc19c2960 
-  c19c28ec : jump.if:t !cmp.eq(R2.new,#0x1),0xc19c2988 
-  c19c28f4 : jump.if:t !cmp.eq(R2.new,#0x2),0xc19c2988 
-  c19c2970 : jump.if:nt !cmp.eq(R3.new,#0x4),0xc19c2988 
-  c19c2974 : memw R2,(R2+R19<<#0x2) 
-  c19c2984 : jump.if:t cmp.eq(R2.new,#0x1),0xc19c28d0 
-  c19c29a4 : memub R2,(R21+#0xb) 
-  c19c29a8 : memb (R20+#0x7b),R2.new 
-  c19c29c0 : memw R3,(R2+#0x4) 
-  c19c29cc : jump.if:nt cmp.eq(R3.new,#0x1),0xc19b6408 
-  c19c29e4 : jump.if:nt cmp.eq(R3.new,#0x4),0xc19b63ec 
-  c19c2a08 : insert R2,R18,#0x2,#0x8 
-
-CALLERS:
-  c19c5810 : FUN_c19c5810
+DIRECT REFERENCES:
+  <none>
 
 ------------------------------------------------------------
-#64  SCORE=39  INSNS=38
-FUNCTION : FUN_c1c3ed4c
-ENTRY    : c1c3ed4c
-BODY     : [[c1c3ed4c, c1c3ede3]]
+#73 SCORE=10
+FUNCTION : FUN_c1601fc8
+ENTRY    : c1601fc8
+BODY     : [[c1601fc8, c1602013]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : true
-  0B                  : true
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : false
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
+EXACT MATCH INSTRUCTIONS:
+  c1601ffc : assign R2,#0xb 
 
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : false
-  PROP=28 FREQUENCY     : false
+CONTEXT @ c1601ffc
+    c1601fdc : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc1602010 
+    c1601fe0 : cmp.gt P0,R3,#0x20 
+    c1601fe4 : jump.if(!P0.new):nt 0xc1602010 
+    c1601fe8 : immext #0xc173b180 
+    c1601fec : memw R0,(##0xc173b19c) 
+    c1601ff0 : lsr R2,R3,#0x2 
+    c1601ff4 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1602010 
+    c1601ff8 : loop0 0xc1602000,R2 
+ >>> c1601ffc : assign R2,#0xb 
+    c1602000 : lsr R4,R0,R2 
+    c1602004 : memw_phys R5,R0,R4 
+    c1602008 : add R0,R0,#0x4 
+    c160200c : memw (R1++#0x4),R5  :endloop0
+    c1602010 : jumpr LR 
+    c1602014 : immext #0xc173b0c0 
+    c1602018 : memw R0,(##0xc173b0f8) 
+    c160201c : cmp.eq P0,R0,#0x0 
 
-  CALL                  : false
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x1(1), 0x2(2), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xB(11), 0xC(12), 0xE(14), 0x10(16), 0x11(17), 0x12(18), 0x14(20), 0x15(21), 0x17(23), 0x22(34), 0x24(36), 0x25(37), 0x26(38), 0x40(64), 0x4B(75), 0x4D(77), 0x4E(78), 0x52(82)
-
-SELECTED INSTRUCTIONS:
-  c1c3ed4c : memw R2,(R0+#0x4) 
-  c1c3ed50 : !tstbit P0,R2,#0x1 
-  c1c3ed7c : memh (R1+#0x2),R2.new 
-  c1c3ed98 : memub R2,(R0+#0x4b) 
-  c1c3edac : memh (R1+#0x4),R2.new 
-  c1c3edb0 : memw R2,(R0+#0x4) 
-  c1c3edb4 : !tstbit P0,R2,#0x5 
-  c1c3edc4 : memw.if(!P0) R2,(R0+#0x4) 
-  c1c3edd4 : memb.if(!P0.new) (R1+#0xb),R0.new 
-
-CALLERS:
-  c1c204f4 : FUN_c1c204f4
+DIRECT REFERENCES:
+  c171e058 <- <NO FUNCTION>
+  c171e3c4 <- <NO FUNCTION>
 
 ------------------------------------------------------------
-#65  SCORE=38  INSNS=1460
-FUNCTION : FUN_c170baec
-ENTRY    : c170baec
-BODY     : [[c170baec, c170d1bb]]
+#74 SCORE=10
+FUNCTION : FUN_c16020b8
+ENTRY    : c16020b8
+BODY     : [[c16020b8, c1602147]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : true
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
+EXACT MATCH INSTRUCTIONS:
+  c1602118 : assign R2,#0xb ; assign R7,#0x0 
 
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
+CONTEXT @ c1602118
+    c16020f8 : sub R5,R1,R0 
+    c16020fc : sub R9,R9,R8 
+    c1602100 : immext #0xc1610000 
+    c1602104 : assign R3,##0xc1610000 
+    c1602108 : add R3,R3,R9 
+    c160210c : immext #0xc1731280 
+    c1602110 : assign R6,##0xc17312a0 ; add R3,R5,R3 
+    c1602114 : loop0 0xc160211c,R2 
+ >>> c1602118 : assign R2,#0xb ; assign R7,#0x0 
+    c160211c : lsr R4,R3,R2 
+    c1602120 : memw R0,(R1) 
+    c1602124 : memw_phys R5,R3,R4 
+    c1602128 : cmp.eq P0,R5,R0 ; jump.if(P0.new):nt 0xc160213c 
+    c160212c : cmp.gt P0,R7,#0x3 ; jump.if(P0.new):nt 0xc1602144 
+    c1602130 : add R7,R7,#0x1 
+    c1602134 : memw (R6++#0x4),R3 
+    c1602138 : memw (R6++#0x4),R5 
 
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
+DIRECT REFERENCES:
+  c171e068 <- <NO FUNCTION>
+  c171e40c <- <NO FUNCTION>
 
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xB(11), 0xC(12), 0xD(13), 0xE(14), 0xF(15), 0x10(16), 0x11(17), 0x13(19), 0x14(20), 0x15(21), 0x18(24), 0x1A(26), 0x1C(28), 0x1E(30), 0x1F(31), 0x20(32), 0x22(34), 0x23(35), 0x24(36), 0x27(39), 0x28(40), 0x2B(43), 0x2C(44), 0x2F(47), 0x30(48), 0x34(52), 0x37(55), 0x38(56), 0x3C(60), 0x40(64), 0x44(68), 0x48(72), 0x4A(74), 0x4C(76), 0x50(80), 0x54(84), 0x58(88), 0x5C(92), 0x60(96), 0x64(100), 0x68(104), 0x6C(108), 0x70(112), 0x74(116), 0x77(119), 0x78(120), 0x79(121), 0x7C(124), 0x7D(125), 0x7E(126), 0x7F(127), 0x80(128), 0x84(132), 0x88(136), 0x8C(140), 0x90(144), 0x94(148), 0x98(152), 0x9C(156), 0xA0(160), 0xA4(164), 0xAA(170), 0xAB(171), 0xAC(172), 0xAD(173), 0xB0(176), 0xCF(207), 0xD0(208), 0xFF(255) ...
+------------------------------------------------------------
+#75 SCORE=10
+FUNCTION : FUN_c16161c0
+ENTRY    : c16161c0
+BODY     : [[c16161c0, c16162bb]]
 
-SELECTED INSTRUCTIONS:
-  c170bb20 : addasl R3,R4,R0,#0x1 
-  c170bb30 : memw R1,(R3<<#0x2+##0xc16d7290) 
-  c170bb6c : memw+= (R0),#0x1 
-  c170bb90 : memw R4,(R25+#0x4) 
-  c170bbb4 : memub R5,(R26+#0x1) 
-  c170bbcc : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
-  c170bbec : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
-  c170bc18 : memub R1,(R26+#0x1) 
-  c170bc34 : memw (SP+#0x4),R2.new 
-  c170bc5c : memb R2,(R26+#0x1) 
-  c170bc9c : memw R24,(R26+#0x4) 
-  c170bca4 : addasl R5,R3,R2,#0x1 
-  c170bcb0 : mpyi+= R23,R3,#0x1c 
-  c170bcbc : memw R16,(R4+R5<<#0x2) 
-  c170bcf8 : assign.if(P0.new) R1,#0x3 
-  c170bd10 : memw R0,(R19) ; memw (SP+#0x4),R22 
-  c170bdc4 : jump.if:t !cmp.eq(R2.new,#0x1),0xc170beac 
-  c170be28 : addasl R2,R24,R2,#0x3 
-  c170be30 : memw R2,(R2+R3<<#0x2) 
-  c170be40 : assign R2,#0x2 
-  c170be48 : memw R4,(R25+#0x4) 
-  c170be7c : combine R3R2,#0x0,#0x1 
-  c170bf04 : assign R1,#0x3 
-  c170bf14 : memw (SP+#0x4),R3.new 
-  c170bf2c : addasl R2,R24,R2,#0x3 
-  c170bf34 : memw R2,(R2+R3<<#0x2) 
-  c170bf44 : assign R2,#0x5 
-  c170bf60 : combine R3R2,#0x0,#0x1 
-  c170bfbc : assign.if(P0.new) R1,#0x2 
-  c170bfe4 : memw (SP+#0x4),R3 
-  c170c000 : and R2,R2,#0x1 
-  c170c010 : jump.if:t !cmp.eq(R2.new,#0x1),0xc170d180 
-  c170c028 : memh+= (R2),#0x1 
-  c170c074 : extractu R4,R4,#0xd,#0x2 
-  c170c0a4 : memw (R5+#0x4),R0.new 
-  c170c0b0 : assign.if(P0.new) R1,#0x2 
-  c170c0d4 : memw (SP+#0x4),R3 
-  c170c100 : assign.if(P0.new) R1,#0x2 
-  c170c124 : memw (SP+#0x4),R3 
-  c170c19c : memw R23,(R26+#0x4) 
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c16162a0 : assign R1,#0xb 
+
+CONTEXT @ c16162a0
+    c1616280 : memub R1,(R6+#0x15) 
+    c1616284 : assign R1,#0x0 
+    c1616288 : jumpr R10 
+    c161628c : immext #0xffffeb00 
+    c1616290 : call 0xc1614db4 
+    c1616294 : crswap R9,SGP0 
+    c1616298 : memw (R9+#0x28),R7 
+    c161629c : assign R0,#0x5 
+ >>> c16162a0 : assign R1,#0xb 
+    c16162a4 : memd (R9+#0x38),R1R0 
+    c16162a8 : crswap R9,SGP0 
+    c16162ac : asl|= R0,R1,#0x8 
+    c16162b0 : memw R1,(R9+#0x28) 
+    c16162b4 : immext #0x9a600 
+    c16162b8 : jump 0xc16b08cc 
+    c16162c0 : k0lock 
+    c16162c4 : combine R9R8,R1,R0 
+
+DIRECT REFERENCES:
+  c16b277c <- FUN_c16b25ec
+  c16b2784 <- FUN_c16b25ec
+
+------------------------------------------------------------
+#76 SCORE=10
+FUNCTION : FUN_c1619ae0
+ENTRY    : c1619ae0
+BODY     : [[c1619ae0, c1619e17]]
+
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c1619d30 : cmp.gt P0,R3,#0xb ; jump.if(P0.new):nt 0xc1619dfc 
+
+CONTEXT @ c1619d30
+    c1619d10 : assign.if(P0.new) R18,#0x1 
+    c1619d14 : jump 0xc1619db0 
+    c1619d18 : assign R16,R3 
+    c1619d1c : memw R3,(R12) 
+    c1619d20 : add R3,R3,#0x1 
+    c1619d24 : memw (R12),R3.new 
+    c1619d28 : immext #0xc8df85c0 
+    c1619d2c : assign.if(!P0.new) R7,##0xc8df85c5 
+ >>> c1619d30 : cmp.gt P0,R3,#0xb ; jump.if(P0.new):nt 0xc1619dfc 
+    c1619d34 : addasl R3,R12,R3,#0x3 
+    c1619d38 : combine R9R8,#0x0,#0x0 
+    c1619d3c : assign R18,R12 
+    c1619d40 : memw R0,(SP+#0x4) 
+    c1619d44 : memd (R3+#0x68),R9R8 
+    c1619d48 : memw (R3+#0x8),R5 
+    c1619d4c : memw (R3+#0xc),R6 
+    c1619d50 : memub R5,(R4+#0xa) 
+
+DIRECT REFERENCES:
+  c1619a74 <- FUN_c1619a18
+  c1619a7c <- FUN_c1619a18
+  c161a000 <- FUN_c1619fa8
+  c161a008 <- FUN_c1619fa8
+
+------------------------------------------------------------
+#77 SCORE=10
+FUNCTION : FUN_c1619fa8
+ENTRY    : c1619fa8
+BODY     : [[c1619fa8, c161a0f7]]
+
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c161a030 : cmp.gtu P0,R1,#0xb ; jump.if(P0.new):nt 0xc161a0dc 
+
+CONTEXT @ c161a030
+    c161a010 : memb R2,(R16) 
+    c161a014 : jump.if:nt cmp.eq(R2.new,#0x0),0xc161a068 
+    c161a018 : call 0xc161a0f8 
+    c161a01c : memb R0,(R16+#0x2) 
+    c161a020 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):t 0xc161a068 
+    c161a024 : cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):nt 0xc161a0d0 
+    c161a028 : memw.if(P0.new) R1,(R17) 
+    c161a02c : add R2,R1,#0x1 
+ >>> c161a030 : cmp.gtu P0,R1,#0xb ; jump.if(P0.new):nt 0xc161a0dc 
+    c161a034 : memw (R17),R2.new 
+    c161a038 : addasl R2,R17,R1,#0x3 
+    c161a03c : assign R22,#0x2 ; combine R1R0,#0x0,#0x0 
+    c161a040 : memw R3,(R2+#0x8) 
+    c161a044 : memd (R2+#0x68),R1R0 
+    c161a048 : insert R3,R21,#0x18,#0x8 
+    c161a04c : memw R4,(R2+#0xc) 
+    c161a050 : memw (R2+#0x8),R3.new 
+
+DIRECT REFERENCES:
+  c18e0820 <- FUN_c18e07a4
+  c18e0828 <- FUN_c18e07a4
+
+------------------------------------------------------------
+#78 SCORE=10
+FUNCTION : FUN_c16982e4
+ENTRY    : c16982e4
+BODY     : [[c1690d28, c1690da7] [c16982e4, c1698317]]
+
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c16982fc : cmp.gtu P0,R1,#0xb ; jump.if(!P0.new):nt 0xc1690d68 
+
+CONTEXT @ c16982fc
+    c16982dc : assign R16,##0xcf8002a8 
+    c16982e0 : jump 0xc1697fc4 
+    c16982e4 : cmp.eq P0,R0,#0x0 
+    c16982e8 : assign.if(!P0.new) R17,R1 
+    c16982ec : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    c16982f0 : immext #0xffff8a00 
+    c16982f4 : jump.if(P0) 0xc1690d28 
+    c16982f8 : immext #0xffff8a40 
+ >>> c16982fc : cmp.gtu P0,R1,#0xb ; jump.if(!P0.new):nt 0xc1690d68 
+    c1698300 : call 0xc1620d4c 
+    c1698304 : assign R2,#0xc 
+    c1698308 : assign R1,#0x0 ; assign R16,R0 
+    c169830c : memb (R16+#0x3),#0x40 
+    c1698310 : memw (R16+#0x4),R17 
+    c1698314 : memd R17R16,(SP+#0x0) ; dealloc_return 
+    c1698318 : call 0xc1695ca0 
+    c169831c : call 0xc16fd418 
+
+DIRECT REFERENCES:
+  c1697e24 <- <NO FUNCTION>
+  c1697e28 <- <NO FUNCTION>
+  c1698130 <- FUN_c1692498
+  c1698134 <- FUN_c1692498
+
+------------------------------------------------------------
+#79 SCORE=10
+FUNCTION : FUN_c16983d4
+ENTRY    : c16983d4
+BODY     : [[c16983d4, c1698827]]
+
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
+
+EXACT MATCH INSTRUCTIONS:
+  c16984ac : cmp.gtu P0,R3,#0xb ; jump.if(!P0.new):nt 0xc1692a1c 
+
+CONTEXT @ c16984ac
+    c169848c : xor R5,R4,R5 
+    c1698490 : xor^= R7,R5,R3 
+    c1698494 : lsr R5,R17,#0x10 
+    c1698498 : xor^= R6,R7,R8 
+    c169849c : zxth R6,R6 
+    c16984a0 : immext #0xffffa540 
+    c16984a4 : jump.if:nt !cmp.eq(R6.new,R5),0xc16929e4 
+    c16984a8 : immext #0xffffa540 
+ >>> c16984ac : cmp.gtu P0,R3,#0xb ; jump.if(!P0.new):nt 0xc1692a1c 
+    c16984b0 : and R3,R4,#0xff 
+    c16984b4 : immext #0xffffa580 
+    c16984b8 : jump.if:nt cmp.gtu(R3.new,#0x1f),0xc1692a54 
+    c16984bc : memw R3,(R16+#0x28) 
+    c16984c0 : jump.if:nt cmp.eq(R3.new,#0x0),0xc16984d0 
+    c16984c4 : assign R0,R16 
+    c16984c8 : callr R3 
+    c16984cc : memub R2,(R18+#-0xd) 
+
+DIRECT REFERENCES:
+  c1d3945c <- FUN_c1d392a8
+  c1d39464 <- FUN_c1d392a8
+  c1d39608 <- FUN_c1d392a8
+  c1d39610 <- FUN_c1d392a8
+  c1697880 <- FUN_c1697828
+  c1697884 <- FUN_c1697828
+  c1690c38 <- FUN_c1b7cf30
+  c1690c3c <- FUN_c1b7cf30
+  c1ae5dd0 <- FUN_c1ae5dd0
+  c1ae5ddc <- FUN_c1ae5dd0
+  c1ab26a0 <- FUN_c1ab26a0
+  c1ab26ac <- FUN_c1ab26a0
+  c1d38e74 <- FUN_c1d38cfc
+  c1d38e78 <- FUN_c1d38cfc
+  c1d38ef8 <- FUN_c1d38cfc
+  c1d38efc <- FUN_c1d38cfc
+  c1ab08e8 <- FUN_c1ab0668
+  c1ab08f0 <- FUN_c1ab0668
+  c1ae7424 <- FUN_c1ae7424
+  c1ae7430 <- FUN_c1ae7424
   ...
 
-CALLERS:
-  c170e428 : FUN_c170e428
-
 ------------------------------------------------------------
-#66  SCORE=38  INSNS=2411
-FUNCTION : FUN_c1710c50
-ENTRY    : c1710c50
-BODY     : [[c1710c50, c17131fb]]
+#80 SCORE=10
+FUNCTION : FUN_c16a4ae4
+ENTRY    : c16a4ae4
+BODY     : [[c16a4ae4, c16a4c6f]]
 
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : true
-  7B / RFDEBUG        : false
+SEMANTIC FLAGS:
+  0x4B = false
+  0x0B = true
+  0x7B = false
+  0x65 = false
 
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
+EXACT MATCH INSTRUCTIONS:
+  c16a4ba8 : cmp.gtu P0,R3,#0xb ; jump.if(P0.new):nt 0xc16a4c64 
 
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
+CONTEXT @ c16a4ba8
+    c16a4b88 : memh R4,(R0+#0x2) 
+    c16a4b8c : memh R6,(R0+#0x4) 
+    c16a4b90 : cmp.gt P0,R4,R6 
+    c16a4b94 : mux R4,P0,#0x8,#0x9 
+    c16a4b98 : memb (R1+#0xd),R4.new 
+    c16a4b9c : memub R4,(R5+#0x6) 
+    c16a4ba0 : memb (R1+#0xe),R4.new 
+    c16a4ba4 : immext #0xc0 
+ >>> c16a4ba8 : cmp.gtu P0,R3,#0xb ; jump.if(P0.new):nt 0xc16a4c64 
+    c16a4bac : addasl R2,R2,R3,#0x2 
+    c16a4bb0 : immext #0x9940 
+    c16a4bb4 : memw R2,(R2+##0x9960) 
+    c16a4bb8 : add R2,R2,#0xd43 
+    c16a4bbc : dcfetch (R2) 
+    c16a4bc0 : memd R17R16,(SP+#0x0) ; dealloc_return 
+    c16a4bc4 : jump 0xc16a4ba4 
+    c16a4bc8 : memb (R1+#0xd),R4 
 
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
+DIRECT REFERENCES:
+  c19f18e8 <- FUN_c19f161c
+  c19f18f0 <- FUN_c19f161c
 
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xB(11), 0xC(12), 0xD(13), 0xE(14), 0xF(15), 0x10(16), 0x11(17), 0x12(18), 0x14(20), 0x15(21), 0x16(22), 0x17(23), 0x18(24), 0x19(25), 0x1A(26), 0x1B(27), 0x1C(28), 0x1D(29), 0x1E(30), 0x1F(31), 0x20(32), 0x21(33), 0x22(34), 0x24(36), 0x26(38), 0x28(40), 0x29(41), 0x2A(42), 0x2C(44), 0x30(48), 0x31(49), 0x32(50), 0x33(51), 0x34(52), 0x36(54), 0x37(55), 0x38(56), 0x3C(60), 0x3F(63), 0x40(64), 0x41(65), 0x44(68), 0x47(71), 0x48(72), 0x49(73), 0x4A(74), 0x4C(76), 0x50(80), 0x54(84), 0x58(88), 0x5C(92), 0x60(96), 0x64(100), 0x68(104), 0x6C(108), 0x70(112), 0x74(116), 0x78(120), 0x79(121), 0x7C(124), 0x80(128), 0x82(130), 0x84(132), 0x88(136), 0x8C(140), 0x90(144), 0x94(148), 0x95(149), 0x96(150) ...
-
-SELECTED INSTRUCTIONS:
-  c1710c68 : jump.if:t cmp.eq(R2.new,#0x2),0xc171318c 
-  c1710d6c : memw (R17++#0x4),R2  :endloop0
-  c1710d78 : cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc1710dc0 
-  c1710da4 : memw (R4++#0x4),R3  :endloop0
-  c1710e40 : assign R2,#0x5 
-  c1710e68 : memw (R18+#0x4),R26 
-  c1710e80 : jump.if:nt !cmp.gtu(R2.new,#0x3),0xc1710ec8 
-  c1710ed4 : memw+= (R2),#0x1 
-  c1710edc : cmp.eq P0,R0,#0x1 
-  c1710ee0 : assign.if(P0.new) R0,#0x1 
-  c1710f20 : add R2,R2,#0x1 
-  c1710f24 : cmp.gtu P0,R2,#0x2 
-  c1710f60 : add R22,R19,#0x4 
-  c1710fc4 : memw (SP+#0x3c),R2 ; memw (SP+#0x1c),R7 
-  c1710fd4 : add R21,R2,#0x4 
-  c1711090 : cmp.eq P1,R2,#0x1 
-  c1711098 : cmp.eq P0,R1,#0x1 
-  c17110e0 : mpyi+= R3,R17,#0x1c 
-  c17110f8 : insert R4,R2,#0xd,#0x3 
-  c171111c : memb R2,(R19+#0x1a) 
-  c1711134 : memub R2,(R19+#0x1) 
-  c1711150 : add R2,R2,#0x1 
-  c1711168 : memuh R17,(R3+#0x1a) 
-  c171117c : jump.if:t !cmp.eq(R2.new,#0x1),0xc17111a0 
-  c171119c : assign.if(P0.new) R20,#0x1 
-  c17111cc : jump.if:t cmp.eq(R3.new,#0x1),0xc1711278 
-  c171121c : memb (R19+#0x17),#0x1 
-  c1711250 : memub R4,(R19+#0x1) 
-  c1711258 : memub R5,(R5+#0x1) 
-  c1711264 : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
-  c171126c : combine R3R2,#0x4,#0x0 
-  c1711290 : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
-  c1711298 : combine R3R2,#0x4,#0x0 
-  c17112b0 : assign.if(P0) R2,#0x1 
-  c17112c0 : add R3,R2,#0x1 
-  c17112c8 : assign R3,#0x1 
-  c17112e8 : jump.if:t !cmp.gtu(R3.new,#0x1),0xc1711310 
-  c17112f4 : add R3,R2,#0x1 
-  c17112fc : assign R3,#0x1 
-  c1711314 : add R3,R2,#0x2 
-  ...
-
-CALLERS:
-  c17132c0 : FUN_c17132c0
-  c1710774 : FUN_c1710774
-
-------------------------------------------------------------
-#67  SCORE=38  INSNS=386
-FUNCTION : FUN_c1716d40
-ENTRY    : c1716d40
-BODY     : [[c1716d40, c1717347]]
-
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : true
-  7B / RFDEBUG        : false
-
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x8(8), 0xB(11), 0xC(12), 0x10(16), 0x13(19), 0x14(20), 0x16(22), 0x18(24), 0x1A(26), 0x1C(28), 0x24(36), 0x28(40), 0x30(48), 0x38(56), 0x3B(59), 0x3C(60), 0x40(64), 0x50(80), 0x5D(93), 0x60(96), 0x68(104), 0x69(105), 0x6A(106), 0x6B(107), 0x6C(108), 0x6D(109), 0x6E(110), 0x6F(111), 0x77(119), 0x80(128), 0x88(136), 0x90(144), 0x93(147), 0x98(152), 0xA8(168), 0xB8(184), 0xC0(192), 0xC1(193), 0xC2(194), 0xC3(195), 0xC4(196), 0xC5(197), 0xC6(198), 0xC7(199), 0xC8(200), 0xFF(255), 0x118(280), 0x119(281), 0x11A(282), 0x11B(283), 0x11C(284), 0x11D(285), 0x11E(286), 0x11F(287), 0x148(328), 0x5C0(1472), 0x19FF(6655), 0x41200000(1092616192), 0x421C0000(1109131264), 0xC16E8F80(3245248384), 0xC16E8FA0(3245248416), 0xC16F2780(3245287296), 0xC16F2788(3245287304), 0xC16F2790(3245287312), 0xC16FA5C0(3245319616), 0xC16FA5D0(3245319632), 0xC16FA5E0(3245319648), 0xC16FA5F0(3245319664), 0xC16FA600(3245319680), 0xC16FA610(3245319696), 0xC16FA620(3245319712), 0xC16FA630(3245319728), 0xC16FA640(3245319744), 0xC16FA650(3245319760) ...
-
-SELECTED INSTRUCTIONS:
-  c1716d70 : memuh R3,(R16+#0x1a) 
-  c1716d74 : memb R4,(R20+#0x1) 
-  c1716d98 : assign R18,##0xc16f2788 ; assign R0,#0x2 
-  c1716da0 : loop0 0xc1716dac,#0x5 
-  c1716db8 : cmp.eq P0,R2,#0x4 ; jump.if(!P0.new):t 0xc1716dc4 
-  c1716dc8 : add R3,R3,#0x8 ; add R2,R2,#0x1 
-  c1716dcc : cmp.gtu P0,R17,#0x4 ; jump.if(!P0.new):t 0xc1716df8 
-  c1716dfc : memuh R3,(R16+#0x1a) 
-  c1716e00 : memub R19,(R16+#0x1) 
-  c1716e14 : jump.if:nt cmp.eq(R2.new,#0x1),0xc1716e8c 
-  c1716e20 : assign.if(!P0.new) R22,#0x1 
-  c1716e90 : assign R22,#0x1 
-  c1716ed0 : asl R2,R17,#0x3 
-  c1716ee8 : combine R5R4,#0x0,#0x1 
-  c1716f30 : memb R2,(R16+#0x5) 
-  c1716f38 : addasl R2,R20,R17,#0x3 
-  c1716f40 : combine R1R0,#0x0,#0x1 ; combine R7R6,#0x0,#0x0 
-  c1716f74 : add.if(P0.new) R3,R20,#0x2 
-  c1716f88 : memb+= (R3),#0x1 
-  c1716fb8 : combine R3R2,#0x4,#0x0 
-  c1716fc0 : memw (SP+#0x8),R19 ; memw (SP+#0x4),R17 
-  c1716fd4 : combine R3R2,#0x4,#0x0 
-  c1716fdc : memw (SP+#0x8),R19 ; memw (SP+#0x4),R17 
-  c1717004 : memub R8,(R20+#0x2) 
-  c1717010 : memw (SP+#0x8),R3 ; memw (SP+#0x4),R2 
-  c1717018 : memw (SP+#0x1c),R8 
-  c1717038 : memw (SP+#0x8),R3 ; memw (SP+#0x4),R2 
-  c1717040 : memw (SP+#0x1c),R8 
-  c1717068 : add R2,R2,#0x1 
-  c171706c : jump.if:nt cmp.gtu(R2.new,#0x4),0xc1717084 
-  c17170b8 : memub R8,(R20+#0x2) 
-  c17170c4 : memw (SP+#0x8),R3 ; memw (SP+#0x4),R2 
-  c17170cc : memw (SP+#0x1c),R8 
-  c17170ec : memw (SP+#0x8),R3 ; memw (SP+#0x4),R2 
-  c17170f4 : memw (SP+#0x1c),R8 
-  c1717120 : add R0,SP,#0x28 ; memb R2,(R20+#0x2) 
-  c1717124 : cmp.gtu P0,R2,#0xb 
-  c171712c : mux R2,P0,#0x1,#0x0 
-  c1717138 : memb (R20+#0x3),R2 
-  c1717148 : memub R2,(R20+#0x2) 
-  ...
-
-CALLERS:
-  c1717358 : FUN_c1717358
-  c17175d4 : FUN_c17175d4
-  c1717f9c : FUN_c1717f9c
-
-------------------------------------------------------------
-#68  SCORE=38  INSNS=624
-FUNCTION : FUN_c17175d4
-ENTRY    : c17175d4
-BODY     : [[c17175d4, c1717f93]]
-
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : true
-  7B / RFDEBUG        : false
-
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xB(11), 0xC(12), 0xD(13), 0x10(16), 0x14(20), 0x18(24), 0x1A(26), 0x1C(28), 0x1E(30), 0x1F(31), 0x20(32), 0x24(36), 0x25(37), 0x26(38), 0x2A(42), 0x2C(44), 0x2D(45), 0x30(48), 0x32(50), 0x34(52), 0x38(56), 0x3C(60), 0x3F(63), 0x40(64), 0x44(68), 0x48(72), 0x49(73), 0x4A(74), 0x4C(76), 0x50(80), 0x52(82), 0x58(88), 0x60(96), 0x64(100), 0x68(104), 0x70(112), 0x74(116), 0x78(120), 0x7C(124), 0x80(128), 0x88(136), 0x8C(140), 0xA0(160), 0xA1(161), 0xA3(163), 0xA5(165), 0xA6(166), 0xA7(167), 0xA8(168), 0xA9(169), 0xAA(170), 0xAC(172), 0xAD(173), 0xB0(176), 0xB1(177), 0xB2(178), 0xB4(180), 0xB6(182), 0xB7(183), 0xBA(186), 0xBC(188), 0xBE(190), 0xC0(192), 0xC4(196), 0xC8(200), 0xD0(208), 0xD4(212), 0xD8(216), 0xDC(220), 0xE0(224) ...
-
-SELECTED INSTRUCTIONS:
-  c1717618 : asl R2,R1,#0x4 
-  c1717634 : cmp.eq P1,R3,#0x1 
-  c1717648 : cmp.eq P1,R3,#0x2 
-  c1717670 : assign R6,#0x1 
-  c17176f0 : lsr R4,R12,#0x1 
-  c17176f4 : memub R10,(R16+#0x1) 
-  c1717768 : cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):nt 0xc17177a0 
-  c1717770 : jump.if:nt cmp.gtu(R3.new,#0xb),0xc1717780 
-  c1717780 : extractu R6,R12,#0x2,#0x1 
-  c1717784 : assign R3,#0x3 
-  c1717790 : assign R3,#0x1 
-  c17177b4 : memw R24,(R24+#0x1c) 
-  c17177bc : memw R3,(R16+#0x34) ; memub R2,(R16+#0x1) 
-  c17177c8 : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
-  c17177d0 : combine R3R2,#0x4,#0x0 
-  c17177e8 : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
-  c17177f0 : combine R3R2,#0x4,#0x0 
-  c171780c : cmp.eq P0,R3,#0x1 
-  c1717878 : add R26,R26,#0x1 
-  c1717914 : memub R3,(R16+#0x1) 
-  c17179e0 : assign R24,#0x1 
-  c17179f0 : memub R3,(R16+#0x1) 
-  c1717adc : memub R3,(R16+#0x1) 
-  c1717b88 : assign R23,#0x1 
-  c1717b98 : memub R3,(R16+#0x1) 
-  c1717bfc : memuh R3,(R16+#0x1a) 
-  c1717c04 : lsr R3,R3,#0x1 
-  c1717c1c : !tstbit P0,R4,#0x4 
-  c1717c30 : memuh R4,(R19+#0x4) 
-  c1717c40 : memub R3,(R19+#0x2) 
-  c1717c48 : memuh R4,(R16+#0x1c) 
-  c1717c4c : lsr-= R3,R4,#0x1 
-  c1717c78 : memub R2,(R16+#0x1) 
-  c1717c88 : memw.if(!P0) (SP+#0x4),R23 
-  c1717ccc : memw (SP+#0x4),R23 
-  c1717ce4 : memw R0,(R20+#0x1c) 
-  c1717d24 : memub R22,(R16+#0x3) 
-  c1717d2c : memub R23,(R16+#0x4) 
-  c1717d70 : memub R2,(R16+#0x1) ; memub R3,(R16) 
-  c1717d8c : memw (SP+#0x8),R0 ; memw (SP+#0x4),R1 
-  ...
-
-CALLERS:
-  c171637c : FUN_c171637c
-  c1719f94 : FUN_c1719f94
-  c1718630 : FUN_c1718630
-
-------------------------------------------------------------
-#69  SCORE=38  INSNS=364
-FUNCTION : FUN_c17800ec
-ENTRY    : c17800ec
-BODY     : [[c17800ec, c178069b]]
-
-FLAGS:
-  4B / DIAG_CMD_SUBSYS : false
-  0B                  : true
-  7B / RFDEBUG        : false
-
-  CMD=1 RADIO_CONFIGURE : true
-  CMD=2 TX_OVERRIDE     : true
-  CMD=3 RX_OVERRIDE     : true
-  CMD=4 DISCOVERY       : true
-  CMD=5 PROPERTY_DISC   : true
-
-  PROP=1  IS_TEARDOWN   : true
-  PROP=26 TUNE_TX_RX    : true
-  PROP=28 FREQUENCY     : true
-
-  CALL                  : true
-  BRANCH                : true
-  LOAD                  : true
-  STORE                 : true
-
-CONSTANTS:
-  0x0(0), 0x1(1), 0x2(2), 0x3(3), 0x4(4), 0x5(5), 0x6(6), 0x7(7), 0x8(8), 0x9(9), 0xA(10), 0xB(11), 0xC(12), 0xE(14), 0x10(16), 0x11(17), 0x12(18), 0x13(19), 0x14(20), 0x15(21), 0x16(22), 0x18(24), 0x1A(26), 0x1C(28), 0x20(32), 0x21(33), 0x24(36), 0x25(37), 0x26(38), 0x27(39), 0x28(40), 0x2A(42), 0x2C(44), 0x30(48), 0x34(52), 0x38(56), 0x3C(60), 0x40(64), 0x44(68), 0x48(72), 0x50(80), 0x58(88), 0x5C(92), 0x60(96), 0x80(128), 0x96(150), 0xC0(192), 0xCC(204), 0xEC(236), 0xF0(240), 0xF8(248), 0xFF(255), 0x100(256), 0x108(264), 0x118(280), 0x120(288), 0x138(312), 0x1C0(448), 0x1D4(468), 0x288(648), 0x290(656), 0x400(1024), 0x8C0(2240), 0x8C4(2244), 0x980(2432), 0x9B8(2488), 0xC98(3224), 0xCC0(3264), 0xCF0(3312), 0xCF4(3316), 0x19C0(6592), 0x19E8(6632), 0x21A4(8612), 0x2300(8960), 0x2332(9010), 0x6400(25600), 0x6424(25636), 0x6428(25640), 0xCAC0(51904), 0xCAD8(51928) ...
-
-SELECTED INSTRUCTIONS:
-  c1780120 : memw R25,(R5<<#0x2+##0xc49378a8) 
-  c1780128 : assign R24,#0x1 
-  c178012c : memw R2,(R4+#0x4) 
-  c1780134 : assign R24,#0x2 
-  c1780140 : assign R24,#0x3 
-  c178014c : assign R24,#0x4 
-  c1780158 : assign R24,#0x5 
-  c1780170 : memw R2,(R4+#0x1c) 
-  c17801a0 : assign R18,R0 ; memw R2,(R0+#0x4) 
-  c17801a4 : extractu R3,R2,#0x4,#0x6 
-  c17801a8 : extractu R26,R2,#0x3,#0x3 
-  c17801d0 : cmp.eq P0,R2,#0x3 ; memw R2,(R18+#0x4) 
-  c17801dc : extractu R3,R2,#0x4,#0x6 
-  c17801e8 : mux R4,P0,#0x1,#0x0 
-  c1780208 : add R8,R8,#0x1 
-  c1780214 : add R9,R9,#0x1 
-  c1780224 : add R2,R2,#0x1 
-  c1780298 : cmp.gt P0,R3,#0x2 
-  c17802c4 : assign R2,#0x0 ; memw (R23+#0x1c),R2 
-  c17802d0 : cmp.eq P0,R3,#0x1 ; jump.if(P0.new):t 0xc178036c 
-  c17802d4 : cmp.eq P0,R3,#0x2 
-  c17802d8 : assign.if(!P0.new) R2,#0x5 
-  c17802e4 : memw R2,(R23+#0x4) 
-  c17802ec : assign R3,#0x0 ; combine R5R4,#0x1,#0x0 
-  c17802f0 : add R3,R3,#0x1 
-  c178030c : add R4,R4,#0x1 
-  c1780338 : mpyi+= R3,R24,#0x5 
-  c178034c : cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):t 0xc1780358 
-  c1780358 : cmp.eq P0,R3,#0x4 ; jump.if(!P0.new):t 0xc1780364 
-  c1780364 : cmp.eq P0,R3,#0x5 
-  c1780368 : assign.if(!P0.new) R2,#0x5 
-  c1780374 : memub R3,(R18+#0xb) 
-  c1780394 : memb (R23+#0x1),R2 
-  c1780398 : memuh R3,(R18+#0x1a) 
-  c17803ec : cmp.eq P0,R1,#0x1 ; jump.if(!P0.new):nt 0xc1780678 
-  c17803f0 : addasl R4,R4,R3,#0x4 
-  c17803f4 : memw R5,(R4+R2<<#0x2) 
-  c17803fc : cmp.eq P0,R1,#0x1 
-  c1780404 : memub R3,(R23+#0x1) 
-  c178040c : mpyi+= R3,R2,#0x5 
-  ...
-
-CALLERS:
-RFDEBUG_HeaderParserHunter.java> User cancelled script.
+============================================================
+DONE
+============================================================
+RFDEBUG_SemanticRouteHunter.java> Finished!
