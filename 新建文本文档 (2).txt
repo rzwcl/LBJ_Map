@@ -1,1890 +1,922 @@
-.new) R28,#0x0 
-c1c8ff7c   assign R28,#0x0 
-c1c8ff84   addasl R18,R13,R28,#0x1 
-c1c8ff88   cmp.gtu P0,R28,R8 
-c1c8ff94   add R18,R28,R10 
-c1c8ff98   assign R28,#0x0 
-c1c8ffa4   add R28,R28,#0x1 
-c1c8ffc4   cmp.gtu P0,R10,R28 
-c1c8ffd0   cmp.eq P0,R28,R10 
-c1c90000   memw (R3),R28 
-c1c902b0   memw R2,(GP+#0x11c20) 
-c1c90308   assign R28,##0xffffff 
-c1c90494   cmp.gtu P0,R4,R28 
-c1c9067c   memw R2,(GP+#0x11c20) 
-c1c906c4   assign R28,##0x1fff0000 
-c1c906d4   and R4,R2,R28 
-c1c90738   and R12,R6,R28 
-c1c90768   and R8,R8,R28 
-c1c907f4   and R5,R9,R28 
-c1c90b28   memw R2,(GP+#0x11c20) 
-c1c90b80   assign R28,##0x1fff0000 
-c1c90b9c   and R7,R2,R28 
-c1c90bb8   and R5,R5,R28 
-c1c90c1c   and R9,R2,R28 
-c1c9153c   memw R3,(GP+#0x11c20) 
-c1c91870   mux R28,P0,#0x0,R13 
-c1c91880   sub R6,R0,R28 
-c1c91c40   mux R28,P0,#0x0,R13 
-c1c91c50   sub R6,R0,R28 
-c1c93688   memw R3,(GP+#0x11cb0) 
-c1c94ab0   memw R3,(GP+#0x11cec) 
-c1c94ae0   memw R3,(GP+#0x11ce8) 
-c1c958a8   memw R1,(GP+#0x11cf0) 
-c1c96340   memw R1,(GP+#0x11cf0) 
-c1c97d98   memw (GP+#0x11cb0),R2.new 
-c1c984f0   memw R1,(GP+#0x11cf0) 
-c1c986e8   memw R1,(GP+#0x11cf0) 
-c1c9aa28   memd R1R0,(GP+#0x18128) 
-c1c9ada0   memd R1R0,(GP+#0x18128) 
-c1c9b068   memd R1R0,(GP+#0x18128) 
-c1c9b134   memd R1R0,(GP+#0x18128) 
-c1c9b7e0   memb (GP+#0x1aee),R0.new 
-c1c9b7e8   memb (GP+#0x1aef),R3 
-c1c9b7ec   memb (GP+#0x10e4),R2 
-c1c9e98c   memw R2,(GP+#0x11cd4) 
-c1ca12a4   and R28,R15,#0xff 
-c1ca12a8   cmp.gtu P0,R28,#0x7 
-c1ca12bc   +mpyi R1,R28,##0x6c8 
-c1ca12c4   +mpyi R10,R28,##0x1d0 
-c1ca12c8   sub R18,#0x20,R28 
-c1ca12cc   and R19,R28,#0x1f 
-c1ca12f8   +mpyi R1,R28,#0x74 
-c1ca1324   +mpyi R10,R28,##0x1b2 
-c1ca1384   +mpyi R1,R28,#0x68 
-c1ca1400   addasl R1,R8,R28,#0x4 
-c1ca140c   asl R10,R28,#0x4 
-c1ca1418   addasl R1,R9,R28,#0x5 
-c1ca141c   asl R10,R28,#0x5 
-c1ca1444   +mpyi R19,R28,#0x88 
-c1ca1460   memw R28,(R5+R19) 
-c1ca1464   memw (R15+#0x1a8),R28 
-c1ca1470   memw R28,(R1+#0x4) 
-c1ca1474   memw (R15+#0x1c0),R28 
-c1ca1478   memw R28,(R1+#0x14) 
-c1ca147c   memw (R15+#0x1c4),R28 
-c1ca1480   memw R28,(R1+#0xc) 
-c1ca1488   memw (R15+#0x1c8),R28 
-c1ca1578   add R28,R4,#0x164 
-c1ca16fc   addasl R25,R28,R23,#0x2 
-c1ca2384   assign R28,##0xd8cfa3af 
-c1ca25f0   assign R28,##0xd8cfa3af 
-c1ca26f0   assign R28,##0xd8cfa3af 
-c1ca272c   assign R28,##0xd8cfa3af 
-c1ca2888   assign R28,##0xd8cfa3af 
-c1ca298c   assign R28,##0xd8cfa3af 
-c1ca29c8   assign R28,##0xd8cfa3af 
-c1ca2b60   assign R28,##0xd8cfa3af 
-c1ca2bc4   assign R28,##0xd8cfa3af 
-c1ca2e1c   add R5,R28,#-0x7dff 
-c1ca2e94   add R4,R28,#-0x7dff 
-c1ca3038   add R6,R28,#-0x7fff 
-c1ca33a8   assign R28,#0x0 
-c1ca3438   assign R28,R6 
-c1ca3594   memw (SP+#0x2c),R28 
-c1ca38a0   assign R28,##0xd8cfa3af 
-c1ca4104   memw R3,(GP+#0x11cb0) 
-c1ca452c   memb R2,(GP+#0x1b78) 
-c1ca552c   memb R2,(GP+#0x1b79) 
-c1ca5ca8   memw R1,(GP+#0xccf4) 
-c1ca5cd4   memw R22,(GP+#0xccf4) 
-c1ca62f0   memw (GP+#0xccf4),R0 
-c1ca637c   memd R1R0,(GP+#0x18900) 
-c1ca643c   memw R0,(GP+#0xccf4) 
-c1ca75f0   memd R3R2,(GP+#0x12168) 
-c1ca7f88   memw R2,(GP+#0xccfc) 
-c1ca8058   memw R2,(GP+#0xccfc) 
-c1ca80c0   memw R17,(GP+#0xccfc) 
-c1ca8100   memw (GP+#0xcd04),R17 
-c1ca8128   memw R2,(GP+#0xcd0c) 
-c1ca812c   memw R3,(GP+#0x11e08) 
-c1ca84ac   memw R2,(GP+#0x11e08) 
-c1ca84b0   memw (GP+#0xcd0c),R2.new 
-c1ca8530   memw R0,(GP+#0xcd00) 
-c1ca8534   memw (GP+#0xccfc),R0.new 
-c1ca8560   memw (GP+#0xcd04),R0 
-c1ca856c   memw R1,(GP+#0xcd00) 
-c1ca858c   memw R0,(GP+#0xcd00) 
-c1ca8598   memw (GP+#0xccfc),R0 
-c1ca85e4   memw R2,(GP+#0x11e08) 
-c1ca85e8   memw (GP+#0xcd0c),R2.new 
-c1ca8630   memw R17,(GP+#0xcd10) 
-c1ca8694   memw R2,(GP+#0xcd10) 
-c1ca86a4   memw (GP+#0xcd10),R17 
-c1ca8730   memw R2,(GP+#0x11e08) 
-c1ca8734   memw (GP+#0xcd0c),R2.new 
-c1ca8750   memw R1,(GP+#0xcd00) 
-c1ca889c   memw R17,(GP+#0xcd10) 
-c1ca8ae8   memw R3,(GP+#0xccfc) 
-c1ca90ec   memw R1,(GP+#0xcd08) 
-c1ca9114   memw R2,(GP+#0xcd08) 
-c1ca9138   memw R2,(GP+#0xcd08) 
-c1ca93dc   memw R5,(GP+#0xcd08) 
-c1ca9484   memw R3,(GP+#0xcd08) 
-c1ca9544   memw R2,(GP+#0xcd08) 
-c1ca9600   memw R3,(GP+#0xcd08) 
-c1ca9918   memw R4,(GP+#0xcd08) 
-c1ca9a60   memw R2,(GP+#0x7bcc) 
-c1ca9a80   memw R2,(GP+#0x7bd4) 
-c1ca9b64   memw R2,(GP+#0x11e28) 
-c1ca9b6c   memw (GP+#0x11e28),R2.new 
-c1ca9e78   memw R2,(GP+#0xcd08) 
-c1caa0c8   memw R1,(GP+#0xcd08) 
-c1caa62c   memd R25R24,(GP+#0x121d0) 
-c1caa8e8   memw R4,(GP+#0xcd08) 
-c1caabb8   memw R2,(GP+#0x11e1c) 
-c1caac14   memw R2,(GP+#0x11e20) 
-c1caac24   memw (GP+#0x11e20),R17 
-c1caae24   memw R22,(GP+#0xcd00) 
-c1caae3c   memw R22,(GP+#0xcd00) 
-c1caafe0   memw R21,(GP+#0x11e14) 
-c1cab158   memw R2,(GP+#0xccfc) 
-c1cab1a0   memw R2,(GP+#0xccfc) 
-c1cab254   memw R2,(GP+#0xcd04) 
-c1cab264   memw (GP+#0xcd04),R16 
-c1cab4a0   memw R21,(GP+#0x7bc4) 
-c1cab9fc   memw R2,(GP+#0xccfc) 
-c1caca40   memb R2,(GP+#0x0) 
-c1caca54   memw R0,(GP+#0xc4a8) 
-c1caca78   memw R0,(GP+#0xc4a8) 
-c1cacc94   memb R2,(GP+#0x0) 
-c1caccac   memw R0,(GP+#0xc4a8) 
-c1cacdd0   memub R2,(GP+#0x0) 
-c1cad310   memb R3,(GP+#0x0) 
-c1cad32c   memw R0,(GP+#0xc4a8) 
-c1cad344   memb R2,(GP+#0x0) 
-c1cad358   memw R0,(GP+#0xc4a8) 
-c1cad384   memw R0,(GP+#0xc4a8) 
-c1cad4e4   memb R2,(GP+#0x1128) 
-c1cad4f8   memw R0,(GP+#0xc4a8) 
-c1cad514   memub R2,(GP+#0x1128) 
-c1cad574   memw R0,(GP+#0xc4a8) 
-c1cad718   memub R2,(GP+#0x0) 
-c1cad7fc   memub R2,(GP+#0x0) 
-c1cad95c   memub R2,(GP+#0x0) 
-c1cada18   memub R2,(GP+#0x0) 
-c1cadb20   memub R2,(GP+#0x0) 
-c1cadbd8   memub R2,(GP+#0x0) 
-c1cadd00   memub R2,(GP+#0x0) 
-c1cae028   memb R2,(GP+#0x0) 
-c1cae03c   memw R0,(GP+#0xc4a8) 
-c1cae094   memub R2,(GP+#0x0) 
-c1cae0f4   memb R2,(GP+#0x0) 
-c1cae108   memw R0,(GP+#0xc4a8) 
-c1cae154   memub R2,(GP+#0x0) 
-c1cae1ac   memb R2,(GP+#0x0) 
-c1cae1c0   memw R0,(GP+#0xc4a8) 
-c1cae218   memub R2,(GP+#0x0) 
-c1cae270   memb R2,(GP+#0x0) 
-c1cae284   memw R0,(GP+#0xc4a8) 
-c1cae2d8   memub R2,(GP+#0x0) 
-c1cae340   memb R2,(GP+#0x0) 
-c1cae354   memw R0,(GP+#0xc4a8) 
-c1cae3a0   memub R2,(GP+#0x0) 
-c1cae3f4   memb R2,(GP+#0x0) 
-c1cae408   memw R0,(GP+#0xc4a8) 
-c1cae45c   memub R2,(GP+#0x0) 
-c1cae4c4   memb R2,(GP+#0x0) 
-c1cae4d8   memw R0,(GP+#0xc4a8) 
-c1cae584   memb R2,(GP+#0x0) 
-c1cae78c   memw R0,(GP+#0xc4a8) 
-c1caebbc   memw R0,(GP+#0xc4a8) 
-c1caf26c   memw R0,(GP+#0xc4a8) 
-c1caf86c   memb R2,(GP+#0x0) 
-c1caf880   memw R0,(GP+#0xc4a8) 
-c1caf91c   memb R2,(GP+#0x0) 
-c1caf998   memb R2,(GP+#0x0) 
-c1caf9ac   memw R0,(GP+#0xc4a8) 
-c1caf9fc   memub R2,(GP+#0x0) 
-c1cafac0   memw R0,(GP+#0xc4a8) 
-c1cafb18   memw R0,(GP+#0xc4a8) 
-c1cafbbc   memw R0,(GP+#0xc4a8) 
-c1cafc34   memb R3,(GP+#0x0) 
-c1cafc40   memw R0,(GP+#0xc4a8) 
-c1cafc68   memb R3,(GP+#0x0) 
-c1cafc74   memw R0,(GP+#0xc4a8) 
-c1cafca8   memb R3,(GP+#0x0) 
-c1cafcb4   memw R0,(GP+#0xc4a8) 
-c1cafebc   memw R0,(GP+#0xc4a8) 
-c1cafee0   memw R0,(GP+#0xc4a8) 
-c1caff04   memw R0,(GP+#0xc4a8) 
-c1caff44   memw R0,(GP+#0xc4a8) 
-c1caff68   memw R0,(GP+#0xc4a8) 
-c1cb0834   memub R28,(R9+#0x6) 
-c1cb0850   add R28,R15,R28 
-c1cb0854   add R0,R28,R0 
-c1cb0858   add+= R0,R15,R28 
-c1cb08d0   memub R28,(R5+#0x6) 
-c1cb08f8   add R28,R15,R28 
-c1cb08fc   add R0,R28,R0 
-c1cb0900   add+= R0,R15,R28 
-c1cb09e0   memub R28,(R1+#0x6) 
-c1cb09f4   add R13,R12,R28 
-c1cb0a0c   add R28,R5,R0 
-c1cb0a14   add+= R28,R4,R5 
-c1cb0a18   add R9,R28,R11 
-c1cb0a24   add+= R13,R28,R9 
-c1cb0a64   memub R28,(R2+#0x4) 
-c1cb0a84   add R28,R15,R28 
-c1cb0a90   add R0,R28,R0 
-c1cb0a94   add+= R0,R15,R28 
-c1cb328c   add R28,R9,#-0x106 
-c1cb3298   maxu R12,R12,R28 
-c1cb32d0   sub R12,R12,R28 
-c1cb32dc   sxtb R28,R13 
-c1cb32e4   jump.if:t !cmp.eq(R10.new,R28),0xc1cb33fc 
-c1cb32e8   add R28,R15,R2 
-c1cb32f0   memb R28,(R28+#-0x1) 
-c1cb32f4   jump.if:t !cmp.eq(R28.new,R10),0xc1cb33fc 
-c1cb32f8   memb R28,(R15) 
-c1cb3300   jump.if:t !cmp.eq(R10.new,R28),0xc1cb33fc 
-c1cb3304   memb R28,(R15+#0x1) 
-c1cb330c   jump.if:t !cmp.eq(R10.new,R28),0xc1cb33fc 
-c1cb3314   assign R28,#0x0 
-c1cb3318   add R16,R4,R28 
-c1cb331c   add R11,R15,R28 
-c1cb33a8   add R17,R28,#0x2 
-c1cb33bc   add R28,R28,#0x8 
-c1cb33d0   add R17,R4,add(R28,#0x3) 
-c1cb33d4   sub R28,R17,R8 
-c1cb33d8   add R15,R28,#0x102 
-c1cb33f0   add R14,R4,R28 
-c1cb4f60   assign R28,#0x0 
-c1cb5038   mux R17,P2,R28,R12 
-c1cb5d0c   add R28,R14,#0x1 
-c1cb5d10   memw (R0+#0x14),R28.new 
-c1cb61e0   assign R28,#-0x1 
-c1cb6220   assign.if(P0.new) R8,R28 
-c1cb6264   memuh R28,(R9) 
-c1cb626c   asl|= R28,R15,R12 
-c1cb6274   memh (R9),R28.new 
-c1cb6278   memb (R10+R11),R28 
-c1cb627c   memw R28,(R0+#0x14) 
-c1cb6280   add R10,R28,#0x1 
-c1cb6290   memb (R12+R28),R10.new 
-c1cb62ac   add R28,R0,#0x16b8 
-c1cb62bc   memh|= (R28),R15 
-c1cb62d8   cmp.eq P0,R8,R28 
-c1cb62e4   memw.if(!P0.new) R28,(R9+#0x4) 
-c1cb62f0   memw R28,(R9+#0x4) 
-c1cb62fc   cmp.gt P0,R28,R10 
-c1cb6304   asl|= R10,R14,R28 
-c1cb6308   add.if(!P0) R28,R28,R15 
-c1cb6314   memw R28,(R0+#0x14) 
-c1cb631c   add R16,R28,#0x1 
-c1cb6324   memb (R11+R28),R10 
-c1cb6328   memw R28,(R0+#0x14) 
-c1cb632c   add R11,R28,#0x1 
-c1cb633c   memb (R10+R28),R11.new 
-c1cb6340   memw R28,(R9+#0x4) 
-c1cb6344   add R28,R15,add(R28,#-0x10) 
-c1cb6348   sub R10,#0x10,R28 
-c1cb6354   memw (R9+#0x4),R28 
-c1cb6368   asl|= R14,R13,R28 
-c1cb636c   cmp.gt P0,R28,R10 
-c1cb6378   memw R28,(R0+#0x14) 
-c1cb6380   add R11,R28,#0x1 
-c1cb6388   memb (R10+R28),R14 
-c1cb6394   memw R28,(R0+#0x8) 
-c1cb63a0   memb (R28+R14),R10.new 
-c1cb63bc   add R15,R28,R15 
-c1cb63ec   add R28,R13,#0x1 
-c1cb63f0   memw (R0+#0x14),R28.new 
-c1cb643c   memw R28,(R9+#0x4) 
-c1cb6444   asl|= R14,R13,R28 
-c1cb6448   cmp.gt P0,R28,R10 
-c1cb6454   memw R28,(R0+#0x14) 
-c1cb645c   add R11,R28,#0x1 
-c1cb6464   memb (R10+R28),R14 
-c1cb6470   memw R28,(R0+#0x8) 
-c1cb647c   memb (R28+R14),R10.new 
-c1cb6498   add R15,R28,R15 
-c1cb64c8   add R28,R13,#0x1 
-c1cb64cc   memw (R0+#0x14),R28.new 
-c1cb6510   memw R28,(R9+#0x4) 
-c1cb6518   asl|= R14,R13,R28 
-c1cb651c   cmp.gt P0,R28,R10 
-c1cb6528   memw R28,(R0+#0x14) 
-c1cb6530   add R11,R28,#0x1 
-c1cb6538   memb (R10+R28),R14 
-c1cb6544   memw R28,(R0+#0x8) 
-c1cb6550   memb (R28+R14),R10.new 
-c1cb656c   add R15,R28,R15 
-c1cb659c   add R28,R13,#0x1 
-c1cb65a0   memw (R0+#0x14),R28.new 
-c1cb65f8   assign R28,R8 
-c1cb670c   memw R28,(R2+#0x4c) 
-c1cb676c   addasl R16,R28,R11,#0x2 
-c1cb6780   memb R11,(R28+R11<<#0x2) 
-c1cb6ad8   addasl R16,R28,R11,#0x2 
-c1cb6aec   memb R11,(R28+R11<<#0x2) 
-c1cb6c78   memb R2,(GP+#0x178c) 
-c1cb6cd4   memb R2,(GP+#0x178c) 
-c1cb6d40   memb R2,(GP+#0x178c) 
-c1cb6de4   memb R2,(GP+#0x178c) 
-c1cb6e8c   memb R2,(GP+#0x178c) 
-c1cb6ef8   memub R2,(GP+#0x178c) 
-c1cb701c   memb R3,(GP+#0x178c) 
-c1cb7068   memb R3,(GP+#0x178c) 
-c1cb733c   memb R3,(GP+#0x178c) 
-c1cb75f0   memb R2,(GP+#0x178c) 
-c1cb7648   memb R2,(GP+#0x178c) 
-c1cb76cc   memb R2,(GP+#0x178c) 
-c1cb7764   memb R2,(GP+#0x178c) 
-c1cb79ac   memb R2,(GP+#0x178c) 
-c1cb7a38   memb R2,(GP+#0x178c) 
-c1cb7afc   memb R2,(GP+#0x178c) 
-c1cb7c78   memb R2,(GP+#0x178c) 
-c1cb7dd0   memb R3,(GP+#0x178c) 
-c1cb7f3c   memb R2,(GP+#0x178c) 
-c1cb80d4   memb R2,(GP+#0x178c) 
-c1cb8298   memb R2,(GP+#0x178c) 
-c1cb8414   memb R2,(GP+#0x178c) 
-c1cb85a4   memb R2,(GP+#0x178c) 
-c1cb8744   memb R2,(GP+#0x178c) 
-c1cb88b8   memb R2,(GP+#0x178c) 
-c1cb8a38   memb R2,(GP+#0x178c) 
-c1cb8bfc   memb R2,(GP+#0x178c) 
-c1cb8d60   memb R2,(GP+#0x178c) 
-c1cb8ee8   memb R2,(GP+#0x178c) 
-c1cb9048   memb R3,(GP+#0x178c) 
-c1cb90f0   memb R2,(GP+#0x178c) 
-c1cb94a4   memb R2,(GP+#0x178c) 
-c1cb950c   memb R2,(GP+#0x178c) 
-c1cb97b8   memb R3,(GP+#0x178c) 
-c1cb984c   memb R2,(GP+#0x178c) 
-c1cb9a34   memb R3,(GP+#0x178c) 
-c1cb9c38   memd R5R4,(GP+#0x11ef8) 
-c1cb9cb8   memub R2,(GP+#0x178c) 
-c1cb9e90   memb R2,(GP+#0x178c) 
-c1cb9f54   memb R2,(GP+#0x178c) 
-c1cb9fb8   memb R2,(GP+#0x178c) 
-c1cba05c   memw R0,(GP+#0xc7cc) 
-c1cba0f0   memb R3,(GP+#0x178c) 
-c1cba228   memb R3,(GP+#0x178c) 
-c1cba30c   memb R2,(GP+#0x178c) 
-c1cba38c   memb R2,(GP+#0x178c) 
-c1cba460   memb R2,(GP+#0x178c) 
-c1cba4b4   memub R2,(GP+#0x178c) 
-c1cba52c   memb R2,(GP+#0x178c) 
-c1cba5c8   memb R2,(GP+#0x178c) 
-c1cba67c   memb R6,(GP+#0x178c) 
-c1cba7c4   memb R2,(GP+#0x178c) 
-c1cba908   memb R2,(GP+#0x178c) 
-c1cba984   memub R2,(GP+#0x178c) 
-c1cbaa44   memb R2,(GP+#0x178c) 
-c1cbaae4   memb R2,(GP+#0x178c) 
-c1cbac54   memb R4,(GP+#0x178c) 
-c1cbb8ec   memw R28,(R5+R15) 
-c1cbb8f0   memw (R19+R15),R28.new 
-c1cbb8f4   memw R28,(R14+#0x4) 
-c1cbb8f8   minu R28,R28,R13 
-c1cbb8fc   memw (R15+#0x4),R28.new 
-c1cbb900   memw R28,(R14+#0x4) 
-c1cbb904   cmp.eq P0,R28,#0x0 
-c1cbb908   assign.if(!P0.new) R28,#0x0 
-c1cbb918   add R28,R28,#0x1 
-c1cbb92c   cmp.gtu P0,R11,R28 
-c1cbb93c   memub R28,(R14+#0x1c) 
-c1cbb940   memb (R15+#0x1c),R28.new 
-c1cbb944   assign R28,R9 
-c1cbb950   memd (R28++#0x8),R11R10  :endloop0
-c1cbbdfc   memb R2,(GP+#0x178c) 
-c1cbbf28   memb R2,(GP+#0x178c) 
-c1cbbf90   memb R2,(GP+#0x178c) 
-c1cbc0a4   memub R2,(GP+#0x178c) 
-c1cbc220   memb R2,(GP+#0x178c) 
-c1cbc490   memub R2,(GP+#0x178c) 
-c1cbc5c4   memb R2,(GP+#0x178c) 
-c1cbc6a0   memub R2,(GP+#0x178c) 
-c1cbc778   memb R2,(GP+#0x178c) 
-c1cbc7d4   memb R3,(GP+#0x178c) 
-c1cbc848   memb R2,(GP+#0x178c) 
-c1cbc988   memb R2,(GP+#0x178c) 
-c1cbcbe0   memb R2,(GP+#0x178c) 
-c1cbcd10   memb R2,(GP+#0x178c) 
-c1cbcf2c   memb R2,(GP+#0x178c) 
-c1cbd040   memb R2,(GP+#0x178c) 
-c1cbd240   memb R3,(GP+#0x178c) 
-c1cbd360   memb R2,(GP+#0x178c) 
-c1cbd4a8   memb R6,(GP+#0x178c) 
-c1cbd584   memb R2,(GP+#0x178c) 
-c1cbd614   memb R2,(GP+#0x178c) 
-c1cbd6b8   memb R2,(GP+#0x178c) 
-c1cbd844   memb R2,(GP+#0x178c) 
-c1cbda24   memb R2,(GP+#0x178c) 
-c1cbdaa8   memb R2,(GP+#0x178c) 
-c1cbdbdc   memb R5,(GP+#0x178c) 
-c1cbdc98   memb R5,(GP+#0x178c) 
-c1cbdd6c   memb R3,(GP+#0x178c) 
-c1cbde9c   memb R2,(GP+#0x178c) 
-c1cbdf3c   memub R2,(GP+#0x178c) 
-c1cbe030   memb R2,(GP+#0x178c) 
-c1cbe0f4   memb R3,(GP+#0x178c) 
-c1cbe19c   memb R2,(GP+#0x178c) 
-c1cbe298   memb R2,(GP+#0x178c) 
-c1cbe308   memw R0,(GP+#0xc7cc) 
-c1cbe3a0   memb R2,(GP+#0x178c) 
-c1cbe408   memb R2,(GP+#0x178c) 
-c1cbe48c   memw R0,(GP+#0xc7cc) 
-c1cbe518   memb R2,(GP+#0x178c) 
-c1cbe580   memb R2,(GP+#0x178c) 
-c1cbe604   memw R0,(GP+#0xc7d8) 
-c1cbe67c   memb R2,(GP+#0x178c) 
-c1cbe718   memw R0,(GP+#0xc7e4) 
-c1cbe76c   memw R0,(GP+#0xc7e4) 
-c1cbe7a0   memw R0,(GP+#0xc7e4) 
-c1cbe7a8   memw R0,(GP+#0x6f64) 
-c1cbe7c0   memw R0,(GP+#0xc7e4) 
-c1cbe814   memb R2,(GP+#0x178c) 
-c1cbe87c   memb R2,(GP+#0x178c) 
-c1cbe8fc   memw R0,(GP+#0xc7f0) 
-c1cbe954   memb R2,(GP+#0x178c) 
-c1cbe9b8   memb R2,(GP+#0x178c) 
-c1cbeaec   memw R3,(GP+#0x11b54) 
-c1cbeb64   memw R3,(GP+#0x11b54) 
-c1cbeb90   memw R5,(GP+#0x11b54) 
-c1cbebdc   memw R4,(GP+#0x11b54) 
-c1cbfe68   memub R28,(R5+#0x3) 
-c1cbfe6c   memb (R3+#-0x5),R28 
-c1cc2c98   extractu R28,R2,#0x1,#0x17 
-c1cc2d04   memw R6,(R28<<#0x2+##0xc5129510) 
-c1cc38f4   add R28,R9,add(R8,##0x24) 
-c1cc3930   memw R11,(R28) 
-c1cc7b6c   assign R3,GP 
-c1cd2828   asl R28,R14,#0x1 
-c1cd282c   and|= R14,R28,R15 
-c1cd288c   xor R28,R2,R8 
-c1cd2894   and|= R15,R0,R28 
-c1cd3b78   assign R4,GP 
-c1cd431c   assign R4,GP 
-c1cd97a0   assign R28,##0x47f00000 
-c1cd9978   and R7,R25,R28 
-c1cdca84   memd R1R0,(GP+#0x18d10) 
-c1cdca90   memd R1R0,(GP+#0x124d8) 
-c1cdcdf0   memd R5R4,(GP+#0x124d8) 
-c1cdce50   memd R1R0,(GP+#0x124d8) 
-c1cdcf10   memd R5R4,(GP+#0x124d8) 
-c1cdd150   memw R2,(GP+#0xc294) 
-c1cdd1e0   memd R1R0,(GP+#0x13660) 
-c1cdd1f4   memd R1R0,(GP+#0x18d18) 
-c1cdd218   memd R3R2,(GP+#0x124d0) 
-c1cdd234   memd R3R2,(GP+#0x12e98) 
-c1cdd250   memd R3R2,(GP+#0x12860) 
-c1cdd26c   memd R3R2,(GP+#0x124d8) 
-c1cdd278   memd R1R0,(GP+#0x12870) 
-c1cdd284   memd R3R2,(GP+#0x124d8) 
-c1cdded4   memd R7R6,(GP+#0x124d0) 
-c1cddeec   memd R7R6,(GP+#0x12860) 
-c1cddfa0   memd R1R0,(GP+#0x18d10) 
-c1cddfd0   memd R1R0,(GP+#0x18d20) 
-c1cddfd4   memd R5R4,(GP+#0x124d0) 
-c1cddfe0   memd R9R8,(GP+#0x13490) 
-c1cde05c   memd R7R6,(GP+#0x124d8) 
-c1cde09c   memd R3R2,(GP+#0x12870) 
-c1cde0d4   memd R5R4,(GP+#0x18d28) 
-c1cde0e8   memd R7R6,(GP+#0x18d30) 
-c1cde12c   memd R5R4,(GP+#0x18d38) 
-c1cde140   memd R5R4,(GP+#0x13958) 
-c1cde154   memd R5R4,(GP+#0x14540) 
-c1cde1d8   memd R11R10,(GP+#0x12870) 
-c1cde26c   memd R3R2,(GP+#0x13380) 
-c1cde460   memd R3R2,(GP+#0x12870) 
-c1cde49c   memd R3R2,(GP+#0x124d8) 
-c1cde580   memd R21R20,(GP+#0x191f0) 
-c1cdee78   memw R17,(GP+#0x11eb8) 
-c1cdee84   memw R18,(GP+#0x11eb0) 
-c1cdee98   memw R2,(GP+#0x11eb4) 
-c1cdeeb0   memw R18,(GP+#0x11eb0) 
-c1cdeeb4   memw R2,(GP+#0x11eb4) 
-c1cdeec8   memw R17,(GP+#0x11eb8) 
-c1cdeed0   memw R0,(GP+#0x11eb4) 
-c1cdeef8   memw R0,(GP+#0x11eb4) 
-c1cdef14   memw R17,(GP+#0x11eb8) 
-c1cdef24   memw (GP+#0x11eb8),R18 
-c1cdef38   memw R2,(GP+#0x11eb4) 
-c1cdef3c   memw (GP+#0x11eb8),R3.new 
-c1cdef60   memw R17,(GP+#0x11eb8) 
-c1cdef64   memw R2,(GP+#0x11eb0) 
-c1cdef6c   memw R2,(GP+#0xc298) 
-c1cdef78   memw R4,(GP+#0x11eb4) 
-c1cdef7c   memw (GP+#0xc298),R2.new 
-c1cdefa4   memw R2,(GP+#0xc298) 
-c1cdefac   memw R0,(GP+#0x11eb4) 
-c1cdeffc   memw R2,(GP+#0x11eb8) 
-c1cdf000   memw R3,(GP+#0xc298) 
-c1cdf014   memw R2,(GP+#0x11eb8) 
-c1cdf01c   memw R3,(GP+#0x11eb4) 
-c1cdf020   memw (GP+#0x11eb8),R2.new 
-c1cdf02c   memw R3,(GP+#0x11eb4) 
-c1cdf03c   memw R3,(GP+#0x11eb4) 
-c1cdf090   memw R2,(GP+#0xcd44) 
-c1cdf0a0   memw (GP+#0xcd44),R0 
-c1cdfc20   memw R2,(GP+#0xc29c) 
-c1cdfc30   memw R2,(GP+#0xc2a0) 
-c1cdfc44   memb R2,(GP+#0x1ba6) 
-c1cdfc48   memw R3,(GP+#0x11ebc) 
-c1cdfc84   memw (GP+#0x11ebc),R3.new 
-c1cdfca4   memw (GP+#0x11ebc),R3 
-c1cdfccc   memw (GP+#0x11ebc),R3 
-c1ce0330   memw R2,(GP+#0xc29c) 
-c1ce034c   memw R2,(GP+#0xc2a0) 
-c1ce0360   memw (GP+#0x11ebc),R16 
-c1ce0530   memw R2,(GP+#0xc2a4) 
-c1ce094c   memd R1R0,(GP+#0x12e98) 
-c1ce0980   memd R15R14,(GP+#0x18d40) 
-c1ce0984   memd R9R8,(GP+#0x18d48) 
-c1ce0988   memd R7R6,(GP+#0x18d50) 
-c1ce09cc   memd R13R12,(GP+#0x18d58) 
-c1ce0a18   memd R7R6,(GP+#0x18d60) 
-c1ce0a1c   memd R15R14,(GP+#0x18d68) 
-c1ce0a60   memd R7R6,(GP+#0x124d8) 
-c1ce0bc0   memd R5R4,(GP+#0x18d70) 
-c1ce0be4   memd R1R0,(GP+#0x18d78) 
-c1ce0be8   memd R5R4,(GP+#0x12e98) 
-c1ce0c4c   memd R9R8,(GP+#0x18d80) 
-c1ce0c50   memd R5R4,(GP+#0x18d88) 
-c1ce0c54   memd R3R2,(GP+#0x18d90) 
-c1ce0c58   memd R21R20,(GP+#0x18d98) 
-c1ce0c98   memd R7R6,(GP+#0x18da0) 
-c1ce0cd0   memd R3R2,(GP+#0x18da8) 
-c1ce0d14   memd R3R2,(GP+#0x18db0) 
-c1ce0d48   memd R7R6,(GP+#0x124d8) 
-c1ce0da8   memw R3,(GP+#0x11eb8) 
-c1ce0db4   memw R2,(GP+#0xc298) 
-c1ce0dd8   memw R3,(GP+#0x11eb4) 
-c1ce0ddc   memw (GP+#0xc298),R0.new 
-c1ce0de8   memw R3,(GP+#0x11eb4) 
-c1ce0df4   memw R3,(GP+#0x11eb4) 
-c1ce0e08   memw R2,(GP+#0xc2a4) 
-c1ce0e28   memw R2,(GP+#0xc2a8) 
-c1ce0e40   memw R0,(GP+#0x11ec0) 
-c1ce0ec4   memd R5R4,(GP+#0x18db8) 
-c1ce0ed8   memd R5R4,(GP+#0x18dc0) 
-c1ce0f44   memd R3R2,(GP+#0x18dc8) 
-c1ce0f68   memd R5R4,(GP+#0x18dd0) 
-c1ce0f84   memd R7R6,(GP+#0x18dd8) 
-c1ce109c   memd R13R12,(GP+#0x18de0) 
-c1ce10a0   memd R7R6,(GP+#0x18de8) 
-c1ce10a4   memd R5R4,(GP+#0x18df0) 
-c1ce10d0   memd R13R12,(GP+#0x18df8) 
-c1ce1104   memd R7R6,(GP+#0x124d0) 
-c1ce114c   memd R7R6,(GP+#0x124d8) 
-c1ce2874   memd R3R2,(GP+#0x18d10) 
-c1ce28b8   memd R3R2,(GP+#0x12e98) 
-c1ce28bc   memd R5R4,(GP+#0x124d8) 
-c1ce28e8   memd R5R4,(GP+#0x18e00) 
-c1ce2904   memd R7R6,(GP+#0x18e08) 
-c1ce2924   memd R7R6,(GP+#0x18e10) 
-c1ce2944   memd R7R6,(GP+#0x18e18) 
-c1ce2964   memd R7R6,(GP+#0x18e20) 
-c1ce2984   memd R7R6,(GP+#0x18e28) 
-c1ce29a4   memd R7R6,(GP+#0x18e30) 
-c1ce29f0   memd R7R6,(GP+#0x18e38) 
-c1ce29f4   memd R5R4,(GP+#0x18e40) 
-c1ce2a00   memd R9R8,(GP+#0x18e48) 
-c1ce2a04   memd R23R22,(GP+#0x18e50) 
-c1ce2a10   memd R3R2,(GP+#0x18e58) 
-c1ce2a90   memd R5R4,(GP+#0x18e60) 
-c1ce2a94   memd R7R6,(GP+#0x18e68) 
-c1ce2ad8   memd R5R4,(GP+#0x18e70) 
-c1ce2adc   memd R7R6,(GP+#0x18e78) 
-c1ce2ae8   memd R9R8,(GP+#0x18e80) 
-c1ce2b4c   memd R3R2,(GP+#0x18e00) 
-c1ce2b68   memd R3R2,(GP+#0x18e08) 
-c1ce2b88   memd R3R2,(GP+#0x18e10) 
-c1ce2ba8   memd R3R2,(GP+#0x18e18) 
-c1ce2bc8   memd R3R2,(GP+#0x18e20) 
-c1ce2be8   memd R3R2,(GP+#0x18e28) 
-c1ce2c08   memd R1R0,(GP+#0x18e30) 
-c1ce3548   memd R3R2,(GP+#0x12e98) 
-c1ce3554   memd R1R0,(GP+#0x124d8) 
-c1ce35a4   memd R3R2,(GP+#0x124d8) 
-c1ce3604   memd R1R0,(GP+#0x124d8) 
-c1ce3694   memd R1R0,(GP+#0x124d8) 
-c1ce36b8   memd R23R22,(GP+#0x12860) 
-c1ce36bc   memd R25R24,(GP+#0x135f0) 
-c1ce4500   memd R21R20,(GP+#0x18e88) 
-c1ce4524   memd R1R0,(GP+#0x18e90) 
-c1ce453c   memd R1R0,(GP+#0x18e98) 
-c1ce45a0   memd R3R2,(GP+#0x131a8) 
-c1ce45a4   memd R5R4,(GP+#0x18ea0) 
-c1ce45c8   memd R9R8,(GP+#0x18ea8) 
-c1ce45dc   memd R5R4,(GP+#0x18eb0) 
-c1ce45e0   memd R7R6,(GP+#0x18eb8) 
-c1ce461c   memd R13R12,(GP+#0x18ec0) 
-c1ce462c   memd R15R14,(GP+#0x18ec8) 
-c1ce4764   memd R5R4,(GP+#0x18e90) 
-c1ce478c   memd R23R22,(GP+#0x18ed0) 
-c1ce4790   memd R25R24,(GP+#0x18ed8) 
-c1ce4890   memd R5R4,(GP+#0x18e90) 
-c1ce48b8   memd R3R2,(GP+#0x18e98) 
-c1ce4968   memd R3R2,(GP+#0x18ee0) 
-c1ce4984   memd R1R0,(GP+#0x18ea0) 
-c1ce49d0   memd R3R2,(GP+#0x18ee8) 
-c1ce49e4   memd R3R2,(GP+#0x18d18) 
-c1ce49fc   memd R3R2,(GP+#0x18ef0) 
-c1ce4a48   memd R3R2,(GP+#0x18ef8) 
-c1ce4a60   memd R3R2,(GP+#0x18f00) 
-c1ce4a78   memd R3R2,(GP+#0x18f08) 
-c1ce4a84   memd R5R4,(GP+#0x18f10) 
-c1ce4a94   memd R13R12,(GP+#0x18f18) 
-c1ce4acc   memd R7R6,(GP+#0x12860) 
-c1ce4af4   memd R9R8,(GP+#0x18f20) 
-c1ce4b0c   memd R7R6,(GP+#0x124d0) 
-c1ce4f34   memw R2,(GP+#0xc2a4) 
-c1ce4f54   memw R2,(GP+#0xc2c0) 
-c1ce4f7c   memw R2,(GP+#0xc2a8) 
-c1ce4f88   memw R2,(GP+#0xc2b8) 
-c1ce4f8c   memw (GP+#0x11ec0),R17 
-c1ce4f9c   memw R2,(GP+#0xc2bc) 
-c1ce4fa0   memw (GP+#0x11ec4),R17 
-c1ce4fb4   memw R2,(GP+#0xc2b0) 
-c1ce4fc4   memw (GP+#0x11ec8),R17 
-c1ce4fcc   memw R2,(GP+#0xc2b4) 
-c1ce4fd0   memb (GP+#0x1122),R17 
-c1ce4ff0   memw R2,(GP+#0xc2c4) 
-c1ce5014   memw R2,(GP+#0xc2c8) 
-c1ce5020   memw R2,(GP+#0xc2cc) 
-c1ce5024   memw (GP+#0x11ecc),R17 
-c1ce5038   memw (GP+#0x11ed0),R17 
-c1ce503c   memw R2,(GP+#0xc2d4) 
-c1ce50b4   memw R2,(GP+#0xc2d4) 
-c1ce5108   memw R2,(GP+#0xc2d0) 
-c1ce512c   memw R2,(GP+#0xc2d4) 
-c1ce5180   memd R1R0,(GP+#0x124d8) 
-c1ce51dc   memd R1R0,(GP+#0x124d8) 
-c1ce5228   memd R7R6,(GP+#0x18f28) 
-c1ce5244   memd R7R6,(GP+#0x18f30) 
-c1ce5268   memd R7R6,(GP+#0x18f38) 
-c1ce5288   memd R7R6,(GP+#0x18f40) 
-c1ce52a8   memd R7R6,(GP+#0x18f48) 
-c1ce52d8   memd R7R6,(GP+#0x18f50) 
-c1ce5308   memd R3R2,(GP+#0x18f58) 
-c1ce5324   memd R3R2,(GP+#0x18f60) 
-c1ce5344   memd R3R2,(GP+#0x18f68) 
-c1ce5364   memd R3R2,(GP+#0x18f70) 
-c1ce5384   memd R3R2,(GP+#0x18f78) 
-c1ce53a4   memd R3R2,(GP+#0x18f80) 
-c1ce53c4   memd R1R0,(GP+#0x124d8) 
-c1ce53e8   memw R2,(GP+#0xc2b0) 
-c1ce5400   memub R0,(GP+#0x1122) 
-c1ce5408   memw R2,(GP+#0xc2b4) 
-c1ce54ac   memd R1R0,(GP+#0x18f88) 
-c1ce5570   memd R3R2,(GP+#0x133d0) 
-c1ce6c38   memw R2,(GP+#0xc2b8) 
-c1ce6c50   memw R0,(GP+#0x11ec4) 
-c1ce6c58   memw R2,(GP+#0xc2bc) 
-c1ce6c70   memw R0,(GP+#0x11ec8) 
-c1ce6c78   memw R2,(GP+#0xc2c0) 
-c1ce6c98   memw R2,(GP+#0xc2c4) 
-c1ce6ecc   memw R3,(GP+#0xc2b4) 
-c1ce6eec   memw R2,(GP+#0xc2c4) 
-c1ce6f18   memw R2,(GP+#0xc2c8) 
-c1ce6f30   memw R0,(GP+#0x11ecc) 
-c1ce6f38   memw R2,(GP+#0xc2cc) 
-c1ce6f50   memw R0,(GP+#0x11ed0) 
-c1ce6f58   memw R2,(GP+#0xc2d0) 
-c1ce6fa0   memw R2,(GP+#0x11eb0) 
-c1ce6fc4   memw R2,(GP+#0xc298) 
-c1ce6fc8   memw R1,(GP+#0x11eb4) 
-c1ce6fd4   memw R2,(GP+#0x11eb8) 
-c1ce6fd8   memw R3,(GP+#0x11eb0) 
-c1ce6fe0   memw R5,(GP+#0x11eb4) 
-c1ce6ffc   memw R0,(GP+#0x11eb4) 
-c1ce7024   memw (GP+#0x11eb4),R16 
-c1ce7130   memd R1R0,(GP+#0x13300) 
-c1ce7238   memw R2,(GP+#0x11ed4) 
-c1ce7280   memw R2,(GP+#0xc2d4) 
-c1ce72dc   memd R19R18,(GP+#0x124d8) 
-c1ce7368   memd R19R18,(GP+#0x18f90) 
-c1ce73bc   memd R3R2,(GP+#0x124d8) 
-c1ce73f8   memd R1R0,(GP+#0x124d8) 
-c1ce745c   memd R19R18,(GP+#0x18f98) 
-c1ce915c   memd R3R2,(GP+#0x12698) 
-c1ce9278   memd R21R20,(GP+#0x124d8) 
-c1ce92fc   memd R3R2,(GP+#0x13308) 
-c1cea1f4   memw R4,(GP+#0xc2b4) 
-c1cea39c   memd R1R0,(GP+#0x18f88) 
-c1cea460   memd R3R2,(GP+#0x133d0) 
-c1cea5a0   memd R3R2,(GP+#0x18fa0) 
-c1cec03c   memd R19R18,(GP+#0x124d8) 
-c1cec0c8   memd R19R18,(GP+#0x18f90) 
-c1cec11c   memd R3R2,(GP+#0x124d8) 
-c1cec158   memd R1R0,(GP+#0x124d8) 
-c1cec1bc   memd R19R18,(GP+#0x18f98) 
-c1cf0e30   memd R1R0,(GP+#0x18fc8) 
-c1d04f2c   memd R7R6,(GP+#0x18fa8) 
-c1d083a8   memd R1R0,(GP+#0x12f20) 
-c1d09bf8   memd R1R0,(GP+#0x12f20) 
-c1d0d544   memw R2,(GP+#0xc2dc) 
-c1d0d574   memw R2,(GP+#0xc2e0) 
-c1d0d5a0   memw R2,(GP+#0xc2e4) 
-c1d0d5d0   memw R2,(GP+#0xc2e8) 
-c1d0d5fc   memw R2,(GP+#0xc388) 
-c1d0d62c   memw R2,(GP+#0xc38c) 
-c1d0d658   memw R2,(GP+#0xc380) 
-c1d0d688   memw R2,(GP+#0xc384) 
-c1d0d6b4   memw R2,(GP+#0xc390) 
-c1d0d6e4   memw R2,(GP+#0xc394) 
-c1d0d710   memw R2,(GP+#0xc398) 
-c1d0d740   memw R2,(GP+#0xc39c) 
-c1d0d76c   memw R2,(GP+#0xc3a0) 
-c1d0d79c   memw R2,(GP+#0xc3a4) 
-c1d0d7c8   memw R2,(GP+#0xc3a8) 
-c1d0d7f8   memw R2,(GP+#0xc3ac) 
-c1d0d824   memw R2,(GP+#0xc3b0) 
-c1d0d854   memw R2,(GP+#0xc3b4) 
-c1d0d880   memw R2,(GP+#0xc3b8) 
-c1d0d8b0   memw R2,(GP+#0xc3bc) 
-c1d0d8dc   memw R2,(GP+#0xc2ec) 
-c1d0d90c   memw R2,(GP+#0xc2f0) 
-c1d0d938   memw R2,(GP+#0xc2f4) 
-c1d0d968   memw R2,(GP+#0xc2f8) 
-c1d0d994   memw R2,(GP+#0xc2fc) 
-c1d0d9c4   memw R2,(GP+#0xc300) 
-c1d0d9f0   memw R2,(GP+#0xc304) 
-c1d0da20   memw R2,(GP+#0xc308) 
-c1d0da4c   memw R2,(GP+#0xc32c) 
-c1d0da7c   memw R2,(GP+#0xc330) 
-c1d0daa8   memw R2,(GP+#0xc334) 
-c1d0dad8   memw R2,(GP+#0xc338) 
-c1d0db04   memw R2,(GP+#0xc33c) 
-c1d0db34   memw R2,(GP+#0xc340) 
-c1d0db60   memw R2,(GP+#0xc344) 
-c1d0db90   memw R2,(GP+#0xc348) 
-c1d0dbbc   memw R2,(GP+#0xc34c) 
-c1d0dbec   memw R2,(GP+#0xc350) 
-c1d0dc18   memw R2,(GP+#0xc354) 
-c1d0dc48   memw R2,(GP+#0xc358) 
-c1d0dc74   memw R2,(GP+#0xc35c) 
-c1d0dca4   memw R2,(GP+#0xc360) 
-c1d0dcd0   memw R2,(GP+#0xc364) 
-c1d0dd00   memw R2,(GP+#0xc368) 
-c1d0dd2c   memw R2,(GP+#0xc30c) 
-c1d0dd5c   memw R2,(GP+#0xc310) 
-c1d0dd88   memw R2,(GP+#0xc314) 
-c1d0ddb8   memw R2,(GP+#0xc318) 
-c1d0dde4   memw R2,(GP+#0xc31c) 
-c1d0de14   memw R2,(GP+#0xc320) 
-c1d0de40   memw R2,(GP+#0xc324) 
-c1d0de70   memw R2,(GP+#0xc328) 
-c1d0de9c   memw R2,(GP+#0xc36c) 
-c1d0decc   memw R2,(GP+#0xc370) 
-c1d0def8   memw R2,(GP+#0xc374) 
-c1d0df28   memw R2,(GP+#0xc378) 
-c1d0df54   memw R2,(GP+#0xc2dc) 
-c1d0df84   memw R2,(GP+#0xc2e0) 
-c1d0dfb0   memw R2,(GP+#0xc2e4) 
-c1d0dfe0   memw R2,(GP+#0xc2e8) 
-c1d0e00c   memw R2,(GP+#0xc388) 
-c1d0e03c   memw R2,(GP+#0xc38c) 
-c1d0e068   memw R2,(GP+#0xc380) 
-c1d0e098   memw R2,(GP+#0xc384) 
-c1d0e0c4   memw R2,(GP+#0xc390) 
-c1d0e0f4   memw R2,(GP+#0xc394) 
-c1d0e120   memw R2,(GP+#0xc398) 
-c1d0e150   memw R2,(GP+#0xc39c) 
-c1d0e17c   memw R2,(GP+#0xc3a0) 
-c1d0e1ac   memw R2,(GP+#0xc3a4) 
-c1d0e1d8   memw R2,(GP+#0xc3a8) 
-c1d0e208   memw R2,(GP+#0xc3ac) 
-c1d0e234   memw R2,(GP+#0xc3b0) 
-c1d0e264   memw R2,(GP+#0xc3b4) 
-c1d0e290   memw R2,(GP+#0xc3b8) 
-c1d0e2c0   memw R2,(GP+#0xc3bc) 
-c1d0e2ec   memw R2,(GP+#0xc32c) 
-c1d0e31c   memw R2,(GP+#0xc330) 
-c1d0e348   memw R2,(GP+#0xc334) 
-c1d0e378   memw R2,(GP+#0xc338) 
-c1d0e3a4   memw R2,(GP+#0xc33c) 
-c1d0e3d4   memw R2,(GP+#0xc340) 
-c1d0e400   memw R2,(GP+#0xc344) 
-c1d0e430   memw R2,(GP+#0xc348) 
-c1d0e45c   memw R2,(GP+#0xc30c) 
-c1d0e48c   memw R2,(GP+#0xc310) 
-c1d0e4b8   memw R2,(GP+#0xc314) 
-c1d0e4e8   memw R2,(GP+#0xc318) 
-c1d0e514   memw R2,(GP+#0xc31c) 
-c1d0e544   memw R2,(GP+#0xc320) 
-c1d0e570   memw R2,(GP+#0xc324) 
-c1d0e5a0   memw R2,(GP+#0xc328) 
-c1d0e5cc   memw R2,(GP+#0xc36c) 
-c1d0e5fc   memw R2,(GP+#0xc370) 
-c1d0e628   memw R2,(GP+#0xc374) 
-c1d0e658   memw R2,(GP+#0xc378) 
-c1d0f314   memd R5R4,(GP+#0x12100) 
-c1d0f4e0   memd R1R0,(GP+#0x124b8) 
-c1d158d4   memd R11R10,(GP+#0x18fd8) 
-c1d16b38   memd R1R0,(GP+#0x11ee0) 
-c1d16cf4   memd R5R4,(GP+#0x18fe0) 
-c1d183bc   memd R3R2,(GP+#0x18fe8) 
-c1d18448   memd R5R4,(GP+#0x18fe0) 
-c1d184c0   memd R5R4,(GP+#0x18fe0) 
-c1d185e0   memd R5R4,(GP+#0x18fe8) 
-c1d18674   memd R7R6,(GP+#0x18fe0) 
-c1d18708   memd R3R2,(GP+#0x18ff0) 
-c1d18e80   memd R23R22,(GP+#0x18fe8) 
-c1d18f6c   memd R3R2,(GP+#0x18ff0) 
-c1d26888   assign R28,R4 
-c1d26890   assign R28,R4 
-c1d268b8   add SP,SP,R28 
-c1d2851c   assign.if(!P0.new) R28,#0x2 
-c1d28670   assign R28,#0x2 
-c1d28b60   memb (R26+R2<<#0x3),R28 
-c1d28be0   memb (SP+#0x14),R28 
-c1d2918c   memw R21,(GP+#0xcd44) 
-c1d2920c   memw R4,(GP+#0xc2d0) 
-c1d295a0   memw R2,(GP+#0xc2c0) 
-c1d29c80   memw R2,(GP+#0xc2c8) 
-c1d29c98   memw R3,(GP+#0x11ecc) 
-c1d29d64   asl R28,R7,#0x8 
-c1d29d68   assign.if(!P1) R7,R28 
-c1d29d74   zxth R28,R7 
-c1d29d7c   memw (R12),R28.new 
-c1d29e30   memw R2,(GP+#0xc2cc) 
-c1d29e4c   memw R3,(GP+#0x11ed0) 
-c1d2b28c   memd R1R0,(GP+#0x18f88) 
-c1d2b350   memd R3R2,(GP+#0x133d0) 
-c1d2c32c   memd R3R2,(GP+#0x124d8) 
-c1d2c3b4   memd R3R2,(GP+#0x124d8) 
-c1d2c424   memd R5R4,(GP+#0x13308) 
-c1d2d5c4   memub R2,(GP+#0x1bf8) 
-c1d2d6e8   memub R1,(GP+#0x14e) 
-c1d2d7b8   memub R2,(GP+#0x162a) 
-c1d2d824   memub R2,(GP+#0x1bd8) 
-c1d2d82c   memub R0,(GP+#0x162a) 
-c1d2d990   memub R1,(GP+#0x1bdc) 
-c1d2daec   memub R3,(GP+#0x163b) 
-c1d2db68   memub R0,(GP+#0x1636) 
-c1d2dc68   memw R2,(GP+#0x6d04) 
-c1d2e2d8   memub R2,(GP+#0x1bf7) 
-c1d2e320   memub R2,(GP+#0x1bf8) 
-c1d2e3e0   memub R1,(GP+#0x1644) 
-c1d2e3ec   memub R1,(GP+#0x1643) 
-c1d2e3f4   memub R1,(GP+#0x1642) 
-c1d2e548   memub R1,(GP+#0x14e) 
-c1d2e59c   memub R3,(GP+#0x1646) 
-c1d2e7ac   memub R4,(GP+#0x151) 
-c1d2e960   memub R1,(GP+#0x1648) 
-c1d2e974   memub R0,(GP+#0x1645) 
-c1d2ea04   memub R2,(GP+#0x164e) 
-c1d2eb58   memub R0,(GP+#0x1c02) 
-c1d2ec24   memw R2,(GP+#0x6d30) 
-c1d2ed2c   memub R2,(GP+#0x1c02) 
-c1d2ed4c   memb R0,(GP+#0x1c02) 
-c1d31880   memw R4,(GP+#0xc6e8) 
-c1d3194c   memw R3,(GP+#0xc6e8) 
-c1d32304   memw R3,(GP+#0xc6e8) 
-c1d34f78   memw R2,(GP+#0xcd58) 
-c1d34fb4   memw R2,(GP+#0xcd58) 
-c1d36f44   memd R3R2,(GP+#0x11ef0) 
-c1d37208   memd R3R2,(GP+#0x11ef0) 
-c1d372b4   memd R3R2,(GP+#0x11ef0) 
-c1d373b0   memd R3R2,(GP+#0x11ef0) 
-c1d3742c   memd R3R2,(GP+#0x11ef0) 
-c1d37508   memd R3R2,(GP+#0x11ef0) 
-c1d375ac   memd R3R2,(GP+#0x11ef0) 
-c1d37654   memd R3R2,(GP+#0x11ef0) 
-c1d37894   add R28,R3,R13 
-c1d378a8   add R7,R28,add(R7,##0xc1bdceee) 
-c1d378ac   memw R28,(SP+#0x20) 
-c1d37920   add R11,R28,R11 
-c1d37b58   add R21,R28,R25 
-c1d37c04   add R21,R28,R23 
-c1d37e48   add R28,R28,R19 
-c1d37ebc   add R28,R28,add(R11,##0x6fa87e4f) 
-c1d37ec8   rol+= R14,R28,#0x6 
-c1d38400   memh R2,(GP+#0x5ea2) 
-c1d385b4   memuh R2,(GP+#0x5ea2) 
-c1d385bc   memh (GP+#0x5ea2),R3.new 
-c1d388f8   memuh R2,(GP+#0x5ea2) 
-c1d38900   memh (GP+#0x5ea2),R3.new 
-c1d3b31c   memw (GP+#0xcd60),R3 
-c1d3b498   memh R2,(GP+#0x5ea4) 
-c1d3b544   memuh R3,(GP+#0x5ea2) 
-c1d3b73c   memuh R3,(GP+#0x5ea2) 
-c1d3b928   memuh R6,(GP+#0x5ea4) 
-c1d3b95c   add R28,R12,##-0x36ce31a1 
-c1d3b968   memb (R28+#0x2),R9 
-c1d3b990   memb (R28+#0x6),R13.new 
-c1d3b998   memb (R28+#0x1),R11 
-c1d3b99c   memb (R28),R7 
-c1d3b9b8   memw R28,(R0+#0x308) 
-c1d3b9cc   memw R9,(R28+R2) 
-c1d3bab0   memub R28,(R12+#0x2) 
-c1d3bacc   asl|= R28,R13,#0x8 
-c1d3baec   asl|= R9,R28,#0x10 
-c1d3bb14   memub R28,(R7+#0x13) 
-c1d3bb2c   asl|= R28,R1,#0x8 
-c1d3bb3c   asl|= R8,R28,#0x10 
-c1d3bb84   memuh R3,(GP+#0x5ea2) 
-c1d3bcf4   memuh R3,(GP+#0x5ea2) 
-c1d3be74   memw (GP+#0x6518),R0 
-c1d3bea4   memw R0,(GP+#0x6518) 
-c1d3c4c8   memw R0,(GP+#0xc3c8) 
-c1d3c644   memw R0,(GP+#0xc3c8) 
-c1d3c6c0   memw R0,(GP+#0xc3c8) 
-c1d3c880   memuh R2,(GP+#0x5ea2) 
-c1d3c8d8   memh (GP+#0x5ea2),R6.new 
-c1d3cc00   memw R0,(GP+#0xc3d0) 
-c1d3ccc0   memuh R2,(GP+#0x5ea2) 
-c1d3d5b8   memw R2,(GP+#0x6520) 
-c1d3d62c   memuh R28,(R12+#0x4) 
-c1d3d634   xor^= R10,R13,R28 
-c1d3d678   memuh R28,(R14+#0x4) 
-c1d3d680   xor^= R28,R13,R11 
-c1d3d68c   xor^= R16,R28,R15 
-c1d3d6c4   zxth R28,R13 
-c1d3d6f4   xor^= R28,R16,R14 
-c1d3d6f8   jump.if:nt !cmp.eq(R28.new,R11),0xc1d3d7ac 
-c1d3d780   memw (GP+#0x6520),R2.new 
-c1d3d828   memw R0,(GP+#0xc3d8) 
-c1d3d84c   memw R3,(GP+#0xc3d8) 
-c1d3d85c   memw R2,(GP+#0x6510) 
-c1d3dcbc   memuh R4,(GP+#0x5ea6) 
-c1d3f0f8   memw R0,(GP+#0xc4a4) 
-c1d3f678   memw R0,(GP+#0xc4a4) 
-c1d3f698   memw R0,(GP+#0xc4a4) 
-c1d44900   memw R0,(GP+#0xc4b0) 
-c1d44940   memw R0,(GP+#0xc4b0) 
-c1d449f4   memw R0,(GP+#0xc4b0) 
-c1d44a30   memw R0,(GP+#0xc4b0) 
-c1d44a68   memw R0,(GP+#0xc4b0) 
-c1d44a90   memw R0,(GP+#0xc4b0) 
-c1d44ab4   memw R0,(GP+#0xc4b0) 
-c1d44adc   memw R0,(GP+#0xc4b0) 
-c1d44d18   memw R0,(GP+#0xc4b0) 
-c1d44d64   memw R0,(GP+#0xc4b0) 
-c1d44dc4   memw R0,(GP+#0xc4b0) 
-c1d44ea4   memw R0,(GP+#0xc4b0) 
-c1d44fec   memw R0,(GP+#0xc4b0) 
-c1d4500c   memw R0,(GP+#0xc4b0) 
-c1d45120   memw R0,(GP+#0xc4b0) 
-c1d45140   memw R0,(GP+#0xc4b0) 
-c1d45410   memw R0,(GP+#0xc4b0) 
-c1d45470   memw R0,(GP+#0xc4b0) 
-c1d4583c   memw R0,(GP+#0xc4b0) 
-c1d45e38   memw R0,(GP+#0xc4b0) 
-c1d45fc4   memw R0,(GP+#0xc4b0) 
-c1d46004   memw R0,(GP+#0xc4b0) 
-c1d4671c   memw R2,(GP+#0x6574) 
-c1d46b7c   memw R3,(GP+#0xc500) 
-c1d46ba4   memw R2,(GP+#0xc500) 
-c1d46c0c   memw R2,(GP+#0xc500) 
-c1d46c44   memw R2,(GP+#0xc500) 
-c1d46cd0   memw R2,(GP+#0xc500) 
-c1d46d78   memw R2,(GP+#0xc500) 
-c1d46dc8   memw R2,(GP+#0xc500) 
-c1d46e40   memw R2,(GP+#0xc500) 
-c1d46eb8   memw R2,(GP+#0xc500) 
-c1d46f4c   memub R1,(GP+#0x1137) 
-c1d46f88   memw R2,(GP+#0xc500) 
-c1d46fec   memw R2,(GP+#0xc500) 
-c1d47050   memw R2,(GP+#0xc500) 
-c1d470bc   memw R2,(GP+#0xc500) 
-c1d47104   memw R2,(GP+#0xc500) 
-c1d4714c   memw R2,(GP+#0xc500) 
-c1d47174   memw R2,(GP+#0xc500) 
-c1d471c0   memw R2,(GP+#0xc500) 
-c1d47328   memw R2,(GP+#0xc500) 
-c1d473a4   memw R4,(GP+#0xc500) 
-c1d473ec   memw R3,(GP+#0xc500) 
-c1d47408   memw R2,(GP+#0xc500) 
-c1d4750c   memw R2,(GP+#0xc500) 
-c1d47568   memw R2,(GP+#0xc500) 
-c1d47598   memw R2,(GP+#0xc500) 
-c1d47800   memw R2,(GP+#0xc500) 
-c1d47830   memw R2,(GP+#0xc500) 
-c1d47858   memw R2,(GP+#0xc500) 
-c1d47880   memw R2,(GP+#0xc500) 
-c1d478d0   memw R2,(GP+#0xc500) 
-c1d478f8   memw R2,(GP+#0xc500) 
-c1d48334   memw R2,(GP+#0xc500) 
-c1d483cc   memw R3,(GP+#0xc454) 
-c1d48668   memw R2,(GP+#0xc500) 
-c1d4869c   memw R2,(GP+#0xc500) 
-c1d4877c   memw R2,(GP+#0xc500) 
-c1d487c4   memw R2,(GP+#0xc500) 
-c1d48a58   memw R2,(GP+#0xc500) 
-c1d48ae8   memw R3,(GP+#0xc500) 
-c1d48b90   memw R3,(GP+#0xc500) 
-c1d48bac   memw R2,(GP+#0xc500) 
-c1d48bf8   memw R2,(GP+#0xc500) 
-c1d48c4c   memw R5,(GP+#0xc500) 
-c1d48c88   memw R3,(GP+#0xc500) 
-c1d48ca4   memw R2,(GP+#0xc500) 
-c1d48dc4   memw R2,(GP+#0xc500) 
-c1d48e04   memw R2,(GP+#0xc500) 
-c1d48e34   memw R2,(GP+#0xc500) 
-c1d48e88   memw R2,(GP+#0xc500) 
-c1d48ea0   memw R2,(GP+#0xc500) 
-c1d494c0   memw R3,(GP+#0xc448) 
-c1d4962c   memw R18,(GP+#0xc448) 
-c1d4967c   memw (GP+#0xc448),R0 
-c1d4cfc8   memw R3,(GP+#0x11b3c) 
-c1d4d018   memw R3,(GP+#0x11b3c) 
-c1d4d050   memw R3,(GP+#0x11b3c) 
-c1d4d184   memw R3,(GP+#0x11b3c) 
-c1d4d1a4   memw R2,(GP+#0x11b3c) 
-c1d4d1e0   memw R2,(GP+#0x11b3c) 
-c1d4d24c   memw R3,(GP+#0x11b3c) 
-c1d4d264   memw R4,(GP+#0x11b3c) 
-c1d4d314   memw R2,(GP+#0x11cac) 
-c1d4d34c   memw (GP+#0xcb50),R0 
-c1d4d3dc   memw R2,(GP+#0x79b4) 
-c1d4d414   memw (GP+#0xcb54),R0 
-c1d4d764   memw R2,(GP+#0x79c4) 
-c1d4d79c   memw (GP+#0xcb60),R0 
-c1d4da7c   memw R2,(GP+#0x79c8) 
-c1d4dab4   memw (GP+#0xcb64),R0 
+ommand 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x7fffffff
+  RFDEBUG-like command IDs = [1, 2, 4, 5, 6, 7, 8, 10, 13, 15, 16]
+  property compare hits:
+    c17cf768  cmp.gtu P0,R23,#0x1a ; jump.if(!P0.new):t 0xc17cf788 
+  command compare hits:
+    c17cf6c4  cmp.gtu P0,R2,#0xa ; jump.if(P0.new):nt 0xc17cf6d0 
+    c17cf6f4  cmp.gt P0,R23,#0x7 
+    c17cf720  cmp.gt P0,R23,#0x4 ; jump.if(P0.new):t 0xc17cf740 
+    c17cf72c  cmp.gtu P0,R5,#0x1 ; jump.if(!P0.new):t 0xc17cf848 
+    c17cf738  cmp.eq P0,R23,#0x4 ; jump.if(!P0.new):nt 0xc17cf778 
+    c17cf744  jump.if:t cmp.gtu(R5.new,#0x1),0xc17cf7b8 
+    c17cf770  jump.if:t !cmp.gtu(R5.new,#0x1),0xc17cf834 
+    c17cf774  cmp.eq P0,R23,#0x8 ; jump.if(P0.new):t 0xc17cf7a8 
+    c17cf79c  cmp.eq P0,R23,#0xd ; jump.if(P0.new):t 0xc17cf81c 
+    c17cf7bc  cmp.eq P0,R23,#0x5 ; jump.if(!P0.new):nt 0xc17cf778 
+    c17cf7ec  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc17cf80c 
+    c17cf7f0  cmp.eq P0,R2,#0x1 
+    c17cf800  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc17cf80c 
+    c17cf804  cmp.eq P0,R2,#0x1 
+    c17cfaa4  cmp.eq P0,R17,#0x5 ; jump.if(!P0.new):t 0xc17cfb8c 
+    c17cfc30  cmp.gtu P0,R2,#0x10 ; jump.if(P0.new):nt 0xc17cfff0 
+    c17cfc54  cmp.eq P0,R4,#0x0 ; memw (SP+#0x8),R22 
+    c17cfd08  cmp.eq P0,R3,#0x6 ; jump.if(!P0.new):t 0xc17cfd14 
+    c17cfd18  cmp.eq P0,R3,#0xf ; jump.if(P0.new):t 0xc17cfd50 
+    c17cfd50  cmp.eq P1,R2,#0x1 
+    c17cfd58  and R0,R21,#0xff ; cmp.eq P0,R2,#0x2 
+    c17cff1c  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0xc17cff30 
+    c17cff20  cmp.eq P0,R2,#0x1 
 
-TOTAL GP-RELATED INSTRUCTIONS : 23018
+#24  SCORE=50  FUN_c1809390
+  entry = c1809390
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x2d28
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 9, 10, 14, 15, 20]
+  command compare hits:
+    c18095f4  jump.if:nt cmp.gtu(R2.new,#0x6),0xc180c3bc 
+    c1809644  !cmp.eq R3,R3,#0x1 
+    c1809648  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):t 0xc1809a1c 
+    c18096a8  jump.if:t !cmp.gtu(R3.new,#0x1),0xc1809768 
+    c18096c4  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1809768 
+    c18096f8  cmp.gtu P0,R23,#0x1 
+    c1809724  cmp.gtu P1,R7,#0x1 
+    c18097a8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc1809a10 
+    c1809878  jump.if:t cmp.gtu(R18.new,#0x3),0xc1809950 
+    c1809900  cmp.gtu P0,R19,#0x9 ; jump.if(!P0.new):t 0xc1809914 
+    c18099f0  jump.if:nt cmp.gtu(R2.new,#0x1),0xc180c3e8 
+    c18099f8  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc180c3f8 
+    c1809ad4  jump.if:nt cmp.gtu(R4.new,#0x2),0xc180c418 
+    c1809c84  cmp.gtu P1,R14,#0x1 
+    c1809da8  jump.if:t !cmp.eq(R13.new,#0x3),0xc1809c6c 
+    c1809db0  cmp.gtu P0,R2,#0xa ; jump.if(P0.new):nt 0xc180c428 
+    c180a008  assign R3,#0x1 ; cmp.eq P0,R16,#0x0 
+    c180a090  jump.if:t !cmp.gtu(R19.new,#0x3),0xc180a09c 
+    c180a0ec  cmp.gt P0,R19,#0x2 
+    c180a110  cmp.eq P0,R19,#0x1 ; jump.if(P0.new):nt 0xc180a1cc 
+    c180a120  cmp.eq P1,R19,#0x2 
+    c180a138  cmp.gtu P0,R2,#0x1 ; jump.if(P0.new):nt 0xc180a158 
+    c180a158  cmp.eq P0,R19,#0x3 ; jump.if(P0.new):t 0xc180a218 
+    c180a180  cmp.eq P0,R2,#0x1 
+    c180a198  cmp.eq P0,R4,#0x1 ; jump.if(P0.new):t 0xc180a1a4 
+    c180a1a4  cmp.eq P0,R20,#0x1 ; jump.if(!P0.new):t 0xc180a1b8 
+    c180a1bc  cmp.gtu P0,R20,#0x2 ; jump.if(P0.new):nt 0xc180c438 
+    c180a1d8  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc180a1ec 
+    c180a1ec  cmp.eq P0,R20,#0x1 ; jump.if(!P0.new):t 0xc180a204 
+    c180a208  cmp.gtu P0,R20,#0x2 ; jump.if(P0.new):nt 0xc180c448 
+    c180a25c  cmp.eq P0,R19,#0x3 
+    c180a260  cmp.gtu P1,R19,#0x2 
+    c180a2d8  cmp.gtu P0,R25,#0x3 
+    c180a45c  cmp.gtu P0,R25,#0x4 
+    c180a4f0  cmp.gtu P1,R3,#0x1 
+    c180a5e4  cmp.gtu P0,R5,#0x1 
+    c180a5f8  cmp.gtu P1,R5,#0x1 
+    c180a730  cmp.gtu P0,R9,#0x1 
+    c180a994  cmp.gt P2,R12,#0xe 
+    c180aa08  jump.if:nt cmp.eq(R2.new,#0x3),0xc180aa18 
+    c180aad0  jump.if:t cmp.eq(R2.new,#0x2),0xc180aae4 
+    c180ab64  cmp.eq P0,R5,#0x1 
+    c180aba8  jump.if:t !cmp.eq(R3.new,#0x1),0xc180abc0 
+    c180ad88  cmp.gtu P0,R16,#0x5 ; jump.if(P0.new):nt 0xc180c488 
+    c180ad98  cmp.gtu P1,R2,#0x1 ; jump.if(P1.new):t 0xc180ada8 
+    c180ada4  cmp.gtu P0,R2,#0x1 
+    c180add0  cmp.gtu P2,R4,#0x3 
+    c180ae04  jump.if:nt cmp.gtu(R3.new,#0x5),0xc180c498 
+    c180aed8  jump.if:t cmp.gt(R8.new,#0x2),0xc180af00 
+    c180aedc  cmp.eq P0,R8,#0x1 
+    c180aee4  cmp.eq P0,R8,#0x2 
+    c180aeec  cmp.eq P0,R7,#0x2 
+    c180aef0  cmp.eq P1,R7,#0x1 
+    c180af00  cmp.eq P0,R8,#0x3 
+    c180af08  cmp.eq P0,R8,#0x4 
+    c180af10  cmp.eq P0,R8,#0x5 
+    c180af1c  cmp.eq P0,R7,#0x2 ; jump.if(P0.new):t 0xc180af28 
+    c180af4c  cmp.eq P0,R12,#0x1 
+    c180aff8  cmp.gtu P0,R28,#0x4 
+    c180b054  cmp.gt P0,R6,#0xe ; jump.if(P0.new):t 0xc180b080 
+    c180b058  cmp.eq P0,R6,#0x5 
+    c180b06c  cmp.eq P0,R6,#0xa ; jump.if(!P0.new):nt 0xc180b0a8 
+    c180b080  cmp.eq P0,R6,#0xf 
+    c180b094  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180b0a8 
+    c180b0c0  cmp.eq P1,R9,#0x5 
+    c180b0d4  cmp.eq P0,R6,#0xa ; jump.if(!P0.new):nt 0xc180b0ec 
+    c180b0f0  cmp.eq P0,R6,#0xf ; jump.if(!P0.new):nt 0xc180b108 
+    c180b114  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180b144 
+    c180b144  cmp.eq P0,R9,#0xa 
+    c180b154  cmp.eq P1,R6,#0xf ; jump.if(!P1.new):nt 0xc180b184 
+    c180b190  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180b1c0 
+    c180b1c0  cmp.eq P0,R9,#0xf 
+    c180b1cc  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180c3ac 
+    c180b334  cmp.gt P0,R17,#0x2 
+    c180b35c  cmp.eq P0,R17,#0x1 ; jump.if(P0.new):nt 0xc180ba74 
+    c180b364  cmp.eq P0,R17,#0x2 ; jump.if(!P0.new):nt 0xc180ba80 
+    c180b368  cmp.eq P0,R19,#0x2 
+    c180b36c  cmp.eq P1,R19,#0x1 
+    c180b380  cmp.eq P0,R17,#0x3 ; jump.if(P0.new):nt 0xc180ba44 
+    c180b388  cmp.eq P0,R17,#0x4 ; jump.if(P0.new):nt 0xc180ba68 
+    c180b390  cmp.eq P0,R17,#0x5 ; jump.if(!P0.new):nt 0xc180ba80 
+    c180b398  cmp.eq P0,R19,#0x2 ; jump.if(P0.new):t 0xc180b3a4 
+    c180b3d4  jump.if:t !cmp.eq(R28.new,#0x2),0xc180b3ec 
+    c180b3ec  cmp.eq P0,R28,#0x3 
+    c180b40c  cmp.eq P0,R17,#0x3 
+    c180b414  cmp.eq P1,R28,#0x4 
+    c180b82c  jump.if:t cmp.gtu(R3.new,#0x1),0xc180bb0c 
+    c180ba00  cmp.eq P0,R7,#0x1 ; jump.if(!P0.new):t 0xc180ba0c 
+    c180ba14  cmp.eq P0,R7,#0x2 ; jump.if(P0.new):t 0xc180af28 
+    c180ba1c  cmp.eq P0,R7,#0x4 ; jump.if(P0.new):t 0xc180af24 
+    c180ba24  assign R3,#0x4 ; cmp.eq P0,R7,#0x1 
+    c180ba24  assign R3,#0x4 ; cmp.eq P0,R7,#0x1 
+    c180ba38  cmp.eq P0,R7,#0x1 ; jump.if(P0.new):t 0xc180af28 
+    c180ba44  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc180ba50 
+    c180ba58  cmp.eq P0,R19,#0x2 ; jump.if(P0.new):t 0xc180b3a4 
+    c180ba60  cmp.eq P0,R19,#0x4 ; jump.if(P0.new):t 0xc180b3a0 
+    c180ba68  assign R3,#0x4 ; cmp.eq P0,R19,#0x1 
+    c180ba68  assign R3,#0x4 ; cmp.eq P0,R19,#0x1 
+    c180ba7c  cmp.eq P0,R19,#0x1 ; jump.if(P0.new):t 0xc180b3a4 
+    c180bce0  jump.if:t cmp.gtu(R5.new,#0x7),0xc180bcf4 
+    c180be04  cmp.gtu P0,R9,#0x1 
+    c180be14  cmp.gtu P0,R14,#0x1 
+    c180be2c  cmp.gtu P0,R14,#0x1 
+    c180bf64  cmp.gtu P0,R2,#0x1 
+    c180bfc0  jump.if:t cmp.gtu(R2.new,#0x1),0xc180bfd8 
+    c180c14c  jump.if:t cmp.gtu(R2.new,#0x1),0xc180c15c 
+    c180c274  jump.if:nt !cmp.gtu(R0.new,#0x2),0xc180c2a0 
+    c180c27c  jump.if:t !cmp.gtu(R3.new,#0x1),0xc180c29c 
+    c180c280  cmp.eq P0,R5,#0x3 ; jump.if(!P0.new):nt 0xc180c28c 
+    c180c2a0  cmp.gtu P0,R5,#0x3 
+    c180c31c  cmp.gtu P0,R5,#0x3 
 
-------------------------------------------------------------
-3. CANDIDATE GP CONSTANTS
-------------------------------------------------------------
-CANDIDATE GP CONSTANTS : 826
-  0x00000000
-  0x00000001
-  0x00000002
-  0x00000003
-  0x00000004
-  0x00000005
-  0x00000006
-  0x00000007
-  0x00000008
-  0x00000009
-  0x0000000A
-  0x0000000C
-  0x0000000E
-  0x0000000F
-  0x00000010
-  0x00000014
-  0x00000018
-  0x0000001C
-  0x0000001E
-  0x0000001F
-  0x00000020
-  0x00000024
-  0x00000026
-  0x00000028
-  0x00000030
-  0x00000034
-  0x00000038
-  0x0000003F
-  0x00000040
-  0x0000004C
-  0x00000054
-  0x0000005C
-  0x00000068
-  0x0000006C
-  0x00000070
-  0x00000072
-  0x00000074
-  0x00000078
-  0x0000007F
-  0x00000080
-  0x00000098
-  0x000000A0
-  0x000000BE
-  0x000000C0
-  0x000000D0
-  0x000000D4
-  0x000000E0
-  0x000000E4
-  0x000000F5
-  0x000000FE
-  0x000000FF
-  0x00000100
-  0x00000102
-  0x00000118
-  0x00000140
-  0x00000144
-  0x00000154
-  0x00000164
-  0x0000018C
-  0x000001C4
-  0x00000200
-  0x00000203
-  0x0000020A
-  0x00000216
-  0x00000221
-  0x00000227
-  0x00000233
-  0x0000023E
-  0x00000244
-  0x0000024A
-  0x0000024E
-  0x00000252
-  0x00000255
-  0x00000258
-  0x0000025B
-  0x0000025F
-  0x00000262
-  0x00000266
-  0x0000026A
-  0x00000272
-  0x0000027F
-  0x00000283
-  0x00000288
-  0x0000028C
-  0x000002D5
-  0x000002DA
-  0x000002DD
-  0x000002E1
-  0x000002E5
-  0x000002E8
-  0x000002EC
-  0x000002EF
-  0x000002F3
-  0x000002F6
-  0x00000327
-  0x00000339
-  0x0000033D
-  0x00000341
-  0x00000345
-  0x0000034D
-  0x000003A7
-  0x000003B1
-  0x000004B8
-  0x00000510
-  0x00000588
-  0x00000609
-  0x00000610
-  0x00000616
-  0x0000061C
-  0x00000622
-  0x00000629
-  0x00000630
-  0x00000637
-  0x0000063C
-  0x00000642
-  0x00000648
-  0x0000067E
-  0x00000686
-  0x0000068E
-  0x00000696
-  0x000006B2
-  0x0000076D
-  0x00000784
-  0x00000870
-  0x0000088C
-  0x0000091C
-  0x00000D64
-  0x00000E34
-  0x00000E68
-  0x00000F00
-  0x00001004
-  0x0000100B
-  0x00001012
-  0x00001019
-  0x00001020
-  0x00001025
-  0x0000102B
-  0x00001032
-  0x00001038
-  0x0000103F
-  0x00001047
-  0x0000104F
-  0x00001056
-  0x0000105B
-  0x0000105E
-  0x00001065
-  0x0000106A
-  0x0000106D
-  0x00001072
-  0x0000107A
-  0x00001080
-  0x00001086
-  0x0000108C
-  0x00001091
-  0x00001095
-  0x0000109B
-  0x000010A1
-  0x000010A7
-  0x000010AE
-  0x000010B3
-  0x000010BA
-  0x000010C0
-  0x000010C7
-  0x000010CE
-  0x000010D4
-  0x000010D9
-  0x000010DE
-  0x000010E6
-  0x000010ED
-  0x000010F3
-  0x000010F7
-  0x000010FE
-  0x00001104
-  0x0000110B
-  0x00001112
-  0x00001119
-  0x0000111F
-  0x00001126
-  0x0000112C
-  0x00001132
-  0x00001139
-  0x0000113F
-  0x00001145
-  0x0000114E
-  0x00001153
-  0x00001158
-  0x0000115D
-  0x00001162
-  0x00001169
-  0x0000116F
-  0x0000117A
-  0x00001185
-  0x0000118D
-  0x00001193
-  0x000011A4
-  0x000011B0
-  0x000011B5
-  0x000011BB
-  0x000011C2
-  0x000011CA
-  0x000011D1
-  0x000011D9
-  0x000011DF
-  0x000011E9
-  0x000011EE
-  0x000011F6
-  0x000011FD
-  0x00001207
-  0x00001208
-  0x00001212
-  0x0000121F
-  0x00001227
-  0x00001231
-  0x00001237
-  0x00001244
-  0x0000124C
-  0x00001254
-  0x0000125B
-  0x00001267
-  0x0000126E
-  0x00001278
-  0x00001282
-  0x0000128C
-  0x00001294
-  0x00001299
-  0x000012A5
-  0x000012B3
-  0x000012BE
-  0x000012CA
-  0x000012D6
-  0x000012E1
-  0x000012ED
-  0x000012F9
-  0x000012FB
-  0x00001306
-  0x00001312
-  0x0000131C
-  0x00001327
-  0x00001333
-  0x00001355
-  0x00001362
-  0x0000136F
-  0x0000137C
-  0x00001380
-  0x00001385
-  0x0000138C
-  0x00001395
-  0x000013A7
-  0x000013B0
-  0x000013B7
-  0x000013C1
-  0x000013CE
-  0x000013D4
-  0x000013DC
-  0x000013E3
-  0x000013ED
-  0x000013F4
-  0x000013FB
-  0x000016B8
-  0x00001B80
-  0x00001EBC
-  0x000022A8
-  0x00002540
-  0x00004000
-  0x00005A44
-  0x00005E1F
-  0x00005E22
-  0x00005E28
-  0x00005E64
-  0x00005E75
-  0x00005E79
-  0x00005E7B
-  0x00005E7E
-  0x00005E81
-  0x00005E83
-  0x00005E8D
-  0x00005EA3
-  0x00005EAC
-  0x00005EC0
-  0x00005EE9
-  0x00005EEE
-  0x00005F9B
-  0x00005FA1
-  0x00005FA9
-  0x00005FB3
-  0x00006106
-  0x00007FFF
-  0x000084D8
-  0x0000FFFC
-  0x00025800
-  0x08000000
-  0x0FFF0000
-  0x0FFFC000
-  0x2A30001C
-  0x3FFFFFFF
-  0x6FA87E4F
-  0x78000000
-  0x87FFFFFF
-  0xC0D6013F
-  0xC16012E4
-  0xC1613840
-  0xC161588C
-  0xC16159B0
-  0xC1615A3C
-  0xC1615B6C
-  0xC1615D34
-  0xC1617A14
-  0xC1619434
-  0xC1619730
-  0xC161F208
-  0xC161F444
-  0xC161F7E4
-  0xC1622278
-  0xC16A35E8
-  0xC16A3A60
-  0xC16A3B70
-  0xC16A3BAC
-  0xC16A3BB4
-  0xC16A3BE8
-  0xC16A3BF0
-  0xC16A3FB8
-  0xC16B0394
-  0xC16B051C
-  0xC16B09C4
-  0xC16B11D0
-  0xC16B3328
-  0xC16B3498
-  0xC16B34A0
-  0xC16B351C
-  0xC1729038
-  0xC172958C
-  0xC1783A0C
-  0xC17851DC
-  0xC1785D84
-  0xC1790784
-  0xC1792A1C
-  0xC1797680
-  0xC179DF78
-  0xC179DF88
-  0xC179DF94
-  0xC179DFC4
-  0xC17A3B88
-  0xC17A3BA4
-  0xC17A5850
-  0xC17A61EC
-  0xC17A6370
-  0xC17A6374
-  0xC17A6C40
-  0xC17A6C60
-  0xC17A7230
-  0xC17A7248
-  0xC17A9410
-  0xC17AA208
-  0xC17AA218
-  0xC17AA270
-  0xC17AA29C
-  0xC17AA754
-  0xC17AAD98
-  0xC17AD984
-  0xC17AF6EC
-  0xC17B3728
-  0xC17B6DF4
-  0xC17B6F64
-  0xC17BFB58
-  0xC17CF424
-  0xC17D1C0C
-  0xC17D4A44
-  0xC17D4AA0
-  0xC17D5B0C
-  0xC17D5B70
-  0xC17ECE98
-  0xC17ECFAC
-  0xC1802978
-  0xC1802B40
-  0xC1809BB0
-  0xC1809CD8
-  0xC1809CDC
-  0xC1809CF4
-  0xC1809D14
-  0xC1809D1C
-  0xC180A8AC
-  0xC180A974
-  0xC18103C8
-  0xC1813F68
-  0xC1826218
-  0xC18278E8
-  0xC1829158
-  0xC1829CB4
-  0xC182B528
-  0xC182BCDC
-  0xC182CDD0
-  0xC182D0EC
-  0xC182DE94
-  0xC182E554
-  0xC18359A8
-  0xC1835CEC
-  0xC183648C
-  0xC183FB58
-  0xC184111C
-  0xC18411D4
-  0xC1852FA4
-  0xC1852FA8
-  0xC1852FAC
-  0xC1852FD8
-  0xC1852FF0
-  0xC185300C
-  0xC18531A4
-  0xC18693E4
-  0xC1879CBC
-  0xC1879D18
-  0xC188434C
-  0xC18843B8
-  0xC188B324
-  0xC188DA64
-  0xC188F6E0
-  0xC188F814
-  0xC18909D4
-  0xC189FA50
-  0xC18A6200
-  0xC18A6210
-  0xC18A8880
-  0xC18A8C50
-  0xC18C0434
-  0xC18CEC3C
-  0xC18CECB4
-  0xC18CECC4
-  0xC18CECD8
-  0xC18CF6A4
-  0xC18D0BA4
-  0xC18D4668
-  0xC18DA680
-  0xC18DD1A0
-  0xC18F7750
-  0xC18F9C2C
-  0xC18FE510
-  0xC1903AB0
-  0xC1905ED8
-  0xC19072B4
-  0xC19073D8
-  0xC1908210
-  0xC1908314
-  0xC1908320
-  0xC1908880
-  0xC1908D10
-  0xC19097F0
-  0xC190FDA0
-  0xC190FE30
-  0xC1911008
-  0xC1911080
-  0xC191984C
-  0xC1919890
-  0xC1919A6C
-  0xC1919AB0
-  0xC191AF40
-  0xC1926168
-  0xC19261B0
-  0xC19261B4
-  0xC192682C
-  0xC192AABC
-  0xC192ACE8
-  0xC192B44C
-  0xC192D9D0
-  0xC192DB58
-  0xC193B5D0
-  0xC193B600
-  0xC193E664
-  0xC19430D4
-  0xC19430E4
-  0xC194312C
-  0xC1948490
-  0xC194E1F4
-  0xC194E218
-  0xC1953AA0
-  0xC195596C
-  0xC1955A18
-  0xC19756F4
-  0xC197573C
-  0xC1975A70
-  0xC1975D00
-  0xC1975DB8
-  0xC197610C
-  0xC197A99C
-  0xC197AA90
-  0xC197B294
-  0xC197E344
-  0xC197E348
-  0xC1985590
-  0xC1988604
-  0xC1988840
-  0xC1988884
-  0xC1988918
-  0xC1988948
-  0xC1988ACC
-  0xC1988B18
-  0xC1988B44
-  0xC1988B90
-  0xC1988C5C
-  0xC1988C90
-  0xC19A656C
-  0xC19A658C
-  0xC19A92B8
-  0xC19A938C
-  0xC19B174C
-  0xC19BBC84
-  0xC19BBD40
-  0xC19BBDA0
-  0xC19BBE58
-  0xC19BF6A8
-  0xC19C0C50
-  0xC19C10DC
-  0xC19C12A8
-  0xC19C134C
-  0xC19C1378
-  0xC19C13A0
-  0xC19C1484
-  0xC19C152C
-  0xC19C20E8
-  0xC19C2188
-  0xC19C2484
-  0xC19C24AC
-  0xC19E1838
-  0xC19E4128
-  0xC19EBC10
-  0xC19F583C
-  0xC1A056B4
-  0xC1A0FC50
-  0xC1A159E8
-  0xC1A25CE8
-  0xC1A25E38
-  0xC1A2D790
-  0xC1A2D988
-  0xC1A48B4C
-  0xC1A4F064
-  0xC1A508F8
-  0xC1A9C158
-  0xC1A9C724
-  0xC1AA3154
-  0xC1AA3488
-  0xC1AA3560
-  0xC1AA5B64
-  0xC1AA8F1C
-  0xC1AAD640
-  0xC1AB2AB0
-  0xC1AB2AD0
-  0xC1AB2B34
-  0xC1AB4524
-  0xC1AB4534
-  0xC1AB4568
-  0xC1AB4578
-  0xC1AC060C
-  0xC1AC2F74
-  0xC1AC3108
-  0xC1AC32D4
-  0xC1AC32E0
-  0xC1AC3374
-  0xC1AC3738
-  0xC1AC373C
-  0xC1AC6C0C
-  0xC1AEA69C
-  0xC1B83518
-  0xC1B8CF74
-  0xC1B8CFA4
-  0xC1B8CFA8
-  0xC1BB4C18
-  0xC1BB4D04
-  0xC1BC1110
-  0xC1BC1130
-  0xC1BC1150
-  0xC1BC116C
-  0xC1BC1184
-  0xC1BC119C
-  0xC1BC11BC
-  0xC1BC11DC
-  0xC1BC11FC
-  0xC1BC120C
-  0xC1BC1348
-  0xC1BC135C
-  0xC1BC13A4
-  0xC1BC1430
-  0xC1BC1444
-  0xC1BC148C
-  0xC1BC1558
-  0xC1BC156C
-  0xC1BC1598
-  0xC1BC162C
-  0xC1BC163C
-  0xC1BC164C
-  0xC1BC165C
-  0xC1BC166C
-  0xC1BC167C
-  0xC1BC16A0
-  0xC1BC16BC
-  0xC1BC1768
-  0xC1BC17EC
-  0xC1BC1840
-  0xC1BC18C4
-  0xC1BC190C
-  0xC1BC195C
-  0xC1BD294C
-  0xC1BDCEEE
-  0xC1BDFC08
-  0xC1BDFF34
-  0xC1BE067C
-  0xC1BE06D4
-  0xC1BE0718
-  0xC1BE3D60
-  0xC1BE3DBC
-  0xC1BE45C8
-  0xC1BE5150
-  0xC1BE5184
-  0xC1BE51D4
-  0xC1BE5240
-  0xC1BE54AC
-  0xC1BE5598
-  0xC1BE5758
-  0xC1BE57A4
-  0xC1BE58B8
-  0xC1BE5944
-  0xC1BE598C
-  0xC1BE5A38
-  0xC1BE5AE0
-  0xC1BE5B04
-  0xC1BE5B84
-  0xC1BE5C08
-  0xC1BE5C3C
-  0xC1BE5CE0
-  0xC1BE5E9C
-  0xC1BE601C
-  0xC1BE6074
-  0xC1BE6168
-  0xC1BE6218
-  0xC1BE737C
-  0xC1BE73D4
-  0xC1BE74EC
-  0xC1BE77B0
-  0xC1BE7818
-  0xC1BE787C
-  0xC1BE7924
-  0xC1BE7954
-  0xC1BE7A68
-  0xC1BE7AC0
-  0xC1BE7B2C
-  0xC1BE7C54
-  0xC1BE7C80
-  0xC1BE7D74
-  0xC1BE7E14
-  0xC1BE7E90
-  0xC1BE7F50
-  0xC1BE7FDC
-  0xC1BE81F0
-  0xC1BE82F0
-  0xC1BE836C
-  0xC1BE8468
-  0xC1BE856C
-  0xC1BE8678
-  0xC1BE86DC
-  0xC1BE8730
-  0xC1BE8800
-  0xC1BE8894
-  0xC1BE8990
-  0xC1BE8A34
-  0xC1BE8B3C
-  0xC1BE8CA4
-  0xC1BE8D38
-  0xC1BE8DCC
-  0xC1BE94C0
-  0xC1BE94FC
-  0xC1BE9564
-  0xC1BE980C
-  0xC1BE9974
-  0xC1BE9C1C
-  0xC1BE9C70
-  0xC1BE9E7C
-  0xC1BE9EAC
-  0xC1BE9ED8
-  0xC1BEA090
-  0xC1BEA0E4
-  0xC1BEABA4
-  0xC1C10848
-  0xC1C128C4
-  0xC1C1296C
-  0xC1C3C840
-  0xC1C3C85C
-  0xC1C3CBE0
-  0xC1C3CC6C
-  0xC1C3CD0C
-  0xC1C3D6D0
-  0xC1C3E568
-  0xC1C4D56C
-  0xC1C4D570
-  0xC1C4D58C
-  0xC1C4DDC0
-  0xC1C4DF10
-  0xC1C4DF90
-  0xC1C4DFD4
-  0xC1C53810
-  0xC1C63360
-  0xC1C761B4
-  0xC1C761DC
-  0xC1C76440
-  0xC1C76634
-  0xC1C770A0
-  0xC1C777C4
-  0xC1C77890
-  0xC1C77924
-  0xC1C779DC
-  0xC1C77A74
-  0xC1C77AA0
-  0xC1C77AE8
-  0xC1C77B30
-  0xC1C77B4C
-  0xC1C77B68
-  0xC1C77BCC
-  0xC1C77BF4
-  0xC1C77C10
-  0xC1C77C2C
-  0xC1C77C48
-  0xC1C77CE0
-  0xC1C77D50
-  0xC1C77D9C
-  0xC1C77E3C
-  0xC1C77EE4
-  0xC1C77EFC
-  0xC1C77F14
-  0xC1C77F34
-  0xC1C77F4C
-  0xC1C77F64
-  0xC1C77F84
-  0xC1C77FAC
-  0xC1C77FC4
-  0xC1C77FDC
-  0xC1C78014
-  0xC1C78050
-  0xC1C7806C
-  0xC1C78098
-  0xC1C780B4
-  0xC1C780DC
-  0xC1C780F8
-  0xC1C78120
-  0xC1C7813C
-  0xC1C7815C
-  0xC1C78174
-  0xC1C7818C
-  0xC1C782C0
-  0xC1C78488
-  0xC1C78540
-  0xC1C78644
-  0xC1C78758
-  0xC1C7889C
-  0xC1C789B4
-  0xC1C78A48
-  0xC1C78CC4
-  0xC1C78DCC
-  0xC1C78EAC
-  0xC1C78F20
-  0xC1C78FB0
-  0xC1C79294
-  0xC1C792F8
-  0xC1C79388
-  0xC1C898AC
-  0xC1C898B0
-  0xC1C8FF5C
-  0xC1C9076C
-  0xC1C907F8
-  0xC1C90BA0
-  0xC1C90BBC
-  0xC1C91884
-  0xC1C91C54
-  0xC1CA12A8
-  0xC1CB0854
-  0xC1CB0858
-  0xC1CB08FC
-  0xC1CB0900
-  0xC1CB0A94
-  0xC1CB3320
-  0xC1CB33D4
-  0xC1CB33D8
-  0xC1CB634C
-  0xC1CB63C0
-  0xC1CB649C
-  0xC1CB6570
-  0xC1CB6770
-  0xC1CB6ADC
-  0xC1CD2830
-  0xC1CD2898
-  0xC1CD997C
-  0xC1D268BC
-  0xC1D37898
-  0xC1D37924
-  0xC1D37B5C
-  0xC1D37C08
-  0xC1D3B960
-  0xC1D84740
-  0xC1DBD076
-  0xC8EA3DE8
-  0xC931CE5F
-  0xC9BD3F68
-  0xCA392EA4
-  0xCA392EA5
-  0xCB8E9E90
-  0xFFC2013F
-  0xFFFF8001
-  0xFFFF801A
-  0xFFFF8201
-  0xFFFFC000
-  0xFFFFD180
-  0xFFFFFC01
-  0xFFFFFCFF
-  0xFFFFFEFA
-  0xFFFFFF00
-  0xFFFFFF3F
-  0xFFFFFF59
-  0xFFFFFF84
-  0xFFFFFF88
-  0xFFFFFFC0
-  0xFFFFFFC1
-  0xFFFFFFE0
-  0xFFFFFFE4
-  0xFFFFFFE8
-  0xFFFFFFF0
-  0xFFFFFFF3
-  0xFFFFFFF8
-  0xFFFFFFFC
-  0xFFFFFFFD
-  0xFFFFFFFE
-  0xFFFFFFFF
+#25  SCORE=50  FUN_c180fbd4
+  entry = c180fbd4
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x6cc
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 21]
+  command compare hits:
+    c180fbf4  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc180fefc 
+    c180fc28  jump.if:t cmp.gt(R3.new,#0x4),0xc180fc84 
+    c180fc2c  cmp.gt P0,R3,#0x1 ; jump.if(P0.new):t 0xc180fc64 
+    c180fc34  cmp.eq P0,R3,#0x1 ; jump.if(!P0.new):nt 0xc180feb8 
+    c180fc40  jump.if:t !cmp.eq(R2.new,#0x1),0xc180feb8 
+    c180fc64  cmp.eq P0,R3,#0x2 ; jump.if(P0.new):nt 0xc180fd28 
+    c180fc70  cmp.eq P0,R3,#0x3 ; jump.if(P0.new):nt 0xc180fd38 
+    c180fc78  cmp.eq P0,R3,#0x4 
+    c180fc84  cmp.gt P0,R3,#0x6 ; jump.if(P0.new):t 0xc180fcbc 
+    c180fc88  cmp.eq P0,R3,#0x5 ; jump.if(P0.new):nt 0xc180fdac 
+    c180fc8c  cmp.eq P0,R3,#0x6 ; jump.if(!P0.new):nt 0xc180feb8 
+    c180fcbc  cmp.eq P0,R3,#0x7 ; jump.if(P0.new):nt 0xc180fe60 
+    c180fcc8  cmp.eq P0,R3,#0x8 ; jump.if(P0.new):nt 0xc180fde4 
+    c180fcd0  cmp.eq P0,R3,#0x9 ; jump.if(!P0.new):nt 0xc180feb8 
+    c180fcf8  jump.if:t !cmp.eq(R2.new,#0x1),0xc180feb8 
+    c180fd0c  cmp.eq P0,R2,#0x5 
+    c180fd54  cmp.eq P0,R2,#0x7 ; jump.if(!P0.new):t 0xc180fd60 
+    c180fd74  cmp.eq P0,R2,#0x8 
+    c180fd88  jump.if:t !cmp.eq(R2.new,#0x7),0xc18102c0 
+    c180fe3c  jump.if:t !cmp.eq(R2.new,#0x4),0xc180fe50 
+    c180fe60  cmp.gtu P0,R2,#0x1 
+    c180ff24  jump.if:t cmp.gt(R17.new,#0x1),0xc180ff8c 
+    c180ff2c  cmp.eq P0,R17,#0x1 ; jump.if(!P0.new):nt 0xc18101d0 
+    c180ff34  jump.if:nt cmp.eq(R3.new,#0x2),0xc1810174 
+    c180ff38  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc18100cc 
+    c180ff4c  cmp.eq P0,R20,#0x2 ; jump.if(!P0.new):t 0xc180ff70 
+    c180ff70  cmp.eq R1,R20,#0x2 
+    c180ff8c  cmp.eq P0,R17,#0x4 ; jump.if(P0.new):nt 0xc180ff94 
+    c180ff90  cmp.eq P0,R17,#0x2 ; jump.if(!P0.new):nt 0xc18101d0 
+    c180ff98  jump.if:nt cmp.eq(R3.new,#0x4),0xc1810090 
+    c180ff9c  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc180fff0 
+    c180ffb0  cmp.eq P0,R20,#0x2 ; jump.if(!P0.new):t 0xc180ffd4 
+    c180ffd4  cmp.eq R1,R20,#0x2 
+    c180fff4  jump.if:t !cmp.eq(R3.new,#0x2),0xc18101bc 
+    c1810010  jump.if:t !cmp.eq(R3.new,#0x4),0xc1810080 
+    c181001c  jump.if:nt !cmp.eq(R2.new,#0x1),0xc1810078 
+    c18100d0  jump.if:t !cmp.eq(R3.new,#0x2),0xc18101bc 
+    c18100ec  jump.if:t !cmp.eq(R3.new,#0x5),0xc1810164 
+    c18100f8  jump.if:nt !cmp.eq(R2.new,#0x1),0xc1810154 
+    c18101c8  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc18101d8 
+    c18101d4  jump.if:t !cmp.eq(R2.new,#0x1),0xc1810264 
+    c1810228  jump.if:nt cmp.eq(R2.new,#0x15),0xc1810230 
+    c181022c  cmp.eq P0,R2,#0x13 ; jump.if(!P0.new):nt 0xc1810264 
+    c1810264  cmp.eq P0,R17,#0x1 ; jump.if(P0.new):nt 0xc1810288 
+    c1810268  cmp.eq P0,R17,#0x4 ; jump.if(P0.new):nt 0xc1810270 
+    c181026c  cmp.eq P0,R17,#0x2 ; jump.if(!P0.new):t 0xc18102a0 
+    c18102c0  cmp.gtu P0,R2,#0x2 
 
-Known RFDEBUG targets:
-  PROPERTY TABLE = 0xC9199FB8
-  TUNE_RX        = 0xC50847FF
-  FREQUENCY      = 0xC5084812
-  VERSION        = 0xC508481C
+#26  SCORE=50  FUN_c18133f8
+  entry = c18133f8
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x178
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  command compare hits:
+    c1813428  jump.if:nt cmp.gtu(R2.new,#0x5),0xc1813608 
+    c18134e8  cmp.gt P0,R2,#0x6 
+    c18134fc  cmp.gt P0,R2,#0x2 ; jump.if(P0.new):t 0xc1813520 
+    c181350c  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18135b4 
+    c1813514  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc18135e8 
+    c1813520  cmp.gt P0,R2,#0x4 ; jump.if(P0.new):t 0xc181353c 
+    c1813528  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc18135bc 
+    c1813530  cmp.eq P0,R2,#0x4 ; jump.if(!P0.new):nt 0xc18135e8 
+    c1813540  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):nt 0xc18135c4 
+    c1813548  cmp.eq P0,R2,#0x6 ; jump.if(!P0.new):nt 0xc18135e8 
+    c1813554  cmp.gt P0,R2,#0x9 ; jump.if(P0.new):t 0xc1813578 
+    c181355c  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc18135cc 
+    c1813564  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):nt 0xc18135d4 
+    c181356c  cmp.eq P0,R2,#0x9 ; jump.if(!P0.new):nt 0xc18135e8 
+    c1813578  cmp.gt P0,R2,#0xb ; jump.if(P0.new):t 0xc1813594 
+    c1813580  cmp.eq P0,R2,#0xa ; jump.if(P0.new):nt 0xc18135dc 
+    c1813588  cmp.eq P0,R2,#0xb ; jump.if(!P0.new):nt 0xc18135e8 
+    c1813598  cmp.eq P0,R2,#0xc ; jump.if(P0.new):nt 0xc18135e4 
+    c18135a0  cmp.eq P0,R2,#0xd ; jump.if(!P0.new):nt 0xc18135e8 
 
-------------------------------------------------------------
-4. POSSIBLE GP -> RFDEBUG TARGET MAPPINGS
-------------------------------------------------------------
+#27  SCORE=50  FUN_c1815528
+  entry = c1815528
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x8b8
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  command compare hits:
+    c181556c  cmp.gtu P1,R19,#0x9 
+    c181567c  jump.if:t !cmp.eq(R4.new,#0x1),0xc18156a4 
+    c18156c0  jump.if:nt cmp.gtu(R4.new,#0xd),0xc1815f74 
+    c18156e4  jump.if:t !cmp.eq(R5.new,#0x1),0xc1815714 
+    c18157a0  jump.if:t !cmp.eq(R2.new,#0x1),0xc18157d0 
+    c18157ac  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18157d0 
+    c18157dc  jump.if:t cmp.gt(R2.new,#0x2),0xc1815810 
+    c18157f4  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc181585c 
+    c1815800  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1815888 
+    c1815810  cmp.gt P0,R2,#0x5 ; jump.if(P0.new):t 0xc1815838 
+    c181581c  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc1815868 
+    c1815828  cmp.eq P0,R2,#0x4 ; jump.if(!P0.new):nt 0xc1815888 
+    c1815840  cmp.eq P0,R2,#0x6 ; jump.if(P0.new):nt 0xc1815880 
+    c181584c  cmp.eq P0,R2,#0x7 ; jump.if(!P0.new):nt 0xc1815888 
+    c181588c  jump.if:t cmp.eq(R2.new,#0x1),0xc181591c 
+    c18158a8  cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc181591c 
+    c18158d8  jump.if:t !cmp.eq(R2.new,#0x2),0xc181595c 
+    c18158ec  cmp.eq P0,R0,#0xa ; jump.if(P0.new):t 0xc18158f8 
+    c1815900  jump.if:t !cmp.eq(R2.new,#0x1),0xc181590c 
+    c18159b8  cmp.gtu P0,R3,#0x3 
+    c18159c0  cmp.gtu P1,R2,#0x3 
+    c1815ae4  cmp.eq P0,R2,#0x1 
+    c1815b30  cmp.gt P0,R2,#0x6 
+    c1815b48  cmp.gt P0,R2,#0x2 ; jump.if(P0.new):t 0xc1815b6c 
+    c1815b58  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc1815c38 
+    c1815b60  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1815c94 
+    c1815b6c  cmp.gt P0,R2,#0x4 ; jump.if(P0.new):t 0xc1815b88 
+    c1815b74  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc1815c40 
+    c1815b7c  cmp.eq P0,R2,#0x4 ; jump.if(!P0.new):nt 0xc1815c94 
+    c1815b8c  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):nt 0xc1815c48 
+    c1815b94  cmp.eq P0,R2,#0x6 ; jump.if(!P0.new):nt 0xc1815c94 
+    c1815ba0  cmp.gt P0,R2,#0x9 ; jump.if(P0.new):t 0xc1815bc4 
+    c1815ba8  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc1815c50 
+    c1815bb0  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):nt 0xc1815c58 
+    c1815bb8  cmp.eq P0,R2,#0x9 ; jump.if(!P0.new):nt 0xc1815c94 
+    c1815bc4  cmp.gt P0,R2,#0xb ; jump.if(P0.new):t 0xc1815bfc 
+    c1815bcc  cmp.eq P0,R2,#0xa ; jump.if(P0.new):nt 0xc1815c60 
+    c1815bd8  cmp.eq P0,R2,#0xb ; jump.if(!P0.new):nt 0xc1815c94 
+    c1815c00  cmp.eq P0,R2,#0xc ; jump.if(P0.new):nt 0xc1815c7c 
+    c1815c0c  cmp.eq P0,R2,#0xd ; jump.if(!P0.new):nt 0xc1815c94 
+    c1815cb0  jump.if:t cmp.eq(R2.new,#0x1),0xc1815d40 
+    c1815ccc  cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc1815d40 
+    c1815cfc  jump.if:t !cmp.eq(R2.new,#0x2),0xc1815d7c 
+    c1815d10  cmp.eq P0,R0,#0xa ; jump.if(P0.new):t 0xc1815d1c 
+    c1815d24  jump.if:t !cmp.eq(R2.new,#0x1),0xc1815d30 
+    c1815dd8  cmp.gtu P0,R4,#0x3 
+    c1815de0  cmp.gtu P1,R3,#0x3 
+    c1815e08  jump.if:nt cmp.gtu(R3.new,#0x8),0xc1815e1c 
+    c1815e24  cmp.eq P0,R3,#0x9 ; jump.if(P0.new):t 0xc1815e34 
 
-NO DIRECT GP -> RFDEBUG TARGET MAPPING FOUND.
+#28  SCORE=50  FUN_c1826990
+  entry = c1826990
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x7fffffff
+  RFDEBUG-like command IDs = [1, 2, 4, 5, 6, 7, 8, 9, 10, 12, 15, 16, 18]
+  command compare hits:
+    c1826a08  jump.if:nt cmp.gtu(R2.new,#0x12),0xc1826a20 
+    c1826a20  cmp.eq P0,R2,#0xc 
+    c1826a40  jump.if:t !cmp.eq(R2.new,#0x4),0xc1826e54 
+    c1826a8c  cmp.eq P0,R3,#0x12 ; jump.if(P0.new):nt 0xc1826a94 
+    c1826a90  cmp.eq P0,R3,#0x6 ; jump.if(!P0.new):nt 0xc1826b20 
+    c1826aa0  cmp.eq P0,R3,#0x1 ; jump.if(!P0.new):nt 0xc1826ab8 
+    c1826abc  cmp.eq P0,R4,#0x1 ; jump.if(!P0.new):nt 0xc1826ae4 
+    c1826acc  jump.if:t cmp.eq(R4.new,#0x6),0xc1826ae4 
+    c1826b04  cmp.gtu P0,R3,#0x12 ; jump.if(P0.new):nt 0xc1826b20 
+    c1826b90  jump.if:nt !cmp.eq(R2.new,#0x5),0xc18271ac 
+    c1826ba8  cmp.eq P0,R5,#0x12 ; jump.if(P0.new):nt 0xc1826bb0 
+    c1826bac  cmp.eq P1,R5,#0x6 ; jump.if(!P1.new):nt 0xc1826bec 
+    c1826c1c  cmp.gtu P1,R2,#0x9 ; jump.if(P1.new):nt 0xc18271c4 
+    c1826c74  cmp.gtu P1,R2,#0x9 ; jump.if(P1.new):nt 0xc18271c8 
+    c1826c9c  jump.if:t cmp.gtu(R3.new,#0x5),0xc1826ca8 
+    c1826cac  jump.if:t !cmp.gtu(R3.new,#0x8),0xc1826cd0 
+    c1826cbc  cmp.eq P0,R5,#0x6 ; jump.if(!P0.new):nt 0xc1826cdc 
+    c1826ce0  jump.if:t !cmp.eq(R2.new,#0x4),0xc1826d24 
+    c1826d28  jump.if:t !cmp.eq(R2.new,#0x6),0xc1826d68 
+    c1826d6c  jump.if:t !cmp.eq(R2.new,#0x7),0xc1826da0 
+    c1826da0  cmp.eq P0,R2,#0x8 ; jump.if(!P0.new):nt 0xc1826e54 
+    c1826da8  jump.if:nt !cmp.eq(R2.new,#0x2),0xc1826e54 
+    c1826f40  cmp.gtu P2,R22,#0x12 
+    c18270b8  cmp.eq P0,R3,#0x10 ; jump.if(P0.new):nt 0xc18270d0 
+    c18270bc  cmp.eq P0,R3,#0xa ; jump.if(!P0.new):t 0xc18270d4 
+    c1827110  cmp.eq P0,R2,#0xa ; jump.if(!P0.new):nt 0xc1827130 
+    c182711c  jump.if:nt !cmp.eq(R2.new,#0xf),0xc1827130 
+    c182713c  cmp.eq P0,R2,#0xa 
+
+#29  SCORE=50  FUN_c18540c4
+  entry = c18540c4
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x530
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19]
+  command compare hits:
+    c18540fc  cmp.eq P0,R3,#0x4 
+    c1854164  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):nt 0xc1854184 
+    c1854168  cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc1854178 
+    c185416c  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1854318 
+    c1854170  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc18541a0 
+    c1854178  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18544f0 
+    c185417c  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):t 0xc1854208 
+    c185418c  cmp.gt P0,R2,#0x5 ; jump.if(P0.new):t 0xc185424c 
+    c1854190  cmp.gt P0,R2,#0x2 ; jump.if(P0.new):t 0xc18541f4 
+    c1854198  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1854318 
+    c185419c  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1854494 
+    c18541f8  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc18544c0 
+    c1854200  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18544f0 
+    c1854204  cmp.eq P0,R2,#0x5 ; jump.if(!P0.new):nt 0xc1854494 
+    c1854210  cmp.eq P0,R21,#0x2 ; memw R2,(R18) 
+    c185424c  cmp.gt P0,R2,#0x8 ; jump.if(P0.new):t 0xc185428c 
+    c1854250  cmp.eq P0,R2,#0x6 ; jump.if(P0.new):nt 0xc18545cc 
+    c1854260  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):t 0xc185461c 
+    c185426c  cmp.eq P0,R2,#0x8 ; jump.if(!P0.new):nt 0xc1854494 
+    c185428c  cmp.gt P0,R2,#0xa ; jump.if(P0.new):t 0xc18542b8 
+    c1854290  cmp.eq P0,R2,#0x9 ; jump.if(P0.new):t 0xc1854674 
+    c185429c  cmp.eq P0,R2,#0xa ; jump.if(!P0.new):nt 0xc1854494 
+    c18542b8  cmp.eq P0,R2,#0xb ; jump.if(P0.new):t 0xc18546a8 
+    c18542bc  cmp.eq P0,R2,#0xc ; jump.if(!P0.new):nt 0xc1854494 
+    c1854304  cmp.eq P0,R2,#0x1 
+    c18543a8  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):nt 0xc185477c 
+    c18545b0  cmp.eq P0,R2,#0x1 
+    c18545d8  cmp.gtu P0,R1,#0x13 ; jump.if(P0.new):nt 0xc1854790 
+    c18545e0  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc185477c 
+    c1854624  jump.if:nt !cmp.eq(R2.new,#0x2),0xc185477c 
+    c185462c  jump.if:nt !cmp.eq(R2.new,#0x2),0xc185477c 
+
+#30  SCORE=50  FUN_c186a680
+  entry = c186a680
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0xfb0
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 15, 16, 21]
+  command compare hits:
+    c186a6d8  cmp.eq P0,R7,#0x2 
+    c186a7a4  cmp.gtu P1,R3,#0x1 
+    c186a7e0  cmp.gtu P0,R13,#0x5 
+    c186a8c8  cmp.eq P0,R6,#0x1 ; memw (R2+#0x4),R0 
+    c186a8c8  cmp.eq P0,R6,#0x1 ; memw (R2+#0x4),R0 
+    c186a8f4  cmp.eq P2,R4,#0x1 
+    c186a910  cmp.eq P1,R3,#0x1 
+    c186aa2c  cmp.gtu P0,R1,#0x5 ; jump.if(P0.new):nt 0xc186b774 
+    c186aa48  cmp.eq P0,R5,#0x0 ; memw R19,(SP+#0x10) 
+    c186aae0  jump.if:nt !cmp.eq(R2.new,#0x1),0xc186ab0c 
+    c186ab18  jump.if:t !cmp.eq(R2.new,#0x1),0xc186ab34 
+    c186ab74  cmp.gtu P0,R2,#0xf 
+    c186ad8c  cmp.eq P0,R3,#0x1 ; jump.if(!P0.new):nt 0xc186adb0 
+    c186ada8  cmp.eq P0,R2,#0x1 
+    c186ae30  cmp.gtu P1,R4,#0x15 
+    c186ae68  jump.if:nt !cmp.eq(R5.new,#0x1),0xc186ae8c 
+    c186aeb8  cmp.eq P2,R2,#0x1 
+    c186af64  cmp.gtu P2,R20,#0x1 
+    c186b13c  cmp.gtu P0,R5,#0x3 
+    c186b158  cmp.gtu P0,R2,#0x6 
+    c186b1b0  jump.if:t cmp.gtu(R4.new,#0x3),0xc186b1e0 
+    c186b394  jump.if:t !cmp.gtu(R5.new,#0x1),0xc186b3dc 
+    c186b47c  jump.if:t !cmp.eq(R22.new,#0x5),0xc186b2b4 
+    c186b4a0  cmp.eq P0,R3,#0x1 
+    c186b684  jump.if:t cmp.eq(R5.new,#0x2),0xc186b68c 
+    c186b688  cmp.eq R3,R4,#0x7 
+
+#31  SCORE=50  FUN_c189e524
+  entry = c189e524
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x2cc
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  command compare hits:
+    c189e54c  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):t 0xc189e580 
+    c189e554  cmp.eq P0,R3,#0x2 ; jump.if(!P0.new):nt 0xc189e580 
+    c189e608  cmp.gt P0,R18,#0x5 ; jump.if(P0.new):t 0xc189e648 
+    c189e610  cmp.gt P0,R18,#0x2 ; jump.if(P0.new):t 0xc189e62c 
+    c189e620  cmp.eq P0,R18,#0x1 ; jump.if(P0.new):nt 0xc189e788 
+    c189e624  cmp.eq P0,R18,#0x2 ; jump.if(P0.new):t 0xc189e68c 
+    c189e62c  cmp.eq P0,R18,#0x3 ; jump.if(P0.new):nt 0xc189e7a4 
+    c189e630  cmp.eq P0,R18,#0x4 ; jump.if(P0.new):nt 0xc189e7c4 
+    c189e634  cmp.eq P0,R18,#0x5 ; jump.if(P0.new):t 0xc189e660 
+    c189e648  cmp.gt P0,R18,#0x8 ; jump.if(P0.new):t 0xc189e680 
+    c189e64c  cmp.eq P0,R18,#0x6 ; jump.if(P0.new):nt 0xc189e70c 
+    c189e658  cmp.eq P0,R18,#0x7 ; jump.if(P0.new):nt 0xc189e69c 
+    c189e65c  cmp.eq P0,R18,#0x8 ; jump.if(!P0.new):nt 0xc189e638 
+    c189e680  cmp.eq P0,R18,#0x9 ; jump.if(P0.new):nt 0xc189e7e4 
+    c189e684  cmp.eq P0,R18,#0xa ; jump.if(P0.new):nt 0xc189e788 
+    c189e688  cmp.eq P0,R18,#0xb ; jump.if(!P0.new):nt 0xc189e638 
+    c189e6c8  cmp.eq P0,R22,#0x5 ; jump.if(P0.new):nt 0xc189e6ec 
+    c189e6d0  cmp.eq P0,R22,#0x2 ; jump.if(P0.new):nt 0xc189e6e4 
+    c189e6d8  cmp.eq P0,R22,#0x1 ; jump.if(!P0.new):t 0xc189e6f0 
+    c189e6f0  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc189e704 
+    c189e718  cmp.eq P0,R22,#0x7 ; jump.if(P0.new):nt 0xc189e760 
+    c189e728  cmp.eq P0,R22,#0x6 ; jump.if(P0.new):nt 0xc189e758 
+    c189e72c  cmp.eq P0,R22,#0x1 ; jump.if(!P0.new):t 0xc189e83c 
+    c189e818  cmp.eq P0,R22,#0x4 
+
+#32  SCORE=50  FUN_c18a4d64
+  entry = c18a4d64
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x7fffffff
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+  command compare hits:
+    c18a4f24  jump.if:t !cmp.gtu(R3.new,#0x2),0xc18a4f3c 
+    c18a4f3c  cmp.gt P0,R2,#0x7 
+    c18a4f60  cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc18a501c 
+    c18a4f6c  jump.if:t !cmp.gtu(R3.new,#0x1),0xc18a5244 
+    c18a4f78  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18a5730 
+    c18a5024  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18a5348 
+    c18a5028  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):nt 0xc18a5244 
+    c18a502c  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):t 0xc18a532c 
+    c18a5038  cmp.gt P0,R2,#0xa ; jump.if(P0.new):t 0xc18a50dc 
+    c18a5044  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):nt 0xc18a558c 
+    c18a5050  cmp.eq P0,R2,#0x9 ; jump.if(P0.new):nt 0xc18a5598 
+    c18a505c  cmp.eq P0,R2,#0xa ; jump.if(!P0.new):nt 0xc18a5730 
+    c18a50dc  cmp.gt P0,R2,#0xc ; jump.if(P0.new):t 0xc18a516c 
+    c18a50e8  cmp.eq P0,R2,#0xb ; jump.if(P0.new):nt 0xc18a5628 
+    c18a50f4  cmp.eq P0,R2,#0xc ; jump.if(!P0.new):nt 0xc18a5730 
+    c18a5178  cmp.eq P0,R2,#0xd ; jump.if(P0.new):nt 0xc18a5694 
+    c18a5188  cmp.eq P0,R2,#0xe ; jump.if(!P0.new):nt 0xc18a5730 
+    c18a5218  jump.if:t !cmp.eq(R0.new,#0x1),0xc18a56a0 
+    c18a54d0  jump.if:t !cmp.eq(R0.new,#0x1),0xc18a54fc 
+    c18a57bc  cmp.eq P1,R6,#0x1 
+    c18a57dc  cmp.eq P1,R7,#0x6 
+
+#33  SCORE=50  FUN_c18e56b8
+  entry = c18e56b8
+  property 26 = false
+  property 28 = true
+  property gap = 0x1018
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x1468
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 8, 12, 19, 20, 21]
+  property compare hits:
+    c18e57b4  cmp.gt P0,R2,#0x1c ; jump.if(P0.new):t 0xc18e5804 
+    c18e57c4  cmp.eq P0,R2,#0x1c ; jump.if(!P0.new):nt 0xc18e576c 
+    c18e5ba8  cmp.eq P0,R2,#0x1c 
+    c18e67cc  cmp.eq P0,R3,#0x1c 
+  command compare hits:
+    c18e5714  jump.if:t cmp.gt(R2.new,#0x15),0xc18e57b4 
+    c18e5718  cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e5754 
+    c18e571c  cmp.gtu P0,R2,#0x1 ; jump.if(!P0.new):nt 0xc18e5884 
+    c18e5724  jump.if:nt cmp.gtu(R2.new,#0x1),0xc18e576c 
+    c18e5754  cmp.gt P0,R2,#0x13 ; jump.if(P0.new):t 0xc18e5764 
+    c18e5758  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):nt 0xc18e599c 
+    c18e575c  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):t 0xc18e5884 
+    c18e5764  cmp.eq P0,R2,#0x14 ; jump.if(P0.new):nt 0xc18e5810 
+    c18e5768  cmp.eq P0,R2,#0x15 ; jump.if(P0.new):t 0xc18e5884 
+    c18e57bc  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18e5884 
+    c18e5828  cmp.eq P0,R5,#0x4 
+    c18e590c  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc18e592c 
+    c18e594c  cmp.eq P0,R5,#0x8 
+    c18e59a0  jump.if:t !cmp.gtu(R1.new,#0x3),0xc18e59c8 
+    c18e5a34  jump.if:t cmp.eq(R2.new,#0x4),0xc18e5a50 
+    c18e5a3c  cmp.eq P0,R2,#0x3 
+    c18e5a60  cmp.eq P0,R2,#0x1 
+    c18e5a98  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e5ac4 
+    c18e5ac8  jump.if:t cmp.eq(R2.new,#0xc),0xc18e5ad0 
+    c18e5b88  cmp.gtu P0,R4,#0x1 ; jump.if(!P0.new):nt 0xc18e5c60 
+    c18e5b94  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc18e5c08 
+    c18e5d48  cmp.eq P0,R2,#0x1 
+    c18e5d6c  jump.if:t cmp.eq(R2.new,#0x3),0xc18e5f94 
+    c18e5d80  cmp.eq P0,R3,#0x1 
+    c18e5dc8  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e5e24 
+    c18e5dd0  cmp.eq P0,R18,#0x2 ; jump.if(!P0.new):nt 0xc18e5e24 
+    c18e5df0  cmp.eq P0,R2,#0x1 
+    c18e5e54  cmp.eq P0,R5,#0x5 
+    c18e5e5c  cmp.gtu P0,R18,#0x1 
+    c18e5ee4  jump.if:t cmp.eq(R3.new,#0x1),0xc18e5f04 
+    c18e5f00  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e5f1c 
+    c18e6008  jump.if:t !cmp.eq(R2.new,#0x3),0xc18e6084 
+    c18e6010  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6084 
+    c18e60a8  jump.if:t cmp.eq(R2.new,#0x3),0xc18e60b4 
+    c18e60c0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18e60cc 
+    c18e60cc  cmp.eq P0,R24,#0x1 
+    c18e621c  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc18e6244 
+    c18e622c  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6244 
+    c18e6250  jump.if:nt cmp.eq(R2.new,#0x1),0xc18e6260 
+    c18e625c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b78 
+    c18e6280  jump.if:nt !cmp.eq(R3.new,#0x4),0xc18e6290 
+    c18e6298  cmp.gtu P0,R2,#0x8 
+    c18e62cc  cmp.eq P0,R3,#0x5 
+    c18e62e0  jump.if:t !cmp.eq(R3.new,#0x2),0xc18e6364 
+    c18e62f4  jump.if:t cmp.gtu(R2.new,#0x2),0xc18e6330 
+    c18e6364  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0xc18e6404 
+    c18e6374  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e639c 
+    c18e63d8  cmp.eq P0,R3,#0x8 ; jump.if(!P0.new):t 0xc18e6450 
+    c18e6454  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc18e6474 
+    c18e6548  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e656c 
+    c18e663c  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18e6678 
+    c18e6648  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e6658 
+    c18e66f4  jump.if:nt cmp.eq(R2.new,#0x2),0xc18e6718 
+    c18e66f8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18e673c 
+    c18e6768  cmp.eq P0,R3,#0x4 
+    c18e67bc  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc18e6850 
+    c18e67c0  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18e6800 
+    c18e6878  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
+    c18e6888  jump.if:t cmp.gtu(R3.new,#0x3),0xc18e68d4 
+    c18e68c8  jump.if:t !cmp.gtu(R2.new,#0x3),0xc18e6898 
+    c18e68f4  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6ab0 
+    c18e693c  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):t 0xc18e6bec 
+    c18e6ac8  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b14 
+    c18e6b28  cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):t 0xc18e6b54 
+    c18e6b7c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6ba8 
+
+#34  SCORE=50  FUN_c1903724
+  entry = c1903724
+  property 26 = false
+  property 28 = true
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x60
+  RFDEBUG-like command IDs = [1, 3, 4, 5, 7, 8, 9, 10, 11, 20, 21]
+  property compare hits:
+    c19037b0  cmp.eq P0,R4,#0x1c ; jump.if(P0.new):nt 0xc19037e0 
+  command compare hits:
+    c190372c  jump.if:t cmp.gt(R4.new,#0xa),0xc1903774 
+    c1903730  cmp.gt P0,R4,#0x3 ; jump.if(P0.new):t 0xc1903748 
+    c1903734  cmp.gtu P0,R4,#0x1 ; jump.if(!P0.new):t 0xc19037c4 
+    c190373c  jump.if:nt cmp.gtu(R2.new,#0x1),0xc1903754 
+    c1903748  cmp.gt P0,R4,#0x7 ; jump.if(P0.new):t 0xc1903760 
+    c190374c  cmp.eq P0,R4,#0x4 ; jump.if(P0.new):t 0xc19037d8 
+    c1903750  cmp.eq P0,R4,#0x5 ; jump.if(P0.new):t 0xc19037a8 
+    c1903760  cmp.eq P0,R4,#0x8 ; jump.if(P0.new):nt 0xc19037e8 
+    c1903764  cmp.eq P0,R4,#0x9 ; jump.if(P0.new):t 0xc19037f0 
+    c1903768  cmp.eq P0,R4,#0xa ; jump.if(!P0.new):nt 0xc1903754 
+    c1903778  cmp.gt P0,R4,#0x14 ; jump.if(P0.new):t 0xc190378c 
+    c190377c  cmp.eq P0,R4,#0xb ; jump.if(P0.new):t 0xc19037f8 
+    c1903780  cmp.eq P0,R4,#0x14 ; jump.if(!P0.new):nt 0xc1903754 
+    c190378c  cmp.eq P0,R4,#0x15 ; jump.if(P0.new):t 0xc19037cc 
+
+#35  SCORE=50  FUN_c190b150
+  entry = c190b150
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x27cc
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 12, 14, 15, 19]
+  command compare hits:
+    c190b2a0  cmp.eq P1,R24,#0xc 
+    c190b48c  jump.if:nt cmp.eq(R1.new,#0x3),0xc190b4dc 
+    c190b490  cmp.eq P0,R1,#0x7 ; jump.if(P0.new):nt 0xc190b51c 
+    c190b498  cmp.eq P0,R1,#0x5 ; jump.if(!P0.new):t 0xc190b530 
+    c190b5d0  cmp.eq R18,R20,#0x1 
+    c190b810  cmp.eq P0,R2,#0x2 
+    c190b824  jump.if:t !cmp.gt(R2.new,#0x7),0xc190b834 
+    c190b97c  cmp.eq R2,R20,#0x2 
+    c190b980  cmp.eq R0,R20,#0x3 
+    c190bac0  cmp.eq P2,R3,#0x2 
+    c190bacc  cmp.eq P2,R3,#0x4 
+    c190bae0  jump.if:nt cmp.eq(R3.new,#0x4),0xc190bb18 
+    c190bae4  cmp.eq P1,R3,#0x2 ; jump.if(!P1.new):nt 0xc190bb50 
+    c190bbfc  assign R19,#0x6 ; cmp.eq P0,R21,#0x1 
+    c190bbfc  assign R19,#0x6 ; cmp.eq P0,R21,#0x1 
+    c190bcdc  assign R21,#0x2 ; cmp.eq P0,R21,#0x0 
+    c190bcf8  cmp.eq P1,R19,#0x6 
+    c190bd00  cmp.eq P3,R2,#0x3 
+    c190bd24  cmp.eq P1,R19,#0x2 ; jump.if(P1.new):nt 0xc190bd34 
+    c190bd28  cmp.eq P1,R19,#0x1 ; jump.if(!P1.new):t 0xc190bd38 
+    c190bdd4  cmp.eq P1,R20,#0x1 
+    c190bde8  cmp.eq P2,R2,#0x1 
+    c190be14  cmp.eq P1,R3,#0x1 
+    c190be60  cmp.eq R22,R0,#0x3 
+    c190bf3c  cmp.eq P1,R21,#0x1 
+    c190bf40  cmp.eq P0,R21,#0x4 
+    c190bf70  cmp.gt P0,R0,#0x13 ; jump.if(!P0.new):t 0xc190bf8c 
+    c190c0d0  cmp.gtu P0,R21,#0x4 ; jump.if(P0.new):nt 0xc190c1a4 
+    c190c100  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):t 0xc190c1a4 
+    c190c120  cmp.gt P0,R0,#0x13 ; jump.if(!P0.new):t 0xc190c134 
+    c190c1f0  cmp.eq P0,R21,#0x4 ; jump.if(P0.new):nt 0xc190c200 
+    c190c1f4  cmp.eq P0,R21,#0x1 ; jump.if(!P0.new):nt 0xc190c21c 
+    c190c22c  cmp.eq P0,R21,#0x1 ; jump.if(!P0.new):t 0xc190c24c 
+    c190c340  cmp.gtu P0,R2,#0x1 
+    c190c460  cmp.eq P0,R21,#0x2 
+    c190c480  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):nt 0xc190c68c 
+    c190c698  cmp.eq P0,R2,#0x3 
+    c190c8b0  cmp.eq P0,R20,#0x1 ; jump.if(P0.new):t 0xc190c8bc 
+    c190c93c  cmp.eq P1,R20,#0x1 
+    c190ca24  cmp.eq P0,R3,#0x2 
+    c190ca50  cmp.eq P0,R2,#0xf ; jump.if(P0.new):t 0xc190ca78 
+    c190caa8  jump.if:t !cmp.gtu(R2.new,#0x1),0xc190cab4 
+    c190cac4  cmp.gt P0,R0,#0x7 
+    c190cb80  cmp.eq P0,R18,#0x1 
+    c190cbf8  cmp.gtu P0,R3,#0x1 
+    c190cc50  cmp.eq P0,R22,#0x1 
+    c190ce4c  jump.if:t !cmp.eq(R2.new,#0x1),0xc190cea8 
+    c190d050  cmp.eq P0,R3,#0x2 
+    c190d0f0  cmp.gt P0,R23,#0xe ; jump.if(P0.new):t 0xc190d110 
+    c190d1a0  cmp.gtu P0,R25,#0x1 
+    c190d4e0  cmp.gtu P0,R21,#0x1 ; jump.if(P0.new):t 0xc190d504 
+    c190d7dc  jump.if:nt cmp.eq(R2.new,#0x1),0xc190d7ec 
+    c190d7e8  jump.if:t !cmp.eq(R2.new,#0x1),0xc190d8a4 
+    c190d9e4  cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc190da08 
+    c190da60  assign R3,#0x1 ; cmp.eq P0,R22,#0x0 
+    c190da6c  assign R3,#0x1 ; cmp.eq P0,R22,#0x0 
+
+#36  SCORE=50  FUN_c198d120
+  entry = c198d120
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x7fffffff
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 18]
+  command compare hits:
+    c198d144  cmp.gtu P0,R16,#0x1 ; jump.if(P0.new):nt 0xc198d4d4 
+    c198d198  cmp.eq P0,R0,#0x9 ; jump.if(P0.new):t 0xc198d478 
+    c198d1c4  cmp.eq P0,R0,#0x6 ; jump.if(P0.new):t 0xc198d478 
+    c198d26c  cmp.gtu P0,R0,#0x8 ; jump.if(P0.new):nt 0xc198d48c 
+    c198d2fc  jump.if:t !cmp.gtu(R3.new,#0x2),0xc198d3f4 
+    c198d338  cmp.gtu P0,R0,#0xd ; jump.if(P0.new):nt 0xc198d48c 
+    c198d34c  cmp.gtu P0,R0,#0x7 ; jump.if(P0.new):nt 0xc198d48c 
+    c198d360  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc198d454 
+    c198d368  jump.if:t !cmp.gtu(R3.new,#0x1),0xc198d454 
+    c198d374  jump.if:t !cmp.gtu(R3.new,#0x1),0xc198d478 
+    c198d388  cmp.eq P0,R0,#0x3 ; jump.if(P0.new):nt 0xc198d464 
+    c198d394  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):nt 0xc198d48c 
+    c198d3ac  jump.if:nt cmp.gtu(R3.new,#0xa),0xc198d48c 
+    c198d3c4  jump.if:t !cmp.gtu(R3.new,#0x8),0xc198d4b8 
+    c198d3cc  jump.if:nt cmp.gtu(R3.new,#0xc),0xc198d48c 
+    c198d3e0  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc198d478 
+    c198d3e8  cmp.eq P0,R0,#0x12 ; jump.if(P0.new):t 0xc198d478 
+    c198d408  cmp.eq P0,R0,#0x3 ; jump.if(!P0.new):t 0xc198d48c 
+    c198d474  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):t 0xc198d48c 
+    c198d488  cmp.gtu P0,R0,#0x1 ; jump.if(!P0.new):t 0xc198d3f4 
+
+#37  SCORE=50  FUN_c19963cc
+  entry = c19963cc
+  property 26 = false
+  property 28 = true
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0xd28
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19]
+  property compare hits:
+    c1996a80  jump.if:nt cmp.gtu(R2.new,#0x1c),0xc1997230 
+  command compare hits:
+    c19964e4  jump.if:t !cmp.gtu(R21.new,#0x1),0xc1996488 
+    c1996594  cmp.eq P0,R0,#0x13 ; jump.if(P0.new):t 0xc1997230 
+    c1996610  cmp.gtu P0,R0,#0xa ; jump.if(P0.new):nt 0xc199664c 
+    c1996660  cmp.eq P0,R0,#0x2 ; jump.if(P0.new):nt 0xc1996760 
+    c1996664  cmp.eq P0,R0,#0x6 ; jump.if(P0.new):nt 0xc1996670 
+    c199667c  jump.if:nt cmp.gtu(R22.new,#0x9),0xc1997304 
+    c19966a8  cmp.gtu P0,R2,#0x9 
+    c199692c  jump.if:t !cmp.gtu(R3.new,#0xc),0xc19972c0 
+    c199694c  cmp.eq P0,R0,#0x9 ; jump.if(!P0.new):t 0xc1997230 
+    c19969c8  jump.if:t !cmp.eq(R2.new,#0x8),0xc1997230 
+    c1996a00  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):nt 0xc19970e8 
+    c1996a08  cmp.eq P0,R0,#0xc ; jump.if(!P0.new):nt 0xc1997230 
+    c1996a34  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1997210 
+    c1996a68  cmp.gtu P0,R0,#0x6 ; jump.if(P0.new):nt 0xc1997230 
+    c1996aa0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1997130 
+    c1996ad8  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):nt 0xc1996884 
+    c1996ae0  cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc1997230 
+    c1996b50  cmp.eq P0,R0,#0x3 ; jump.if(!P0.new):t 0xc1997230 
+    c1996d50  cmp.eq P0,R0,#0xb ; jump.if(!P0.new):t 0xc1997230 
+    c1996da8  jump.if:t cmp.gt(R1.new,#0x1),0xc1996dc0 
+    c1996db0  cmp.eq P0,R1,#0x1 ; jump.if(P0.new):t 0xc1996dfc 
+    c1996dc0  cmp.eq P0,R1,#0x3 ; jump.if(P0.new):t 0xc1996dd4 
+    c1996dc4  cmp.eq P0,R1,#0x2 ; jump.if(!P0.new):nt 0xc1996db4 
+    c1996e84  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc1996ea8 
+    c1996e88  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc1996e9c 
+    c1996e8c  cmp.eq P0,R2,#0x5 ; jump.if(!P0.new):nt 0xc1996eb4 
+    c1996f3c  jump.if:nt cmp.gtu(R2.new,#0xb),0xc1996f60 
+    c1996fdc  jump.if:nt cmp.gtu(R2.new,#0xb),0xc1997000 
+    c19971d4  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1997230 
+    c19971fc  cmp.eq P0,R0,#0xa ; jump.if(!P0.new):t 0xc1997230 
+    c199720c  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):t 0xc1997230 
+
+#38  SCORE=50  FUN_c1a50ab8
+  entry = c1a50ab8
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x7fffffff
+  RFDEBUG-like command IDs = [1, 2, 3, 5, 6, 7, 9, 10, 12, 14, 18, 20]
+  command compare hits:
+    c1a50d0c  cmp.eq P0,R22,#0x1 ; jump.if(P0.new):nt 0xc1a50d14 
+    c1a50d10  cmp.eq P0,R23,#0x1 ; jump.if(!P0.new):t 0xc1a50d1c 
+    c1a50d1c  cmp.eq P0,R22,#0x1 
+    c1a50d30  cmp.eq P0,R23,#0x1 ; jump.if(!P0.new):t 0xc1a50d48 
+    c1a50d8c  cmp.gtu P0,R0,#0x9 ; jump.if(!P0.new):t 0xc1a50db8 
+    c1a50df8  cmp.eq P0,R22,#0x0 ; memw (SP+#0x14),R17 
+    c1a50e44  cmp.gtu P0,R22,#0x7 ; jump.if(!P0.new):t 0xc1a50e5c 
+    c1a50f30  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a50f44 
+    c1a50f40  jump.if:t !cmp.eq(R0.new,#0x1),0xc1a50f38 
+    c1a50f64  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a50f84 
+    c1a50f74  jump.if:t !cmp.eq(R0.new,#0x1),0xc1a50f6c 
+    c1a50f80  jump.if:t !cmp.gtu(R3.new,#0x6),0xc1a50f9c 
+    c1a510dc  jump.if:t !cmp.eq(R6.new,#0x1),0xc1a510f0 
+    c1a51164  jump.if:t cmp.gtu(R2.new,#0x2),0xc1a511c8 
+    c1a51278  cmp.gt P0,R2,#0x12 ; jump.if(!P0.new):t 0xc1a512b0 
+    c1a51514  jump.if:nt cmp.gtu(R3.new,#0x5),0xc1a51634 
+    c1a515fc  cmp.eq P0,R24,#0x1 
+    c1a51604  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc1a51614 
+    c1a51614  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc1a51620 
+    c1a51664  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a51680 
+    c1a51670  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):nt 0xc1a51688 
+    c1a51678  jump.if:nt cmp.eq(R2.new,#0x1),0xc1a51688 
+    c1a51684  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a51690 
+    c1a51694  jump.if:t !cmp.eq(R3.new,#0x1),0xc1a516a0 
+    c1a5170c  jump.if:t cmp.gtu(R2.new,#0xe),0xc1a517a8 
+    c1a51798  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a517b8 
+    c1a51bc8  jump.if:t !cmp.eq(R18.new,#0x1),0xc1a51bd0 
+    c1a52348  cmp.gtu P0,R3,#0x2 ; jump.if(P0.new):t 0xc1a5246c 
+    c1a5239c  jump.if:t !cmp.eq(R14.new,#0x3),0xc1a523ac 
+    c1a523ac  cmp.eq P0,R14,#0x2 
+    c1a523bc  cmp.eq P0,R14,#0x1 
+    c1a523d4  jump.if:t !cmp.eq(R14.new,#0x3),0xc1a523e4 
+    c1a523e4  cmp.eq P0,R14,#0x2 
+    c1a523f4  cmp.eq P0,R14,#0x1 
+    c1a52470  jump.if:t !cmp.eq(R18.new,#0xc),0xc1a52320 
+    c1a52484  cmp.eq P0,R3,#0xa 
+
+#39  SCORE=50  FUN_c1a5a614
+  entry = c1a5a614
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x119c
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 8, 9, 13, 19]
+  command compare hits:
+    c1a5a6c4  jump.if:nt !cmp.gtu(R2.new,#0x1),0xc1a5a6d8 
+    c1a5a6f0  cmp.eq R27,R2,#0x1 
+    c1a5a740  cmp.eq P1,R3,#0x1 ; jump.if(!P1.new):t 0xc1a5a76c 
+    c1a5a744  cmp.eq P0,R4,#0x2 
+    c1a5a764  cmp.eq P0,R20,#0x1 ; jump.if(!P0.new):t 0xc1a5a684 
+    c1a5a780  jump.if:t !cmp.gtu(R4.new,#0x1),0xc1a5a8fc 
+    c1a5a798  cmp.eq P0,R4,#0x1 ; jump.if(P0.new):nt 0xc1a5a7f8 
+    c1a5a7b8  jump.if:nt !cmp.gtu(R6.new,#0x1),0xc1a5a8fc 
+    c1a5a7e8  jump.if:t !cmp.gtu(R6.new,#0x1),0xc1a5a8fc 
+    c1a5a804  cmp.eq P1,R3,#0x6 ; jump.if(P1.new):t 0xc1a5a8fc 
+    c1a5a81c  jump.if:nt cmp.gtu(R5.new,#0x13),0xc1a5a830 
+    c1a5a84c  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc1a5a8fc 
+    c1a5a898  jump.if:nt cmp.gtu(R4.new,#0x13),0xc1a5a8e8 
+    c1a5a8e4  jump.if:t cmp.eq(R4.new,#0x2),0xc1a5a8fc 
+    c1a5a93c  jump.if:nt cmp.eq(R3.new,#0x1),0xc1a5a990 
+    c1a5a998  jump.if:nt cmp.gtu(R2.new,#0x8),0xc1a5baec 
+    c1a5aad8  jump.if:nt cmp.gtu(R2.new,#0xd),0xc1a5ab6c 
+    c1a5ab08  jump.if:t !cmp.eq(R3.new,#0x1),0xc1a5ab18 
+    c1a5ab28  cmp.eq P0,R3,#0x3 ; jump.if(P0.new):t 0xc1a5ab54 
+    c1a5ab7c  jump.if:nt cmp.gtu(R3.new,#0xd),0xc1a5ab8c 
+    c1a5ab90  jump.if:nt !cmp.eq(R3.new,#0x4),0xc1a5aba8 
+    c1a5abd4  jump.if:nt cmp.gtu(R2.new,#0xd),0xc1a5ac14 
+    c1a5ac70  jump.if:t !cmp.eq(R2.new,#0x6),0xc1a5baec 
+    c1a5ac9c  jump.if:nt cmp.eq(R2.new,#0x2),0xc1a5acb4 
+    c1a5aca8  cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):nt 0xc1a5baec 
+    c1a5acc4  jump.if:t !cmp.eq(R2.new,#0x5),0xc1a5ad84 
+    c1a5ae28  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a5ae48 
+    c1a5ae38  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a5ae48 
+    c1a5b17c  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a5b244 
+    c1a5b184  jump.if:nt cmp.gtu(R2.new,#0x6),0xc1a5b220 
+    c1a5b2a8  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a5baec 
+    c1a5b334  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a5b348 
+    c1a5b3b4  jump.if:nt cmp.eq(R2.new,#0x8),0xc1a5baec 
+    c1a5b3c0  cmp.eq P0,R2,#0xd ; jump.if(P0.new):t 0xc1a5baec 
+    c1a5b46c  jump.if:t !cmp.eq(R2.new,#0x3),0xc1a5b490 
+    c1a5b484  jump.if:t cmp.eq(R2.new,#0x1),0xc1a5b490 
+    c1a5b694  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a5baec 
+    c1a5b6b4  jump.if:t !cmp.eq(R2.new,#0x2),0xc1a5baec 
+    c1a5b7b0  cmp.gtu P0,R2,#0x9 
+    c1a5b860  jump.if:t cmp.gtu(R2.new,#0x1),0xc1a5b8cc 
+
+#40  SCORE=50  FUN_c1a606c0
+  entry = c1a606c0
+  property 26 = false
+  property 28 = false
+  property gap = 0x7fffffff
+  command 1 = false
+  command 3 = false
+  command 4 = false
+  command 5 = false
+  command gap = 0x598
+  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 10, 18]
+  command compare hits:
+    c1a6070c  jump.if:t cmp.gtu(R2.new,#0x1),0xc1a60740 
+    c1a60800  jump.if:nt cmp.gtu(R3.new,#0x12),0xc1a60818 
+    c1a60808  jump.if:t cmp.eq(R4.new,#0x6),0xc1a60858 
+    c1a6080c  cmp.gtu P0,R3,#0x7 ; jump.if(!P0.new):nt 0xc1a60858 
+    c1a60814  jump.if:t cmp.eq(R3.new,#0x2),0xc1a60858 
+    c1a60864  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1a607e4 
+    c1a608a0  cmp.gtu P0,R0,#0xa ; jump.if(!P0.new):t 0xc1a608c0 
+    c1a608d0  jump.if:nt !cmp.eq(R2.new,#0x5),0xc1a60908 
+    c1a608d8  jump.if:nt !cmp.eq(R2.new,#0x3),0xc1a60908 
+    c1a608f8  cmp.eq P0,R2,#0x1 
+    c1a60914  jump.if:t !cmp.eq(R2.new,#0x5),0xc1a60934 
+    c1a60944  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a609d8 
+    c1a60968  cmp.eq P0,R0,#0x4 ; jump.if(P0.new):t 0xc1a60974 
+    c1a60970  cmp.eq P0,R0,#0x8 ; jump.if(!P0.new):t 0xc1a609b8 
+    c1a60998  jump.if:t cmp.eq(R2.new,#0x3),0xc1a609c4 
+    c1a609e4  jump.if:nt cmp.eq(R2.new,#0x7),0xc1a609ec 
+    c1a609e8  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1a60a64 
+    c1a60a68  cmp.eq P0,R2,#0x6 
+    c1a60a88  cmp.eq P0,R2,#0x6 
+    c1a60ae4  jump.if:t !cmp.eq(R2.new,#0x4),0xc1a60aec 
+    c1a60b50  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1a60af0 
+    c1a60b58  jump.if:t cmp.eq(R2.new,#0x2),0xc1a60b64 
+    c1a60ba4  jump.if:t !cmp.eq(R2.new,#0x5),0xc1a60bc8 
+    c1a60bb8  jump.if:t cmp.eq(R2.new,#0x4),0xc1a60bc8 
+    c1a60bd0  cmp.gtu P0,R0,#0x1 
+    c1a60be8  cmp.gtu P0,R0,#0x7 
+    c1a60bf8  jump.if:t !cmp.eq(R2.new,#0x4),0xc1a60c34 
+    c1a60c10  cmp.gtu P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a60c34 
+    c1a60c18  jump.if:t !cmp.gtu(R2.new,#0x8),0xc1a60c34 
+    c1a60c30  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a60c48 
+    c1a60c40  cmp.eq P0,R0,#0x2 
+    c1a60c68  jump.if:nt !cmp.eq(R2.new,#0x4),0xc1a60cd4 
+    c1a60ca4  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1a60c70 
+
+============================================================
+ PRIORITY
+============================================================
+No function currently satisfies all six exact compare conditions.
 
 ============================================================
 DONE
 ============================================================
-FindGPSetupAndRefs_x55.java> Finished!
+FindRFDebugCombinedCandidates_x55.java> Finished!
