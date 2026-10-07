@@ -1,1786 +1,1708 @@
-   jump 0xc18198c0 
-    memb (R20+#0x5),#0x0 
-    memb R2,(R20+#0x4) 
->>> jump.if:t !cmp.eq(R2.new,#0x1),0xc18198bc 
->>> call 0xc18181d0 
->>> call 0xc1817a10 
-    assign R0,#0x0 
-    memb R2,(R20+#0x8c) 
-    cmp.eq P0,R2,#0x0 
->>> mux R2,P0,#0x1,#0x2 
->>> memb (R20+#0x1),R2.new 
-    jump 0xc18198c0 
-
-############################################################
-CODE #0x7B HIT #6
-############################################################
-FUNCTION = c18192c0 FUN_c18192c0
-ADDRESS = c1819734
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    memb (R2),#0x0 
-    memb R2,(R20+#0x5) 
->>> jump.if:t !cmp.eq(R2.new,#0x1),0xc1819708 
->>> call 0xc1818080 
->>> call 0xc18179f0 
-    assign R0,#0x0 
->>> memb (R20+#0x1),#0x2 
-    jump 0xc18198c0 
-    memb (R20+#0x5),#0x0 
-    memb R2,(R20+#0x4) 
->>> jump.if:t !cmp.eq(R2.new,#0x1),0xc18198bc 
->>> call 0xc18181d0 
->>> call 0xc1817a10 
-    assign R0,#0x0 
-    memb R2,(R20+#0x8c) 
-    cmp.eq P0,R2,#0x0 
->>> mux R2,P0,#0x1,#0x2 
->>> memb (R20+#0x1),R2.new 
-    jump 0xc18198c0 
-    memb (R20+#0x4),#0x0 
->>> memb R2,(R20+#0x7b) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc1819770 
->>> call 0xc1818060 
-    memb R2,(R20+#0x78) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc181975c 
-    add R2,R20,#0x79 
->>> memb (R2),#0x1 
-    add R2,R20,#0x78 
-    jump 0xc18198c0 
-    memb (R2),#0x0 
-    memb R2,(R20+#0x79) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc18198c0 
-    add R2,R20,#0x79 
-    jump 0xc18198c0 
->>> memb (R2),#0x0 ; memb (R20+#0x1),#0x1 
->>> memub R2,(R20+#0x2) ; memub R3,(R20+#0x3) 
-    or R2,R3,R2 
-    assign.if(!P0.new) R3,#0xff 
-    cmp.eq P0,R2,#0x0 ; jump.if(P0.new):nt 0xc1819838 
->>> memub R2,(R20+#0x5) 
-    bitsclr P0,R2,R3 
-
-############################################################
-CODE #0x7B HIT #7
-############################################################
-FUNCTION = c184496c FUN_c184496c
-ADDRESS = c18449e0
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    immext #0xcaf66040 
-    memw R3,(R16=##0xcaf66068) 
-    immext #0xc1d81cc0 
->>> memub R2,(##0xc1d81cdc) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc1844a68 
-    immext #0xcaf66040 
-    assign R17,##0xcaf66064 
->>> cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1844a70 
-    immext #0xc1d80740 
-    assign R2,##0xc1d80778 
-    memb R3,(R2) 
-    jump.if:nt cmp.eq(R3.new,#0x0),0xc18449f0 
-    add R3,R2,#0x78 
-    add R4,R2,#0x7a 
->>> memb (R3),#0x1 
-    immext #0xc1d85a00 
-    memb R3,(##0xc1d85a30) 
-    cmp.eq P0,R3,#0x6 
->>> memb.if(!P0.new) (R4),#0x1 
-    memb (R18),#0x0 
->>> add R3,R2,#0x7b 
->>> memb (R3),#0x1 
->>> memb R3,(R2+#0x7b) 
-    jump.if:t !cmp.eq(R3.new,#0x0),0xc18449e8 
-    assign R1,#0x20 ; memw R2,(R17) 
-    immext #0xc1d86c80 
-    assign R2,##0xc1d86c80 
-    memw (R2),#0x0 
-    memw R0,(R17) 
->>> call 0xc1619270 
-    memw (R2),#0x0 
->>> call 0xc1852480 
->>> call 0xc182a3c8 
-    assign R1,#0x20 ; memw R0,(R17) 
->>> call 0xc1619270 
-    memw (R0+#0x14),#0x3 
-    immext #0xd614fe40 
-    assign R0,##0xd614fe4b ; memw R2,(R17) 
->>> call 0xc1619338 
-    memw R1,(R2+#0x14) 
->>> call 0xc182a3c8 
-
-############################################################
-CODE #0x7B HIT #8
-############################################################
-FUNCTION = c184496c FUN_c184496c
-ADDRESS = c18449e8
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    immext #0xc1d81cc0 
->>> memub R2,(##0xc1d81cdc) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc1844a68 
-    immext #0xcaf66040 
-    assign R17,##0xcaf66064 
->>> cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1844a70 
-    immext #0xc1d80740 
-    assign R2,##0xc1d80778 
-    memb R3,(R2) 
-    jump.if:nt cmp.eq(R3.new,#0x0),0xc18449f0 
-    add R3,R2,#0x78 
-    add R4,R2,#0x7a 
->>> memb (R3),#0x1 
-    immext #0xc1d85a00 
-    memb R3,(##0xc1d85a30) 
-    cmp.eq P0,R3,#0x6 
->>> memb.if(!P0.new) (R4),#0x1 
-    memb (R18),#0x0 
->>> add R3,R2,#0x7b 
->>> memb (R3),#0x1 
->>> memb R3,(R2+#0x7b) 
-    jump.if:t !cmp.eq(R3.new,#0x0),0xc18449e8 
-    assign R1,#0x20 ; memw R2,(R17) 
-    immext #0xc1d86c80 
-    assign R2,##0xc1d86c80 
-    memw (R2),#0x0 
-    memw R0,(R17) 
->>> call 0xc1619270 
-    memw (R2),#0x0 
->>> call 0xc1852480 
->>> call 0xc182a3c8 
-    assign R1,#0x20 ; memw R0,(R17) 
->>> call 0xc1619270 
-    memw (R0+#0x14),#0x3 
-    immext #0xd614fe40 
-    assign R0,##0xd614fe4b ; memw R2,(R17) 
->>> call 0xc1619338 
-    memw R1,(R2+#0x14) 
->>> call 0xc182a3c8 
-    assign R1,#0x20 ; memw R0,(R17) 
->>> call 0xc16192b0 
-
-############################################################
-CODE #0x7B HIT #9
-############################################################
-FUNCTION = c1849780 FUN_c1849780
-ADDRESS = c18499f8
-ROUTE SCORE = 200
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = false
-
-    memb (R0+#0x71),R3 
->>> memuh R3,(R4+#0x14) 
-    memb (R0+#0x72),R3.new 
-    lsr R3,R3,#0x8 
-    memb (R0+#0x73),R3.new 
->>> and R3,R1,#0x1 
-    assign R1,#0x0 
->>> memuh R4,(R4+#0x3e) 
-    memb (R0+#0x74),R4.new 
-    lsr R4,R4,#0x8 
-    memb (R0+#0x75),R4.new 
->>> memuh R2,(R2+#0x264) 
-    memb (R0+#0x76),R2.new 
-    lsr R2,R2,#0x8 
-    memb (R0+#0x77),R2.new 
-    memb (R0+#0x79),R1 
-    memb (R0+#0x78),R3 
-    immext #0xc1d909c0 
->>> memub R2,(##0xc1d909dc) 
-    memb (R0+#0x7a),R2.new 
->>> memb (R0+#0x7b),R1 
-    immext #0xc1d909c0 
->>> memub R2,(##0xc1d909dd) 
-    memb (R0+#0x7c),R2 
-    memb (R0+#0x7d),R1 
-    memd R17R16,(SP+#0x0) ; dealloc_return 
-
-############################################################
-CODE #0x7B HIT #10
-############################################################
-FUNCTION = c18540c4 FUN_c18540c4
-ADDRESS = c18541ac
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    immext #0xcf854b40 
-    assign.if(P0.new) R0,##0xcf854b42 
-    cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):nt 0xc1854184 
-    cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc1854178 
->>> cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1854318 
-    cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc18541a0 
-    jump 0xc18545f8 
-    cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18544f0 
-    cmp.eq P0,R2,#0x5 ; jump.if(P0.new):t 0xc1854208 
-    jump 0xc18545f8 
-    immext #0xcf854bc0 
-    assign R0,##0xcf854bc0 
-    cmp.gt P0,R2,#0x5 ; jump.if(P0.new):t 0xc185424c 
-    cmp.gt P0,R2,#0x2 ; jump.if(P0.new):t 0xc18541f4 
-    cmp.eq P0,R2,#0x0 ; jump.if(P0.new):nt 0xc18542ec 
->>> cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1854318 
-    cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1854494 
-    add R3,R18,#0x16 
->>> memb (R18+#0x18),#0x1 
-    memh (R3),R22.L 
->>> memb R2,(R17+#0x7b) 
-    immext #0x5c0 
-    jump.if:t !cmp.eq(R2.new,#0x0),0xc185477c 
-    assign R3,#0x0 
->>> assign R2,#0x1 
-    assign R0,#-0x1 
-    memw (SP+#0x30),R3.new 
-    add R0,R8,#-0x7fea 
-    assign R1,#0x0 
-    memw (SP+#0x2c),R2 ; memw (SP+#0x18),R0 
-    add R2,SP,#0x0 
-    assign R3,#0x38 
-    memw R4,(R7+#0x4) ; memw (SP+#0x10),R3 
->>> call 0xc181f250 
-    memw (SP+#0x14),R4 
->>> call 0xc1852db0 
-    jump 0xc185477c 
-    memb (R16),#0x3 
-    add.if(P0.new) R4,R18,#0x16 
-    cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc18544c0 
-    memb.if(P0.new) R2,(R7) 
-
-############################################################
-CODE #0x7B HIT #11
-############################################################
-FUNCTION = c1867c2c FUN_c1867c2c
-ADDRESS = c1867e38
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    assign.if(!P1) R1,#0x3 
-    jump.if(P1) 0xc1867f30 
-    memb (R18+#0x4),#0x0 
-    memb.if(P0) (R3),#0x0 
->>> call 0xc16190c0 
-    memw R0,(R18+#0x11c) 
-    add R2,R1,#-0x1 
->>> memb R3,(R21+#0x1) 
-    memw R4,(R18+#0x120) 
-    asr R3,R0,R2 
-    asr R6,R4,#0x1f 
->>> cmp.eq P0,R3,#0x1 
-    asr R5,R3,#0x1f 
-    immext #0x8000 
-    assign.if(!P0) R2,##0x8000 
-    jump.if(!P0) 0xc1867e44 
-    memw R2,(R21+#0x54) 
-    immext #0x8000 
-    assign R2,##0x8000 
-    tstbit P0,R2,#0x0 ; jump.if(!P0.new):t 0xc1867e44 
->>> memub R2,(R21+#0x7b) 
->>> memub R7,(R21+#0x7c) 
-    insert R2,R7,#0x18,#0x8 
-    mpyu R1R0,R3,R4 
-    memh R7,(R18+#0x2) 
->>> memuh R8,(R18+#0x204) 
-    mpyi+= R1,R3,R6 
->>> cmp.eq P0,R7,#0x1 
->>> memuh R3,(R18+#0x1b6) 
-    mpyi+= R1,R4,R5 
-    assign.if(P0) R4,#0x0 
->>> extract R5,R1,#0x1,#0x17 
-    lsr R7R6,R1R0,#0x18 
-    immext #0x200 
->>> memuh.if(!P0) R4,(R18+##0x206) 
-    mpyu R1R0,R2,R6 
-    add R4,R4,R8 
-    mpyi+= R1,R2,R5 
-    asr R1R0,R1R0,#0xf 
-    sat R5,R1R0 
-    mpyu R1R0,R4,R5 
-
-############################################################
-CODE #0x7B HIT #12
-############################################################
-FUNCTION = c18abe74 FUN_c18abe74
-ADDRESS = c18ac314
-ROUTE SCORE = 200
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = false
-
->>> memub R5,(R22+#0x7) 
->>> jump.if:t cmp.gt(R5.new,#0x1),0xc18ac2f0 
-    cmp.eq P0,R5,#0x0 ; jump.if(P0.new):nt 0xc18ac358 
->>> cmp.eq P0,R5,#0x1 ; jump.if(!P0.new):nt 0xc18ac394 
-    memw R4,(R22+#0xc) ; memw R2,(R20+#0x1c) 
-    add R3,R2,#0x79 
-    cmp.gt P0,R4,R3 ; jump.if(P0.new):t 0xc18ac398 
-    memw (R20+#0x1c),R3.new 
-    add R2,R2,#0xfc 
-    jump 0xc18ac394 
-    memw (R20+#0x1c),R2.new 
-    cmp.eq P0,R5,#0x2 ; jump.if(P0.new):nt 0xc18ac374 
-    cmp.eq P0,R5,#0x3 ; jump.if(!P0.new):nt 0xc18ac394 
-    immext #0xa0000000 
-    assign R6,##0xa0000000 
-    memw R4,(R4) ; memw R5,(R22+#0xc) 
-    mpysu R4,R4,R6 
-    asr-= R3,R4,#0x14 
-    abs R4,R3 
-    memw R3,(R20+#0x1c) 
->>> add R4,R3,#0x7b 
-    cmp.gt P0,R5,R4 ; jump.if(P0.new):t 0xc18ac398 
-    memw (R20+#0x1c),R4.new 
-    memw R4,(SP+#0xc) 
-    bitsclr! P0,R2,R4 
-    mux R4,P0,#0x4,#0x0 
-    add R4,R25,R4 
-    memw R4,(R4+#0x10) 
-    jump.if:t !cmp.eq(R4.new,#0x0),0xc18ac344 
-    !cmp.eq R2,R2,#0x0 
-    memw R2,(R25+R2<<#0x2) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc18ac398 
-    memw R2,(R26) 
-    jump.if:t cmp.eq(R2.new,#0x7),0xc18ac398 
-    add R2,R3,#0x100 
-    jump 0xc18ac394 
-    memw (R20+#0x1c),R2.new 
-    memw R4,(R22+#0xc) ; memw R2,(R20+#0x1c) 
-    add R3,R2,#0x78 
-    cmp.gt P0,R3,R4 ; jump.if(P0.new):t 0xc18ac398 
-    memw (R20+#0x1c),R3.new 
-
-############################################################
-CODE #0x7B HIT #13
-############################################################
-FUNCTION = c18f1de0 FUN_c18f1de0
-ADDRESS = c18f1e7c
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    memw R19,(R17+#0xf40) 
->>> memuh R22,(R25+#0x534) 
->>> call 0xc18c5750 
-    assign R2,R0 
->>> combine R1R0,#0x1,#0x7 
->>> assign R27,#0x1 
->>> call 0xc1619338 
-    immext #0xd615cc00 
-    combine R1R0,R0,##0xd615cc06 
->>> combine R3R2,#0x1,#0x7 
-    add R2,R17,#0x2800 
-    memw (SP+#0x1c),R2.new 
-    memb R2,(R2) 
-    cmp.eq P0,R2,#0x3 
-    immext #0x40 
-    memb.if(P0.new) (R18+##0x7a),R27 
-    memw R2,(R17) 
->>> call 0xc18d4eb8 
-    memw R0,(R2+#0x18) 
-    memw (R17+#0x4),R0 ; memw (SP+#0x8),R0 
->>> memub R1,(R18+#0x7b) 
-    jump.if:nt cmp.eq(R1.new,#0x3),0xc18f1ec8 
-    asl|= R23,R20,#0x8 
-    asl|= R21,R26,#0x8 
-    cmp.eq P0,R1,#0x7 
-    assign R20,R16 
-    asl|= R21,R23,#0x10 
-    jump.if(P0) 0xc18f1ef4 
-    memw.if(!P0) R26,(SP+#0x1c) 
-    immext #0xc4f13200 
-    assign.if(P0.new) R0,##0xc4f13236 
-    cmp.eq P0,R1,#0x5 ; jump.if(!P0.new):t 0xc18f1f14 
->>> call 0xc18f2770 
->>> call 0xc18c5730 
->>> call 0xc1619338 
-    immext #0xd615cc40 
-    combine R1R0,R0,##0xd615cc43 
->>> memub R2,(R18+#0x7b) 
-    jump 0xc18f1f14 
->>> call 0xc18f2770 
-    immext #0xc4f13240 
-
-############################################################
-CODE #0x7B HIT #14
-############################################################
-FUNCTION = c18f1de0 FUN_c18f1de0
-ADDRESS = c18f1ec0
-ROUTE SCORE = 160
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = false
-NEAR PACKET READ = true
-NEAR CALL = true
-
->>> call 0xc18d4eb8 
-    memw R0,(R2+#0x18) 
-    memw (R17+#0x4),R0 ; memw (SP+#0x8),R0 
->>> memub R1,(R18+#0x7b) 
-    jump.if:nt cmp.eq(R1.new,#0x3),0xc18f1ec8 
-    asl|= R23,R20,#0x8 
-    asl|= R21,R26,#0x8 
-    cmp.eq P0,R1,#0x7 
-    assign R20,R16 
-    asl|= R21,R23,#0x10 
-    jump.if(P0) 0xc18f1ef4 
-    memw.if(!P0) R26,(SP+#0x1c) 
-    immext #0xc4f13200 
-    assign.if(P0.new) R0,##0xc4f13236 
-    cmp.eq P0,R1,#0x5 ; jump.if(!P0.new):t 0xc18f1f14 
->>> call 0xc18f2770 
->>> call 0xc18c5730 
->>> call 0xc1619338 
-    immext #0xd615cc40 
-    combine R1R0,R0,##0xd615cc43 
->>> memub R2,(R18+#0x7b) 
-    jump 0xc18f1f14 
->>> call 0xc18f2770 
-    immext #0xc4f13240 
-    assign R0,##0xc4f13268 
->>> call 0xc18c5730 
->>> call 0xc1619338 
-    immext #0xd615cc80 
-    combine R1R0,R0,##0xd615cc80 
->>> memub R2,(R18+#0x7b) 
-    combine R21R20,R16,#0x0 
-    jump 0xc18f1f14 
-    memw R26,(SP+#0x1c) 
->>> call 0xc18f2778 
-    immext #0xc4f13280 
-    assign R0,##0xc4f1329d 
->>> call 0xc18c5730 
->>> call 0xc1619338 
-    immext #0xd615ccc0 
-    combine R1R0,R0,##0xd615ccc0 
-    memw R26,(SP+#0x1c) 
-
-############################################################
-CODE #0x7B HIT #15
-############################################################
-FUNCTION = c18f1de0 FUN_c18f1de0
-ADDRESS = c18f1ee4
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    asl|= R21,R23,#0x10 
-    jump.if(P0) 0xc18f1ef4 
-    memw.if(!P0) R26,(SP+#0x1c) 
-    immext #0xc4f13200 
-    assign.if(P0.new) R0,##0xc4f13236 
-    cmp.eq P0,R1,#0x5 ; jump.if(!P0.new):t 0xc18f1f14 
->>> call 0xc18f2770 
->>> call 0xc18c5730 
->>> call 0xc1619338 
-    immext #0xd615cc40 
-    combine R1R0,R0,##0xd615cc43 
->>> memub R2,(R18+#0x7b) 
-    jump 0xc18f1f14 
->>> call 0xc18f2770 
-    immext #0xc4f13240 
-    assign R0,##0xc4f13268 
->>> call 0xc18c5730 
->>> call 0xc1619338 
-    immext #0xd615cc80 
-    combine R1R0,R0,##0xd615cc80 
->>> memub R2,(R18+#0x7b) 
-    combine R21R20,R16,#0x0 
-    jump 0xc18f1f14 
-    memw R26,(SP+#0x1c) 
->>> call 0xc18f2778 
-    immext #0xc4f13280 
-    assign R0,##0xc4f1329d 
->>> call 0xc18c5730 
->>> call 0xc1619338 
-    immext #0xd615ccc0 
-    combine R1R0,R0,##0xd615ccc0 
-    memw R26,(SP+#0x1c) 
-    add R23,R17,#0x2810 
-    memb R24,(R18+#0x68) 
-    memw (SP+#0xc),R24.new 
->>> cmp.eq P0,R24,#0x1 
->>> add.if(!P0.new) R24,R19,#0x1 
-    jump.if(!P0.new):t 0xc18f1ff0 
-    memw (SP+#0x10),R23 
->>> call 0xc18fff10 
-    assign R0,R17 
-
-############################################################
-CODE #0x7B HIT #16
-############################################################
-FUNCTION = c18f2b1c FUN_c18f2b1c
-ADDRESS = c18f2cf4
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    add R0,R2,#0x1900 
-    jump 0xc18f2e60 
-    memw R19,(R17) 
->>> call 0xc18c570c 
-    memw R0,(R19+#0x88) 
->>> call 0xc1695fec 
->>> call 0xc1cdb764 
->>> memub R1,(R19+#0xa2) 
-    assign.if(P0.new) R1,R19 
-    cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):nt 0xc18f2e98 
-    memw.if(P0.new) R2,(R19+#0x88) 
-    assign R22,#0x0 ; memw R2,(R2+#0x4) 
->>> call 0xc18ea388 
-    add R0,R2,#0x6200 
-    jump 0xc18f2e60 
-    memw R19,(R17) 
->>> call 0xc18c570c 
-    memw R0,(R19+#0x74) 
->>> call 0xc1695fec 
->>> call 0xc1cdb764 
->>> memub R1,(R19+#0x7b) 
-    assign.if(P0.new) R1,R19 
-    cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):nt 0xc18f2ea4 
-    memw.if(P0.new) R3,(R19+#0x74) 
-    assign R22,#0x0 
->>> memub R2,(SP+#0x1) 
-    memw R3,(R3+#0x4) 
->>> call 0xc18e8c30 
-    add R0,R3,#0x6218 
-    jump 0xc18f2e60 
->>> call 0xc18c570c 
-    assign R0,R19 
-    assign R22,#0x0 ; memw R2,(R19+#0x4) 
->>> call 0xc18f4a50 
-    add R0,R2,#0x5f00 
-    jump 0xc18f2e60 
-    memw R2,(R17) 
-    jump.if:nt cmp.gtu(R2.new,#0xe),0xc18f2eb0 
-    memw R19,(R16+#0x28) 
-    assign R20,R19 
-    mpyi+= R20,R2,#0x30 
-
-############################################################
-CODE #0x7B HIT #17
-############################################################
-FUNCTION = c1932e60 FUN_c1932e60
-ADDRESS = c19331e4
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    immext #0xc0 
-    memb.if(!P0.new) R2,(R20+##0xf1) 
-    immext #0xc1dc1e00 
-    add R18,R19,##-0x3e23e1fb 
-    memb (R20+#0x7e),R3 
-    assign R2,P2 
-    cmp.eq P0,R2,#0x0 
-    memw (SP+#0x4),R2.new 
-    immext #0xc1dc1e00 
-    add.if(!P0) R24,R19,##0xc1dc1e06 
-    jump.if(P0) 0xc19331d8 
-    memw (SP+#0x8),R14 
-    assign R1,R3 ; memw R2,(SP+#0xc) 
->>> call 0xc1932750 
-    add R0,R2,R19 
->>> memub R4,(R21+#0x24) 
->>> memub R3,(R24) 
-    sxtb R2,R4 
-    immext #0xd60fcbc0 
-    assign R0,##0xd60fcbcd 
->>> memub R1,(R20+#0x7b) 
->>> call 0xc1619338 
-    memb (R18),R4 
-    assign R2,#0x2 
-    memw R0,(SP+#0x4) 
-    memh (R20+#0x84),R2.new 
-    assign P0,R0 
-    assign.if(!P0.new) R2,#0x150 
-    jump.if(P0.new):nt 0xc1933290 
-    immext #0xc9d28380 
-    add R18,##0xc9d283b2,mpyi(R16,#0x30) 
-    immext #0xc1dc1e00 
-    add R24,##0xc1dc1e01,mpyi(R16,R2) 
-    immext #0xc1dc1e40 
-    add R21,R19,##-0x3e23e195 
-    assign R19,#0x0 
-    cmp.eq P0,R19,#0x0 
-    assign R5,R22 
->>> memub R2,(R21) 
->>> memub R3,(R24) 
->>> asl R3,R3,#0x1 
-
-############################################################
-CODE #0x7B HIT #18
-############################################################
-FUNCTION = c19c2870 FUN_c19c2870
-ADDRESS = c19c29a8
-ROUTE SCORE = 320
-NEAR #0x0B = true
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    assign R2,#0x24 
-    jump 0xc19c29a0 
-    add R3,R19,#-0x1 
-    jump.if:nt cmp.gtu(R3.new,#0x1e),0xc19c2988 
-    memw R2,(R2+#0x24) 
->>> memub R3,(R2+#0x10c) 
-    jump.if:nt !cmp.eq(R3.new,#0x4),0xc19c2988 
-    memw R2,(R2+R19<<#0x2) 
-    memb R3,(R2+#0x70) 
-    jump.if:nt cmp.eq(R3.new,#0x0),0xc19c2988 
-    memb R2,(R2+#0x69) 
->>> jump.if:t cmp.eq(R2.new,#0x1),0xc19c28d0 
->>> call 0xc16b3900 
-    combine R1R0,R23,R24 
-    assign R2,#0xc 
->>> call 0xc16b3900 
-    combine R1R0,R22,R16 
-    assign R2,#0x24 
-    add R22,R20,#0x87 
->>> memub R2,(R21+#0xb) 
->>> memb (R20+#0x7b),R2.new 
->>> memub R2,(R16+#0x12) 
->>> memub R3,(R21+#0xa) 
-    memb (R20+#0x7c),R3 
-    memb (R22+R2),R17 
-    memw R2,(R27) 
-    memw R3,(R2+#0x4) 
-    memb R3,(R3+#0x154) 
-    immext #0xffff3a40 
->>> jump.if:nt cmp.eq(R3.new,#0x1),0xc19b6408 
-    add R3,R19,#-0x1 
-    jump.if:nt cmp.gtu(R3.new,#0x1e),0xc19c29e8 
-    memw R2,(R2+#0x24) 
->>> memub R3,(R2+#0x10c) 
-    immext #0xffff3a00 
-    jump.if:nt cmp.eq(R3.new,#0x4),0xc19b63ec 
-    memd R17R16,(SP+#0x30) ; memd R19R18,(SP+#0x28) 
-    memd R21R20,(SP+#0x20) ; memd R23R22,(SP+#0x18) 
-    memd R25R24,(SP+#0x10) 
-    memd R27R26,(SP+#0x8) 
-    dealloc_return 
-
-############################################################
-CODE #0x7B HIT #19
-############################################################
-FUNCTION = c19e756c FUN_c19e756c
-ADDRESS = c19e7598
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    immext #0xca7a5c80 
-    assign R1,##0xca7a5c88 
->>> memub R2,(SP+#0x57) 
-    immext #0xca7a5c00 
-    assign R3,##0xca7a5c08 
-    addasl R0,R3,R2,#0x6 
-    mpyi+= R1,R2,#0x14 
->>> call 0xc19e17c0 
->>> memub R2,(SP+#0x57) 
-    +mpyi R2,R2,#0x14 
->>> memub R2,(R20+R2) 
->>> memb (R16+#0x7b),R2.new 
->>> memub R23,(SP+#0x57) 
-    memw R25,(SP+#0x28) 
-    +mpyi R3,R23,#0x14 
-    memb R2,(R20+R3) 
-    immext #0x4d80 
->>> jump.if:t cmp.eq(R2.new,#0x1),0xc19ec33c 
-    immext #0x4e00 
-    jump 0xc19ec3e4 
->>> call 0xc19e17c8 
-    assign R0,R23 
-    immext #0x4e00 
-    jump 0xc19ec3d8 
-    assign R2,UTIMERLO 
-    memw R3,(SP+#0x14) 
-    sub R3,R3,R21 
-    add R2,R3,R2 
->>> extractu R20,R2,#0x18,#0x0 
-    immext #0x4e00 
-    jump 0xc19ec3f4 
-
-############################################################
-CODE #0x7B HIT #20
-############################################################
-FUNCTION = c19ebc30 FUN_c19ebc30
-ADDRESS = c19ebf98
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    memw (R3+#0x2c),R6.new 
-    memh (R3+#0x34),R19.L 
->>> memub R6,(R16+#0x7d) 
-    assign R6,#0xff 
-    memb (R3+#0x36),R6 
-    memw (R3+#0x38),R26 
-    bitsclr! P0,R4,R6 
-    memw (R1+#0x10),R5 ; memw (R1+#0xc),R5 
-    memw (R1+#0x8),R5 ; memw (R1+#0x4),R5 
-    immext #0xffffb440 
-    jump.if(!P0) 0xc19e73d4 
-    memw (R1),R5 
-    immext #0xca7a5c00 
-    assign R3,##0xca7a5c08 
-    addasl R0,R3,R2,#0x6 
->>> call 0xc19ecb34 
->>> memub R2,(SP+#0x57) 
-    +mpyi R3,R2,#0x14 
-    add R2,R20,R3 
->>> memub R4,(R20+R3) 
->>> memb (R16+#0x7b),R4.new 
->>> memub R4,(R2+#0x2) 
-    memb (R16+#0x7c),R4.new 
-    memb R3,(R20+R3) 
->>> jump.if:t !cmp.eq(R3.new,#0x1),0xc19ebfc0 
-    memb R3,(R16+#0x100) 
-    cmp.eq P0,R3,#0x0 
-    memw.if(P0.new) R2,(R2+#0x4) 
-    immext #0x100 
-    memw.if(P0.new) (R16+##0x108),R0.new 
-    memb R2,(R16+#0xf0) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc19ec0e4 
-    assign R2,UTIMERLO 
-    memw R3,(SP+#0x2c) 
-    sub R2,R2,R3 
-    extract R2,R2,#0x18,#0x0 
-    memw (SP+#0x14),R2.new 
-    assign R2,UTIMERLO 
-    memw (SP+#0x2c),R2 
-    memb R2,(R16+#0x100) 
-    immext #0x2c0 
-
-############################################################
-CODE #0x7B HIT #21
-############################################################
-FUNCTION = c19ec2b8 FUN_c19ec2b8
-ADDRESS = c19ec320
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    mpyi-= R2,R0,#0x6 
-    memb (R18+#0x2e9),R2.new 
-    memb R2,(R16+#0xf0) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc19ec334 
-    assign R2,UTIMERLO 
-    memw R3,(SP+#0x2c) ; memw R4,(SP+#0x1c) 
-    sub R3,R4,R3 
-    add R2,R3,R2 
->>> extractu R22,R2,#0x18,#0x0 
-    assign R21,UTIMERLO 
-    memb R2,(R16+#0x84) 
-    immext #0xffffb280 
-    jump.if:nt !cmp.eq(R2.new,#0x0),0xc19e759c 
-    memb R2,(GP+#0x18d5) 
-    jump.if:nt !cmp.eq(R2.new,#0x0),0xc19ec320 
-    memb R2,(R16+#0x7a) 
->>> jump.if:t cmp.eq(R2.new,#0x1),0xc19ec320 
-    memb R2,(R16+#0x8) 
-    immext #0xffffb280 
->>> jump.if:t !cmp.eq(R2.new,#0x1),0xc19e759c 
->>> memb R2,(R16+#0x7b) 
-    immext #0xffffb240 
-    jump.if:t !cmp.eq(R2.new,#0x0),0xc19e759c 
-    immext #0xffffb240 
-    jump 0xc19e756c 
-    jump 0xc19ec2f8 
-    memw R21,(SP+#0x2c) ; memw R22,(SP+#0x1c) 
-    +mpyi R2,R23,#0x58 
-    immext #0xca7a5b80 
-    memb R4,(R2+##0xca7a5bac) 
-    jump.if:nt !cmp.eq(R4.new,#0x0),0xc19ec3e4 
-    immext #0xca7a5b40 
-    add R24,R2,##-0x3585a4a8 
-    immext #0xca7a5c00 
-    assign R0,##0xca7a5c08 
-    addasl R1,R0,R23,#0x6 
-    assign R2,#0x40 
-    add R20,R20,R3 
-    assign R0,R24 
->>> call 0xc1621160 
-    memw R2,(R20+#0x10) 
-
-############################################################
-CODE #0x7B HIT #22
-############################################################
-FUNCTION = c19ec810 FUN_c19ec810
-ADDRESS = c19e1724
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    memw (R6+#0x24),R2.new 
-    memw R2,(R19+#0x18) 
-    memw (R6+#0x28),R2.new 
-    memw R2,(R19+#0x20) 
-    memw R2,(R2+#0x8) 
-    memw (R6+#0x2c),R2.new 
-    immext #0x104c0 
-    memw R2,(R16+##0x104f0) 
-    memh (R6+#0x34),R2.new 
->>> memub R2,(R19+#0x7d) 
-    memb (R6+#0x36),R2.new 
-    memw (R1+#0x10),R3 ; memw (R1+#0xc),R3 
-    memw (R1+#0x8),R3 ; memw (R1+#0x4),R3 
->>> call 0xc19e17c0 
-    memw (R1),R3 
->>> memub R16,(SP+#0x23) 
-    +mpyi R2,R16,#0x14 
-    immext #0xca7a5c80 
-    add R18,R2,##-0x3585a378 
->>> memub R2,(R18) 
->>> memb (R19+#0x7b),R2.new 
-    memb R2,(R18) 
-    immext #0xb280 
->>> jump.if:t !cmp.eq(R2.new,#0x1),0xc19ec9cc 
-    +mpyi R2,R16,#0x58 
-    immext #0xca7a5b80 
-    memb R3,(R2+##0xca7a5bac) 
-    immext #0xb280 
-    jump.if:t !cmp.eq(R3.new,#0x0),0xc19ec9cc 
-    addasl R1,R21,R16,#0x6 
-    immext #0xca7a5b40 
-    add R17,R2,##-0x3585a4a8 
-    assign R2,#0x40 
->>> call 0xc1621160 
-    assign R0,R17 
-    memw R0,(R18+#0xc) 
-    memw (R17+#0x4c),R0.new 
-    memb R0,(GP+#0x18d5) 
-    memw R1,(R18+#0x8) 
->>> cmp.eq P0,R0,#0x1 
->>> assign R0,#0x1 
-
-############################################################
-CODE #0x7B HIT #23
-############################################################
-FUNCTION = c19ec810 FUN_c19ec810
-ADDRESS = c19ec9a8
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    memb R2,(R18+#0xd) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc19ec9cc 
-    immext #0xaaaaaa80 
-    assign R3,##0xaaaaaaab 
->>> memub R2,(R21+#0x2e9) 
->>> add R2,R2,#0x1 
-    mpyu R1R0,R2,R3 
-    lsr R1R0,R1R0,#0x22 
-    mpyi-= R2,R0,#0x6 
-    memb (R21+#0x2e9),R2.new 
-    memb R2,(R18+#0xd) 
->>> jump.if:nt !cmp.eq(R2.new,#0x1),0xc19ec9cc 
-    memb R2,(R19+#0x7a) 
->>> assign R2,#0x1 
->>> cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc19ec99c 
-    memb R2,(R19+#0x8) 
->>> cmp.eq R2,R2,#0x1 
-    memb R3,(GP+#0x18d5) 
-    immext #0xffff4c40 
-    jump.if:nt !cmp.eq(R3.new,#0x0),0xc19e1618 
->>> memb R3,(R19+#0x7b) 
-    memb R4,(R16) 
-    cmp.eq P0,R3,#0x0 
-    cmp.eq P1,R4,#0x0 
-    assign.if(P1.new) R4,#0x0 
->>> mux R3,P0,#0x1,#0x0 
-    and.if(!P1) R4,R2,R3 
-    immext #0xffff4c40 
-    cmp.eq P0,R4,#0x0 ; jump.if(!P0.new):nt 0xc19e1618 
-    assign R0,#0x0 
-    memd R17R16,(SP+#0x58) ; memd R19R18,(SP+#0x50) 
-    memd R21R20,(SP+#0x48) ; memd R23R22,(SP+#0x40) 
-    dealloc_return 
-    memb R2,(R16) 
-    jump.if:t !cmp.eq(R2.new,#0x4),0xc19ec914 
->>> call 0xc16a4a58 
-    immext #0xd606d900 
-    assign R0,##0xd606d930 
-    jump 0xc19ec958 
->>> call 0xc1a17e30 
-    immext #0xc49c3140 
-
-############################################################
-CODE #0x7B HIT #24
-############################################################
-FUNCTION = c1a05490 FUN_c1a05490
-ADDRESS = c1a0558c
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    assign R2,R24 
-    add R3,R24,#0x27 
-    assign.if(P0.new) R2,#0xa0 
-    immext #0xfffe0440 
->>> cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):nt 0xc19e59b4 
->>> call 0xc1621160 
-    combine R1R0,R17,R23 
-    combine R1R0,R24,R22 
->>> memub R2,(R20+#0x7c) 
-    memb (R16+#0xe3),R2.new 
->>> memub R2,(R20+#0x78) 
-    memb (R16+#0xe0),R2.new 
-    memw R2,(R20+#0x70) 
-    memw R3,(R20+#0x74) 
-    assign R2,#0x38 
-    memw (R27+#0x4),R3 
-    memw (R27),R2 
->>> memub R3,(R20+#0x79) 
-    memb (R16+#0xe1),R3.new 
->>> call 0xc1621160 
->>> memub R3,(R20+#0x7b) 
-    memb (R16+#0xe2),R3.new 
-    cmp.eq P0,R21,#0x0 ; jump.if(!P0.new):nt 0xc1a055d0 
->>> memb (R16+#0x2),#0x1 
-    memb R2,(R17+#0x8f) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc1a055bc 
->>> combine R1R0,#0x0,#0x1 
-    memw R2,(R25) 
-    asl R1R0,R1R0,R18 
-    memw R2,(R2+#0x50) 
-    add R2,R2,#0x15b4 
-    memb|= (R2),R0 
-    memb R2,(R20+#0x78) 
->>> cmp.eq P0,R2,#0x1 
-    assign.if(!P0.new) R2,#0x0 
-    immext #0x80 
-    memb.if(!P0.new) (R17+##0x87),R2.new 
-    memd R17R16,(SP+#0x28) ; memd R19R18,(SP+#0x20) 
-    memd R21R20,(SP+#0x18) ; memd R23R22,(SP+#0x10) 
-    memd R25R24,(SP+#0x8) 
-    memd R27R26,(SP) 
-
-############################################################
-CODE #0x7B HIT #25
-############################################################
-FUNCTION = c1a10968 FUN_c1a10968
-ADDRESS = c1a10a84
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    jump.if:nt cmp.gtu(R2.new,#0x1c),0xc1a10c4c 
-    cmp.eq P0,R21,#0x0 
-    memw R3,(R26) 
-    memw R4,(R3+#0x4) 
-    jump.if(P0) 0xc1a10a70 
->>> memub R23,(R4+#0x141) 
->>> memub R22,(R4+#0x142) 
-    memw R4,(R3+#0x24) 
-    jump.if:nt cmp.eq(R4.new,#0x0),0xc1a10a70 
-    memw R4,(R4+R21<<#0x2) 
-    cmp.eq P0,R4,#0x0 
-    immext #0xc0 
->>> memub.if(!P0) R22,(R4+##0xf1) 
-    immext #0x80 
->>> memub.if(!P0) R23,(R4+##0xa9) 
-    assign R24,#0x0 
->>> cmp.eq P0,R22,#0x1 ; jump.if(!P0.new):t 0xc1a10a8c 
-    memw R4,(R3+#0x54) 
-    addasl R4,R4,R21,#0x2 
-    memw R4,(R4+#0xb0) 
->>> memb R4,(R4+#0x7b) 
->>> cmp.eq R24,R4,#0x1 
-    immext #0xc4f70cc0 
-    assign R27,##0xc4f70cd0 
-    memw R4,(R3+#0x6c) 
->>> memb R4,(R4+#0x1) 
-    jump.if:nt cmp.eq(R4.new,#0x0),0xc1a10adc 
-    asl R5,R19,#0x8 
-    assign R6,#0x17 
-    assign R4,R23 
-    memw R2,(R3+#0x54) 
-    addasl R2,R2,R21,#0x2 
-    immext #0x300 
-    or R5,R6,and(R5,##0x300) 
-    memw R6,(R25) 
-    combine R3R2,R22,R24 
-    memw R7,(R2+#0xb0) 
->>> call 0xc1620c20 
->>> memub R1,(R7+#0x7b) 
-    memw (SP),R6 
-    add R1,R13,#0x4a71 
-
-############################################################
-CODE #0x7B HIT #26
-############################################################
-FUNCTION = c1a10968 FUN_c1a10968
-ADDRESS = c1a10acc
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    addasl R4,R4,R21,#0x2 
-    memw R4,(R4+#0xb0) 
->>> memb R4,(R4+#0x7b) 
->>> cmp.eq R24,R4,#0x1 
-    immext #0xc4f70cc0 
-    assign R27,##0xc4f70cd0 
-    memw R4,(R3+#0x6c) 
->>> memb R4,(R4+#0x1) 
-    jump.if:nt cmp.eq(R4.new,#0x0),0xc1a10adc 
-    asl R5,R19,#0x8 
-    assign R6,#0x17 
-    assign R4,R23 
-    memw R2,(R3+#0x54) 
-    addasl R2,R2,R21,#0x2 
-    immext #0x300 
-    or R5,R6,and(R5,##0x300) 
-    memw R6,(R25) 
-    combine R3R2,R22,R24 
-    memw R7,(R2+#0xb0) 
->>> call 0xc1620c20 
->>> memub R1,(R7+#0x7b) 
-    memw (SP),R6 
-    add R1,R13,#0x4a71 
->>> memub R2,(R16+#0x4) 
-    +mpyi R3,R2,#0x3 
-    cmp.eq P0,R24,#0x0 
-    add.if(P0) R2,R27,R3 
-    immext #0xc4f70d00 
-    add.if(!P0) R2,R3,##0xc4f70d30 
-    jump.if(!P0) 0xc1a10b04 
->>> memub R3,(R2) 
-    memb (R18),R3.new 
-    immext #0xfffd1000 
-    cmp.eq P0,R3,#0x8 ; jump.if(P0.new):nt 0xc19e1b38 
-    or R4,R24,R23 
-    assign R5,#0xff 
-    bitsclr! P0,R4,R5 
-    jump.if(P0.new):nt 0xc1a10b1c 
-    cmp.eq P0,R3,#0x6 
-    memb.if(P0.new) (R18),#0x4 
->>> memb R3,(R2+#0x1) 
-
-############################################################
-CODE #0x7B HIT #27
-############################################################
-FUNCTION = c1a31730 FUN_c1a31730
-ADDRESS = c1a31adc
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    combine R1R0,R24,##0xf8272930 
->>> memub R3,(SP+#0x75) 
-    memw (SP+#0x14),R3.new 
->>> memub R3,(SP+#0x74) 
-    memw (SP+#0x10),R3.new 
->>> memub R3,(SP+#0x73) 
-    memw (SP+#0xc),R3.new 
->>> memub R3,(SP+#0x72) 
-    memw (SP+#0x8),R3.new 
->>> memub R2,(SP+#0x70) 
-    memw (SP+#0x4),R2 
->>> call 0xc1ad13dc 
-    combine R3R2,R25,#0x9 
-    memw (SP),R2 
->>> memub R5,(SP+#0x78) 
-    memb R2,(R17) 
->>> add R1,R2,#0x1 
-    assign R2,#0x7 
->>> memub R6,(SP+#0x7c) 
-    memw (SP+#0xc),R6.new 
->>> memub R0,(SP+#0x7b) 
-    memw (SP+#0x8),R0.new 
->>> memub R6,(SP+#0x7a) 
-    memw (SP+#0x4),R6.new 
->>> memub R3,(SP+#0x76) 
->>> memub R0,(SP+#0x79) 
-    immext #0xf8272900 
-    assign R0,##0xf8272938 
->>> memub R4,(SP+#0x77) 
-    memw (SP),R0 
->>> call 0xc1ad1344 
-    memw (R16+#0x508),R21 
->>> memub R2,(R21+#0x1c) 
->>> tstbit P0,R2,#0x1 
-    assign.if(!P0.new) R0,R21 
-    jump.if(P0.new):t 0xc1a31be0 
->>> call 0xc16a0d00 
-    assign R2,#0x0 
-    memh (R16+#0x50e),R2.new 
-    memh (R16+#0x50c),R0.L 
->>> memw (R21+#0x1c),setbit(#0x1) 
-
-############################################################
-CODE #0x7B HIT #28
-############################################################
-FUNCTION = c1a31730 FUN_c1a31730
-ADDRESS = c1a32128
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    combine R1R0,R21,##0xf8272968 
->>> memub R3,(SP+#0x75) 
-    memw (SP+#0x14),R3.new 
->>> memub R3,(SP+#0x74) 
-    memw (SP+#0x10),R3.new 
->>> memub R3,(SP+#0x73) 
-    memw (SP+#0xc),R3.new 
->>> memub R3,(SP+#0x72) 
-    memw (SP+#0x8),R3.new 
->>> memub R2,(SP+#0x70) 
-    memw (SP+#0x4),R2 
->>> call 0xc1ad13dc 
-    combine R3R2,R22,#0x9 
-    memw (SP),R2 
->>> memub R5,(SP+#0x78) 
-    memb R2,(R17) 
->>> add R1,R2,#0x1 
-    assign R2,#0x7 
->>> memub R6,(SP+#0x7c) 
-    memw (SP+#0xc),R6.new 
->>> memub R0,(SP+#0x7b) 
-    memw (SP+#0x8),R0.new 
->>> memub R6,(SP+#0x7a) 
-    memw (SP+#0x4),R6.new 
->>> memub R3,(SP+#0x76) 
->>> memub R0,(SP+#0x79) 
-    immext #0xf8272940 
-    assign R0,##0xf8272970 
->>> memub R4,(SP+#0x77) 
-    memw (SP),R0 
->>> call 0xc1ad1344 
->>> call 0xc16a0d00 
-    assign R0,R24 
-    memw (R16+#0x508),R24 
-    assign R2,#0x0 
-    memh (R16+#0x50e),R2.new 
-    memh (R16+#0x50c),R0.L 
->>> memw (R24+#0x1c),setbit(#0x1) 
-    memw R0,(SP+#0x60) 
-    memb R2,(R0+#0x11) 
-    jump.if:t !cmp.eq(R2.new,#0x0),0xc1a32224 
-
-############################################################
-CODE #0x7B HIT #29
-############################################################
-FUNCTION = c1a728d8 FUN_c1a728d8
-ADDRESS = c1a72a70
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    jump.if:t cmp.gtu(R3.new,R2),0xc1a72a74 
-    sub R2,R19,R3 
-    add R7,R23,#0x7889 
-    add R0,R23,#0x788c 
-    assign R1,#0x0 
-    immext #0xffffffc0 
-    add R2,##0xffffffff,asl(R2,#0x18) 
-    add R6,R2,#0x5 
->>> memh (R23+#0x12),#0x1 
-    immext #0x9ffffc0 
-    cmp.gtu P0,R2,##0x9fffffe 
-    assign R2,#0x3a2 
-    memb (R23+#0xc),#-0x1 
->>> call 0xc1620d4c 
-    assign.if(!P0) R19,R3 
-    mux R21,P0,#0x5,R6 
-    memb (R7),#0x0 
->>> call 0xc1620d4c 
-    add R0,R23,#0x7806 
-    assign R1,#0x0 
->>> assign R2,#0x7b 
->>> memub R2,(R23+#0x12) 
-    assign R3,#0xff 
-    memw (SP+#0xc),R17 
-    bitsclr P0,R2,R3 
-    assign.if(!P0.new) R4,R25 
-    jump.if(P0.new):nt 0xc1a73818 
-    memb.if(!P0.new) R2,(R23+#0xc) 
-    assign R3,R25 
-    cmp.eq P0,R2,#-0x1 
-    immext #0xcaebbe00 
-    assign R26,##0xcaebbe34 
-    immext #0xcbaa0600 
->>> add R4,##0xcbaa0618,asl(R4,#0x1) 
-    assign.if(P0) R0,R25 
-    memw (SP+#0x30),R4.new 
-    immext #0xcbf284c0 
-    add R3,##0xcbf284e8,asl(R3,#0x2) 
-    jump.if(!P0) 0xc1a72b10 
-    memw (SP+#0x28),R3.new 
->>> call 0xc1a73854 
-
-############################################################
-CODE #0x7B HIT #30
-############################################################
-FUNCTION = c1a83914 FUN_c1a83914
-ADDRESS = c1a8393c
-ROUTE SCORE = 120
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = false
-NEAR PACKET READ = false
-NEAR CALL = true
-
-    assign R2,R0 
-    cmp.gtu P0,R0,#0x4 
-    memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-    jump.if(P0) 0xc1a83a18 
-    immext #0x38d00 
-    assign R2,##0x38d3f 
-    immext #0xc4957f00 
-    memw R3,(R2<<#0x2+##0xc4957f08) 
-    jumpr R3 
-    add R3,R1,#-0x80 
->>> cmph.gtu P0,R3,#0x7b 
-    immext #0xffff8000 
-    add.if(!P0.new) R2,R2,##0xffff8001 
-    jump.if(P0.new):t 0xc1a83958 
-    immext #0x2f99ab40 
-    add R16,##0x2f99ab40,mpyi(R1,R2) 
-    jump 0xc1a83a28 
-    combine R3R2,#0x0,#0x0 
-    immext #0xf805a080 
-    assign R0,##0xf805a0b8 ; assign R16,#0x0 
->>> call 0xc1aada40 
-    jump 0xc1a83a28 
-    cmph.gtu P0,R1,#0x7c 
-    immext #0xfffffc00 
-    add.if(P0.new) R3,R1,##0xfffffc31 
-    jump.if(P0.new):t 0xc1a8398c 
-    add R2,R2,#-0x7fff 
-    immext #0x350c5280 
-    add R16,##0x350c5280,mpyi(R1,R2) 
-    jump 0xc1a83a28 
-    cmph.gtu P0,R3,#0x30 
-
-############################################################
-CODE #0x7B HIT #31
-############################################################
-FUNCTION = c1abbe14 FUN_c1abbe14
-ADDRESS = c1abbe18
-ROUTE SCORE = 120
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = false
-NEAR PACKET READ = false
-NEAR CALL = true
-
-    combine R17R16,R0,R1 
->>> assign R0,#0x7b 
-    memd (SP+#-0x10),R17R16 ; allocframe #0x10 
->>> call 0xc1ab009c 
-    memd (SP),R19R18 
-    assign R18,R0 ; cmp.eq P0,R0,#0x0 
-    immext #0xffbdbb80 
->>> call.if(!P0) 0xc16979d0 
-    combine.if(!P0) R1R0,R16,R18 
-    combine.if(!P0) R3R2,R16,R17 
-    assign R0,R18 
-    memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0) 
-    dealloc_return 
-
-############################################################
-CODE #0x7B HIT #32
-############################################################
-FUNCTION = c1af9db0 FUN_c1af9db0
-ADDRESS = c1af9e9c
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    memb (R17+#0x2),R1 ; memb (R17+#0x4),#0x0 
-    add R1,SP,#0x4 
-    add R0,R17,#0x8 
->>> memb (R17+#0x1),R0 ; memb (R17+#0x3),R2 
-    assign R2,#0x6c 
-    memb (R17),R18 ; memb (R17+#0x7),#0x0 
-    memb (R17+#0x6),#0x0 ; memb (R17+#0x5),#0x0 
->>> call 0xc16b3900 
-    assign R6,#0x12 
-    assign R5,#0x34 
->>> memub R3,(SP+#0x1) 
-    memb (R17+#0x75),R3.new 
-    immext #0xf80002c0 
-    combine R1R0,R18,##0xf80002d8 
->>> memub R4,(SP+#0x2) 
-    memb (R17+#0x76),R4.new 
-    combine R3R2,R20,R21 
->>> memub R7,(SP+#0x3) 
-    memb (R17+#0x77),R7.new 
-    memb (R17+#0x74),R22 
->>> memb (R17+#0x7b),R6 
-    memb (R17+#0x79),R5 
-    memb (R17+#0x7a),R6 
->>> call 0xc1aada40 
-    memb (R17+#0x78),R5 
-    assign R0,R16 
-    memd R17R16,(SP+#0x88) ; memd R19R18,(SP+#0x80) 
-    memd R21R20,(SP+#0x78) ; memd R23R22,(SP+#0x70) 
-    dealloc_return 
-
-############################################################
-CODE #0x7B HIT #33
-############################################################
-FUNCTION = c1b96464 FUN_c1b96464
-ADDRESS = c1b9685c
-ROUTE SCORE = 140
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = false
-NEAR PACKET READ = true
-NEAR CALL = false
-
-    memb (R16+#0xf7),R0 
-    memb (R16+#0xfb),R1 
-    lsr R7R6,R1R0,#0x28 
-    lsr R3,R0,#0x10 
-    memb (R16+#0xfa),R3 
-    memb (R16+#0xfe),R6 
-    lsr R3,R0,#0x8 
-    memb (R16+#0xf9),R3 
-    memb (R16+#0xfc),R6 
-    memb (R16+#0xf8),R3 
-    memd R1R0,(R18+#0x148) 
-    lsr R3,R1,#0x10 
-    lsr R7R6,R1R0,#0x38 
-    memb (R16+#0x7a),R3.new 
-    lsr R3,R0,#0x18 
-    memb (R16+#0x74),R0 
-    memb (R16+#0x78),R1 
-    lsr R7R6,R1R0,#0x28 
-    lsr R3,R0,#0x10 
-    memb (R16+#0x77),R3 
->>> memb (R16+#0x7b),R6 
-    lsr R3,R0,#0x8 
-    memb (R16+#0x76),R3 
-    memb (R16+#0x79),R6 
-    jump.if(P0) 0xc1b968f4 
-    memb (R16+#0x75),R3 
-    immext #0xc4e82d40 
-    memw R2,(R2<<#0x2+##0xc4e82d40) 
-    memd R1R0,(R2+#0x120) 
-    lsr R3,R1,#0x10 
-    lsr R5R4,R1R0,#0x38 
-    memb (R16+#0x82),R3.new 
-    lsr R3,R0,#0x18 
-    lsr R7R6,R1R0,#0x28 
-    memb (R16+#0x7c),R0 
-    memb (R16+#0x83),R4 
-    lsr R3,R0,#0x10 
-    memb (R16+#0x7f),R3 
-    memb (R16+#0x80),R1 
-    lsr R3,R0,#0x8 
-    memb (R16+#0x7e),R3 
-
-############################################################
-CODE #0x7B HIT #34
-############################################################
-FUNCTION = c1bfc468 FUN_c1bfc468
-ADDRESS = c1bfc770
-ROUTE SCORE = 140
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = false
-NEAR PACKET READ = true
-NEAR CALL = false
-
-    lsr R1,R4,#0x10 
-    memb (R19+#0x53),R6.new 
-    lsr R4,R4,#0x8 
-    memb (R19+#0x51),R4.new 
-    memb (R19+#0x52),R1 
->>> memuh R4,(R3+#0x58) 
-    lsr R4,R4,#0x8 
-    memb (R19+#0x74),R4 
-    memb (R19+#0x75),R4 
->>> memuh R4,(R3+#0x5a) 
-    lsr R4,R4,#0x8 
-    memb (R19+#0x76),R4 
-    memb (R19+#0x77),R4 
->>> memuh R4,(R3+#0x5c) 
-    lsr R4,R4,#0x8 
-    memb (R19+#0x78),R4 
-    memb (R19+#0x79),R4 
->>> memuh R4,(R3+#0x5e) 
-    lsr R4,R4,#0x8 
-    memb (R19+#0x7a),R4 
->>> memb (R19+#0x7b),R4 
->>> memuh R4,(R3+#0x60) 
-    lsr R4,R4,#0x8 
-    memb (R19+#0x7c),R4 
-    memb (R19+#0x7d),R4 
->>> memuh R4,(R3+#0x54) 
-    lsr R4,R4,#0x8 
-    memb (R19+#0x70),R4 
-    memb (R19+#0x71),R4 
->>> memuh R3,(R3+#0x56) 
-    lsr R3,R3,#0x8 
-    memb (R19+#0x72),R3 
-    memb (R19+#0x73),R3 
-    memw R3,(R0+#0x260) 
-    lsr R3,R3,#0x8 
-    memb (R19+#0x7e),R3 
-    memb (R19+#0x7f),R3 
-    memw R3,(R0+#0x26c) 
-    lsr R3,R3,#0x8 
-    memb (R19+#0x80),R3 
-    memb (R19+#0x81),R3 
-
-############################################################
-CODE #0x7B HIT #35
-############################################################
-FUNCTION = c1c02bb4 FUN_c1c02bb4
-ADDRESS = c1c02ed8
-ROUTE SCORE = 200
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = false
-
-    lsr R5,R5,#0x8 
-    memb (R3+#0x99),R1 
-    memb (R3+#0x98),R1 
-    memb (R3+#0x97),R5 
-    memw R5,(R16+#0x188) 
-    lsr R1,R5,#0x18 
-    memb (R3+#0x9a),R5 
-    lsr R1,R5,#0x10 
-    lsr R5,R5,#0x8 
-    memb (R3+#0x9d),R1 
-    memb (R3+#0x9c),R1 
-    memb (R3+#0x9b),R5 
-    memw R5,(R16+#0x178) 
-    lsr R1,R5,#0x18 
-    memb (R3+#0x7a),R5 
-    lsr R1,R5,#0x10 
-    lsr R5,R5,#0x8 
-    memb (R3+#0x7d),R1 
-    memb (R3+#0x7c),R1 
->>> add R1,R2,#0x1 
->>> memb (R3+#0x7b),R5 
->>> memub R5,(R16+#0xe) 
-    memb (R3+#0x50),R5 
->>> memub R5,(R16+#0x8) 
-    memd R17R16,(SP+#0x8) 
-    memb (R3+#0x51),R5 
-    memb (R3+#0xb3),R4 
-    memb (R3+#0xb2),R4 
-    memb (R0+#0x1c),R1 
-    dealloc_return 
-
-############################################################
-CODE #0x7B HIT #36
-############################################################
-FUNCTION = c1c03380 FUN_c1c03380
-ADDRESS = c1c0354c
-ROUTE SCORE = 320
-NEAR #0x0B = true
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
->>> call 0xc1bcac90 
->>> memub R2,(R2+#0x6) 
->>> call 0xc16979d0 
-    combine R3R2,#0x10,R0 
-    add R0,R18,#0x3204 
-    assign R1,#0x10 
-    combine R1R0,#0x0,R16 ; memw R2,(R17+#0x3c) 
->>> call 0xc1bcac10 
->>> memub R2,(R2+#0x8) 
->>> call 0xc16979d0 
-    combine R3R2,#0x10,R0 
-    add R0,R18,#0x3216 
-    assign R1,#0x10 
-    memw R2,(R17+#0x3c) 
-    memw R3,(R2) 
-    jump.if:nt cmp.eq(R3.new,#0x0),0xc1c035bc 
->>> cmp.eq P0,R21,#0x1 
->>> memub R2,(R2+#0x9) 
-    memb (R24+#0x7a),R2.new 
->>> memub R2,(R20+#0x199) 
->>> memb (R24+#0x7b),R2.new 
-    memw R2,(R17+#0x3c) 
->>> memub R2,(R2+#0xb) 
-    memb (R24+#0x8c),R2.new 
-    memw R2,(R17+#0x3c) 
-    jump.if(!P0) 0xc1c035bc 
->>> memub R2,(R2+#0xc) 
-    memb (R24+#0x8d),R2.new 
-    combine R1R0,#0x0,R16 ; memw R2,(R17+#0x3c) 
->>> call 0xc1bcac90 
->>> memub R2,(R2+#0xa) 
->>> call 0xc16979d0 
-    combine R3R2,#0x10,R0 
-    add R0,R18,#0x3228 
-    assign R1,#0x10 
-    memb R2,(R20+#0x195) 
-    jump.if:nt cmp.eq(R2.new,#-1),0xc1c035b0 
-    combine R1R0,#0x0,R16 ; memw R2,(R17+#0x3c) 
->>> call 0xc1bcac10 
->>> memub R2,(R2+#0xc) 
->>> call 0xc16979d0 
-
-############################################################
-CODE #0x7B HIT #37
-############################################################
-FUNCTION = c1c03e20 FUN_c1c03e20
-ADDRESS = c1c03fa4
-ROUTE SCORE = 160
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = false
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc1c03fd0 
->>> call 0xc1bde9bc 
-    assign R0,R16 
-    cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1c03fd0 
-    memw R2,(R17+#0xb4) 
-    memb (R20+#0x51),R2.new 
-    lsr R3,R2,#0x18 
-    lsr R0,R2,#0x10 
-    memb (R20+#0x54),R3.new 
-    lsr R2,R2,#0x8 
-    memb (R20+#0x52),R2.new 
-    memb (R20+#0x53),R0 
-    memw R2,(R17+#0xb4) 
-    jump.if:nt cmp.eq(R2.new,#0x0),0xc1c03fbc 
-    add R0,R19,#0x3228 
-    assign R1,#0x10 
->>> memub R2,(R17+#0xb8) 
-    memb (R20+#0x7a),R2.new 
-    assign R3,#0x10 
->>> memub R2,(R17+#0xb9) 
->>> memb (R20+#0x7b),R2.new 
->>> call 0xc16979d0 
-    memw R2,(R17+#0xbc) 
->>> call 0xc1620d4c 
-    add R0,R19,#0x3238 
-    assign R1,#0x0 ; assign R2,#0x12 
-    assign R2,#0x0 
-    memb (R20+#0x55),R2.new 
-    jump 0xc1c03fe0 
-    memb (R20+#0x56),R2 
-    memb (R20+#0x57),R2 
->>> call 0xc1620d4c 
-    add R0,R19,#0x31fd 
-    assign R1,#0x0 
-    assign R2,#0x4d 
-    memw R3,(R22) 
-    memb (R20+#0xb3),R3.new 
-    memw R2,(R22+#0x8) 
-    memb (R20+#0xae),R2.new 
-    memw R1,(R22+#0x4) 
-    memb (R20+#0xa7),R1.new 
-
-############################################################
-CODE #0x7B HIT #38
-############################################################
-FUNCTION = c1c23828 FUN_c1c23828
-ADDRESS = c1c23998
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
->>> call 0xc1c0fbf8 
-    memh (R26+#0x10),R2.L 
-    !tstbit P0,R0,#0x2 
-    jump.if(P0.new):t 0xc1c23980 
->>> memuh.if(!P0.new) R2,(R26+#0x10) 
->>> memub.if(!P0.new) R3,(R17+#0x1) 
-    asl R4,R16,#0x8 
-    assign R6,#0x1016 
-    assign R1,R16 
-    immext #0x300 
-    or R4,R6,and(R4,##0x300) 
-    memw R5,(R25) 
->>> call 0xc1620c0c 
-    add R0,R10,#0x13d7 
-    assign R0,R20 ; memw R21,(R22) 
-    add R2,R21,#0x36cf 
->>> call 0xc199e240 
->>> memb (R2),setbit(#0x1) 
-    add R2,R21,#0x3680 
->>> memub R3,(R2+#0xa5) 
->>> memb (R2+#0x7b),R3.new 
->>> memuh R3,(R2+#0x10) 
-    memh (R2+#0x74),R3.new 
-    memw (R2+#0x70),R0 
->>> memuh R3,(R17+#0x4) 
-    memh (R2+#0x76),R3.L 
->>> memuh R3,(R17+#0x6) 
-    memh (R2+#0x78),R3.L 
->>> memub R3,(R17+#0x2) 
-    memb (R2+#0x7a),R3 
-    memb R2,(R17+#0x2) 
->>> jump.if:t !cmp.eq(R2.new,#0x1),0xc1c23b9c 
->>> call 0xc1c46144 
-    assign R2,R16 
->>> memuh R0,(R17+#0x6) 
->>> memub R1,(R26+#0xbb) 
->>> cmp.eq P0,R0,#0x1 
-    assign R2,P0 
->>> call 0xc1c0fbf8 
-    assign R21,R2 
-    assign R3,R21 
-
-############################################################
-CODE #0x7B HIT #39
-############################################################
-FUNCTION = c1c23e1c FUN_c1c23e1c
-ADDRESS = c1c23f00
-ROUTE SCORE = 220
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = true
-NEAR CALL = true
-
-    assign R5,#0x0 
-    memw R7,(GP+#0xc6e8) 
-    memw (SP),R5 
->>> call 0xc1620c2c 
-    memw (SP+#0x4),R7 
-    add R1,R4,#0x63d0 
-    assign R18,#0x2 ; jump 0xc1c2413c 
->>> call 0xc1c23cdc 
-    assign R18,#0x2 
-    assign.if(!P0.new) R0,R20 
-    cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1c2413c 
-    assign R25,R16 
-    immext #0xcb55fb80 
-    add R25,##0xcb55fb88,asl(R25,#0x2) 
-    memw R26,(R25) 
-    add R2,R26,#0x36cf 
->>> call 0xc199e240 
->>> memb (R2),setbit(#0x1) 
-    add R2,R26,#0x3680 
->>> memub R3,(R2+#0xa5) 
->>> memb (R2+#0x7b),R3.new 
->>> memuh R3,(R2+#0x10) 
-    memh (R2+#0x74),R3.new 
-    memw (R2+#0x70),R0 
->>> memuh R3,(R19+#0x4) 
-    memh (R2+#0x76),R3.L 
->>> memuh R3,(R19+#0x6) 
-    memh (R2+#0x78),R3.L 
->>> memub R3,(R19+#0x2) 
-    memb (R2+#0x7a),R3 
-    memb R2,(R19+#0x2) 
->>> jump.if:t !cmp.eq(R2.new,#0x1),0xc1c2405c 
->>> call 0xc1c0fbf8 
-    !tstbit P0,R0,#0x2 
-    jump.if(P0.new):t 0xc1c23f58 
-    asl R2,R16,#0x8 
-    assign R4,#0x1014 
-    assign R1,R16 ; memw R3,(R22) 
-    immext #0x300 
-    or R2,R4,and(R2,##0x300) 
->>> call 0xc1620bec 
-
-############################################################
-CODE #0x7B HIT #40
-############################################################
-FUNCTION = c1cc6698 FUN_c1cc6698
-ADDRESS = c1cc669c
-ROUTE SCORE = 160
-NEAR #0x0B = false
-NEAR #0x4B = false
-NEAR #0x01 = true
-NEAR PACKET READ = false
-NEAR CALL = false
-
->>> assign R0.H,#0x1 
->>> trap0 #0x7b 
-    jumpr LR 
-
-FUNCTIONS SCANNED = 24541
-CODE #0x7B HITS = 40
+REFERENCES>
+  HIT @ c486f928 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c486f908  0x00000073
+      c486f90c  0x00002006
+      c486f910  0x00000074
+      c486f914  0x00002007
+      c486f918  0x00000077
+      c486f91c  0x0000200A
+      c486f920  0x0000007A
+      c486f924  0x0000200D
+      c486f928  0x0000007B
+      c486f92c  0x0000200E
+      c486f930  0x0000007C
+      c486f934  0x0000200F
+      c486f938  0x0000007D
+      c486f93c  0x00002010
+      c486f940  0x0000007E
+      c486f944  0x00002011
+      c486f948  0x0000007F
+    <NO REFERENCES>
+  HIT @ c487ad16 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c487acf6  0x00950049
+      c487acfa  0x0038000E
+      c487acfe  0x005400A3
+      c487ad02  0x00F900CF
+      c487ad06  0x008C0062
+      c487ad0a  0x00210017
+      c487ad0e  0x004D00BA
+      c487ad12  0x00E000D6
+      c487ad16  0x0000007B
+      c487ad1a  0x0811080F
+      c487ad1e  0x082D001E
+      c487ad22  0x003C0022
+      c487ad26  0x08550833
+      c487ad2a  0x0044005A
+      c487ad2e  0x0078084B
+      c487ad32  0x08690877
+      c487ad36  0x08A50066
+    <NO REFERENCES>
+  HIT @ c48d30d0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c48d30b0  0x0000007A
+      c48d30b4  0xC48D7690
+      c48d30b8  0x00000045
+      c48d30bc  0xC48D76B7
+      c48d30c0  0x00000046
+      c48d30c4  0xC48D76EB
+      c48d30c8  0x00000047
+      c48d30cc  0xC48D771D
+      c48d30d0  0x0000007B
+      c48d30d4  0xC48D774C
+      c48d30d8  0x00000048
+      c48d30dc  0xC48D777F
+      c48d30e0  0x00000049
+      c48d30e4  0xC48D77B0
+      c48d30e8  0x0000004A
+      c48d30ec  0xC48D77E2
+      c48d30f0  0x0000004B
+    <NO REFERENCES>
+  HIT @ c48e00d4 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c48e00b4  0x00000077
+      c48e00b8  0x00000014
+      c48e00bc  0x00000078
+      c48e00c0  0x00000015
+      c48e00c4  0x00000079
+      c48e00c8  0x0000001B
+      c48e00cc  0x0000007A
+      c48e00d0  0x0000001D
+      c48e00d4  0x0000007B
+      c48e00d8  0x0000001E
+      c48e00dc  0x0000007C
+      c48e00e0  0x00000022
+      c48e00e4  0x0000007D
+      c48e00e8  0x00000023
+      c48e00ec  0x0000007E
+      c48e00f0  0x00000024
+      c48e00f4  0x0000007F
+    <NO REFERENCES>
+  HIT @ c48e0138 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c48e0118  0x00000047
+      c48e011c  0x00000084
+      c48e0120  0x00000048
+      c48e0124  0x00000085
+      c48e0128  0x00000079
+      c48e012c  0x00000086
+      c48e0130  0x0000007A
+      c48e0134  0x00000087
+      c48e0138  0x0000007B
+      c48e013c  0x00000088
+      c48e0140  0x0000007C
+      c48e0144  0x00000089
+      c48e0148  0x0000007D
+      c48e014c  0x0000008A
+      c48e0150  0x0000007E
+      c48e0154  0x0000008B
+      c48e0158  0x0000007F
+    <NO REFERENCES>
+  HIT @ c4901c74 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4901c54  0xC49017FE
+      c4901c58  0xDD10861C
+      c4901c5c  0x00000079
+      c4901c60  0xC4901807
+      c4901c64  0xDD112630
+      c4901c68  0x0000007A
+      c4901c6c  0xC4901818
+      c4901c70  0xDD108864
+      c4901c74  0x0000007B
+      c4901c78  0xC4901824
+      c4901c7c  0xDD108850
+      c4901c80  0x0000008D
+      c4901c84  0xC4901833
+      c4901c88  0xDD11D7D0
+      c4901c8c  0x0000007C
+      c4901c90  0xC4901844
+      c4901c94  0xDD11D7E4
+    <NO REFERENCES>
+  HIT @ c4901e7c BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4901e5c  0xC4901A3B
+      c4901e60  0xDD10DBC8
+      c4901e64  0x00000079
+      c4901e68  0xC4901A49
+      c4901e6c  0xDD11797C
+      c4901e70  0x0000007A
+      c4901e74  0xC4901A58
+      c4901e78  0xDD1157B4
+      c4901e7c  0x0000007B
+      c4901e80  0xC4901A67
+      c4901e84  0xDD1180EC
+      c4901e88  0x00000086
+      c4901e8c  0xC4901A73
+      c4901e90  0xDD11A488
+      c4901e94  0x00000087
+      c4901e98  0xC4901A86
+      c4901e9c  0xDD11A4A0
+    <NO REFERENCES>
+  HIT @ c49166b8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4916698  0xD8DAB068
+      c491669c  0x00000000
+      c49166a0  0x00000138
+      c49166a4  0xC49164E8
+      c49166a8  0x00000139
+      c49166ac  0xC4915E8C
+      c49166b0  0x0000013A
+      c49166b4  0xC4915EA0
+      c49166b8  0x0000007B
+      c49166bc  0xC49164FD
+      c49166c0  0x0000013F
+      c49166c4  0xC491650E
+      c49166c8  0x00000070
+      c49166cc  0xC490F116
+      c49166d0  0x00000068
+      c49166d4  0xC4912216
+      c49166d8  0x00000069
+    <NO REFERENCES>
+  HIT @ c4988f0d BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4988eed  0x3B00007B
+      c4988ef1  0x5500007B
+      c4988ef5  0x6F00007B
+      c4988ef9  0x8800007B
+      c4988efd  0xA100007B
+      c4988f01  0xB900007B
+      c4988f05  0xD100007B
+      c4988f09  0xE900007B
+      c4988f0d  0x0000007B
+      c4988f11  0x0000007C
+      c4988f15  0x5B000000
+      c4988f19  0x43574652
+      c4988f1d  0x5D414D44
+      c4988f21  0x4C46525B
+      c4988f25  0x58522E4D
+      c4988f29  0x6672205D
+      c4988f2d  0x775F6D6C
+    <NO REFERENCES>
+  HIT @ c49ad278 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c49ad258  0x00100000
+      c49ad25c  0x00000000
+      c49ad260  0x00000000
+      c49ad264  0x00000000
+      c49ad268  0x00000000
+      c49ad26c  0x00000000
+      c49ad270  0x00000000
+      c49ad274  0x00000000
+      c49ad278  0x0000007B
+      c49ad27c  0x00000140
+      c49ad280  0x1007180D
+      c49ad284  0x1007180D
+      c49ad288  0x0000003B
+      c49ad28c  0x00180000
+      c49ad290  0x000E002F
+      c49ad294  0x000E002F
+      c49ad298  0x000E000E
+    <NO REFERENCES>
+  HIT @ c4a1fd88 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a1fd68  0x00FF00FF
+      c4a1fd6c  0x00FF00FF
+      c4a1fd70  0x00FF0FFF
+      c4a1fd74  0x00FF00FF
+      c4a1fd78  0x000000FF
+      c4a1fd7c  0x00000000
+      c4a1fd80  0x00004010
+      c4a1fd84  0x22000000
+      c4a1fd88  0x0000007B
+      c4a1fd8c  0x00000104
+      c4a1fd90  0x00000020
+      c4a1fd94  0x00000000
+      c4a1fd98  0x007B2200
+      c4a1fd9c  0x01040000
+      c4a1fda0  0x00200000
+      c4a1fda4  0xFFFF0000
+      c4a1fda8  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a1fd9a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a1fd7a  0x00000000
+      c4a1fd7e  0x40100000
+      c4a1fd82  0x00000000
+      c4a1fd86  0x007B2200
+      c4a1fd8a  0x01040000
+      c4a1fd8e  0x00200000
+      c4a1fd92  0x00000000
+      c4a1fd96  0x22000000
+      c4a1fd9a  0x0000007B
+      c4a1fd9e  0x00000104
+      c4a1fda2  0x00000020
+      c4a1fda6  0xFFFFFFFF
+      c4a1fdaa  0x00FF0FFF
+      c4a1fdae  0x00FF00FF
+      c4a1fdb2  0x0FFF00FF
+      c4a1fdb6  0x00FF00FF
+      c4a1fdba  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a1fe70 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a1fe50  0x00FF00FF
+      c4a1fe54  0x00FF00FF
+      c4a1fe58  0x00FF0FFF
+      c4a1fe5c  0x00FF00FF
+      c4a1fe60  0x000000FF
+      c4a1fe64  0x00000000
+      c4a1fe68  0x00005010
+      c4a1fe6c  0x22000000
+      c4a1fe70  0x0000007B
+      c4a1fe74  0x0000037B
+      c4a1fe78  0x00000020
+      c4a1fe7c  0x00000000
+      c4a1fe80  0x007B2200
+      c4a1fe84  0x037B0000
+      c4a1fe88  0x00200000
+      c4a1fe8c  0xFFFF0000
+      c4a1fe90  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a1fe82 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a1fe62  0x00000000
+      c4a1fe66  0x50100000
+      c4a1fe6a  0x00000000
+      c4a1fe6e  0x007B2200
+      c4a1fe72  0x037B0000
+      c4a1fe76  0x00200000
+      c4a1fe7a  0x00000000
+      c4a1fe7e  0x22000000
+      c4a1fe82  0x0000007B
+      c4a1fe86  0x0000037B
+      c4a1fe8a  0x00000020
+      c4a1fe8e  0xFFFFFFFF
+      c4a1fe92  0x00FF0FFF
+      c4a1fe96  0x00FF00FF
+      c4a1fe9a  0x0FFF00FF
+      c4a1fe9e  0x00FF00FF
+      c4a1fea2  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a1ff58 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a1ff38  0x00FF00FF
+      c4a1ff3c  0x00FF00FF
+      c4a1ff40  0x00FF0FFF
+      c4a1ff44  0x00FF00FF
+      c4a1ff48  0x000000FF
+      c4a1ff4c  0x00000000
+      c4a1ff50  0x00004020
+      c4a1ff54  0x22000000
+      c4a1ff58  0x0000007B
+      c4a1ff5c  0x00000104
+      c4a1ff60  0x00000020
+      c4a1ff64  0x00000000
+      c4a1ff68  0x007B2200
+      c4a1ff6c  0x01040000
+      c4a1ff70  0x00200000
+      c4a1ff74  0xFFFF0000
+      c4a1ff78  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a1ff6a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a1ff4a  0x00000000
+      c4a1ff4e  0x40200000
+      c4a1ff52  0x00000000
+      c4a1ff56  0x007B2200
+      c4a1ff5a  0x01040000
+      c4a1ff5e  0x00200000
+      c4a1ff62  0x00000000
+      c4a1ff66  0x22000000
+      c4a1ff6a  0x0000007B
+      c4a1ff6e  0x00000104
+      c4a1ff72  0x00000020
+      c4a1ff76  0xFFFFFFFF
+      c4a1ff7a  0x00FF0FFF
+      c4a1ff7e  0x00FF00FF
+      c4a1ff82  0x0FFF00FF
+      c4a1ff86  0x00FF00FF
+      c4a1ff8a  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a20040 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a20020  0x00FF00FF
+      c4a20024  0x00FF00FF
+      c4a20028  0x00FF0FFF
+      c4a2002c  0x00FF00FF
+      c4a20030  0x000000FF
+      c4a20034  0x00000000
+      c4a20038  0x00005020
+      c4a2003c  0x22000000
+      c4a20040  0x0000007B
+      c4a20044  0x00000209
+      c4a20048  0x00000020
+      c4a2004c  0x00000000
+      c4a20050  0x007B2200
+      c4a20054  0x02090000
+      c4a20058  0x00200000
+      c4a2005c  0xFFFF0000
+      c4a20060  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a20052 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a20032  0x00000000
+      c4a20036  0x50200000
+      c4a2003a  0x00000000
+      c4a2003e  0x007B2200
+      c4a20042  0x02090000
+      c4a20046  0x00200000
+      c4a2004a  0x00000000
+      c4a2004e  0x22000000
+      c4a20052  0x0000007B
+      c4a20056  0x00000209
+      c4a2005a  0x00000020
+      c4a2005e  0xFFFFFFFF
+      c4a20062  0x00FF0FFF
+      c4a20066  0x00FF00FF
+      c4a2006a  0x0FFF00FF
+      c4a2006e  0x00FF00FF
+      c4a20072  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a20128 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a20108  0x00FF00FF
+      c4a2010c  0x00FF00FF
+      c4a20110  0x00FF0FFF
+      c4a20114  0x00FF00FF
+      c4a20118  0x000000FF
+      c4a2011c  0x00000000
+      c4a20120  0x00005040
+      c4a20124  0x22000000
+      c4a20128  0x0000007B
+      c4a2012c  0x0000014B
+      c4a20130  0x00000020
+      c4a20134  0x00000000
+      c4a20138  0x007B2200
+      c4a2013c  0x014B0000
+      c4a20140  0x00200000
+      c4a20144  0xBEBE0000
+      c4a20148  0x0FFFBEBE
+    <NO REFERENCES>
+  HIT @ c4a2013a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a2011a  0x00000000
+      c4a2011e  0x50400000
+      c4a20122  0x00000000
+      c4a20126  0x007B2200
+      c4a2012a  0x014B0000
+      c4a2012e  0x00200000
+      c4a20132  0x00000000
+      c4a20136  0x22000000
+      c4a2013a  0x0000007B
+      c4a2013e  0x0000014B
+      c4a20142  0x00000020
+      c4a20146  0xBEBEBEBE
+      c4a2014a  0x00800FFF
+      c4a2014e  0x00800080
+      c4a20152  0x0FFF0080
+      c4a20156  0x00800080
+      c4a2015a  0x00800080
+    <NO REFERENCES>
+  HIT @ c4a20210 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a201f0  0x00800080
+      c4a201f4  0x00800080
+      c4a201f8  0x00800FFF
+      c4a201fc  0x00800080
+      c4a20200  0x00000080
+      c4a20204  0x00000000
+      c4a20208  0x00005080
+      c4a2020c  0x22000000
+      c4a20210  0x0000007B
+      c4a20214  0x0000014B
+      c4a20218  0x00000020
+      c4a2021c  0x00000000
+      c4a20220  0x007B2200
+      c4a20224  0x014B0000
+      c4a20228  0x00200000
+      c4a2022c  0xBEBE0000
+      c4a20230  0x0FFFBEBE
+    <NO REFERENCES>
+  HIT @ c4a20222 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a20202  0x00000000
+      c4a20206  0x50800000
+      c4a2020a  0x00000000
+      c4a2020e  0x007B2200
+      c4a20212  0x014B0000
+      c4a20216  0x00200000
+      c4a2021a  0x00000000
+      c4a2021e  0x22000000
+      c4a20222  0x0000007B
+      c4a20226  0x0000014B
+      c4a2022a  0x00000020
+      c4a2022e  0xBEBEBEBE
+      c4a20232  0x00800FFF
+      c4a20236  0x00800080
+      c4a2023a  0x0FFF0080
+      c4a2023e  0x00800080
+      c4a20242  0x00800080
+    <NO REFERENCES>
+  HIT @ c4a202f8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a202d8  0x00800080
+      c4a202dc  0x00800080
+      c4a202e0  0x00800FFF
+      c4a202e4  0x00800080
+      c4a202e8  0x00000080
+      c4a202ec  0x00000000
+      c4a202f0  0x00004100
+      c4a202f4  0x22000000
+      c4a202f8  0x0000007B
+      c4a202fc  0x00000068
+      c4a20300  0x00000020
+      c4a20304  0x00000000
+      c4a20308  0x007B2200
+      c4a2030c  0x00680000
+      c4a20310  0x00200000
+      c4a20314  0x6E6E0000
+      c4a20318  0x01C76E6E
+    <NO REFERENCES>
+  HIT @ c4a2030a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a202ea  0x00000000
+      c4a202ee  0x41000000
+      c4a202f2  0x00000000
+      c4a202f6  0x007B2200
+      c4a202fa  0x00680000
+      c4a202fe  0x00200000
+      c4a20302  0x00000000
+      c4a20306  0x22000000
+      c4a2030a  0x0000007B
+      c4a2030e  0x00000068
+      c4a20312  0x00000020
+      c4a20316  0x6E6E6E6E
+      c4a2031a  0x006601C7
+      c4a2031e  0x00660066
+      c4a20322  0x01C70066
+      c4a20326  0x00660066
+      c4a2032a  0x00660066
+    <NO REFERENCES>
+  HIT @ c4a203e0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a203c0  0x00660066
+      c4a203c4  0x00660066
+      c4a203c8  0x006601C7
+      c4a203cc  0x00660066
+      c4a203d0  0x00000066
+      c4a203d4  0x00000000
+      c4a203d8  0x00004040
+      c4a203dc  0x22000000
+      c4a203e0  0x0000007B
+      c4a203e4  0x00000104
+      c4a203e8  0x00000020
+      c4a203ec  0x00000000
+      c4a203f0  0x007B2200
+      c4a203f4  0x01040000
+      c4a203f8  0x00200000
+      c4a203fc  0xBEBE0000
+      c4a20400  0x0FFFBEBE
+    <NO REFERENCES>
+  HIT @ c4a203f2 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a203d2  0x00000000
+      c4a203d6  0x40400000
+      c4a203da  0x00000000
+      c4a203de  0x007B2200
+      c4a203e2  0x01040000
+      c4a203e6  0x00200000
+      c4a203ea  0x00000000
+      c4a203ee  0x22000000
+      c4a203f2  0x0000007B
+      c4a203f6  0x00000104
+      c4a203fa  0x00000020
+      c4a203fe  0xBEBEBEBE
+      c4a20402  0x00800FFF
+      c4a20406  0x00800080
+      c4a2040a  0x0FFF0080
+      c4a2040e  0x00800080
+      c4a20412  0x00800080
+    <NO REFERENCES>
+  HIT @ c4a204c8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a204a8  0x00800080
+      c4a204ac  0x00800080
+      c4a204b0  0x00800FFF
+      c4a204b4  0x00800080
+      c4a204b8  0x00000080
+      c4a204bc  0x00000000
+      c4a204c0  0x00004080
+      c4a204c4  0x22000000
+      c4a204c8  0x0000007B
+      c4a204cc  0x000000D9
+      c4a204d0  0x00000020
+      c4a204d4  0x00000000
+      c4a204d8  0x007B2200
+      c4a204dc  0x00D90000
+      c4a204e0  0x00200000
+      c4a204e4  0xBEBE0000
+      c4a204e8  0x0FFFBEBE
+    <NO REFERENCES>
+  HIT @ c4a204da BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a204ba  0x00000000
+      c4a204be  0x40800000
+      c4a204c2  0x00000000
+      c4a204c6  0x007B2200
+      c4a204ca  0x00D90000
+      c4a204ce  0x00200000
+      c4a204d2  0x00000000
+      c4a204d6  0x22000000
+      c4a204da  0x0000007B
+      c4a204de  0x000000D9
+      c4a204e2  0x00000020
+      c4a204e6  0xBEBEBEBE
+      c4a204ea  0x00800FFF
+      c4a204ee  0x00800080
+      c4a204f2  0x0FFF0080
+      c4a204f6  0x00800080
+      c4a204fa  0x00800080
+    <NO REFERENCES>
+  HIT @ c4a205b0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a20590  0x00800080
+      c4a20594  0x00800080
+      c4a20598  0x00800FFF
+      c4a2059c  0x00800080
+      c4a205a0  0x00000080
+      c4a205a4  0x00000000
+      c4a205a8  0x00004010
+      c4a205ac  0x22000000
+      c4a205b0  0x0000007B
+      c4a205b4  0x0000037B
+      c4a205b8  0x00000020
+      c4a205bc  0x00000000
+      c4a205c0  0x007B2200
+      c4a205c4  0x037B0000
+      c4a205c8  0x00200000
+      c4a205cc  0xFFFF0000
+      c4a205d0  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a205c2 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a205a2  0x00000000
+      c4a205a6  0x40100000
+      c4a205aa  0x00000000
+      c4a205ae  0x007B2200
+      c4a205b2  0x037B0000
+      c4a205b6  0x00200000
+      c4a205ba  0x00000000
+      c4a205be  0x22000000
+      c4a205c2  0x0000007B
+      c4a205c6  0x0000037B
+      c4a205ca  0x00000020
+      c4a205ce  0xFFFFFFFF
+      c4a205d2  0x00FF0FFF
+      c4a205d6  0x00FF00FF
+      c4a205da  0x0FFF00FF
+      c4a205de  0x00FF00FF
+      c4a205e2  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a20698 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a20678  0x00FF00FF
+      c4a2067c  0x00FF00FF
+      c4a20680  0x00FF0FFF
+      c4a20684  0x00FF00FF
+      c4a20688  0x000000FF
+      c4a2068c  0x00000000
+      c4a20690  0x00004020
+      c4a20694  0x22000000
+      c4a20698  0x0000007B
+      c4a2069c  0x00000209
+      c4a206a0  0x00000020
+      c4a206a4  0x00000000
+      c4a206a8  0x007B2200
+      c4a206ac  0x02090000
+      c4a206b0  0x00200000
+      c4a206b4  0xFFFF0000
+      c4a206b8  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a206aa BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a2068a  0x00000000
+      c4a2068e  0x40200000
+      c4a20692  0x00000000
+      c4a20696  0x007B2200
+      c4a2069a  0x02090000
+      c4a2069e  0x00200000
+      c4a206a2  0x00000000
+      c4a206a6  0x22000000
+      c4a206aa  0x0000007B
+      c4a206ae  0x00000209
+      c4a206b2  0x00000020
+      c4a206b6  0xFFFFFFFF
+      c4a206ba  0x00FF0FFF
+      c4a206be  0x00FF00FF
+      c4a206c2  0x0FFF00FF
+      c4a206c6  0x00FF00FF
+      c4a206ca  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a22ad8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22ab8  0x00280028
+      c4a22abc  0x00280028
+      c4a22ac0  0x00280208
+      c4a22ac4  0x00280028
+      c4a22ac8  0x00000028
+      c4a22acc  0x00000000
+      c4a22ad0  0x00004080
+      c4a22ad4  0x22000000
+      c4a22ad8  0x0000007B
+      c4a22adc  0x000000DE
+      c4a22ae0  0x00000020
+      c4a22ae4  0x00000000
+      c4a22ae8  0x007B2200
+      c4a22aec  0x00DE0000
+      c4a22af0  0x00200000
+      c4a22af4  0xBEBE0000
+      c4a22af8  0x0E38BEBE
+    <NO REFERENCES>
+  HIT @ c4a22aea BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22aca  0x00000000
+      c4a22ace  0x40800000
+      c4a22ad2  0x00000000
+      c4a22ad6  0x007B2200
+      c4a22ada  0x00DE0000
+      c4a22ade  0x00200000
+      c4a22ae2  0x00000000
+      c4a22ae6  0x22000000
+      c4a22aea  0x0000007B
+      c4a22aee  0x000000DE
+      c4a22af2  0x00000020
+      c4a22af6  0xBEBEBEBE
+      c4a22afa  0x00800E38
+      c4a22afe  0x00800080
+      c4a22b02  0x0FFF0080
+      c4a22b06  0x00800080
+      c4a22b0a  0x00800080
+    <NO REFERENCES>
+  HIT @ c4a22bc0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22ba0  0x00700070
+      c4a22ba4  0x00700070
+      c4a22ba8  0x00700E38
+      c4a22bac  0x00700070
+      c4a22bb0  0x00000070
+      c4a22bb4  0x00000000
+      c4a22bb8  0x00004100
+      c4a22bbc  0x22000000
+      c4a22bc0  0x0000007B
+      c4a22bc4  0x00000054
+      c4a22bc8  0x00000020
+      c4a22bcc  0x00000000
+      c4a22bd0  0x007B2200
+      c4a22bd4  0x00540000
+      c4a22bd8  0x00200000
+      c4a22bdc  0x6E6E0000
+      c4a22be0  0x038E6E6E
+    <NO REFERENCES>
+  HIT @ c4a22bd2 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22bb2  0x00000000
+      c4a22bb6  0x41000000
+      c4a22bba  0x00000000
+      c4a22bbe  0x007B2200
+      c4a22bc2  0x00540000
+      c4a22bc6  0x00200000
+      c4a22bca  0x00000000
+      c4a22bce  0x22000000
+      c4a22bd2  0x0000007B
+      c4a22bd6  0x00000054
+      c4a22bda  0x00000020
+      c4a22bde  0x6E6E6E6E
+      c4a22be2  0x0066038E
+      c4a22be6  0x00660066
+      c4a22bea  0x01860066
+      c4a22bee  0x00660066
+      c4a22bf2  0x00660066
+    <NO REFERENCES>
+  HIT @ c4a22ca8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22c88  0x00660066
+      c4a22c8c  0x00660066
+      c4a22c90  0x00660186
+      c4a22c94  0x00660066
+      c4a22c98  0x00000066
+      c4a22c9c  0x00000000
+      c4a22ca0  0x00004200
+      c4a22ca4  0x22000000
+      c4a22ca8  0x0000007B
+      c4a22cac  0x00000054
+      c4a22cb0  0x00000020
+      c4a22cb4  0x00000000
+      c4a22cb8  0x007B2200
+      c4a22cbc  0x00540000
+      c4a22cc0  0x00200000
+      c4a22cc4  0x6E6E0000
+      c4a22cc8  0x038E6E6E
+    <NO REFERENCES>
+  HIT @ c4a22cba BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22c9a  0x00000000
+      c4a22c9e  0x42000000
+      c4a22ca2  0x00000000
+      c4a22ca6  0x007B2200
+      c4a22caa  0x00540000
+      c4a22cae  0x00200000
+      c4a22cb2  0x00000000
+      c4a22cb6  0x22000000
+      c4a22cba  0x0000007B
+      c4a22cbe  0x00000054
+      c4a22cc2  0x00000020
+      c4a22cc6  0x6E6E6E6E
+      c4a22cca  0x0066038E
+      c4a22cce  0x00660066
+      c4a22cd2  0x01860066
+      c4a22cd6  0x00660066
+      c4a22cda  0x00660066
+    <NO REFERENCES>
+  HIT @ c4a22d90 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22d70  0x00660066
+      c4a22d74  0x00660066
+      c4a22d78  0x00660186
+      c4a22d7c  0x00660066
+      c4a22d80  0x00000066
+      c4a22d84  0x00000000
+      c4a22d88  0x00004040
+      c4a22d8c  0x22000000
+      c4a22d90  0x0000007B
+      c4a22d94  0x0000014B
+      c4a22d98  0x00000020
+      c4a22d9c  0x00000000
+      c4a22da0  0x007B2200
+      c4a22da4  0x014B0000
+      c4a22da8  0x00200000
+      c4a22dac  0xFFFF0000
+      c4a22db0  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a22da2 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22d82  0x00000000
+      c4a22d86  0x40400000
+      c4a22d8a  0x00000000
+      c4a22d8e  0x007B2200
+      c4a22d92  0x014B0000
+      c4a22d96  0x00200000
+      c4a22d9a  0x00000000
+      c4a22d9e  0x22000000
+      c4a22da2  0x0000007B
+      c4a22da6  0x0000014B
+      c4a22daa  0x00000020
+      c4a22dae  0xFFFFFFFF
+      c4a22db2  0x00FF0FFF
+      c4a22db6  0x00FF00FF
+      c4a22dba  0x0FFF00FF
+      c4a22dbe  0x00FF00FF
+      c4a22dc2  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a22e78 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22e58  0x00FF00FF
+      c4a22e5c  0x00FF00FF
+      c4a22e60  0x00FF0FFF
+      c4a22e64  0x00FF00FF
+      c4a22e68  0x000000FF
+      c4a22e6c  0x00000000
+      c4a22e70  0x00004080
+      c4a22e74  0x22000000
+      c4a22e78  0x0000007B
+      c4a22e7c  0x0000014B
+      c4a22e80  0x00000020
+      c4a22e84  0x00000000
+      c4a22e88  0x007B2200
+      c4a22e8c  0x014B0000
+      c4a22e90  0x00200000
+      c4a22e94  0xFFFF0000
+      c4a22e98  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a22e8a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22e6a  0x00000000
+      c4a22e6e  0x40800000
+      c4a22e72  0x00000000
+      c4a22e76  0x007B2200
+      c4a22e7a  0x014B0000
+      c4a22e7e  0x00200000
+      c4a22e82  0x00000000
+      c4a22e86  0x22000000
+      c4a22e8a  0x0000007B
+      c4a22e8e  0x0000014B
+      c4a22e92  0x00000020
+      c4a22e96  0xFFFFFFFF
+      c4a22e9a  0x00FF0FFF
+      c4a22e9e  0x00FF00FF
+      c4a22ea2  0x0FFF00FF
+      c4a22ea6  0x00FF00FF
+      c4a22eaa  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a22f60 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22f40  0x00FF00FF
+      c4a22f44  0x00FF00FF
+      c4a22f48  0x00FF0FFF
+      c4a22f4c  0x00FF00FF
+      c4a22f50  0x000000FF
+      c4a22f54  0x00000000
+      c4a22f58  0x00004020
+      c4a22f5c  0x22000000
+      c4a22f60  0x0000007B
+      c4a22f64  0x00000209
+      c4a22f68  0x00000020
+      c4a22f6c  0x00000000
+      c4a22f70  0x007B2200
+      c4a22f74  0x02090000
+      c4a22f78  0x00200000
+      c4a22f7c  0xFFFF0000
+      c4a22f80  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a22f72 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a22f52  0x00000000
+      c4a22f56  0x40200000
+      c4a22f5a  0x00000000
+      c4a22f5e  0x007B2200
+      c4a22f62  0x02090000
+      c4a22f66  0x00200000
+      c4a22f6a  0x00000000
+      c4a22f6e  0x22000000
+      c4a22f72  0x0000007B
+      c4a22f76  0x00000209
+      c4a22f7a  0x00000020
+      c4a22f7e  0xFFFFFFFF
+      c4a22f82  0x00FF0FFF
+      c4a22f86  0x00FF00FF
+      c4a22f8a  0x0FFF00FF
+      c4a22f8e  0x00FF00FF
+      c4a22f92  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a23048 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23028  0x00FF00FF
+      c4a2302c  0x00FF00FF
+      c4a23030  0x00FF0FFF
+      c4a23034  0x00FF00FF
+      c4a23038  0x000000FF
+      c4a2303c  0x00000000
+      c4a23040  0x00004040
+      c4a23044  0x22000000
+      c4a23048  0x0000007B
+      c4a2304c  0x0000014B
+      c4a23050  0x00000020
+      c4a23054  0x00000000
+      c4a23058  0x007B2200
+      c4a2305c  0x014B0000
+      c4a23060  0x00200000
+      c4a23064  0xFFFF0000
+      c4a23068  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a2305a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a2303a  0x00000000
+      c4a2303e  0x40400000
+      c4a23042  0x00000000
+      c4a23046  0x007B2200
+      c4a2304a  0x014B0000
+      c4a2304e  0x00200000
+      c4a23052  0x00000000
+      c4a23056  0x22000000
+      c4a2305a  0x0000007B
+      c4a2305e  0x0000014B
+      c4a23062  0x00000020
+      c4a23066  0xFFFFFFFF
+      c4a2306a  0x00FF0FFF
+      c4a2306e  0x00FF00FF
+      c4a23072  0x0FFF00FF
+      c4a23076  0x00FF00FF
+      c4a2307a  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a23130 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23110  0x00FF00FF
+      c4a23114  0x00FF00FF
+      c4a23118  0x00FF0FFF
+      c4a2311c  0x00FF00FF
+      c4a23120  0x000000FF
+      c4a23124  0x00000000
+      c4a23128  0x00004080
+      c4a2312c  0x22000000
+      c4a23130  0x0000007B
+      c4a23134  0x0000014B
+      c4a23138  0x00000020
+      c4a2313c  0x00000000
+      c4a23140  0x007B2200
+      c4a23144  0x014B0000
+      c4a23148  0x00200000
+      c4a2314c  0xFFFF0000
+      c4a23150  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a23142 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23122  0x00000000
+      c4a23126  0x40800000
+      c4a2312a  0x00000000
+      c4a2312e  0x007B2200
+      c4a23132  0x014B0000
+      c4a23136  0x00200000
+      c4a2313a  0x00000000
+      c4a2313e  0x22000000
+      c4a23142  0x0000007B
+      c4a23146  0x0000014B
+      c4a2314a  0x00000020
+      c4a2314e  0xFFFFFFFF
+      c4a23152  0x00FF0FFF
+      c4a23156  0x00FF00FF
+      c4a2315a  0x0FFF00FF
+      c4a2315e  0x00FF00FF
+      c4a23162  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a23218 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a231f8  0x00FF00FF
+      c4a231fc  0x00FF00FF
+      c4a23200  0x00FF0FFF
+      c4a23204  0x00FF00FF
+      c4a23208  0x000000FF
+      c4a2320c  0x00000000
+      c4a23210  0x00004040
+      c4a23214  0x22000000
+      c4a23218  0x0000007B
+      c4a2321c  0x0000014B
+      c4a23220  0x00000020
+      c4a23224  0x00000000
+      c4a23228  0x007B2200
+      c4a2322c  0x014B0000
+      c4a23230  0x00200000
+      c4a23234  0xFFFF0000
+      c4a23238  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a2322a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a2320a  0x00000000
+      c4a2320e  0x40400000
+      c4a23212  0x00000000
+      c4a23216  0x007B2200
+      c4a2321a  0x014B0000
+      c4a2321e  0x00200000
+      c4a23222  0x00000000
+      c4a23226  0x22000000
+      c4a2322a  0x0000007B
+      c4a2322e  0x0000014B
+      c4a23232  0x00000020
+      c4a23236  0xFFFFFFFF
+      c4a2323a  0x00FF0FFF
+      c4a2323e  0x00FF00FF
+      c4a23242  0x0FFF00FF
+      c4a23246  0x00FF00FF
+      c4a2324a  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a23300 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a232e0  0x00FF00FF
+      c4a232e4  0x00FF00FF
+      c4a232e8  0x00FF0FFF
+      c4a232ec  0x00FF00FF
+      c4a232f0  0x000000FF
+      c4a232f4  0x00000000
+      c4a232f8  0x00004080
+      c4a232fc  0x22000000
+      c4a23300  0x0000007B
+      c4a23304  0x0000014B
+      c4a23308  0x00000020
+      c4a2330c  0x00000000
+      c4a23310  0x007B2200
+      c4a23314  0x014B0000
+      c4a23318  0x00200000
+      c4a2331c  0xFFFF0000
+      c4a23320  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a23312 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a232f2  0x00000000
+      c4a232f6  0x40800000
+      c4a232fa  0x00000000
+      c4a232fe  0x007B2200
+      c4a23302  0x014B0000
+      c4a23306  0x00200000
+      c4a2330a  0x00000000
+      c4a2330e  0x22000000
+      c4a23312  0x0000007B
+      c4a23316  0x0000014B
+      c4a2331a  0x00000020
+      c4a2331e  0xFFFFFFFF
+      c4a23322  0x00FF0FFF
+      c4a23326  0x00FF00FF
+      c4a2332a  0x0FFF00FF
+      c4a2332e  0x00FF00FF
+      c4a23332  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a233e8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a233c8  0x00FF00FF
+      c4a233cc  0x00FF00FF
+      c4a233d0  0x00FF0FFF
+      c4a233d4  0x00FF00FF
+      c4a233d8  0x000000FF
+      c4a233dc  0x00000000
+      c4a233e0  0x00004100
+      c4a233e4  0x22000000
+      c4a233e8  0x0000007B
+      c4a233ec  0x0000014B
+      c4a233f0  0x00000020
+      c4a233f4  0x00000000
+      c4a233f8  0x007B2200
+      c4a233fc  0x014B0000
+      c4a23400  0x00200000
+      c4a23404  0xFFFF0000
+      c4a23408  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a233fa BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a233da  0x00000000
+      c4a233de  0x41000000
+      c4a233e2  0x00000000
+      c4a233e6  0x007B2200
+      c4a233ea  0x014B0000
+      c4a233ee  0x00200000
+      c4a233f2  0x00000000
+      c4a233f6  0x22000000
+      c4a233fa  0x0000007B
+      c4a233fe  0x0000014B
+      c4a23402  0x00000020
+      c4a23406  0xFFFFFFFF
+      c4a2340a  0x00FF0FFF
+      c4a2340e  0x00FF00FF
+      c4a23412  0x0FFF00FF
+      c4a23416  0x00FF00FF
+      c4a2341a  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a234d0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a234b0  0x00FF00FF
+      c4a234b4  0x00FF00FF
+      c4a234b8  0x00FF0FFF
+      c4a234bc  0x00FF00FF
+      c4a234c0  0x000000FF
+      c4a234c4  0x00000000
+      c4a234c8  0x00004040
+      c4a234cc  0x22000000
+      c4a234d0  0x0000007B
+      c4a234d4  0x00000104
+      c4a234d8  0x00000020
+      c4a234dc  0x00000000
+      c4a234e0  0x007B2200
+      c4a234e4  0x01040000
+      c4a234e8  0x00200000
+      c4a234ec  0xBEBE0000
+      c4a234f0  0x0E38BEBE
+    <NO REFERENCES>
+  HIT @ c4a234e2 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a234c2  0x00000000
+      c4a234c6  0x40400000
+      c4a234ca  0x00000000
+      c4a234ce  0x007B2200
+      c4a234d2  0x01040000
+      c4a234d6  0x00200000
+      c4a234da  0x00000000
+      c4a234de  0x22000000
+      c4a234e2  0x0000007B
+      c4a234e6  0x00000104
+      c4a234ea  0x00000020
+      c4a234ee  0xBEBEBEBE
+      c4a234f2  0x00800E38
+      c4a234f6  0x00800080
+      c4a234fa  0x0FFF0080
+      c4a234fe  0x00800080
+      c4a23502  0x00800080
+    <NO REFERENCES>
+  HIT @ c4a235b8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23598  0x00700070
+      c4a2359c  0x00700070
+      c4a235a0  0x00700E38
+      c4a235a4  0x00700070
+      c4a235a8  0x00000070
+      c4a235ac  0x00000000
+      c4a235b0  0x00004080
+      c4a235b4  0x22000000
+      c4a235b8  0x0000007B
+      c4a235bc  0x000000E4
+      c4a235c0  0x00000020
+      c4a235c4  0x00000000
+      c4a235c8  0x007B2200
+      c4a235cc  0x00E40000
+      c4a235d0  0x00200000
+      c4a235d4  0xBEBE0000
+      c4a235d8  0x0FFFBEBE
+    <NO REFERENCES>
+  HIT @ c4a235ca BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a235aa  0x00000000
+      c4a235ae  0x40800000
+      c4a235b2  0x00000000
+      c4a235b6  0x007B2200
+      c4a235ba  0x00E40000
+      c4a235be  0x00200000
+      c4a235c2  0x00000000
+      c4a235c6  0x22000000
+      c4a235ca  0x0000007B
+      c4a235ce  0x000000E4
+      c4a235d2  0x00000020
+      c4a235d6  0xBEBEBEBE
+      c4a235da  0x00800FFF
+      c4a235de  0x00800080
+      c4a235e2  0x0FFF0080
+      c4a235e6  0x00800080
+      c4a235ea  0x00800080
+    <NO REFERENCES>
+  HIT @ c4a236a0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23680  0x00800080
+      c4a23684  0x00800080
+      c4a23688  0x00800FFF
+      c4a2368c  0x00800080
+      c4a23690  0x00000080
+      c4a23694  0x00000000
+      c4a23698  0x00004010
+      c4a2369c  0x22000000
+      c4a236a0  0x0000007B
+      c4a236a4  0x00000104
+      c4a236a8  0x00000020
+      c4a236ac  0x00000000
+      c4a236b0  0x007B2200
+      c4a236b4  0x01040000
+      c4a236b8  0x00200000
+      c4a236bc  0xFFFF0000
+      c4a236c0  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a236b2 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23692  0x00000000
+      c4a23696  0x40100000
+      c4a2369a  0x00000000
+      c4a2369e  0x007B2200
+      c4a236a2  0x01040000
+      c4a236a6  0x00200000
+      c4a236aa  0x00000000
+      c4a236ae  0x22000000
+      c4a236b2  0x0000007B
+      c4a236b6  0x00000104
+      c4a236ba  0x00000020
+      c4a236be  0xFFFFFFFF
+      c4a236c2  0x00FF0FFF
+      c4a236c6  0x00FF00FF
+      c4a236ca  0x0FFF00FF
+      c4a236ce  0x00FF00FF
+      c4a236d2  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a23ec8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23ea8  0x00280028
+      c4a23eac  0x00280028
+      c4a23eb0  0x00280208
+      c4a23eb4  0x00280028
+      c4a23eb8  0x00000028
+      c4a23ebc  0x00000000
+      c4a23ec0  0x00004080
+      c4a23ec4  0x22000000
+      c4a23ec8  0x0000007B
+      c4a23ecc  0x0000014B
+      c4a23ed0  0x00000020
+      c4a23ed4  0x00000000
+      c4a23ed8  0x007B2200
+      c4a23edc  0x014B0000
+      c4a23ee0  0x00200000
+      c4a23ee4  0xFFFF0000
+      c4a23ee8  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a23eda BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23eba  0x00000000
+      c4a23ebe  0x40800000
+      c4a23ec2  0x00000000
+      c4a23ec6  0x007B2200
+      c4a23eca  0x014B0000
+      c4a23ece  0x00200000
+      c4a23ed2  0x00000000
+      c4a23ed6  0x22000000
+      c4a23eda  0x0000007B
+      c4a23ede  0x0000014B
+      c4a23ee2  0x00000020
+      c4a23ee6  0xFFFFFFFF
+      c4a23eea  0x00FF0FFF
+      c4a23eee  0x00FF00FF
+      c4a23ef2  0x0FFF00FF
+      c4a23ef6  0x00FF00FF
+      c4a23efa  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a23fb0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23f90  0x00FF00FF
+      c4a23f94  0x00FF00FF
+      c4a23f98  0x00FF0FFF
+      c4a23f9c  0x00FF00FF
+      c4a23fa0  0x000000FF
+      c4a23fa4  0x00000000
+      c4a23fa8  0x00004040
+      c4a23fac  0x22000000
+      c4a23fb0  0x0000007B
+      c4a23fb4  0x0000014B
+      c4a23fb8  0x00000020
+      c4a23fbc  0x00000000
+      c4a23fc0  0x007B2200
+      c4a23fc4  0x014B0000
+      c4a23fc8  0x00200000
+      c4a23fcc  0xFFFF0000
+      c4a23fd0  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a23fc2 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a23fa2  0x00000000
+      c4a23fa6  0x40400000
+      c4a23faa  0x00000000
+      c4a23fae  0x007B2200
+      c4a23fb2  0x014B0000
+      c4a23fb6  0x00200000
+      c4a23fba  0x00000000
+      c4a23fbe  0x22000000
+      c4a23fc2  0x0000007B
+      c4a23fc6  0x0000014B
+      c4a23fca  0x00000020
+      c4a23fce  0xFFFFFFFF
+      c4a23fd2  0x00FF0FFF
+      c4a23fd6  0x00FF00FF
+      c4a23fda  0x0FFF00FF
+      c4a23fde  0x00FF00FF
+      c4a23fe2  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a24098 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24078  0x00FF00FF
+      c4a2407c  0x00FF00FF
+      c4a24080  0x00FF0FFF
+      c4a24084  0x00FF00FF
+      c4a24088  0x000000FF
+      c4a2408c  0x00000000
+      c4a24090  0x00004010
+      c4a24094  0x22000000
+      c4a24098  0x0000007B
+      c4a2409c  0x00000104
+      c4a240a0  0x00000020
+      c4a240a4  0x00000000
+      c4a240a8  0x007B2200
+      c4a240ac  0x01040000
+      c4a240b0  0x00200000
+      c4a240b4  0xFFFF0000
+      c4a240b8  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a240aa BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a2408a  0x00000000
+      c4a2408e  0x40100000
+      c4a24092  0x00000000
+      c4a24096  0x007B2200
+      c4a2409a  0x01040000
+      c4a2409e  0x00200000
+      c4a240a2  0x00000000
+      c4a240a6  0x22000000
+      c4a240aa  0x0000007B
+      c4a240ae  0x00000104
+      c4a240b2  0x00000020
+      c4a240b6  0xFFFFFFFF
+      c4a240ba  0x00FF0FFF
+      c4a240be  0x00FF00FF
+      c4a240c2  0x0FFF00FF
+      c4a240c6  0x00FF00FF
+      c4a240ca  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a24180 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24160  0x00FF00FF
+      c4a24164  0x00FF00FF
+      c4a24168  0x00FF0FFF
+      c4a2416c  0x00FF00FF
+      c4a24170  0x000000FF
+      c4a24174  0x00000000
+      c4a24178  0x00004020
+      c4a2417c  0x22000000
+      c4a24180  0x0000007B
+      c4a24184  0x00000104
+      c4a24188  0x00000020
+      c4a2418c  0x00000000
+      c4a24190  0x007B2200
+      c4a24194  0x01040000
+      c4a24198  0x00200000
+      c4a2419c  0xFFFF0000
+      c4a241a0  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a24192 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24172  0x00000000
+      c4a24176  0x40200000
+      c4a2417a  0x00000000
+      c4a2417e  0x007B2200
+      c4a24182  0x01040000
+      c4a24186  0x00200000
+      c4a2418a  0x00000000
+      c4a2418e  0x22000000
+      c4a24192  0x0000007B
+      c4a24196  0x00000104
+      c4a2419a  0x00000020
+      c4a2419e  0xFFFFFFFF
+      c4a241a2  0x00FF0FFF
+      c4a241a6  0x00FF00FF
+      c4a241aa  0x0FFF00FF
+      c4a241ae  0x00FF00FF
+      c4a241b2  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a24268 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24248  0x00FF00FF
+      c4a2424c  0x00FF00FF
+      c4a24250  0x00FF0FFF
+      c4a24254  0x00FF00FF
+      c4a24258  0x000000FF
+      c4a2425c  0x00000000
+      c4a24260  0x00004040
+      c4a24264  0x22000000
+      c4a24268  0x0000007B
+      c4a2426c  0x00000104
+      c4a24270  0x00000020
+      c4a24274  0x00000000
+      c4a24278  0x007B2200
+      c4a2427c  0x01040000
+      c4a24280  0x00200000
+      c4a24284  0xBEBE0000
+      c4a24288  0x071CBEBE
+    <NO REFERENCES>
+  HIT @ c4a2427a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a2425a  0x00000000
+      c4a2425e  0x40400000
+      c4a24262  0x00000000
+      c4a24266  0x007B2200
+      c4a2426a  0x01040000
+      c4a2426e  0x00200000
+      c4a24272  0x00000000
+      c4a24276  0x22000000
+      c4a2427a  0x0000007B
+      c4a2427e  0x00000104
+      c4a24282  0x00000020
+      c4a24286  0xBEBEBEBE
+      c4a2428a  0x009F071C
+      c4a2428e  0x009F009F
+      c4a24292  0x071C009F
+      c4a24296  0x009F009F
+      c4a2429a  0x009F009F
+    <NO REFERENCES>
+  HIT @ c4a24350 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24330  0x00800080
+      c4a24334  0x00800080
+      c4a24338  0x0080071C
+      c4a2433c  0x00800080
+      c4a24340  0x00000080
+      c4a24344  0x00000000
+      c4a24348  0x00004080
+      c4a2434c  0x22000000
+      c4a24350  0x0000007B
+      c4a24354  0x000000DE
+      c4a24358  0x00000020
+      c4a2435c  0x00000000
+      c4a24360  0x007B2200
+      c4a24364  0x00DE0000
+      c4a24368  0x00200000
+      c4a2436c  0xBEBE0000
+      c4a24370  0x071CBEBE
+    <NO REFERENCES>
+  HIT @ c4a24362 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24342  0x00000000
+      c4a24346  0x40800000
+      c4a2434a  0x00000000
+      c4a2434e  0x007B2200
+      c4a24352  0x00DE0000
+      c4a24356  0x00200000
+      c4a2435a  0x00000000
+      c4a2435e  0x22000000
+      c4a24362  0x0000007B
+      c4a24366  0x000000DE
+      c4a2436a  0x00000020
+      c4a2436e  0xBEBEBEBE
+      c4a24372  0x009F071C
+      c4a24376  0x009F009F
+      c4a2437a  0x071C009F
+      c4a2437e  0x009F009F
+      c4a24382  0x009F009F
+    <NO REFERENCES>
+  HIT @ c4a24438 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24418  0x00800080
+      c4a2441c  0x00800080
+      c4a24420  0x0080071C
+      c4a24424  0x00800080
+      c4a24428  0x00000080
+      c4a2442c  0x00000000
+      c4a24430  0x00004100
+      c4a24434  0x22000000
+      c4a24438  0x0000007B
+      c4a2443c  0x00000054
+      c4a24440  0x00000020
+      c4a24444  0x00000000
+      c4a24448  0x007B2200
+      c4a2444c  0x00540000
+      c4a24450  0x00200000
+      c4a24454  0x6E6E0000
+      c4a24458  0x02086E6E
+    <NO REFERENCES>
+  HIT @ c4a2444a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a2442a  0x00000000
+      c4a2442e  0x41000000
+      c4a24432  0x00000000
+      c4a24436  0x007B2200
+      c4a2443a  0x00540000
+      c4a2443e  0x00200000
+      c4a24442  0x00000000
+      c4a24446  0x22000000
+      c4a2444a  0x0000007B
+      c4a2444e  0x00000054
+      c4a24452  0x00000020
+      c4a24456  0x6E6E6E6E
+      c4a2445a  0x00660208
+      c4a2445e  0x00660066
+      c4a24462  0x02080066
+      c4a24466  0x00660066
+      c4a2446a  0x00660066
+    <NO REFERENCES>
+  HIT @ c4a24520 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24500  0x00660066
+      c4a24504  0x00660066
+      c4a24508  0x00660208
+      c4a2450c  0x00660066
+      c4a24510  0x00000066
+      c4a24514  0x00000000
+      c4a24518  0x00004200
+      c4a2451c  0x22000000
+      c4a24520  0x0000007B
+      c4a24524  0x00000035
+      c4a24528  0x00000020
+      c4a2452c  0x00000000
+      c4a24530  0x007B2200
+      c4a24534  0x00350000
+      c4a24538  0x00200000
+      c4a2453c  0x6E6E0000
+      c4a24540  0x02086E6E
+    <NO REFERENCES>
+  HIT @ c4a24532 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a24512  0x00000000
+      c4a24516  0x42000000
+      c4a2451a  0x00000000
+      c4a2451e  0x007B2200
+      c4a24522  0x00350000
+      c4a24526  0x00200000
+      c4a2452a  0x00000000
+      c4a2452e  0x22000000
+      c4a24532  0x0000007B
+      c4a24536  0x00000035
+      c4a2453a  0x00000020
+      c4a2453e  0x6E6E6E6E
+      c4a24542  0x00280208
+      c4a24546  0x00280028
+      c4a2454a  0x02080028
+      c4a2454e  0x00280028
+      c4a24552  0x00280028
+    <NO REFERENCES>
+  HIT @ c4a24608 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a245e8  0x00280028
+      c4a245ec  0x00280028
+      c4a245f0  0x00280208
+      c4a245f4  0x00280028
+      c4a245f8  0x00000028
+      c4a245fc  0x00000000
+      c4a24600  0x00004400
+      c4a24604  0x22000000
+      c4a24608  0x0000007B
+      c4a2460c  0x00000029
+      c4a24610  0x00000020
+      c4a24614  0x00000000
+      c4a24618  0x007B2200
+      c4a2461c  0x00290000
+      c4a24620  0x00200000
+      c4a24624  0x6E6E0000
+      c4a24628  0x02086E6E
+    <NO REFERENCES>
+  HIT @ c4a2461a BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a245fa  0x00000000
+      c4a245fe  0x44000000
+      c4a24602  0x00000000
+      c4a24606  0x007B2200
+      c4a2460a  0x00290000
+      c4a2460e  0x00200000
+      c4a24612  0x00000000
+      c4a24616  0x22000000
+      c4a2461a  0x0000007B
+      c4a2461e  0x00000029
+      c4a24622  0x00000020
+      c4a24626  0x6E6E6E6E
+      c4a2462a  0x00280208
+      c4a2462e  0x00280028
+      c4a24632  0x02080028
+      c4a24636  0x00280028
+      c4a2463a  0x00280028
+    <NO REFERENCES>
+  HIT @ c4a246f0 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a246d0  0x00280028
+      c4a246d4  0x00280028
+      c4a246d8  0x00280208
+      c4a246dc  0x00280028
+      c4a246e0  0x00000028
+      c4a246e4  0x00000000
+      c4a246e8  0x00008010
+      c4a246ec  0x22000000
+      c4a246f0  0x0000007B
+      c4a246f4  0x0000037B
+      c4a246f8  0x00000020
+      c4a246fc  0x00000000
+      c4a24700  0x007B2200
+      c4a24704  0x037B0000
+      c4a24708  0x00200000
+      c4a2470c  0xFFFF0000
+      c4a24710  0x0FFFFFFF
+    <NO REFERENCES>
+  HIT @ c4a24702 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a246e2  0x00000000
+      c4a246e6  0x80100000
+      c4a246ea  0x00000000
+      c4a246ee  0x007B2200
+      c4a246f2  0x037B0000
+      c4a246f6  0x00200000
+      c4a246fa  0x00000000
+      c4a246fe  0x22000000
+      c4a24702  0x0000007B
+      c4a24706  0x0000037B
+      c4a2470a  0x00000020
+      c4a2470e  0xFFFFFFFF
+      c4a24712  0x00FF0FFF
+      c4a24716  0x00FF00FF
+      c4a2471a  0x0FFF00FF
+      c4a2471e  0x00FF00FF
+      c4a24722  0x00FF00FF
+    <NO REFERENCES>
+  HIT @ c4a247d8 BLOCK=segment_20
+
+    NEIGHBORHOOD:
+      c4a247b8  0x00FF00FF
+      c4a247bc  0x00FF00FF
+      c4a247c0  0x00FF0FFF
+      c4a247c4  0x00FF00FF
+      c4a247c8  0x000000FF
+      c4a247cc  0x00000000
+      c4a247d0  0x00009010
+      c4a247d4  0x22000000
+      c4a247d8  0x0000007B
+      c4a247dc  0x0000037B
+      c4a247e0  0x00000020
+      c4a247e4  0x00000000
+      c4a247e8  0x007B2200
+      c4a247ec  0x037B0000
+      c4a247f0  0x00200000
+      c4a247f4  0xFFFF0000
+      c4a247f8  0x0FFFFFFF
+    <NO REFERENCES>
+  TOTAL = 100
 
 ============================================================
 DONE
 ============================================================
-FindRFDebugRoute_v3.java> Finished!
+FindRFDebugDataRegistration_v1.java> Finished!
