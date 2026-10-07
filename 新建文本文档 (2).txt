@@ -1,61 +1,78 @@
-DEFINED	c478d32e		ds "DEFAULT_FREQUENCY"	"DEFAULT_FREQUENCY"	string	18	true
-DEFINED	c47a2994		ds "tryAhbeFrequencyUpdate"	"tryAhbeFrequencyUpdate"	string	23	true
-DEFINED	c47a29ea		ds "tryAhbIxFrequencyUpdate"	"tryAhbIxFrequencyUpdate"	string	24	true
-DEFINED	c47a3392		ds "ClkRgm_CalcClockFrequency"	"ClkRgm_CalcClockFrequency"	string	26	true
-DEFINED	c47a33ac		ds "%s: DalClock_GetClockFrequency returned failure"	"%s: DalClock_GetClockFrequency returned failure"	string	48	true
-DEFINED	c47a33dc		ds "%s: Got clock frequency %u for %s. currentset freq=%u"	"%s: Got clock frequency %u for %s. currentset freq=%u"	string	54	true
-DEFINED	c47a344b		ds "ClkRgm_GetClockFrequency"	"ClkRgm_GetClockFrequency"	string	25	true
-DEFINED	c47a34e4		ds "%s: DalClock_SetClockFrequency returned failure"	"%s: DalClock_SetClockFrequency returned failure"	string	48	true
-DEFINED	c47a3545		ds "%s: Requested frequency %u for %s. Set freq=%u"	"%s: Requested frequency %u for %s. Set freq=%u"	string	47	true
-DEFINED	c47a56be		ds "Solver entry (cpu frequency: %u) (soft duration: 0x%llx) (Normal latency budget: 0x%x) (Island latency budget: 0x%x) (Island Spec: 0x%x)"	"Solver entry (cpu frequency: %u) (soft duration: 0x%llx) (Normal latency budget: 0x%x) (Island latency budget: 0x%x) (Island Spec: 0x%x)"	string	137	true
-DEFINED	c47da458		ds "Unable to allocate %lu bytes for %s frequency plan."	"Unable to allocate %lu bytes for %s frequency plan."	string	52	true
-DEFINED	c47da719		ds "DFS frequency exceeds known max. Assuming Turbo."	"DFS frequency exceeds known max. Assuming Turbo."	string	49	true
-DEFINED	c47daa63		ds "   MeasureFrequency: ERROR"	"   MeasureFrequency: ERROR"	string	27	true
-DEFINED	c47daa7e		ds "   MeasureFrequency: %d Hz"	"   MeasureFrequency: %d Hz"	string	27	true
-DEFINED	c47daa99		ds "   MeasureFrequency: NOT SUPPORTED"	"   MeasureFrequency: NOT SUPPORTED"	string	35	true
-DEFINED	c47dab9f		ds "   SetFrequency: ERROR"	"   SetFrequency: ERROR"	string	23	true
-DEFINED	c47dabb6		ds "   SetFrequency:  %d Hz"	"   SetFrequency:  %d Hz"	string	24	true
-DEFINED	c47dabce		ds "   Frequency mismatch -- wanted: %d Hz vs got: %d Hz"	"   Frequency mismatch -- wanted: %d Hz vs got: %d Hz"	string	53	true
-DEFINED	c47dac27		ds "   SetFrequency: Skipping due to DFS control"	"   SetFrequency: Skipping due to DFS control"	string	45	true
-DEFINED	c47dac54		ds "   SetFrequency: NOT SUPPORTED"	"   SetFrequency: NOT SUPPORTED"	string	31	true
-DEFINED	c47dac93		ds "   Frequency error %d Hz exceeds error margin of %d Hz"	"   Frequency error %d Hz exceeds error margin of %d Hz"	string	55	true
-DEFINED	c47dacca		ds "   Frequency error %d Hz is within error margin of %d Hz"	"   Frequency error %d Hz is within error margin of %d Hz"	string	57	true
-DEFINED	c47dad03		ds "   Frequency error %d Hz is within error tolerance of %d Hz"	"   Frequency error %d Hz is within error tolerance of %d Hz"	string	60	true
-DEFINED	c47daeb8		ds "   MeasureFrequency:        %d Hz"	"   MeasureFrequency:        %d Hz"	string	34	true
-DEFINED	c47daf9b		ds "CPU NAS[1] switch start - Frequency[%lu -> %lu] Hz"	"CPU NAS[1] switch start - Frequency[%lu -> %lu] Hz"	string	51	true
-DEFINED	c47db032		ds "CPU NPA NAS event callback for frequency[%lu]"	"CPU NPA NAS event callback for frequency[%lu]"	string	46	true
-DEFINED	c47db0a8		ds "CPU NAS[1] switch end - Frequency[%lu -> %lu] Hz"	"CPU NAS[1] switch end - Frequency[%lu -> %lu] Hz"	string	49	true
-DEFINED	c47db0d9		ds "Invalid request for frequency[%lu] when pending NAS request for frequency[%lu]."	"Invalid request for frequency[%lu] when pending NAS request for frequency[%lu]."	string	80	true
-DEFINED	c47dcb62		ds "DEFAULT_FREQUENCY"	"DEFAULT_FREQUENCY"	string	18	true
-DEFINED	c47e1009		ds "tal_clock_set_frequency: Invalid frequency %d"	"tal_clock_set_frequency: Invalid frequency %d"	string	46	true
-DEFINED	c47e1037		ds "tal_clock_set_frequency: Setting clock divider to %d"	"tal_clock_set_frequency: Setting clock divider to %d"	string	53	true
-DEFINED	c47e106c		ds "tal_clock_set_frequency: SetClockDivider(%d) failed"	"tal_clock_set_frequency: SetClockDivider(%d) failed"	string	52	true
-DEFINED	c47e10a0		ds "tal_clock_set_frequency: unsupported freq"	"tal_clock_set_frequency: unsupported freq"	string	42	true
-DEFINED	c490136a		ds "Frequency List"	"Frequency List"	string	15	true
-DEFINED	c4901f39		ds "policyman_frequency_list.c"	"policyman_frequency_list.c"	string	27	true
-DEFINED	c4e92655		ds "MAC-%02x:%02x:%02x:%02x:%02x:%02x, SSID: %s, frequency: %d, Num meas : %d, RSSI :%d, channel: %d"	"MAC-%02x:%02x:%02x:%02x:%02x:%02x, SSID: %s, frequency: %d, Num meas : %d, RSSI :%d, channel: %d"	string	97	true
-DEFINED	c4e96dcf		ds "Frequency Channel Number"	"Frequency Channel Number"	string	25	true
-DEFINED	c4e9e9c0		ds "AP number: %d MAC-%02x:%02x:%02x:%02x:%02x:%02x, SSID: %s, frequency: %d, MeasAge : %d, RSSI :%d, channel: %d"	"AP number: %d MAC-%02x:%02x:%02x:%02x:%02x:%02x, SSID: %s, frequency: %d, MeasAge : %d, RSSI :%d, channel: %d"	string	110	true
-DEFINED	c4e9ea52		ds "Collected AP number: %d MAC-%02x:%02x:%02x:%02x:%02x:%02x, SSID: %s, frequency: %d, MeasAge : %d, RSSI :%d, channel: %d"	"Collected AP number: %d MAC-%02x:%02x:%02x:%02x:%02x:%02x, SSID: %s, frequency: %d, MeasAge : %d, RSSI :%d, channel: %d"	string	120	true
-DEFINED	c4f0bb4c		ds "FREQUENCY_REDEFINITION"	"FREQUENCY_REDEFINITION"	string	23	true
-DEFINED	c4f0cad5		ds "MPH_FREQUENCY_REDEFINITION_REQ"	"MPH_FREQUENCY_REDEFINITION_REQ"	string	31	true
-DEFINED	c4f0cfe9		ds "MPH_FREQUENCY_REDEFINITION_IND"	"MPH_FREQUENCY_REDEFINITION_IND"	string	31	true
-DEFINED	c4f11726		ds "RR_G2X_BARRED_FREQUENCY_TIMER_1"	"RR_G2X_BARRED_FREQUENCY_TIMER_1"	string	32	true
-DEFINED	c4f11746		ds "RR_G2X_BARRED_FREQUENCY_TIMER_2"	"RR_G2X_BARRED_FREQUENCY_TIMER_2"	string	32	true
-DEFINED	c4f11766		ds "RR_G2X_BARRED_FREQUENCY_TIMER_3"	"RR_G2X_BARRED_FREQUENCY_TIMER_3"	string	32	true
-DEFINED	c4f11786		ds "RR_G2X_BARRED_FREQUENCY_TIMER_4"	"RR_G2X_BARRED_FREQUENCY_TIMER_4"	string	32	true
-DEFINED	c4f117a6		ds "RR_G2X_BARRED_FREQUENCY_TIMER_5"	"RR_G2X_BARRED_FREQUENCY_TIMER_5"	string	32	true
-DEFINED	c4f117c6		ds "RR_G2X_BARRED_FREQUENCY_TIMER_6"	"RR_G2X_BARRED_FREQUENCY_TIMER_6"	string	32	true
-DEFINED	c500636b		ds "+CEMBMSDATA: Frequency list must be in quotes"	"+CEMBMSDATA: Frequency list must be in quotes"	string	46	true
-DEFINED	c508273c	s_MEAS_FREQUENCY_ERROR_c508273c	ds "MEAS_FREQUENCY_ERROR"	"MEAS_FREQUENCY_ERROR"	string	21	true
-DEFINED	c5082751	s_INPUT_CW_TONE_FREQUENCY_c5082751	ds "INPUT_CW_TONE_FREQUENCY"	"INPUT_CW_TONE_FREQUENCY"	string	24	true
-DEFINED	c5082769	s_RX_FREQUENCY_ERROR_c5082769	ds "RX_FREQUENCY_ERROR"	"RX_FREQUENCY_ERROR"	string	19	true
-DEFINED	c508277c	s_APPLY_FREQUENCY_ERROR_TX_c508277c	ds "APPLY_FREQUENCY_ERROR_TX"	"APPLY_FREQUENCY_ERROR_TX"	string	25	true
-DEFINED	c5084812	s_FREQUENCY_c5084812	ds "FREQUENCY"	"FREQUENCY"	string	10	true
-DEFINED	c50d9344		ds "<event type= \"expect\" mod=\"DS\" cmd=\"VZW_DPD_PING\" sub=\"%d\">\n <arg name=\"iface_id\" value=\"%d\"/>\n<arg name=\"ioctl_name\" value=\"%d\"/>\n<arg name=\"frequency\" value=\"%d\"/>\n<arg name=\"max_wait_time\" value=\"%d\"/>\n<arg name=\"num_pings\" value=\"%d\"/>"	"<event type= \"expect\" mod=\"DS\" cmd=\"VZW_DPD_PING\" sub=\"%d\">\n <arg name=\"iface_id\" value=\"%d\"/>\n<arg name=\"ioctl_name\" value=\"%d\"/>\n<arg name=\"frequency\" value=\"%d\"/>\n<arg name=\"max_wait_time\" value=\"%d\"/>\n<arg name=\"num_pings\" value=\"%d\"/>"	string	240	true
-DEFINED	c50dfbe6		ds "<event type= \"expect\" mod=\"DS\" cmd=\"START_DPD_PING\" sub=\"%d\">\n\t\t\t\t\t\t\t\t  <arg name=\"iface_id\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"ioctl_name\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"frequency\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"max_wait_time\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"num_pings\" value=\"%d\"/>"	"<event type= \"expect\" mod=\"DS\" cmd=\"START_DPD_PING\" sub=\"%d\">\n\t\t\t\t\t\t\t\t  <arg name=\"iface_id\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"ioctl_name\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"frequency\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"max_wait_time\" value=\"%d\"/>\n\t\t\t\t\t\t\t\t  <arg name=\"num_pings\" value=\"%d\"/>"	string	291	true
-DEFINED	c50e0a0f		ds "<event type= \"expect\" mod=\"DS\" cmd=\"VZW_EMER_DPD_PING\" sub=\"%d\">\n <arg name=\"iface_id\" value=\"%d\"/>\n<arg name=\"ioctl_name\" value=\"%d\"/>\n<arg name=\"frequency\" value=\"%d\"/>\n<arg name=\"max_wait_time\" value=\"%d\"/>\n<arg name=\"num_pings\" value=\"%d\"/>"	"<event type= \"expect\" mod=\"DS\" cmd=\"VZW_EMER_DPD_PING\" sub=\"%d\">\n <arg name=\"iface_id\" value=\"%d\"/>\n<arg name=\"ioctl_name\" value=\"%d\"/>\n<arg name=\"frequency\" value=\"%d\"/>\n<arg name=\"max_wait_time\" value=\"%d\"/>\n<arg name=\"num_pings\" value=\"%d\"/>"	string	245	true
-DEFINED	c511cdca		ds "cdmaFrequency"	"cdmaFrequency"	string	14	true
-DEFINED	c511ce27		ds "frequency"	"frequency"	string	10	true
-DEFINED	c511e661		ds "downlinkFrequency"	"downlinkFrequency"	string	18	true
-DEFINED	c511f803		ds "%s: Invalid frequency %u"	"%s: Invalid frequency %u"	string	25	true
+        c9199f00 65  e3  ff  c4    addr       DAT_c4ffe365                                     = 54h    T
+        c9199f04 42  23  08  c5    addr       s_TX_CARRIER_c5082342                            = "TX_CARRIER"
+        c9199f08 37  23  08  c5    addr       s_RX_CARRIER_c5082337                            = "RX_CARRIER"
+        c9199f0c 17  23  08  c5    addr       s_DEVICE_c5082317                                = "DEVICE"
+        c9199f10 f0  42  08  c5    addr       s_THRESHOLD_c50842f0                             = "THRESHOLD"
+        c9199f14 fa  42  08  c5    addr       s_DIRECTION_c50842fa                             = "DIRECTION"
+        c9199f18 04  43  08  c5    addr       s_TIMEOUT_c5084304                               = "TIMEOUT"
+        c9199f1c 0c  43  08  c5    addr       s_RXAGC_c508430c                                 = "RXAGC"
+        c9199f20 c6  35  95  c4    addr       s_UNASSIGNED_c49535c6                            = "UNASSIGNED"
+        c9199f24 12  43  08  c5    addr       s_QUERY_COMMAND_c5084312                         = "QUERY_COMMAND"
+        c9199f28 20  43  08  c5    addr       s_QUERY_PROPERTY_c5084320                        = "QUERY_PROPERTY"
+        c9199f2c 2f  43  08  c5    addr       s_CMD_MASK_c508432f                              = "CMD_MASK"
+        c9199f30 38  43  08  c5    addr       s_PROPERTY_MASK_0_63_c5084338                    = "PROPERTY_MASK_0_63"
+        c9199f34 4b  43  08  c5    addr       s_PROPERTY_MASK_64_127_c508434b                  = "PROPERTY_MASK_64_127"
+        c9199f38 60  43  08  c5    addr       s_PROPERTY_MASK_128_191_c5084360                 = "PROPERTY_MASK_128_191"
+        c9199f3c 76  43  08  c5    addr       s_PROPERTY_MASK_192_255_c5084376                 = "PROPERTY_MASK_192_255"
+        c9199f40 c6  35  95  c4    addr       s_UNASSIGNED_c49535c6                            = "UNASSIGNED"
+        c9199f44 d8  41  08  c5    addr       s_SUB_IDX_c50841d8                               = "SUB_IDX"
+        c9199f48 65  e3  ff  c4    addr       DAT_c4ffe365                                     = 54h    T
+        c9199f4c 0c  23  08  c5    addr       DAT_c508230c                                     = 52h    R
+        c9199f50 11  23  08  c5    addr       s_CHAIN_c5082311                                 = "CHAIN"
+        c9199f54 00  23  08  c5    addr       s_CARRIER_IDX_c50822ff+1                         = "CARRIER_IDX"
+        c9199f58 db  35  95  c4    addr       s_RFM_DEVICE_c49535db                            = "RFM_DEVICE"
+        c9199f5c f0  3a  95  c4    addr       s_SIG_PATH_c4953af0                              = "SIG_PATH"
+        c9199f60 2a  23  08  c5    addr       s_ANTENNA_PATH_c508232a                          = "ANTENNA_PATH"
+        c9199f64 08  42  08  c5    addr       s_ANTENNA_NUM_c5084208                           = "ANTENNA_NUM"
+        c9199f68 f8  43  08  c5    addr       s_CURR_ASDIV_CFG_c50843f8                        = "CURR_ASDIV_CFG"
+        c9199f6c 07  44  08  c5    addr       s_CURR_ASDIV_CAL_c5084407                        = "CURR_ASDIV_CAL"
+        c9199f70 16  44  08  c5    addr       s_PEND_ASDIV_CFG_c5084416                        = "PEND_ASDIV_CFG"
+        c9199f74 25  44  08  c5    addr       s_PEND_ASDIV_CAL_c5084425                        = "PEND_ASDIV_CAL"
+        c9199f78 0c  c7  9c  c4    addr       s_PLL_ID_c49cc70c                                = "PLL_ID"
+        c9199f7c f4  5d  9d  c4    addr       DAT_c49d5df4                                     = 42h    B
+        c9199f80 4d  23  08  c5    addr       s_CHANNEL_c508234d                               = "CHANNEL"
+        c9199f84 55  23  08  c5    addr       s_BANDWIDTH_c5082355                             = "BANDWIDTH"
+        c9199f88 c6  35  95  c4    addr       s_UNASSIGNED_c49535c6                            = "UNASSIGNED"
+        c9199f8c 99  44  08  c5    addr       s_BAND_NUMBER_c5084499                           = "BAND_NUMBER"
+        c9199f90 a5  44  08  c5    addr       s_SUBBAND_NUMBER_c50844a5                        = "SUBBAND_NUMBER"
+        c9199f94 b4  44  08  c5    addr       s_RAW_RESULT_c50844b4                            = "RAW_RESULT"
+        c9199f98 bf  44  08  c5    addr       s_IF_TRX_INFO_c50844bf                           = "IF_TRX_INFO"
+        c9199f9c cb  44  08  c5    addr       s_RFTRX_ANTMOD_INTF_INFO_c50844cb                = "RFTRX_ANTMOD_INTF_INFO"
+        c9199fa0 e2  44  08  c5    addr       s_ANT_MODULE_INFO_c50844e2                       = "ANT_MODULE_INFO"
+        c9199fa4 f2  44  08  c5    addr       s_SUBBAND_FREQ_INFO_c50844f2                     = "SUBBAND_FREQ_INFO"
+        c9199fa8 04  45  08  c5    addr       s_ANT_MODULE_TYPE_c5084504                       = "ANT_MODULE_TYPE"
+        c9199fac 14  45  08  c5    addr       s_TX_RX_CAL_FEED_INFO_c5084514                   = "TX_RX_CAL_FEED_INFO"
+        c9199fb0 87  2c  08  c5    addr       s_PLATFORM_TYPE_c5082c87                         = "PLATFORM_TYPE"
+        c9199fb4 00              ??         00h
+        c9199fb5 00              ??         00h
+        c9199fb6 00              ??         00h
+        c9199fb7 00              ??         00h
+        c9199fb8 c6  35  95  c4    addr       s_UNASSIGNED_c49535c6                            = "UNASSIGNED"
+        c9199fbc 55  47  08  c5    addr       s_IS_TEARDOWN_c5084755                           = "IS_TEARDOWN"
+        c9199fc0 61  47  08  c5    addr       s_RADIO_SETUP_TYPE_c5084761                      = "RADIO_SETUP_TYPE"
+        c9199fc4 db  35  95  c4    addr       s_RFM_DEVICE_c49535db                            = "RFM_DEVICE"
+        c9199fc8 f0  3a  95  c4    addr       s_SIG_PATH_c4953af0                              = "SIG_PATH"
+        c9199fcc 69  23  08  c5    addr       s_ANT_PATH_c5082369                              = "ANT_PATH"
+        c9199fd0 72  47  08  c5    addr       s_RFM_PATH_TYPE_c5084772                         = "RFM_PATH_TYPE"
+        c9199fd4 f4  5d  9d  c4    addr       DAT_c49d5df4                                     = 42h    B
+        c9199fd8 80  47  08  c5    addr       s_SUBBAND_c5084780                               = "SUBBAND"
+        c9199fdc 09  2a  08  c5    addr       s_RESERVED_c5082a09                              = "RESERVED"
+        c9199fe0 4d  23  08  c5    addr       s_CHANNEL_c508234d                               = "CHANNEL"
+        c9199fe4 88  47  08  c5    addr       s_WAVEFORM_c5084788                              = "WAVEFORM"
+        c9199fe8 55  23  08  c5    addr       s_BANDWIDTH_c5082355                             = "BANDWIDTH"
+        c9199fec 91  47  08  c5    addr       s_NUM_RB_c5084791                                = "NUM_RB"
+        c9199ff0 98  47  08  c5    addr       s_START_RB_c5084798                              = "START_RB"
+        c9199ff4 a1  47  08  c5    addr       s_CW_OFFSET_c50847a1                             = "CW_OFFSET"
+        c9199ff8 ab  47  08  c5    addr       s_IS_DC_c50847ab                                 = "IS_DC"
+        c9199ffc 7f  39  95  c4    addr       s_MOD_TYPE_c495397f                              = "MOD_TYPE"
+        c919a000 b1  47  08  c5    addr       s_LOOPBACK_TYPE_c50847b1                         = "LOOPBACK_TYPE"
+        c919a004 e6  35  95  c4    addr       s_BEAM_ID_c49535e6                               = "BEAM_ID"
+        c919a008 bf  47  08  c5    addr       s_CC_INDEX_c50847bf                              = "CC_INDEX"
+        c919a00c c8  47  08  c5    addr       s_CC_START_RB_c50847c8                           = "CC_START_RB"
+        c919a010 d4  47  08  c5    addr       s_CC_NUM_RB_c50847d4                             = "CC_NUM_RB"
+        c919a014 de  47  08  c5    addr       s_CC_BANDWIDTH_c50847de                          = "CC_BANDWIDTH"
+        c919a018 eb  47  08  c5    addr       s_LOOPBACK_RFM_DEVICE_c50847eb                   = "LOOPBACK_RFM_DEVICE"
+        c919a01c 0c  c7  9c  c4    addr       s_PLL_ID_c49cc70c                                = "PLL_ID"
+        c919a020 ff  47  08  c5    addr       s_TUNE_TX_TO_RX_FREQ_c50847ff                    = "TUNE_TX_TO_RX_FREQ"
+        c919a024 0c  24  08  c5    addr       s_LOAD_CODEBOOK_c508240c                         = "LOAD_CODEBOOK"
+        c919a028 12  48  08  c5    addr       s_FREQUENCY_c5084812                             = "FREQUENCY"
