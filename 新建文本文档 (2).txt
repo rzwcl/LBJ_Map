@@ -1,922 +1,1305 @@
-ommand 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x7fffffff
-  RFDEBUG-like command IDs = [1, 2, 4, 5, 6, 7, 8, 10, 13, 15, 16]
-  property compare hits:
-    c17cf768  cmp.gtu P0,R23,#0x1a ; jump.if(!P0.new):t 0xc17cf788 
-  command compare hits:
-    c17cf6c4  cmp.gtu P0,R2,#0xa ; jump.if(P0.new):nt 0xc17cf6d0 
-    c17cf6f4  cmp.gt P0,R23,#0x7 
-    c17cf720  cmp.gt P0,R23,#0x4 ; jump.if(P0.new):t 0xc17cf740 
-    c17cf72c  cmp.gtu P0,R5,#0x1 ; jump.if(!P0.new):t 0xc17cf848 
-    c17cf738  cmp.eq P0,R23,#0x4 ; jump.if(!P0.new):nt 0xc17cf778 
-    c17cf744  jump.if:t cmp.gtu(R5.new,#0x1),0xc17cf7b8 
-    c17cf770  jump.if:t !cmp.gtu(R5.new,#0x1),0xc17cf834 
-    c17cf774  cmp.eq P0,R23,#0x8 ; jump.if(P0.new):t 0xc17cf7a8 
-    c17cf79c  cmp.eq P0,R23,#0xd ; jump.if(P0.new):t 0xc17cf81c 
-    c17cf7bc  cmp.eq P0,R23,#0x5 ; jump.if(!P0.new):nt 0xc17cf778 
-    c17cf7ec  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc17cf80c 
-    c17cf7f0  cmp.eq P0,R2,#0x1 
-    c17cf800  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc17cf80c 
-    c17cf804  cmp.eq P0,R2,#0x1 
-    c17cfaa4  cmp.eq P0,R17,#0x5 ; jump.if(!P0.new):t 0xc17cfb8c 
-    c17cfc30  cmp.gtu P0,R2,#0x10 ; jump.if(P0.new):nt 0xc17cfff0 
-    c17cfc54  cmp.eq P0,R4,#0x0 ; memw (SP+#0x8),R22 
-    c17cfd08  cmp.eq P0,R3,#0x6 ; jump.if(!P0.new):t 0xc17cfd14 
-    c17cfd18  cmp.eq P0,R3,#0xf ; jump.if(P0.new):t 0xc17cfd50 
-    c17cfd50  cmp.eq P1,R2,#0x1 
-    c17cfd58  and R0,R21,#0xff ; cmp.eq P0,R2,#0x2 
-    c17cff1c  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0xc17cff30 
-    c17cff20  cmp.eq P0,R2,#0x1 
+2 ; jump.if(!P0.new):nt 0xc1996db4 
+      c1996dc8  call 0xc19a2f70 
+      c1996dcc  combine R1R0,#0x0,R20 
+      c1996dd0  jump 0xc1996dfc 
+      c1996dd4  combine R1R0,#0x0,R20 
+      c1996dd8  memw R3,(R0+#0x60) 
+      c1996ddc  memw R2,(R21) 
+      c1996de0  jump.if:t !cmp.eq(R2.new,R3),0xc1996df8 
+      c1996de4  call 0xc19a2f70 
+      c1996de8  jump 0xc1996dfc 
+      c1996dec  call 0xc1c37ff0 
 
-#24  SCORE=50  FUN_c1809390
-  entry = c1809390
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x2d28
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 9, 10, 14, 15, 20]
-  command compare hits:
-    c18095f4  jump.if:nt cmp.gtu(R2.new,#0x6),0xc180c3bc 
-    c1809644  !cmp.eq R3,R3,#0x1 
-    c1809648  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):t 0xc1809a1c 
-    c18096a8  jump.if:t !cmp.gtu(R3.new,#0x1),0xc1809768 
-    c18096c4  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1809768 
-    c18096f8  cmp.gtu P0,R23,#0x1 
-    c1809724  cmp.gtu P1,R7,#0x1 
-    c18097a8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc1809a10 
-    c1809878  jump.if:t cmp.gtu(R18.new,#0x3),0xc1809950 
-    c1809900  cmp.gtu P0,R19,#0x9 ; jump.if(!P0.new):t 0xc1809914 
-    c18099f0  jump.if:nt cmp.gtu(R2.new,#0x1),0xc180c3e8 
-    c18099f8  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc180c3f8 
-    c1809ad4  jump.if:nt cmp.gtu(R4.new,#0x2),0xc180c418 
-    c1809c84  cmp.gtu P1,R14,#0x1 
-    c1809da8  jump.if:t !cmp.eq(R13.new,#0x3),0xc1809c6c 
-    c1809db0  cmp.gtu P0,R2,#0xa ; jump.if(P0.new):nt 0xc180c428 
-    c180a008  assign R3,#0x1 ; cmp.eq P0,R16,#0x0 
-    c180a090  jump.if:t !cmp.gtu(R19.new,#0x3),0xc180a09c 
-    c180a0ec  cmp.gt P0,R19,#0x2 
-    c180a110  cmp.eq P0,R19,#0x1 ; jump.if(P0.new):nt 0xc180a1cc 
-    c180a120  cmp.eq P1,R19,#0x2 
-    c180a138  cmp.gtu P0,R2,#0x1 ; jump.if(P0.new):nt 0xc180a158 
-    c180a158  cmp.eq P0,R19,#0x3 ; jump.if(P0.new):t 0xc180a218 
-    c180a180  cmp.eq P0,R2,#0x1 
-    c180a198  cmp.eq P0,R4,#0x1 ; jump.if(P0.new):t 0xc180a1a4 
-    c180a1a4  cmp.eq P0,R20,#0x1 ; jump.if(!P0.new):t 0xc180a1b8 
-    c180a1bc  cmp.gtu P0,R20,#0x2 ; jump.if(P0.new):nt 0xc180c438 
-    c180a1d8  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc180a1ec 
-    c180a1ec  cmp.eq P0,R20,#0x1 ; jump.if(!P0.new):t 0xc180a204 
-    c180a208  cmp.gtu P0,R20,#0x2 ; jump.if(P0.new):nt 0xc180c448 
-    c180a25c  cmp.eq P0,R19,#0x3 
-    c180a260  cmp.gtu P1,R19,#0x2 
-    c180a2d8  cmp.gtu P0,R25,#0x3 
-    c180a45c  cmp.gtu P0,R25,#0x4 
-    c180a4f0  cmp.gtu P1,R3,#0x1 
-    c180a5e4  cmp.gtu P0,R5,#0x1 
-    c180a5f8  cmp.gtu P1,R5,#0x1 
-    c180a730  cmp.gtu P0,R9,#0x1 
-    c180a994  cmp.gt P2,R12,#0xe 
-    c180aa08  jump.if:nt cmp.eq(R2.new,#0x3),0xc180aa18 
-    c180aad0  jump.if:t cmp.eq(R2.new,#0x2),0xc180aae4 
-    c180ab64  cmp.eq P0,R5,#0x1 
-    c180aba8  jump.if:t !cmp.eq(R3.new,#0x1),0xc180abc0 
-    c180ad88  cmp.gtu P0,R16,#0x5 ; jump.if(P0.new):nt 0xc180c488 
-    c180ad98  cmp.gtu P1,R2,#0x1 ; jump.if(P1.new):t 0xc180ada8 
-    c180ada4  cmp.gtu P0,R2,#0x1 
-    c180add0  cmp.gtu P2,R4,#0x3 
-    c180ae04  jump.if:nt cmp.gtu(R3.new,#0x5),0xc180c498 
-    c180aed8  jump.if:t cmp.gt(R8.new,#0x2),0xc180af00 
-    c180aedc  cmp.eq P0,R8,#0x1 
-    c180aee4  cmp.eq P0,R8,#0x2 
-    c180aeec  cmp.eq P0,R7,#0x2 
-    c180aef0  cmp.eq P1,R7,#0x1 
-    c180af00  cmp.eq P0,R8,#0x3 
-    c180af08  cmp.eq P0,R8,#0x4 
-    c180af10  cmp.eq P0,R8,#0x5 
-    c180af1c  cmp.eq P0,R7,#0x2 ; jump.if(P0.new):t 0xc180af28 
-    c180af4c  cmp.eq P0,R12,#0x1 
-    c180aff8  cmp.gtu P0,R28,#0x4 
-    c180b054  cmp.gt P0,R6,#0xe ; jump.if(P0.new):t 0xc180b080 
-    c180b058  cmp.eq P0,R6,#0x5 
-    c180b06c  cmp.eq P0,R6,#0xa ; jump.if(!P0.new):nt 0xc180b0a8 
-    c180b080  cmp.eq P0,R6,#0xf 
-    c180b094  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180b0a8 
-    c180b0c0  cmp.eq P1,R9,#0x5 
-    c180b0d4  cmp.eq P0,R6,#0xa ; jump.if(!P0.new):nt 0xc180b0ec 
-    c180b0f0  cmp.eq P0,R6,#0xf ; jump.if(!P0.new):nt 0xc180b108 
-    c180b114  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180b144 
-    c180b144  cmp.eq P0,R9,#0xa 
-    c180b154  cmp.eq P1,R6,#0xf ; jump.if(!P1.new):nt 0xc180b184 
-    c180b190  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180b1c0 
-    c180b1c0  cmp.eq P0,R9,#0xf 
-    c180b1cc  cmp.eq P0,R6,#0x14 ; jump.if(!P0.new):nt 0xc180c3ac 
-    c180b334  cmp.gt P0,R17,#0x2 
-    c180b35c  cmp.eq P0,R17,#0x1 ; jump.if(P0.new):nt 0xc180ba74 
-    c180b364  cmp.eq P0,R17,#0x2 ; jump.if(!P0.new):nt 0xc180ba80 
-    c180b368  cmp.eq P0,R19,#0x2 
-    c180b36c  cmp.eq P1,R19,#0x1 
-    c180b380  cmp.eq P0,R17,#0x3 ; jump.if(P0.new):nt 0xc180ba44 
-    c180b388  cmp.eq P0,R17,#0x4 ; jump.if(P0.new):nt 0xc180ba68 
-    c180b390  cmp.eq P0,R17,#0x5 ; jump.if(!P0.new):nt 0xc180ba80 
-    c180b398  cmp.eq P0,R19,#0x2 ; jump.if(P0.new):t 0xc180b3a4 
-    c180b3d4  jump.if:t !cmp.eq(R28.new,#0x2),0xc180b3ec 
-    c180b3ec  cmp.eq P0,R28,#0x3 
-    c180b40c  cmp.eq P0,R17,#0x3 
-    c180b414  cmp.eq P1,R28,#0x4 
-    c180b82c  jump.if:t cmp.gtu(R3.new,#0x1),0xc180bb0c 
-    c180ba00  cmp.eq P0,R7,#0x1 ; jump.if(!P0.new):t 0xc180ba0c 
-    c180ba14  cmp.eq P0,R7,#0x2 ; jump.if(P0.new):t 0xc180af28 
-    c180ba1c  cmp.eq P0,R7,#0x4 ; jump.if(P0.new):t 0xc180af24 
-    c180ba24  assign R3,#0x4 ; cmp.eq P0,R7,#0x1 
-    c180ba24  assign R3,#0x4 ; cmp.eq P0,R7,#0x1 
-    c180ba38  cmp.eq P0,R7,#0x1 ; jump.if(P0.new):t 0xc180af28 
-    c180ba44  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc180ba50 
-    c180ba58  cmp.eq P0,R19,#0x2 ; jump.if(P0.new):t 0xc180b3a4 
-    c180ba60  cmp.eq P0,R19,#0x4 ; jump.if(P0.new):t 0xc180b3a0 
-    c180ba68  assign R3,#0x4 ; cmp.eq P0,R19,#0x1 
-    c180ba68  assign R3,#0x4 ; cmp.eq P0,R19,#0x1 
-    c180ba7c  cmp.eq P0,R19,#0x1 ; jump.if(P0.new):t 0xc180b3a4 
-    c180bce0  jump.if:t cmp.gtu(R5.new,#0x7),0xc180bcf4 
-    c180be04  cmp.gtu P0,R9,#0x1 
-    c180be14  cmp.gtu P0,R14,#0x1 
-    c180be2c  cmp.gtu P0,R14,#0x1 
-    c180bf64  cmp.gtu P0,R2,#0x1 
-    c180bfc0  jump.if:t cmp.gtu(R2.new,#0x1),0xc180bfd8 
-    c180c14c  jump.if:t cmp.gtu(R2.new,#0x1),0xc180c15c 
-    c180c274  jump.if:nt !cmp.gtu(R0.new,#0x2),0xc180c2a0 
-    c180c27c  jump.if:t !cmp.gtu(R3.new,#0x1),0xc180c29c 
-    c180c280  cmp.eq P0,R5,#0x3 ; jump.if(!P0.new):nt 0xc180c28c 
-    c180c2a0  cmp.gtu P0,R5,#0x3 
-    c180c31c  cmp.gtu P0,R5,#0x3 
+------------------------------------------------------------
+FOCUS @ c1996dc0
+------------------------------------------------------------
+      c1996d98  combine R1R0,#0x0,R20 
+      c1996d9c  jump 0xc1997230 
+      c1996da0  call 0xc19a1ba0 
+      c1996da4  memub R1,(R20+#0x14) 
+      c1996da8  jump.if:t cmp.gt(R1.new,#0x1),0xc1996dc0 
+      c1996dac  cmp.eq P0,R1,#0x0 ; jump.if(P0.new):t 0xc1996dec 
+      c1996db0  cmp.eq P0,R1,#0x1 ; jump.if(P0.new):t 0xc1996dfc 
+      c1996db4  call 0xc16fd418 
+      c1996db8  immext #0xcf8e4700 
+      c1996dbc  assign R0,##0xcf8e4708 
+  >>> c1996dc0  cmp.eq P0,R1,#0x3 ; jump.if(P0.new):t 0xc1996dd4 
+      c1996dc4  cmp.eq P0,R1,#0x2 ; jump.if(!P0.new):nt 0xc1996db4 
+      c1996dc8  call 0xc19a2f70 
+      c1996dcc  combine R1R0,#0x0,R20 
+      c1996dd0  jump 0xc1996dfc 
+      c1996dd4  combine R1R0,#0x0,R20 
+      c1996dd8  memw R3,(R0+#0x60) 
+      c1996ddc  memw R2,(R21) 
+      c1996de0  jump.if:t !cmp.eq(R2.new,R3),0xc1996df8 
+      c1996de4  call 0xc19a2f70 
+      c1996de8  jump 0xc1996dfc 
+      c1996dec  call 0xc1c37ff0 
+      c1996df0  combine R1R0,#0x0,R20 
+      c1996df4  jump 0xc1996dfc 
+      c1996df8  call 0xc1c37ff0 
+      c1996dfc  call 0xc19a36a0 
 
-#25  SCORE=50  FUN_c180fbd4
-  entry = c180fbd4
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x6cc
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 19, 21]
-  command compare hits:
-    c180fbf4  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc180fefc 
-    c180fc28  jump.if:t cmp.gt(R3.new,#0x4),0xc180fc84 
-    c180fc2c  cmp.gt P0,R3,#0x1 ; jump.if(P0.new):t 0xc180fc64 
-    c180fc34  cmp.eq P0,R3,#0x1 ; jump.if(!P0.new):nt 0xc180feb8 
-    c180fc40  jump.if:t !cmp.eq(R2.new,#0x1),0xc180feb8 
-    c180fc64  cmp.eq P0,R3,#0x2 ; jump.if(P0.new):nt 0xc180fd28 
-    c180fc70  cmp.eq P0,R3,#0x3 ; jump.if(P0.new):nt 0xc180fd38 
-    c180fc78  cmp.eq P0,R3,#0x4 
-    c180fc84  cmp.gt P0,R3,#0x6 ; jump.if(P0.new):t 0xc180fcbc 
-    c180fc88  cmp.eq P0,R3,#0x5 ; jump.if(P0.new):nt 0xc180fdac 
-    c180fc8c  cmp.eq P0,R3,#0x6 ; jump.if(!P0.new):nt 0xc180feb8 
-    c180fcbc  cmp.eq P0,R3,#0x7 ; jump.if(P0.new):nt 0xc180fe60 
-    c180fcc8  cmp.eq P0,R3,#0x8 ; jump.if(P0.new):nt 0xc180fde4 
-    c180fcd0  cmp.eq P0,R3,#0x9 ; jump.if(!P0.new):nt 0xc180feb8 
-    c180fcf8  jump.if:t !cmp.eq(R2.new,#0x1),0xc180feb8 
-    c180fd0c  cmp.eq P0,R2,#0x5 
-    c180fd54  cmp.eq P0,R2,#0x7 ; jump.if(!P0.new):t 0xc180fd60 
-    c180fd74  cmp.eq P0,R2,#0x8 
-    c180fd88  jump.if:t !cmp.eq(R2.new,#0x7),0xc18102c0 
-    c180fe3c  jump.if:t !cmp.eq(R2.new,#0x4),0xc180fe50 
-    c180fe60  cmp.gtu P0,R2,#0x1 
-    c180ff24  jump.if:t cmp.gt(R17.new,#0x1),0xc180ff8c 
-    c180ff2c  cmp.eq P0,R17,#0x1 ; jump.if(!P0.new):nt 0xc18101d0 
-    c180ff34  jump.if:nt cmp.eq(R3.new,#0x2),0xc1810174 
-    c180ff38  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc18100cc 
-    c180ff4c  cmp.eq P0,R20,#0x2 ; jump.if(!P0.new):t 0xc180ff70 
-    c180ff70  cmp.eq R1,R20,#0x2 
-    c180ff8c  cmp.eq P0,R17,#0x4 ; jump.if(P0.new):nt 0xc180ff94 
-    c180ff90  cmp.eq P0,R17,#0x2 ; jump.if(!P0.new):nt 0xc18101d0 
-    c180ff98  jump.if:nt cmp.eq(R3.new,#0x4),0xc1810090 
-    c180ff9c  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc180fff0 
-    c180ffb0  cmp.eq P0,R20,#0x2 ; jump.if(!P0.new):t 0xc180ffd4 
-    c180ffd4  cmp.eq R1,R20,#0x2 
-    c180fff4  jump.if:t !cmp.eq(R3.new,#0x2),0xc18101bc 
-    c1810010  jump.if:t !cmp.eq(R3.new,#0x4),0xc1810080 
-    c181001c  jump.if:nt !cmp.eq(R2.new,#0x1),0xc1810078 
-    c18100d0  jump.if:t !cmp.eq(R3.new,#0x2),0xc18101bc 
-    c18100ec  jump.if:t !cmp.eq(R3.new,#0x5),0xc1810164 
-    c18100f8  jump.if:nt !cmp.eq(R2.new,#0x1),0xc1810154 
-    c18101c8  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc18101d8 
-    c18101d4  jump.if:t !cmp.eq(R2.new,#0x1),0xc1810264 
-    c1810228  jump.if:nt cmp.eq(R2.new,#0x15),0xc1810230 
-    c181022c  cmp.eq P0,R2,#0x13 ; jump.if(!P0.new):nt 0xc1810264 
-    c1810264  cmp.eq P0,R17,#0x1 ; jump.if(P0.new):nt 0xc1810288 
-    c1810268  cmp.eq P0,R17,#0x4 ; jump.if(P0.new):nt 0xc1810270 
-    c181026c  cmp.eq P0,R17,#0x2 ; jump.if(!P0.new):t 0xc18102a0 
-    c18102c0  cmp.gtu P0,R2,#0x2 
+------------------------------------------------------------
+FOCUS @ c1996e84
+------------------------------------------------------------
+      c1996e5c  jump.if(P0.new):t 0xc1996e7c 
+      c1996e60  memub.if(!P0.new) R1,(R20+#0x10) 
+      c1996e64  assign R4,#0x1016 
+      c1996e68  memw R3,(R20+#0x14) ; memw R5,(R18) 
+      c1996e6c  extractu R2,R3,#0xa,#0x10 
+      c1996e70  call 0xc1620c0c 
+      c1996e74  and R3,R3,#0xff 
+      c1996e78  add R3,R7,#0x127e 
+      c1996e7c  memub R2,(R20+#0x10) 
+      c1996e80  add R3,R2,#-0x1 
+  >>> c1996e84  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc1996ea8 
+      c1996e88  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc1996e9c 
+      c1996e8c  cmp.eq P0,R2,#0x5 ; jump.if(!P0.new):nt 0xc1996eb4 
+      c1996e90  call 0xc1c39128 
+      c1996e94  combine R1R0,#0x0,R20 
+      c1996e98  jump 0xc1997230 
+      c1996e9c  call 0xc1c37ff0 
+      c1996ea0  combine R1R0,#0x0,R20 
+      c1996ea4  jump 0xc1997230 
+      c1996ea8  call 0xc1c3a5b0 
+      c1996eac  combine R1R0,#0x0,R20 
+      c1996eb0  jump 0xc1997230 
+      c1996eb4  call 0xc1c0fbf8 
+      c1996eb8  !tstbit P0,R0,#0x3 
+      c1996ebc  jump.if(P0.new):t 0xc1997230 
+      c1996ec0  memub.if(!P0.new) R1,(R20+#0x10) 
 
-#26  SCORE=50  FUN_c18133f8
-  entry = c18133f8
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x178
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-  command compare hits:
-    c1813428  jump.if:nt cmp.gtu(R2.new,#0x5),0xc1813608 
-    c18134e8  cmp.gt P0,R2,#0x6 
-    c18134fc  cmp.gt P0,R2,#0x2 ; jump.if(P0.new):t 0xc1813520 
-    c181350c  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18135b4 
-    c1813514  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc18135e8 
-    c1813520  cmp.gt P0,R2,#0x4 ; jump.if(P0.new):t 0xc181353c 
-    c1813528  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc18135bc 
-    c1813530  cmp.eq P0,R2,#0x4 ; jump.if(!P0.new):nt 0xc18135e8 
-    c1813540  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):nt 0xc18135c4 
-    c1813548  cmp.eq P0,R2,#0x6 ; jump.if(!P0.new):nt 0xc18135e8 
-    c1813554  cmp.gt P0,R2,#0x9 ; jump.if(P0.new):t 0xc1813578 
-    c181355c  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc18135cc 
-    c1813564  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):nt 0xc18135d4 
-    c181356c  cmp.eq P0,R2,#0x9 ; jump.if(!P0.new):nt 0xc18135e8 
-    c1813578  cmp.gt P0,R2,#0xb ; jump.if(P0.new):t 0xc1813594 
-    c1813580  cmp.eq P0,R2,#0xa ; jump.if(P0.new):nt 0xc18135dc 
-    c1813588  cmp.eq P0,R2,#0xb ; jump.if(!P0.new):nt 0xc18135e8 
-    c1813598  cmp.eq P0,R2,#0xc ; jump.if(P0.new):nt 0xc18135e4 
-    c18135a0  cmp.eq P0,R2,#0xd ; jump.if(!P0.new):nt 0xc18135e8 
+------------------------------------------------------------
+FOCUS @ c1996e8c
+------------------------------------------------------------
+      c1996e64  assign R4,#0x1016 
+      c1996e68  memw R3,(R20+#0x14) ; memw R5,(R18) 
+      c1996e6c  extractu R2,R3,#0xa,#0x10 
+      c1996e70  call 0xc1620c0c 
+      c1996e74  and R3,R3,#0xff 
+      c1996e78  add R3,R7,#0x127e 
+      c1996e7c  memub R2,(R20+#0x10) 
+      c1996e80  add R3,R2,#-0x1 
+      c1996e84  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc1996ea8 
+      c1996e88  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc1996e9c 
+  >>> c1996e8c  cmp.eq P0,R2,#0x5 ; jump.if(!P0.new):nt 0xc1996eb4 
+      c1996e90  call 0xc1c39128 
+      c1996e94  combine R1R0,#0x0,R20 
+      c1996e98  jump 0xc1997230 
+      c1996e9c  call 0xc1c37ff0 
+      c1996ea0  combine R1R0,#0x0,R20 
+      c1996ea4  jump 0xc1997230 
+      c1996ea8  call 0xc1c3a5b0 
+      c1996eac  combine R1R0,#0x0,R20 
+      c1996eb0  jump 0xc1997230 
+      c1996eb4  call 0xc1c0fbf8 
+      c1996eb8  !tstbit P0,R0,#0x3 
+      c1996ebc  jump.if(P0.new):t 0xc1997230 
+      c1996ec0  memub.if(!P0.new) R1,(R20+#0x10) 
+      c1996ec4  call 0xc1620bec 
+      c1996ec8  assign R2,#0x1014 
 
-#27  SCORE=50  FUN_c1815528
-  entry = c1815528
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x8b8
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-  command compare hits:
-    c181556c  cmp.gtu P1,R19,#0x9 
-    c181567c  jump.if:t !cmp.eq(R4.new,#0x1),0xc18156a4 
-    c18156c0  jump.if:nt cmp.gtu(R4.new,#0xd),0xc1815f74 
-    c18156e4  jump.if:t !cmp.eq(R5.new,#0x1),0xc1815714 
-    c18157a0  jump.if:t !cmp.eq(R2.new,#0x1),0xc18157d0 
-    c18157ac  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18157d0 
-    c18157dc  jump.if:t cmp.gt(R2.new,#0x2),0xc1815810 
-    c18157f4  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc181585c 
-    c1815800  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1815888 
-    c1815810  cmp.gt P0,R2,#0x5 ; jump.if(P0.new):t 0xc1815838 
-    c181581c  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc1815868 
-    c1815828  cmp.eq P0,R2,#0x4 ; jump.if(!P0.new):nt 0xc1815888 
-    c1815840  cmp.eq P0,R2,#0x6 ; jump.if(P0.new):nt 0xc1815880 
-    c181584c  cmp.eq P0,R2,#0x7 ; jump.if(!P0.new):nt 0xc1815888 
-    c181588c  jump.if:t cmp.eq(R2.new,#0x1),0xc181591c 
-    c18158a8  cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc181591c 
-    c18158d8  jump.if:t !cmp.eq(R2.new,#0x2),0xc181595c 
-    c18158ec  cmp.eq P0,R0,#0xa ; jump.if(P0.new):t 0xc18158f8 
-    c1815900  jump.if:t !cmp.eq(R2.new,#0x1),0xc181590c 
-    c18159b8  cmp.gtu P0,R3,#0x3 
-    c18159c0  cmp.gtu P1,R2,#0x3 
-    c1815ae4  cmp.eq P0,R2,#0x1 
-    c1815b30  cmp.gt P0,R2,#0x6 
-    c1815b48  cmp.gt P0,R2,#0x2 ; jump.if(P0.new):t 0xc1815b6c 
-    c1815b58  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc1815c38 
-    c1815b60  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1815c94 
-    c1815b6c  cmp.gt P0,R2,#0x4 ; jump.if(P0.new):t 0xc1815b88 
-    c1815b74  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc1815c40 
-    c1815b7c  cmp.eq P0,R2,#0x4 ; jump.if(!P0.new):nt 0xc1815c94 
-    c1815b8c  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):nt 0xc1815c48 
-    c1815b94  cmp.eq P0,R2,#0x6 ; jump.if(!P0.new):nt 0xc1815c94 
-    c1815ba0  cmp.gt P0,R2,#0x9 ; jump.if(P0.new):t 0xc1815bc4 
-    c1815ba8  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc1815c50 
-    c1815bb0  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):nt 0xc1815c58 
-    c1815bb8  cmp.eq P0,R2,#0x9 ; jump.if(!P0.new):nt 0xc1815c94 
-    c1815bc4  cmp.gt P0,R2,#0xb ; jump.if(P0.new):t 0xc1815bfc 
-    c1815bcc  cmp.eq P0,R2,#0xa ; jump.if(P0.new):nt 0xc1815c60 
-    c1815bd8  cmp.eq P0,R2,#0xb ; jump.if(!P0.new):nt 0xc1815c94 
-    c1815c00  cmp.eq P0,R2,#0xc ; jump.if(P0.new):nt 0xc1815c7c 
-    c1815c0c  cmp.eq P0,R2,#0xd ; jump.if(!P0.new):nt 0xc1815c94 
-    c1815cb0  jump.if:t cmp.eq(R2.new,#0x1),0xc1815d40 
-    c1815ccc  cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc1815d40 
-    c1815cfc  jump.if:t !cmp.eq(R2.new,#0x2),0xc1815d7c 
-    c1815d10  cmp.eq P0,R0,#0xa ; jump.if(P0.new):t 0xc1815d1c 
-    c1815d24  jump.if:t !cmp.eq(R2.new,#0x1),0xc1815d30 
-    c1815dd8  cmp.gtu P0,R4,#0x3 
-    c1815de0  cmp.gtu P1,R3,#0x3 
-    c1815e08  jump.if:nt cmp.gtu(R3.new,#0x8),0xc1815e1c 
-    c1815e24  cmp.eq P0,R3,#0x9 ; jump.if(P0.new):t 0xc1815e34 
+------------------------------------------------------------
+FOCUS @ c19971d4
+------------------------------------------------------------
+      c19971ac  jump 0xc1997230 
+      c19971b0  call 0xc1c3a8e0 
+      c19971b4  combine R1R0,#0x0,R20 
+      c19971b8  jump 0xc1997230 
+      c19971bc  call 0xc1c3a970 
+      c19971c0  combine R1R0,#0x0,R20 
+      c19971c4  jump 0xc1997230 
+      c19971c8  call 0xc1c3ad4c 
+      c19971cc  combine R1R0,#0x0,R20 
+      c19971d0  jump 0xc1997230 
+  >>> c19971d4  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1997230 
+      c19971d8  call 0xc1c3adcc 
+      c19971dc  combine R1R0,#0x0,R20 
+      c19971e0  jump 0xc1997230 
+      c19971e4  call 0xc1c9e984 
+      c19971e8  assign R0,#0x0 
+      c19971ec  jump 0xc1997230 
+      c19971f0  call 0xc1c3ac90 
+      c19971f4  combine R1R0,#0x0,R20 
+      c19971f8  jump 0xc1997230 
+      c19971fc  cmp.eq P0,R0,#0xa ; jump.if(!P0.new):t 0xc1997230 
+      c1997200  call 0xc1c3aae8 
+      c1997204  combine R1R0,#0x0,R20 
+      c1997208  jump 0xc1997230 
+      c199720c  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):t 0xc1997230 
+      c1997210  call 0xc1c3ac0c 
 
-#28  SCORE=50  FUN_c1826990
-  entry = c1826990
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x7fffffff
-  RFDEBUG-like command IDs = [1, 2, 4, 5, 6, 7, 8, 9, 10, 12, 15, 16, 18]
-  command compare hits:
-    c1826a08  jump.if:nt cmp.gtu(R2.new,#0x12),0xc1826a20 
-    c1826a20  cmp.eq P0,R2,#0xc 
-    c1826a40  jump.if:t !cmp.eq(R2.new,#0x4),0xc1826e54 
-    c1826a8c  cmp.eq P0,R3,#0x12 ; jump.if(P0.new):nt 0xc1826a94 
-    c1826a90  cmp.eq P0,R3,#0x6 ; jump.if(!P0.new):nt 0xc1826b20 
-    c1826aa0  cmp.eq P0,R3,#0x1 ; jump.if(!P0.new):nt 0xc1826ab8 
-    c1826abc  cmp.eq P0,R4,#0x1 ; jump.if(!P0.new):nt 0xc1826ae4 
-    c1826acc  jump.if:t cmp.eq(R4.new,#0x6),0xc1826ae4 
-    c1826b04  cmp.gtu P0,R3,#0x12 ; jump.if(P0.new):nt 0xc1826b20 
-    c1826b90  jump.if:nt !cmp.eq(R2.new,#0x5),0xc18271ac 
-    c1826ba8  cmp.eq P0,R5,#0x12 ; jump.if(P0.new):nt 0xc1826bb0 
-    c1826bac  cmp.eq P1,R5,#0x6 ; jump.if(!P1.new):nt 0xc1826bec 
-    c1826c1c  cmp.gtu P1,R2,#0x9 ; jump.if(P1.new):nt 0xc18271c4 
-    c1826c74  cmp.gtu P1,R2,#0x9 ; jump.if(P1.new):nt 0xc18271c8 
-    c1826c9c  jump.if:t cmp.gtu(R3.new,#0x5),0xc1826ca8 
-    c1826cac  jump.if:t !cmp.gtu(R3.new,#0x8),0xc1826cd0 
-    c1826cbc  cmp.eq P0,R5,#0x6 ; jump.if(!P0.new):nt 0xc1826cdc 
-    c1826ce0  jump.if:t !cmp.eq(R2.new,#0x4),0xc1826d24 
-    c1826d28  jump.if:t !cmp.eq(R2.new,#0x6),0xc1826d68 
-    c1826d6c  jump.if:t !cmp.eq(R2.new,#0x7),0xc1826da0 
-    c1826da0  cmp.eq P0,R2,#0x8 ; jump.if(!P0.new):nt 0xc1826e54 
-    c1826da8  jump.if:nt !cmp.eq(R2.new,#0x2),0xc1826e54 
-    c1826f40  cmp.gtu P2,R22,#0x12 
-    c18270b8  cmp.eq P0,R3,#0x10 ; jump.if(P0.new):nt 0xc18270d0 
-    c18270bc  cmp.eq P0,R3,#0xa ; jump.if(!P0.new):t 0xc18270d4 
-    c1827110  cmp.eq P0,R2,#0xa ; jump.if(!P0.new):nt 0xc1827130 
-    c182711c  jump.if:nt !cmp.eq(R2.new,#0xf),0xc1827130 
-    c182713c  cmp.eq P0,R2,#0xa 
-
-#29  SCORE=50  FUN_c18540c4
-  entry = c18540c4
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x530
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19]
-  command compare hits:
-    c18540fc  cmp.eq P0,R3,#0x4 
-    c1854164  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):nt 0xc1854184 
-    c1854168  cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc1854178 
-    c185416c  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1854318 
-    c1854170  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc18541a0 
-    c1854178  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18544f0 
-    c185417c  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):t 0xc1854208 
-    c185418c  cmp.gt P0,R2,#0x5 ; jump.if(P0.new):t 0xc185424c 
-    c1854190  cmp.gt P0,R2,#0x2 ; jump.if(P0.new):t 0xc18541f4 
-    c1854198  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):t 0xc1854318 
-    c185419c  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1854494 
-    c18541f8  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):nt 0xc18544c0 
-    c1854200  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18544f0 
-    c1854204  cmp.eq P0,R2,#0x5 ; jump.if(!P0.new):nt 0xc1854494 
-    c1854210  cmp.eq P0,R21,#0x2 ; memw R2,(R18) 
-    c185424c  cmp.gt P0,R2,#0x8 ; jump.if(P0.new):t 0xc185428c 
-    c1854250  cmp.eq P0,R2,#0x6 ; jump.if(P0.new):nt 0xc18545cc 
-    c1854260  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):t 0xc185461c 
-    c185426c  cmp.eq P0,R2,#0x8 ; jump.if(!P0.new):nt 0xc1854494 
-    c185428c  cmp.gt P0,R2,#0xa ; jump.if(P0.new):t 0xc18542b8 
-    c1854290  cmp.eq P0,R2,#0x9 ; jump.if(P0.new):t 0xc1854674 
-    c185429c  cmp.eq P0,R2,#0xa ; jump.if(!P0.new):nt 0xc1854494 
-    c18542b8  cmp.eq P0,R2,#0xb ; jump.if(P0.new):t 0xc18546a8 
-    c18542bc  cmp.eq P0,R2,#0xc ; jump.if(!P0.new):nt 0xc1854494 
-    c1854304  cmp.eq P0,R2,#0x1 
-    c18543a8  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):nt 0xc185477c 
-    c18545b0  cmp.eq P0,R2,#0x1 
-    c18545d8  cmp.gtu P0,R1,#0x13 ; jump.if(P0.new):nt 0xc1854790 
-    c18545e0  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc185477c 
-    c1854624  jump.if:nt !cmp.eq(R2.new,#0x2),0xc185477c 
-    c185462c  jump.if:nt !cmp.eq(R2.new,#0x2),0xc185477c 
-
-#30  SCORE=50  FUN_c186a680
-  entry = c186a680
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0xfb0
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 15, 16, 21]
-  command compare hits:
-    c186a6d8  cmp.eq P0,R7,#0x2 
-    c186a7a4  cmp.gtu P1,R3,#0x1 
-    c186a7e0  cmp.gtu P0,R13,#0x5 
-    c186a8c8  cmp.eq P0,R6,#0x1 ; memw (R2+#0x4),R0 
-    c186a8c8  cmp.eq P0,R6,#0x1 ; memw (R2+#0x4),R0 
-    c186a8f4  cmp.eq P2,R4,#0x1 
-    c186a910  cmp.eq P1,R3,#0x1 
-    c186aa2c  cmp.gtu P0,R1,#0x5 ; jump.if(P0.new):nt 0xc186b774 
-    c186aa48  cmp.eq P0,R5,#0x0 ; memw R19,(SP+#0x10) 
-    c186aae0  jump.if:nt !cmp.eq(R2.new,#0x1),0xc186ab0c 
-    c186ab18  jump.if:t !cmp.eq(R2.new,#0x1),0xc186ab34 
-    c186ab74  cmp.gtu P0,R2,#0xf 
-    c186ad8c  cmp.eq P0,R3,#0x1 ; jump.if(!P0.new):nt 0xc186adb0 
-    c186ada8  cmp.eq P0,R2,#0x1 
-    c186ae30  cmp.gtu P1,R4,#0x15 
-    c186ae68  jump.if:nt !cmp.eq(R5.new,#0x1),0xc186ae8c 
-    c186aeb8  cmp.eq P2,R2,#0x1 
-    c186af64  cmp.gtu P2,R20,#0x1 
-    c186b13c  cmp.gtu P0,R5,#0x3 
-    c186b158  cmp.gtu P0,R2,#0x6 
-    c186b1b0  jump.if:t cmp.gtu(R4.new,#0x3),0xc186b1e0 
-    c186b394  jump.if:t !cmp.gtu(R5.new,#0x1),0xc186b3dc 
-    c186b47c  jump.if:t !cmp.eq(R22.new,#0x5),0xc186b2b4 
-    c186b4a0  cmp.eq P0,R3,#0x1 
-    c186b684  jump.if:t cmp.eq(R5.new,#0x2),0xc186b68c 
-    c186b688  cmp.eq R3,R4,#0x7 
-
-#31  SCORE=50  FUN_c189e524
-  entry = c189e524
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x2cc
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-  command compare hits:
-    c189e54c  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):t 0xc189e580 
-    c189e554  cmp.eq P0,R3,#0x2 ; jump.if(!P0.new):nt 0xc189e580 
-    c189e608  cmp.gt P0,R18,#0x5 ; jump.if(P0.new):t 0xc189e648 
-    c189e610  cmp.gt P0,R18,#0x2 ; jump.if(P0.new):t 0xc189e62c 
-    c189e620  cmp.eq P0,R18,#0x1 ; jump.if(P0.new):nt 0xc189e788 
-    c189e624  cmp.eq P0,R18,#0x2 ; jump.if(P0.new):t 0xc189e68c 
-    c189e62c  cmp.eq P0,R18,#0x3 ; jump.if(P0.new):nt 0xc189e7a4 
-    c189e630  cmp.eq P0,R18,#0x4 ; jump.if(P0.new):nt 0xc189e7c4 
-    c189e634  cmp.eq P0,R18,#0x5 ; jump.if(P0.new):t 0xc189e660 
-    c189e648  cmp.gt P0,R18,#0x8 ; jump.if(P0.new):t 0xc189e680 
-    c189e64c  cmp.eq P0,R18,#0x6 ; jump.if(P0.new):nt 0xc189e70c 
-    c189e658  cmp.eq P0,R18,#0x7 ; jump.if(P0.new):nt 0xc189e69c 
-    c189e65c  cmp.eq P0,R18,#0x8 ; jump.if(!P0.new):nt 0xc189e638 
-    c189e680  cmp.eq P0,R18,#0x9 ; jump.if(P0.new):nt 0xc189e7e4 
-    c189e684  cmp.eq P0,R18,#0xa ; jump.if(P0.new):nt 0xc189e788 
-    c189e688  cmp.eq P0,R18,#0xb ; jump.if(!P0.new):nt 0xc189e638 
-    c189e6c8  cmp.eq P0,R22,#0x5 ; jump.if(P0.new):nt 0xc189e6ec 
-    c189e6d0  cmp.eq P0,R22,#0x2 ; jump.if(P0.new):nt 0xc189e6e4 
-    c189e6d8  cmp.eq P0,R22,#0x1 ; jump.if(!P0.new):t 0xc189e6f0 
-    c189e6f0  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc189e704 
-    c189e718  cmp.eq P0,R22,#0x7 ; jump.if(P0.new):nt 0xc189e760 
-    c189e728  cmp.eq P0,R22,#0x6 ; jump.if(P0.new):nt 0xc189e758 
-    c189e72c  cmp.eq P0,R22,#0x1 ; jump.if(!P0.new):t 0xc189e83c 
-    c189e818  cmp.eq P0,R22,#0x4 
-
-#32  SCORE=50  FUN_c18a4d64
-  entry = c18a4d64
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x7fffffff
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-  command compare hits:
-    c18a4f24  jump.if:t !cmp.gtu(R3.new,#0x2),0xc18a4f3c 
-    c18a4f3c  cmp.gt P0,R2,#0x7 
-    c18a4f60  cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc18a501c 
-    c18a4f6c  jump.if:t !cmp.gtu(R3.new,#0x1),0xc18a5244 
-    c18a4f78  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18a5730 
-    c18a5024  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18a5348 
-    c18a5028  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):nt 0xc18a5244 
-    c18a502c  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):t 0xc18a532c 
-    c18a5038  cmp.gt P0,R2,#0xa ; jump.if(P0.new):t 0xc18a50dc 
-    c18a5044  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):nt 0xc18a558c 
-    c18a5050  cmp.eq P0,R2,#0x9 ; jump.if(P0.new):nt 0xc18a5598 
-    c18a505c  cmp.eq P0,R2,#0xa ; jump.if(!P0.new):nt 0xc18a5730 
-    c18a50dc  cmp.gt P0,R2,#0xc ; jump.if(P0.new):t 0xc18a516c 
-    c18a50e8  cmp.eq P0,R2,#0xb ; jump.if(P0.new):nt 0xc18a5628 
-    c18a50f4  cmp.eq P0,R2,#0xc ; jump.if(!P0.new):nt 0xc18a5730 
-    c18a5178  cmp.eq P0,R2,#0xd ; jump.if(P0.new):nt 0xc18a5694 
-    c18a5188  cmp.eq P0,R2,#0xe ; jump.if(!P0.new):nt 0xc18a5730 
-    c18a5218  jump.if:t !cmp.eq(R0.new,#0x1),0xc18a56a0 
-    c18a54d0  jump.if:t !cmp.eq(R0.new,#0x1),0xc18a54fc 
-    c18a57bc  cmp.eq P1,R6,#0x1 
-    c18a57dc  cmp.eq P1,R7,#0x6 
-
-#33  SCORE=50  FUN_c18e56b8
-  entry = c18e56b8
-  property 26 = false
-  property 28 = true
-  property gap = 0x1018
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x1468
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 8, 12, 19, 20, 21]
-  property compare hits:
-    c18e57b4  cmp.gt P0,R2,#0x1c ; jump.if(P0.new):t 0xc18e5804 
-    c18e57c4  cmp.eq P0,R2,#0x1c ; jump.if(!P0.new):nt 0xc18e576c 
-    c18e5ba8  cmp.eq P0,R2,#0x1c 
-    c18e67cc  cmp.eq P0,R3,#0x1c 
-  command compare hits:
-    c18e5714  jump.if:t cmp.gt(R2.new,#0x15),0xc18e57b4 
-    c18e5718  cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e5754 
-    c18e571c  cmp.gtu P0,R2,#0x1 ; jump.if(!P0.new):nt 0xc18e5884 
-    c18e5724  jump.if:nt cmp.gtu(R2.new,#0x1),0xc18e576c 
-    c18e5754  cmp.gt P0,R2,#0x13 ; jump.if(P0.new):t 0xc18e5764 
-    c18e5758  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):nt 0xc18e599c 
-    c18e575c  cmp.eq P0,R2,#0x5 ; jump.if(P0.new):t 0xc18e5884 
-    c18e5764  cmp.eq P0,R2,#0x14 ; jump.if(P0.new):nt 0xc18e5810 
-    c18e5768  cmp.eq P0,R2,#0x15 ; jump.if(P0.new):t 0xc18e5884 
-    c18e57bc  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18e5884 
-    c18e5828  cmp.eq P0,R5,#0x4 
-    c18e590c  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc18e592c 
-    c18e594c  cmp.eq P0,R5,#0x8 
-    c18e59a0  jump.if:t !cmp.gtu(R1.new,#0x3),0xc18e59c8 
-    c18e5a34  jump.if:t cmp.eq(R2.new,#0x4),0xc18e5a50 
-    c18e5a3c  cmp.eq P0,R2,#0x3 
-    c18e5a60  cmp.eq P0,R2,#0x1 
-    c18e5a98  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e5ac4 
-    c18e5ac8  jump.if:t cmp.eq(R2.new,#0xc),0xc18e5ad0 
-    c18e5b88  cmp.gtu P0,R4,#0x1 ; jump.if(!P0.new):nt 0xc18e5c60 
-    c18e5b94  cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc18e5c08 
-    c18e5d48  cmp.eq P0,R2,#0x1 
-    c18e5d6c  jump.if:t cmp.eq(R2.new,#0x3),0xc18e5f94 
-    c18e5d80  cmp.eq P0,R3,#0x1 
-    c18e5dc8  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e5e24 
-    c18e5dd0  cmp.eq P0,R18,#0x2 ; jump.if(!P0.new):nt 0xc18e5e24 
-    c18e5df0  cmp.eq P0,R2,#0x1 
-    c18e5e54  cmp.eq P0,R5,#0x5 
-    c18e5e5c  cmp.gtu P0,R18,#0x1 
-    c18e5ee4  jump.if:t cmp.eq(R3.new,#0x1),0xc18e5f04 
-    c18e5f00  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e5f1c 
-    c18e6008  jump.if:t !cmp.eq(R2.new,#0x3),0xc18e6084 
-    c18e6010  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6084 
-    c18e60a8  jump.if:t cmp.eq(R2.new,#0x3),0xc18e60b4 
-    c18e60c0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc18e60cc 
-    c18e60cc  cmp.eq P0,R24,#0x1 
-    c18e621c  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):t 0xc18e6244 
-    c18e622c  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6244 
-    c18e6250  jump.if:nt cmp.eq(R2.new,#0x1),0xc18e6260 
-    c18e625c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b78 
-    c18e6280  jump.if:nt !cmp.eq(R3.new,#0x4),0xc18e6290 
-    c18e6298  cmp.gtu P0,R2,#0x8 
-    c18e62cc  cmp.eq P0,R3,#0x5 
-    c18e62e0  jump.if:t !cmp.eq(R3.new,#0x2),0xc18e6364 
-    c18e62f4  jump.if:t cmp.gtu(R2.new,#0x2),0xc18e6330 
-    c18e6364  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0xc18e6404 
-    c18e6374  cmp.eq P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e639c 
-    c18e63d8  cmp.eq P0,R3,#0x8 ; jump.if(!P0.new):t 0xc18e6450 
-    c18e6454  cmp.eq P0,R19,#0x1 ; jump.if(!P0.new):t 0xc18e6474 
-    c18e6548  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e656c 
-    c18e663c  cmp.eq P0,R2,#0x4 ; jump.if(P0.new):t 0xc18e6678 
-    c18e6648  jump.if:t !cmp.eq(R2.new,#0x4),0xc18e6658 
-    c18e66f4  jump.if:nt cmp.eq(R2.new,#0x2),0xc18e6718 
-    c18e66f8  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc18e673c 
-    c18e6768  cmp.eq P0,R3,#0x4 
-    c18e67bc  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc18e6850 
-    c18e67c0  cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc18e6800 
-    c18e6878  jump.if:t !cmp.eq(R3.new,#0x1),0xc18e68d4 
-    c18e6888  jump.if:t cmp.gtu(R3.new,#0x3),0xc18e68d4 
-    c18e68c8  jump.if:t !cmp.gtu(R2.new,#0x3),0xc18e6898 
-    c18e68f4  jump.if:t !cmp.eq(R2.new,#0x2),0xc18e6ab0 
-    c18e693c  cmp.eq P0,R2,#0x8 ; jump.if(P0.new):t 0xc18e6bec 
-    c18e6ac8  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6b14 
-    c18e6b28  cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):t 0xc18e6b54 
-    c18e6b7c  jump.if:t !cmp.eq(R2.new,#0x1),0xc18e6ba8 
-
-#34  SCORE=50  FUN_c1903724
-  entry = c1903724
-  property 26 = false
-  property 28 = true
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x60
-  RFDEBUG-like command IDs = [1, 3, 4, 5, 7, 8, 9, 10, 11, 20, 21]
-  property compare hits:
-    c19037b0  cmp.eq P0,R4,#0x1c ; jump.if(P0.new):nt 0xc19037e0 
-  command compare hits:
-    c190372c  jump.if:t cmp.gt(R4.new,#0xa),0xc1903774 
-    c1903730  cmp.gt P0,R4,#0x3 ; jump.if(P0.new):t 0xc1903748 
-    c1903734  cmp.gtu P0,R4,#0x1 ; jump.if(!P0.new):t 0xc19037c4 
-    c190373c  jump.if:nt cmp.gtu(R2.new,#0x1),0xc1903754 
-    c1903748  cmp.gt P0,R4,#0x7 ; jump.if(P0.new):t 0xc1903760 
-    c190374c  cmp.eq P0,R4,#0x4 ; jump.if(P0.new):t 0xc19037d8 
-    c1903750  cmp.eq P0,R4,#0x5 ; jump.if(P0.new):t 0xc19037a8 
-    c1903760  cmp.eq P0,R4,#0x8 ; jump.if(P0.new):nt 0xc19037e8 
-    c1903764  cmp.eq P0,R4,#0x9 ; jump.if(P0.new):t 0xc19037f0 
-    c1903768  cmp.eq P0,R4,#0xa ; jump.if(!P0.new):nt 0xc1903754 
-    c1903778  cmp.gt P0,R4,#0x14 ; jump.if(P0.new):t 0xc190378c 
-    c190377c  cmp.eq P0,R4,#0xb ; jump.if(P0.new):t 0xc19037f8 
-    c1903780  cmp.eq P0,R4,#0x14 ; jump.if(!P0.new):nt 0xc1903754 
-    c190378c  cmp.eq P0,R4,#0x15 ; jump.if(P0.new):t 0xc19037cc 
-
-#35  SCORE=50  FUN_c190b150
-  entry = c190b150
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x27cc
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 12, 14, 15, 19]
-  command compare hits:
-    c190b2a0  cmp.eq P1,R24,#0xc 
-    c190b48c  jump.if:nt cmp.eq(R1.new,#0x3),0xc190b4dc 
-    c190b490  cmp.eq P0,R1,#0x7 ; jump.if(P0.new):nt 0xc190b51c 
-    c190b498  cmp.eq P0,R1,#0x5 ; jump.if(!P0.new):t 0xc190b530 
-    c190b5d0  cmp.eq R18,R20,#0x1 
-    c190b810  cmp.eq P0,R2,#0x2 
-    c190b824  jump.if:t !cmp.gt(R2.new,#0x7),0xc190b834 
-    c190b97c  cmp.eq R2,R20,#0x2 
-    c190b980  cmp.eq R0,R20,#0x3 
-    c190bac0  cmp.eq P2,R3,#0x2 
-    c190bacc  cmp.eq P2,R3,#0x4 
-    c190bae0  jump.if:nt cmp.eq(R3.new,#0x4),0xc190bb18 
-    c190bae4  cmp.eq P1,R3,#0x2 ; jump.if(!P1.new):nt 0xc190bb50 
-    c190bbfc  assign R19,#0x6 ; cmp.eq P0,R21,#0x1 
-    c190bbfc  assign R19,#0x6 ; cmp.eq P0,R21,#0x1 
-    c190bcdc  assign R21,#0x2 ; cmp.eq P0,R21,#0x0 
-    c190bcf8  cmp.eq P1,R19,#0x6 
-    c190bd00  cmp.eq P3,R2,#0x3 
-    c190bd24  cmp.eq P1,R19,#0x2 ; jump.if(P1.new):nt 0xc190bd34 
-    c190bd28  cmp.eq P1,R19,#0x1 ; jump.if(!P1.new):t 0xc190bd38 
-    c190bdd4  cmp.eq P1,R20,#0x1 
-    c190bde8  cmp.eq P2,R2,#0x1 
-    c190be14  cmp.eq P1,R3,#0x1 
-    c190be60  cmp.eq R22,R0,#0x3 
-    c190bf3c  cmp.eq P1,R21,#0x1 
-    c190bf40  cmp.eq P0,R21,#0x4 
-    c190bf70  cmp.gt P0,R0,#0x13 ; jump.if(!P0.new):t 0xc190bf8c 
-    c190c0d0  cmp.gtu P0,R21,#0x4 ; jump.if(P0.new):nt 0xc190c1a4 
-    c190c100  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):t 0xc190c1a4 
-    c190c120  cmp.gt P0,R0,#0x13 ; jump.if(!P0.new):t 0xc190c134 
-    c190c1f0  cmp.eq P0,R21,#0x4 ; jump.if(P0.new):nt 0xc190c200 
-    c190c1f4  cmp.eq P0,R21,#0x1 ; jump.if(!P0.new):nt 0xc190c21c 
-    c190c22c  cmp.eq P0,R21,#0x1 ; jump.if(!P0.new):t 0xc190c24c 
-    c190c340  cmp.gtu P0,R2,#0x1 
-    c190c460  cmp.eq P0,R21,#0x2 
-    c190c480  cmp.eq P0,R21,#0x2 ; jump.if(!P0.new):nt 0xc190c68c 
-    c190c698  cmp.eq P0,R2,#0x3 
-    c190c8b0  cmp.eq P0,R20,#0x1 ; jump.if(P0.new):t 0xc190c8bc 
-    c190c93c  cmp.eq P1,R20,#0x1 
-    c190ca24  cmp.eq P0,R3,#0x2 
-    c190ca50  cmp.eq P0,R2,#0xf ; jump.if(P0.new):t 0xc190ca78 
-    c190caa8  jump.if:t !cmp.gtu(R2.new,#0x1),0xc190cab4 
-    c190cac4  cmp.gt P0,R0,#0x7 
-    c190cb80  cmp.eq P0,R18,#0x1 
-    c190cbf8  cmp.gtu P0,R3,#0x1 
-    c190cc50  cmp.eq P0,R22,#0x1 
-    c190ce4c  jump.if:t !cmp.eq(R2.new,#0x1),0xc190cea8 
-    c190d050  cmp.eq P0,R3,#0x2 
-    c190d0f0  cmp.gt P0,R23,#0xe ; jump.if(P0.new):t 0xc190d110 
-    c190d1a0  cmp.gtu P0,R25,#0x1 
-    c190d4e0  cmp.gtu P0,R21,#0x1 ; jump.if(P0.new):t 0xc190d504 
-    c190d7dc  jump.if:nt cmp.eq(R2.new,#0x1),0xc190d7ec 
-    c190d7e8  jump.if:t !cmp.eq(R2.new,#0x1),0xc190d8a4 
-    c190d9e4  cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc190da08 
-    c190da60  assign R3,#0x1 ; cmp.eq P0,R22,#0x0 
-    c190da6c  assign R3,#0x1 ; cmp.eq P0,R22,#0x0 
-
-#36  SCORE=50  FUN_c198d120
-  entry = c198d120
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x7fffffff
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 18]
-  command compare hits:
-    c198d144  cmp.gtu P0,R16,#0x1 ; jump.if(P0.new):nt 0xc198d4d4 
-    c198d198  cmp.eq P0,R0,#0x9 ; jump.if(P0.new):t 0xc198d478 
-    c198d1c4  cmp.eq P0,R0,#0x6 ; jump.if(P0.new):t 0xc198d478 
-    c198d26c  cmp.gtu P0,R0,#0x8 ; jump.if(P0.new):nt 0xc198d48c 
-    c198d2fc  jump.if:t !cmp.gtu(R3.new,#0x2),0xc198d3f4 
-    c198d338  cmp.gtu P0,R0,#0xd ; jump.if(P0.new):nt 0xc198d48c 
-    c198d34c  cmp.gtu P0,R0,#0x7 ; jump.if(P0.new):nt 0xc198d48c 
-    c198d360  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc198d454 
-    c198d368  jump.if:t !cmp.gtu(R3.new,#0x1),0xc198d454 
-    c198d374  jump.if:t !cmp.gtu(R3.new,#0x1),0xc198d478 
-    c198d388  cmp.eq P0,R0,#0x3 ; jump.if(P0.new):nt 0xc198d464 
-    c198d394  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):nt 0xc198d48c 
-    c198d3ac  jump.if:nt cmp.gtu(R3.new,#0xa),0xc198d48c 
-    c198d3c4  jump.if:t !cmp.gtu(R3.new,#0x8),0xc198d4b8 
-    c198d3cc  jump.if:nt cmp.gtu(R3.new,#0xc),0xc198d48c 
-    c198d3e0  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc198d478 
-    c198d3e8  cmp.eq P0,R0,#0x12 ; jump.if(P0.new):t 0xc198d478 
-    c198d408  cmp.eq P0,R0,#0x3 ; jump.if(!P0.new):t 0xc198d48c 
-    c198d474  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):t 0xc198d48c 
-    c198d488  cmp.gtu P0,R0,#0x1 ; jump.if(!P0.new):t 0xc198d3f4 
-
-#37  SCORE=50  FUN_c19963cc
-  entry = c19963cc
-  property 26 = false
-  property 28 = true
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0xd28
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19]
-  property compare hits:
-    c1996a80  jump.if:nt cmp.gtu(R2.new,#0x1c),0xc1997230 
-  command compare hits:
-    c19964e4  jump.if:t !cmp.gtu(R21.new,#0x1),0xc1996488 
-    c1996594  cmp.eq P0,R0,#0x13 ; jump.if(P0.new):t 0xc1997230 
-    c1996610  cmp.gtu P0,R0,#0xa ; jump.if(P0.new):nt 0xc199664c 
-    c1996660  cmp.eq P0,R0,#0x2 ; jump.if(P0.new):nt 0xc1996760 
-    c1996664  cmp.eq P0,R0,#0x6 ; jump.if(P0.new):nt 0xc1996670 
-    c199667c  jump.if:nt cmp.gtu(R22.new,#0x9),0xc1997304 
-    c19966a8  cmp.gtu P0,R2,#0x9 
-    c199692c  jump.if:t !cmp.gtu(R3.new,#0xc),0xc19972c0 
-    c199694c  cmp.eq P0,R0,#0x9 ; jump.if(!P0.new):t 0xc1997230 
-    c19969c8  jump.if:t !cmp.eq(R2.new,#0x8),0xc1997230 
-    c1996a00  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):nt 0xc19970e8 
-    c1996a08  cmp.eq P0,R0,#0xc ; jump.if(!P0.new):nt 0xc1997230 
-    c1996a34  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1997210 
-    c1996a68  cmp.gtu P0,R0,#0x6 ; jump.if(P0.new):nt 0xc1997230 
-    c1996aa0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1997130 
-    c1996ad8  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):nt 0xc1996884 
-    c1996ae0  cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc1997230 
-    c1996b50  cmp.eq P0,R0,#0x3 ; jump.if(!P0.new):t 0xc1997230 
-    c1996d50  cmp.eq P0,R0,#0xb ; jump.if(!P0.new):t 0xc1997230 
-    c1996da8  jump.if:t cmp.gt(R1.new,#0x1),0xc1996dc0 
-    c1996db0  cmp.eq P0,R1,#0x1 ; jump.if(P0.new):t 0xc1996dfc 
-    c1996dc0  cmp.eq P0,R1,#0x3 ; jump.if(P0.new):t 0xc1996dd4 
-    c1996dc4  cmp.eq P0,R1,#0x2 ; jump.if(!P0.new):nt 0xc1996db4 
-    c1996e84  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc1996ea8 
-    c1996e88  cmp.eq P0,R2,#0x7 ; jump.if(P0.new):nt 0xc1996e9c 
-    c1996e8c  cmp.eq P0,R2,#0x5 ; jump.if(!P0.new):nt 0xc1996eb4 
-    c1996f3c  jump.if:nt cmp.gtu(R2.new,#0xb),0xc1996f60 
-    c1996fdc  jump.if:nt cmp.gtu(R2.new,#0xb),0xc1997000 
-    c19971d4  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1997230 
-    c19971fc  cmp.eq P0,R0,#0xa ; jump.if(!P0.new):t 0xc1997230 
-    c199720c  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):t 0xc1997230 
-
-#38  SCORE=50  FUN_c1a50ab8
-  entry = c1a50ab8
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x7fffffff
-  RFDEBUG-like command IDs = [1, 2, 3, 5, 6, 7, 9, 10, 12, 14, 18, 20]
-  command compare hits:
-    c1a50d0c  cmp.eq P0,R22,#0x1 ; jump.if(P0.new):nt 0xc1a50d14 
-    c1a50d10  cmp.eq P0,R23,#0x1 ; jump.if(!P0.new):t 0xc1a50d1c 
-    c1a50d1c  cmp.eq P0,R22,#0x1 
-    c1a50d30  cmp.eq P0,R23,#0x1 ; jump.if(!P0.new):t 0xc1a50d48 
-    c1a50d8c  cmp.gtu P0,R0,#0x9 ; jump.if(!P0.new):t 0xc1a50db8 
-    c1a50df8  cmp.eq P0,R22,#0x0 ; memw (SP+#0x14),R17 
-    c1a50e44  cmp.gtu P0,R22,#0x7 ; jump.if(!P0.new):t 0xc1a50e5c 
-    c1a50f30  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a50f44 
-    c1a50f40  jump.if:t !cmp.eq(R0.new,#0x1),0xc1a50f38 
-    c1a50f64  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a50f84 
-    c1a50f74  jump.if:t !cmp.eq(R0.new,#0x1),0xc1a50f6c 
-    c1a50f80  jump.if:t !cmp.gtu(R3.new,#0x6),0xc1a50f9c 
-    c1a510dc  jump.if:t !cmp.eq(R6.new,#0x1),0xc1a510f0 
-    c1a51164  jump.if:t cmp.gtu(R2.new,#0x2),0xc1a511c8 
-    c1a51278  cmp.gt P0,R2,#0x12 ; jump.if(!P0.new):t 0xc1a512b0 
-    c1a51514  jump.if:nt cmp.gtu(R3.new,#0x5),0xc1a51634 
-    c1a515fc  cmp.eq P0,R24,#0x1 
-    c1a51604  cmp.eq P0,R2,#0x3 ; jump.if(!P0.new):nt 0xc1a51614 
-    c1a51614  cmp.eq P0,R2,#0x2 ; jump.if(P0.new):t 0xc1a51620 
-    c1a51664  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a51680 
-    c1a51670  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):nt 0xc1a51688 
-    c1a51678  jump.if:nt cmp.eq(R2.new,#0x1),0xc1a51688 
-    c1a51684  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a51690 
-    c1a51694  jump.if:t !cmp.eq(R3.new,#0x1),0xc1a516a0 
-    c1a5170c  jump.if:t cmp.gtu(R2.new,#0xe),0xc1a517a8 
-    c1a51798  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a517b8 
-    c1a51bc8  jump.if:t !cmp.eq(R18.new,#0x1),0xc1a51bd0 
-    c1a52348  cmp.gtu P0,R3,#0x2 ; jump.if(P0.new):t 0xc1a5246c 
-    c1a5239c  jump.if:t !cmp.eq(R14.new,#0x3),0xc1a523ac 
-    c1a523ac  cmp.eq P0,R14,#0x2 
-    c1a523bc  cmp.eq P0,R14,#0x1 
-    c1a523d4  jump.if:t !cmp.eq(R14.new,#0x3),0xc1a523e4 
-    c1a523e4  cmp.eq P0,R14,#0x2 
-    c1a523f4  cmp.eq P0,R14,#0x1 
-    c1a52470  jump.if:t !cmp.eq(R18.new,#0xc),0xc1a52320 
-    c1a52484  cmp.eq P0,R3,#0xa 
-
-#39  SCORE=50  FUN_c1a5a614
-  entry = c1a5a614
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x119c
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 8, 9, 13, 19]
-  command compare hits:
-    c1a5a6c4  jump.if:nt !cmp.gtu(R2.new,#0x1),0xc1a5a6d8 
-    c1a5a6f0  cmp.eq R27,R2,#0x1 
-    c1a5a740  cmp.eq P1,R3,#0x1 ; jump.if(!P1.new):t 0xc1a5a76c 
-    c1a5a744  cmp.eq P0,R4,#0x2 
-    c1a5a764  cmp.eq P0,R20,#0x1 ; jump.if(!P0.new):t 0xc1a5a684 
-    c1a5a780  jump.if:t !cmp.gtu(R4.new,#0x1),0xc1a5a8fc 
-    c1a5a798  cmp.eq P0,R4,#0x1 ; jump.if(P0.new):nt 0xc1a5a7f8 
-    c1a5a7b8  jump.if:nt !cmp.gtu(R6.new,#0x1),0xc1a5a8fc 
-    c1a5a7e8  jump.if:t !cmp.gtu(R6.new,#0x1),0xc1a5a8fc 
-    c1a5a804  cmp.eq P1,R3,#0x6 ; jump.if(P1.new):t 0xc1a5a8fc 
-    c1a5a81c  jump.if:nt cmp.gtu(R5.new,#0x13),0xc1a5a830 
-    c1a5a84c  jump.if:nt !cmp.gtu(R5.new,#0x1),0xc1a5a8fc 
-    c1a5a898  jump.if:nt cmp.gtu(R4.new,#0x13),0xc1a5a8e8 
-    c1a5a8e4  jump.if:t cmp.eq(R4.new,#0x2),0xc1a5a8fc 
-    c1a5a93c  jump.if:nt cmp.eq(R3.new,#0x1),0xc1a5a990 
-    c1a5a998  jump.if:nt cmp.gtu(R2.new,#0x8),0xc1a5baec 
-    c1a5aad8  jump.if:nt cmp.gtu(R2.new,#0xd),0xc1a5ab6c 
-    c1a5ab08  jump.if:t !cmp.eq(R3.new,#0x1),0xc1a5ab18 
-    c1a5ab28  cmp.eq P0,R3,#0x3 ; jump.if(P0.new):t 0xc1a5ab54 
-    c1a5ab7c  jump.if:nt cmp.gtu(R3.new,#0xd),0xc1a5ab8c 
-    c1a5ab90  jump.if:nt !cmp.eq(R3.new,#0x4),0xc1a5aba8 
-    c1a5abd4  jump.if:nt cmp.gtu(R2.new,#0xd),0xc1a5ac14 
-    c1a5ac70  jump.if:t !cmp.eq(R2.new,#0x6),0xc1a5baec 
-    c1a5ac9c  jump.if:nt cmp.eq(R2.new,#0x2),0xc1a5acb4 
-    c1a5aca8  cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):nt 0xc1a5baec 
-    c1a5acc4  jump.if:t !cmp.eq(R2.new,#0x5),0xc1a5ad84 
-    c1a5ae28  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a5ae48 
-    c1a5ae38  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a5ae48 
-    c1a5b17c  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a5b244 
-    c1a5b184  jump.if:nt cmp.gtu(R2.new,#0x6),0xc1a5b220 
-    c1a5b2a8  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a5baec 
-    c1a5b334  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a5b348 
-    c1a5b3b4  jump.if:nt cmp.eq(R2.new,#0x8),0xc1a5baec 
-    c1a5b3c0  cmp.eq P0,R2,#0xd ; jump.if(P0.new):t 0xc1a5baec 
-    c1a5b46c  jump.if:t !cmp.eq(R2.new,#0x3),0xc1a5b490 
-    c1a5b484  jump.if:t cmp.eq(R2.new,#0x1),0xc1a5b490 
-    c1a5b694  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0xc1a5baec 
-    c1a5b6b4  jump.if:t !cmp.eq(R2.new,#0x2),0xc1a5baec 
-    c1a5b7b0  cmp.gtu P0,R2,#0x9 
-    c1a5b860  jump.if:t cmp.gtu(R2.new,#0x1),0xc1a5b8cc 
-
-#40  SCORE=50  FUN_c1a606c0
-  entry = c1a606c0
-  property 26 = false
-  property 28 = false
-  property gap = 0x7fffffff
-  command 1 = false
-  command 3 = false
-  command 4 = false
-  command 5 = false
-  command gap = 0x598
-  RFDEBUG-like command IDs = [1, 2, 3, 4, 5, 6, 7, 8, 10, 18]
-  command compare hits:
-    c1a6070c  jump.if:t cmp.gtu(R2.new,#0x1),0xc1a60740 
-    c1a60800  jump.if:nt cmp.gtu(R3.new,#0x12),0xc1a60818 
-    c1a60808  jump.if:t cmp.eq(R4.new,#0x6),0xc1a60858 
-    c1a6080c  cmp.gtu P0,R3,#0x7 ; jump.if(!P0.new):nt 0xc1a60858 
-    c1a60814  jump.if:t cmp.eq(R3.new,#0x2),0xc1a60858 
-    c1a60864  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1a607e4 
-    c1a608a0  cmp.gtu P0,R0,#0xa ; jump.if(!P0.new):t 0xc1a608c0 
-    c1a608d0  jump.if:nt !cmp.eq(R2.new,#0x5),0xc1a60908 
-    c1a608d8  jump.if:nt !cmp.eq(R2.new,#0x3),0xc1a60908 
-    c1a608f8  cmp.eq P0,R2,#0x1 
-    c1a60914  jump.if:t !cmp.eq(R2.new,#0x5),0xc1a60934 
-    c1a60944  cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a609d8 
-    c1a60968  cmp.eq P0,R0,#0x4 ; jump.if(P0.new):t 0xc1a60974 
-    c1a60970  cmp.eq P0,R0,#0x8 ; jump.if(!P0.new):t 0xc1a609b8 
-    c1a60998  jump.if:t cmp.eq(R2.new,#0x3),0xc1a609c4 
-    c1a609e4  jump.if:nt cmp.eq(R2.new,#0x7),0xc1a609ec 
-    c1a609e8  cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1a60a64 
-    c1a60a68  cmp.eq P0,R2,#0x6 
-    c1a60a88  cmp.eq P0,R2,#0x6 
-    c1a60ae4  jump.if:t !cmp.eq(R2.new,#0x4),0xc1a60aec 
-    c1a60b50  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1a60af0 
-    c1a60b58  jump.if:t cmp.eq(R2.new,#0x2),0xc1a60b64 
-    c1a60ba4  jump.if:t !cmp.eq(R2.new,#0x5),0xc1a60bc8 
-    c1a60bb8  jump.if:t cmp.eq(R2.new,#0x4),0xc1a60bc8 
-    c1a60bd0  cmp.gtu P0,R0,#0x1 
-    c1a60be8  cmp.gtu P0,R0,#0x7 
-    c1a60bf8  jump.if:t !cmp.eq(R2.new,#0x4),0xc1a60c34 
-    c1a60c10  cmp.gtu P0,R0,#0x1 ; jump.if(P0.new):t 0xc1a60c34 
-    c1a60c18  jump.if:t !cmp.gtu(R2.new,#0x8),0xc1a60c34 
-    c1a60c30  jump.if:t !cmp.eq(R2.new,#0x1),0xc1a60c48 
-    c1a60c40  cmp.eq P0,R0,#0x2 
-    c1a60c68  jump.if:nt !cmp.eq(R2.new,#0x4),0xc1a60cd4 
-    c1a60ca4  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1a60c70 
+------------------------------------------------------------
+FOCUS @ c199720c
+------------------------------------------------------------
+      c19971e4  call 0xc1c9e984 
+      c19971e8  assign R0,#0x0 
+      c19971ec  jump 0xc1997230 
+      c19971f0  call 0xc1c3ac90 
+      c19971f4  combine R1R0,#0x0,R20 
+      c19971f8  jump 0xc1997230 
+      c19971fc  cmp.eq P0,R0,#0xa ; jump.if(!P0.new):t 0xc1997230 
+      c1997200  call 0xc1c3aae8 
+      c1997204  combine R1R0,#0x0,R20 
+      c1997208  jump 0xc1997230 
+  >>> c199720c  cmp.eq P0,R0,#0x4 ; jump.if(!P0.new):t 0xc1997230 
+      c1997210  call 0xc1c3ac0c 
+      c1997214  combine R1R0,#0x0,R20 
+      c1997218  jump 0xc1997230 
+      c199721c  call 0xc19a5eac 
+      c1997220  combine R1R0,#0x20,R20 
+      c1997224  jump 0xc1997230 
+      c1997228  call 0xc1c382a8 
+      c199722c  combine R1R0,#0x0,R20 
+      c1997230  bitsclr P0,R19,#0x6 
+      c1997234  jump.if(P0.new):nt 0xc199653c 
+      c1997238  memb R2,(R26) 
+      c199723c  immext #0xfffff2c0 
+      c1997240  jump.if:t !cmp.eq(R2.new,#0x0),0xc1996528 
+      c1997244  call 0xc1c0fbf8 
+      c1997248  !tstbit P0,R0,#0x2 
 
 ============================================================
- PRIORITY
+[CALL / JUMP INSTRUCTIONS]
 ============================================================
-No function currently satisfies all six exact compare conditions.
+c19963dc  call 0xc198d7e4 
+c19963e4  call 0xc1cc60e4 
+c19963fc  call 0xc1620d4c 
+c1996400  call 0xc1d4d750 
+c1996408  call 0xc1c0fae8 
+c199640c  call 0xc1c5d138 
+c1996414  call 0xc1c5d368 
+c199641c  call 0xc1c5a2d8 
+c1996420  call 0xc1c35b18 
+c1996428  call 0xc17048b0 
+c1996434  call 0xc198d7bc 
+c1996468  call 0xc198d7c4 
+c1996494  call 0xc198d7d4 
+c19964b0  call 0xc1c35c40 
+c19964bc  call 0xc199e8cc 
+c19964e4  jump.if:t !cmp.gtu(R21.new,#0x1),0xc1996488 
+c19964e8  call 0xc198d7dc 
+c19964f4  call 0xc1c35b58 
+c1996524  jump 0xc199654c 
+c1996528  call 0xc161fb78 
+c1996534  call 0xc198c160 
+c1996548  jump.if:nt cmp.eq(R2.new,#0x0),0xc19972a8 
+c199654c  call 0xc161f0a8 
+c199656c  call 0xc19f4f6c 
+c1996598  call 0xc16fd418 
+c19965ac  jump.if(!P0.new):t 0xc19965dc 
+c19965b4  call 0xc1c0fbf8 
+c19965bc  jump.if(P0.new):t 0xc19965d8 
+c19965d0  call 0xc1620c00 
+c19965f0  jump.if(P0.new):t 0xc199662c 
+c19965fc  jump.if(P0.new):nt 0xc19966c8 
+c1996608  jump.if(!P0.new):nt 0xc199664c 
+c199661c  jump.if(P0.new):t 0xc1996670 
+c1996624  jump.if(P0.new):t 0xc19966cc 
+c1996628  jump 0xc199664c 
+c1996638  jump.if(P0.new):nt 0xc1996660 
+c1996644  jump.if(!P0.new):nt 0xc199664c 
+c1996650  jump.if:t !cmp.gtu(R22.new,#0x1d),0xc1996720 
+c1996658  call 0xc16fd420 
+c199666c  jump 0xc199664c 
+c199667c  jump.if:nt cmp.gtu(R22.new,#0x9),0xc1997304 
+c1996698  call 0xc16979d0 
+c19966bc  jump 0xc1996760 
+c19966d8  jump.if:nt cmp.gtu(R22.new,#0x1d),0xc1997310 
+c19966f0  call 0xc16979d0 
+c1996714  jump 0xc1996760 
+c1996738  call 0xc16979d0 
+c1996778  jump.if(P0.new):t 0xc1996794 
+c1996780  jump.if(P0.new):nt 0xc19967ac 
+c199678c  jump.if(P0.new):t 0xc19967ac 
+c1996790  jump 0xc199653c 
+c199679c  jump.if(P0.new):nt 0xc19967ac 
+c19967a8  jump.if(!P0.new):nt 0xc199653c 
+c19967b8  jump.if:t !cmp.gtu(R3.new,#0x17),0xc19967f8 
+c19967c0  jump.if(P0.new):nt 0xc1996800 
+c19967cc  jump.if(P0.new):t 0xc1996800 
+c19967d0  call 0xc1c0fbf8 
+c19967d8  jump.if(P0.new):t 0xc19967f0 
+c19967e8  call 0xc1620c0c 
+c19967f0  jump 0xc1996800 
+c19967fc  jump.if(!P0.new):nt 0xc19967bc 
+c1996810  jump.if(P0.new):t 0xc1996914 
+c199681c  jump.if(P0.new):t 0xc1996890 
+c1996828  jump.if(P0.new):t 0xc1996858 
+c1996834  jump.if(P0.new):nt 0xc1997184 
+c1996840  jump.if(!P0.new):nt 0xc1997230 
+c1996848  jump.if(!P0.new):t 0xc1997230 
+c199684c  call 0xc1c60bd0 
+c1996854  jump 0xc1997230 
+c1996860  jump.if(P0.new):nt 0xc1996b30 
+c199686c  jump.if(P0.new):nt 0xc19971d4 
+c1996878  jump.if(!P0.new):nt 0xc1997230 
+c1996880  jump.if(!P0.new):t 0xc1997230 
+c1996884  call 0xc1c37ff0 
+c199688c  jump 0xc1997230 
+c1996898  jump.if(P0.new):t 0xc19968dc 
+c19968a4  jump.if(P0.new):nt 0xc1996e14 
+c19968b0  jump.if(P0.new):nt 0xc1996d20 
+c19968bc  jump.if(!P0.new):nt 0xc1997230 
+c19968c4  jump.if(P0.new):nt 0xc1996d54 
+c19968cc  jump.if(!P0.new):nt 0xc1997230 
+c19968d0  call 0xc1c3aa00 
+c19968d8  jump 0xc1997230 
+c19968e4  jump.if(P0.new):nt 0xc1996a90 
+c19968f0  jump.if(P0.new):nt 0xc1996d0c 
+c19968fc  jump.if(!P0.new):nt 0xc1997230 
+c1996904  jump.if(!P0.new):t 0xc1997230 
+c1996908  call 0xc1ca0b44 
+c1996910  jump 0xc1997230 
+c199691c  jump.if(P0.new):nt 0xc199698c 
+c199692c  jump.if:t !cmp.gtu(R3.new,#0xc),0xc19972c0 
+c1996938  jump.if(P0.new):nt 0xc19971fc 
+c1996944  jump.if(!P0.new):nt 0xc1997230 
+c1996950  call 0xc1c0fbf8 
+c1996958  jump.if(P0.new):t 0xc1996974 
+c1996964  call 0xc1620bec 
+c1996984  call 0xc1c5c968 
+c1996988  jump 0xc1997230 
+c1996994  jump.if(P0.new):t 0xc19969d8 
+c19969a4  jump.if(P0.new):nt 0xc1996acc 
+c19969b0  jump.if(P0.new):nt 0xc1996e34 
+c19969bc  jump.if(!P0.new):nt 0xc1997230 
+c19969c8  jump.if:t !cmp.eq(R2.new,#0x8),0xc1997230 
+c19969cc  call 0xc1c3a690 
+c19969d4  jump 0xc1997230 
+c19969e0  jump.if(P0.new):t 0xc1996a18 
+c19969ec  jump.if(P0.new):nt 0xc1996d4c 
+c19969f8  jump.if(!P0.new):nt 0xc1997230 
+c1996a0c  call 0xc1c3a808 
+c1996a14  jump 0xc1997230 
+c1996a20  jump.if(P0.new):nt 0xc199720c 
+c1996a2c  jump.if(!P0.new):nt 0xc1997230 
+c1996a38  jump 0xc1997230 
+c1996a40  jump.if(P0.new):nt 0xc1997230 
+c1996a4c  jumpr R2 
+c1996a54  jump.if(P0.new):nt 0xc1997230 
+c1996a60  jumpr R2 
+c1996a74  jumpr R2 
+c1996a80  jump.if:nt cmp.gtu(R2.new,#0x1c),0xc1997230 
+c1996a8c  jumpr R2 
+c1996a94  jump.if(P0.new):t 0xc1996ab0 
+c1996aa0  jump.if:t !cmp.gtu(R2.new,#0x1),0xc1997130 
+c1996aa8  jump.if(P0.new):t 0xc1996d54 
+c1996aac  jump 0xc1997230 
+c1996ab4  jump.if(P0.new):nt 0xc19968d0 
+c1996abc  jump.if(P0.new):nt 0xc1996d60 
+c1996ac4  jump.if(P0.new):t 0xc1996d54 
+c1996ac8  jump 0xc1997230 
+c1996ad4  jump.if(P0.new):nt 0xc1996da0 
+c1996af0  jump.if(P0.new):nt 0xc1996b0c 
+c1996afc  jump.if(P0.new):nt 0xc199703c 
+c1996b08  jump.if(!P0.new):nt 0xc199705c 
+c1996b0c  call 0xc1c38ce0 
+c1996b14  jump 0xc1997230 
+c1996b20  jump.if(P0.new):nt 0xc1997230 
+c1996b2c  jumpr R2 
+c1996b34  jump.if(P0.new):nt 0xc19971f0 
+c1996b3c  jump.if(!P0.new):nt 0xc1997230 
+c1996b40  call 0xc1c60ea0 
+c1996b48  jump 0xc1997230 
+c1996b54  call 0xc1c0fbf8 
+c1996b5c  jump.if(P0.new):t 0xc1997230 
+c1996b60  call 0xc1620be0 
+c1996b70  jump 0xc1997230 
+c1996b74  call 0xc1c0fbf8 
+c1996b7c  jump.if(P0.new):t 0xc1996b90 
+c1996b80  call 0xc1620be0 
+c1996b90  call 0xc1c0f358 
+c1996b98  call 0xc1c32e5c 
+c1996ba0  call 0xc1c13a80 
+c1996ba8  call 0xc1c27300 
+c1996bb0  call 0xc1c9ba34 
+c1996bb8  call 0xc1c35c4c 
+c1996bc0  call 0xc1c484e8 
+c1996bc8  call 0xc1c169f0 
+c1996bd0  call 0xc1c44fe8 
+c1996bd8  call 0xc1c0fe84 
+c1996be0  call 0xc1c1f068 
+c1996be8  call 0xc1c438ac 
+c1996bf0  call 0xc1c2e224 
+c1996bf8  call 0xc1c3af40 
+c1996c00  call 0xc1c9ec6c 
+c1996c08  call 0xc1c111e8 
+c1996c10  call 0xc1c61178 
+c1996c14  call 0xc1c110dc 
+c1996c1c  call 0xc1d4d8f0 
+c1996c24  call 0xc1c9e080 
+c1996c2c  call 0xc1c3a0e0 
+c1996c34  call 0xc1c610d8 
+c1996c44  jump 0xc1997230 
+c1996c48  call 0xc199c380 
+c1996c58  jump.if:nt !cmp.eq(R21.new,#0x0),0xc199731c 
+c1996c5c  call 0xc1c3a1a0 
+c1996c64  call 0xc1c0f3b0 
+c1996c6c  call 0xc1c2e308 
+c1996c74  call 0xc1c279f4 
+c1996c7c  call 0xc1c9bba8 
+c1996c84  call 0xc1c35d64 
+c1996c8c  call 0xc1c486dc 
+c1996c94  call 0xc1c16a70 
+c1996c9c  call 0xc1c10048 
+c1996ca4  call 0xc1c1f140 
+c1996cac  call 0xc1c43c00 
+c1996cb4  call 0xc1c41868 
+c1996cbc  call 0xc1c13b68 
+c1996cc4  call 0xc19a1850 
+c1996cd4  call 0xc1c130e0 
+c1996cd8  call 0xc1c47724 
+c1996ce0  call 0xc1c45100 
+c1996ce8  call 0xc1c1141c 
+c1996cf0  call 0xc1c9ece4 
+c1996cf8  call 0xc1c1115c 
+c1996d00  call 0xc1c33118 
+c1996d08  jump 0xc1997230 
+c1996d10  jump.if(!P0.new):t 0xc1997230 
+c1996d14  call 0xc1c3a268 
+c1996d1c  jump 0xc1997230 
+c1996d24  jump.if(!P0.new):t 0xc1997230 
+c1996d28  call 0xc1c38f58 
+c1996d30  jump 0xc1997230 
+c1996d34  call 0xc1c3ae50 
+c1996d3c  jump 0xc1997230 
+c1996d40  call 0xc1c381ac 
+c1996d48  jump 0xc1997230 
+c1996d54  call 0xc1c38ce0 
+c1996d5c  jump 0xc1997230 
+c1996d60  call 0xc1c3ab78 
+c1996d68  jump 0xc1997230 
+c1996d6c  call 0xc1c37550 
+c1996d74  jump 0xc1997230 
+c1996d78  call 0xc1c9cbd0 
+c1996d80  call 0xc1c26040 
+c1996d88  call 0xc1c38e40 
+c1996d90  jump 0xc1997230 
+c1996d94  call 0xc1c25860 
+c1996d9c  jump 0xc1997230 
+c1996da0  call 0xc19a1ba0 
+c1996da8  jump.if:t cmp.gt(R1.new,#0x1),0xc1996dc0 
+c1996db4  call 0xc16fd418 
+c1996dc8  call 0xc19a2f70 
+c1996dd0  jump 0xc1996dfc 
+c1996de0  jump.if:t !cmp.eq(R2.new,R3),0xc1996df8 
+c1996de4  call 0xc19a2f70 
+c1996de8  jump 0xc1996dfc 
+c1996dec  call 0xc1c37ff0 
+c1996df4  jump 0xc1996dfc 
+c1996df8  call 0xc1c37ff0 
+c1996dfc  call 0xc19a36a0 
+c1996e04  jump 0xc1997230 
+c1996e08  call 0xc1c3926c 
+c1996e10  jump 0xc1997230 
+c1996e18  jump.if(!P0.new):t 0xc1997230 
+c1996e1c  call 0xc1c3a2f8 
+c1996e24  jump 0xc1997230 
+c1996e28  call 0xc1c3a4c8 
+c1996e30  jump 0xc1997230 
+c1996e38  jump.if(!P0.new):t 0xc1997230 
+c1996e3c  call 0xc1c3a3f0 
+c1996e44  jump 0xc1997230 
+c1996e48  call 0xc19a2f70 
+c1996e50  jump 0xc1997230 
+c1996e54  call 0xc1c0fbf8 
+c1996e5c  jump.if(P0.new):t 0xc1996e7c 
+c1996e70  call 0xc1620c0c 
+c1996e84  jump.if:nt !cmp.gtu(R3.new,#0x1),0xc1996ea8 
+c1996e90  call 0xc1c39128 
+c1996e98  jump 0xc1997230 
+c1996e9c  call 0xc1c37ff0 
+c1996ea4  jump 0xc1997230 
+c1996ea8  call 0xc1c3a5b0 
+c1996eb0  jump 0xc1997230 
+c1996eb4  call 0xc1c0fbf8 
+c1996ebc  jump.if(P0.new):t 0xc1997230 
+c1996ec4  call 0xc1620bec 
+c1996ed4  jump 0xc1997230 
+c1996ed8  call 0xc1c39d28 
+c1996ee0  jump 0xc1997230 
+c1996ee4  call 0xc1c0fbf8 
+c1996eec  jump.if(P0.new):t 0xc1996f38 
+c1996f28  call 0xc1620c2c 
+c1996f3c  jump.if:nt cmp.gtu(R2.new,#0xb),0xc1996f60 
+c1996f4c  jump.if(P0.new):t 0xc1996f58 
+c1996f50  call 0xc1c38ce0 
+c1996f54  jump 0xc1997230 
+c1996f58  call 0xc1c39468 
+c1996f5c  jump 0xc1997230 
+c1996f60  call 0xc1c0fbf8 
+c1996f68  jump.if(P0.new):t 0xc1997230 
+c1996f70  call 0xc1620bec 
+c1996f80  jump 0xc1997230 
+c1996f84  call 0xc1c0fbf8 
+c1996f8c  jump.if(P0.new):t 0xc1996fd8 
+c1996fc8  call 0xc1620c2c 
+c1996fdc  jump.if:nt cmp.gtu(R2.new,#0xb),0xc1997000 
+c1996fec  jump.if(P0.new):t 0xc1996ff8 
+c1996ff0  call 0xc1c38ce0 
+c1996ff4  jump 0xc1997230 
+c1996ff8  call 0xc1c3951c 
+c1996ffc  jump 0xc1997230 
+c1997000  call 0xc1c0fbf8 
+c1997008  jump.if(P0.new):t 0xc1997230 
+c1997010  call 0xc1620bec 
+c1997020  jump 0xc1997230 
+c1997024  call 0xc1c608e0 
+c199702c  jump 0xc1997230 
+c1997030  call 0xc1c60984 
+c1997038  jump 0xc1997230 
+c199703c  call 0xc1c0fbf8 
+c1997044  jump.if(P0.new):t 0xc1997230 
+c1997048  call 0xc1620be0 
+c1997058  jump 0xc1997230 
+c199705c  call 0xc1c0fbf8 
+c199706c  jump.if(P0.new):t 0xc1997080 
+c1997070  call 0xc1620bec 
+c1997080  call 0xc16fd420 
+c1997090  jump.if:t !cmp.eq(R2.new,#0x0),0xc199709c 
+c1997094  call 0xc1c38fc0 
+c1997098  jump 0xc1997230 
+c199709c  call 0xc1c47cc0 
+c19970a0  jump 0xc1997230 
+c19970a4  call 0xc1c47cc0 
+c19970ac  jump 0xc1997230 
+c19970b0  call 0xc1999f50 
+c19970bc  call 0xc1995678 
+c19970c4  call 0xc199c210 
+c19970cc  jump 0xc1997230 
+c19970d0  call 0xc1c3a568 
+c19970d8  jump 0xc1997230 
+c19970dc  call 0xc1c3a56c 
+c19970e4  jump 0xc1997230 
+c19970e8  call 0xc198c160 
+c19970f0  jump 0xc1997230 
+c19970f4  call 0xc1c60400 
+c19970fc  jump 0xc1997230 
+c1997100  call 0xc199748c 
+c1997108  jump 0xc1997230 
+c199710c  call 0xc1c3a7a0 
+c1997114  jump 0xc1997230 
+c1997118  call 0xc1c9b948 
+c1997120  jump 0xc1997230 
+c1997124  call 0xc1c5c968 
+c199712c  jump 0xc1997230 
+c1997130  call 0xc1c395d0 
+c1997138  jump 0xc1997230 
+c199713c  call 0xc19a5eac 
+c1997144  jump 0xc1997230 
+c1997148  call 0xc1c25e50 
+c1997150  jump 0xc1997230 
+c1997154  call 0xc1999fd8 
+c199715c  jump 0xc1997230 
+c1997160  call 0xc1c9fee0 
+c1997168  jump 0xc1997230 
+c199716c  call 0xc1ca02e4 
+c1997174  jump 0xc1997230 
+c1997178  call 0xc1c9da00 
+c1997180  jump 0xc1997230 
+c1997188  jump.if(!P0.new):t 0xc1997230 
+c199718c  call 0xc1c60d40 
+c1997194  jump 0xc1997230 
+c1997198  call 0xc1c3a870 
+c19971a0  jump 0xc1997230 
+c19971a4  call 0xc1c3a8a8 
+c19971ac  jump 0xc1997230 
+c19971b0  call 0xc1c3a8e0 
+c19971b8  jump 0xc1997230 
+c19971bc  call 0xc1c3a970 
+c19971c4  jump 0xc1997230 
+c19971c8  call 0xc1c3ad4c 
+c19971d0  jump 0xc1997230 
+c19971d8  call 0xc1c3adcc 
+c19971e0  jump 0xc1997230 
+c19971e4  call 0xc1c9e984 
+c19971ec  jump 0xc1997230 
+c19971f0  call 0xc1c3ac90 
+c19971f8  jump 0xc1997230 
+c1997200  call 0xc1c3aae8 
+c1997208  jump 0xc1997230 
+c1997210  call 0xc1c3ac0c 
+c1997218  jump 0xc1997230 
+c199721c  call 0xc19a5eac 
+c1997224  jump 0xc1997230 
+c1997228  call 0xc1c382a8 
+c1997234  jump.if(P0.new):nt 0xc199653c 
+c1997240  jump.if:t !cmp.eq(R2.new,#0x0),0xc1996528 
+c1997244  call 0xc1c0fbf8 
+c199724c  jump.if(P0.new):t 0xc1997260 
+c1997250  call 0xc1620be0 
+c1997260  call 0xc198c770 
+c1997274  callr R2 
+c1997280  callr R2 
+c1997288  callr R2 
+c1997290  callr R2 
+c1997298  call 0xc161fb78 
+c19972a4  jump 0xc199653c 
+c19972c8  jumpr R3 
+c19972d4  call 0xc16fd420 
+c19972e4  call 0xc16fd420 
+c19972ec  call 0xc16fd410 
+c19972fc  call 0xc16fd420 
+c1997308  call 0xc16fd420 
+c1997314  call 0xc16fd420 
+c199731c  call 0xc16fd410 
+
+Flow instruction count = 382
+
+============================================================
+[DECOMPILATION]
+============================================================
+Decompiled length = 25723
+
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_c19963cc(void)
+
+{
+  ushort uVar1;
+  undefined4 uVar2;
+  sbyte sVar3;
+  int iVar4;
+  undefined4 *puVar5;
+  ulonglong uVar6;
+  uint in_R7;
+  uint uVar7;
+  char cVar8;
+  uint uVar9;
+  undefined8 uVar10;
+  uint uVar11;
+  uint uVar12;
+  uint uVar13;
+  undefined *puVar14;
+  uint uVar15;
+  uint *puVar16;
+  uint *puVar17;
+  int unaff_GP;
+  undefined4 local_40;
+  undefined4 local_3c;
+  
+  thunk_EXT_FUN_d80f1c90();
+  FUN_c1cc60e4(0x38);
+  FUN_c1620d4c(&DAT_cb54c590,0,0xe138);
+  FUN_c1d4d750(1);
+  FUN_c1c0fae8();
+  FUN_c1c5d138(0);
+  FUN_c1c5d368(0);
+  FUN_c1c5a2d8();
+  FUN_c1c35b18(0);
+  FUN_c17048b0(&DAT_cb54c598);
+  iVar4 = thunk_EXT_FUN_da194660(&DAT_cb54c594);
+  if (iVar4 != 0) {
+                    /* WARNING: Subroutine does not return */
+    FUN_c16fd420(0xcf8e46cc);
+  }
+  iVar4 = thunk_EXT_FUN_da194798
+                    ("NR5G MACCTRL Mailbox",&DAT_cb54c594,1,0x1368,0x1e,&DAT_cb54c5a8,&DAT_cb54c598,
+                     0);
+  if (iVar4 != 0) {
+                    /* WARNING: Subroutine does not return */
+    FUN_c16fd420(0xcf8e46d6);
+  }
+  uVar9 = 0;
+  uVar7 = 0;
+  puVar14 = &DAT_cb54c594;
+  uVar15 = 0x1d0f0703;
+  do {
+    iVar4 = thunk_EXT_FUN_da194d78(0x1d0f,puVar14,0,&DAT_c9191670,0x6b,uVar9 & 0xff);
+    if (iVar4 != 0) {
+                    /* WARNING: Subroutine does not return */
+      FUN_c16fd410(0xcf8e46e0,uVar9,iVar4);
+    }
+    uVar15 = uVar7 | uVar15 & 0xffff0fff;
+    iVar4 = FUN_c1c35c40();
+    iVar4 = thunk_EXT_FUN_da194c98(0x1d0f,iVar4 + 4,uVar15);
+    if (!(bool)(-(iVar4 == 0) & '\x01')) {
+      puVar14 = (undefined *)0xcf8e46ea;
+    }
+    if (!(bool)(-(iVar4 == 0) & '\x01')) {
+                    /* WARNING: Subroutine does not return */
+      FUN_c16fd420(puVar14);
+    }
+    uVar7 = uVar7 + 0x1000;
+    uVar9 = uVar9 + 1;
+  } while (uVar9 < 2);
+  thunk_EXT_FUN_d8103db0(4,FUN_c1c0fc00);
+  FUN_c1c35b58();
+  _DAT_cb54c590 = 1;
+  uVar10 = 0xc00001cb55a6be;
+  do {
+    uVar15 = FUN_c161f0a8(&DAT_cb54c598,7,0);
+    if ((bool)(-((uVar15 & 1) != 0) & '\x01')) {
+      iVar4 = FUN_c19f4f6c(&DAT_cb54c594,&DAT_cb54c5c8);
+      if (iVar4 != 0) {
+        if (iVar4 != 0x13) {
+                    /* WARNING: Subroutine does not return */
+          FUN_c16fd418(0xcf8e46c2,iVar4);
+        }
+        goto switchD_c19972c8_caseD_1d0f02;
+      }
+      cVar8 = (char)(DAT_cb54c5c8 >> 0xc) & '\x0f';
+      DAT_cb54c5c8 = DAT_cb54c5c8 & 0xffff0fff;
+      if (DAT_cb54c5c8 == 0x1d0f0104) {
+        *(char *)((int)uVar10 + 1) = cVar8;
+        uVar7 = FUN_c1c0fbf8();
+        if ((uVar7 & 4) != 0) {
+          FUN_c1620c00(uVar7,*(undefined1 *)((int)uVar10 + 1),0);
+        }
+      }
+      uVar13 = DAT_cb55a00c;
+      uVar9 = DAT_cb558e78;
+      uVar7 = DAT_cb54cc40;
+      uVar12 = DAT_cb54c5c8 >> 8;
+      uVar11 = DAT_cb54c5c8 & 0xff;
+      if (uVar12 < 0x1d0f0b) {
+        if (uVar12 == 0x1d0c03) {
+          if ((bool)(-(uVar11 == 0x19) & '\x01')) goto LAB_c19966cc;
+        }
+        else if (((bool)(-(uVar12 == 0x1d0f01) & '\x01')) && (uVar11 < 0xb)) {
+          iVar4 = (int)(DAT_cb54c5c8 << 0x19) >> 0x19;
+          if (((uint)(-1 < iVar4) * (1 << iVar4) & 0xb) != 0) goto LAB_c1996670;
+          iVar4 = (int)(DAT_cb54c5c8 << 0x19) >> 0x19;
+          if (((uint)(-1 < iVar4) * (1 << iVar4) & 0x600) != 0) goto LAB_c19966cc;
+        }
+LAB_c199664c:
+        if (0x1d < DAT_cb54cc40) {
+                    /* WARNING: Subroutine does not return */
+          FUN_c16fd420(0xcf8e46f4);
+        }
+        puVar16 = (uint *)(&UNK_cb54cc48 + DAT_cb54cc40 * 0x678);
+        FUN_c16979d0(puVar16,local_3c,&DAT_cb54c5c8,local_3c);
+        uVar9 = uVar7 + 1;
+        (&DAT_cb558e58)[uVar7] = cVar8;
+        if (uVar9 < 0x1e) {
+          iVar4 = 0;
+        }
+        else {
+          iVar4 = 0x1e;
+        }
+        DAT_cb54cc40 = uVar9 - iVar4;
+      }
+      else if (uVar12 == 0x1d0f0b) {
+        puVar16 = &DAT_cb54c5c8;
+        if (uVar11 != 2) {
+          if (uVar11 == 6) {
+LAB_c1996670:
+            if (9 < DAT_cb558e78) {
+                    /* WARNING: Subroutine does not return */
+              FUN_c16fd420(0xcf8e46f4);
+            }
+            puVar16 = (uint *)(&UNK_cb558e80 + DAT_cb558e78 * 0x1c0);
+            FUN_c16979d0(puVar16,local_3c,&DAT_cb54c5c8,local_3c);
+            uVar7 = uVar9 + 1;
+            (&DAT_cb55a000)[uVar9] = cVar8;
+            if (uVar7 < 10) {
+              iVar4 = 0;
+            }
+            else {
+              iVar4 = 10;
+            }
+            DAT_cb558e78 = uVar7 - iVar4;
+          }
+          else if (uVar11 != 0x1e) goto LAB_c199664c;
+        }
+      }
+      else {
+        if ((!(bool)(-(uVar12 == 0x1d4a04) & '\x01')) || (uVar11 != 0)) goto LAB_c199664c;
+LAB_c19966cc:
+        if (0x1d < DAT_cb55a00c) {
+                    /* WARNING: Subroutine does not return */
+          FUN_c16fd420(0xcf8e46f4);
+        }
+        puVar16 = (uint *)(&UNK_cb55a010 + DAT_cb55a00c * 0x38);
+        FUN_c16979d0(puVar16,local_3c,&DAT_cb54c5c8,local_3c);
+        uVar7 = uVar13 + 1;
+        (&DAT_cb55a6a0)[uVar13] = cVar8;
+        if (uVar7 < 0x1e) {
+          iVar4 = 0;
+        }
+        else {
+          iVar4 = 0x1e;
+        }
+        DAT_cb55a00c = uVar7 - iVar4;
+      }
+      uVar2 = local_3c;
+      sVar3 = *(sbyte *)uVar10;
+      *(uint **)(unaff_GP + 0x79b8) = puVar16;
+      if (sVar3 != 0) {
+LAB_c19967ac:
+        uVar7 = *puVar16;
+        if ((((0x17 < uVar7 + 0xe2f0f4fe) ||
+             (iVar4 = (int)((uVar7 + 0xe2f0f4fe) * 0x2000000) >> 0x19,
+             !(bool)(-(((uint)((ulonglong)uVar10 >> 0x20) & (uint)(-1 < iVar4) * (1 << iVar4)) != 0)
+                    & '\x01'))) && (uVar7 != 0x1d0f0104)) && (uVar7 != 0x20010301)) {
+          uVar7 = FUN_c1c0fbf8();
+          if ((uVar7 & 4) != 0) {
+            FUN_c1620c0c(uVar7,*puVar16,uVar2,0,0x1016,PTR_DAT_c9191664);
+          }
+          uVar7 = *puVar16;
+        }
+        uVar13 = uVar7 >> 8;
+        uVar9 = uVar7 & 0xff;
+        sVar3 = (sbyte)uVar7;
+        if (uVar13 < 0x1d0f01) {
+          if (uVar13 < 0x1d0203) {
+            if (uVar13 < 0xc0503) {
+              if (uVar13 == 0xb01) {
+                if ((bool)(-(sVar3 == -0x62) & '\x01')) {
+                  FUN_c1c60d40(puVar16,0);
+                }
+              }
+              else if (((bool)(-(uVar13 == 0xb03) & '\x01')) && ((bool)(-(sVar3 == -99) & '\x01')))
+              {
+                FUN_c1c60bd0(puVar16,0);
+              }
+            }
+            else if (uVar13 == 0xc0503) {
+              if (sVar3 == 0x21) {
+                FUN_c1c3ac90(puVar16,0);
+              }
+              else if ((bool)(-(sVar3 == 0x47) & '\x01')) {
+                FUN_c1c60ea0(puVar16,0);
+              }
+            }
+            else if (uVar13 == 0x157f03) {
+              if ((bool)(-(uVar9 == 1) & '\x01')) {
+                FUN_c1c3adcc(puVar16,0);
+              }
+            }
+            else if (((bool)(-(uVar13 == 0x1d0103) & '\x01')) &&
+                    ((bool)(-(sVar3 == -0x7a) & '\x01'))) goto switchD_c1996a8c_caseD_8;
+          }
+          else if (uVar13 < 0x1d0c03) {
+            if (uVar13 == 0x1d0203) {
+              if ((bool)(-(sVar3 == -0x7d) & '\x01')) goto switchD_c1996a8c_caseD_d;
+            }
+            else if (uVar13 == 0x1d0503) {
+              if ((bool)(-(sVar3 == -0x76) & '\x01')) {
+                FUN_c1c38f58(puVar16,0);
+              }
+            }
+            else if ((bool)(-(uVar13 == 0x1d0c01) & '\x01')) {
+              if (sVar3 == 0x5c) goto switchD_c1996a8c_caseD_9;
+              if ((bool)(-(sVar3 == 0x67) & '\x01')) goto LAB_c19968d0;
+            }
+          }
+          else if (uVar13 == 0x1d0c03) {
+            if (uVar9 < 0x44) {
+              if (uVar9 - 0x18 < 2) {
+                FUN_c1c395d0(puVar16,0);
+              }
+              else if (sVar3 == 0x41) goto switchD_c1996a8c_caseD_9;
+            }
+            else if (sVar3 == 0x44) {
+LAB_c19968d0:
+              FUN_c1c3aa00(puVar16,0);
+            }
+            else if (sVar3 == 0x4b) {
+              FUN_c1c3ab78(puVar16,0);
+            }
+            else if (sVar3 == 0x5e) goto switchD_c1996a8c_caseD_9;
+          }
+          else if (uVar13 == 0x1d0d01) {
+            if ((bool)(-(sVar3 == -0x47) & '\x01')) {
+              FUN_c1c3a268(puVar16,0);
+            }
+          }
+          else if (((bool)(-(uVar13 == 0x1d0d03) & '\x01')) && ((bool)(-(sVar3 == 0x58) & '\x01')))
+          {
+            FUN_c1ca0b44(puVar16,0);
+          }
+        }
+        else {
+          puVar17 = puVar16 + 4;
+          if (uVar13 < 0x1d4a04) {
+            switch(uVar13) {
+            case 0x1d0f01:
+              switch(uVar9) {
+              case 0:
+switchD_c1996a60_caseD_6:
+                FUN_c1c37550(puVar16,0);
+                break;
+              case 1:
+switchD_c1996a60_caseD_1a:
+                FUN_c1c382a8(puVar16,0);
+                break;
+              case 2:
+                FUN_c1c3926c(puVar16,0);
+                break;
+              case 3:
+                FUN_c1c381ac(puVar16,0);
+                break;
+              case 4:
+                uVar7 = FUN_c1c0fbf8();
+                if ((uVar7 & 4) != 0) {
+                  FUN_c1620be0(uVar7,0x1013,PTR_DAT_c9191660);
+                }
+                FUN_c1c0f358(0);
+                FUN_c1c32e5c(0);
+                FUN_c1c13a80(0);
+                FUN_c1c27300(0);
+                FUN_c1c9ba34(0);
+                FUN_c1c35c4c(0);
+                FUN_c1c484e8(0);
+                FUN_c1c169f0(0);
+                FUN_c1c44fe8(0);
+                FUN_c1c0fe84(0);
+                FUN_c1c1f068(0);
+                FUN_c1c438ac(0);
+                FUN_c1c2e224(0);
+                FUN_c1c3af40(0);
+                FUN_c1c9ec6c(0);
+                FUN_c1c111e8(0);
+                FUN_c1c61178();
+                FUN_c1c110dc(0);
+                puVar5 = (undefined4 *)FUN_c1d4d8f0(0);
+                FUN_c1c9e080(*puVar5,0);
+                FUN_c1c3a0e0(puVar16,0);
+                FUN_c1c610d8(0,*(undefined1 *)((int)uVar10 + 1),0);
+                break;
+              case 5:
+                iVar4 = FUN_c199c380(0);
+                if (*(int *)(iVar4 + 0x18) != 0) {
+                    /* WARNING: Subroutine does not return */
+                  FUN_c16fd410(0xcf8e46fe,*(int *)(iVar4 + 0x18),*(undefined4 *)(iVar4 + 0x10));
+                }
+                FUN_c1c3a1a0(puVar16,0);
+                FUN_c1c0f3b0(0);
+                FUN_c1c2e308(0);
+                FUN_c1c279f4(0);
+                FUN_c1c9bba8(0);
+                FUN_c1c35d64(0);
+                FUN_c1c486dc(0);
+                FUN_c1c16a70(0);
+                FUN_c1c10048(0);
+                FUN_c1c1f140(0);
+                FUN_c1c43c00(0);
+                FUN_c1c41868(0);
+                FUN_c1c13b68(0);
+                iVar4 = FUN_c19a1850(0);
+                if (iVar4 != 0) {
+                  FUN_c1c130e0(0);
+                  FUN_c1c47724(0);
+                }
+                FUN_c1c45100(0);
+                FUN_c1c1141c(0);
+                FUN_c1c9ece4(0);
+                FUN_c1c1115c(0);
+                FUN_c1c33118(0);
+                break;
+              case 9:
+                uVar7 = FUN_c1c0fbf8();
+                if ((uVar7 & 4) != 0) {
+                  uVar1 = *(ushort *)((int)puVar16 + 0x1a);
+                  in_R7 = (ushort)puVar16[7] & 0xff;
+                  FUN_c1620c2c(uVar7,(sbyte)puVar16[6],puVar16[5],
+                               *(undefined1 *)((int)puVar16 + 0x19),uVar1 & 0x3ff,uVar1 >> 10,0x101a
+                               ,PTR_DAT_c9191660,in_R7,
+                               (uint)(ushort)puVar16[7] * 0x10000 + (uint)uVar1 >> 0x18);
+                }
+                if ((char)puVar16[6] < 0xc) {
+                  iVar4 = (int)((uint)(char)puVar16[6] << 0x19) >> 0x19;
+                  if (((uint)(-1 < iVar4) * (1 << iVar4) & 0xfec) == 0) {
+                    FUN_c1c38ce0(puVar16,0);
+                  }
+                  else {
+                    FUN_c1c39468();
+                  }
+                }
+                else {
+                  uVar7 = FUN_c1c0fbf8();
+                  if ((uVar7 & 8) != 0) {
+                    FUN_c1620bec(uVar7,(sbyte)puVar16[6],0x1014,PTR_DAT_c9191660);
+                  }
+                }
+                break;
+              case 10:
+                uVar7 = FUN_c1c0fbf8();
+                if ((uVar7 & 4) != 0) {
+                  uVar1 = *(ushort *)((int)puVar16 + 0x1a);
+                  in_R7 = (ushort)puVar16[7] & 0xff;
+                  FUN_c1620c2c(uVar7,(sbyte)puVar16[6],puVar16[5],
+                               *(undefined1 *)((int)puVar16 + 0x19),uVar1 & 0x3ff,uVar1 >> 10,0x101a
+                               ,PTR_DAT_c9191660,in_R7,
+                               (uint)(ushort)puVar16[7] * 0x10000 + (uint)uVar1 >> 0x18);
+                }
+                if ((char)puVar16[6] < 0xc) {
+                  iVar4 = (int)((uint)(char)puVar16[6] << 0x19) >> 0x19;
+                  if (((uint)(-1 < iVar4) * (1 << iVar4) & 0xfec) == 0) {
+                    FUN_c1c38ce0(puVar16,0);
+                  }
+                  else {
+                    FUN_c1c3951c();
+                  }
+                }
+                else {
+                  uVar7 = FUN_c1c0fbf8();
+                  if ((uVar7 & 8) != 0) {
+                    FUN_c1620bec(uVar7,(sbyte)puVar16[6],0x1014,PTR_DAT_c9191660);
+                  }
+                }
+                break;
+              case 0xb:
+                FUN_c1c3a4c8(puVar16,0);
+                break;
+              case 0xc:
+                FUN_c1c9cbd0(puVar16,0);
+                FUN_c1c26040(1,0);
+                FUN_c1c38e40(puVar16,0);
+                break;
+              case 0x12:
+              case 0x13:
+switchD_c1996a8c_caseD_7:
+                FUN_c19a2f70(puVar16,0);
+                break;
+              case 0x1f:
+                FUN_c1c3a8e0(puVar16,0);
+                break;
+              case 0x20:
+                FUN_c1c3a970(puVar16,0);
+                break;
+              case 0x22:
+              case 0x23:
+              case 0x24:
+              case 0x25:
+                FUN_c1c3a7a0(puVar16,0);
+              }
+              break;
+            case 0x1d0f02:
+            case 0x1d0f04:
+            case 0x1d0f05:
+            case 0x1d0f06:
+            case 0x1d0f08:
+            case 0x1d0f09:
+            case 0x1d0f0a:
+              break;
+            case 0x1d0f03:
+              switch(uVar9) {
+              case 6:
+              case 0x35:
+switchD_c1996a8c_caseD_e:
+                FUN_c1c3a690(puVar16,0);
+                break;
+              case 0x1e:
+                FUN_c1c608e0(puVar16,0);
+                break;
+              case 0x1f:
+                FUN_c1c60984(puVar16,0);
+                break;
+              case 0x32:
+                FUN_c1c25e50(puVar16,0);
+                break;
+              case 0x33:
+                FUN_c19a5eac(puVar16,uVar2);
+                break;
+              case 0x39:
+                goto switchD_c1996a8c_caseD_7;
+              case 0x3b:
+                FUN_c19a5eac(puVar16,0x20);
+              }
+              break;
+            case 0x1d0f07:
+              if (((bool)(-(uVar9 == 3) & '\x01')) && (uVar7 = FUN_c1c0fbf8(), (uVar7 & 4) != 0)) {
+                FUN_c1620be0(uVar7,0x1013,PTR_DAT_c9191660);
+              }
+              break;
+            case 0x1d0f0b:
+              switch(uVar9) {
+              case 0:
+              case 0x26:
+                goto switchD_c1996a8c_caseD_7;
+              case 2:
+                FUN_c1999f50(4,0x1d0f0b02,0);
+                thunk_FUN_c199dd40(puVar16,0);
+                FUN_c199c210(4,0);
+                break;
+              case 3:
+                uVar7 = FUN_c1c0fbf8();
+                if ((uVar7 & 2) != 0) {
+                  FUN_c1620c0c(uVar7,(sbyte)puVar16[4],puVar16[5] >> 0x10 & 0x3ff,puVar16[5] & 0xff,
+                               0x1016,PTR_DAT_c9191660);
+                }
+                uVar7 = (uint)(char)puVar16[4];
+                if (uVar7 - 1 < 2) {
+                  FUN_c1c3a5b0(puVar16,0);
+                }
+                else if (uVar7 == 7) {
+                  FUN_c1c37ff0(puVar16,0);
+                }
+                else if ((bool)(-(uVar7 == 5) & '\x01')) {
+                  FUN_c1c39128(puVar16,0);
+                }
+                else {
+                  uVar7 = FUN_c1c0fbf8();
+                  if ((uVar7 & 8) != 0) {
+                    FUN_c1620bec(uVar7,(sbyte)puVar16[4],0x1014,PTR_DAT_c9191660);
+                    in_R7 = in_R7 + 0x1283;
+                  }
+                }
+                break;
+              case 6:
+                goto switchD_c1996a60_caseD_6;
+              case 8:
+              case 0xe:
+              case 0x27:
+switchD_c1996a8c_caseD_8:
+                FUN_c1c37ff0(puVar16,0);
+                break;
+              case 0xc:
+                FUN_c1c3a56c(puVar16,0);
+                break;
+              case 0x13:
+                FUN_c1c9b948(puVar17,0);
+                break;
+              case 0x14:
+                FUN_c1c5c968(puVar17,0,0,0);
+                break;
+              case 0x18:
+                FUN_c1c60400(puVar16,0);
+                break;
+              case 0x19:
+                FUN_c199748c(puVar16,0);
+                break;
+              case 0x1a:
+                goto switchD_c1996a60_caseD_1a;
+              case 0x1b:
+              case 0x1c:
+              case 0x23:
+switchD_c1996a8c_caseD_22:
+                FUN_c1999fd8(puVar16,0);
+                break;
+              case 0x1e:
+                thunk_FUN_c1c9d4a4(puVar16,0);
+                break;
+              case 0x21:
+                FUN_c1c25860(puVar16,0);
+                break;
+              case 0x22:
+                FUN_c1c9da00(puVar16,0);
+                break;
+              case 0x25:
+                FUN_c1c3ad4c(puVar16,0);
+                break;
+              case 0x28:
+                FUN_c1c3ae50(puVar16,0);
+              }
+              break;
+            case 0x1d0f0c:
+              switch(uVar9) {
+              case 0:
+              case 6:
+switchD_c1996a8c_caseD_9:
+                FUN_c1c38ce0(puVar16,0);
+                break;
+              case 2:
+              case 5:
+                goto switchD_c1996a8c_caseD_8;
+              case 3:
+                goto switchD_c1996a8c_caseD_7;
+              case 4:
+                FUN_c1c39d28(puVar16,0);
+              }
+              break;
+            case 0x1d0f0d:
+              switch(uVar9) {
+              case 6:
+                if (*puVar17 == 0) {
+                  FUN_c1c38fc0(puVar16,0);
+                }
+                else {
+                  FUN_c1c47cc0();
+                }
+                break;
+              case 7:
+              case 10:
+              case 0x13:
+              case 0x16:
+              case 0x20:
+                goto switchD_c1996a8c_caseD_7;
+              case 8:
+                goto switchD_c1996a8c_caseD_8;
+              case 9:
+                goto switchD_c1996a8c_caseD_9;
+              case 0xd:
+switchD_c1996a8c_caseD_d:
+                FUN_c1c3a2f8(puVar16,0);
+                break;
+              case 0xe:
+              case 0xf:
+                goto switchD_c1996a8c_caseD_e;
+              case 0x10:
+              case 0x11:
+              case 0x12:
+                FUN_c1c47cc0(puVar16,0);
+                break;
+              case 0x14:
+                FUN_c1c9fee0(puVar16,0);
+                break;
+              case 0x15:
+                FUN_c1ca02e4(puVar16,0);
+                break;
+              case 0x17:
+                FUN_c1c3a870(puVar16,0);
+                break;
+              case 0x19:
+                FUN_c1c3a8a8(puVar16,0);
+                break;
+              case 0x21:
+                FUN_c1c9e984(0);
+                break;
+              case 0x22:
+                goto switchD_c1996a8c_caseD_22;
+              }
+              break;
+            default:
+              if (uVar13 == 0x1d3d03) {
+                if ((bool)(-(uVar9 == 10) & '\x01')) {
+                  FUN_c1c3aae8(puVar16,0);
+                }
+              }
+              else if (((bool)(-(uVar13 == 0x1d4603) & '\x01')) && ((bool)(-(uVar9 == 9) & '\x01')))
+              {
+                uVar7 = FUN_c1c0fbf8();
+                if ((uVar7 & 4) != 0) {
+                  FUN_c1620bec(uVar7,*(undefined1 *)((int)puVar16 + 0x251),0x1014,PTR_DAT_c9191660);
+                  in_R7 = in_R7 + 0x1270;
+                }
+                FUN_c1c5c968(puVar17,(sbyte)puVar16[0x94],*(undefined1 *)((int)puVar16 + 0x251),0);
+              }
+            }
+          }
+          else if (uVar13 < 0x1d8004) {
+            if (uVar13 == 0x1d4a04) {
+              if ((uVar7 & 0xff) == 0) {
+                iVar4 = FUN_c19a1ba0();
+                sVar3 = (sbyte)puVar16[5];
+                if ((char)sVar3 < '\x02') {
+                  if (sVar3 == 0) {
+                    FUN_c1c37ff0(puVar16,0);
+                  }
+                  else if (sVar3 != 1) goto LAB_c1996db4;
+                }
+                else if (sVar3 == 3) {
+                  if (*puVar17 == *(uint *)(iVar4 + 0x60)) {
+                    FUN_c19a2f70(puVar16,0);
+                  }
+                  else {
+                    FUN_c1c37ff0();
+                  }
+                }
+                else {
+                  if (!(bool)(-(sVar3 == 2) & '\x01')) {
+LAB_c1996db4:
+                    /* WARNING: Subroutine does not return */
+                    FUN_c16fd418(0xcf8e4708);
+                  }
+                  FUN_c19a2f70(puVar16,0);
+                }
+                FUN_c19a36a0(puVar16,0);
+              }
+              else {
+                if (uVar9 == 1) goto switchD_c1996a8c_caseD_8;
+                if (uVar9 == 2) {
+                  uVar7 = puVar16[6];
+                  if (uVar7 != 0x1d820405) {
+                    if (uVar7 == 0x1d810407) {
+                      uVar7 = FUN_c1c0fbf8();
+                      if ((uVar7 & 4) != 0) {
+                        FUN_c1620be0(uVar7,0x1013,PTR_DAT_c9191660);
+                      }
+                      goto switchD_c19972c8_caseD_1d0f02;
+                    }
+                    if (!(bool)(-(uVar7 == 0x1d80040b) & '\x01')) {
+                      uVar6 = FUN_c1c0fbf8();
+                      iVar4 = (int)(uVar6 >> 0x20);
+                      if ((uVar6 & 8) != 0) {
+                        FUN_c1620bec((int)uVar6,puVar16[6],0x1014,PTR_DAT_c9191660);
+                        iVar4 = in_R7 + 0x12ad;
+                      }
+                    /* WARNING: Subroutine does not return */
+                      FUN_c16fd420(0xcf8e4712,iVar4);
+                    }
+                  }
+                  FUN_c1c38ce0(puVar16,0);
+                }
+              }
+            }
+            else if (uVar13 == 0x1d6403) {
+              if ((bool)(-(sVar3 == 0x20) & '\x01')) {
+                FUN_c1c3a3f0(puVar16,0);
+              }
+            }
+            else if (((bool)(-(uVar13 == 0x1d6703) & '\x01')) && ((uVar7 & 0xfc) == 8))
+            goto switchD_c1996a8c_caseD_e;
+          }
+          else if (uVar13 < 0x200603) {
+            if (uVar13 == 0x1d8004) {
+              if ((bool)(-(uVar9 == 0xb) & '\x01')) goto switchD_c1996a8c_caseD_9;
+            }
+            else if ((bool)(-(uVar13 == 0x200103) & '\x01')) {
+              if (uVar9 == 1) {
+                FUN_c198c160(puVar16,0);
+              }
+              else if ((bool)(-(uVar9 == 0xc) & '\x01')) {
+                FUN_c1c3a808(puVar16,0);
+              }
+            }
+          }
+          else if (uVar13 == 0x200603) {
+            if ((bool)(-(uVar9 == 4) & '\x01')) {
+LAB_c1997210:
+              FUN_c1c3ac0c(puVar16,0);
+            }
+          }
+          else if (((bool)(-(uVar13 == 0x200703) & '\x01')) && (uVar9 == 1)) goto LAB_c1997210;
+        }
+        goto switchD_c19972c8_caseD_1d0f02;
+      }
+      if ((int)DAT_cb54c5c8 < 0x1d0f0b13) {
+        if ((DAT_cb54c5c8 == 0x1d0f0104) || (DAT_cb54c5c8 == 0x1d0f0703)) goto LAB_c19967ac;
+      }
+      else if ((DAT_cb54c5c8 == 0x1d0f0b18) || ((bool)(-(DAT_cb54c5c8 == 0x1d0f0b13) & '\x01')))
+      goto LAB_c19967ac;
+    }
+    else {
+switchD_c19972c8_caseD_1d0f02:
+      if ((uVar15 & 6) != 0) {
+        if (*(sbyte *)uVar10 == 0) {
+          uVar15 = FUN_c1c0fbf8();
+          if ((uVar15 & 4) != 0) {
+            FUN_c1620be0(uVar15,0x1113,PTR_DAT_c9191660);
+          }
+          FUN_c198c770(0);
+          local_40 = 0;
+          iVar4 = (*DAT_cbcf1e6c)();
+          if ((bool)(-(iVar4 == 0) & '\x01')) {
+            do {
+              (*DAT_cbcf1e68)(&local_40);
+              (*DAT_cbcf1e64)(local_40);
+              iVar4 = (*DAT_cbcf1e6c)();
+            } while (iVar4 == 0);
+          }
+          FUN_c161fb78(&DAT_cb54c598,2);
+        }
+        else {
+          FUN_c161fb78(&DAT_cb54c598,2);
+          FUN_c198c160(0,0);
+        }
+      }
+    }
+    if (DAT_cb54c590 == 0) {
+      return 0;
+    }
+  } while( true );
+}
+
+
 
 ============================================================
 DONE
 ============================================================
-FindRFDebugCombinedCandidates_x55.java> Finished!
+RFDebugCandidateDrilldown_x55.java> Finished!
