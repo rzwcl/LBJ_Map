@@ -1,74 +1,51 @@
-                             LAB_00024d40                                    XREF[2]:     00025f4c (*) , 00025f54 (j)   
-        00024d40 e8  4b  02  00    immext     #0x22fa00  
-        00024d44 0e  dc  49  6a || add        R14 ,PC,##0x22fa38  
-        00024d48 1c  c0  8e  91    memw       R28 ,(R14 )=>-><EXTERNAL>::dmm_register_dm        = 00255124
-        00024d4c 00  c0  9c  52    jumpr      R28 =><EXTERNAL>::dmm_register_dm                 undefined dmm_register_dm()
-                             -- Flow Override: CALL_RETURN (COMPUTED_CALL_TERMINATOR)
-        00024d50 e8              ??         E8h                                              ?  ->  00024be8
-        00024d51 4b              ??         4Bh    K
-        00024d52 02              ??         02h
-        00024d53 00              ??         00h
-        00024d54 0e              ??         0Eh
-        00024d55 d6              ??         D6h
-        00024d56 49              ??         49h    I
-        00024d57 6a              ??         6Ah    j
-        00024d58 1c              ??         1Ch
-        00024d59 c0              ??         C0h
-        00024d5a 8e              ??         8Eh
-        00024d5b 91              ??         91h
-        00024d5c 00              ??         00h
-        00024d5d c0              ??         C0h
-        00024d5e 9c              ??         9Ch
-        00024d5f 52              ??         52h    R
-        00024d60 e8              ??         E8h                                              ?  ->  00024be8
-        00024d61 4b              ??         4Bh    K
-        00024d62 02              ??         02h
-        00024d63 00              ??         00h
-        00024d64 0e              ??         0Eh
-        00024d65 d0              ??         D0h
-        00024d66 49              ??         49h    I
-        00024d67 6a              ??         6Ah    j
-        00024d68 1c              ??         1Ch
-        00024d69 c0              ??         C0h
-        00024d6a 8e              ??         8Eh
-        00024d6b 91              ??         91h
-        00024d6c 00              ??         00h
-        00024d6d c0              ??         C0h
-        00024d6e 9c              ??         9Ch
-        00024d6f 52              ??         52h    R
-        00024d70 e8              ??         E8h                                              ?  ->  00024be8
-        00024d71 4b              ??         4Bh    K
-        00024d72 02              ??         02h
-        00024d73 00              ??         00h
-        00024d74 0e              ??         0Eh
-        00024d75 ca              ??         CAh
-        00024d76 49              ??         49h    I
-        00024d77 6a              ??         6Ah    j
-        00024d78 1c              ??         1Ch
-        00024d79 c0              ??         C0h
-        00024d7a 8e              ??         8Eh
-        00024d7b 91              ??         91h
-        00024d7c 00              ??         00h
-        00024d7d c0              ??         C0h
-        00024d7e 9c              ??         9Ch
-        00024d7f 52              ??         52h    R
-        00024d80 e8              ??         E8h                                              ?  ->  00024be8
-        00024d81 4b              ??         4Bh    K
-        00024d82 02              ??         02h
-        00024d83 00              ??         00h
-        00024d84 0e              ??         0Eh
-        00024d85 c4              ??         C4h
-        00024d86 49              ??         49h    I
-        00024d87 6a              ??         6Ah    j
-        00024d88 1c              ??         1Ch
-        00024d89 c0              ??         C0h
-        00024d8a 8e              ??         8Eh
-        00024d8b 91              ??         91h
-        00024d8c 00              ??         00h
-        00024d8d c0              ??         C0h
-        00024d8e 9c              ??         9Ch
-        00024d8f 52              ??         52h    R
-        00024d90 e7              ??         E7h                                              ?  ->  00024be7
-        00024d91 4b              ??         4Bh    K
-        00024d92 02              ??         02h
-        00024d93 00              ??         00h
+        00254740 38  55  02  00    addr       _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_agC2Ev     = 9Ch
+        00254744 0c  51  25  00    addr       _ZN14rfc_wcdma_dataC2Ev                          = ??
+        00254748 d4  55  02  00    addr       _ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_agC2Ev      = 5Eh    ^
+        0025474c cc  50  25  00    addr       _ZN13rfc_cdma_dataC2Ev                           = ??
+        00254750 64  55  02  00    addr       _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag23band
+        00254754 40  56  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_agC2Ev       = 48h    H
+        00254758 c4  58  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agC2Ev       = 1Eh
+        0025475c 30  50  25  00    addr       _ZN12rfc_gsm_dataC2Ev                            = ??
+        00254760 a4  50  25  00    addr       strlcpy                                          = ??
+        00254764 4c  50  25  00    addr       msg_v2_send_dll                                  = ??
+        00254768 30  51  25  00    addr       _ZN15rfc_common_dataC2Ev                         = ??
+        0025476c 30  52  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag12get_in   = D3h
+        00254770 20  50  25  00    addr       memscpy                                          = ??
+        00254774 84  58  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag12get_in   = BAh
+                             PTR_dmm_register_dm_00254778                    XREF[1]:     00024d48 (R)   
+        00254778 24  51  25  00    addr       <EXTERNAL>::dmm_register_dm                      = ??
+        0025477c 1c  50  25  00    addr       _ZN15rfc_common_dataD2Ev                         = ??
+        00254780 58  50  25  00    addr       _ZN3rfadlEPv                                     = ??
+        00254784 34  58  02  00    addr       _Z31rfc_hwid614_qrm865ab_v3_ag_initm             = 6Ch    l
+        00254788 48  58  02  00    addr       _Z33rfc_hwid614_qrm865ab_v3_ag_deinitm           = 6Ch    l
+        0025478c 5c  58  02  00    addr       _Z33rfc_hwid614_qrm865ab_v3_ag_resumem           = 6Ch    l
+        00254790 70  58  02  00    addr       _Z34rfc_hwid614_qrm865ab_v3_ag_suspendm          = 6Bh    k
+        00254794 58  5f  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agD0Ev       = FCh
+        00254798 a4  59  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag16get_si   = 2Eh    .
+        0025479c f0  58  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_rf
+        002547a0 38  59  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_gr
+        002547a4 80  59  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag29blank_   = 40h    @
+        002547a8 bc  5a  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag22get_lo   = B1h
+        002547ac a8  5a  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_ph   = B1h
+        002547b0 28  5c  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_si   = ABh
+        002547b4 14  5c  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_an   = ABh
+        002547b8 d0  5b  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_lo   = 0Eh
+        002547bc 08  5d  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_cm   = 20h     
+        002547c0 d0  5a  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_an   = 0Eh
+        002547c4 50  5d  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17path_c
+        002547c8 44  5e  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17fbrx_c
+        002547cc d0  56  02  00    addr       _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_agC2Ev   = E8h
+        002547d0 54  50  25  00    addr       _ZN16rfc_tdscdma_dataC2Ev                        = ??
+        002547d4 3c  57  02  00    addr       _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_agC2Ev      = C2h
+        002547d8 b4  50  25  00    addr       _ZN13rfc_gnss_dataC2Ev                           = ??
+        002547dc 38  5f  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag28rfc_ge   = C0h
+        002547e0 38  5e  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag22get_si   = CAh
+        002547e4 20  5f  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_fb   = 9Fh
+        002547e8 c4  5b  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag26get_an   = F2h
+        002547ec 20  51  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17get_re   = D7h
+        002547f0 f0  51  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag16get_rr   = 14h
+        002547f4 2c  5d  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_ba   = A7h
+        002547f8 1c  52  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag21get_rf   = D3h
+        002547fc 3c  51  25  00    addr       _ZN12rfc_lte_dataD2Ev                            = ??
+        00254800 10  51  25  00    addr       _ZN13rfc_nr5g_dataD2Ev                           = ??
+        00254804 34  5f  02  00    addr       _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24is_fbr   = C0h
