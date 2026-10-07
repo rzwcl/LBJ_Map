@@ -1,998 +1,909 @@
- = (undefined1)((uint)iVar37 >> 8);
-                  uVar15 = (undefined2)((uint)iVar37 >> 0x10);
-                  if (iVar92 < 3) {
-                    if (iVar92 == 1) {
-                      uVar12 = 0;
-                      if (iVar37 != 1) {
-LAB_c180ba3c:
-                        uVar12 = 0;
-                      }
-                    }
-                    else {
-                      if (!(bool)(-(iVar92 == 2) & '\x01')) goto LAB_c180ba3c;
-                      if (iVar37 == 2) {
-                        uVar12 = 3;
-                      }
-                      else {
-                        uVar12 = 0;
-                      }
-                      if (iVar37 == 1) {
-                        uVar12 = 1;
-                      }
-                    }
-                  }
-                  else if (iVar92 == 3) {
-                    if (iVar37 == 1) {
-                      uVar12 = 2;
-                    }
-                    else {
-                      uVar12 = 5;
-                      if (iVar37 != 2) {
-                        if (iVar37 != 4) goto LAB_c180ba3c;
-                        uVar12 = 6;
-                      }
-                    }
-                  }
-                  else if (iVar92 == 4) {
-                    uVar12 = 4;
-                    if (!(bool)(-(iVar37 == 1) & '\x01')) {
-                      uVar12 = 0;
-                    }
-                  }
-                  else if ((!(bool)(-(iVar92 == 5) & '\x01')) || (uVar12 = 7, iVar37 != 2))
-                  goto LAB_c180ba3c;
-                  uVar53 = 0;
-                  bVar113 = (&DAT_c9b3bc5a)[iVar84] != 1;
-                  in_R14 = puVar102;
-                  if (bVar113) {
-                    in_R14 = (undefined *)CONCAT22(sVar34,CONCAT11(sVar35,sVar33));
-                  }
-                  uVar103 = (uint)*pcVar82;
-                  iVar89 = iVar92;
-                  if (bVar113) {
-                    iVar89 = iVar37;
-                  }
-                  uVar98 = (uint)*pcVar81;
-                  if (bVar113) {
-                    sVar33 = (sbyte)puVar102;
-                    sVar35 = (sbyte)((uint)puVar102 >> 8);
-                    sVar34 = (short)((uint)puVar102 >> 0x10);
-                  }
-                  iVar89 = iVar89 * uVar98;
-                  uVar93 = uVar103;
-                  if (bVar113) {
-                    uVar93 = uVar98;
-                  }
-                  if (bVar113) {
-                    uVar8 = (undefined1)iVar92;
-                    uVar13 = (undefined1)((uint)iVar92 >> 8);
-                    uVar15 = (undefined2)((uint)iVar92 >> 0x10);
-                  }
-                  uVar73 = iVar51 + ((uint)*pcVar99 * 0x100 + uVar94 * -0x80 + uVar103 * 0x80) *
-                                    CONCAT22(sVar34,CONCAT11(sVar35,sVar33)) +
-                           (((uint)*pcVar76 * 0x100 - (uint)CONCAT11(uVar10,uVar20)) + uVar98 * 0x80
-                           ) * (int)in_R14;
-                  if (bVar113) {
-                    uVar98 = uVar103;
-                  }
-                  local_168 = (iVar89 + CONCAT22(uVar15,CONCAT11(uVar13,uVar8)) * uVar103) * 0x100;
-                  local_a8._0_4_ = iVar61 - uVar73;
-                  local_a8._4_4_ = uVar73 + iVar61;
-                  uVar20 = (undefined1)local_a8._4_4_;
-                  uVar10 = (undefined1)((uint)local_a8._4_4_ >> 8);
-                  sVar34 = (short)((uint)local_a8._4_4_ >> 0x10);
-                  if (((((uVar98 < uVar93 << 4) &&
-                        (uVar53 = 1, (bool)(-(uVar98 < uVar93 << 3) & '\x01'))) &&
-                       (uVar53 = 2, (bool)(-(uVar98 < uVar93 << 2) & '\x01'))) &&
-                      ((uVar53 = 3, (bool)(-(uVar98 << 2 < uVar93) & '\x01') &&
-                       (uVar53 = 4, (bool)(-(uVar98 << 3 < uVar93) & '\x01'))))) &&
-                     (uVar53 = 5, (bool)(-(uVar98 << 4 < uVar93) & '\x01'))) {
-                    if (uVar98 << 5 < uVar93) {
-                      uVar53 = 7;
-                    }
-                    else {
-                      uVar53 = 6;
-                    }
-                  }
-                  thunk_EXT_FUN_d8978750(sVar16,(sbyte)&local_a8,0,uVar12,uVar53);
-                  uVar8 = extraout_R0_L_29;
-                  uVar12 = extraout_var_29;
-                  uVar15 = extraout_R0_H_29;
-                }
-                else {
-                  in_R14 = local_19c;
-                  if (bVar1) {
-                    uVar8 = SUB41(&local_a8,0);
-                    in_R14 = puVar102;
-                  }
-                  uVar44 = puVar39[0x37];
-                  if (bVar1) {
-                    uVar73 = iVar51 + ((uint)*pcVar99 * 0x100 + uVar94 * -0x80 +
-                                      (uint)*pcVar82 * 0x80) * uVar44;
-                    local_168 = *pcVar82 * uVar44 * 0x100;
-                    local_a8._0_4_ = iVar61 - uVar73;
-                    local_a8._4_4_ = uVar73 + iVar61;
-                    uVar20 = (undefined1)(uint)local_a8;
-                    uVar10 = (undefined1)((uint)local_a8 >> 8);
-                    sVar34 = (short)((uint)local_a8 >> 0x10);
-                    thunk_EXT_FUN_d8978750(0,uVar8,0,(sbyte)uVar44 + -1,0);
-                    uVar8 = extraout_R0_L_32;
-                    uVar12 = extraout_var_32;
-                    uVar15 = extraout_R0_H_32;
-                  }
-                  else {
-                    if (4 < uVar44) {
-                      thunk_EXT_FUN_d88d5a90(uVar13,uVar8);
-                    /* WARNING: Subroutine does not return */
-                      thunk_EXT_FUN_d89b2790(0x82);
-                    }
-                    if (bVar113) {
-                      thunk_EXT_FUN_d88d5a90(uVar13,uVar8);
-                    /* WARNING: Subroutine does not return */
-                      thunk_EXT_FUN_d89b2790(0x90);
-                    }
-                    uVar103 = *(uint *)(&UNK_c4800000 + uVar103 * 4);
-                    uVar73 = *(uint *)(&UNK_c4800000 + (uint)cVar9 * 4);
-                    local_d8 = CONCAT44(uVar73,uVar103);
-                    iVar77 = (uVar73 < uVar103) * uVar103 + (uVar73 >= uVar103) * uVar73;
-                    uVar96 = (uint)(uVar103 >= uVar73);
-                    iVar92 = *(int *)(in_R14 + uVar98 * 4 + *piVar30 * 0x10);
-                    iVar89 = *(int *)(in_R14 + uVar93 * 4 + *piVar30 * 0x10);
-                    iVar45 = *(int *)((uint)&local_d8 | uVar96 << 2);
-                    if ((bool)(-(iVar77 == iVar45) & '\x01')) {
-                      if (iVar77 < 0xf) {
-                        if (iVar77 == 5) {
-                          local_a8._0_4_ = 0xd55;
-                          local_a8._4_4_ = 0xd55;
-                        }
-                        else {
-                          if (!(bool)(-(iVar77 == 10) & '\x01')) goto LAB_c180b0a8;
-                          local_a8._0_4_ = 0x1b80;
-                          local_a8._4_4_ = 0x1b80;
-                        }
-                      }
-                      else if (iVar77 == 0xf) {
-                        local_a8._0_4_ = 0x29ab;
-                        local_a8._4_4_ = 0x29ab;
-                      }
-                      else {
-                        if (!(bool)(-(iVar77 == 0x14) & '\x01')) {
-LAB_c180b0a8:
-                          thunk_EXT_FUN_d88d5a90();
-                    /* WARNING: Subroutine does not return */
-                          thunk_EXT_FUN_d89b2790(0x9e);
-                        }
-                        local_a8._0_4_ = 0x3700;
-                        local_a8._4_4_ = 0x3700;
-                      }
-                    }
-                    else {
-                      sVar16 = -(iVar45 == 5);
-                      puVar108 = (undefined4 *)((uint)&local_a8 | uVar96 << 2);
-                      puVar100 = (undefined4 *)((uint)&local_a8 | (uint)(uVar103 < uVar73) << 2);
-                      if (((bool)(sVar16 & '\x01')) && ((bool)(-(iVar77 == 10) & '\x01'))) {
-                        *puVar108 = 0x1a40;
-                        *puVar100 = 0xdc0;
-                      }
-                      else if (((bool)(sVar16 & '\x01')) && ((bool)(-(iVar77 == 0xf) & '\x01'))) {
-                        *puVar108 = 0x2655;
-                        *puVar100 = 0xd55;
-                      }
-                      else if (((bool)(sVar16 & '\x01')) && (iVar77 == 0x14)) {
-                        piVar30 = (int *)&DAT_c9b3c798;
-                        *puVar108 = 0x3340;
-                        puVar78 = (undefined2 *)0x140;
-                        *puVar100 = 0xdc0;
-                        puVar29 = param_2;
-                        uVar60 = param_5;
-                      }
-                      else if (((bool)(-(iVar45 == 10) & '\x01')) && (iVar77 == 0xf)) {
-                        piVar30 = (int *)&DAT_c9b3c798;
-                        *puVar108 = 0x2795;
-                        puVar78 = (undefined2 *)0x140;
-                        *puVar100 = 0x1b15;
-                        puVar29 = param_2;
-                        uVar60 = param_5;
-                      }
-                      else if (((bool)(-(iVar45 == 10) & '\x01')) && (iVar77 == 0x14)) {
-                        piVar30 = (int *)&DAT_c9b3c798;
-                        *puVar108 = 0x3480;
-                        puVar78 = (undefined2 *)0x140;
-                        *puVar100 = 0x1b80;
-                        puVar29 = param_2;
-                        uVar60 = param_5;
-                      }
-                      else {
-                        if ((!(bool)(-(iVar45 == 0xf) & '\x01')) || (iVar77 != 0x14)) {
-                          thunk_EXT_FUN_d88d5a90(uVar13,uVar8);
-                    /* WARNING: Subroutine does not return */
-                          thunk_EXT_FUN_d89b2790(0xac);
-                        }
-                        piVar30 = (int *)&DAT_c9b3c798;
-                        puVar78 = (undefined2 *)0x140;
-                        *puVar108 = 0x35c0;
-                        *puVar100 = 0x2940;
-                        puVar29 = param_2;
-                        uVar60 = param_5;
-                      }
-                    }
-                    if (*(int *)((int)puVar29 + 0x3cc) < 0) {
-                      local_a8._0_4_ = -(uint)local_a8;
-                    }
-                    uVar103 = (uint)local_a8;
-                    iVar89 = (iVar89 - iVar37) * 0x20;
-                    uVar73 = 0;
-                    uVar98 = 0;
-                    iVar92 = (iVar92 - iVar37) * 0x20;
-                    iVar37 = -local_a8._4_4_;
-                    uVar8 = 0;
-                    uVar12 = 0;
-                    uVar15 = 0;
-                    uVar17 = (undefined1)iVar37;
-                    uVar11 = (undefined1)((uint)iVar37 >> 8);
-                    uVar19 = (undefined2)((uint)iVar37 >> 0x10);
-                    if (-1 < *(int *)(puVar29 + 0x7a)) {
-                      uVar17 = (undefined1)local_a8._4_4_;
-                      uVar11 = (undefined1)((uint)local_a8._4_4_ >> 8);
-                      uVar19 = (undefined2)((uint)local_a8._4_4_ >> 0x10);
-                      iVar37 = local_a8._4_4_;
-                    }
-                    local_a8._4_4_ = iVar37;
-                    iVar37 = CONCAT22(uVar19,CONCAT11(uVar11,uVar17)) -
-                             (uint)CONCAT11(uVar10,uVar20);
-                    local_168 = 0;
-                    uVar93 = uVar44;
-                    do {
-                      iVar45 = CONCAT22(uVar15,CONCAT11(uVar12,uVar8));
-                      uVar8 = (undefined1)(uVar103 >> 8);
-                      uVar20 = (undefined1)uVar103;
-                      uVar15 = (undefined2)(uVar103 >> 0x10);
-                      if (uVar98 == 0) {
-                        uVar96 = (uint)*pcVar82;
-                        iVar77 = uVar96 - cVar25;
-                        cVar9 = (char)iVar77;
-                        uVar12 = (undefined1)((uint)iVar77 >> 8);
-                        uVar19 = (undefined2)((uint)iVar77 >> 0x10);
-                        pcVar31 = pcVar99;
-                        iVar77 = iVar92;
-LAB_c180b448:
-                        uVar10 = (undefined1)((uint)iVar61 >> 8);
-                        sVar34 = 0;
-                        sVar27 = (short)(uVar96 * uVar44) * 0x100;
-                        uVar24 = (undefined2)(uVar96 * uVar44 >> 8);
-                        bVar113 = local_168 < CONCAT22(uVar24,sVar27);
-                        local_168 = (uint)bVar113 * CONCAT22(uVar24,sVar27) +
-                                    (uint)!bVar113 * local_168;
-                        uVar96 = iVar51 + (CONCAT22(uVar15,CONCAT11(uVar8,uVar20)) +
-                                           CONCAT22(uVar19,CONCAT11(uVar12,cVar9)) * 0x80 +
-                                          (uint)*pcVar31 * 0x100) * uVar44;
-                        if (local_168 == CONCAT22(uVar24,sVar27)) {
-                          uVar73 = uVar96;
-                        }
-                        local_78 = CONCAT44(uVar96 + iVar61,iVar61 - uVar96);
-                        uVar20 = uVar13;
-                        thunk_EXT_FUN_d8978750(0,sVar32 + -0x70);
-                        iVar77 = CONCAT22(extraout_R0_H_31,
-                                          CONCAT11(extraout_var_31,extraout_R0_L_31)) +
-                                 iVar77 * uVar44;
-                        uVar8 = (undefined1)iVar77;
-                        uVar12 = (undefined1)((uint)iVar77 >> 8);
-                        uVar15 = (undefined2)((uint)iVar77 >> 0x10);
-                        if (uVar98 != 0) goto LAB_c180b4b8;
-                      }
-                      else {
-                        uVar10 = (undefined1)((uint)iVar37 >> 8);
-                        uVar24 = (undefined2)((uint)iVar37 >> 0x10);
-                        if (uVar93 == 0) {
-                          cVar9 = *pcVar81;
-                          uVar12 = 0;
-                          uVar19 = 0;
-                          uVar96 = (uint)cVar9;
-                          uVar20 = (sbyte)iVar37;
-                          uVar8 = uVar10;
-                          uVar15 = uVar24;
-                          pcVar31 = pcVar76;
-                          iVar77 = iVar89;
-                          goto LAB_c180b448;
-                        }
-                        uVar95 = uVar44 - uVar98;
-                        if (uVar93 < uVar98) {
-                          uVar12 = SUB41(pcVar99,0);
-                          uVar17 = (undefined1)((uint)pcVar99 >> 8);
-                          uVar19 = (undefined2)((uint)pcVar99 >> 0x10);
-                          iVar77 = (iVar37 + (uint)*pcVar81 * 0x80 + (uint)*pcVar76 * 0x100) *
-                                   uVar98;
-                          cVar9 = *pcVar82;
-                          uVar96 = (uint)cVar9;
-                          uVar11 = (undefined1)iVar77;
-                          uVar14 = (undefined1)((uint)iVar77 >> 8);
-                          uVar28 = (undefined2)((uint)iVar77 >> 0x10);
-                          uVar67 = cVar9 - uVar94;
-                          uVar40 = uVar98;
-                          iVar77 = iVar89;
-                          iVar64 = iVar92;
-                        }
-                        else {
-                          uVar12 = SUB41(pcVar76,0);
-                          uVar17 = (undefined1)((uint)pcVar76 >> 8);
-                          uVar19 = (undefined2)((uint)pcVar76 >> 0x10);
-                          iVar77 = (uVar103 + (*pcVar82 - uVar94) * 0x80 + (uint)*pcVar99 * 0x100) *
-                                   uVar93;
-                          cVar9 = *pcVar81;
-                          uVar67 = (uint)cVar9;
-                          uVar11 = (undefined1)iVar77;
-                          uVar14 = (undefined1)((uint)iVar77 >> 8);
-                          uVar28 = (undefined2)((uint)iVar77 >> 0x10);
-                          uVar20 = (sbyte)iVar37;
-                          uVar8 = uVar10;
-                          uVar15 = uVar24;
-                          uVar40 = uVar95;
-                          uVar95 = uVar98;
-                          iVar77 = iVar92;
-                          iVar64 = iVar89;
-                          uVar96 = uVar67;
-                        }
-                        iVar63 = CONCAT22(uVar28,CONCAT11(uVar14,uVar11)) + iVar51 +
-                                 (CONCAT22(uVar15,CONCAT11(uVar8,uVar20)) + uVar67 * 0x80 +
-                                 (uint)*(char *)CONCAT22(uVar19,CONCAT11(uVar17,uVar12)) * 0x100) *
-                                 uVar95;
-                        local_78 = CONCAT44(iVar63 + iVar61,iVar61 - iVar63);
-                        if ((int)uVar40 < 3) {
-                          if (uVar40 == 1) {
-                            uVar8 = 0;
-                            if (uVar95 != 1) {
-LAB_c180ba80:
-                              uVar8 = 0;
-                            }
-                          }
-                          else {
-                            if (!(bool)(-(uVar40 == 2) & '\x01')) goto LAB_c180ba80;
-                            if (uVar95 == 2) {
-                              uVar8 = 3;
-                            }
-                            else {
-                              uVar8 = 0;
-                            }
-                            if (uVar95 == 1) {
-                              uVar8 = 1;
-                            }
-                          }
-                        }
-                        else if (uVar40 == 3) {
-                          if (uVar95 == 1) {
-                            uVar8 = 2;
-                          }
-                          else {
-                            uVar8 = 5;
-                            if (uVar95 != 2) {
-                              if (uVar95 != 4) goto LAB_c180ba80;
-                              uVar8 = 6;
-                            }
-                          }
-                        }
-                        else if (uVar40 == 4) {
-                          uVar8 = 4;
-                          if (!(bool)(-(uVar95 == 1) & '\x01')) {
-                            uVar8 = 0;
-                          }
-                        }
-                        else if ((!(bool)(-(uVar40 == 5) & '\x01')) || (uVar8 = 7, uVar95 != 2))
-                        goto LAB_c180ba80;
-                        uVar20 = (undefined1)((uint)cVar9 << 4);
-                        uVar10 = (undefined1)(((uint)cVar9 << 4) >> 8);
-                        sVar34 = 0;
-                        thunk_EXT_FUN_d8978750(1,sVar32 + -0x70,0,uVar8);
-                        iVar77 = CONCAT22(extraout_R0_H_30,
-                                          CONCAT11(extraout_var_30,extraout_R0_L_30)) +
-                                 iVar64 * uVar95 + iVar77 * uVar40;
-                        if (uVar44 == 2) {
-                          iVar77 = iVar77 + 0x60;
-                          uVar8 = (undefined1)iVar77;
-                          uVar12 = (undefined1)((uint)iVar77 >> 8);
-                          uVar15 = (undefined2)((uint)iVar77 >> 0x10);
-                        }
-                        else if (uVar44 == 3) {
-                          iVar77 = iVar77 + 0x99;
-                          uVar8 = (undefined1)iVar77;
-                          uVar12 = (undefined1)((uint)iVar77 >> 8);
-                          uVar15 = (undefined2)((uint)iVar77 >> 0x10);
-                        }
-                        else {
-                          if (uVar40 == 3) {
-                            cVar9 = 0xc1;
-                          }
-                          else {
-                            cVar9 = 0xf9;
-                          }
-                          if (!(bool)(-(uVar44 == 4) & '\x01')) {
-                            cVar9 = 0xf9;
-                          }
-                          iVar77 = iVar77 + (uint)cVar9;
-                          uVar8 = (undefined1)iVar77;
-                          uVar12 = (undefined1)((uint)iVar77 >> 8);
-                          uVar15 = (undefined2)((uint)iVar77 >> 0x10);
-                        }
-LAB_c180b4b8:
-                        if (iVar45 < CONCAT22(uVar15,CONCAT11(uVar12,uVar8))) {
-                          iVar45 = CONCAT22(uVar15,CONCAT11(uVar12,uVar8)) - iVar45;
-                          if (iVar45 < 0x80) {
-                            iVar77 = 0x60;
-                            iVar64 = 0x80;
-                            cVar9 = '/';
-                            uVar17 = 0;
-                            uVar11 = 0;
-                            uVar19 = 0;
-LAB_c180b61c:
-                            iVar45 = (uint)cVar9 *
-                                     (iVar45 - CONCAT22(uVar19,CONCAT11(uVar11,uVar17))) +
-                                     (iVar64 - iVar45) * iVar77;
-                            iVar77 = iVar45 >> 7;
-                            cVar9 = (char)iVar77;
-                            uVar17 = (undefined1)((uint)iVar77 >> 8);
-                            sVar27 = (short)(iVar45 >> 0x17);
-                          }
-                          else {
-                            if (iVar45 < 0x100) {
-                              iVar64 = 0x100;
-                              uVar17 = 0x80;
-                              uVar11 = 0;
-                              uVar19 = 0;
-                              cVar9 = '\x14';
-                              iVar77 = 0x2f;
-                              goto LAB_c180b61c;
-                            }
-                            if (iVar45 < 0x180) {
-                              cVar9 = '\t';
-                              iVar64 = 0x180;
-                              iVar77 = 0x14;
-                              uVar17 = 0;
-                              uVar11 = 1;
-                              uVar19 = 0;
-                              goto LAB_c180b61c;
-                            }
-                            if (iVar45 < 0x200) {
-                              cVar9 = '\x03';
-                              iVar64 = 0x200;
-                              iVar77 = 9;
-                              uVar17 = 0x80;
-                              uVar11 = 1;
-                              uVar19 = 0;
-                              goto LAB_c180b61c;
-                            }
-                            if (iVar45 < 0x280) {
-                              cVar9 = '\x01';
-                              iVar64 = 0x280;
-                              iVar77 = 3;
-                              uVar17 = 0;
-                              uVar11 = 2;
-                              uVar19 = 0;
-                              goto LAB_c180b61c;
-                            }
-                            if (iVar45 < 0x300) {
-                              uVar96 = 0x280;
-                            }
-                            cVar9 = '\0';
-                            uVar17 = 0;
-                            sVar27 = 0;
-                            if (iVar45 < 0x300) {
-                              uVar17 = (undefined1)uVar96;
-                              uVar11 = (undefined1)(uVar96 >> 8);
-                              uVar19 = (undefined2)(uVar96 >> 0x10);
-                              iVar64 = 0x300;
-                              iVar77 = 1;
-                              goto LAB_c180b61c;
-                            }
-                          }
-                          iVar45 = CONCAT22(sVar27,CONCAT11(uVar17,cVar9)) +
-                                   CONCAT22(uVar15,CONCAT11(uVar12,uVar8));
-                          uVar8 = (undefined1)iVar45;
-                          uVar12 = (undefined1)((uint)iVar45 >> 8);
-                          uVar15 = (undefined2)((uint)iVar45 >> 0x10);
-                        }
-                        else {
-                          iVar77 = iVar45 - CONCAT22(uVar15,CONCAT11(uVar12,uVar8));
-                          if (iVar77 < 0x80) {
-                            iVar64 = 0x60;
-                            iVar63 = 0x80;
-                            cVar9 = '/';
-                            uVar8 = 0;
-                            uVar12 = 0;
-                            uVar15 = 0;
-LAB_c180b560:
-                            iVar77 = (uint)cVar9 *
-                                     (iVar77 - CONCAT22(uVar15,CONCAT11(uVar12,uVar8))) +
-                                     (iVar63 - iVar77) * iVar64;
-                            iVar64 = iVar77 >> 7;
-                            cVar9 = (char)iVar64;
-                            uVar8 = (undefined1)((uint)iVar64 >> 8);
-                            sVar27 = (short)(iVar77 >> 0x17);
-                          }
-                          else {
-                            if (iVar77 < 0x100) {
-                              iVar63 = 0x100;
-                              uVar8 = 0x80;
-                              uVar12 = 0;
-                              uVar15 = 0;
-                              cVar9 = '\x14';
-                              iVar64 = 0x2f;
-                              goto LAB_c180b560;
-                            }
-                            if (iVar77 < 0x180) {
-                              cVar9 = '\t';
-                              iVar63 = 0x180;
-                              iVar64 = 0x14;
-                              uVar8 = 0;
-                              uVar12 = 1;
-                              uVar15 = 0;
-                              goto LAB_c180b560;
-                            }
-                            if (iVar77 < 0x200) {
-                              cVar9 = '\x03';
-                              iVar63 = 0x200;
-                              iVar64 = 9;
-                              uVar8 = 0x80;
-                              uVar12 = 1;
-                              uVar15 = 0;
-                              goto LAB_c180b560;
-                            }
-                            if (iVar77 < 0x280) {
-                              cVar9 = '\x01';
-                              iVar63 = 0x280;
-                              iVar64 = 3;
-                              uVar8 = 0;
-                              uVar12 = 2;
-                              uVar15 = 0;
-                              goto LAB_c180b560;
-                            }
-                            if (iVar77 < 0x300) {
-                              uVar96 = 0x280;
-                            }
-                            cVar9 = '\0';
-                            uVar8 = 0;
-                            sVar27 = 0;
-                            if (iVar77 < 0x300) {
-                              uVar8 = (undefined1)uVar96;
-                              uVar12 = (undefined1)(uVar96 >> 8);
-                              uVar15 = (undefined2)(uVar96 >> 0x10);
-                              iVar63 = 0x300;
-                              iVar64 = 1;
-                              goto LAB_c180b560;
-                            }
-                          }
-                          iVar45 = CONCAT22(sVar27,CONCAT11(uVar8,cVar9)) + iVar45;
-                          uVar8 = (undefined1)iVar45;
-                          uVar12 = (undefined1)((uint)iVar45 >> 8);
-                          uVar15 = (undefined2)((uint)iVar45 >> 0x10);
-                        }
-                      }
-                      uVar93 = uVar93 - 1;
-                      uVar98 = uVar98 + 1;
-                      puVar29 = param_2;
-                    } while (uVar98 <= uVar44);
-                  }
-                }
-                uVar53 = min((uint)cVar112 << 8,uVar73 + local_168);
-                iVar37 = CONCAT22(uVar15,CONCAT11(uVar12,uVar8)) * 10 >> 5;
-                FUN_c16191f0((sbyte)uVar53 -
-                             ((int)((uint)cVar112 * -0x100) <= (int)(uVar73 - local_168)) *
-                             (sbyte)(uVar73 - local_168),8);
-                lVar69 = (ulonglong)
-                         CONCAT22(extraout_R0_H_33,CONCAT11(extraout_var_33,extraout_R0_L_33)) * 10;
-                iVar61 = (int)((ulonglong)lVar69 >> 0x20) + ((int)extraout_R0_H_33 >> 0xf) * 10;
-                cVar25 = (char)iVar61;
-                uVar8 = (undefined1)((uint)iVar61 >> 8);
-                uVar15 = (undefined2)((uint)iVar61 >> 0x10);
-                uVar68 = roundArithmetic(CONCAT26(uVar15,CONCAT15(uVar8,CONCAT14(cVar25,(int)lVar69)
-                                                                 )) >> 0x17,1);
-                sVar16 = (&DAT_c9b3bc59)[iVar84];
-                *(short *)((int)puVar39 + 0xf6) = (short)uVar68;
-              }
-              *(short *)((int)puVar39 + uVar54 * 2 + 0xec) = (short)iVar37;
-              local_a8._0_4_ = 0;
-              local_a8._4_4_ = 0;
-              if (bVar21) {
-                uVar13 = SUB41(local_1b0,0);
-                uVar12 = (undefined1)((uint)local_1b0 >> 8);
-                uVar19 = (undefined2)((uint)local_1b0 >> 0x10);
-                piVar66 = (int *)&local_a8;
-                if (sVar16 != 0) {
-                  uVar53 = 0x15;
-                }
-                else {
-                  uVar53 = 0x17;
-                }
-                uVar17 = 0xf0;
-                uVar11 = 0xb9;
-                uVar24 = 0xc9b3;
-                cVar25 = (char)uVar53;
-                uVar8 = 0;
-                uVar15 = 0;
-                uVar103 = uVar91;
-                if (sVar16 != 0) {
-                  iVar61 = -10;
-                }
-                else {
-                  iVar61 = -7;
-                }
-                while( true ) {
-                  iVar51 = CONCAT22(uVar24,CONCAT11(uVar11,uVar17)) + 4;
-                  puVar100 = (undefined4 *)CONCAT22(uVar24,CONCAT11(uVar11,uVar17));
-                  uVar17 = (undefined1)iVar51;
-                  uVar11 = (undefined1)((uint)iVar51 >> 8);
-                  uVar24 = (undefined2)((uint)iVar51 >> 0x10);
-                  iVar51 = min(*puVar100,uVar53);
-                  iVar92 = ((uint)(iVar61 < iVar51) * iVar51 + (uint)(iVar61 >= iVar51) * iVar61) -
-                           iVar61;
-                  uVar20 = (undefined1)iVar92;
-                  uVar10 = (undefined1)((uint)iVar92 >> 8);
-                  sVar34 = (short)((uint)iVar92 >> 0x10);
-                  *piVar66 = iVar92;
-                  iVar51 = CONCAT22(uVar19,CONCAT11(uVar12,uVar13)) + 4;
-                  piVar111 = (int *)CONCAT22(uVar19,CONCAT11(uVar12,uVar13));
-                  uVar13 = (undefined1)iVar51;
-                  uVar12 = (undefined1)((uint)iVar51 >> 8);
-                  uVar19 = (undefined2)((uint)iVar51 >> 0x10);
-                  if (!(bool)(-(sVar16 == 0) & '\x01')) {
-                    *piVar111 = iVar92;
-                  }
-                  if (uVar103 < 2) break;
-                  piVar66 = piVar66 + 1;
-                  uVar103 = uVar103 - 1;
-                }
-              }
-              if ((bool)(-(sVar16 == 0) & '\x01')) {
-                uVar53 = *(undefined4 *)((int)&local_a8 + (uint)(char)(&DAT_c9b3bc5a)[iVar84] * 4);
-                cVar25 = (char)uVar53;
-                uVar8 = (undefined1)((uint)uVar53 >> 8);
-                uVar15 = (undefined2)((uint)uVar53 >> 0x10);
-                *(undefined4 *)(&DAT_c9b3b9f8 + (int)puVar74 * 8 + uVar54 * 0x18) = uVar53;
-                *(undefined4 *)(&DAT_c9b3b9f8 + (int)puVar74 * 8 + uVar54 * 0x18 + 4) = 0;
-              }
-              uVar103 = puVar39[0x2d];
-              if (uVar103 != 0) {
-                cVar9 = ~-(uVar83 == 0);
-                uVar98 = 0;
-                bVar113 = !(bool)-(-0x65 < iVar37);
-                do {
-                  uVar12 = 0;
-                  uVar17 = 0;
-                  uVar19 = 0;
-                  local_d8 = 0;
-                  uVar93 = puVar39[uVar98 + 0x2e];
-                  local_78._4_4_ = 0;
-                  local_d8._0_4_ = 0;
-                  local_78 = 0;
-                  iVar37 = uVar93 * 0x24;
-                  uVar8 = 0;
-                  uVar13 = 0;
-                  uVar15 = 0;
-                  if ((char)(&DAT_c9b3cf66)[iVar37] < '\x02') {
-                    uVar83 = *(uint *)(&DAT_c47fffe0 + (uint)(char)(&DAT_c9b3cf66)[iVar37] * 4);
-                    uVar94 = 0;
-                    puVar38 = (uint *)&local_78;
-                    puVar72 = (uint *)&local_d8;
-                    piVar66 = (int *)(&DAT_c9b3cf5c + uVar93 * 0x24);
-                    do {
-                      iVar61 = *piVar66;
-                      sVar16 = *(sbyte *)((int)puVar39 + iVar61 + 9);
-                      if (CONCAT22(sVar16 >> 7,(short)sVar16) != 0) {
-                        uVar73 = *puVar39;
-                        uVar96 = (uint)*(char *)((int)puVar39 + iVar61 + 0xd);
-                        FUN_c17a54c8((sbyte)uVar73);
-                        uVar60 = *(uint *)(CONCAT22(extraout_R0_H_34,
-                                                    CONCAT11(extraout_var_34,extraout_R0_L_34)) +
-                                           uVar96 * 4 + 0x284);
-                        FUN_c17a49cc((sbyte)uVar73);
-                        uVar44 = DAT_c9b3c798;
-                        uVar73 = *(uint *)(CONCAT22(extraout_R0_H_35,
-                                                    CONCAT11(extraout_var_35,extraout_R0_L_35)) +
-                                           uVar96 * 0x27c + 0x188);
-                        sVar34 = (short)((int)uVar73 >> 0x1f);
-                        lVar69 = (ulonglong)uVar73 * 10;
-                        iVar92 = (int)((ulonglong)lVar69 >> 0x20) + CONCAT22(sVar34,sVar34) * 10;
-                        iVar51 = uVar96 * 2;
-                        uVar68 = roundArithmetic(CONCAT26((short)((uint)iVar92 >> 0x10),
-                                                          CONCAT15((sbyte)((uint)iVar92 >> 8),
-                                                                   CONCAT14((sbyte)iVar92,
-                                                                            (int)lVar69))) >> 0x17,1
-                                                );
-                        sVar27 = *(short *)((int)puVar39 + uVar96 * 2 + 0x150);
-                        uVar73 = (uint)uVar68;
-                        sVar2 = *(short *)((int)puVar39 + iVar51 + 0x158);
-                        sVar3 = *(short *)((int)puVar39 + iVar51 + 0x160);
-                        uVar20 = (undefined1)sVar3;
-                        uVar10 = (undefined1)((ushort)sVar3 >> 8);
-                        sVar34 = sVar3 >> 0xf;
-                        sVar4 = *(short *)((int)puVar39 + iVar51 + 0x168);
-                        sVar18 = *(short *)((int)puVar39 + iVar51 + 0x170);
-                        uVar96 = ((int)sVar27 < (int)uVar73) * uVar73 +
-                                 (uint)((int)sVar27 >= (int)uVar73) * (int)sVar27;
-                        if (0x4a4 < (ushort)(sVar27 + 0x4afU)) {
-                          uVar96 = uVar73;
-                        }
-                        if (!(bool)(-(0x4a4 < (ushort)(sVar2 + 0x4afU)) & '\x01')) {
-                          uVar96 = ((int)sVar2 < (int)uVar96) * uVar96 +
-                                   (uint)((int)sVar2 >= (int)uVar96) * (int)sVar2;
-                        }
-                        if (!(bool)(-(0x4a4 < (ushort)(sVar3 + 0x4afU)) & '\x01')) {
-                          uVar96 = ((int)sVar3 < (int)uVar96) * uVar96 +
-                                   (uint)((int)sVar3 >= (int)uVar96) * (int)sVar3;
-                        }
-                        if (!(bool)(-(0x4a4 < (ushort)(sVar4 + 0x4afU)) & '\x01')) {
-                          uVar96 = ((int)sVar4 < (int)uVar96) * uVar96 +
-                                   (uint)((int)sVar4 >= (int)uVar96) * (int)sVar4;
-                        }
-                        if (!(bool)(-(0x4a4 < (ushort)(sVar18 + 0x4afU)) & '\x01')) {
-                          uVar96 = ((int)sVar18 < (int)uVar96) * uVar96 +
-                                   (uint)((int)sVar18 >= (int)uVar96) * (int)sVar18;
-                        }
-                        puVar39[iVar61 + 0x5e] = uVar96;
-                        sVar27 = *(short *)((int)puVar39 + uVar44 * 2 + 0xec);
-                        uVar73 = *(uint *)(&DAT_c9b3b9f8 + (int)puVar74 * 8 + uVar44 * 0x18);
-                        uVar95 = *(uint *)(&DAT_c9b3b9f8 + (int)puVar74 * 8 + uVar44 * 0x18 + 4);
-                        FUN_c17a3490();
-                        iVar51 = uVar73 * 0x100 + (int)puVar74 * 0x2000;
-                        if (CONCAT22(extraout_R0_H_36,CONCAT11(extraout_var_36,extraout_R0_L_36)) !=
-                            0) {
-                          uVar20 = 0xf;
-                          uVar10 = 0;
-                          sVar34 = 0;
-                          iVar92 = minu(CONCAT22((ushort)(uVar73 >> 0x11),(short)(uVar73 >> 1)),0xf)
-                          ;
-                          uVar48 = *(ushort *)((int)puVar56 + iVar92 * 2 + iVar61 * 0x20 + 0x24);
-                          uVar13 = (undefined1)(uVar48 >> 8);
-                          uVar8 = (undefined1)uVar48;
-                          if (CONCAT22((sbyte)(&DAT_c9b3bc59)[iVar84] >> 7,
-                                       (short)(sbyte)(&DAT_c9b3bc59)[iVar84]) == 0) {
-                            uVar73 = 0;
-                          }
-                          else {
-                            iVar92 = minu(CONCAT22((ushort)(uVar95 >> 0x11),(short)(uVar95 >> 1)),
-                                          0xf);
-                            iVar92 = ((uint)*(ushort *)
-                                             ((int)puVar56 + (iVar92 + iVar61 * 0x10) * 2 + 0xa4) +
-                                      (uint)uVar48 & 0xffff) -
-                                     (uint)*(ushort *)((int)puVar56 + iVar61 * 0x20 + 0x42);
-                            uVar8 = (undefined1)iVar92;
-                            uVar13 = (undefined1)((uint)iVar92 >> 8);
-                            uVar73 = uVar95;
-                          }
-                          *(ushort *)(&UNK_c9b3d028 + iVar61 * 2 + uVar73 * 8 + iVar51) =
-                               CONCAT11(uVar13,uVar8);
-                        }
-                        sVar2 = *(short *)((int)puVar39 + 0xfe);
-                        iVar51 = (int)*(short *)(&UNK_c9b3d028 + iVar61 * 2 + uVar95 * 8 + iVar51) +
-                                 (int)sVar27;
-                        uVar73 = iVar51 - uVar96;
-                        puVar39[uVar44 * 4 + iVar61 + 0x40] = uVar73;
-                        bVar1 = (int)sVar2 < (int)uVar73;
-                        puVar39[uVar44 * 4 + iVar61 + 100] = (uint)bVar1;
-                        iVar51 = (iVar51 - puVar39[0x3e]) + (int)(short)puVar39[0x3f];
-                        *(short *)((int)puVar39 + iVar61 * 2 + 0x188) = (short)iVar51;
-                        if ((bool)(-(800 < uVar96 + 0x4b0) & '\x01')) {
-                          bVar23 = false;
-                          bVar26 = false;
-                        }
-                        else {
-                          bVar23 = -0x3c < iVar51 && bVar1;
-                          puVar102 = (undefined *)(uint)(char)(bVar113 | cVar9);
-                          if (!(bool)(bVar113 | cVar9 & '\x01')) {
-                            puVar102 = puVar74;
-                          }
-                          bVar26 = bVar23;
-                          if (!(bool)(bVar113 | cVar9 & '\x01')) {
-                            iVar92 = iVar61 * 0x18 + (int)puVar102 * 0x60;
-                            uVar48 = *(ushort *)((int)&DAT_c9b3b530 + iVar92 + 0x1ea);
-                            if (uVar48 < *(ushort *)
-                                          (&DAT_c48001f4 +
-                                          (uint)*(char *)(&DAT_c9b3b530 +
-                                                         (int)puVar102 * 0x18 + iVar61 * 6 + 0x7a) *
-                                          2)) {
-                              if (bVar1) {
-                                bVar26 = true;
-                                bVar23 = true;
-                                if (-0x3c < iVar51) goto LAB_c180bd10;
-                              }
-                              *(ushort *)((int)&DAT_c9b3b530 + iVar92 + 0x1ea) = uVar48 + 1;
-                              bVar23 = false;
-                              bVar26 = false;
-                            }
-                            else if (((!(bool)(-(0xfd951 < uVar60) & '\x01')) ||
-                                     ((int)uVar96 < -400)) &&
-                                    (sVar16 = *(sbyte *)((int)&DAT_c9b3b530 + iVar92 + 0x1ee),
-                                    (char)sVar16 < '\b')) {
-                              *(sbyte *)((int)&DAT_c9b3b530 + iVar92 + 0x1ee) = sVar16 + 1;
-                              *(undefined1 *)
-                               (&DAT_c9b3b530 + (int)puVar102 * 0x18 + iVar61 * 6 + 0x7b) = 1;
-                              bVar23 = false;
-                              bVar26 = true;
-                            }
-                          }
-                        }
-LAB_c180bd10:
-                        puVar78 = (undefined2 *)0x140;
-                        *puVar72 = (uint)bVar26;
-                        *puVar38 = (uint)bVar23;
-                        piVar30 = (int *)&DAT_c9b3c798;
-                        uVar60 = param_5;
-                      }
-                      puVar38 = puVar38 + 1;
-                      piVar66 = piVar66 + 1;
-                      puVar72 = puVar72 + 1;
-                      uVar94 = uVar94 + 1;
-                    } while (uVar94 < uVar83);
-                    uVar12 = (undefined1)((ulonglong)local_d8 >> 0x20);
-                    uVar17 = (undefined1)((ulonglong)local_d8 >> 0x28);
-                    uVar19 = (undefined2)((ulonglong)local_d8 >> 0x30);
-                    uVar8 = (undefined1)local_78;
-                    uVar13 = (undefined1)((ulonglong)local_78 >> 8);
-                    uVar15 = (undefined2)((ulonglong)local_78 >> 0x10);
-                    puVar29 = param_2;
-                  }
-                  iVar61 = CONCAT22(uVar15,CONCAT11(uVar13,uVar8));
-                  bVar1 = (bool)(!(bool)-(CONCAT22(uVar15,CONCAT11(uVar13,uVar8)) == 0) &
-                                ~(local_78._4_4_ == 0));
-                  bVar23 = local_78._4_4_ == 0;
-                  (&DAT_c9b3cf69)[iVar37] = iVar61 == 0 && local_78._4_4_ == 0;
-                  (&DAT_c9b3cf67)[iVar37] = !bVar1;
-                  (&DAT_c9b3cf68)[iVar37] = CONCAT22(uVar15,CONCAT11(uVar13,uVar8)) != 0;
-                  if (((uint)local_d8 != 0 || CONCAT22(uVar19,CONCAT11(uVar17,uVar12)) != 0) ||
-                      uVar80 != 0) {
-                    if (uVar80 != 0) {
-                      (&DAT_c9b3cf69)[iVar37] = 0;
-                      (&DAT_c9b3cf67)[iVar37] = 0;
-                      FUN_c1619338(0x1a);
-                    }
-                    iVar37 = iVar97 + uVar93 * 4;
-                    *(undefined4 *)(&DAT_c9b3b5e4 + (int)(puVar101 + (int)puVar74 * 4)) = 1;
-                    *(uint *)(&DAT_c9b3b670 + iVar37) = (uint)bVar1;
-                    *(undefined4 *)(&DAT_c9b3b620 + iVar37) = 1;
-                    *(undefined4 *)(&DAT_c9b3b54c + uVar54 * 4) = 1;
-                  }
-                  uVar98 = uVar98 + 1;
-                  cVar25 = '\x01';
-                  uVar8 = 0;
-                  uVar15 = 0;
-                  if (!(bool)(-(iVar61 == 0 && bVar23) & '\x01')) {
-                    bVar22 = true;
-                  }
-                } while (!(bool)(-(uVar98 == uVar103) & '\x01'));
-              }
-            }
-            else {
-              FUN_c1619338(0xe6,uVar13);
-            }
-          }
-          else {
-            FUN_c1619338(100,uVar13);
-          }
-          goto LAB_c180aa28;
-        }
-      }
-      FUN_c1619338(0x24,uVar13);
-    }
-LAB_c180aa28:
-    puVar74 = puVar74 + 1;
-    local_1b0 = local_1b0 + 8;
-  } while (puVar74 < puVar42);
-  uVar8 = SUB41(puVar75,0);
-  uVar13 = (undefined1)((uint)puVar75 >> 8);
-  uVar15 = (undefined2)((uint)puVar75 >> 0x10);
-  puVar74 = &UNK_c9b3b560 + uVar54 * 6;
-  puVar101 = &DAT_c9b3b5e4 + uVar54 * 0xc;
-  piVar66 = piVar30 + 0x219;
-  uVar12 = SUB41(puVar74,0);
-  uVar17 = (undefined1)((uint)puVar74 >> 8);
-  uVar19 = (undefined2)((uint)puVar74 >> 0x10);
-  uVar11 = SUB41(puVar101,0);
-  uVar14 = (undefined1)((uint)puVar101 >> 8);
-  uVar24 = (undefined2)((uint)puVar101 >> 0x10);
-  puVar74 = puVar42;
-  while( true ) {
-    if (*(int *)CONCAT22(uVar24,CONCAT11(uVar14,uVar11)) == 0) {
-      *(undefined2 *)CONCAT22(uVar19,CONCAT11(uVar17,uVar12)) = *puVar75;
-      *piVar66 = *piVar66 + 1;
-    }
-    iVar37 = CONCAT22(uVar19,CONCAT11(uVar17,uVar12)) + 2;
-    piVar66 = piVar66 + 1;
-    iVar97 = CONCAT22(uVar24,CONCAT11(uVar14,uVar11)) + 4;
-    uVar12 = (undefined1)iVar37;
-    uVar17 = (undefined1)((uint)iVar37 >> 8);
-    uVar19 = (undefined2)((uint)iVar37 >> 0x10);
-    uVar11 = (undefined1)iVar97;
-    uVar14 = (undefined1)((uint)iVar97 >> 8);
-    uVar24 = (undefined2)((uint)iVar97 >> 0x10);
-    if (puVar74 < (undefined *)0x2) break;
-    puVar74 = puVar74 + -1;
-  }
-  puVar78 = puVar75;
-  if (bVar22) {
-    piVar66 = (int *)(CONCAT22(extraout_R0_H_22,CONCAT11(extraout_var_22,extraout_R0_L_22)) +
-                     0x146d0);
-    do {
-      sVar16 = lock();
-      if (sVar16 != 0) {
-        *piVar66 = *piVar66 + 1;
-        unlock();
-      }
-    } while (!(bool)(-(sVar16 != 0) & '\x01'));
-  }
-LAB_c180bdb4:
-  piVar66 = piVar30 + 0x3d;
-  puVar101 = (undefined *)0x0;
-  iVar37 = uVar54 * 8 + -0x364c47c4;
-  uVar109 = uVar60;
-  do {
-    if (*(int *)(&DAT_c9b3b5e4 + (int)(puVar101 + uVar54 * 3) * 4) != 0) {
-      if ((&DAT_c9b3bc59)[(int)puVar101 * 0x24] == 0) {
-        iVar97 = (int)&DAT_c9b3b838 +
-                 uVar54 * 8 + (uint)(char)(&DAT_c9b3bc5a)[(int)puVar101 * 0x24] * 4;
-        uVar12 = (undefined1)iVar97;
-        uVar17 = (undefined1)((uint)iVar97 >> 8);
-        uVar19 = (undefined2)((uint)iVar97 >> 0x10);
-      }
-      else {
-        uVar12 = (undefined1)iVar37;
-        uVar17 = (undefined1)((uint)iVar37 >> 8);
-        uVar19 = (undefined2)((uint)iVar37 >> 0x10);
-        *(undefined4 *)(&DAT_c9b3b838 + uVar54) = 1;
-      }
-      *(undefined4 *)CONCAT22(uVar19,CONCAT11(uVar17,uVar12)) = 1;
-    }
-    FUN_c1619338(0x58,(sbyte)puVar101,
-                 (sbyte)*(undefined4 *)(&DAT_c9b3b5e4 + (int)(puVar101 + uVar54 * 3) * 4));
-    piVar111 = piVar66;
-    for (uVar91 = puVar107[(int)puVar101 * 0xa0 + 0x3c]; uVar91 != 0; uVar91 = uVar91 - 1) {
-      FUN_c1619338(0xa1,(sbyte)puVar101,(sbyte)*piVar111,
-                   (sbyte)*(undefined4 *)(&DAT_c9b3b620 + (*piVar111 + uVar54 * 4) * 4));
-      piVar111 = piVar111 + 1;
-    }
-    piVar66 = piVar66 + 0xa0;
-    puVar101 = puVar101 + 1;
-  } while (puVar101 != puVar42);
-  goto LAB_c180bef4;
-}
+f5f0 : assign R1,#0x4 ; memw R0,(R2+#0x4) 
+    PACKET OFFSET @ c1d3f608 : memw R3,(R3+#0x4) 
+    POSSIBLE +0xC STEP @ c1d3f614 : assign R2,##0xc47966b9 
+    PACKET OFFSET @ c1d3f618 : assign R1,#0x4 ; memw R0,(R2+#0x4) 
+    POSSIBLE +0xC STEP @ c1d3f638 : assign R2,##0xc47966ed 
+    PACKET OFFSET @ c1d3f63c : assign R1,#0x4 ; memw R0,(R2+#0x4) 
+    PACKET OFFSET @ c1d3f648 : memw R19,(R16+#0x4) 
+    PACKET OFFSET @ c1d3f64c : memw R3,(R3+#0x8) 
+    POSSIBLE +0xC STEP @ c1d3f658 : assign R2,##0xc4796646 
+    PACKET OFFSET @ c1d3f65c : assign R1,#0x4 ; memw R0,(R2+#0x4) 
+    PACKET OFFSET @ c1d3f668 : memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0) 
+    POSSIBLE +0xC STEP @ c1d3f680 : assign R2,##0xcb8b3728 ; assign R4,#0x2 
+    PROPERTY 28 @ c1d3f6a0 : cmp.gtu P0,R3,#0x1c 
+    PACKET OFFSET @ c1d3f6b4 : memd (R6+#0x8),R5R4 
+    PACKET OFFSET @ c1d3f6c8 : memw R2,(R16) ; memw R4,(R16+#0x8) 
+    POSSIBLE +0xC STEP @ c1d3f6cc : memw R3,(R16+#0x4) ; memw R0,(R17+#0xc) 
+    PACKET OFFSET @ c1d3f6cc : memw R3,(R16+#0x4) ; memw R0,(R17+#0xc) 
 
+#38 SCORE=205  c1d458e8  FUN_c1d458e8
+  0x7B=0 CMD1=0 CMD4=0 CMD5=0
+  PROP26=0 PROP28=1
+  STEP+0xC=4 MEMD=5 MEMW=4 OFFSETS=5
+  COMPARES=8 JUMPS=8
+  EXACT COMMANDS=[]
+    POSSIBLE +0xC STEP @ c1d458ec : assign R16,##0xc9396950 
+    POSSIBLE +0xC STEP @ c1d45900 : assign R0,##0xcbf1b4b0 
+    POSSIBLE +0xC STEP @ c1d45908 : assign R1,##0xc47994f0 
+    PACKET OFFSET @ c1d45948 : memb R3,(R2+#0x8) 
+    POSSIBLE +0xC STEP @ c1d4595c : assign R1,##0xc1d459c8 ; memw R2,(R2+#0xc) 
+    PACKET OFFSET @ c1d4595c : assign R1,##0xc1d459c8 ; memw R2,(R2+#0xc) 
+    PROPERTY 28 @ c1d4596c : add R17,R17,#0x1c ; cmp.eq P0,R0,#0x0 
+    PACKET OFFSET @ c1d45980 : memub R3,(R2+#0x8) 
+    PACKET OFFSET @ c1d459b0 : memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0) 
+    PACKET OFFSET @ c1d459bc : memd R17R16,(SP+#0x8) 
 
+#39 SCORE=195  c18d6340  FUN_c18d6340
+  0x7B=0 CMD1=0 CMD4=0 CMD5=0
+  PROP26=2 PROP28=2
+  STEP+0xC=2 MEMD=0 MEMW=8 OFFSETS=2
+  COMPARES=54 JUMPS=71
+  EXACT COMMANDS=[]
+    PROPERTY 26 @ c18d6350 : cmp.gt P0,R1,#0x1a ; jump.if(P0.new):t 0xc18d637c 
+    PROPERTY 26 @ c18d6370 : cmp.eq P0,R1,#0x1a ; jump.if(!P0.new):nt 0xc18d6670 
+    PROPERTY 28 @ c18d637c : cmp.gt P0,R1,#0x1c ; jump.if(P0.new):t 0xc18d6394 
+    PROPERTY 28 @ c18d6384 : cmp.eq P0,R1,#0x1c ; jump.if(!P0.new):nt 0xc18d6670 
+    PACKET OFFSET @ c18d64a8 : memw R0,(R3+#0x8) ; memub R1,(R3) 
+    PACKET OFFSET @ c18d64d0 : memw R2,(R2+#0x4) ; deallocframe 
+    POSSIBLE +0xC STEP @ c18d6678 : assign R0,##0xc4f1436c 
+    POSSIBLE +0xC STEP @ c18d6688 : assign.if(!P0.new) R0,##0xcf86106c 
+
+#40 SCORE=195  c1ab2d74  FUN_c1ab2d74
+  0x7B=0 CMD1=0 CMD4=0 CMD5=0
+  PROP26=0 PROP28=1
+  STEP+0xC=6 MEMD=4 MEMW=29 OFFSETS=12
+  COMPARES=1 JUMPS=0
+  EXACT COMMANDS=[]
+    PROPERTY 28 @ c1ab2d94 : cmp.gtu P0,R19,#0x1c 
+    POSSIBLE +0xC STEP @ c1ab2db8 : memw R4,(R17+#0xc) 
+    PACKET OFFSET @ c1ab2db8 : memw R4,(R17+#0xc) 
+    PACKET OFFSET @ c1ab2dc0 : memw R4,(R17+#0x8) 
+    PACKET OFFSET @ c1ab2dc8 : memw R4,(R17+#0x4) 
+    PACKET OFFSET @ c1ab2de0 : memd (R3+#0x8),R1R0 
+    PACKET OFFSET @ c1ab2dfc : memw R4,(R17+#0x8) ; memw R3,(R17+#0x4) 
+    POSSIBLE +0xC STEP @ c1ab2e00 : memw R5,(R17+#0xc) ; memw R6,(R17+#0x10) 
+    PACKET OFFSET @ c1ab2e00 : memw R5,(R17+#0xc) ; memw R6,(R17+#0x10) 
+    POSSIBLE +0xC STEP @ c1ab2e04 : memw (SP+#0x10),R6 ; memw (SP+#0xc),R5 
+    PACKET OFFSET @ c1ab2e04 : memw (SP+#0x10),R6 ; memw (SP+#0xc),R5 
+    PACKET OFFSET @ c1ab2e08 : memw (SP+#0x8),R4 ; memw (SP+#0x4),R3 
+    POSSIBLE +0xC STEP @ c1ab2e18 : assign R0,##0xc470f260 
+    PACKET OFFSET @ c1ab2e1c : memw R2,(R17) ; memw R4,(R17+#0x8) 
+    POSSIBLE +0xC STEP @ c1ab2e20 : memw R3,(R17+#0x4) ; memw R5,(R17+#0xc) 
+    PACKET OFFSET @ c1ab2e20 : memw R3,(R17+#0x4) ; memw R5,(R17+#0xc) 
+    POSSIBLE +0xC STEP @ c1ab2e2c : memw (SP+#0x10),R5 ; memw (SP+#0xc),R4 
+    PACKET OFFSET @ c1ab2e2c : memw (SP+#0x10),R5 ; memw (SP+#0xc),R4 
+    PACKET OFFSET @ c1ab2e30 : memw (SP+#0x8),R3 ; memw (SP+#0x4),R2 
 
 ============================================================
-4. ALL FUNCTIONS WITH 0x7B + COMMAND RANGE
+2. HIGH-CONFIDENCE PROPERTY PARSERS
 ============================================================
-c1c53db0  FUN_c1c53db0  score=180  commands=[3, 7, 5, 1, 14, 2, 12, 4, 15, 16, 8, 6, 17, 10, 13]
-c1885db0  FUN_c1885db0  score=180  commands=[15, 2, 1, 8, 7, 4, 16, 3, 18, 10, 14, 5]
-c19067d0  FUN_c19067d0  score=180  commands=[1, 10, 2, 11, 3, 4, 13, 5, 6, 7, 8]
-c184a38c  FUN_c184a38c  score=165  commands=[3, 1, 14, 7, 2, 5, 4, 6, 10, 8, 9, 12, 11, 13, 21, 17, 15, 16, 19, 18, 20]
-c1809390  FUN_c1809390  score=165  commands=[6, 1, 3, 9, 18, 2, 10, 4, 7, 15, 14, 12, 5, 20]
-c18540c4  FUN_c18540c4  score=165  commands=[4, 2, 3, 1, 5, 8, 6, 7, 10, 9, 11, 12, 19]
-c1c50c58  FUN_c1c50c58  score=165  commands=[4, 2, 8, 1, 15, 7, 18, 3, 5, 14]
-c18a4d64  FUN_c18a4d64  score=155  commands=[2, 7, 3, 1, 4, 10, 8, 9, 12, 11, 13, 14, 6]
-c18f1de0  FUN_c18f1de0  score=155  commands=[3, 7, 5, 1, 2, 8, 4, 16]
-c197eba8  FUN_c197eba8  score=155  commands=[1, 2, 4, 9, 3, 15, 10, 5]
-c1ba47e0  FUN_c1ba47e0  score=150  commands=[1, 9, 12, 11, 7, 2, 10, 5, 4, 20, 19]
-c1986fdc  FUN_c1986fdc  score=140  commands=[3, 1, 2, 15, 4, 5, 7]
-c1a23f94  FUN_c1a23f94  score=130  commands=[1, 19, 15, 7, 2, 3, 8, 4, 9]
-c186bf18  FUN_c186bf18  score=130  commands=[1, 12, 15, 16, 7, 2, 5, 3]
-c1ca9018  FUN_c1ca9018  score=130  commands=[4, 1, 3, 2, 10, 6, 7]
-c1911950  FUN_c1911950  score=120  commands=[4, 1, 2, 5]
-c1a5c310  FUN_c1a5c310  score=115  commands=[1, 7, 2, 9, 15, 3, 8, 12, 16]
-c1a728d8  FUN_c1a728d8  score=115  commands=[3, 1, 5, 15, 9, 14, 2]
-c1ca2240  FUN_c1ca2240  score=115  commands=[7, 4, 1, 15, 16, 3, 2]
-c18192c0  FUN_c18192c0  score=110  commands=[3, 1, 16, 6, 2]
-c1867c2c  FUN_c1867c2c  score=110  commands=[2, 1, 3, 7]
-c1a31730  FUN_c1a31730  score=110  commands=[3, 1, 2, 5]
-c1c4d638  FUN_c1c4d638  score=105  commands=[2, 1, 4, 5]
-c17995e0  FUN_c17995e0  score=95  commands=[3, 4, 2, 15, 1, 8]
-c19ab754  FUN_c19ab754  score=95  commands=[1, 8, 6, 2, 7, 3]
-c18abe74  FUN_c18abe74  score=95  commands=[2, 1, 3, 16, 7]
-c1a79954  FUN_c1a79954  score=95  commands=[7, 1, 4, 3, 15]
-c187bb70  FUN_c187bb70  score=90  commands=[1, 2, 3]
-c190624c  FUN_c190624c  score=85  commands=[7, 8, 6, 1, 2]
-c18f2b1c  FUN_c18f2b1c  score=80  commands=[3, 1, 5, 14]
 
-DISPLAYED TARGETED FUNCTIONS = 30
+>>> c184a38c FUN_c184a38c
+    SCORE=480
+    0x7B=1 CMD1=16 PROP26=1 PROP28=1
+    STEP+0xC=226 MEMD=191 MEMW=168
+    POSSIBLE +0xC STEP @ c184a3b8 : memw R5,(##0xcaf8a980) 
+    POSSIBLE +0xC STEP @ c184a3c4 : assign R18,##0xc9116968 ; and R3,R4,#0xff 
+    POSSIBLE +0xC STEP @ c184a3cc : assign R17,##0xc1d918b0 
+    POSSIBLE +0xC STEP @ c184a3d8 : assign R26,##0xc1d90040 
+    POSSIBLE +0xC STEP @ c184a3e4 : assign R27,##0xc1d98380 
+    POSSIBLE +0xC STEP @ c184a3ec : assign R19,##0xc1d90a6e 
+    POSSIBLE +0xC STEP @ c184a3f8 : assign R20,##0xc1d96780 
+    POSSIBLE +0xC STEP @ c184a400 : memw (##0xcaf8a980),R0 
+    POSSIBLE +0xC STEP @ c184a408 : memw (R5<<#0x3+##0xcaf8a780),R4 
+    POSSIBLE +0xC STEP @ c184a414 : memh (R5<<#0x3+##0xcaf8a784),R2.L 
+    POSSIBLE +0xC STEP @ c184a420 : assign R24,##0xc1d9b59c 
+    POSSIBLE +0xC STEP @ c184a428 : assign R21,##0xc1d9bd1c 
+    POSSIBLE +0xC STEP @ c184a430 : assign R23,##0xc1d9c33c 
+    POSSIBLE +0xC STEP @ c184a438 : assign R25,##0xc1d90488 
+    POSSIBLE +0xC STEP @ c184a440 : assign R22,##0xc1d95272 
+    POSSIBLE +0xC STEP @ c184a44c : assign.if(!P0) R19,##0xc1d91880 
+    EXACT CMD 14 @ c184a454 : cmp.gt P0,R3,#0xe ; jump.if(P0.new):t 0xc184a6c8 
+    EXACT CMD 7 @ c184a458 : cmp.gt P0,R3,#0x7 ; jump.if(P0.new):t 0xc184a5a8 
+    EXACT CMD 3 @ c184a45c : cmp.gt P0,R3,#0x3 ; jump.if(P0.new):t 0xc184a4fc 
+    EXACT CMD 1 @ c184a46c : cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc184b6dc 
+
+>>> c1d4bb3c FUN_c1d4bb3c
+    SCORE=330
+    0x7B=0 CMD1=4 PROP26=1 PROP28=3
+    STEP+0xC=40 MEMD=16 MEMW=136
+    POSSIBLE +0xC STEP @ c1d4bb60 : memw R2,(R0+#0x8) ; memw R3,(R0+#0xc) 
+    PACKET OFFSET @ c1d4bb60 : memw R2,(R0+#0x8) ; memw R3,(R0+#0xc) 
+    EXACT CMD 4 @ c1d4bb6c : jump.if:t !cmp.gtu(R2.new,#0x4),0xc1d4c994 
+    POSSIBLE +0xC STEP @ c1d4bb90 : assign R22,##0xc47c7e6e ; memw R2,(SP+#0x24) 
+    EXACT CMD 8 @ c1d4bb9c : cmp.gtu P0,R2,#0x8 
+    EXACT CMD 5 @ c1d4bbc0 : cmp.eq P0,R20,#0x5 ; jump.if(!P0.new):t 0xc1d4bc58 
+    PROPERTY 28 @ c1d4bbc4 : cmp.gtu P0,R1,#0x1c ; jump.if(!P0.new):t 0xc1d4bc30 
+    POSSIBLE +0xC STEP @ c1d4bbd0 : assign R2,##0xc47bfe5c 
+    POSSIBLE +0xC STEP @ c1d4bbec : memw R3,(R16+#0x8) ; memw R2,(R16+#0xc) 
+    PACKET OFFSET @ c1d4bbec : memw R3,(R16+#0x8) ; memw R2,(R16+#0xc) 
+    EXACT CMD 4 @ c1d4bbfc : cmp.eq P0,R20,#0x4 
+    EXACT CMD 11 @ c1d4bc10 : cmp.gtu P0,R1,#0xb ; jump.if(!P0.new):nt 0xc1d4c950 
+    EXACT CMD 3 @ c1d4bc14 : cmp.gtu P0,R3,#0x3 ; jump.if(!P0.new):t 0xc1d4bcc4 
+    EXACT CMD 5 @ c1d4bc3c : cmp.gtu P0,R1,#0x5 ; jump.if(!P0.new):t 0xc1d4c994 
+    PROPERTY 28 @ c1d4bc58 : cmp.gtu P0,R1,#0x1c ; jump.if(!P0.new):t 0xc1d4bc9c 
+    POSSIBLE +0xC STEP @ c1d4bc64 : assign R2,##0xc47bfe63 
+    POSSIBLE +0xC STEP @ c1d4bc84 : assign.if(!P0.new) R26,##0xc47bff48 
+    POSSIBLE +0xC STEP @ c1d4bc94 : memw R2,(R20<<#0x2+##0xc47bfd68) 
+    EXACT CMD 5 @ c1d4bca8 : cmp.gtu P0,R1,#0x5 ; jump.if(!P0.new):t 0xc1d4c994 
+    EXACT CMD 3 @ c1d4bcc4 : cmp.gtu P0,R2,#0x3 ; jump.if(!P0.new):t 0xc1d4bce4 
+
+>>> c186c3bc FUN_c186c3bc
+    SCORE=315
+    0x7B=0 CMD1=1 PROP26=2 PROP28=1
+    STEP+0xC=12 MEMD=3 MEMW=12
+    POSSIBLE +0xC STEP @ c186c3cc : combine R1R0,#0x1,##0xc1da0cc0 
+    POSSIBLE +0xC STEP @ c186c3e4 : assign R18,##0xc1da1040 
+    POSSIBLE +0xC STEP @ c186c3ec : assign R19,##0xcac20ac3 
+    EXACT CMD 17 @ c186c3f4 : cmp.gt P0,R16,#0x11 ; jump.if(P0.new):t 0xc186c474 
+    EXACT CMD 16 @ c186c3f8 : cmp.eq P0,R16,#0x10 ; jump.if(P0.new):nt 0xc186c518 
+    EXACT CMD 17 @ c186c400 : cmp.eq P0,R16,#0x11 ; jump.if(!P0.new):nt 0xc186c69c 
+    EXACT CMD 1 @ c186c410 : cmp.eq R2,R2,#0x1 
+    POSSIBLE +0xC STEP @ c186c428 : assign R18,##0xcac5c70c 
+    EXACT CMD 18 @ c186c474 : cmp.eq P0,R16,#0x12 ; jump.if(P0.new):nt 0xc186c52c 
+    EXACT CMD 19 @ c186c478 : cmp.eq P0,R16,#0x13 ; jump.if(P0.new):nt 0xc186c5f4 
+    POSSIBLE +0xC STEP @ c186c48c : assign R0,##0xcac2187c 
+    PROPERTY 26 @ c186c494 : cmp.gt P0,R16,#0x1a ; jump.if(P0.new):t 0xc186c4d4 
+    PROPERTY 26 @ c186c4a0 : cmp.eq P0,R16,#0x1a ; jump.if(!P0.new):nt 0xc186c69c 
+    POSSIBLE +0xC STEP @ c186c4d0 : assign R0,##0xcf8497ee 
+    PROPERTY 28 @ c186c4d8 : cmp.eq P0,R16,#0x1c ; jump.if(P0.new):nt 0xc186c660 
+    POSSIBLE +0xC STEP @ c186c53c : memw R0,(##0xc162533c) 
+    POSSIBLE +0xC STEP @ c186c56c : memw R0,(##0xc162533c) 
+    POSSIBLE +0xC STEP @ c186c58c : combine R19R18,##0xcabd3f74,#0x0 
+    POSSIBLE +0xC STEP @ c186c594 : memub R2,(##0xcabd3f70) 
+    POSSIBLE +0xC STEP @ c186c5cc : memw (##0xc910bf54),R1.new 
+
+>>> c18e494c FUN_c18e494c
+    SCORE=245
+    0x7B=0 CMD1=9 PROP26=0 PROP28=4
+    STEP+0xC=12 MEMD=29 MEMW=113
+    POSSIBLE +0xC STEP @ c18e49b8 : memb R27,(R21+##0xc1a95140) 
+    PROPERTY 28 @ c18e49cc : cmp.eq P0,R21,#0x1c 
+    EXACT CMD 1 @ c18e49e8 : jump.if:t !cmp.eq(R3.new,#0x1),0xc18e4a94 
+    PACKET OFFSET @ c18e49f4 : memh (R19+#0x4),#0x0 
+    POSSIBLE +0xC STEP @ c18e4a08 : memb (R19+#0xc),#0x0 ; memb (R19+#0x6),#0x0 
+    PACKET OFFSET @ c18e4a08 : memb (R19+#0xc),#0x0 ; memb (R19+#0x6),#0x0 
+    EXACT CMD 1 @ c18e4a38 : cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc18e4a8c 
+    PACKET OFFSET @ c18e4a48 : memh (R19+#0x4),R3.new 
+    POSSIBLE +0xC STEP @ c18e4a64 : memb (R19+#0xc),R3 ; memb (R19+#0x6),R3 
+    PACKET OFFSET @ c18e4a64 : memb (R19+#0xc),R3 ; memb (R19+#0x6),R3 
+    POSSIBLE +0xC STEP @ c18e4ac4 : memb (R19+#0xc),R4.new 
+    PACKET OFFSET @ c18e4ac4 : memb (R19+#0xc),R4.new 
+    PACKET OFFSET @ c18e4ae8 : memb (R19+#0x2),R27 
+    POSSIBLE +0xC STEP @ c18e4b30 : memw (SP+#0xc),R5 
+    PACKET OFFSET @ c18e4b30 : memw (SP+#0xc),R5 
+    POSSIBLE +0xC STEP @ c18e4b74 : memb (R24+#0xc),R2 
+    PACKET OFFSET @ c18e4b74 : memb (R24+#0xc),R2 
+    EXACT CMD 12 @ c18e4bbc : cmp.eq P0,R2,#0xc ; jump.if(!P0.new):t 0xc18e4be0 
+    PACKET OFFSET @ c18e4bdc : memb (R19+#0x2),R3 
+    EXACT CMD 5 @ c18e4c00 : cmp.eq P1,R4,#0x5 
+
+>>> c18e56b8 FUN_c18e56b8
+    SCORE=245
+    0x7B=0 CMD1=25 PROP26=0 PROP28=4
+    STEP+0xC=20 MEMD=9 MEMW=231
+    PACKET OFFSET @ c18e5710 : memub R2,(R20+#0x8) 
+    EXACT CMD 21 @ c18e5714 : jump.if:t cmp.gt(R2.new,#0x15),0xc18e57b4 
+    EXACT CMD 3 @ c18e5718 : cmp.gt P0,R2,#0x3 ; jump.if(P0.new):t 0xc18e5754 
+    EXACT CMD 1 @ c18e571c : cmp.gtu P0,R2,#0x1 ; jump.if(!P0.new):nt 0xc18e5884 
+    EXACT CMD 1 @ c18e5724 : jump.if:nt cmp.gtu(R2.new,#0x1),0xc18e576c 
+    EXACT CMD 19 @ c18e5754 : cmp.gt P0,R2,#0x13 ; jump.if(P0.new):t 0xc18e5764 
+    EXACT CMD 4 @ c18e5758 : cmp.eq P0,R2,#0x4 ; jump.if(P0.new):nt 0xc18e599c 
+    EXACT CMD 5 @ c18e575c : cmp.eq P0,R2,#0x5 ; jump.if(P0.new):t 0xc18e5884 
+    EXACT CMD 20 @ c18e5764 : cmp.eq P0,R2,#0x14 ; jump.if(P0.new):nt 0xc18e5810 
+    EXACT CMD 21 @ c18e5768 : cmp.eq P0,R2,#0x15 ; jump.if(P0.new):t 0xc18e5884 
+    PROPERTY 28 @ c18e57b4 : cmp.gt P0,R2,#0x1c ; jump.if(P0.new):t 0xc18e5804 
+    EXACT CMD 1 @ c18e57bc : jump.if:nt !cmp.gtu(R3.new,#0x1),0xc18e5884 
+    PROPERTY 28 @ c18e57c4 : cmp.eq P0,R2,#0x1c ; jump.if(!P0.new):nt 0xc18e576c 
+    EXACT CMD 4 @ c18e5828 : cmp.eq P0,R5,#0x4 
+    EXACT CMD 1 @ c18e590c : cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc18e592c 
+    EXACT CMD 8 @ c18e594c : cmp.eq P0,R5,#0x8 
+    EXACT CMD 3 @ c18e59a0 : jump.if:t !cmp.gtu(R1.new,#0x3),0xc18e59c8 
+    POSSIBLE +0xC STEP @ c18e59ac : assign R0,##0xc4f1442e 
+    POSSIBLE +0xC STEP @ c18e59bc : assign.if(!P0.new) R0,##0xcf8610b2 
+    POSSIBLE +0xC STEP @ c18e59d8 : memb (R26+#0xc),R2.new 
+
+>>> c1c29410 FUN_c1c29410
+    SCORE=245
+    0x7B=0 CMD1=1 PROP26=0 PROP28=3
+    STEP+0xC=11 MEMD=3 MEMW=27
+    POSSIBLE +0xC STEP @ c1c29424 : memw R18,(R1<<#0x2+##0xcb55fb8c) 
+    EXACT CMD 1 @ c1c29434 : jump.if:t !cmp.eq(R2.new,#0x1),0xc1c2961c 
+    PROPERTY 28 @ c1c29444 : jump.if:nt cmp.gtu(R4.new,#0x1c),0xc1c29624 
+    EXACT CMD 8 @ c1c29474 : cmp.eq P0,R2,#0x8 ; jump.if(P0.new):nt 0xc1c294d8 
+    EXACT CMD 9 @ c1c29478 : cmp.eq P0,R2,#0x9 ; jump.if(P0.new):nt 0xc1c29518 
+    EXACT CMD 10 @ c1c2947c : cmp.eq P0,R2,#0xa ; jump.if(!P0.new):t 0xc1c29568 
+    PACKET OFFSET @ c1c29484 : memub R2,(R0+#0x4) 
+    PACKET OFFSET @ c1c29488 : memb (R17+#0x4),R2 
+    PACKET OFFSET @ c1c29494 : memuh R2,(R0+#0x8) 
+    PACKET OFFSET @ c1c29498 : memh (R17+#0x8),R2.L 
+    PACKET OFFSET @ c1c2949c : memuh R2,(R0+#0xa) 
+    PACKET OFFSET @ c1c294a0 : memh (R17+#0xa),R2.L 
+    POSSIBLE +0xC STEP @ c1c294a4 : memw R2,(R0+#0xc) 
+    PACKET OFFSET @ c1c294a4 : memw R2,(R0+#0xc) 
+    POSSIBLE +0xC STEP @ c1c294b8 : memh (R17+#0xc),R2.L 
+    PACKET OFFSET @ c1c294b8 : memh (R17+#0xc),R2.L 
+    EXACT CMD 14 @ c1c294d0 : cmp.eq P0,R2,#0xe ; jump.if(P0.new):nt 0xc1c29518 
+    EXACT CMD 15 @ c1c294d4 : cmp.eq P0,R2,#0xf ; jump.if(!P0.new):nt 0xc1c29568 
+    PACKET OFFSET @ c1c294e0 : memb (R17+#0x4),R2 
+    PACKET OFFSET @ c1c294f0 : memh (R17+#0x8),R2.L 
+
+>>> c171637c FUN_c171637c
+    SCORE=245
+    0x7B=0 CMD1=1 PROP26=0 PROP28=2
+    STEP+0xC=12 MEMD=1 MEMW=31
+    POSSIBLE +0xC STEP @ c171639c : assign R18,##0xc16e8f6e 
+    PACKET OFFSET @ c17163b4 : memh (R18+#0x2),#0x0 
+    POSSIBLE +0xC STEP @ c171640c : combine R1R0,#0x0,##0xc16f8204 
+    PACKET OFFSET @ c1716410 : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
+    PACKET OFFSET @ c1716424 : memw (SP+#0x8),R4 
+    POSSIBLE +0xC STEP @ c1716430 : memw (SP+#0xc),#0x0 
+    PACKET OFFSET @ c1716430 : memw (SP+#0xc),#0x0 
+    PACKET OFFSET @ c1716440 : memw (SP+#0x4),R3 ; memw (SP+#0x0),R2 
+    PACKET OFFSET @ c1716454 : memw (SP+#0x8),R4 
+    POSSIBLE +0xC STEP @ c1716460 : memw (SP+#0xc),#0x0 
+    PACKET OFFSET @ c1716460 : memw (SP+#0xc),#0x0 
+    EXACT CMD 4 @ c171648c : cmp.gtu P0,R1,#0x4 
+    POSSIBLE +0xC STEP @ c17164ac : memw R3,(R19<<#0x2+##0xc16f81f0) 
+    EXACT CMD 15 @ c17164b4 : cmp.eq P0,R2,#0xf ; jump.if(P0.new):t 0xc17164ec 
+    POSSIBLE +0xC STEP @ c17164cc : combine R1R0,#0x0,##0xc16f837c 
+    EXACT CMD 15 @ c17164f0 : jump.if:t cmp.eq(R2.new,#0xf),0xc1716558 
+    EXACT CMD 3 @ c1716504 : jump.if:t cmp.eq(R2.new,#0x3),0xc1716558 
+    EXACT CMD 21 @ c171651c : jump.if:nt cmp.eq(R3.new,#0x15),0xc1716558 
+    EXACT CMD 3 @ c1716520 : cmp.eq P0,R2,#0x3 
+    PROPERTY 28 @ c1716528 : cmp.eq P1,R3,#0x1c 
+
+>>> c1ae3b90 FUN_c1ae3b90
+    SCORE=245
+    0x7B=0 CMD1=1 PROP26=0 PROP28=2
+    STEP+0xC=17 MEMD=3 MEMW=32
+    POSSIBLE +0xC STEP @ c1ae3b94 : assign R0,##0xc95cbeb8 
+    PACKET OFFSET @ c1ae3bac : memub R2,(R16+#0x8) 
+    EXACT CMD 2 @ c1ae3bb0 : jump.if:nt cmp.eq(R2.new,#0x2),0xc1ae3d00 
+    EXACT CMD 1 @ c1ae3bbc : cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc1ae3c64 
+    POSSIBLE +0xC STEP @ c1ae3bd0 : memw R4,(R16+#0xc) 
+    PACKET OFFSET @ c1ae3bd0 : memw R4,(R16+#0xc) 
+    PROPERTY 28 @ c1ae3bf8 : cmp.eq P0,R0,#0x1c ; jump.if(P0.new):t 0xc1ae3c1c 
+    POSSIBLE +0xC STEP @ c1ae3c04 : memw R4,(R16+#0xc) 
+    PACKET OFFSET @ c1ae3c04 : memw R4,(R16+#0xc) 
+    POSSIBLE +0xC STEP @ c1ae3c20 : memw R2,(R17+#0xc) 
+    PACKET OFFSET @ c1ae3c20 : memw R2,(R17+#0xc) 
+    POSSIBLE +0xC STEP @ c1ae3c24 : memw (SP+#0xc),R2.new 
+    PACKET OFFSET @ c1ae3c24 : memw (SP+#0xc),R2.new 
+    POSSIBLE +0xC STEP @ c1ae3c2c : memw (SP+#0x4),##0xc1ae3ef0 
+    PACKET OFFSET @ c1ae3c2c : memw (SP+#0x4),##0xc1ae3ef0 
+    PACKET OFFSET @ c1ae3c30 : memw (SP+#0x8),#0x0 
+    EXACT CMD 11 @ c1ae3c48 : cmp.eq P0,R0,#0xb ; jump.if(!P0.new):t 0xc1ae3db4 
+    PACKET OFFSET @ c1ae3c4c : memw R4,(R17+#0x4) 
+    POSSIBLE +0xC STEP @ c1ae3c6c : memw R4,(R16+#0xc) 
+    PACKET OFFSET @ c1ae3c6c : memw R4,(R16+#0xc) 
+
+>>> c1d0cc30 FUN_c1d0cc30
+    SCORE=245
+    0x7B=0 CMD1=2 PROP26=0 PROP28=2
+    STEP+0xC=4 MEMD=10 MEMW=77
+    PACKET OFFSET @ c1d0cca0 : memw R22,(SP+#0x70) ; memw (SP+#0x4),R0 
+    POSSIBLE +0xC STEP @ c1d0ccbc : memw (SP+#0x8),R3 ; memw (SP+#0xc),R1 
+    PACKET OFFSET @ c1d0ccbc : memw (SP+#0x8),R3 ; memw (SP+#0xc),R1 
+    EXACT CMD 4 @ c1d0ccc8 : jump.if:nt cmp.gtu(R2.new,#0x4),0xc1d0cf90 
+    POSSIBLE +0xC STEP @ c1d0ccd0 : memw R2,(R2<<#0x2+##0xc51c2aec) 
+    PACKET OFFSET @ c1d0cd28 : memw.if(!P0) R3,(R24+#0x4) 
+    EXACT CMD 12 @ c1d0cd40 : cmp.eq P0,R5,#0x0 ; memw R5,(SP+#0xc) 
+    POSSIBLE +0xC STEP @ c1d0cd40 : cmp.eq P0,R5,#0x0 ; memw R5,(SP+#0xc) 
+    PACKET OFFSET @ c1d0cd40 : cmp.eq P0,R5,#0x0 ; memw R5,(SP+#0xc) 
+    PACKET OFFSET @ c1d0cd48 : memw.if(!P0) R5,(R24+#0x8) 
+    PACKET OFFSET @ c1d0cd54 : memw R6,(R5++#0x4) 
+    PACKET OFFSET @ c1d0cd58 : memw (R4++#0x4),R6.new  :endloop0
+    PACKET OFFSET @ c1d0cd78 : memw.if(!P0) R3,(R23+#0x4) 
+    PROPERTY 28 @ c1d0cd88 : cmp.eq P0,R2,#0x0 ; memw R2,(SP+#0x1c) 
+    PACKET OFFSET @ c1d0cd8c : memw.if(!P0) R2,(R23+#0x8) 
+    POSSIBLE +0xC STEP @ c1d0cdc4 : memw R3,(R3+#0xc) 
+    PACKET OFFSET @ c1d0cdc4 : memw R3,(R3+#0xc) 
+    EXACT CMD 1 @ c1d0ce10 : cmp.gt P0,R26,#0x1 
+    PACKET OFFSET @ c1d0ce1c : memw (R2++#0x4),R5.new 
+    PACKET OFFSET @ c1d0ce5c : memw (R2++#0x4),R0  :endloop0
+
+>>> c16ab934 FUN_c16ab934
+    SCORE=245
+    0x7B=0 CMD1=1 PROP26=0 PROP28=1
+    STEP+0xC=9 MEMD=14 MEMW=25
+    PACKET OFFSET @ c16ab950 : assign R18,R0 ; memw R23,(R0+#0x4) 
+    POSSIBLE +0xC STEP @ c16ab958 : memw.if(!P0.new) R25,(R18+#0xc) 
+    PACKET OFFSET @ c16ab958 : memw.if(!P0.new) R25,(R18+#0xc) 
+    PACKET OFFSET @ c16ab964 : assign R19,R2 ; memw R20,(R18+#0x8) 
+    PROPERTY 28 @ c16ab984 : cmp.gtu P1,R23,#0x1c 
+    EXACT CMD 6 @ c16ab9a4 : jump.if:nt cmp.gtu(R2.new,#0x6),0xc16ab9e8 
+    PACKET OFFSET @ c16aba08 : memw R22,(R6+#0x4) 
+    POSSIBLE +0xC STEP @ c16aba24 : assign R3,##0xca7a3448 
+    EXACT CMD 6 @ c16aba80 : jump.if:nt cmp.gtu(R2.new,#0x6),0xc16abcd8 
+    PACKET OFFSET @ c16abaa0 : add R2,SP,#0x18 ; memw (SP+#0x8),R4 
+    PACKET OFFSET @ c16abaac : memw (SP+#0x4),R17 
+    PACKET OFFSET @ c16abadc : memuh R21,(R16+#0x8) 
+    PACKET OFFSET @ c16abb10 : memd (R6+#0x8),R1R0 
+    POSSIBLE +0xC STEP @ c16abb20 : assign R0,##0xc16299a8 
+    POSSIBLE +0xC STEP @ c16abb58 : and R3,R21,##0xc00 
+    POSSIBLE +0xC STEP @ c16abbe0 : assign R0,##0xc49c065a 
+    PACKET OFFSET @ c16abc2c : memw (SP+#0x4),R3.new 
+    EXACT CMD 1 @ c16abcdc : cmp.gtu P0,R4,#0x1 ; jump.if(!P0.new):t 0xc16abcf8 
+    PACKET OFFSET @ c16abce4 : add R2,SP,#0x18 ; memuh R4,(R16+#0x8) 
+    POSSIBLE +0xC STEP @ c16abd18 : assign R0,##0xc49c04ca 
+
+>>> c17a1938 FUN_c17a1938
+    SCORE=245
+    0x7B=0 CMD1=2 PROP26=0 PROP28=1
+    STEP+0xC=15 MEMD=7 MEMW=4
+    PACKET OFFSET @ c17a1948 : memd (SP+#0x8),R21R20 ; memd (SP+#0x10),R19R18 
+    POSSIBLE +0xC STEP @ c17a1978 : memb R2,(##0xc8dbec44) 
+    EXACT CMD 8 @ c17a19a8 : cmp.eq P0,R4,#0x8 
+    PROPERTY 28 @ c17a19d0 : jump.if:nt !cmp.eq(R2.new,#0x1c),0xc17a19e4 
+    POSSIBLE +0xC STEP @ c17a19f4 : assign R5,##0xc47e52e0 
+    POSSIBLE +0xC STEP @ c17a1a00 : assign R4,##0xc47e52f0 
+    POSSIBLE +0xC STEP @ c17a1a10 : memuh R2,(R20<<#0x1+##0xc47e5300) 
+    POSSIBLE +0xC STEP @ c17a1a20 : memuh R6,(R20<<#0x1+##0xc47e5310) 
+    POSSIBLE +0xC STEP @ c17a1ab0 : memuh R5,(R20<<#0x1+##0xc47e5300) 
+    POSSIBLE +0xC STEP @ c17a1abc : memuh R1,(R20<<#0x1+##0xc47e5320) 
+    POSSIBLE +0xC STEP @ c17a1ac8 : memuh R5,(R20<<#0x1+##0xc47e5310) 
+    POSSIBLE +0xC STEP @ c17a1ad4 : memuh R0,(R20<<#0x1+##0xc47e5330) 
+    EXACT CMD 15 @ c17a1ae8 : jump.if:nt cmp.gt(R2.new,#0xf),0xc17a1c74 
+    POSSIBLE +0xC STEP @ c17a1af4 : assign.if(!P0.new) R0,##0xcf807aaa 
+    POSSIBLE +0xC STEP @ c17a1b28 : add R2,##0xc8db5ad4,mpyi(R17,R5) 
+    POSSIBLE +0xC STEP @ c17a1b34 : memw R4,(R4+##0xc8d6a498) 
+    EXACT CMD 1 @ c17a1b50 : cmp.gt P0,R5,#0x1 
+    EXACT CMD 1 @ c17a1b5c : cmp.eq P0,R2,#0x1 ; assign.if(!P0) R7,#0x0 
+    EXACT CMD 2 @ c17a1b78 : cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc17a1b80 
+    PACKET OFFSET @ c17a1c6c : memd R21R20,(SP+#0x8) ; memd R23R22,(SP+#0x0) 
+
+>>> c17da10c FUN_c17da10c
+    SCORE=245
+    0x7B=0 CMD1=26 PROP26=0 PROP28=1
+    STEP+0xC=107 MEMD=26 MEMW=261
+    POSSIBLE +0xC STEP @ c17da148 : assign R13,##0xc9b2b590 
+    PACKET OFFSET @ c17da14c : assign R18,#0x0 ; memw (R7+#0x4),R4 
+    PACKET OFFSET @ c17da16c : memb (R7+#0x8),R5.new 
+    POSSIBLE +0xC STEP @ c17da188 : assign R20,##0xc9b0ad00 
+    PACKET OFFSET @ c17da18c : memb (R7+#0xa),R3 ; memw (R7+#0x10),R4 
+    POSSIBLE +0xC STEP @ c17da1a4 : assign R6,##0xc9b36954 
+    POSSIBLE +0xC STEP @ c17da1c8 : memw (R7+#0xc),R2 
+    PACKET OFFSET @ c17da1c8 : memw (R7+#0xc),R2 
+    PACKET OFFSET @ c17da1e8 : memw R22,(R7+#0x4) 
+    POSSIBLE +0xC STEP @ c17da204 : add R25,R14,add(R2,##0xc9b09d00) 
+    POSSIBLE +0xC STEP @ c17da218 : assign R27,##0xc9b31b00 
+    POSSIBLE +0xC STEP @ c17da22c : add R19,R14,add(R3,##0xc9b09d00) 
+    POSSIBLE +0xC STEP @ c17da2a4 : mux R2,P0,##0xc9b31b00,R27 
+    PACKET OFFSET @ c17da2bc : memw (R24++#0x4),R2 
+    PACKET OFFSET @ c17da328 : memw (R3+#0x4),R2 
+    POSSIBLE +0xC STEP @ c17da388 : memw (##0xc9b2b8c8),R18 
+    POSSIBLE +0xC STEP @ c17da38c : memw (SP+#0xc),R24 
+    PACKET OFFSET @ c17da38c : memw (SP+#0xc),R24 
+    POSSIBLE +0xC STEP @ c17da394 : memw (R21+##0xc9b2b92c),R24 
+    POSSIBLE +0xC STEP @ c17da3e0 : memw R4,(R4+##0xc9b2b9bc) 
+
+>>> c185a484 FUN_c185a484
+    SCORE=245
+    0x7B=0 CMD1=2 PROP26=0 PROP28=1
+    STEP+0xC=105 MEMD=9 MEMW=113
+    POSSIBLE +0xC STEP @ c185a48c : assign R22,##0xc1d91a30 
+    PACKET OFFSET @ c185a4a8 : memw (R19),#0x0 ; memw (R22+#0x8),#0x0 
+    POSSIBLE +0xC STEP @ c185a4b4 : assign R20,##0xc9116968 
+    POSSIBLE +0xC STEP @ c185a4dc : assign R16,##0xcaf97418 
+    PACKET OFFSET @ c185a4e8 : memw R2,(R16+#0x4) 
+    PACKET OFFSET @ c185a4f0 : memw (R16+#0x4),R2.new 
+    POSSIBLE +0xC STEP @ c185a53c : assign R23,##0xc1d9baf8 
+    EXACT CMD 3 @ c185a55c : cmp.eq P0,R2,#0x3 
+    POSSIBLE +0xC STEP @ c185a564 : assign R2,##0xc1d90cc0 
+    POSSIBLE +0xC STEP @ c185a5a8 : assign R18,##0xcaf98f54 
+    EXACT CMD 2 @ c185a5b4 : cmp.eq P1,R2,#0x2 
+    POSSIBLE +0xC STEP @ c185a60c : memb R2,(##0xc1d91884) 
+    EXACT CMD 2 @ c185a610 : cmp.eq P0,R2,#0x2 
+    POSSIBLE +0xC STEP @ c185a620 : assign R16,##0xcaf9803c 
+    POSSIBLE +0xC STEP @ c185a628 : memb R2,(##0xcaf97438) 
+    POSSIBLE +0xC STEP @ c185a63c : assign R2,##0xc1d91240 
+    PACKET OFFSET @ c185a654 : memw R5,(R2+#0x8) 
+    PACKET OFFSET @ c185a65c : memw R2,(R2+#0x4) ; memuh R4,(R20) 
+    POSSIBLE +0xC STEP @ c185a66c : memw (R3<<#0x2+##0xcaf9813c),R0 
+    PACKET OFFSET @ c185a680 : memw (R3+#0x4),R2 ; memw (R3),R7 
+
+>>> c18d5258 FUN_c18d5258
+    SCORE=245
+    0x7B=0 CMD1=1 PROP26=0 PROP28=1
+    STEP+0xC=1 MEMD=2 MEMW=5
+    PACKET OFFSET @ c18d526c : memh R7,(R17+#0x2) 
+    PACKET OFFSET @ c18d5278 : memh (R17+#0x4),R6.new 
+    EXACT CMD 11 @ c18d528c : jump.if:nt cmp.gtu(R2.new,#0xb),0xc18d530c 
+    EXACT CMD 1 @ c18d5298 : cmp.eq P0,R1,#0x1 ; memw R7,(SP+#0x1c) 
+    PROPERTY 28 @ c18d5298 : cmp.eq P0,R1,#0x1 ; memw R7,(SP+#0x1c) 
+    PACKET OFFSET @ c18d52b8 : memw R9,(R16+#0x8) 
+    PACKET OFFSET @ c18d52e8 : memw (SP+#0x0),R3 ; memw (SP+#0x4),R4 
+    PACKET OFFSET @ c18d52fc : memuh R2,(R17+#0x4) 
+    PACKET OFFSET @ c18d5304 : memh (R17+#0x2),R2.L 
+    PACKET OFFSET @ c18d5308 : memd R17R16,(SP+#0x8) ; dealloc_return 
+    POSSIBLE +0xC STEP @ c18d5314 : assign R0,##0xcf860e4a 
+
+>>> c1972504 FUN_c1972504
+    SCORE=245
+    0x7B=0 CMD1=8 PROP26=0 PROP28=1
+    STEP+0xC=12 MEMD=1 MEMW=43
+    EXACT CMD 2 @ c1972508 : cmp.eq P0,R1,#0x2 ; allocframe #0x68 
+    PACKET OFFSET @ c1972514 : memw.if(P0) R5,(R0+#0x8) 
+    POSSIBLE +0xC STEP @ c197251c : assign.if(!P0.new) R0,##0xcf868482 
+    EXACT CMD 1 @ c1972520 : cmp.eq P0,R1,#0x1 ; jump.if(!P0.new):nt 0xc1972534 
+    PACKET OFFSET @ c1972524 : memw R5,(R0+#0x8) 
+    EXACT CMD 1 @ c1972540 : cmp.eq P0,R19,#0x1 ; jump.if(P0.new):nt 0xc1972554 
+    EXACT CMD 1 @ c1972548 : jump.if:nt cmp.eq(R25.new,#0x1),0xc1972554 
+    PACKET OFFSET @ c197254c : memb R6,(R5+#0x4) 
+    EXACT CMD 1 @ c1972550 : jump.if:t cmp.gtu(R6.new,#0x1),0xc197259c 
+    EXACT CMD 2 @ c1972554 : cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0xc197256c 
+    EXACT CMD 1 @ c1972558 : cmp.eq P0,R2,#0x1 ; jump.if(P0.new):nt 0xc1972584 
+    POSSIBLE +0xC STEP @ c1972580 : combine R1R0,R2,##0xcf86848c 
+    EXACT CMD 16 @ c197259c : cmp.eq P0,R19,#0x10 
+    PACKET OFFSET @ c19725b4 : memh R5,(R5+#0x2) 
+    EXACT CMD 2 @ c19725c0 : cmp.gtu P0,R2,#0x2 ; jump.if(!P0.new):t 0xc19725d4 
+    POSSIBLE +0xC STEP @ c19725c8 : assign R2,##0xcf868496 
+    POSSIBLE +0xC STEP @ c19725d4 : assign R4,#0x4 ; memw (SP+#0xc),R4 
+    PACKET OFFSET @ c19725d4 : assign R4,#0x4 ; memw (SP+#0xc),R4 
+    POSSIBLE +0xC STEP @ c19725e0 : assign R4,##0xcf8684b4 
+    EXACT CMD 1 @ c19725f4 : cmp.eq P1,R2,#0x1 
+
+>>> c1985024 FUN_c1985024
+    SCORE=245
+    0x7B=0 CMD1=5 PROP26=0 PROP28=1
+    STEP+0xC=2 MEMD=12 MEMW=16
+    EXACT CMD 1 @ c1985058 : cmp.gtu P0,R2,#0x1 ; jump.if(!P0.new):t 0xc1985070 
+    POSSIBLE +0xC STEP @ c19850c8 : add.if(!P0.new) R23,R17,##0xc58 
+    EXACT CMD 1 @ c19850cc : cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc19850e4 
+    EXACT CMD 19 @ c19850ec : cmp.gtu P0,R2,#0x13 ; jump.if(!P0.new):t 0xc1985104 
+    EXACT CMD 1 @ c1985120 : cmp.eq P0,R4,#0x1 
+    PACKET OFFSET @ c198519c : memw (SP+#0x4),R0.new 
+    PACKET OFFSET @ c19851b4 : memw (SP+#0x8),R22 
+    PACKET OFFSET @ c198520c : memw (SP+#0x4),R0.new 
+    PACKET OFFSET @ c1985210 : memh R3,(R23+#0x2) 
+    PACKET OFFSET @ c1985220 : memw (SP+#0x4),R2.new 
+    PACKET OFFSET @ c1985224 : memuh R2,(R23+#0x4) 
+    EXACT CMD 1 @ c19852c8 : cmp.eq P0,R3,#0x1 
+    POSSIBLE +0xC STEP @ c1985318 : assign R3,#0x0 ; memw R2,(R4+#0xc) 
+    PACKET OFFSET @ c1985318 : assign R3,#0x0 ; memw R2,(R4+#0xc) 
+    PACKET OFFSET @ c1985384 : memw R22,(SP+#0x8) 
+    PROPERTY 28 @ c19853a8 : cmp.eq P0,R3,#0x1c 
+    EXACT CMD 1 @ c19853e4 : jump.if:nt cmp.eq(R2.new,#0x1),0xc1985790 
+    PACKET OFFSET @ c19853f0 : memub R26,(R25+#0x2) 
+    EXACT CMD 7 @ c1985418 : cmp.eq P0,R26,#0x7 
+    PACKET OFFSET @ c198542c : memh R3,(R3+#0x2) 
+
+>>> c19963cc FUN_c19963cc
+    SCORE=245
+    0x7B=0 CMD1=9 PROP26=0 PROP28=1
+    STEP+0xC=38 MEMD=9 MEMW=59
+    POSSIBLE +0xC STEP @ c19963ec : assign R23,##0xcb54c598 ; assign R0,#0x38 
+    POSSIBLE +0xC STEP @ c1996430 : assign R0,##0xcb54c598 
+    POSSIBLE +0xC STEP @ c1996440 : assign.if(P0.new) R0,##0xc4fbe500 
+    PACKET OFFSET @ c1996460 : memw (SP+#0x4),#0x0 
+    POSSIBLE +0xC STEP @ c199649c : assign R3,##0xc9191670 
+    POSSIBLE +0xC STEP @ c19964d0 : assign.if(!P0.new) R16,##0xcf8e46ea 
+    EXACT CMD 1 @ c19964e4 : jump.if:t !cmp.gtu(R21.new,#0x1),0xc1996488 
+    POSSIBLE +0xC STEP @ c19964f0 : combine R1R0,##0xc1c0fc00,#0x4 
+    POSSIBLE +0xC STEP @ c1996518 : assign R27,##0xc00001 
+    POSSIBLE +0xC STEP @ c1996520 : assign R26,##0xcb55a6be 
+    POSSIBLE +0xC STEP @ c1996530 : combine R1R0,#0x2,##0xcb54c598 
+    POSSIBLE +0xC STEP @ c1996540 : memb R2,(##0xcb54c590) 
+    POSSIBLE +0xC STEP @ c1996554 : combine R1R0,#0x7,##0xcb54c598 
+    POSSIBLE +0xC STEP @ c1996560 : combine R19R18,R0,##0xc9191660 
+    POSSIBLE +0xC STEP @ c199658c : assign.if(!P0.new) R0,##0xcf8e46c2 
+    EXACT CMD 19 @ c1996594 : cmp.eq P0,R0,#0x13 ; jump.if(P0.new):t 0xc1997230 
+    POSSIBLE +0xC STEP @ c19965e4 : assign R2,##0xcf8ec6f3 
+    EXACT CMD 10 @ c1996610 : cmp.gtu P0,R0,#0xa ; jump.if(P0.new):nt 0xc199664c 
+    EXACT CMD 2 @ c1996660 : cmp.eq P0,R0,#0x2 ; jump.if(P0.new):nt 0xc1996760 
+    EXACT CMD 6 @ c1996664 : cmp.eq P0,R0,#0x6 ; jump.if(P0.new):nt 0xc1996670 
+
+>>> c1a36618 FUN_c1a36618
+    SCORE=245
+    0x7B=0 CMD1=10 PROP26=0 PROP28=1
+    STEP+0xC=24 MEMD=13 MEMW=149
+    POSSIBLE +0xC STEP @ c1a36650 : add R2,##0xcbb083e8,mpyi(R2,R3) 
+    POSSIBLE +0xC STEP @ c1a366a4 : add R21,R16,add(R2,##0xc88) 
+    EXACT CMD 1 @ c1a36724 : jump.if:t !cmp.eq(R2.new,#0x1),0xc1a3687c 
+    EXACT CMD 1 @ c1a36740 : jump.if:t !cmp.eq(R3.new,#0x1),0xc1a36868 
+    PACKET OFFSET @ c1a36764 : memuh R2,(R23+#0xa) ; memb R5,(R16) 
+    POSSIBLE +0xC STEP @ c1a367a8 : memub R2,(R23+#0xc) ; memb R5,(R16) 
+    PACKET OFFSET @ c1a367a8 : memub R2,(R23+#0xc) ; memb R5,(R16) 
+    PACKET OFFSET @ c1a367b4 : memuh R3,(R23+#0xa) 
+    POSSIBLE +0xC STEP @ c1a367b8 : memw R4,(R27+#0xc) 
+    PACKET OFFSET @ c1a367b8 : memw R4,(R27+#0xc) 
+    PACKET OFFSET @ c1a367dc : memw (R5+#0x8),R23 
+    POSSIBLE +0xC STEP @ c1a36810 : memw R2,(R2+#0xc) 
+    PACKET OFFSET @ c1a36810 : memw R2,(R2+#0xc) 
+    PACKET OFFSET @ c1a36814 : memuh R4,(R27+#0x4) 
+    PACKET OFFSET @ c1a3682c : memw (R3+#0x4),R2.new 
+    PACKET OFFSET @ c1a36844 : memw R2,(R3+#0x4) ; memb R5,(R16) 
+    PACKET OFFSET @ c1a36870 : memuh R4,(R23+#0xa) ; memb R5,(R16) 
+    PROPERTY 28 @ c1a368d0 : jump.if:t !cmp.gtu(R2.new,#0x1c),0xc1a368dc 
+    EXACT CMD 1 @ c1a368ec : jump.if:t cmp.eq(R2.new,#0x1),0xc1a368f8 
+    EXACT CMD 3 @ c1a36910 : jump.if:t cmp.eq(R2.new,#0x3),0xc1a3691c 
+
+>>> c1a70418 FUN_c1a70418
+    SCORE=245
+    0x7B=0 CMD1=5 PROP26=0 PROP28=1
+    STEP+0xC=28 MEMD=8 MEMW=187
+    PACKET OFFSET @ c1a70454 : memub R3,(R16+#0xa) 
+    PACKET OFFSET @ c1a70460 : memb (R2+#0x4),R3 
+    PACKET OFFSET @ c1a70468 : memb R2,(R16+#0xa) 
+    POSSIBLE +0xC STEP @ c1a7046c : memh (R16+#0xc),R0.L 
+    PACKET OFFSET @ c1a7046c : memh (R16+#0xc),R0.L 
+    POSSIBLE +0xC STEP @ c1a70474 : add R21,##0xcaef36a8,mpyi(R18,R3) 
+    POSSIBLE +0xC STEP @ c1a70480 : memuh.if(!P0) R2,(R16+#0xc) 
+    PACKET OFFSET @ c1a70480 : memuh.if(!P0) R2,(R16+#0xc) 
+    PACKET OFFSET @ c1a70488 : memh.if(!P0) (R21+#0x4),R2.L 
+    POSSIBLE +0xC STEP @ c1a70494 : memw R0,(R2+##0xcbafc458) 
+    POSSIBLE +0xC STEP @ c1a704b0 : assign R0,##0xcf84ff26 
+    PACKET OFFSET @ c1a704b4 : memub R1,(R16+#0xa) ; memw (R16+#0x18),R0 
+    POSSIBLE +0xC STEP @ c1a704c4 : add.if(!P0.new) R22,R19,##0xcbae50e8 
+    POSSIBLE +0xC STEP @ c1a704d8 : memw R2,(R2<<#0x2+##0xc4ed3eb0) 
+    PACKET OFFSET @ c1a704ec : memw (R23+#0x4),R2.new 
+    POSSIBLE +0xC STEP @ c1a704f4 : memw (R23+#0xc),R2.new 
+    PACKET OFFSET @ c1a704f4 : memw (R23+#0xc),R2.new 
+    PACKET OFFSET @ c1a704f8 : memuh R2,(R20+#0x2) 
+    PACKET OFFSET @ c1a70504 : memw (R23+#0x8),R2.new 
+    PACKET OFFSET @ c1a70524 : memw R2,(R19) ; memuh R3,(R20+#0x2) 
+
+>>> c1a7a6c8 FUN_c1a7a6c8
+    SCORE=245
+    0x7B=0 CMD1=1 PROP26=0 PROP28=1
+    STEP+0xC=4 MEMD=3 MEMW=10
+    PACKET OFFSET @ c1a7a6d4 : memw (SP+#0x4),#0x0 
+    PACKET OFFSET @ c1a7a6d8 : memw (SP+#0x8),#0x0 
+    POSSIBLE +0xC STEP @ c1a7a6e0 : memw R4,(R5=##0xc8ebb824) 
+    POSSIBLE +0xC STEP @ c1a7a6e4 : memw R6,(R5+#0x4) ; memw (SP+#0xc),R4 
+    PACKET OFFSET @ c1a7a6e4 : memw R6,(R5+#0x4) ; memw (SP+#0xc),R4 
+    PACKET OFFSET @ c1a7a6e8 : memw R7,(R5+#0x8) ; memw (SP+#0x10),R6 
+    POSSIBLE +0xC STEP @ c1a7a6ec : memw R6,(R5+#0xc) ; memw (SP+#0x14),R7 
+    PACKET OFFSET @ c1a7a6ec : memw R6,(R5+#0xc) ; memw (SP+#0x14),R7 
+    PROPERTY 28 @ c1a7a70c : cmp.gtu P0,R2,#0x1c ; jump.if(P0.new):nt 0xc1a7a714 
+    EXACT CMD 1 @ c1a7a710 : cmp.gtu P0,R3,#0x1 ; jump.if(!P0.new):t 0xc1a7a728 
+    POSSIBLE +0xC STEP @ c1a7a744 : memw R1,(R3<<#0x2+##0xc8ebb870) 
+    EXACT CMD 3 @ c1a7a750 : cmp.eq P0,R2,#0x3 
+    PACKET OFFSET @ c1a7a760 : memw R0,(SP+#0x4) ; memw R2,(SP+#0x8) 
+    PACKET OFFSET @ c1a7a77c : assign R0,##0xf803f018 ; memw R1,(SP+#0x4) 
+
+============================================================
+3. DECOMPILE TOP PROPERTY 28 CANDIDATES
+============================================================
+
+############################################################
+FUNCTION c184a38c FUN_c184a38c
+SCORE=480
+############################################################
+SIGNATURE:
+void FUN_c184a38c(uint *param_1);
+
+RELEVANT C CODE:
+/* WARNING: Restarted to delay deadcode elimination for space: ram */
+              while( true ) {
+                iVar15 = iVar15 + 0xc;
+              DAT_c1d952ba = (short)param_1[0x1c];
+          if (puVar24 == (undefined *)0xc) {
+            uVar26 = 0x1c;
+            while( true ) {
+      else if (puVar24 < (undefined *)0x1a) {
+              while( true ) {
+                } while (iVar25 != 6);
+      else if (puVar24 < (undefined *)0x1c) {
+        if (puVar24 == (undefined *)0x1a) {
+        if (puVar24 == (undefined *)0x1c) {
+          DAT_c1d91b72 = *(undefined2 *)((int)param_1 + 0x1a);
+            thunk_EXT_FUN_d89b2790(0xcf853eae);
+            (&DAT_c1d9678e)[uVar21 * 0xce] = (short)uVar26;
+          DAT_c1d972b8 = *(undefined2 *)((int)param_1 + 0x1a);
+            uVar8 = (&DAT_c1d967b6)[(uVar28 & 7) * 0xce];
+        DAT_c1d91ac8 = *(undefined2 *)((int)param_1 + 0x1a);
+        DAT_c1d967ba = (&DAT_c1d967bc)[((int)(short)param_1[4] & 7U) * 0xce];
+            uVar26 = 0xc;
+            while( true ) {
+            thunk_EXT_FUN_d89b2790(0xcf853ebc);
+            thunk_EXT_FUN_d89b2790(0xcf853f02);
+            thunk_EXT_FUN_d89b2790(0xcf853f10);
+          thunk_EXT_FUN_d89b2790(0xcf853f1e);
+            thunk_EXT_FUN_d89b2790(0xcf853eca);
+        thunk_EXT_FUN_d89b2790(0xcf853ed8);
+          thunk_EXT_FUN_d89b2790(0xcf853ee6);
+          thunk_EXT_FUN_d89b2790(0xcf853ef4);
+        FUN_c1820010(param_1[4] * 0x2c0 + -0x3e26f2c0,*(undefined2 *)((int)param_1 + 0x1a),0,
+        uVar26 = param_1[4] >> 0xc & 0xf;
+          thunk_EXT_FUN_d89b2790(0xcf853f64);
+        thunk_EXT_FUN_d89b2790(0xcf853f72,uVar26);
+          thunk_EXT_FUN_d89b2790(0xcf853f80);
+          thunk_EXT_FUN_d89b2790(0xcf853f8e);
+          thunk_EXT_FUN_d89b2790(0xcf853f9c,uVar26);
+        thunk_EXT_FUN_d89b2790(0xcf853f48,*param_1);
+            thunk_EXT_FUN_d89b2790(0xcf853f2c);
+            thunk_EXT_FUN_d89b2790(0xcf853f3a);
+          thunk_EXT_FUN_d89b2790(0xcf853f56);
+        thunk_EXT_FUN_d89b2790(0xcf853faa);
+          thunk_EXT_FUN_d89b2790(0xcf853fc6,(sbyte)param_1[8]);
+        thunk_EXT_FUN_d89b2790(0xcf853fb8,DAT_c1d9ba6c,DAT_c1d9baac,DAT_c1d9bab0,DAT_c1d9bab4);
+      if ((bool)(-(sVar14 == 0x7b) & '\x01')) {
+        thunk_EXT_FUN_d89b2790(0xcf853fd4,DAT_caf973d0,DAT_caf973d1,DAT_c1d90cc0,DAT_caf9740a);
+    thunk_EXT_FUN_d89b2790(0xcf853fe2,DAT_c1d9baf9);
+      thunk_EXT_FUN_d89b2790(0xcf853ff0);
+      thunk_EXT_FUN_d89b2790(0xcf853ffe);
+    thunk_EXT_FUN_d89b2790(0xcf85400c);
+    uVar26 = 0xcf85401a;
+    thunk_EXT_FUN_d89b2790(0xcf854028);
+
+############################################################
+FUNCTION c1d4bb3c FUN_c1d4bb3c
+SCORE=330
+############################################################
+SIGNATURE:
+undefined4 FUN_c1d4bb3c(int *param_1,int param_2);
+
+RELEVANT C CODE:
+      while ((bool)(-(0xb < uVar13) & '\x01')) {
+        local_c4 = (sbyte *)0xc47bfe8b;
+        while (param_1[5] != 0) {
+              } while (!(bool)(-(iVar18 < iVar4) & '\x01'));
+            } while ((sVar1 != 0) &&
+                      if (0x1a < (uint)param_1[5]) {
+                      } while (uVar20 < uVar14);
+                      } while (uVar14 < uVar20);
+              local_c4 = (sbyte *)0xc47bfef6;
+                      if (0x1c < uVar20) {
+                } while (!(bool)(-(iVar18 < iVar4) & '\x01'));
+                  iVar4 = FUN_c1ce0278(param_1[4] + param_1[6],uVar20,"<bad printf format>");
+    while( true ) {
+    while( true ) {
+        for (psVar15 = psVar21; (sVar6 = *psVar15, sVar6 == 0x30 || (sVar6 == 0x78));
+  case 0x1a:
+  while (psVar15 = psVar16 + 1, (uint)((int)(psVar16 + 1) - (int)psVar21) < 0x1f) {
+      if (*(sbyte *)(iVar4 + iVar18) == sVar6) goto code_r0xc1d4c69c;
+    } while (!(bool)(-(iVar19 < iVar5) & '\x01'));
+code_r0xc1d4c69c:
+    } while (!(bool)(-(0x1e < uVar14) & '\x01'));
+
+############################################################
+FUNCTION c186c3bc FUN_c186c3bc
+SCORE=315
+############################################################
+SIGNATURE:
+void FUN_c186c3bc(sbyte *param_1);
+
+RELEVANT C CODE:
+        } while (iVar2 != 3);
+    if ((bool)(-(sVar1 == 0x1a) & '\x01')) {
+        thunk_EXT_FUN_d89b2790(0xcf8497ee);
+    if (sVar1 == 0x1c) {
+
+############################################################
+FUNCTION c18e494c FUN_c18e494c
+SCORE=245
+############################################################
+SIGNATURE:
+void FUN_c18e494c(int *param_1,int *param_2);
+
+RELEVANT C CODE:
+    if (uVar17 == 0x1c) {
+    if (uVar17 != 0x1c) {
+  *(short *)(unaff_R19 + 4) = (short)param_2[0x1a];
+  *(ushort *)(param_1 + 0x1c43) = uVar3;
+  if ((bool)(-(uVar27 == 0xc) & '\x01')) {
+  piVar12 = param_1 + (uint)(char)param_1[0x25de] * 0x3f + 0x1c4f;
+  piVar12[0x1a] = param_2[0x25];
+    iVar13 = param_2[0x1c];
+      if (*(sbyte *)((int)param_2 + 0x55) == 0x1c) {
+        piVar2 = (int *)param_1[0x1c4d];
+        while( true ) {
+          } while (piVar26 < (int *)param_1[0x1c4c]);
+        param_1[0x1c4e] = (int)piVar26;
+        piVar2 = (int *)param_1[0x1c4a];
+        while( true ) {
+          } while (piVar26 < (int *)param_1[0x1c49]);
+        param_1[0x1c4b] = (int)piVar26;
+      if (*(sbyte *)((int)param_2 + 0x55) == 0x1c) {
+        uVar17 = param_1[0x1c4d];
+        while( true ) {
+          } while (uVar28 < (uint)param_1[0x1c4c]);
+        param_1[0x1c4e] = uVar28;
+        uVar17 = param_1[0x1c4a];
+        while( true ) {
+          } while (uVar28 < (uint)param_1[0x1c49]);
+        param_1[0x1c4b] = uVar28;
+      puVar31 = (undefined1 *)param_1[0x1c47];
+      while( true ) {
+        } while (puVar22 < (undefined1 *)param_1[0x1c46]);
+      *(ushort *)(param_1 + 0x1c45) = 3 - (ushort)*(char *)((int)param_2 + 0xa6);
+      param_1[0x1c48] = (int)puVar22;
+    sVar7 = -(*(sbyte *)((int)param_2 + 0x55) == 0x1c);
+      uVar27 = param_1[0x1c4e];
+      uVar17 = param_1[0x1c4d];
+      uVar28 = param_1[0x1c4c];
+      while( true ) {
+        } while (uVar23 < uVar28);
+      param_1[0x1c4e] = uVar23;
+      uVar27 = param_1[0x1c4b];
+      uVar17 = param_1[0x1c4a];
+      uVar28 = param_1[0x1c49];
+      while( true ) {
+        } while (uVar23 < uVar28);
+      param_1[0x1c4b] = uVar23;
+    if ((short)((short)param_1[0x1c45] + -1) < 1) {
+      sVar21 = (short)param_1[0x1c45] + -1;
+    *(short *)(param_1 + 0x1c45) = sVar21;
+        FUN_c1620d4c(param_1 + 0x1bcd,0,0x1c8);
+        FUN_c1620d4c(piVar24,0,0x1c8);
+      *(undefined2 *)(param_1 + 0x1c45) = 3;
+        *(ushort *)(param_1 + 0x1c45) = 3 - (ushort)(char)sVar7;
+        uVar27 = param_1[0x1c48];
+        FUN_c1620d4c(piVar24,0,0x1c8);
+        uVar17 = param_1[0x1c47];
+        while( true ) {
+          } while (uVar27 < (uint)param_1[0x1c46]);
+        param_1[0x1c48] = uVar27;
+        uVar28 = param_1[0x1c47];
+        while( true ) {
+          } while (uVar17 < (uint)param_1[0x1c46]);
+        param_1[0x1c48] = uVar17;
+        *(ushort *)(param_1 + 0x1c45) = 3 - (ushort)cVar6;
+      uVar27 = param_1[0x1c48];
+    uVar28 = param_1[0x1c47];
+    uVar23 = param_1[0x1c46];
+    while( true ) {
+      } while (uVar17 < uVar23);
+    param_1[0x1c48] = uVar17;
+      thunk_EXT_FUN_d89b2790(0xcf861096);
+  *(short *)((int)piVar12 + 0x1a) = (short)uVar11;
+  uVar11 = *(undefined4 *)(iVar13 + 0xc);
+  uVar27 = (uint)*(char *)(iVar13 + 0x1c);
+  piVar12[0xc] = uVar27;
+
+############################################################
+FUNCTION c18e56b8 FUN_c18e56b8
+SCORE=245
+############################################################
+SIGNATURE:
+void FUN_c18e56b8(int *param_1,undefined1 *param_2);
+
+RELEVANT C CODE:
+        if (sVar17 == 0x1c) {
+            sVar17 = *(sbyte *)(iVar24 + 0xc) + 1;
+          *(sbyte *)(iVar24 + 0xc) = sVar17;
+          *(undefined1 *)(iVar24 + 0xc) = 0;
+    if (sVar21 == 0xc) {
+  uVar2 = *(undefined4 *)(param_2 + 0x1c);
+               (sbyte)*(undefined4 *)(param_2 + 0x1c));
+  piVar37 = param_1 + 0x1c41;
+  piVar38 = param_1 + 0x1c3f;
+        bVar27 = CONCAT22((sbyte)param_2[3] >> 7,(short)(sbyte)param_2[3]) != 0x1c;
+     (sVar21 = *(sbyte *)((int)uVar29 + 0xc), CONCAT22(sVar21 >> 7,(short)sVar21) != 3)) {
+                     (sbyte)&stack0xfffffff8 + -0x60,*(undefined1 *)((int)uVar29 + 0xc),
+    *puVar3 = 0xc;
+    puVar3[1] = (short)*(undefined4 *)(param_2 + 0x1c);
+        sVar21 = *(sbyte *)((int)uVar29 + 0xc);
+                 (sbyte)*(undefined2 *)(param_2 + 0x1c),
+    uVar19 = (undefined1)*(undefined4 *)(param_2 + 0x1c);
+                   (sbyte)*(undefined2 *)(param_2 + 0x1c),0,0);
+      } while ((int)(uint)cVar9 < iVar24);
+    uVar13 = FUN_c18cf160(0,8,0xcb,4,0xc000,0x8000,0x7fffbfff,piVar28,1);
+    uVar20 = 0xc000;
+    uVar13 = FUN_c18f9a80(0,0xc000,(sbyte)piVar42,(sbyte)puVar39);
+      uVar20 = 0xc000;
+      uVar20 = 0xc000;
+      uVar20 = 0xc000;
+  *(short *)(iVar24 + 2) = (short)*(undefined4 *)(param_2 + 0x1c);
+               (sbyte)*(undefined4 *)(param_2 + 0x1c));
+      } while ((uVar45 & 0xff) < 4);
+          while( true ) {
+            *(undefined1 *)((int)local_60 + iVar31 + -2) = *(undefined1 *)(iVar24 + 0xc3);
+        uVar20 = 0xc1a9;
+        while( true ) {
+        FUN_c18f9b58((sbyte)&local_68,piVar26[0x1d8c],0,0xc);
+        FUN_c18f98c8(200,&local_68,8,0xc,&local_6a);
+    bVar10 = CONCAT22(sVar22,(short)sVar17) == 0x1c;
+        param_2[0x1a] = sVar18;
+    param_2[0x1a] = sVar18;
+
+############################################################
+FUNCTION c1c29410 FUN_c1c29410
+SCORE=245
+############################################################
+SIGNATURE:
+void FUN_c1c29410(uint *param_1,uint param_2);
+
+RELEVANT C CODE:
+  if (0x1c < *(uint *)(iVar1 + 0x271ac)) {
+    FUN_c16fd420(0xcf8e4e1a);
+      uVar2 = *(undefined4 *)(iVar10 + 0x1c);
+      uVar2 = *(undefined4 *)(iVar10 + 0xc);
+  uVar11 = *(int *)(iVar1 + 0x271ac) + 0x1c;
+  if (0x1c < uVar11) {
+    FUN_c16fd420(0xcf8e4e24);
+    if (0x1c < *(uint *)(iVar1 + 0x271ac)) {
+      FUN_c16fd420(0xcf8e4c8a);
+      FUN_c16fd420(0xcf8e4c94);
+    iVar10 = *(uint *)(iVar1 + 0x271ac) + 0x1c;
+
+############################################################
+FUNCTION c171637c FUN_c171637c
+SCORE=245
+############################################################
+SIGNATURE:
+void FUN_c171637c(void);
+
+RELEVANT C CODE:
+    if ((puVar5[0x5f] == 0x15) || (puVar5[0x18] == 0x1c && iVar9 == 3)) goto LAB_c1716558;
+  if (((puVar5[0x18] == 0x1c) || ((bool)(-(puVar5[0x18] == 6) & '\x01'))) &&
+
+############################################################
+FUNCTION c1ae3b90 FUN_c1ae3b90
+SCORE=245
+############################################################
+SIGNATURE:
+void FUN_c1ae3b90(void);
+
+RELEVANT C CODE:
+          if (*(code **)(iVar3 + 0xc) != (code *)0x0) {
+            (**(code **)(iVar3 + 0xc))(0,0,0,*(undefined4 *)(iVar3 + 0x20));
+          if (*(code **)(iVar3 + 0xc) != (code *)0x0) {
+            (**(code **)(iVar3 + 0xc))(5,0,0,*(undefined4 *)(iVar3 + 0x20));
+        if (!(bool)(-(*(int *)(iVar3 + 0x1c) == 0) & '\x01')) {
+        iVar4 = FUN_c1698840(0x1c);
+          if (*(code **)(iVar3 + 0xc) != (code *)0x0) {
+            (**(code **)(iVar3 + 0xc))(8,0,0,*(undefined4 *)(iVar3 + 0x20));
+          iVar5 = FUN_c16979d0(iVar4,0x1c,iVar3 + 8,0x1c);
+          if (iVar5 == 0x1c) {
+            local_3c = *(undefined4 *)(iVar4 + 0xc);
+            if (*(code **)(iVar3 + 0xc) != (code *)0x0) {
+              (**(code **)(iVar3 + 0xc))(2,0,0,*(undefined4 *)(iVar3 + 0x20));
+        iVar4 = FUN_c1698840(0x1c);
+          if (*(code **)(iVar3 + 0xc) != (code *)0x0) {
+            (**(code **)(iVar3 + 0xc))(8,0,0,*(undefined4 *)(iVar3 + 0x20));
+          iVar5 = FUN_c16979d0(iVar4,0x1c,iVar3 + 8,0x1c);
+          if (iVar5 == 0x1c) {
+            local_3c = *(undefined4 *)(iVar4 + 0xc);
+            if (*(code **)(iVar3 + 0xc) != (code *)0x0) {
+              (**(code **)(iVar3 + 0xc))(2,0,0,*(undefined4 *)(iVar3 + 0x20));
+    } while (!(bool)(-(iVar3 == 0) & '\x01'));
+
+############################################################
+FUNCTION c1d0cc30 FUN_c1d0cc30
+SCORE=245
+############################################################
+SIGNATURE:
+void FUN_c1d0cc30(int param_1,int *param_2,int *param_3,uint param_4,undefined4 *param_5,undefined4 *param_6,int *param_7,char param_8);
+
+RELEVANT C CODE:
+          while( true ) {
+          cVar5 = (**(code **)(*param_7 + 0xc))(param_7,0x40,*puVar9);
+        } while (puVar9 < param_6);
+          } while (param_5 < puVar9);
+          while( true ) {
+        while( true ) {
+        } while (puVar22 < puVar19);
+          while( true ) {
+  } while( true );
+
+############################################################
+FUNCTION c16ab934 FUN_c16ab934
+SCORE=245
+############################################################
+SIGNATURE:
+undefined4 FUN_c16ab934(int *param_1,uint *param_2,uint param_3);
+
+RELEVANT C CODE:
+      sVar1 = -(0x1c < uVar9);
+          (uVar7 = (uVar14 + 0x70000001) * 0x10 | uVar14 + 0x70000001 >> 0x1c, uVar7 < 7)) &&
+      } while (!(bool)(-(sVar1 != 0) & '\x01'));
+         ((uVar8 = (uVar14 + 0x70000001) * 0x10 | uVar14 + 0x70000001 >> 0x1c, uVar8 < 7 &&
+      if ((*(ushort *)(iVar5 + 8) & 0xc00) == 0) {
+           CONCAT44(uVar9 | (uVar8 & 0xff | uVar8 >> 8) << 0x10 | uVar12 | (uint)(char)iVar2 << 0xc,
+                       *(int *)(iVar10 + uVar4 * 0xc + 0x2aac0088) << 0x1c);
+
+============================================================
+4. EXACT COMMAND SANITY CHECK
+============================================================
+The output above uses exact tokens.
+For example #0x15 is ONLY command 21.
+#0x1c is ONLY property/state value 28.
 
 ============================================================
 DONE
 ============================================================
-LocateRealRFDebugDispatcher_x55_v2.java> Finished!
-LocateRealRFDebugDispatcher_x55_v2.java> Finished!
+RFDebugPropertyParserLocator_x55_v2.java> Finished!
+RFDebugPropertyParserLocator_x55_v2.java> Finished!
