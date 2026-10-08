@@ -861,6 +861,220 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private void rankPacketHeaderCandidates() {
+        println("\n============================================================");
+        println("PACKET-HEADER DATAFLOW CANDIDATE RANKING");
+        println("RULE:");
+        println("  exact scalar compare == 0x4B / 0x0B");
+        println("  inspect nearby memub/memuh loads and buffer offsets");
+        println("  report same-function 4B+0B pairs and their register/source shape");
+        println("============================================================");
+
+        ArrayList<Instruction> exact4 = new ArrayList<Instruction>();
+        ArrayList<Instruction> exact0 = new ArrayList<Instruction>();
+        ArrayList<Instruction> exact7 = new ArrayList<Instruction>();
+
+        int scanned = 0;
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it = currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                Instruction ins = it.next();
+                scanned++;
+
+                if (isExact4BInsn(ins)) exact4.add(ins);
+                if (isExact0BInsn(ins)) exact0.add(ins);
+                if (isExact7BInsn(ins)) exact7.add(ins);
+            }
+        }
+
+        println("SCANNED INSTRUCTIONS: " + scanned);
+        println("EXACT LISTS: 4B=" + exact4.size() +
+                " 0B=" + exact0.size() +
+                " 7B=" + exact7.size());
+
+        println("\nEXACT 0x4B LOCATIONS");
+        for (Instruction x : exact4) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Function f = functionContaining(x.getAddress());
+            println("  4B @ " + x.getAddress() + " : " + safe(x.toString()) +
+                    " FUNCTION=" +
+                    (f == null ? "<none>" : f.getName() + " @ " + f.getEntryPoint()));
+
+            printNearByteLoads(x, 10);
+
+            int near0 = nearestExactInList(x, exact0, 160);
+            if (near0 >= 0) {
+                Instruction y = exact0.get(near0);
+                Function fy = functionContaining(y.getAddress());
+                if (f != null && fy != null &&
+                    f.getEntryPoint().equals(fy.getEntryPoint())) {
+                    println("    SAME FUNCTION 0B @ " + y.getAddress() +
+                            " DIST=" + instructionDistance(x, y) +
+                            " : " + safe(y.toString()));
+                    printNearByteLoads(y, 10);
+                }
+            }
+
+            printFunctionCallers(f);
+            lines++;
+        }
+
+        println("\nEXACT 0x7B LOCATIONS");
+        for (Instruction x : exact7) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Function f = functionContaining(x.getAddress());
+            println("  7B @ " + x.getAddress() + " : " + safe(x.toString()) +
+                    " FUNCTION=" +
+                    (f == null ? "<none>" : f.getName() + " @ " + f.getEntryPoint()));
+            printNearByteLoads(x, 12);
+            printFunctionCallers(f);
+            lines++;
+        }
+
+        println("\nSAME-FUNCTION 4B + 0B PAIRS");
+        int pairCount = 0;
+        for (Instruction x : exact4) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            Function f = functionContaining(x.getAddress());
+            if (f == null) continue;
+
+            for (Instruction y : exact0) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                Function fy = functionContaining(y.getAddress());
+                if (fy == null ||
+                    !f.getEntryPoint().equals(fy.getEntryPoint())) continue;
+
+                int dist = instructionDistance(x, y);
+                if (dist < 0 || dist > 220) continue;
+
+                println("  PAIR: " + f.getName() +
+                        " 4B@" + x.getAddress() +
+                        " <-> 0B@" + y.getAddress() +
+                        " DIST=" + dist);
+                println("    4B: " + safe(x.toString()));
+                println("    0B: " + safe(y.toString()));
+
+                printPairLoadShape(x, y);
+                pairCount++;
+
+                if (pairCount >= 24) {
+                    println("  [PAIR LIMIT] 24");
+                    return;
+                }
+            }
+        }
+
+        println("PAIR COUNT SHOWN: " + pairCount);
+        println("\nEXACT 0B NEAREST CHECK COMPLETE");
+        println("Read-only analysis only.");
+    }
+
+    private int instructionDistance(Instruction a, Instruction b) {
+        if (a == null || b == null) return -1;
+        long d = Math.abs(a.getAddress().subtract(b.getAddress()));
+        if (d > 0x7fffffffL) return -1;
+        return (int)(d / 4);
+    }
+
+    private int nearestExactInList(Instruction base, ArrayList<Instruction> list, int maxInstr) {
+        int best = -1;
+        int bestDist = Integer.MAX_VALUE;
+
+        for (int i = 0; i < list.size(); i++) {
+            Instruction x = list.get(i);
+            Function f1 = functionContaining(base.getAddress());
+            Function f2 = functionContaining(x.getAddress());
+
+            if (f1 == null || f2 == null ||
+                !f1.getEntryPoint().equals(f2.getEntryPoint())) continue;
+
+            int d = instructionDistance(base, x);
+            if (d >= 0 && d <= maxInstr && d < bestDist) {
+                bestDist = d;
+                best = i;
+            }
+        }
+        return best;
+    }
+
+    private void printNearByteLoads(Instruction center, int before) {
+        if (center == null || lines >= MAX_LINES) return;
+
+        Instruction cur = center;
+        ArrayList<Instruction> rev = new ArrayList<Instruction>();
+
+        for (int i = 0; i < before; i++) {
+            Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+            if (p == null) break;
+
+            String s = safe(p.toString()).toLowerCase();
+            if (s.contains("memub") || s.contains("memuh") || s.contains("memb")) {
+                rev.add(p);
+            }
+            cur = p;
+        }
+
+        for (int i = rev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
+            Instruction p = rev.get(i);
+            println("    BYTE LOAD BEFORE: " + p.getAddress() + " : " + safe(p.toString()));
+            lines++;
+        }
+
+        cur = center;
+        for (int i = 0; i < 6 && lines < MAX_LINES; i++) {
+            Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+            if (n == null) break;
+
+            String s = safe(n.toString()).toLowerCase();
+            if (s.contains("memub") || s.contains("memuh") || s.contains("memb")) {
+                println("    BYTE LOAD AFTER : " + n.getAddress() + " : " + safe(n.toString()));
+                lines++;
+            }
+            cur = n;
+        }
+    }
+
+    private void printPairLoadShape(Instruction a, Instruction b) {
+        println("    --- LOAD SHAPE A ---");
+        printNearByteLoads(a, 12);
+        println("    --- LOAD SHAPE B ---");
+        printNearByteLoads(b, 12);
+    }
+
+    private void printFunctionCallers(Function f) {
+        if (f == null || lines >= MAX_LINES) return;
+
+        ReferenceIterator rit =
+            currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
+
+        int shown = 0;
+        while (rit.hasNext() && shown < 12) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Reference r = rit.next();
+            if (!r.getReferenceType().isCall()) continue;
+
+            Function caller = functionContaining(r.getFromAddress());
+            println("    CALLER: " + r.getFromAddress() + " <- " +
+                    (caller == null ? "<unknown>" :
+                    caller.getName() + " @ " + caller.getEntryPoint()));
+            lines++;
+            shown++;
+        }
+
+        if (shown == 0) println("    CALLER: <none>");
+    }
+
     private void globalExactCompareScan() {
         println("\n============================================================");
         println("GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B");
@@ -958,15 +1172,17 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         lines = 0;
 
         inspectLikelyCurrentFunctions();
-        println("\n[STEP 1/5] Reviewing previously discovered raw 4B 0B addresses...");
+        println("\n[STEP 1/6] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
-        println("\n[STEP 2/5] Running exact-immediate protocol candidate analysis...");
+        println("\n[STEP 2/6] Running exact-immediate protocol candidate analysis...");
         inspectExactProtocolCandidates();
-        println("\n[STEP 3/4] Running exact byte-compare protocol trace...");
+        println("\n[STEP 3/6] Ranking packet-header dataflow candidates...");
+        rankPacketHeaderCandidates();
+        println("\n[STEP 4/6] Running exact byte-compare protocol trace...");
         traceExactByteProtocol();
-        println("\n[STEP 4/4] Running bounded legacy compare scan...");
+        println("\n[STEP 5/6] Running bounded legacy compare scan...");
         globalExactCompareScan();
-        println("\n[STEP 5/5] Analysis complete.");
+        println("\n[STEP 6/6] Analysis complete.");
 
         println("\n============================================================");
         println("DONE");
