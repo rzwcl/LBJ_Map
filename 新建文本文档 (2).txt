@@ -1,290 +1,170 @@
-TraceC922A990FtmEntry.java> Running...
+RevisitC184RfdebugEntry.java> Running...
 ============================================================
- TRACE C922A990 / FTM SSID 0x0B ENTRY
+ REVISIT FUN_c184a38c / POSSIBLE RFDEBUG ENTRY
  Program : qdsp6sw.mbn
  Image   : c1600000
  READ ONLY
 ============================================================
 
-TARGET ADDRESS : c922a990
-
-BYTE DUMP (768 bytes):
-  c922a990 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
-  c922a9a0 : 01 00 00 00 54 66 2B D8 1C 00 00 00 12 00 3C 00 
-  c922a9b0 : 18 00 00 00 DC 4D 27 D8 04 00 00 00 12 00 3C 00 
-  c922a9c0 : 2F 00 00 00 08 8B 16 D8 18 00 00 00 12 00 3C 00 
-  c922a9d0 : 87 00 00 00 90 8E 24 D8 1C 00 00 00 12 00 3C 00 
-  c922a9e0 : A1 00 00 00 2C 60 F1 CB 04 00 00 00 11 00 5E 00 
-  c922a9f0 : C8 00 00 00 A0 5F F1 CB 04 00 00 00 11 00 5E 00 
-  c922aa00 : F1 00 00 00 CC 8A 16 D8 04 00 00 00 12 00 3C 00 
-  c922aa10 : 08 01 00 00 80 61 F1 CB 04 00 00 00 11 00 5E 00 
-  c922aa20 : 2D 01 00 00 DC 54 21 D8 04 00 00 00 12 00 3C 00 
-  c922aa30 : 8E 01 00 00 7C 54 21 D8 18 00 00 00 12 00 3C 00 
-  c922aa40 : E5 01 00 00 70 66 2B D8 04 00 00 00 12 00 3C 00 
-  c922aa50 : FC 01 00 00 AC 8E 24 D8 04 00 00 00 12 00 3C 00 
-  c922aa60 : 16 02 00 00 70 4A F1 C8 34 00 00 00 11 00 54 00 
-  c922aa70 : 36 02 00 00 04 49 F1 C8 34 00 00 00 11 00 54 00 
-  c922aa80 : 56 02 00 00 40 2E ED C8 80 00 00 00 11 00 54 00 
-  c922aa90 : 6A 02 00 00 F8 8E 24 D8 18 00 00 00 12 00 3C 00 
-  c922aaa0 : C0 02 00 00 A4 4A F1 C8 34 00 00 00 11 00 54 00 
-  c922aab0 : E0 02 00 00 C8 56 9D C4 0C 00 00 00 11 00 52 00 
-  c922aac0 : FA 02 00 00 A0 A2 17 D8 18 00 00 00 12 00 3C 00 
-  c922aad0 : 4B 03 00 00 94 12 95 C4 0C 00 00 00 11 00 52 00 
-  c922aae0 : 60 03 00 00 08 76 36 D8 14 00 00 00 12 00 3C 00 
-  c922aaf0 : B7 03 00 00 20 8E A1 C1 08 00 00 00 12 00 34 00 
-  c922ab00 : C4 03 00 00 88 49 F1 C8 34 00 00 00 11 00 54 00 
-  c922ab10 : E4 03 00 00 E0 49 F1 C8 34 00 00 00 11 00 54 00 
-  c922ab20 : 04 04 00 00 30 4A F1 C8 34 00 00 00 11 00 54 00 
-  c922ab30 : 24 04 00 00 B8 72 2B D8 20 00 00 00 12 00 3C 00 
-  c922ab40 : 5F 04 00 00 3C 8F 24 D8 04 00 00 00 12 00 3C 00 
-  c922ab50 : C8 04 00 00 E4 5F F1 CB 04 00 00 00 11 00 5E 00 
-  c922ab60 : ED 04 00 00 D0 79 69 C1 1C 00 00 00 12 00 0C 00 
-  c922ab70 : F5 04 00 00 C8 54 21 D8 14 00 00 00 12 00 3C 00 
-  c922ab80 : 1A 05 00 00 34 76 36 D8 28 00 00 00 12 00 3C 00 
-  c922ab90 : 69 05 00 00 B0 00 AD C1 6C 00 00 00 12 00 40 00 
-  c922aba0 : 7D 05 00 00 A4 93 95 C4 0C 00 00 00 11 00 52 00 
-  c922abb0 : 94 05 00 00 24 60 F1 CB 04 00 00 00 11 00 5E 00 
-  c922abc0 : C1 05 00 00 F0 8A 16 D8 18 00 00 00 12 00 3C 00 
-  c922abd0 : 11 06 00 00 28 77 36 D8 04 00 00 00 12 00 3C 00 
-  c922abe0 : 72 06 00 00 A4 63 F1 CB 04 00 00 00 11 00 5E 00 
-  c922abf0 : 99 06 00 00 58 72 1C C5 28 00 00 00 11 00 52 00 
-  c922ac00 : C2 06 00 00 60 71 2B D8 1C 00 00 00 12 00 3C 00 
-  c922ac10 : DB 06 00 00 28 8F 24 D8 14 00 00 00 12 00 3C 00 
-  c922ac20 : 04 07 00 00 1C 72 2B D8 10 00 00 00 12 00 3C 00 
-  c922ac30 : 2C 07 00 00 40 4E 27 D8 14 00 00 00 12 00 3C 00 
-  c922ac40 : 52 07 00 00 F8 76 36 D8 1C 00 00 00 12 00 3C 00 
-  c922ac50 : AD 07 00 00 74 72 2B D8 04 00 00 00 12 00 3C 00 
-  c922ac60 : E6 07 00 00 E0 CA AA C1 40 00 00 00 12 00 40 00 
-  c922ac70 : EE 07 00 00 20 F6 9C C4 0C 00 00 00 11 00 52 00 
-  c922ac80 : 02 08 00 00 D4 62 5B D8 10 00 00 00 12 00 3C 00 
+TARGET : c184a38c
+FUNCTION : FUN_c184a38c
 
 ------------------------------------------------------------
-32-BIT LITTLE-ENDIAN WORDS
+TARGET FUNCTION BODY
 ------------------------------------------------------------
-  c922a990 : 00000000  
-  c922a994 : 00000000  
-  c922a998 : 00000000  
-  c922a99c : 00000000  
-  c922a9a0 : 00000001  
-  c922a9a4 : D82B6654  
-  c922a9a8 : 0000001C  
-  c922a9ac : 003C0012  
-  c922a9b0 : 00000018  
-  c922a9b4 : D8274DDC  
-  c922a9b8 : 00000004  
-  c922a9bc : 003C0012  
-  c922a9c0 : 0000002F  
-  c922a9c4 : D8168B08  
-  c922a9c8 : 00000018  
-  c922a9cc : 003C0012  
-  c922a9d0 : 00000087  
-  c922a9d4 : D8248E90  
-  c922a9d8 : 0000001C  
-  c922a9dc : 003C0012  
-  c922a9e0 : 000000A1  
-  c922a9e4 : CBF1602C  <MAPPED_ADDRESS>
-  c922a9e8 : 00000004  
-  c922a9ec : 005E0011  
-  c922a9f0 : 000000C8  
-  c922a9f4 : CBF15FA0  <MAPPED_ADDRESS>
-  c922a9f8 : 00000004  
-  c922a9fc : 005E0011  
-  c922aa00 : 000000F1  
-  c922aa04 : D8168ACC  
-  c922aa08 : 00000004  
-  c922aa0c : 003C0012  
-  c922aa10 : 00000108  
-  c922aa14 : CBF16180  <MAPPED_ADDRESS>
-  c922aa18 : 00000004  
-  c922aa1c : 005E0011  
-  c922aa20 : 0000012D  
-  c922aa24 : D82154DC  
-  c922aa28 : 00000004  
-  c922aa2c : 003C0012  
-  c922aa30 : 0000018E  
-  c922aa34 : D821547C  
-  c922aa38 : 00000018  
-  c922aa3c : 003C0012  
-  c922aa40 : 000001E5  
-  c922aa44 : D82B6670  
-  c922aa48 : 00000004  
-  c922aa4c : 003C0012  
-  c922aa50 : 000001FC  
-  c922aa54 : D8248EAC  
-  c922aa58 : 00000004  
-  c922aa5c : 003C0012  
-  c922aa60 : 00000216  
-  c922aa64 : C8F14A70  <MAPPED_ADDRESS>
-  c922aa68 : 00000034  
-  c922aa6c : 00540011  
-  c922aa70 : 00000236  
-  c922aa74 : C8F14904  <MAPPED_ADDRESS>
-  c922aa78 : 00000034  
-  c922aa7c : 00540011  
-  c922aa80 : 00000256  
-  c922aa84 : C8ED2E40  <MAPPED_ADDRESS>
-  c922aa88 : 00000080  
-  c922aa8c : 00540011  
-  c922aa90 : 0000026A  
-  c922aa94 : D8248EF8  
-  c922aa98 : 00000018  
-  c922aa9c : 003C0012  
-  c922aaa0 : 000002C0  
-  c922aaa4 : C8F14AA4  <MAPPED_ADDRESS>
-  c922aaa8 : 00000034  
-  c922aaac : 00540011  
-  c922aab0 : 000002E0  
-  c922aab4 : C49D56C8  <MAPPED_ADDRESS>
-  c922aab8 : 0000000C  
-  c922aabc : 00520011  
-  c922aac0 : 000002FA  
-  c922aac4 : D817A2A0  
-  c922aac8 : 00000018  
-  c922aacc : 003C0012  
-  c922aad0 : 0000034B  
-  c922aad4 : C4951294  <MAPPED_ADDRESS>
-  c922aad8 : 0000000C  
-  c922aadc : 00520011  
-  c922aae0 : 00000360  
-  c922aae4 : D8367608  
-  c922aae8 : 00000014  
-  c922aaec : 003C0012  
-  c922aaf0 : 000003B7  
-  c922aaf4 : C1A18E20  <EXECUTABLE_ADDRESS>
-  c922aaf8 : 00000008  
-  c922aafc : 00340012  
-  c922ab00 : 000003C4  
-  c922ab04 : C8F14988  <MAPPED_ADDRESS>
-  c922ab08 : 00000034  
-  c922ab0c : 00540011  
-  c922ab10 : 000003E4  
-  c922ab14 : C8F149E0  <MAPPED_ADDRESS>
-  c922ab18 : 00000034  
-  c922ab1c : 00540011  
-  c922ab20 : 00000404  
-  c922ab24 : C8F14A30  <MAPPED_ADDRESS>
-  c922ab28 : 00000034  
-  c922ab2c : 00540011  
-  c922ab30 : 00000424  
-  c922ab34 : D82B72B8  
-  c922ab38 : 00000020  
-  c922ab3c : 003C0012  
-  c922ab40 : 0000045F  
-  c922ab44 : D8248F3C  
-  c922ab48 : 00000004  
-  c922ab4c : 003C0012  
-  c922ab50 : 000004C8  
-  c922ab54 : CBF15FE4  <MAPPED_ADDRESS>
-  c922ab58 : 00000004  
-  c922ab5c : 005E0011  
-  c922ab60 : 000004ED  
-  c922ab64 : C16979D0  <EXEC/FUNCTION FUN_c16979d0>
-  c922ab68 : 0000001C  
-  c922ab6c : 000C0012  
-  c922ab70 : 000004F5  
-[WORD OUTPUT LIMIT]
+  c184a38c : assign R16,R0 
+  c184a390 : memd (SP+#-0x10),R17R16 ; allocframe #0x58 
+  c184a3b0 : memw R4,(R16) 
+  c184a494 : memuh R2,(R16+#0x10) 
+  c184a498 : add.if(P0.new) R1,R16,#0x12 
+  c184a4ac : memuh R2,(R16+#0x1e) 
+  c184a4cc : memuh R4,(R16+#0x20) 
+  c184a4d4 : memuh R4,(R16+#0x26) 
+  c184a4dc : memub R4,(R16+#0x28) 
+  c184a4e4 : memuh R4,(R16+#0x24) 
+  c184a4ec : memuh R0,(R16+#0x22) 
+  c184a530 : memh R2,(R16+#0x10) 
+  c184a53c : memuh.if(P0.new) R3,(R16+#0x12) 
+  c184a590 : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
+  c184a5b4 : memuh.if(P0.new) R2,(R16+#0x20) 
+  c184a5e0 : memw R2,(R16+#0x10) 
+  c184a610 : assign R0,R16 
+  c184a614 : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
+  c184a658 : memuh R1,(R16+#0x10) 
+
+TARGET BODY INSTRUCTIONS SCANNED : 180
+0x7B-RELATED LINES : 0
+R16-RELATED LINES : 19
+[TARGET FUNCTION OUTPUT LIMIT]
 
 ------------------------------------------------------------
-POSSIBLE EXECUTABLE POINTERS
+REFERENCES / CALL SITES
 ------------------------------------------------------------
 
-EXEC POINTER #1
-  DATA : c922aaf4
-  PTR  : 0xC1A18E20
-  FN   : <none>
+REFERENCE #1
+  FROM : c185b6c8
+  TYPE : DATA
+  CALLER : FUN_c185b5f0
+  CALLER ENTRY : c185b5f0
 
-EXEC POINTER #2
-  DATA : c922ab64
-  PTR  : 0xC16979D0
-  FN   : FUN_c16979d0
-  ENTRY: c16979d0
-    XREF 1 : c1692800 -> c16979d0 TYPE=DATA
-    XREF 2 : c1692804 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 3 : c1692834 -> c16979d0 TYPE=DATA
-    XREF 4 : c1692838 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 5 : c1ad11c8 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 6 : c1d395fc -> c16979d0 TYPE=DATA
-    XREF 7 : c1d39604 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 8 : c1691b68 -> c16979d0 TYPE=DATA
-    XREF 9 : c1691b70 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 10 : c1696a94 -> c16979d0 TYPE=DATA
-    XREF 11 : c1696a9c -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 12 : c1696b60 -> c16979d0 TYPE=DATA
-    XREF 13 : c1696b64 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 14 : c1696ba0 -> c16979d0 TYPE=DATA
-    XREF 15 : c1696ba4 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 16 : c1696d90 -> c16979d0 TYPE=DATA
-    XREF 17 : c1696d94 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 18 : c1696ec8 -> c16979d0 TYPE=DATA
-    XREF 19 : c1696ecc -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 20 : c1696ef8 -> c16979d0 TYPE=DATA
-    XREF 21 : c1696efc -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 22 : c1d3a3a0 -> c16979d0 TYPE=DATA
-    XREF 23 : c1d3a3a8 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 24 : c169624c -> c16979d0 TYPE=DATA
-    XREF 25 : c1696258 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 26 : c1691120 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 27 : c19c9fd4 -> c16979d0 TYPE=DATA
-    XREF 28 : c19c9fdc -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    XREF 29 : c16a0ae4 -> c16979d0 TYPE=DATA
-    XREF 30 : c16a0ae8 -> c16979d0 TYPE=UNCONDITIONAL_CALL
-    [XREF LIMIT]
+  CALL SITE CONTEXT:
+    c185b63c : jump.if:nt cmp.gtu(R2.new,#0x0),0xc185b6d8 
+    c185b640 : call 0xc1850380 
+    c185b644 : jump 0xc185b60c 
+    c185b648 : call 0xc184a350 
+    c185b64c : immext #0xcaf98940 
+    c185b650 : assign R0,##0xcaf98960 
+    c185b654 : call 0xc184265c 
+    c185b658 : immext #0xc4eee040 
+    c185b65c : assign R0,##0xc4eee041 
+    c185b660 : memub R1,(R17+#0x10) 
+    c185b664 : call 0xc1619338 
+    c185b668 : immext #0xd615a140 
+    c185b66c : assign R0,##0xd615a144 
+    c185b670 : memub R1,(R17+#0x10) 
+    c185b674 : memub R0,(R17+#0x10) 
+    c185b678 : memub R2,(R17+#0x11) 
+    c185b67c : call 0xc1850834 
+    c185b680 : memb (R16+#0x1),R2 
+    c185b684 : call 0xc184265c 
+    c185b688 : immext #0xc4eee040 
+    c185b68c : assign R0,##0xc4eee072 
+    c185b690 : memub R1,(R17+#0x10) 
+    c185b694 : call 0xc1619338 
+    c185b698 : immext #0xd615a140 
+    c185b69c : assign R0,##0xd615a175 
+    c185b6a0 : memub R1,(R17+#0x10) 
+    c185b6a4 : jump 0xc185b60c 
+    c185b6a8 : memb R2,(R16) 
+    c185b6ac : jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
+    c185b6b0 : call 0xc184265c 
+    c185b6b4 : immext #0xc4eee080 
+    c185b6b8 : assign R0,##0xc4eee0ba 
+    c185b6bc : call 0xc1619338 
+    c185b6c0 : immext #0xd615a180 
+    c185b6c4 : assign R0,##0xd615a1bd ; memw R1,(R17) 
+    c185b6c8 : call 0xc184a38c  <== CALL
 
-EXEC POINTER #3
-  DATA : c922ab94
-  PTR  : 0xC1AD00B0
-  FN   : <none>
+  R16-RELATED INSTRUCTIONS IN CALLER:
+    c185b5f4 : assign R16,##0xc1d91880 
+    c185b5f8 : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    c185b600 : combine R1R0,#0x1,#0x3 ; memb (R16),#0x1 
+    c185b680 : memb (R16+#0x1),R2 
+    c185b6a8 : memb R2,(R16) 
+    c185b6e4 : memd R17R16,(SP+#0x0) ; dealloc_return 
+    R16 lines printed : 6
 
-EXEC POINTER #4
-  DATA : c922ac64
-  PTR  : 0xC1AACAE0
-  FN   : FUN_c1aacae0
-  ENTRY: c1aacae0
-    XREF 1 : c1ac78e0 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 2 : c1d478c0 -> c1aacae0 TYPE=DATA
-    XREF 3 : c1d478c8 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 4 : c1aa6488 -> c1aacae0 TYPE=DATA
-    XREF 5 : c1aa648c -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 6 : c16a2200 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 7 : c16a2224 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 8 : c1700d6c -> c1aacae0 TYPE=DATA
-    XREF 9 : c1700d70 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 10 : c1ad2a3c -> c1aacae0 TYPE=DATA
-    XREF 11 : c1ad2a40 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 12 : c1ad3b1c -> c1aacae0 TYPE=DATA
-    XREF 13 : c1ad3b28 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 14 : c1d471ac -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 15 : c1d47554 -> c1aacae0 TYPE=DATA
-    XREF 16 : c1d47558 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 17 : c18d0aa4 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 18 : c1ab59e8 -> c1aacae0 TYPE=DATA
-    XREF 19 : c1ab59ec -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 20 : c1ab59f0 -> c1aacae0 TYPE=DATA
-    XREF 21 : c1ab59f8 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 22 : c1c0eb6c -> c1aacae0 TYPE=DATA
-    XREF 23 : c1c0eb70 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 24 : c1c0ebb4 -> c1aacae0 TYPE=DATA
-    XREF 25 : c1c0ebb8 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 26 : c1cbf6a4 -> c1aacae0 TYPE=DATA
-    XREF 27 : c1cbf6a8 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 28 : c1ca75b0 -> c1aacae0 TYPE=DATA
-    XREF 29 : c1ca75b8 -> c1aacae0 TYPE=UNCONDITIONAL_CALL
-    XREF 30 : c1acd574 -> c1aacae0 TYPE=DATA
-    [XREF LIMIT]
+REFERENCE #2
+  FROM : c185b6d0
+  TYPE : UNCONDITIONAL_CALL
+  CALLER : FUN_c185b5f0
+  CALLER ENTRY : c185b5f0
 
-EXECUTABLE POINTERS FOUND : 4
+  CALL SITE CONTEXT:
+    c185b644 : jump 0xc185b60c 
+    c185b648 : call 0xc184a350 
+    c185b64c : immext #0xcaf98940 
+    c185b650 : assign R0,##0xcaf98960 
+    c185b654 : call 0xc184265c 
+    c185b658 : immext #0xc4eee040 
+    c185b65c : assign R0,##0xc4eee041 
+    c185b660 : memub R1,(R17+#0x10) 
+    c185b664 : call 0xc1619338 
+    c185b668 : immext #0xd615a140 
+    c185b66c : assign R0,##0xd615a144 
+    c185b670 : memub R1,(R17+#0x10) 
+    c185b674 : memub R0,(R17+#0x10) 
+    c185b678 : memub R2,(R17+#0x11) 
+    c185b67c : call 0xc1850834 
+    c185b680 : memb (R16+#0x1),R2 
+    c185b684 : call 0xc184265c 
+    c185b688 : immext #0xc4eee040 
+    c185b68c : assign R0,##0xc4eee072 
+    c185b690 : memub R1,(R17+#0x10) 
+    c185b694 : call 0xc1619338 
+    c185b698 : immext #0xd615a140 
+    c185b69c : assign R0,##0xd615a175 
+    c185b6a0 : memub R1,(R17+#0x10) 
+    c185b6a4 : jump 0xc185b60c 
+    c185b6a8 : memb R2,(R16) 
+    c185b6ac : jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
+    c185b6b0 : call 0xc184265c 
+    c185b6b4 : immext #0xc4eee080 
+    c185b6b8 : assign R0,##0xc4eee0ba 
+    c185b6bc : call 0xc1619338 
+    c185b6c0 : immext #0xd615a180 
+    c185b6c4 : assign R0,##0xd615a1bd ; memw R1,(R17) 
+    c185b6c8 : call 0xc184a38c 
+    c185b6cc : immext #0xcaf98940 
+    c185b6d0 : assign R0,##0xcaf98960  <== CALL
 
-------------------------------------------------------------
-REFERENCES TO C922A990
-------------------------------------------------------------
-  <none>
+  R16-RELATED INSTRUCTIONS IN CALLER:
+    c185b5f4 : assign R16,##0xc1d91880 
+    c185b5f8 : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    c185b600 : combine R1R0,#0x1,#0x3 ; memb (R16),#0x1 
+    c185b680 : memb (R16+#0x1),R2 
+    c185b6a8 : memb R2,(R16) 
+    c185b6e4 : memd R17R16,(SP+#0x0) ; dealloc_return 
+    R16 lines printed : 6
 
-------------------------------------------------------------
-FUNCTIONS / CODE AROUND REFERENCES
-------------------------------------------------------------
+TOTAL REFERENCES PROCESSED : 2
+CALLER FUNCTIONS : 2
+
+============================================================
+INTERPRETATION HINT
+============================================================
+Strong RFDEBUG evidence:
+  caller loads R16 from a packet/message buffer
+  or passes a buffer whose first byte is 0x7B
+  and the same buffer is then consumed by c184a38c
+
+Strong internal/demod evidence:
+  R16 comes from demod state/context
+  caller is in mcdo_demod path
+  no packet/message receive source is visible
 
 ============================================================
 DONE
 No program structures were modified.
 ============================================================
-TraceC922A990FtmEntry.java> Finished!
+RevisitC184RfdebugEntry.java> Finished!
