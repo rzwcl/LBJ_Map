@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C18E91D0CHAIN-1";
+    private static final String TRACE_BUILD = "C18F3530CALLBACKS-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -1441,6 +1441,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         traceC18D09ACRuntime();
         traceC18E7A50CallersAndObject();
         traceC18E91D0Chain();
+        traceC18F3530Callbacks();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -2653,6 +2654,205 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         println("\n============================================================");
         println("C18E91D0 / C18F2EE8 CHAIN TRACE COMPLETE");
+        println("============================================================");
+    }
+
+    private void traceC18F3530Callbacks() {
+        println("\n============================================================");
+        println("C18F3530 / C18F2B18 CALLBACK TRACE");
+        println("PURPOSE: identify the upper initialization caller and the second callback family");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        long[] targets = {
+            0xc18f3530L,
+            0xc18f2b18L,
+            0xc18f2b1cL,
+            0xc18f3070L,
+            0xc1903858L
+        };
+
+        for (int t = 0; t < targets.length; t++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(targets[t]);
+            Function f = functionContaining(a);
+            MemoryBlock b = currentProgram.getMemory().getBlock(a);
+
+            println("\n------------------------------------------------------------");
+            println("TARGET: " + a);
+            println("FUNCTION: " +
+                (f == null ? "<none>" :
+                 f.getName() + " @ " + f.getEntryPoint()));
+            println("BLOCK: " +
+                (b == null ? "<none>" :
+                 b.getName() + " [" + b.getStart() + " - " + b.getEnd() +
+                 "] EXEC=" + b.isExecute() +
+                 " READ=" + b.isRead() +
+                 " WRITE=" + b.isWrite()));
+
+            if (f != null) {
+                ArrayList<Instruction> ains = collect(f);
+                int shown = 0;
+                int limit = (a.getOffset() == 0xc18f3530L ? 180 :
+                             (a.getOffset() == 0xc18f2b18L ||
+                              a.getOffset() == 0xc18f2b1cL ? 96 : 72));
+
+                for (Instruction ins : ains) {
+                    if (monitor.isCancelled() ||
+                        lines >= MAX_LINES ||
+                        shown >= limit) return;
+
+                    println("  " + ins.getAddress() +
+                            " : " + safe(ins.toString()));
+                    lines++;
+                    shown++;
+                }
+
+                println("  SHOWN=" + shown + " / BOUNDED=" + ains.size());
+            }
+
+            println("REFERENCES TO TARGET:");
+            ReferenceIterator rit =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+
+            int rn = 0;
+            while (rit.hasNext() && rn < 24 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = rit.next();
+                Function rf = functionContaining(r.getFromAddress());
+
+                println("  FROM " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        " <-" +
+                        (rf == null ? "<none>" :
+                         rf.getName() + " @ " + rf.getEntryPoint()));
+                lines++;
+                rn++;
+            }
+            if (rn == 0) println("  <none>");
+        }
+
+        println("\n------------------------------------------------------------");
+        println("C18F3530 CALLSITE WINDOW INTO c18e91d0");
+
+        Function cf = functionContaining(toAddr(0xc18f3cf0L));
+        if (cf != null) {
+            ArrayList<Instruction> a = collect(cf);
+            int idx = -1;
+
+            for (int i = 0; i < a.size(); i++) {
+                long off = a.get(i).getAddress().getOffset();
+                if (off == 0xc18f3cf0L) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx >= 0) {
+                int st = Math.max(0, idx - 28);
+                int en = Math.min(a.size(), idx + 26);
+
+                for (int i = st; i < en && lines < MAX_LINES; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    Instruction ins = a.get(i);
+                    println("  " +
+                        (i == idx ? ">>> " : "    ") +
+                        ins.getAddress() + " : " +
+                        safe(ins.toString()));
+                    lines++;
+                }
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("CALLSITE c18f2fd0 -> c18d0970 / CALLBACK c18f2b18");
+
+        Function bf = functionContaining(toAddr(0xc18f2fd0L));
+        if (bf != null) {
+            ArrayList<Instruction> a = collect(bf);
+            int idx = -1;
+
+            for (int i = 0; i < a.size(); i++) {
+                if (a.get(i).getAddress().getOffset() == 0xc18f2fd0L) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx >= 0) {
+                int st = Math.max(0, idx - 18);
+                int en = Math.min(a.size(), idx + 20);
+
+                for (int i = st; i < en && lines < MAX_LINES; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    Instruction ins = a.get(i);
+                    println("  " +
+                        (i == idx ? ">>> " : "    ") +
+                        ins.getAddress() + " : " +
+                        safe(ins.toString()));
+                    lines++;
+                }
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("SMALL DATA TARGETS / ASCII PREVIEW");
+
+        long[] dataTargets = {
+            0xc18f2b18L,
+            0xcb297340L,
+            0xd6161982L,
+            0xd61619c6L,
+            0xc1903840L,
+            0xc1902c40L
+        };
+
+        for (int i = 0; i < dataTargets.length; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(dataTargets[i]);
+            println("\n  TARGET " + a);
+            println("    BYTES=" + readHex(a, 48));
+
+            StringBuilder ascii = new StringBuilder();
+            Memory mem = currentProgram.getMemory();
+            for (int j = 0; j < 48; j++) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                try {
+                    int v = mem.getByte(a.add(j)) & 0xff;
+                    if (v >= 0x20 && v <= 0x7e) {
+                        ascii.append((char)v);
+                    } else {
+                        ascii.append('.');
+                    }
+                } catch (Exception e) {
+                    ascii.append('?');
+                }
+            }
+            println("    ASCII=" + ascii.toString());
+            lines++;
+
+            ReferenceIterator x =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+            int xn = 0;
+            while (x.hasNext() && xn < 12 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = x.next();
+                println("    XREF " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType());
+                lines++;
+                xn++;
+            }
+            if (xn == 0) println("    XREF <none>");
+        }
+
+        println("\n============================================================");
+        println("C18F3530 / C18F2B18 TRACE COMPLETE");
         println("============================================================");
     }
 
