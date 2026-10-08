@@ -22,6 +22,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
+    private static final int MAX_FOCUSED_INSNS = 320;
     private static final int MAX_GLOBAL_INSNS = 1800000;
     private static final int MAX_FUNCTIONS = 120;
     private static final int MAX_LINES = 16000;
@@ -1329,6 +1330,76 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private void focusedParserTrace() {
+        lines = 0;
+
+        println("\n============================================================");
+        println("FOCUSED RFDEBUG-ENTRY PARSER TRACE");
+        println("NO GLOBAL SCANS / READ ONLY");
+        println("PRIMARY: c1902c74 + caller @ c1902c70");
+        println("SECONDARY: c1d1a760 + all direct call xrefs");
+        println("============================================================");
+
+        // Primary candidate: show call-site and whole function, but cap output hard.
+        inspectCallSiteByAddress(0xc1902c70L);
+        inspectFunctionByAddress(0xc1902c74L);
+
+        // Show the exact caller function containing c1902c70.
+        Instruction cs = currentProgram.getListing().getInstructionContaining(toAddr(0xc1902c70L));
+        Function cf = (cs == null ? null : functionContaining(cs.getAddress()));
+        if (cf != null) {
+            println("\n------------------------------------------------------------");
+            println("CALLER FUNCTION CONTAINING c1902c70");
+            println("FUNCTION: " + cf.getName() + " @ " + cf.getEntryPoint());
+            ArrayList<Instruction> a = collect(cf);
+            int count = 0;
+            for (Instruction ins : a) {
+                if (monitor.isCancelled() || lines >= MAX_LINES || count >= MAX_FOCUSED_INSNS) return;
+                long off = ins.getAddress().getOffset();
+                // Print a compact caller body. Highlight the actual call site and
+                // instructions involving R0-R3/SP/memory immediately around it.
+                String s = safe(ins.toString());
+                if (off >= 0xc1902c00L && off <= 0xc1902ce0L ||
+                    ins.getAddress().equals(toAddr(0xc1902c70L)) ||
+                    s.contains("SP") || s.contains("mem") ||
+                    s.contains("R0") || s.contains("R1") ||
+                    s.contains("R2") || s.contains("R3") ||
+                    isCall(s)) {
+                    println("  " + ins.getAddress() + " : " + s);
+                    lines++;
+                    count++;
+                }
+            }
+        }
+
+        // Secondary candidate.
+        inspectFunctionByAddress(0xc1d1a760L);
+
+        Function sf = functionContaining(toAddr(0xc1d1a760L));
+        if (sf != null) {
+            println("\nCALLERS OF c1d1a760:");
+            ReferenceIterator rit =
+                currentProgram.getReferenceManager().getReferencesTo(sf.getEntryPoint());
+            int n = 0;
+            while (rit.hasNext() && n < 24 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+                Reference r = rit.next();
+                if (!r.getReferenceType().isCall()) continue;
+                Function caller = functionContaining(r.getFromAddress());
+                println("  " + r.getFromAddress() + " <- " +
+                    (caller == null ? "<unknown>" :
+                     caller.getName() + " @ " + caller.getEntryPoint()));
+                lines++;
+                n++;
+            }
+            if (n == 0) println("  <none>");
+        }
+
+        println("\n============================================================");
+        println("FOCUSED TRACE COMPLETE");
+        println("============================================================");
+    }
+
     private void deepInspectLikelyParsers() {
         println("\n============================================================");
         println("DEEP INSPECTION OF REAL 0x4B PARSER CANDIDATES");
@@ -1502,32 +1573,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     public void run() throws Exception {
         println("============================================================");
         println(" Ghidra_RFDEBUG_Trace");
-        println(" DIAG 4B -> FTM 0B -> SUBCMD 007B");
-        println(" READ ONLY / REUSABLE SINGLE SCRIPT");
+        println(" FOCUSED MODE: 0x4B BYTE PARSER -> CALLER DATAFLOW");
+        println(" READ ONLY / HARD LIMITED");
         println("============================================================");
 
-        lines = 0;
-
-        // IMPORTANT: deep parser inspection comes first so high-volume reports
-        // cannot consume the shared output budget before we reach it.
-        deepInspectLikelyParsers();
-        println("\n[DEEP PHASE COMPLETE] Resetting output budget for broad scans...");
-        lines = 0;
-
-        inspectLikelyCurrentFunctions();
-        println("\n[STEP 1/7] Reviewing previously discovered raw 4B 0B addresses...");
-        rawExecutableByteScan();
-        println("\n[STEP 2/7] Running exact-immediate protocol candidate analysis...");
-        inspectExactProtocolCandidates();
-        println("\n[STEP 3/7] Ranking packet-header dataflow candidates...");
-        rankPacketHeaderCandidates();
-        println("\n[STEP 4/7] Scanning combined protocol constants and register dataflow...");
-        scanCombinedProtocolConstants();
-        println("\n[STEP 5/7] Running exact byte-compare protocol trace...");
-        traceExactByteProtocol();
-        globalExactCompareScan();
-        println("\n[STEP 6/7] Legacy scan skipped; focused parser analysis is complete.");
-        println("\n[STEP 7/7] Analysis complete.");
+        focusedParserTrace();
 
         println("\n============================================================");
         println("DONE");
