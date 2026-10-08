@@ -1,182 +1,270 @@
-TraceRFDebugC1D97240.java> Running...
+Locate614RfcInit.java> Running...
 ============================================================
- RFDEBUG C1D97240 STRUCTURE TRACE
- Program : qdsp6sw.mbn
- Image   : c1600000
+ 614 RFC INIT LOCATOR
+ Program : 614_0_0.mbn
+ Image   : 00010000
  READ ONLY
 ============================================================
 
+------------------------------------------------------------
+[1] MEMORY BLOCKS
+------------------------------------------------------------
+BLOCK COUNT : 6
 
-============================================================
-[1] C1D97240 STRUCTURE
-============================================================
-BASE : c1d97240
-  +0x00 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  +0x10 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  +0x20 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  +0x30 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+BLOCK : segment_2  00010000 - 00026b62  R=true W=false X=true
+BLOCK : segment_3  00027000 - 002548a7  R=true W=true X=false
+BLOCK : EXTERNAL  00255000 - 00255143  R=true W=true X=false
+BLOCK : _elfHeader  _elfHeader::00000000 - _elfHeader::00000033  R=false W=false X=false
+BLOCK : _elfProgramHeaders  _elfProgramHeaders::00000000 - _elfProgramHeaders::0000009f  R=false W=false X=false
+BLOCK : unallocated_0  unallocated_0::00000000 - unallocated_0::00002f2b  R=false W=false X=false
 
-32-BIT FIELD VIEW:
-  +0x00  [0xC1D97240]  0x00000000
-  +0x04  [0xC1D97244]  0x00000000
-  +0x08  [0xC1D97248]  0x00000000
-  +0x0C  [0xC1D9724C]  0x00000000
-  +0x10  [0xC1D97250]  0x00000000
-  +0x14  [0xC1D97254]  0x00000000
-  +0x18  [0xC1D97258]  0x00000000
-  +0x1C  [0xC1D9725C]  0x00000000
-  +0x20  [0xC1D97260]  0x00000000
-  +0x24  [0xC1D97264]  0x00000000
-  +0x28  [0xC1D97268]  0x00000000
-  +0x2C  [0xC1D9726C]  0x00000000
-  +0x30  [0xC1D97270]  0x00000000
-  +0x34  [0xC1D97274]  0x00000000
-  +0x38  [0xC1D97278]  0x00000000
-  +0x3C  [0xC1D9727C]  0x00000000
+------------------------------------------------------------
+[2] SYMBOL SEARCH
+------------------------------------------------------------
+Searching for:
+  rfc_hwid614
+  qrm865ab
+  initm
 
-============================================================
-[2] FIELD XREFS
-============================================================
+MATCH 0 : 00025120  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17get_res_alloc_tblEh
+        PRIMARY=true TYPE=Function
+MATCH 1 : 0002513c  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag28get_nr_bands_bitmask_in_endcEh
+        PRIMARY=true TYPE=Function
+MATCH 2 : 00025158  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag12get_ver_sizeEh12rfc_ver_type
+        PRIMARY=true TYPE=Function
+MATCH 3 : 00025178  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag12get_ver_infoEh12rfc_ver_typejPc
+        PRIMARY=true TYPE=Function
+MATCH 4 : 000251f0  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag16get_rrc_ca_tableEhh
+        PRIMARY=true TYPE=Function
+MATCH 5 : 0002521c  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag21get_rfm_path_info_tblEv
+        PRIMARY=true TYPE=Function
+MATCH 6 : 00025230  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 7 : 00025274  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 8 : 00025274  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 9 : 000252a0  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag19timing_cfg_data_getEP19rfc_cfg_params_typePP20rfc_timing_info_type
+        PRIMARY=true TYPE=Function
+MATCH 10 : 00025378  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+        PRIMARY=true TYPE=Function
+MATCH 11 : 00025418  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 12 : 00025454  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 13 : 00025454  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 14 : 00025480  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP27rfc_sub_band_info_list_type
+        PRIMARY=true TYPE=Function
+MATCH 15 : 000254f4  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag19timing_cfg_data_getEP19rfc_cfg_params_typePP25rfc_nr5g_timing_info_type
+        PRIMARY=true TYPE=Function
+MATCH 16 : 000254fc  _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 17 : 00025538  _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 18 : 00025538  _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 19 : 00025564  _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+        PRIMARY=true TYPE=Function
+MATCH 20 : 00025574  _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag20get_wcdma_propertiesEPP25rfc_wcdma_properties_type
+        PRIMARY=true TYPE=Function
+MATCH 21 : 00025598  _ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 22 : 000255d4  _ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 23 : 000255d4  _ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 24 : 00025600  _ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+        PRIMARY=true TYPE=Function
+MATCH 25 : 00025604  _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 26 : 00025640  _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 27 : 00025640  _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 28 : 0002566c  _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+        PRIMARY=true TYPE=Function
+MATCH 29 : 00025670  _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_ag18get_gsm_propertiesEPP23rfc_gsm_properties_type
+        PRIMARY=true TYPE=Function
+MATCH 30 : 00025694  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 31 : 000256d0  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 32 : 000256d0  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 33 : 000256fc  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+        PRIMARY=true TYPE=Function
+MATCH 34 : 00025700  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 35 : 0002573c  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 36 : 0002573c  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 37 : 00025768  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag31get_lte_srs_grouping_propertiesEPP35rfm_ant_switch_config_grouping_type
+        PRIMARY=true TYPE=Function
+MATCH 38 : 0002578c  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 39 : 000257a4  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 40 : 000257bc  _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 41 : 000257d4  _ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 42 : 000257ec  _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 43 : 00025804  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 44 : 0002581c  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 45 : 00025834  _Z31rfc_hwid614_qrm865ab_v3_ag_initm
+        PRIMARY=true TYPE=Function
+MATCH 46 : 00025848  _Z33rfc_hwid614_qrm865ab_v3_ag_deinitm
+        PRIMARY=true TYPE=Function
+MATCH 47 : 0002585c  _Z33rfc_hwid614_qrm865ab_v3_ag_resumem
+        PRIMARY=true TYPE=Function
+MATCH 48 : 00025870  _Z34rfc_hwid614_qrm865ab_v3_ag_suspendm
+        PRIMARY=true TYPE=Function
+MATCH 49 : 00025884  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag12get_instanceEv
+        PRIMARY=true TYPE=Function
+MATCH 50 : 000258c4  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agC2Ev
+        PRIMARY=true TYPE=Function
+MATCH 51 : 000258c4  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agC1Ev
+        PRIMARY=false TYPE=Label
+MATCH 52 : 000258f0  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_rffe_sig_info_table_getEPP22rfc_sdr_rffe_info_type15rflm_rfc_enum_t
+        PRIMARY=true TYPE=Function
+MATCH 53 : 00025938  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_grfc_sig_info_table_getEPP22rfc_sdr_grfc_info_type15rflm_rfc_enum_t
+        PRIMARY=true TYPE=Function
+MATCH 54 : 00025980  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag29blank_grfc_sig_info_table_getEPP24rfc_blank_grfc_info_type
+        PRIMARY=true TYPE=Function
+MATCH 55 : 000259a4  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag16get_signals_infoEP28rfc_signal_info_wrapper_type
+        PRIMARY=true TYPE=Function
+MATCH 56 : 00025aa8  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_phy_device_cfgEv
+        PRIMARY=true TYPE=Function
+MATCH 57 : 00025abc  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag22get_logical_device_cfgEv
+        PRIMARY=true TYPE=Function
+MATCH 58 : 00025ad0  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_ant_switch_path_infoEP19rfc_cfg_params_typePP29rfc_ant_switch_path_info_type
+        PRIMARY=true TYPE=Function
+MATCH 59 : 00025bc4  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag26get_antenna_path_table_cfgEv
+        PRIMARY=true TYPE=Function
+MATCH 60 : 00025bd0  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_logical_path_configEP30rfm_devices_configuration_type
+        PRIMARY=true TYPE=Function
+MATCH 61 : 00025c14  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_ant_path_info_configEv
+        PRIMARY=true TYPE=Function
+MATCH 62 : 00025c28  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_sig_path_info_configEv
+        PRIMARY=true TYPE=Function
+MATCH 63 : 00025c3c  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag20get_rffe_speeds_infoEmPP23rfc_rffe_clk_settings_t
+        PRIMARY=true TYPE=Function
+MATCH 64 : 00025d08  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_cmn_propertiesEPP23rfc_cmn_properties_type
+        PRIMARY=true TYPE=Function
+MATCH 65 : 00025d2c  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_band_info_rrc_tableEh
+        PRIMARY=true TYPE=Function
+MATCH 66 : 00025d50  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17path_cfg_data_getEP21rfc_data_request_typePP25rfc_sig_path_ag_data_type
+        PRIMARY=true TYPE=Function
+MATCH 67 : 00025e38  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag22get_sig_path_table_cfgEv
+        PRIMARY=true TYPE=Function
+MATCH 68 : 00025e44  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17fbrx_cfg_data_getEmPP26rfc_fbrx_path_ag_data_type
+        PRIMARY=true TYPE=Function
+MATCH 69 : 00025f20  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_fbrx_path_table_cfgEv
+        PRIMARY=true TYPE=Function
+MATCH 70 : 00025f34  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24is_fbrx_override_enabledEv
+        PRIMARY=true TYPE=Function
+MATCH 71 : 00025f38  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag28rfc_get_remapped_device_infoEP30rfc_cal_device_remap_info_typeS1_
+        PRIMARY=true TYPE=Function
+MATCH 72 : 00025f58  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agD0Ev
+        PRIMARY=true TYPE=Function
+MATCH 73 : 00025fd0  _ZTS33rfc_hwid614_qrm865ab_v3_ag_lte_ag
+        PRIMARY=true TYPE=Label
+MATCH 74 : 00026000  _ZTS34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag
+        PRIMARY=true TYPE=Label
+MATCH 75 : 00026030  _ZTS35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 76 : 00026060  _ZTS34rfc_hwid614_qrm865ab_v3_ag_cdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 77 : 00026090  _ZTS33rfc_hwid614_qrm865ab_v3_ag_gsm_ag
+        PRIMARY=true TYPE=Label
+MATCH 78 : 000260c0  _ZTS37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 79 : 000260f0  _ZTS34rfc_hwid614_qrm865ab_v3_ag_gnss_ag
+        PRIMARY=true TYPE=Label
+MATCH 80 : 00026190  _ZTS33rfc_hwid614_qrm865ab_v3_ag_cmn_ag
+        PRIMARY=true TYPE=Label
+MATCH 81 : 00027098  _ZTV33rfc_hwid614_qrm865ab_v3_ag_lte_ag
+        PRIMARY=true TYPE=Label
+MATCH 82 : 000270d8  _ZTV34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag
+        PRIMARY=true TYPE=Label
+MATCH 83 : 000270fc  _ZTV35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 84 : 00027124  _ZTV34rfc_hwid614_qrm865ab_v3_ag_cdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 85 : 00027148  _ZTV33rfc_hwid614_qrm865ab_v3_ag_gsm_ag
+        PRIMARY=true TYPE=Label
+MATCH 86 : 00027170  _ZTV37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 87 : 00027198  _ZTV34rfc_hwid614_qrm865ab_v3_ag_gnss_ag
+        PRIMARY=true TYPE=Label
+MATCH 88 : 000271bc  _ZTI33rfc_hwid614_qrm865ab_v3_ag_lte_ag
+        PRIMARY=true TYPE=Label
+MATCH 89 : 000271c8  _ZTI34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag
+        PRIMARY=true TYPE=Label
+MATCH 90 : 000271d4  _ZTI35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 91 : 000271e0  _ZTI34rfc_hwid614_qrm865ab_v3_ag_cdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 92 : 000271ec  _ZTI33rfc_hwid614_qrm865ab_v3_ag_gsm_ag
+        PRIMARY=true TYPE=Label
+MATCH 93 : 000271f8  _ZTI37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag
+        PRIMARY=true TYPE=Label
+MATCH 94 : 00027204  _ZTI34rfc_hwid614_qrm865ab_v3_ag_gnss_ag
+        PRIMARY=true TYPE=Label
+MATCH 95 : 00027210  _ZTV33rfc_hwid614_qrm865ab_v3_ag_cmn_ag
+        PRIMARY=true TYPE=Label
+MATCH 96 : 00027378  _ZTI33rfc_hwid614_qrm865ab_v3_ag_cmn_ag
+        PRIMARY=true TYPE=Label
+MATCH 97 : 00027390  rfc_hwid614_qrm865ab_v3_ag_lte_2radios_pll_sel_entries_sub_cap_high_num
+        PRIMARY=true TYPE=Label
+MATCH 98 : 00027394  rfc_hwid614_qrm865ab_v3_ag_lte_1radios_pll_sel_entries_sub_cap_high_num
+        PRIMARY=true TYPE=Label
+MATCH 99 : 00027398  rfc_hwid614_qrm865ab_v3_ag_lte_3radios_pll_sel_entries_sub_cap_high_num
+        PRIMARY=true TYPE=Label
 
-FIELD +0x00 : c1d97240
-  XREF COUNT = 7
-  XREF c1831b0c TYPE=READ
-       FUNCTION=FUN_c1831b00 ENTRY=c1831b00
-  XREF c182ab8c TYPE=READ
-       FUNCTION=FUN_c182ab00 ENTRY=c182ab00
-  XREF c1832dd0 TYPE=READ
-       FUNCTION=FUN_c1832c0c ENTRY=c1832c0c
-  XREF c183305c TYPE=DATA
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-  XREF c1850a58 TYPE=PARAM
-       FUNCTION=FUN_c18509e4 ENTRY=c18509e4
-  XREF c1850c30 TYPE=WRITE
-       FUNCTION=FUN_c18509e4 ENTRY=c18509e4
-  XREF c184afd8 TYPE=WRITE
-       FUNCTION=FUN_c184a38c ENTRY=c184a38c
+SYMBOLS SCANNED : 112
+MATCHES         : 100
+[MATCH OUTPUT LIMIT REACHED]
 
-FIELD +0x04 : c1d97244
-  XREF COUNT = 2
-  XREF c184afdc TYPE=READ
-       FUNCTION=FUN_c184a38c ENTRY=c184a38c
-  XREF c184b00c TYPE=WRITE
-       FUNCTION=FUN_c184a38c ENTRY=c184a38c
+------------------------------------------------------------
+[3] CANDIDATE : OLD 0x00225834
+------------------------------------------------------------
+ADDRESS : 00225834
+MEMORY CONTAINS : true
+BLOCK : segment_3  00027000 - 002548a7
+PERMISSIONS : R=true W=true X=false
+SYMBOL AT ADDRESS : <none>
+INSTRUCTION AT ADDRESS : <none>
 
-FIELD +0x08 : c1d97248
-  XREF COUNT = 3
-  XREF c183304c TYPE=READ
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-  XREF c18330cc TYPE=READ
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-  XREF c184afdc TYPE=WRITE
-       FUNCTION=FUN_c184a38c ENTRY=c184a38c
+RAW BYTES:
+  00225834 : FF FF FF FF FF FF FF FF 01 00 00 00 60 03 23 00 
+  00225844 : 06 00 00 00 80 03 23 00 01 00 00 00 02 00 00 00 
+  00225854 : 04 00 06 00 07 00 05 00 00 00 11 00 FF FF 00 00 
+  00225864 : 01 00 00 00 0D 0D 0D 0D 05 00 00 00 01 00 FF FF 
 
-FIELD +0x0C : c1d9724c
-  XREF COUNT = 1
-  XREF c184afe8 TYPE=WRITE
-       FUNCTION=FUN_c184a38c ENTRY=c184a38c
+------------------------------------------------------------
+[3] CANDIDATE : NEW 0x00235834
+------------------------------------------------------------
+ADDRESS : 00235834
+MEMORY CONTAINS : true
+BLOCK : segment_3  00027000 - 002548a7
+PERMISSIONS : R=true W=true X=false
+SYMBOL AT ADDRESS : <none>
+INSTRUCTION AT ADDRESS : <none>
 
-FIELD +0x10 : c1d97250
-  XREF COUNT = 0
+RAW BYTES:
+  00235834 : 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 
+  00235844 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+  00235854 : 00 00 00 00 08 00 00 00 03 04 01 00 00 00 00 00 
+  00235864 : 01 00 00 00 50 59 23 00 01 00 00 00 68 59 23 00 
 
-FIELD +0x14 : c1d97254
-  XREF COUNT = 0
-
-FIELD +0x18 : c1d97258
-  XREF COUNT = 0
-
-FIELD +0x1C : c1d9725c
-  XREF COUNT = 0
-
-FIELD +0x20 : c1d97260
-  XREF COUNT = 3
-  XREF c1833064 TYPE=READ
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-  XREF c1833098 TYPE=READ
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-  XREF c184aff8 TYPE=PARAM
-       FUNCTION=FUN_c184a38c ENTRY=c184a38c
-
-FIELD +0x24 : c1d97264
-  XREF COUNT = 1
-  XREF c1833098 TYPE=READ
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-
-FIELD +0x28 : c1d97268
-  XREF COUNT = 0
-
-FIELD +0x2C : c1d9726c
-  XREF COUNT = 0
-
-FIELD +0x30 : c1d97270
-  XREF COUNT = 1
-  XREF c1833074 TYPE=READ
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-
-FIELD +0x34 : c1d97274
-  XREF COUNT = 1
-  XREF c18330ac TYPE=READ
-       FUNCTION=FUN_c1832f98 ENTRY=c1832f98
-
-FIELD +0x38 : c1d97278
-  XREF COUNT = 0
-
-FIELD +0x3C : c1d9727c
-  XREF COUNT = 0
-
-============================================================
-[3] C184AF98 - C184B010 EXACT FLOW
-============================================================
-  c184af98 : cmp.gt P0,R3,#0x48 
-  c184af9c : jump.if(P0.new):t 0xc184b010 
-  c184afa0 : cmpb.eq P0,R3,#0x47 
-  c184afa4 : immext #0xd6152c00 
-  c184afa8 : assign.if(P0.new) R0,##0xd6152c3d 
-  c184afac : jump.if(P0.new):nt 0xc184c19c 
-  c184afb0 : cmpb.eq P0,R3,#0x48 
-  c184afb4 : immext #0xd6152c40 
-  c184afb8 : assign.if(P0.new) R0,##0xd6152c72 
-  c184afbc : jump.if(!P0.new):nt 0xc184cdd4 
-  c184afc0 : call 0xc1619338 
-  c184afc4 : immext #0xc1d97240 
-  c184afc8 : assign R17,##0xc1d97240 
-  c184afcc : memd R1R0,(R16+#0x10) 
-  c184afd0 : memw R2,(R16+#0x18) 
-  c184afd4 : memw R0,(R16+#0x1c) 
-  c184afd8 : memd (R17),R1R0 
-  c184afdc : memw R3,(R17+#0x4) ; memw (R17+#0x8),R2 
-  c184afe0 : immext #0x1e40 
-  c184afe4 : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc184ce38 
-  c184afe8 : memw (R17+#0xc),R0 
-  c184afec : add R0,R17,#0x20 
-  c184aff0 : assign R2,#0x40 
-  c184aff4 : immext #0xcaf8e700 
-  c184aff8 : memw R3,(##0xcaf8e700) 
-  c184affc : call 0xc1621160 
-  c184b000 : add R1,R3,#0x400 
-  c184b004 : add R2,R17,#0x4 
-  c184b008 : jump 0xc184ce38 
-  c184b00c : memw (R2),#0x0 
-  c184b010 : cmpb.eq P0,R3,#0x49 
-
-============================================================
-[4] C1D97244 POINTER CANDIDATE
-============================================================
-FIELD : c1d97244
-VALUE : 0x00000000
-POINTER : NULL (static image state)
-NOTE    : Runtime code may populate this.
-
-============================================================
-SUMMARY
-  Structure base       : C1D97240
-  Suspected pointer    : C1D97244
-  Destination global   : CAF8E700
-
-  Critical question:
-    Who writes C1D97244 before C184AFFC/C184AFF8?
 ============================================================
 DONE
 No program structures were modified.
 ============================================================
-TraceRFDebugC1D97240.java> Finished!
+Locate614RfcInit.java> Finished!
