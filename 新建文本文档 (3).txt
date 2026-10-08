@@ -1,1246 +1,1853 @@
-新建文本文档 (2).txt会话上限了，你详细总结在干什么，为什么，怎么样，到哪里之类的，详细！
+下面这份可以直接作为下一会话的完整项目上下文。我把「项目最终要做什么、为什么这么做、已经证明了什么、哪些路线已经排除、现在卡在哪里、当前最新结果意味着什么、下一步应该具体怎么走」全部整理好，尽量不遗漏关键地址、数据格式、Ghidra 结论和踩过的坑。
 
-可以。下面这份就作为下一会话的完整项目交接文档。我把“最终目标 → 已经证明的协议 → DIAG 实验 → Ghidra 追踪 → 哪些路已经排除 → 614 SO 到底是什么 → 当前到底卡在哪 → 下一步严格怎么走”全部整理清楚。
+一、这个项目最终到底要做什么
 
-一、这个项目到底在干什么
+当前项目是针对 Qualcomm X55 / Hexagon QDSP6 基带固件进行静态逆向，目标不是改写整个 modem，而是：
 
-你的最终目标不是普通的“研究字符串”或者“看看 Qualcomm 源码”。
+找到 DIAG → FTM → RFDEBUG → RADIO_CONFIGURE → FREQUENCY 的真实固件调用链，最终理解怎样通过现有 RFDEBUG 接口配置接收侧频率。
 
-你现在做的是：
+目标频率已经固定：
 
-在小米 Mi 10 Ultra / X55 modem 上，通过 /dev/diag 向 Qualcomm DIAG → FTM/RFDEBUG 这一套接口发送 RX-only 的 RF 配置请求，最终让 modem 的射频接收链调到指定频率，例如 821.2375 MHz。
+821,237,500 Hz
+0x30F316FC
+LE: FC 16 F3 30
 
-你当前希望走的是：
+此前发现过：
 
-Termux / 自己写的 C 程序
-        ↓
-/dev/diag
-        ↓
-DIAG
-        ↓
-DIAG_SUBSYS_FTM
-        ↓
-FTM_RF_DEBUG_C
-        ↓
-RFDEBUG command dispatcher
-        ↓
-RADIO_CONFIGURE
-        ↓
-RF/RFM backend
-        ↓
-实际 RX radio configuration
-        ↓
-821.2375 MHz
+FC DC F2 30
 
-而现在最核心的问题是：
+对应约：
 
-我们知道 RFDEBUG 的协议格式，但是不知道这台实际 X55 固件里面，究竟是哪段代码在处理 RFDEBUG 的 RADIO_CONFIGURE / 属性列表。
+821.222652 MHz
 
-所以整个逆向的核心任务就是：
+这不是目标频率，已经排除。
 
-从已经知道的 DIAG/RFDEBUG 协议，反过来在 qdsp6sw / SO / 外部模块中定位实际 handler。
+项目一直坚持：
 
-二、为什么不是直接“照 Qualcomm 头文件发请求”
+只读
+不写 modem
+不执行危险 FTM/RF 操作
+不修改 qdsp6sw 原始固件
 
-因为你已经实际验证过：
+Ghidra 脚本全部要求：
 
-DIAG
-  ↓
-FTM
-  ↓
-RFDEBUG subsystem
+READ ONLY
+HARD LIMITED
+有 monitor.isCancelled()
+有最大指令数/输出行限制
+不能无限遍历
+不能整块内存暴力扫描
 
-是通的。
+这是之前有一次脚本卡死、疯狂打印 relocation/raw 数据以后确定下来的硬要求。
 
-但是你现在发：
+二、为什么我们一直在找 RFDEBUG 入口
 
-FTM_RF_DEBUG_CMD_RADIO_CONFIGURE
+真正的通信链已经通过动态测试确认了一部分。
 
-得到的不是成功，而是：
+用户发出的 DIAG 包：
 
-common_error_code = 0x00000004
+4B 0B 7B 00 01 00 26 00 ...
 
-这里最容易误判。
+含义：
 
-Qualcomm 的：
+0x4B = DIAG_CMD_SUBSYS
+0x0B = FTM subsystem
+0x007B = FTM subsystem command
 
-common_error_code
+这里最重要的一点：
 
-不是普通：
-
-enum = 4
+0x7B 不是一个独立的 RFDEBUG subsystem ID。
 
 而是：
 
-error mask
+DIAG_CMD_SUBSYS
+    ↓
+FTM SSID 0x0B
+    ↓
+FTM 内部 subsystem command 0x7B
+    ↓
+RFDEBUG
 
-公开实现的逻辑是：
+动态测试已经确认：
 
-error_code |= (1 << enum)
+0x7A → 无响应
+0x7C → 无响应
+0x5555 → 无响应
+0x7B → 返回了 RFDEBUG 格式的 25 字节响应
 
-所以：
-
-0x04
-
-对应：
-
-1 << 2
-
-即：
-
-FTM_RF_DEBUG_EC_NULL_PARAM
-
-也就是：
-
-请求已经进入 RFDEBUG，但处理阶段认为某个必要参数是 NULL / 缺失。
-
-这实际上是非常重要的结果。
-
-它说明现在不是：
-
-DIAG subsystem 错了
-
-也不是：
-
-0x7B 完全错了
-
-而更像是：
-
-请求已经到了 RFDEBUG
-        ↓
-开始解析/处理
-        ↓
-参数结构不完整
-        ↓
-NULL_PARAM
-
-所以现在逆向是有明确价值的。
-
-三、我们已经确定的 RFDEBUG 协议结构
-
-公开 Qualcomm 头文件里已经找到。
-
-1. DIAG RFDEBUG 外层头
-typedef PACK(struct)
-{
-  uint8 diag_cmd;
-  uint8 diag_subsys_id;
-  uint16 rf_subsys_id;
-  ftm_rf_debug_command_type debug_command;
-  uint16 req_len;
-  uint16 rsp_len;
-} ftm_rf_debug_diag_header_type;
-
-你当前实际发送的前 10 字节：
-
-4B 0B 7B 00 01 00 1A 00 16 00
-
-对应：
-
-0x4B                  DIAG_SUBSYS_CMD_F
-0x0B                  DIAG_SUBSYS_FTM
-0x007B                RFDEBUG subsystem
-0x0001                RADIO_CONFIGURE
-0x001A                request length
-0x0016                response length
-
-也就是说目前：
+因此：
 
 0x7B
 
-是有实际响应的。
+这件事本身不是猜测，而是已经由动态行为证明了。
 
-我们没有证据证明应该改成 0x65，所以现在继续使用 0x7B 是合理的。
+三、RFDEBUG 协议结构已经基本搞清楚
 
-四、RFDEBUG V1 command header
+已经找到 Qualcomm 公共源码，对应：
 
-公开头文件：
+ftm_rf_debug_interface.h
+ftm_rf_debug_interface.c
+ftm_rf_test_control.c
 
-typedef PACK(struct)
-{
-  uint32 reserved;
-  uint32 version;
-  uint32 technology;
-} ftm_rf_debug_command_header_type;
+其中：
 
-你现在请求里：
-
-00 00 00 00
-00 00 00 00
-03 00 00 00
-
-即：
-
-reserved   = 0
-version    = 0
-technology = 3
-
-而：
-
-technology = 3
-
-是：
-
-LTE
-
-这个也是目前正确的。
-
-不要把 3 改掉。
-
-五、RFDEBUG command enum 已经确认
-
-公开接口：
-
+RFDEBUG command enum
+0 = UNASSIGNED
 1 = RADIO_CONFIGURE
 2 = TX_OVERRIDE
 3 = RX_OVERRIDE
 4 = DISCOVERY
 5 = PROPERTY_DISCOVERY
-6 = TX_MEASURE
-7 = LOAD_UNITY_DPD
-8 = VDPD_CAL
-10 = LOAD_DPD
-11 = RX_MEASURE
-12 = CODEBOOK_OVERRIDE
-13 = TX_MEASURE_ADV
-18 = THERM_READ
+...
 
-所以我们现在真正关注的是：
+因此我们真正需要的是：
 
-COMMAND = 1
+RFDEBUG CMD = 1
 RADIO_CONFIGURE
 
-并且因为你的项目明确要求 RX-only：
+项目一直禁止走：
 
-不走 TX_OVERRIDE，不走 TX_MEASURE，不发送任何主动发射相关命令。
+TX_OVERRIDE
+TX_MEASURE
 
-六、最重要的 RF Radio Configure 属性
+因为目标是接收配置，不需要发射，而且 modem 写操作有风险。
 
-公开 Qualcomm interface 里已经找到属性 enum：
+四、RADIO_CONFIGURE property enum 已经确认
 
-1   IS_TEARDOWN
-2   RADIO_SETUP_TYPE
-3   RFM_DEVICE
-4   SIG_PATH
-5   ANT_PATH
-6   RFM_PATH_TYPE
-7   BAND
-8   SUBBAND
-9   RESERVED
-10  CHANNEL
-11  WAVEFORM
-12  BANDWIDTH
-13  NUM_RB
-14  START_RB
-15  CW_OFFSET
-16  IS_DC
-17  MOD_TYPE
-18  LOOPBACK_TYPE
-19  BEAM_ID
-20  CC_INDEX
-21  CC_START_RB
-22  CC_NUM_RB
-23  CC_BANDWIDTH
-24  LOOPBACK_RFM_DEVICE
-25  PLL_ID
-26  TUNE_TX_TO_RX_FREQ
-27  LOAD_CODEBOOK
-28  FREQUENCY
-29  VERSION
-30  SWITCH_TDSCDMA_WAVEFORM
-31  SET_MOD
-32  CC_SCS
-33  WAVEFORM_ORIGIN
-34  NDR_STATE
-35  NR5G_MOD_TYPE
-36  WAVEFORM_IMMEDIATE_TRIGGER
-37  VPA_MAX_MV
+目前已知：
 
-尤其注意：
+1  IS_TEARDOWN
+2  RADIO_SETUP_TYPE
+3  RFM_DEVICE
+4  SIG_PATH
+5  ANT_PATH
+6  RFM_PATH_TYPE
+7  BAND
+8  SUBBAND
+9  RESERVED
+10 CHANNEL
+11 WAVEFORM
+12 BANDWIDTH
+13 NUM_RB
+14 START_RB
+15 CW_OFFSET
+16 IS_DC
+17 MOD_TYPE
+18 LOOPBACK_TYPE
+19 BEAM_ID
+20 CC_INDEX
+21 CC_START_RB
+22 CC_NUM_RB
+23 CC_BANDWIDTH
+24 LOOPBACK_RFM_DEVICE
+25 PLL_ID
+26 TUNE_TX_TO_RX_FREQ
+27 LOAD_CODEBOOK
+28 FREQUENCY
+29 VERSION
+30 SWITCH_TDSCDMA_WAVEFORM
+31 SET_MOD
+32 CC_SCS
+33 WAVEFORM_ORIGIN
+34 NDR_STATE
+35 NR5G_MOD_TYPE
+36 WAVEFORM_IMMEDIATE_TRIGGER
+37 VPA_MAX_MV
 
-26 = TUNE_TX_TO_RX_FREQ
-28 = FREQUENCY
-
-目标：
-
-821.2375 MHz
-
-正确十进制：
-
-821,237,500 Hz
-
-十六进制：
-
-0x30F316FC
-
-小端：
-
-FC 16 F3 30
-
-之前出现过一个：
-
-FC DC F2 30
-
-那是错误值：
-
-821.222652 MHz
-
-这个错误值已经明确排除，后续不能再用。
-
-七、为什么现在不能随便发一个 FREQUENCY=821237500
-
-这是目前非常关键的一点。
-
-你之前尝试：
-
-只放 FREQUENCY 属性
-
-或者：
-
-只放 IS_TEARDOWN=0
-
-都没有成功。
-
-例如：
-
-38-byte RADIO_CONFIGURE
-
-只带：
-
-IS_TEARDOWN = 0
-
-结果仍然：
-
-common_error_code = 0x04
-
-这不能说明：
-
-FREQUENCY 不支持
-
-真正只能说明：
-
-Radio Configure 的 packet 结构明显不是“随便丢一个属性进去”这么简单。
-
-因为 Qualcomm 已经明确标出了：
-
-1~9
-
-为 critical properties。
-
-公开数组：
-
-ftm_rf_debug_radio_config_prop_attrib_list[]
-
-明确表现为：
-
-index 1..9 = critical
-
-而：
+所以最终目标字段：
 
 FREQUENCY = 28
 
-是非 critical。
+这个已经不是推测。
 
-所以正确方向不是：
+五、Property 数据结构也已经确认
 
-FREQUENCY-only packet
+Qualcomm 公共源码显示 property record 是：
 
-而是：
-
-完整、合法的 Radio Configure property set
-
-并且先要搞清楚：
-
-RFM_DEVICE
-SIG_PATH
-ANT_PATH
-RFM_PATH_TYPE
-BAND
-SUBBAND
-
-这些关键字段实际应该怎么填写。
-
-八、你之前实际测试已经证明了什么
-
-目前真实 DIAG 测试：
-
-CMD 1 / RADIO_CONFIGURE
-
-请求：
-
-4B 0B 7B 00 01 00 1A 00 16 00
-00 00 00 00
-00 00 00 00
-03 00 00 00
-00 00 00 00
-
-返回：
-
-4B 0B 7B 00 01 00 1A 00 16 00
-00 00 00 00
-00 00 00 00
-04 00 00 00
-A2 78 7E
+typedef PACK(struct)
+{
+    ftm_rf_test_field_property_type property_type;
+    ftm_rf_test_field_property_val_type property_val;
+} ftm_rf_test_property_data_type;
 
 即：
 
-common_error_code = 0x04
-CMD 4 / DISCOVERY
+property_type = uint32
+property_value = uint64
 
-同样 subsystem：
+每个 property：
 
-0x7B
+4 bytes type
+8 bytes value
+================
+12 bytes
 
-也得到：
+所以 RADIO_CONFIGURE 的 property list 本质上类似：
 
-0x04
-CMD 5 / PROPERTY_DISCOVERY
-
-同样：
-
-0x7B
-
-也得到：
-
-0x04
-subsystem 测试
-
-：
-
-0x7A
-0x7C
-0x5555
-
-没有正常响应。
-
-所以：
-
-0x7B
-
-目前是非常值得保留的。
-
-九、然后我们为什么进入 Ghidra
-
-因为下一步已经不是“猜 packet”。
-
-现在需要找到：
-
-0x7B
-
-到底在哪个代码路径里处理。
-
-最理想的调用链：
-
-FTM DIAG dispatcher
-      ↓
-RFDEBUG dispatcher
-      ↓
-command == 1
-      ↓
-RADIO_CONFIGURE handler
-      ↓
-property framework
-      ↓
-property ID 28 = FREQUENCY
-
-找到之后，我们就能知道：
-
-这个固件真实需要什么结构
-
-而不是照旧版 Qualcomm 源码瞎猜。
-
-十、Ghidra 第一条路线为什么失败
-
-我们最早找到：
-
-FUN_c184a38c
-
-里面有真正的：
-
-cmpb.eq P0,R3,#0x7a
-cmpb.eq P0,R3,#0x7b
-
-因此一开始以为：
-
-这就是 RFDEBUG dispatcher。
-
-但是继续追后发现：
-
-FUN_c184a38c
-       ↓
-c18453bc
-       ↓
-d89b2790
-
-同时它唯一的 caller：
-
-FUN_c185b5f0
-
-里面出现：
-
-mcdo_demod.cc
-
-等明显的 demod 代码。
-
-所以这条路线最后确定是：
-
-真正的数值碰巧出现，但函数属于别的 modem/demod 逻辑。
-
-这个结论非常重要。
-
-不能再回头追 FUN_c184a38c。
-
-十一、d89b2790 到底是什么
-
-这个点非常容易混淆。
-
-在：
-
-qdsp6sw.mbn
-
-里：
-
-c18453bc
-
-是：
-
-immext ...
-jump 0xd89b2790
-
-而：
-
-d89b2790
-
-在当前 qdsp6sw 的 Ghidra 映射范围外。
-
-之后做了 ExternalTargetAudit：
-
-d89b2790
-
-有：
-
-98 个 direct refs
-
-所以它不是：
-
-某个仅供 RFDEBUG 使用的神秘函数
-
-更像是：
-
-共享 external service / runtime function
-
-因此：
-
-不能因为 d89b2790 被跳过去，就认定那是 RFDEBUG。
-
-十二、为什么后来追到 614_0_0.mbn
-
-因为在 qdsp6sw 外面，我们发现：
-
-/vendor/firmware_mnt/image/modem_pr/so/
-
-存在大量 SO：
-
-514_0_0.mbn
-...
-614_0_0.mbn
+[type:4][value:8]
+[type:4][value:8]
+[type:4][value:8]
 ...
 
-而：
+公共源码里的：
 
-614_0_0.mbn
+ftm_rf_test_unpack_property_list()
 
-里面有非常明确的 Qualcomm RFC 符号：
+就是拿这个结构解包的。
 
-rfc_hwid614_qrm865ab_v3_ag_cmn_ag...
-rfc_hwid614_qrm865ab_v3_ag_lte...
-rfc_hwid614_qrm865ab_v3_ag_fbrx...
-rfc_hwid614_qrm865ab_v3_ag...
+这一点对后面定位非常重要，因为我们最终不是只找 FREQUENCY 字符串，而是要找到：
 
-例如：
+property_count
+property_type
+property_value
 
-get_rfm_path_info_tbl
-fbrx_cfg_data_get
-is_fbrx_override_enabled
-get_phy_device_cfg
-get_sig_path_info_config
-get_ant_path_info_config
-get_logical_path_config
-path_cfg_data_get
-get_signals_info
+进入 RFDEBUG handler 后的实际解包位置。
 
-这说明：
+六、此前动态测试得到的异常
 
-614 SO 明确属于 RFC / RF configuration 这一层。
-
-所以它虽然不一定是 RFDEBUG handler 本身，但它非常可能是：
-
-RFDEBUG
-   ↓
-RFC/RFM
-
-下面的实际 RF 配置实现之一。
-
-十三、614_0_0.mbn 的 ELF 结构现在已经弄清楚
-
-这里前面有过一次错误。
-
-实际 Ghidra 看到的 ELF 头：
-
-00010000 = ELF magic
-
-所以：
-
-00010000
-
-不是代码。
-
-这是 ELF 文件头。
-
-真正的 ELF 信息
-
-：
-
-e_type      = ET_DYN
-e_machine   = EM_HEXAGON
-e_phoff     = 0x34
-e_phentsize = 0x20
-e_phnum     = 3
-
-因此：
-
-Program Headers
-
-只有：
-
-3
-
-不是之前误说的 5。
-
-十四、614 的三个 Program Header
-第一个 PT_LOAD
-p_offset = 0x00000000
-p_vaddr  = 0x00000000
-p_filesz = 0x00016b63
-p_memsz  = 0x00016b63
-p_flags  = 0x5  R-X
-p_align  = 0x1000
-第二个 PT_LOAD
-p_offset = 0x00017000
-p_vaddr  = 0x00017000
-p_filesz = 0x0022d870
-p_memsz  = 0x0022d8a8
-p_flags  = 0x6  RW
-第三个 PT_DYNAMIC
-p_offset = 0x00017000
-p_vaddr  = 0x00017000
-p_filesz  = 0x80
-十五、最重要的一个修正：00012790 那条路已经作废
-
-之前我们做过一个假设：
-
-d89b2790
-
-如果：
-
-SO runtime base ≈ d89b0000
-
-那么：
-
-d89b2790 - d89b0000
-= 0x2790
-
-再考虑：
-
-Ghidra code base = 00010000
-
-于是猜：
-
-00010000 + 00002790
-= 00012790
-
-然后让你跳过去。
+我们已经尝试过直接构造 RADIO_CONFIGURE 的简化包。
 
 结果：
 
-00012790
+common_error_code = 0x04
 
-根本不是有效代码位置。
+一直没有成功 tune。
 
-所以：
+后来查到公共头文件：
 
-这个映射已经彻底废弃。
-
-不能再拿：
-
-D89B2790 → 00012790
-
-做任何结论。
-
-十六、614 SO 中的 dm_register_so() 已经确认
-
-614 中存在：
-
-dm_register_so
-
-Ghidra：
-
-00025f40
-
-实际反汇编：
-
-00025f40  immext   #0x22e7c0
-00025f44  add      R2,PC,##0x22e7c8
-00025f48  assign   R0,#0x0
-00025f4c  jump     LAB_00024d40
-
-然后：
-
-LAB_00024d40:
-
-00024d40  immext   #0x22fa00
-00024d44  add      R14,PC,##0x22fa38
-00024d48  memw     R28,(R14)
-00024d4c  jumpr    R28
-
-这里的：
-
-R28
-
-实际取的是：
-
-<EXTERNAL>::dmm_register_dm
-
-所以调用链：
-
-dm_register_so
-       ↓
-LAB_00024d40
-       ↓
-dmm_register_dm
-
-已经彻底搞清楚。
-
-十七、dmm_register_dm 又是什么
-
-Ghidra：
-
-00255124
-
-是：
-
-<EXTERNAL>::dmm_register_dm
-
-它有：
-
-XREF:
-00024d4c  call
-00254778  data reference
+FTM_RF_DEBUG_CMD_HANDLER_FAIL = 1
+FTM_RF_DEBUG_EC_NULL_PARAM    = 2
+FTM_RF_DEBUG_EC_RSP_CREATION  = 3
 
 所以：
 
-00254778
+common_error_code=0x04
 
-不是第二个调用点。
+很值得注意。
 
-而是：
+之前一度按 bitmask 推测可能对应：
 
-PTR_dmm_register_dm_00254778
+bit 2
 
-一个函数指针槽。
+但现在公共 enum 已经明确：
 
-十八、00254708 开始是什么
+FTM_RF_DEBUG_EC_NULL_PARAM = 2
 
-我们又查看了：
+因此不能再简单把 0x04 当成“enum=2”直接下结论，必须回到固件实际 error-code 的构造方式确认。
 
-00254708
+目前最合理的解释是：
 
-这里 Ghidra 标成：
+我们确实进入了一定程度的 RFDEBUG 处理链，
+但请求内容/结构/参数还没有达到真正 RADIO_CONFIGURE 的要求。
+七、最早的路线：疯狂找 0x7B / 0x4B
 
-__DT_PLTGOT
+因为动态行为告诉我们：
 
-里面连续出现：
+DIAG 4B
+FTM 0B
+FTM cmd 7B
 
-msg_v2_send_1_dll
-rfc_hwid614...lte...C2Ev
-rfanw
-rfc_lte_dataC2Ev
-__save_r16_through_r19
-rfc_common_get_ag_error_control
-msg_v2_send_var_dll
-...
+所以最开始很自然地去找：
 
-以及：
+cmp ..., #0x7B
+cmp ..., #0x4B
+cmp ..., #0x0B
 
-00254778
-    <EXTERNAL>::dmm_register_dm
+但是很快发现：
 
-紧接着：
+简单搜索字面量无法直接定位真正 FTM RFDEBUG 入口。
 
-00254784
-    _Z31rfc_hwid614_qrm865ab_v3_ag_initm
+原因非常可能是：
 
-00254788
-    ..._deinitm
+0x7B
 
-0025478c
-    ..._resumem
+进入的是：
 
-00254790
-    ..._suspendm
+表驱动 dispatch
 
-所以我们已经证明：
+而不是：
 
-00254708 附近主要是 614 SO 自己的 dynamic/PLT/GOT/函数指针相关数据区。
+cmp.eq Rx,#0x7B
+
+所以如果 RFDEBUG 是：
+
+table[index]
+
+或者：
+
+generic dispatcher
+
+那么固件里面根本不一定出现明显的：
+
+cmp.eq ..., #0x7B
+
+这也是后面为什么逐渐停止追“裸常量”。
+
+八、qdsp6sw 当前 Ghidra 基本环境
+
+主固件：
+
+qdsp6sw.mbn
+
+Ghidra image base：
+
+0xC1600000
+
+主要 executable blocks：
+
+segment_2   c1600000-c1602fff
+segment_3   c1610000-c1647fff
+segment_4   c1690000-c16bbfff
+segment_7   c16fd000-c171dfff
+segment_8   c171e000-c177dfff
+segment_9   c1780000-c1a85fff
+segment_11  c1aa0000-c1aa4fff
+segment_12  c1aa5000-c1d4dfff
+
+后面大量代码都在：
+
+c1...
+
+区域。
+
+GP 相关：
+
+c16012e0 : assign GP,R1
+GP ≈ 0xCBF0F000
+
+其他 GP 写入：
+
+c1615d28
+c1615db4
+c1617a04
+c16b0388
+九、FREQUENCY 元数据的位置
+
+已经确认：
+
+c9199fb8   property name table
+c919a028   "FREQUENCY"
+c919a892   critical / attribute table
+c919a900   property type table
+
+都在：
+
+segment_21
+c8cb0000-c922cfff
+
+而且这一片：
+
+R/W
+non-executable
+
+问题是：
+
+对这些 property metadata 做精确 Ghidra code XREF 搜索，得到 0。
+
+raw pointer 扫描也没找到合理 code pointer。
 
 这进一步说明：
 
-dm_register_so
+FREQUENCY
 
-只是 SO 装载/注册机制。
+这些内容更像：
 
-不能把它误认为：
+metadata / descriptor / table
 
-RFDEBUG RADIO_CONFIGURE handler
-十九、现在 614 SO 真正值得追的东西是什么
+而不是“代码里直接引用字符串”。
 
-不是：
+所以继续盯着 "FREQUENCY" 字符串本身，没有太大收益。
 
-dm_register_so
+十、c184a38c 路线已经排除
 
-也不是：
+之前找到：
 
-dmm_register_dm
+FUN_c184a38c
 
-而是：
+里面出现：
 
-_Z31rfc_hwid614_qrm865ab_v3_ag_initm
+c184b698 : cmpb.eq P0,R3,#0x7b
 
-也就是：
+看起来非常诱人。
 
-rfc_hwid614_qrm865ab_v3_ag_initm
+但继续分析后发现：
 
-从 GOT 里找到的地址是：
+assign R16,R0
+memw R4,(R16)
+and R3,R4,#0xff
 
-00225834
+然后进入巨大的：
 
-这个符号关系已经非常明确。
+0x01 ... 0x7B
 
-所以现在真正下一步应该是：
+switch-like dispatcher。
 
-00225834
+可是上下文明显属于：
 
-去看：
+CFW/HDR
+内部消息 / event / object
 
-rfc_hwid614..._initm()
+不是 FTM DIAG。
 
-到底调用了哪些 RFC 框架接口。
+因此：
 
-二十、为什么这个 init 函数比 dm_register_so 有价值
+c184a38c ≠ RFDEBUG 入口
 
-因为这个函数名字本身就是：
+这条路线已经放弃。
 
-rfc_hwid614_qrm865ab_v3_ag_initm
+十一、c185b5b4 / c185b5f0 也不是主目标
 
-而 614 SO 里我们又已经知道存在：
+相关：
 
-LTE path
-FBRX
-RFM path
-SIG path
-ANT path
-PHY device config
+FUN_c185b5b4
+FUN_c185b5f0
+c1845790
 
-这正好对应 RF 配置链：
+其中：
 
-RFDEBUG
-   ↓
-RFC
-   ↓
-RFM
-   ↓
-path/device
-   ↓
-实际 RX
+c1845790
 
-所以这里可能出现：
+只是 thunk：
 
-注册 RFC object
-注册 LTE RF data
-注册 RF path
-注册 AG callbacks
+immext #0x17167d00
+jump 0xd89ad4a8
 
-如果 initm() 再调用某些外部函数，我们就可以继续追。
+而：
 
-二十一、目前哪些东西已经排除了
+c185b5b4
 
-这个非常重要，下一会话不要再重复。
+主要是：
 
-已排除 1：FUN_c184a38c
+CFW object
+callback
+event
+external API
 
-虽然存在：
+也是内部初始化/注册体系。
 
-cmpb.eq #0x7a
-cmpb.eq #0x7b
+所以这一整条：
 
-但属于：
+c185...
 
-mcdo_demod.cc
+不是现在最优 RFDEBUG ingress。
 
-不是 RFDEBUG。
+十二、c18e7a50 / c18d0970 注册链是什么
 
-不要再追。
+我们跟到：
 
-已排除 2：d89b2790 = RFDEBUG handler
+c18e7a50
 
-没有证据。
+发现注册行为。
 
-而且它有：
+其中：
 
-98 refs
+c18e7af0 : assign R1,##0xc1902c70
+c18e7af4 : call 0xc18d0970
 
-更像共享 external service。
+说明：
 
-不要再把它当 RFDEBUG handler。
+c1902c70
 
-已排除 3：d89b2790 → 614:00012790
+确实被作为 callback/function pointer 注册。
 
-这个是我们人为假设的 runtime base mapping。
+然后：
 
-实际：
+c18d0970 -> c18d0978 -> c18d09ac -> d89ad4a8
 
-00012790
-
-没有有效代码。
-
-完全废弃。
-
-已排除 4：直接通过字符串找 handler
-
-例如：
-
-FTM_RF_DEBUG
-RADIO_CONFIGURE
-Unsupported params combo
-FTM mode
-
-很多都没有 code XREF。
-
-原因很可能是：
-
-字符串来自 metadata / source filename / data table
-
-而真正 framework 是函数指针和 dispatch table。
+这一套是通用 callback registration/runtime。
 
 所以：
 
-只靠 Search → For Strings 找 handler 已经证明效率很低。
+c1902c70
 
-已排除 5：c919a028 的 FREQUENCY 字符串直接反查
+不是“绝对没东西”。
 
-我们找到了：
+但它更像：
 
-c919a028
-    -> "FREQUENCY"
+内部对象 callback
 
-而它属于完整的：
+而不是直接的：
 
-RFDEBUG radio-config property name table
+DIAG → FTM → RFDEBUG
+十三、c1902c74 为什么后来也被排除
 
-但是：
+这里：
 
-没有 meaningful code XREF
+FUN_c1902c74
+
+有：
+
+c1902ca0 : memub R2,(SP+#0x1)
+c1902ca4 : cmp.eq P0,R2,#0x4b
+c1902ca8 : jump.if(P0.new):nt 0xc1902d4c
+
+表面非常像：
+
+第一字节 = 0x4B
+
+然后分发。
+
+所以一度认为它可能是 DIAG ingress。
+
+但深入后发现：
+
+c1902c74
+
+的开头：
+
+assign R16,R0
+allocframe
+call c1902bc0
+...
+call c18d0a18
+...
+
+整个结构是内部对象/事件处理。
+
+而且：
+
+c1902ca0
+
+读的是：
+
+SP+1
+
+不是：
+
+R0 + input_offset
+
+因此这个 0x4B 极大概率只是：
+
+某个内部事件/类型字段
+
+而不是：
+
+DIAG_CMD_SUBSYS
+
+所以：
+
+c1902c74
+
+已降为次要/基本排除。
+
+十四、c1902d98 是什么
+
+c1902c74 在：
+
+c1902d68 : call c1902d98
+
+进入：
+
+FUN_c1902d98
+
+它非常大：
+
+[c1902d98, c19032f7]
+
+约：
+
+0x560 bytes+
+
+而且有：
+
+allocframe #0xec0
+
+也就是巨大的局部栈。
+
+里面做很多：
+
+buffer
+LTE/无线参数
+结构体
+表
+bit packing
+loop
+状态处理
+
+但仍然没有直接连接到：
+
+FTM RFDEBUG
+
+现在也不应再继续花大量时间深挖。
+
+十五、我们搜索了所有真正的 0x4B compare
+
+在 executable instruction 中：
+
+EXACT 0x4B COMPARES = 7
+
+主要是：
+
+c17c94d8
+c1902ca4
+c1926ab4
+c1941f54
+c1941f70
+c19887ac
+c1d1a798
+
+逐个分析后：
+
+1. c17c94d8
+c17c94d8 : cmp.eq P0,R4,#0x4b
+
+一度是最后剩下的最强候选。
+
+因为：
+
+命中 4B
+→ 立刻 branch
+→ c16191f0
+
+结构非常像协议 dispatch。
+
+后来专门做：
+
+R4 provenance
+caller ABI
+c16191f0
+
+最终证明：
+
+R4 不是输入包字节
+
+前面的关键链：
+
+c17c9484 : memub R3,(R1+##0xc16241bf)
+c17c9488 : +mpyi R3,R3,#0xd0
+c17c948c : immext ...
+c17c9490 : memh R4,(R3+##0xc9b3af54)
+
+即：
+
+R4 =
+从某个表/数组索引出来的值
+
+然后：
+
+cmp R4,#0x4B
+
+它不是直接：
+
+memub R4,(packet)
+
+所以：
+
+c17c9460 ≠ DIAG 输入包 parser
+十六、c16191f0 也已经彻底排除
+
+c16191f0：
+
+cl0 R2,R0
+cmp.eq P0,R0,#0x0
+...
+tableidxh
+extractu
+memh
+vmpyweh
+...
+
+明显是：
+
+数学 / 查表 / 定点运算
+
+不是：
+
+DIAG parser
+RFDEBUG parser
+property unpacker
+
+所以整条：
+
+c17b46f8
+    ↓
+c17c9460
+    ↓
+c16191f0
+
+已经排除。
+
+十七、c19883bc 也不像 DIAG
+
+这里：
+
+c19887ac : cmp.gt P0,R0,#0x4b
+
+然后：
+
+cmpb.eq R0,#0x4c
+cmp.gt R0,#0x64
+cmp.eq R0,#0x1c
+cmp.gtu R0,#0x8
+cmp.gt R0,#0xc
+...
+
+后面大量：
+
+d985fa98
+d9891230
+d98ac128
+d989179c
+...
+
+这明显更像：
+
+数值范围 / 控制状态 parser
+
+而不是 DIAG subsystem parser。
+
+已排。
+
+十八、c1941da8 也已经基本排除
+
+这里：
+
+c1941f54 : cmp.gt P0,R4,#0x4b
+c1941f70 : cmp.gt P0,R4,#0x4b
+
+但它们实际上是：
+
+算术运算后得到的值
+
+尤其：
+
+add R4,R2,sub(##0x4b,R1)
+cmp.gt R4,#0x4b
+
+而后：
+
+d89b2790
+
+共享 runtime。
+
+因此明显不是：
+
+cmp input_byte == 0x4B
+
+已排。
+
+十九、c1926870 不是 parser
+
+这里：
+
+c1926ab4 : cmp.gt P0,R21,#0x4b
+
+前面有：
+
+sub
+add
+asl
+table
+
+而不是：
+
+load byte → compare
+
+所以也不是。
+
+二十、c1d1a760 是什么
+
+这里：
+
+c1d1a794 : memb R2,(R22++#0x1)
+c1d1a798 : cmp.eq P0,R2,#0x4b
+
+看起来最像真正的 byte parser。
+
+但是继续看已经证明：
+
+0x4B
+→ 0x76
+→ 0x45
+→ 0x52
+→ 0x4F
+→ 0x45
+→ 0x5F
+
+即 ASCII：
+
+vEROE_
+
+同时不断：
+
+heap/list/buffer pointer
 
 所以它是：
 
-metadata
+字符串/文件/缓冲区 parser
 
-不是 handler 本体。
+和 FTM 没直接关系。
 
-已排除 6：c919a892 直接找 handler
+也排除。
 
-这个非常有价值但同样只是 metadata。
+二十一、因此“找字面量 0x4B”这条路线现在已经基本死了
 
-：
+最终结果：
 
-c919a892:
-00
-01
-01
-01
-01
-01
-01
-01
-01
-01
-00
-...
+7 个 0x4B compare
+全部没有证明是 DIAG_CMD_SUBSYS
 
-已经确认就是：
+其中：
 
-ftm_rf_debug_radio_config_prop_attrib_list[]
+c17c9460 → 排除
+c1902c74 → 排除/低优先
+c1926870 → 排除
+c1941da8 → 排除
+c19883bc → 排除
+c1d1a760 → 排除
 
-也就是 critical 属性表。
+这是一个非常重要的里程碑。
 
-但它：
+不是“什么都没找到”。
 
-没有直接 code XREF
+而是已经证明：
 
-所以还是：
+qdsp6sw 里能直接看到的 0x4B compare 基本都是无关逻辑。
 
-data / framework metadata
+所以继续扩大：
 
-不能直接当 handler。
+0x4B
+0x0B
+0x7B
 
-二十二、613/614 等 SO 为什么还值得研究
+暴力扫描，不值得了。
 
-因为这里已经出现明显的 RF backend 对应内容：
+二十二、最新真正重要的新发现：DIAG MASTER / 表驱动路由
 
-rfc_hwid614_qrm865ab_v3_ag_lte_ag
-rfc_hwid614...fbrx...
-rfc_hwid614...path...
+这是目前项目最大的转折。
 
-特别是：
+后来从外部公开逆向资料中找到了另外一份很关键的信息：
 
-get_rfm_path_info_tbl
-fbrx_cfg_data_get
-get_phy_device_cfg
-get_sig_path_info_config
-get_ant_path_info_config
-get_logical_path_config
-path_cfg_data_get
+DIAG master
+0xC8DC3B54
+FTM table
+0xC37BD1E8
+common handler
+0xD8150ED8
 
-这些名字从语义上已经明显进入：
+资料给出的结构：
 
-RFC/RFM/RX path
+DIAG master
+    ↓
+subsys 0x0B
+    ↓
+cmd 0x4B
+    ↓
+FTM table @ 0xC37BD1E8
+    ↓
+handler 0xD8150ED8
 
-所以即使它不是 RFDEBUG handler，它也极有可能是：
+并且资料进一步指出：
 
-RFDEBUG handler 最终调用到的 RF backend。
+subsys 0x0B / cmd 0x08
+→ table @ 0xC37BD1A8
+→ handler 0xD8150E24
 
-因此研究 614 SO 仍然有价值。
+还有：
 
-二十三、当前真正的结构图
+cmd 0x7B
 
-现在我们对整体架构的认识已经不是猜测，而是分成几层：
+属于这个表驱动体系。
 
-                Android / Termux
-                      │
-                      ▼
-                   /dev/diag
-                      │
-                      ▼
-               DIAG subsystem 11
-                      │
-                      ▼
-               FTM_RF_DEBUG_C
-                 subsystem 123
-                  (0x7B)
-                      │
-                      ▼
-             RFDEBUG framework
-                      │
-           ┌──────────┴──────────┐
-           │                     │
-      PROPERTY_DISCOVERY     RADIO_CONFIGURE
-           │                     │
-           ▼                     ▼
-       property metadata    property framework
-                                 │
-                                 ▼
-                           RFC / RFM layer
-                                 │
-                ┌────────────────┼──────────────┐
-                │                │              │
-                ▼                ▼              ▼
-             RFM path         SIG path       ANT path
-                │                │              │
-                └────────────────┼──────────────┘
-                                 ▼
-                            actual RF RX
+这个思路与我们前面得到的：
 
-而目前：
+为什么源码/固件里找不到直接 cmp #0x7B
 
-RFDEBUG framework
+完全吻合。
 
-这一层还没完全定位。
+因为它很可能根本不是：
 
-但：
+if(cmd == 0x7B)
 
-RFC/RFM backend
+而是：
 
-已经找到强有力的候选：
+lookup table
+→ handler pointer
+二十三、最新 Ghidra 测试就是围绕这个做的
 
-614_0_0.mbn
-二十四、目前真正卡住的位置
+最新脚本：
 
-现在不是卡在：
+TRACE_BUILD=DIAG-FTM-MASTER-1
 
-DIAG 能不能通信
+目标：
 
-这个已经解决。
+DIAG → FTM MASTER LOCATOR
 
-也不是卡在：
+首先做 address identity check：
 
-RFDEBUG subsystem 是不是 0x7B
+MASTER 0xC8DC3B54
+mapped=true
+block=segment_21
+exec=false
 
-目前也基本解决。
+说明：
 
-也不是卡在：
+0xC8DC3B54
 
-FREQUENCY 属性 ID 是多少
+确实存在于当前 Ghidra qdsp6sw。
 
-这个也解决：
+FTM table：
 
-28
+FTM_TABLE 0xC37BD1E8
+mapped=true
+block=segment_19
+exec=false
 
-更不是卡在：
+也存在。
 
-821.2375 MHz 怎么表示
+但是：
 
-这个也解决：
+COMMON_DISPATCH 0xD8150ED8
+mapped=false
+block=<none>
 
-0x30F316FC
+关键问题出现了。
 
-现在唯一真正的难点是：
+二十四、最新扫描结果
 
-找到 RFDEBUG → RADIO_CONFIGURE → property framework → RFC/RFM 的真实代码调用关系。
+脚本扫描了这些非执行区：
 
-二十五、当前最值得做的下一步
+segment_27
+segment_28
+segment_5
+segment_6
+segment_10
+segment_13
+segment_14
+segment_15
+segment_16
+segment_17
+segment_18
+segment_19
+segment_20
+segment_21
+segment_22
+segment_23
+segment_24
+segment_25
+segment_26
 
-下一会话第一步不要发 DIAG。
+以及：
 
-也不要继续搜索：
+elfHeader
+elfProgramHeaders
+unallocated
 
-FTM_RF_DEBUG
+总共：
 
-更不要再追：
+SCANNED POSITIONS=2500000
 
-d89b2790
+但是：
 
-而是直接：
+MASTER CANDIDATES=0
 
-614_0_0.mbn
-       ↓
-rfc_hwid614_qrm865ab_v3_ag_initm
-       ↓
-Ghidra 00225834
+也就是：
 
-查看真实 Hexagon 指令。
+当前脚本没有在现有 qdsp6sw 数据区找到符合预设 layout 的 DIAG master table。
 
-我们当前已经从：
+二十五、这个最新结果到底说明什么
 
-PLTGOT
+这个结论非常重要，不能简单理解成：
 
-准确得到：
+“地址是假的。”
 
-00254784
-    -> 00225834
+目前实际上是：
 
-对应：
+C8DC3B54   存在
+C37BD1E8   存在
+D8150ED8   不存在
+
+因此至少有三种可能。
+
+情况 A：主固件里保存的是 table/data，但 handler 在另一个 image
+
+这是目前非常值得怀疑的情况。
+
+例如：
+
+qdsp6sw.mbn
+    ↓
+data / dispatcher registration
+    ↓
+另一个 q6zip / compressed image
+    ↓
+handler code
+
+尤其之前资料已经明确提到：
+
+0xD8150ED8
+0xD8150E24
+0xD815056C
+
+都是：
+
+inseg() = None
+
+并且：
+
+0xD8150ED8
+出现 76 次
+全部在 seg21 rodata
+0 次代码
+
+这和“指针表里保存了另一个映像中的地址”非常吻合。
+
+情况 B：地址属于另一版/另一 build
+
+也可能公开逆向资料对应：
+
+不同 modem image
+不同版本
+不同 unpack 后布局
+
+因此：
+
+C8DC3B54
+C37BD1E8
+
+碰巧还能落在当前 qdsp6sw 的可映射内存里，但：
+
+D8150ED8
+
+已经不对应当前 build。
+
+这种情况下：
+
+地址数值相同
+≠ 当前固件语义一定相同
+
+必须直接检查表内容。
+
+情况 C：我们现在 Ghidra 加载的 qdsp6sw 并不是完整的 DIAG/FTM code image
+
+这个可能性也一直存在。
+
+因为：
+
+handler address > 0xD8...
+
+而当前代码主要：
+
+C1...
+
+说明 handler 很可能就在当前 qdsp6sw 地址空间之外。
+
+二十六、所以现在真正应该做什么
+
+现在不应该再：
+
+全局扫 0x4B
+全局扫 0x7B
+全局扫 "FREQUENCY"
+找字符串 XREF
+
+应该改成：
+
+直接验证 C8DC3B54 / C37BD1E8 的真实数据结构
+
+这是下一阶段核心。
+
+因为现在已经有一个非常具体的起点：
+
+C8DC3B54
+C37BD1E8
+
+而不是再从整个 6～7 MB / 数十 MB 代码里乱找。
+
+二十七、下一步第一优先：直接 dump C8DC3B54
+
+应该看：
+
+0xC8DC3B54
+
+附近几十/几百字节的：
+
+raw bytes
+
+然后识别：
+
+subsystem
+command
+handler pointer
+
+尤其要判断：
+
+C8DC3B54
+
+究竟是：
+
+A. master struct
+B. pointer to master table
+C. table entry
+D. callback object
+E. 完全无关的巧合地址
+
+这一点必须直接看数据。
+
+二十八、第二优先：直接 dump C37BD1E8
+
+同样：
+
+C37BD1E8
+
+附近至少：
+
+0x200~0x500 bytes
+
+但必须小块、有硬限制。
+
+因为公开资料已经给出：
+
+cmd 0x4B
+
+与：
+
+handler 0xD8150ED8
+
+的关系。
+
+我们应该尝试在当前 qdsp6sw 中找出类似：
+
+[cmd]
+[something]
+[handler]
+
+的实际结构。
+
+不能再“猜布局”。
+
+二十九、如果 C37BD1E8 确实是表，下一步就不是找 7B，而是找表的消费者
+
+这个逻辑非常关键。
+
+不要：
+
+找 cmp #0x7B
+
+而是：
+
+找到 C37BD1E8
+        ↓
+找谁读取 C37BD1E8
+        ↓
+找到 master dispatch function
+        ↓
+找到 handler lookup
+        ↓
+handler 是外部地址
+        ↓
+确认那个外部 image
+
+这条路线理论上比字面量搜索靠谱得多。
+
+三十、为什么现在特别需要看“谁引用 C37BD1E8”
+
+因为：
+
+C37BD1E8
+
+本身已经是：
+
+非执行区
+
+如果它真是命令表，那么真正的：
+
+DIAG master dispatcher
+
+一定会出现：
+
+load pointer
+index
+lookup
+indirect jump/call
+
+或者：
+
+table lookup
+
+这是更稳定的静态特征。
+
+比：
+
+cmp.eq #0x7B
+
+稳定得多。
+
+三十一、接下来还要重点解决一个问题：D8150ED8 为什么不在当前 image
+
+这其实可能是整个项目最关键的突破口。
+
+当前：
+
+CURRENT IMAGE BASE = C1600000
+
+但是 handler：
+
+D8150ED8
+
+不属于当前 Ghidra memory blocks。
+
+这不是坏消息。
+
+反而意味着：
+
+我们可能终于找到了 qdsp6sw 和另一个 modem image 之间的接口边界。
+
+之前一直在 qdsp6sw 内部找 RFDEBUG code，很可能方向本身就不完全正确。
+
+可能结构是：
+
+DIAG core
+   ↓
+table in qdsp6sw/data region
+   ↓
+handler pointer
+   ↓
+另一份代码 image
+   ↓
+FTM RFDEBUG
+   ↓
+RF configuration
+三十二、这个项目里 614_0_0.mbn 的作用
+
+另外还有一份重要文件：
+
+/vendor/firmware_mnt/image/modem_pr/so/614_0_0.mbn
+
+实际从手机只读 pull：
+
+D:\X55RE\614_0_0_phone.mbn
+
+大小：
+
+2390128 bytes
+
+SHA-256：
+
+45e71bc6a68fe5037f0d298de1fbcd130ae1f8fea9e4944f00824bab95801b8c
+
+MD5：
+
+54ede46b082ff4de693afb0378c96333
+
+文件绝对不能修改。
+
+这是：
+
+RFC SO module
+
+ELF：
+
+ET_DYN
+EM_HEXAGON
+
+Ghidra base：
+
+0x00010000
+
+Memory：
+
+segment_2  00010000-00026b62  R-X
+segment_3  00027000-002548a7  RW
+EXTERNAL   00255000-00255143
+三十三、614_0_0 的 API 已经确定是 RFC backend/export
+
+符号：
 
 _Z31rfc_hwid614_qrm865ab_v3_ag_initm
 
-所以这不是猜地址，而是真实 ELF 符号对应关系。
+以及：
 
-二十六、下一会话第一动作，严格只做这个
+get_rfm_path_info_tbl
+get_signals_info
+get_phy_device_cfg
+get_logical_device_cfg
+get_logical_path_config
+get_ant_path_info_config
+get_sig_path_info_config
+get_cmn_properties
+path_cfg_data_get
+fbrx_cfg_data_get
 
-在 614_0_0.mbn 的 Ghidra 里：
+这些全部存在。
 
-G
+但特点是：
 
-输入：
+没有内部 caller
+很多 DATA / EXTERNAL XREF
 
-00225834
+说明：
 
-然后把：
+它更像 RFC backend/export module。
 
-00225834
+真正 caller 在其他 image。
 
-开始的实际反汇编贴出来。
+三十四、614_0_0 的 PLT/GOT 也已经分析
 
-最好一直到：
+例如：
 
-002258A0
+__DT_PLTGOT = 00254708
+PLT = 0x24BC0
 
-左右。
+GOT：
 
-不要自己分析，也不用再找周围字符串。直接把指令贴出来。
+00254718 = msg_v2_send_1_dll
 
-我们从这里开始继续。
+附近还有：
 
-二十七、一个非常重要的“不要走回头路”清单
+RFC funcs
+getter funcs
+lifecycle
 
-下一会话请直接把下面这些当成已经确定的：
+说明这确实是一个：
 
-RFDEBUG subsystem = 0x7B
-DIAG subsystem    = 0x0B / FTM
-RADIO_CONFIGURE   = command 1
-technology        = 3 / LTE
-FREQUENCY         = property 28
-target            = 821,237,500 Hz
-target hex        = 0x30F316FC
-error 0x04        = error mask bit 2 / NULL_PARAM
+dynamic module
+
+不是我们现在直接能从里面找到 DIAG master parser 的地方。
+
+三十五、C472 descriptor table 也已经排除
+
+之前发现：
+
+C472 unified descriptor table @ c472201c
+
+看起来像统一 dispatch。
+
+但深入发现：
+
+16-byte logging metadata
++08 = 2 REPACK
+
+而且只是：
+
+logging metadata
+
+不是 command dispatch table。
+
+所以也不要重新走这条路。
+
+三十六、d89b2790 也不要再误认为 RFDEBUG
+
+当前代码里经常见到：
+
+thunk_EXT_FUN_d89b2790
 
 已经确认：
 
-0x7A / 0x7C / 0x5555
+98 个 direct refs
 
-没有正常响应。
+它是：
 
-已经确认：
+external/shared runtime
 
-c184a38c
-
-是错误路线。
-
-已经确认：
+目前没有证据证明：
 
 d89b2790
 
-不是目前可以证明的 RFDEBUG handler。
+就是 RFDEBUG dispatcher。
 
-已经确认：
+所以：
 
-00012790
+不要再从 d89b2790 反推出 RFDEBUG
+三十七、真正的当前状态
 
-那条映射假设错误。
+把整个项目压缩成一张图就是：
 
-已经确认：
+手机 DIAG TX
+    │
+    │ 4B 0B 7B 00 ...
+    ▼
+DIAG subsystem
+    │
+    │ 0x0B = FTM
+    │ 0x7B = RFDEBUG entry command
+    ▼
+FTM/RFDEBUG
+    │
+    ├── command 1 = RADIO_CONFIGURE
+    │
+    ├── property 28 = FREQUENCY
+    │
+    └── value = 821237500 Hz
+    │
+    ▼
+RFM / RFC
+    │
+    ▼
+LTE RX path
 
-614_0_0.mbn
+而我们现在静态逆向真正卡住的是：
 
-是真正的：
+        ↓
+DIAG/FTM master dispatcher
+        ↓
+真正的 RFDEBUG common handler
+三十八、最新真正的静态突破口
 
-Hexagon ET_DYN RFC SO
+现在最有价值的地址不是：
 
-里面有大量实际：
+c17c9460
+c1902c74
+c19883bc
 
-RFM / FBRX / LTE path / RF path
+而是：
 
-代码符号。
+C8DC3B54
+C37BD1E8
+D8150ED8
 
-现在唯一继续往前推进的关键点：
+其中：
 
-614:
-rfc_hwid614_qrm865ab_v3_ag_initm
-            ↓
-        00225834
-二十八、最后给你一句话概括目前进度
+C8DC3B54 = DIAG master candidate
+C37BD1E8 = FTM table candidate
+D8150ED8 = common handler candidate
 
-我们已经从最开始的：
+当前状态：
 
-“为什么我的 RFDEBUG 请求返回 0x04？”
+C8DC3B54
+→ 当前 qdsp6sw 已映射
 
-推进到了：
+C37BD1E8
+→ 当前 qdsp6sw 已映射
 
-已经确认请求确实进入 RFDEBUG，0x04 是 NULL_PARAM 位；已经确定 RADIO_CONFIGURE、LTE、FREQUENCY=28、目标频率的准确表示；已经排除了一个看似 RFDEBUG 实际属于 demod 的假 dispatcher；又定位到了真正的 Qualcomm RFC 614 Hexagon SO，并从它的 ELF 符号表找到真实 RFC 初始化入口 00225834。
+D8150ED8
+→ 当前 qdsp6sw 未映射
 
-所以现在不是从头开始找了。
+这是下一阶段必须围绕的核心。
 
-现在就差把 00225834 的真实代码解出来，然后沿着 RFC 注册/初始化链继续往下走。
+三十九、最新脚本 DIAG-FTM-MASTER-1 做了什么
 
-你刚才那个 GitHub 文件也已经被我直接读过了，当前交接上下文就是以你仓库里的 《新建文本文档 (2).txt》 为准。
+最新运行的脚本标题：
 
-你已达到此对话的长度上限，你可以开始新聊天以继续对话。
+Ghidra_RFDEBUG_Trace
+TRACE_BUILD=DIAG-FTM-MASTER-1
+DIAG -> FTM MASTER LOCATOR / READ ONLY
+
+它做了：
+
+1. 地址身份确认
+2. 扫 master/table 周边结构
+3. 尝试识别 subsys 0x0B
+4. 尝试识别 cmd 0x4B
+5. 尝试识别 FTM table
+6. 尝试寻找 handler pointer
+
+结果：
+
+MASTER CANDIDATES=0
+SCANNED POSITIONS=2500000
+
+所以当前脚本的“结构假设”没有在 250 万个候选位置里匹配成功。
+
+这不等于：
+
+C8DC3B54 / C37BD1E8 无效
+
+只是：
+
+我们设计的 table layout matcher 没匹配出来
+
+这是非常重要的区别。
+
+四十、下一版本脚本应该怎么改
+
+不要再做：
+
+2500000 positions
+猜 table layout
+
+下一版应该直接做：
+
+第一部分：raw dump
+
+只读：
+
+C8DC3B54 ± 0x100
+C37BD1E8 ± 0x200
+
+输出：
+
+地址
+16进制 bytes
+可能的 16/32/64 位值
+Ghidra Data
+XREF
+所在 memory block
+
+这样先“看数据”，不要“猜结构”。
+
+第二部分：找 C37BD1E8 的直接引用
+
+重点：
+
+ReferenceManager.getReferencesTo(
+    toAddr(0xC37BD1E8)
+)
+
+只找：
+
+code refs
+data refs
+
+如果没有直接 XREF：
+
+再做小范围 raw pointer 扫描
+
+但只扫：
+
+segment_19
+附近几个 segment
+
+不能再全内存暴力扫。
+
+第三部分：找 C8DC3B54 的引用
+
+同样：
+
+getReferencesTo(C8DC3B54)
+
+看看：
+
+谁初始化它
+谁读取它
+谁把它传给函数
+
+这一步如果出现：
+
+call
+load pointer
+indirect jump
+
+意义极大。
+
+第四部分：分析 C37BD1E8 周围表项
+
+如果确认它真是：
+
+command table
+
+就把表项逐个解析成：
+
+index
+command
+handler
+flags
+
+重点找：
+
+0x4B
+0x7A
+0x7B
+0x7C
+
+而不是再扫所有 0x7B。
+
+四十一、如果发现表中真的存在 D8150ED8
+
+那就进入下一阶段：
+
+D8150ED8
+
+虽然当前 qdsp6sw 不映射，
+
+但可以：
+
+1. 查当前整个 modem image 集合
+2. 找哪个 image 覆盖 D8150...
+3. 在那个 image 建 Ghidra
+4. 继续找 RFDEBUG handler
+
+这个时候才是正确的“跨 image”路线。
+
+四十二、特别值得搜索的 image
+
+根据现在的证据，下一步不是只看：
+
+qdsp6sw.mbn
+
+而是应该优先检查：
+
+modem
+q6zip
+MPSS
+相关压缩/解压后的 Hexagon image
+
+尤其之前资料已经明确提到：
+
+D8150ED8
+D8150E24
+D815056C
+
+都不属于当前 PH 覆盖。
+
+这非常像：
+
+另一个 code image
+
+而不是随机地址。
+
+四十三、当前不能做的事情
+
+后续继续项目时必须牢记：
+
+绝对不要：
+写 614_0_0
+写 qdsp6sw
+写手机 modem
+尝试实际 FTM tune
+TX_OVERRIDE
+TX_MEASURE
+
+因为目前连完整静态 handler 链都还没有完全确认。
+
+所有实验继续：
+
+read-only
+四十四、Ghidra 脚本硬性要求
+
+以后所有脚本：
+
+public class Ghidra_RFDEBUG_Trace extends GhidraScript
+
+文件名必须：
+
+Ghidra_RFDEBUG_Trace.java
+
+固定 GitHub：
+
+rzwcl/LBJ_Map/Ghidra_RFDEBUG_Trace.java
+
+用户要求：
+
+同一个文件覆盖更新，不要产生一堆新脚本。
+
+而且必须：
+
+monitor.isCancelled()
+MAX_GLOBAL_INSNS
+MAX_FUNCTION_INSNS
+MAX_LINES
+
+任何全局扫描都必须有限。
+
+绝对不要：
+
+InstructionIterator.toArray()
+
+不要：
+
+getReferencesTo() 当数组
+
+正确：
+
+ReferenceIterator
+
+不要定义：
+
+private Address toAddr(long x)
+
+因为：
+
+FlatProgramAPI.toAddr(long)
+
+已经是 final。
+
+不要：
+
+new AddressSet(block.getAddressRange())
+
+应该：
+
+new AddressSet(block.getStart(), block.getEnd())
+
+不要做整块几十 MB：
+
+byte[]
+
+raw scan 用 chunk。
+
+四十五、Ghidra 已经踩过的坑
+
+以后尤其注意这些：
+
+1. Instruction import
+
+必须：
+
+import ghidra.program.model.listing.Instruction;
+2. InstructionIterator
+
+不能：
+
+.toArray()
+
+只能：
+
+while (it.hasNext()) {
+    Instruction ins = it.next();
+}
+3. ReferenceIterator
+
+不能：
+
+Reference[] refs = ...
+
+必须：
+
+ReferenceIterator rit = ...
+while (rit.hasNext()) ...
+4. 方法嵌套
+
+之前有一次自动 patch 把方法插进了另一个方法里面，导致 Java 结构直接坏掉。
+
+所以以后：
+
+每次更新前都重新读取 GitHub 当前完整文件，再做字符串级确定位置替换。
+
+四十六、已经知道哪些路线“不要再走”
+
+可以直接列为：
+
+❌ c184a38c
+❌ c185b5b4/c185b5f0
+❌ c1902c74
+❌ c1902d98 深挖
+❌ c17c9460
+❌ c16191f0
+❌ c1926870
+❌ c1941da8
+❌ c19883bc
+❌ c1d1a760
+❌ C472 unified descriptor
+❌ 仅凭 d89b2790 判断 RFDEBUG
+❌ 全局扫 0x4B
+❌ 全局扫 0x7B
+❌ 只追 "FREQUENCY" 字符串 XREF
+
+不是说这些地址绝对与 modem 完全无关，而是：
+
+已经没有证据支持它们是当前这条 RFDEBUG ingress 路径。
+
+四十七、现在真正的优先级
+
+当前优先级应该是：
+
+★★★★★
+C37BD1E8
+C8DC3B54
+
+★★★★☆
+D8150ED8 / D8150E24 / D815056C 对应哪个 image
+
+★★★☆☆
+DIAG master dispatcher 的消费者
+
+★★☆☆☆
+RFDEBUG common handler
+
+★☆☆☆☆
+FREQUENCY property 的实际 setter
+
+换句话说：
+
+我们现在已经不应该继续在 qdsp6sw 里“猜哪个函数是 RFDEBUG”。
+
+应该从已经被外部分析锁定的 master/table 地址反向进入。
+
+四十八、下一会话第一句话应该是什么
+
+可以直接把下面这段发给下一会话：
+
+继续 X55 DIAG→FTM→RFDEBUG 逆向项目。
+
+目标：
+静态确认 DIAG 0x4B → FTM SSID 0x0B → cmd 0x7B → RFDEBUG → RADIO_CONFIGURE → FREQUENCY(28) 的真实 handler 链。
+
+目标频率：
+821237500 Hz = 0x30F316FC = FC 16 F3 30 LE。
+
+已经证明：
+1. 动态包 4B 0B 7B 00 ... 会返回 RFDEBUG 格式响应。
+2. 0x7B 是 FTM 内部 command，不是独立 RFDEBUG SSID。
+3. RADIO_CONFIGURE=1。
+4. FREQUENCY property=28。
+5. property record=4-byte type + 8-byte value。
+6. 直接在 qdsp6sw 中搜 0x4B/0x7B 的路线已经基本排除。
+7. c17c9460 的 0x4B 来自表查值，不是输入 packet；c16191f0 是数学函数。
+8. c1902c74 的 0x4B 是 SP+1 内部字段，不是 DIAG ingress。
+9. c1d1a760 是字符串 parser。
+10. c1941da8/c19883bc/c1926870 也已经排除。
+
+最新外部静态资料给出：
+DIAG master = 0xC8DC3B54
+FTM table = 0xC37BD1E8
+common handler = 0xD8150ED8
+另外 cmd 0x08 table = 0xC37BD1A8 → handler 0xD8150E24。
+
+当前 qdsp6sw：
+image base = 0xC1600000
+C8DC3B54 mapped=true, segment_21, non-exec
+C37BD1E8 mapped=true, segment_19, non-exec
+D8150ED8 mapped=false。
+
+最新 DIAG-FTM-MASTER-1 脚本扫描 2500000 positions，
+MASTER CANDIDATES=0。
+这只说明当前 table-layout matcher 没匹配出来，不代表两个地址无效。
+
+下一步不要再全局扫 4B/7B。
+直接：
+1. raw dump C8DC3B54 附近；
+2. raw dump C37BD1E8 附近；
+3. getReferencesTo(C8DC3B54)；
+4. getReferencesTo(C37BD1E8)；
+5. 必要时只对 segment_19/21 做小范围 pointer scan；
+6. 判断这两个地址真实结构；
+7. 然后找 table consumer；
+8. 再确认 D8150ED8 属于哪个 modem image；
+9. 如果在另一个 image，就切换到对应 image 继续追。
+
+所有 Ghidra 脚本：
+public class Ghidra_RFDEBUG_Trace extends GhidraScript
+固定文件：
+rzwcl/LBJ_Map/Ghidra_RFDEBUG_Trace.java
+必须 read-only、hard limit、monitor.isCancelled()。
+同一个 GitHub 文件覆盖更新。
+不要修改 modem。
+四十九、现在项目到底“到哪了”
+
+一句话概括：
+
+我们已经把 RFDEBUG 协议本身基本搞明白，也把 qdsp6sw 里看起来像 DIAG parser 的几个假目标逐个排掉了；现在真正进入“DIAG master table → 跨 image handler”阶段。
+
+更具体地说：
+
+协议层             ✅ 基本确认
+DIAG 4B            ✅
+FTM SSID 0B        ✅
+FTM cmd 7B         ✅ 动态确认
+RFDEBUG CMD 1      ✅
+RADIO_CONFIGURE    ✅
+FREQUENCY=28       ✅
+property layout    ✅
+
+qdsp6sw 直接 4B 路线   ❌ 基本排除
+qdsp6sw 直接 7B 路线   ❌ 基本排除
+
+DIAG master candidate  ✅ C8DC3B54
+FTM table candidate     ✅ C37BD1E8
+common handler          ⚠️ D8150ED8 不在当前 image
+
+真正 dispatcher        ❗ 尚未定位
+RFDEBUG common handler  ❗ 尚未定位
+RADIO_CONFIGURE handler ❗ 尚未定位
+FREQUENCY setter        ❗ 尚未定位
+RFM/RFC实际调用         ❗ 尚未完整连上
+
+所以现在不是重新开始，而是已经从“猜函数”走到了“锁定表结构和跨 image 路由”的阶段。
+
+下一阶段最重要的不是更多扫描，而是把：
+
+C8DC3B54
+C37BD1E8
+
+这两个点直接剖开，确认它们究竟是什么。
