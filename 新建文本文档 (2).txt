@@ -1,604 +1,207 @@
-TraceRFDebugProperty28.java> Running...
+TraceRFDebugPropertyHelpers.java> Running...
 ============================================================
- RFDEBUG PROPERTY 28 TRACE
+ RFDEBUG PROPERTY HELPER TRACE
  Program : qdsp6sw.mbn
  Image   : c1600000
  READ ONLY
 ============================================================
 
-Target:
-  RFDEBUG dispatcher = 0xC184A38C
-  RFDEBUG 0x7B branch = 0xC184B6A0 - 0xC184CDD4
-  Property 28 = FREQUENCY
-  Property type numeric value = 0x1C
-  Property record size = 0xC bytes
+TARGET AREA
+  CORE          = 0xC184B690 - 0xC184B780
+  PROPERTY LOOP = 0xC184B700 - 0xC184B748
+  RECORD SIZE   = 0xC bytes
+  PROPERTY 28   = 0x1C (FREQUENCY)
 
-IMPORTANT:
-This script does NOT treat every numeric #0x1C as
-FREQUENCY. It only reports #0x1C comparisons inside
-the known RFDEBUG 0x7B branch and prints the source
-register/provenance for manual verification.
 
-[RFDEBUG BRANCH CALL #1]
+------------------------------------------------------------
+[1] EXACT RFDEBUG CORE INSTRUCTIONS
+------------------------------------------------------------
+  c184b690 : assign.if(!P0.new) R6,##0x8008211 
+  c184b694 : jump.if(P0.new):nt 0xc184cd94 
+  c184b698 : cmpb.eq P0,R3,#0x7b 
+  c184b69c : jump.if(!P0.new):nt 0xc184cdd4 
+  c184b6a0 : memub R1,(R17) ; memub R2,(R17+#0x1) 
+  c184b6a4 : or R3,R2,R1 
+  c184b6a8 : immext #0x1300 
+  c184b6ac : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):t 0xc184c9c8 
+  c184b6b0 : memuh R3,(R21) 
+  c184b6b4 : memub R4,(R20+#0x22) 
   c184b6b8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #2]
+  c184b6bc : immext #0xd61538c0 
+  c184b6c0 : assign R0,##0xd61538dc 
+  c184b6c4 : immext #0xcf853fc0 
+  c184b6c8 : assign R0,##0xcf853fd4 
+  c184b6cc : memub R1,(R17) ; memuh R3,(R21) 
   c184b6d0 : call 0xc18453bc 
-
-[RFDEBUG BRANCH CALL #3]
+  c184b6d4 : memub R2,(R17+#0x1) 
+  c184b6d8 : memub R4,(R20+#0x22) 
   c184b6dc : call 0xc1619338 
-
-------------------------------------------------------------
-[PROPERTY RECORD SHAPE #1]
-  ADDRESS : c184b71c
-  CENTER  : memw.if(!P0.new) R6,(R8) 
-  FUNCTION : c184a38c FUN_c184a38c
-  RANGE    : c184a38c - c184d2f7
-
-  This pattern contains:
-    memory load
-    another memory load involving +0x4
-    pointer movement involving +0xC
-  This is only a STRUCTURAL candidate.
-  It is NOT yet proven to be RFDEBUG property parsing.
-
-  PREVIOUS:
-    c184b718 : jump.if(P0.new):nt 0xc184b73c 
-    c184b714 : !tstbit P0,R2,R5 
-    c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
-    c184b70c : immext #0xc1d9c1c0 
-    c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
-    c184b704 : immext #0xc1d9c1c0 
-    c184b700 : loop0 0xc184b714,#0x8 
-    c184b6fc : cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184b79c 
-
-  NEXT:
-    c184b720 : add R7,R6,R3 
-    c184b724 : memw R6,(R6+R3) 
-    c184b728 : memw (R4),R6.new 
-    c184b72c : memw R6,(R7+#0x8) 
-    c184b730 : memw (R4+#0x8),R6.new 
-    c184b734 : memw R6,(R7+#0x4) 
-    c184b738 : memw (R4+#0x4),R6.new 
-    c184b73c : add R4,R4,#0xc 
-    c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
-    c184b744 : memuh R2,(R16+#0x10) 
-------------------------------------------------------------
-
-------------------------------------------------------------
-[PROPERTY RECORD SHAPE #2]
-  ADDRESS : c184b724
-  CENTER  : memw R6,(R6+R3) 
-  FUNCTION : c184a38c FUN_c184a38c
-  RANGE    : c184a38c - c184d2f7
-
-  This pattern contains:
-    memory load
-    another memory load involving +0x4
-    pointer movement involving +0xC
-  This is only a STRUCTURAL candidate.
-  It is NOT yet proven to be RFDEBUG property parsing.
-
-  PREVIOUS:
-    c184b720 : add R7,R6,R3 
-    c184b71c : memw.if(!P0.new) R6,(R8) 
-    c184b718 : jump.if(P0.new):nt 0xc184b73c 
-    c184b714 : !tstbit P0,R2,R5 
-    c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
-    c184b70c : immext #0xc1d9c1c0 
-    c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
-    c184b704 : immext #0xc1d9c1c0 
-
-  NEXT:
-    c184b728 : memw (R4),R6.new 
-    c184b72c : memw R6,(R7+#0x8) 
-    c184b730 : memw (R4+#0x8),R6.new 
-    c184b734 : memw R6,(R7+#0x4) 
-    c184b738 : memw (R4+#0x4),R6.new 
-    c184b73c : add R4,R4,#0xc 
-    c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
-    c184b744 : memuh R2,(R16+#0x10) 
-    c184b748 : immext #0xc1d9c200 
-    c184b74c : memh (##0xc1d9c238),R2.new 
-------------------------------------------------------------
-
-------------------------------------------------------------
-[PROPERTY RECORD SHAPE #3]
-  ADDRESS : c184b728
-  CENTER  : memw (R4),R6.new 
-  FUNCTION : c184a38c FUN_c184a38c
-  RANGE    : c184a38c - c184d2f7
-
-  This pattern contains:
-    memory load
-    another memory load involving +0x4
-    pointer movement involving +0xC
-  This is only a STRUCTURAL candidate.
-  It is NOT yet proven to be RFDEBUG property parsing.
-
-  PREVIOUS:
-    c184b724 : memw R6,(R6+R3) 
-    c184b720 : add R7,R6,R3 
-    c184b71c : memw.if(!P0.new) R6,(R8) 
-    c184b718 : jump.if(P0.new):nt 0xc184b73c 
-    c184b714 : !tstbit P0,R2,R5 
-    c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
-    c184b70c : immext #0xc1d9c1c0 
-    c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
-
-  NEXT:
-    c184b72c : memw R6,(R7+#0x8) 
-    c184b730 : memw (R4+#0x8),R6.new 
-    c184b734 : memw R6,(R7+#0x4) 
-    c184b738 : memw (R4+#0x4),R6.new 
-    c184b73c : add R4,R4,#0xc 
-    c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
-    c184b744 : memuh R2,(R16+#0x10) 
-    c184b748 : immext #0xc1d9c200 
-    c184b74c : memh (##0xc1d9c238),R2.new 
-    c184b750 : immext #0xc4eea700 
-------------------------------------------------------------
-
-------------------------------------------------------------
-[PROPERTY RECORD SHAPE #4]
-  ADDRESS : c184b72c
-  CENTER  : memw R6,(R7+#0x8) 
-  FUNCTION : c184a38c FUN_c184a38c
-  RANGE    : c184a38c - c184d2f7
-
-  This pattern contains:
-    memory load
-    another memory load involving +0x4
-    pointer movement involving +0xC
-  This is only a STRUCTURAL candidate.
-  It is NOT yet proven to be RFDEBUG property parsing.
-
-  PREVIOUS:
-    c184b728 : memw (R4),R6.new 
-    c184b724 : memw R6,(R6+R3) 
-    c184b720 : add R7,R6,R3 
-    c184b71c : memw.if(!P0.new) R6,(R8) 
-    c184b718 : jump.if(P0.new):nt 0xc184b73c 
-    c184b714 : !tstbit P0,R2,R5 
-    c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
-    c184b70c : immext #0xc1d9c1c0 
-
-  NEXT:
-    c184b730 : memw (R4+#0x8),R6.new 
-    c184b734 : memw R6,(R7+#0x4) 
-    c184b738 : memw (R4+#0x4),R6.new 
-    c184b73c : add R4,R4,#0xc 
-    c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
-    c184b744 : memuh R2,(R16+#0x10) 
-    c184b748 : immext #0xc1d9c200 
-    c184b74c : memh (##0xc1d9c238),R2.new 
-    c184b750 : immext #0xc4eea700 
-    c184b754 : assign R0,##0xc4eea72b 
-------------------------------------------------------------
-
-------------------------------------------------------------
-[PROPERTY RECORD SHAPE #5]
-  ADDRESS : c184b730
-  CENTER  : memw (R4+#0x8),R6.new 
-  FUNCTION : c184a38c FUN_c184a38c
-  RANGE    : c184a38c - c184d2f7
-
-  This pattern contains:
-    memory load
-    another memory load involving +0x4
-    pointer movement involving +0xC
-  This is only a STRUCTURAL candidate.
-  It is NOT yet proven to be RFDEBUG property parsing.
-
-  PREVIOUS:
-    c184b72c : memw R6,(R7+#0x8) 
-    c184b728 : memw (R4),R6.new 
-    c184b724 : memw R6,(R6+R3) 
-    c184b720 : add R7,R6,R3 
-    c184b71c : memw.if(!P0.new) R6,(R8) 
-    c184b718 : jump.if(P0.new):nt 0xc184b73c 
-    c184b714 : !tstbit P0,R2,R5 
-    c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
-
-  NEXT:
-    c184b734 : memw R6,(R7+#0x4) 
-    c184b738 : memw (R4+#0x4),R6.new 
-    c184b73c : add R4,R4,#0xc 
-    c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
-    c184b744 : memuh R2,(R16+#0x10) 
-    c184b748 : immext #0xc1d9c200 
-    c184b74c : memh (##0xc1d9c238),R2.new 
-    c184b750 : immext #0xc4eea700 
-    c184b754 : assign R0,##0xc4eea72b 
-    c184b758 : memub R4,(R16+#0x12) 
-------------------------------------------------------------
-
-------------------------------------------------------------
-[PROPERTY RECORD SHAPE #6]
-  ADDRESS : c184b734
-  CENTER  : memw R6,(R7+#0x4) 
-  FUNCTION : c184a38c FUN_c184a38c
-  RANGE    : c184a38c - c184d2f7
-
-  This pattern contains:
-    memory load
-    another memory load involving +0x4
-    pointer movement involving +0xC
-  This is only a STRUCTURAL candidate.
-  It is NOT yet proven to be RFDEBUG property parsing.
-
-  PREVIOUS:
-    c184b730 : memw (R4+#0x8),R6.new 
-    c184b72c : memw R6,(R7+#0x8) 
-    c184b728 : memw (R4),R6.new 
-    c184b724 : memw R6,(R6+R3) 
-    c184b720 : add R7,R6,R3 
-    c184b71c : memw.if(!P0.new) R6,(R8) 
-    c184b718 : jump.if(P0.new):nt 0xc184b73c 
-    c184b714 : !tstbit P0,R2,R5 
-
-  NEXT:
-    c184b738 : memw (R4+#0x4),R6.new 
-    c184b73c : add R4,R4,#0xc 
-    c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
-    c184b744 : memuh R2,(R16+#0x10) 
-    c184b748 : immext #0xc1d9c200 
-    c184b74c : memh (##0xc1d9c238),R2.new 
-    c184b750 : immext #0xc4eea700 
-    c184b754 : assign R0,##0xc4eea72b 
-    c184b758 : memub R4,(R16+#0x12) 
-    c184b75c : memb (R18+#0x74),R4.new 
-------------------------------------------------------------
-
-[RFDEBUG BRANCH CALL #4]
+  c184b6e0 : memub R2,(R19) 
+  c184b6e4 : setbit R2,R2,#0x2 
+  c184b6e8 : immext #0x1740 
+  c184b6ec : jump.if:nt !cmp.eq(R2.new,#0x6),0xc184ce4c 
+  c184b6f0 : immext #0xcaf8e700 
+  c184b6f4 : assign R8,##0xcaf8e700 
+  c184b6f8 : memuh R2,(R16+#0x10) 
+  c184b6fc : cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184b79c 
+  c184b700 : loop0 0xc184b714,#0x8 
+  c184b704 : immext #0xc1d9c1c0 
+  c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
+  c184b70c : immext #0xc1d9c1c0 
+  c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
+  c184b714 : !tstbit P0,R2,R5 
+  c184b718 : jump.if(P0.new):nt 0xc184b73c 
+  c184b71c : memw.if(!P0.new) R6,(R8) 
+  c184b720 : add R7,R6,R3 
+  c184b724 : memw R6,(R6+R3) 
+  c184b728 : memw (R4),R6.new 
+  c184b72c : memw R6,(R7+#0x8) 
+  c184b730 : memw (R4+#0x8),R6.new 
+  c184b734 : memw R6,(R7+#0x4) 
+  c184b738 : memw (R4+#0x4),R6.new 
+  c184b73c : add R4,R4,#0xc 
+  c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
+  c184b744 : memuh R2,(R16+#0x10) 
+  c184b748 : immext #0xc1d9c200 
+  c184b74c : memh (##0xc1d9c238),R2.new 
+  c184b750 : immext #0xc4eea700 
+  c184b754 : assign R0,##0xc4eea72b 
+  c184b758 : memub R4,(R16+#0x12) 
+  c184b75c : memb (R18+#0x74),R4.new 
+  c184b760 : memw R1,(R17) ; memw R2,(R17+#0xc) 
   c184b764 : call 0xc1841f1c 
-
-[RFDEBUG BRANCH CALL #5]
-  c184b7b8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #6]
-  c184b7cc : call 0xc16b3900 
-
-[RFDEBUG BRANCH CALL #7]
-  c184b81c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #8]
-  c184b8e8 : call 0xc1842418 
-
-[RFDEBUG BRANCH CALL #9]
-  c184b9c8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #10]
-  c184ba00 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #11]
-  c184ba0c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #12]
-  c184bac4 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #13]
-  c184bad8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #14]
-  c184bae8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #15]
-  c184bb6c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #16]
-  c184bb88 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #17]
-  c184bbc4 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #18]
-  c184bbe0 : call 0xc184a260 
-
-[RFDEBUG BRANCH CALL #19]
-  c184bbe4 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #20]
-  c184bc90 : call 0xc16b3900 
-
-[RFDEBUG BRANCH CALL #21]
-  c184bd00 : call 0xc185cc20 
-
-[RFDEBUG BRANCH CALL #22]
-  c184bd1c : call 0xc184a260 
-
-[RFDEBUG BRANCH CALL #23]
-  c184bd24 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #24]
-  c184bd3c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #25]
-  c184bda0 : call 0xc1841f24 
-
-[RFDEBUG BRANCH CALL #26]
-  c184bdb8 : call 0xc1842654 
-
-[RFDEBUG BRANCH CALL #27]
-  c184bdd4 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #28]
-  c184be24 : call 0xc1620d4c 
-
-[RFDEBUG BRANCH CALL #29]
-  c184be34 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #30]
-  c184be74 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #31]
-  c184bea0 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #32]
-  c184bec0 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #33]
-  c184bee8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #34]
-  c184befc : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #35]
-  c184bf10 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #36]
-  c184bf28 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #37]
-  c184bf40 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #38]
-  c184bf6c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #39]
-  c184bf80 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #40]
-  c184bfa4 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #41]
-  c184bfb0 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #42]
-  c184c0b0 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #43]
-  c184c0d0 : call 0xc1842418 
-
-[RFDEBUG BRANCH CALL #44]
-  c184c100 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #45]
-  c184c118 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #46]
-  c184c12c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #47]
-  c184c160 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #48]
-  c184c174 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #49]
-  c184c19c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #50]
-  c184c204 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #51]
-  c184c21c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #52]
-  c184c230 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #53]
-  c184c2c0 : call 0xc1841f1c 
-
-[RFDEBUG BRANCH CALL #54]
-  c184c2e0 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #55]
-  c184c35c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #56]
-  c184c3a0 : call 0xc1841f1c 
-
-[RFDEBUG BRANCH CALL #57]
-  c184c3cc : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #58]
-  c184c3fc : call 0xc181ffe4 
-
-[RFDEBUG BRANCH CALL #59]
-  c184c410 : call 0xc1842418 
-
-[RFDEBUG BRANCH CALL #60]
-  c184c424 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #61]
-  c184c448 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #62]
-  c184c470 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #63]
-  c184c4c0 : call 0xc1841f0c 
-
-[RFDEBUG BRANCH CALL #64]
-  c184c4c4 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #65]
-  c184c54c : call 0xc1842654 
-
-[RFDEBUG BRANCH CALL #66]
-  c184c564 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #67]
-  c184c58c : call 0xc18519d0 
-
-[RFDEBUG BRANCH CALL #68]
-  c184c594 : call 0xc1842418 
-
-[RFDEBUG BRANCH CALL #69]
-  c184c5a0 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #70]
-  c184c5cc : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #71]
-  c184c5ec : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #72]
-  c184c618 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #73]
-  c184c68c : call 0xc1841f0c 
-
-[RFDEBUG BRANCH CALL #74]
-  c184c690 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #75]
-  c184c6ac : call 0xc1841f24 
-
-[RFDEBUG BRANCH CALL #76]
-  c184c6fc : call 0xc184265c 
-
-[RFDEBUG BRANCH CALL #77]
-  c184c708 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #78]
-  c184c730 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #79]
-  c184c740 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #80]
-  c184c778 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #81]
-  c184c7c8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #82]
-  c184c7e8 : call 0xc1841f0c 
-
-[RFDEBUG BRANCH CALL #83]
-  c184c840 : call 0xc1842418 
-
-[RFDEBUG BRANCH CALL #84]
-  c184c880 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #85]
-  c184c884 : call 0xc184265c 
-
-[RFDEBUG BRANCH CALL #86]
-  c184c894 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #87]
-  c184c8c8 : call 0xc1842418 
-
-[RFDEBUG BRANCH CALL #88]
-  c184c8e0 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #89]
-  c184c90c : call 0xc184265c 
-
-[RFDEBUG BRANCH CALL #90]
-  c184c940 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #91]
-  c184c958 : call 0xc1841f1c 
-
-[RFDEBUG BRANCH CALL #92]
-  c184c974 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #93]
-  c184c9bc : call 0xc1843268 
-
-[RFDEBUG BRANCH CALL #94]
-  c184ca20 : call 0xc184a260 
-
-[RFDEBUG BRANCH CALL #95]
-  c184ca44 : call 0xc184cfd0 
-
-[RFDEBUG BRANCH CALL #96]
-  c184ca64 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #97]
-  c184ca84 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #98]
-  c184cab0 : call 0xc184cfd0 
-
-[RFDEBUG BRANCH CALL #99]
-  c184cac8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #100]
-  c184caf4 : call 0xc184265c 
-
-[RFDEBUG BRANCH CALL #101]
-  c184cb00 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #102]
-  c184cb50 : call 0xc184a260 
-
-[RFDEBUG BRANCH CALL #103]
-  c184cb5c : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #104]
-  c184cbac : call 0xc184cfd0 
-
-[RFDEBUG BRANCH CALL #105]
-  c184cbc8 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #106]
-  c184cbe8 : call 0xc1841f24 
-
-[RFDEBUG BRANCH CALL #107]
-  c184cc38 : call 0xc1620d4c 
-
-[RFDEBUG BRANCH CALL #108]
-  c184cc8c : call 0xc185a3b8 
-
-[RFDEBUG BRANCH CALL #109]
-  c184cd50 : call 0xc184265c 
-
-[RFDEBUG BRANCH CALL #110]
-  c184cd54 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #111]
-  c184cd6c : call 0xc184a260 
-
-[RFDEBUG BRANCH CALL #112]
-  c184cd78 : call 0xc184265c 
-
-[RFDEBUG BRANCH CALL #113]
-  c184cd84 : call 0xc1619338 
-
-[RFDEBUG BRANCH CALL #114]
-  c184cda4 : call 0xc1842418 
-
-[RFDEBUG BRANCH CALL #115]
-  c184cdbc : call 0xc1619338 
+  c184b768 : memw R3,(R17+#0x18) ; memuh R5,(R18) 
+  c184b76c : immext #0xd6151c40 
+  c184b770 : assign R0,##0xd6151c6c 
+  c184b774 : memuh R5,(R18) ; memd R19R18,(SP+#0x48) 
+  c184b778 : memw R1,(R17) ; memw R2,(R17+#0xc) 
+  c184b77c : memw R3,(R17+#0x18) 
+  c184b780 : memub R4,(R16+#0x12) 
+
+------------------------------------------------------------
+[2] PROPERTY LOOP REGISTER WINDOW
+------------------------------------------------------------
+  c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
+  c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
+  c184b714 : !tstbit P0,R2,R5 
+  c184b71c : memw.if(!P0.new) R6,(R8) 
+  c184b720 : add R7,R6,R3 
+  c184b724 : memw R6,(R6+R3) 
+  c184b728 : memw (R4),R6.new 
+  c184b72c : memw R6,(R7+#0x8) 
+  c184b730 : memw (R4+#0x8),R6.new 
+  c184b734 : memw R6,(R7+#0x4) 
+  c184b738 : memw (R4+#0x4),R6.new 
+  c184b73c : add R4,R4,#0xc 
+  c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
+  c184b744 : memuh R2,(R16+#0x10) 
+
+------------------------------------------------------------
+[4] GLOBAL XREFS
+------------------------------------------------------------
+
+TARGET : c1d9c1d8 (c1d9c1d8)
+  MEMORY BLOCK : segment_13 [c1d80000 - c1dcffff]
+  XREF : c185c7d4  TYPE=PARAM
+         FUNCTION = FUN_c185c7b0
+  XREF : c184b760  TYPE=READ
+         FUNCTION = FUN_c184a38c
+  XREF : c184b778  TYPE=READ
+         FUNCTION = FUN_c184a38c
+
+TARGET : c1d9c238 (c1d9c238)
+  MEMORY BLOCK : segment_13 [c1d80000 - c1dcffff]
+  XREF : c183a9bc  TYPE=READ
+         FUNCTION = FUN_c183a9b4
+  XREF : c184b74c  TYPE=WRITE
+         FUNCTION = FUN_c184a38c
+  XREF : c183aaac  TYPE=WRITE
+         FUNCTION = FUN_c183a9b4
+
+TARGET : c4eea72b (c4eea72b)
+  MEMORY BLOCK : segment_20 [c470f000 - c8caefff]
+  XREF : c184b754  TYPE=PARAM
+         FUNCTION = FUN_c184a38c
+
+------------------------------------------------------------
+[3] DIRECT CALL TARGETS IN CORE
+------------------------------------------------------------
+
+[CALL]
+  CALLSITE : c184b6b8
+  TARGET   : c1619338
+  FUNCTION : FUN_c1619338
+  ENTRY    : c1619338
+  RANGE    : c1619338 - c1619387
 
 ============================================================
-SUMMARY
-  instructions visited      = 1415334
-  PROPERTY-28 candidates    = 0
-  property-record candidates= 6
-  RFDEBUG branch calls shown = 115
+[HELPER FUNCTION]
+  NAME  : FUN_c1619338
+  ENTRY : c1619338
+  RANGE : c1619338 - c1619387
 ============================================================
+  c1619338 : assign R6,UTIMERLO 
+  c161933c : immext #0xc1623200 
+  c1619340 : assign R7,##0xc1623214 
+  c1619344 : immext #0xc1623200 
+  c1619348 : memd R9R8,(##0xc1623218) 
+  c161934c : memw_locked R13,(R7) 
+  c1619350 : add R10,R13,#0x1 
+  c1619354 : and R11,R13,R9 
+  c1619358 : asl R11,R11,#0x5 
+  c161935c : memw_locked (R7,P0),R10 
+  c1619360 : jump.if(!P0) 0xc161934c 
+  c1619364 : add R11,R8,R11 
+  c1619368 : memw (R11),#0x0 
+  c161936c : assign R12,R0 
+  c1619370 : assign R0,R6 
+  c1619374 : memd (R11+#0x10),R3R2 
+  c1619378 : memd (R11+#0x18),R5R4 
+  c161937c : jumpr LR 
+  c1619380 : memd (R11+#0x8),R1R0 
+  c1619384 : memd (R11),R13R12 
 
-Interpretation:
-  PROPERTY-28 candidates are the highest priority.
-  PROPERTY RECORD candidates are secondary.
-  Call list is for identifying the next parser/helper.
+[CALL]
+  CALLSITE : c184b6d0
+  TARGET   : c18453bc
+  FUNCTION : thunk_EXT_FUN_d89b2790
+  ENTRY    : c18453bc
+  RANGE    : c18453bc - c18453c3
 
-No functions, labels, comments, memory, or register context changed.
 ============================================================
-TraceRFDebugProperty28.java> Finished!
+[HELPER FUNCTION]
+  NAME  : thunk_EXT_FUN_d89b2790
+  ENTRY : c18453bc
+  RANGE : c18453bc - c18453c3
+============================================================
+  c18453bc : immext #0x1716d3c0 
+  c18453c0 : jump 0xd89b2790 
+
+[CALL]
+  CALLSITE : c184b6dc
+  TARGET   : c1619338
+  FUNCTION : FUN_c1619338
+  ENTRY    : c1619338
+  RANGE    : c1619338 - c1619387
+
+[CALL]
+  CALLSITE : c184b764
+  TARGET   : c1841f1c
+  FUNCTION : thunk_EXT_FUN_d89b2ac0
+  ENTRY    : c1841f1c
+  RANGE    : c1841f1c - c1841f23
+
+============================================================
+[HELPER FUNCTION]
+  NAME  : thunk_EXT_FUN_d89b2ac0
+  ENTRY : c1841f1c
+  RANGE : c1841f1c - c1841f23
+============================================================
+  c1841f1c : immext #0x17170b80 
+  c1841f20 : jump 0xd89b2ac0 
+
+============================================================
+DONE
+No program structures were modified.
+============================================================
+TraceRFDebugPropertyHelpers.java> Finished!
