@@ -2,6 +2,7 @@ import ghidra.app.script.GhidraScript;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.listing.Data;
 import ghidra.program.model.listing.Function;
+import ghidra.program.model.listing.FunctionIterator;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.Listing;
 import ghidra.program.model.mem.Memory;
@@ -376,7 +377,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
             while (it.hasNext()
                     && inspected < 250000
-                    && hits < 320
+                    && hits < 96
                     && lines < MAX_LINES) {
 
                 if (monitor.isCancelled()) return;
@@ -623,12 +624,14 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         int hits = 0;
 
         try {
-            Function[] fs = currentProgram.getFunctionManager().getFunctions(true).toArray(new Function[0]);
+            FunctionIterator fit =
+                currentProgram.getFunctionManager().getFunctions(true);
 
-            for (Function f : fs) {
+            while (fit.hasNext()) {
                 if (monitor.isCancelled() || lines >= MAX_LINES) return;
                 if (inspected++ >= 250000 || hits >= 320) return;
 
+                Function f = fit.next();
                 String n = f.getName();
                 String low = n.toLowerCase();
 
