@@ -1431,7 +1431,13 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("NO GLOBAL SCANS / READ ONLY / HARD LIMITED");
         println("============================================================");
 
-        // The most important candidate: keep its complete local ABI/input setup.
+        // First inspect the strongest remaining exact-0x4B candidate and its caller.
+        inspectCallSiteNeighborhood(0xc17c94d8L, 60, 20);
+        inspectCallSiteNeighborhood(0xc17b46f8L, 60, 20);
+        inspectFunctionByAddress(0xc17c9460L);
+        inspectFunctionByAddress(0xc16191f0L);
+
+        // The previous primary candidate remains below for comparison.
         printIncomingCalls(0xc1902c74L, 16);
         inspectCallSiteNeighborhood(0xc1902c70L, 30, 30);
         traceC1902Provenance();
