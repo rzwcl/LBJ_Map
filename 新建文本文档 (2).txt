@@ -1,400 +1,1588 @@
-TraceRFDebugPropertyAddressConstruction.java> Running...
-============================================================
- RFDEBUG PROPERTY ADDRESS-CONSTRUCTION TRACER
- Program : qdsp6sw.mbn
- Image   : c1600000
- READ ONLY
-============================================================
+ call 0xc1620c2c 
+    c1be6cd8 : memw (SP),R0 
+    c1be6cdc : add R8,SP,#0x11ce 
+    c1be6ce0 : memub R2,(R19+#0x1c) 
+    c1be6ce4 : add R2,R2,#-0xc ; memw R3,(R19+#0x38) 
+    c1be6ce8 : and R2,R2,#0xff 
+    c1be6cec : memw (R26+R2<<#0x2),R3 
 
-Exact targets:
-  C9199FB8 = PROPERTY_NAME_TABLE
-  C919A892 = CRITICAL_TABLE
-  C919A900 = TYPE_TABLE
-  C919A028 = FREQUENCY_SLOT
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
 
-
-============================================================
-[C919 IMMEXT WINDOW #1]
-  CENTER   : c170b024
-  IMMEXT   : 0xc919acc0
-    FUNCTION : c170aaa4 FUN_c170aaa4
-    RANGE    : c170aaa4 - c170b1fb
-
- >>> c170b024 : immext #0xc919acc0 
-     c170b028 : assign R0,##0xc919ace8 
-     c170b02c : memub R1,(R18+#0x1) 
-     c170b030 : memb R2,(R17+#0x9d) 
-     c170b034 : call 0xc170b204 
-     c170b038 : assign R12,#0x0 
-     c170b03c : asl|= R12,R0,#0xb 
-     c170b040 : assign R3,#0xb0 
-     c170b044 : memub R2,(R17+#0x9d) 
-
-  HEX IMMEDIATES:
-    c170b024 : immext #0xc919acc0 
-      immediate[0] = 0xc919acc0
-    c170b028 : assign R0,##0xc919ace8 
-      immediate[0] = 0xc919ace8
-    c170b02c : memub R1,(R18+#0x1) 
-      immediate[0] = 0x00000001
-    c170b030 : memb R2,(R17+#0x9d) 
-      immediate[0] = 0x0000009d
-    c170b038 : assign R12,#0x0 
-      immediate[0] = 0x00000000
-    c170b03c : asl|= R12,R0,#0xb 
-      immediate[0] = 0x0000000b
-    c170b040 : assign R3,#0xb0 
-      immediate[0] = 0x000000b0
-    c170b044 : memub R2,(R17+#0x9d) 
-      immediate[0] = 0x0000009d
-
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #2]
-  CENTER   : c1cbf330
-  IMMEXT   : 0xc919ac00
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #261]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be6d88
+  FUNCTION: <none>
 
- >>> c1cbf330 : immext #0xc919ac00 
-     c1cbf334 : assign.if(P1) R3,##0xc919ac08 
-     c1cbf338 : immext #0xc919ac00 
-     c1cbf33c : memw (R2),##0xc919ac30 
-     c1cbf340 : immext #0xc919abc0 
-     c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
-     c1cbf348 : immext #0xc919ab80 
-     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-     c1cbf350 : add.if(P0) R3,R20,#0x4 
+  PREVIOUS CONTEXT:
+    c1be6d84 : immext #0xc9191400 
+    c1be6d80 : call 0xc1620c0c 
+    c1be6d7c : lsr R2,R7,#0x1 
 
-  HEX IMMEDIATES:
-    c1cbf330 : immext #0xc919ac00 
-      immediate[0] = 0xc919ac00
-    c1cbf334 : assign.if(P1) R3,##0xc919ac08 
-      immediate[0] = 0xc919ac08
-    c1cbf338 : immext #0xc919ac00 
-      immediate[0] = 0xc919ac00
-    c1cbf33c : memw (R2),##0xc919ac30 
-      immediate[0] = 0xc919ac30
-    c1cbf340 : immext #0xc919abc0 
-      immediate[0] = 0xc919abc0
-    c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
-      immediate[0] = 0xc919abe0
-    c1cbf348 : immext #0xc919ab80 
-      immediate[0] = 0xc919ab80
-    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-      immediate[0] = 0xc919ab90
-    c1cbf350 : add.if(P0) R3,R20,#0x4 
-      immediate[0] = 0x00000004
+  CENTER:
+    >>> c1be6d88 : memw R1,(R6<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be6d8c : add R1,SP,#0x10d5 
+    c1be6d90 : memb R2,(R23+#0x96) 
+    c1be6d94 : jump.if:nt !cmp.eq(R2.new,#0x0),0xc1be6efc 
+    c1be6d98 : memb R2,(R16+#0x1) 
+    c1be6d9c : memw R4,(R23+#0x60) 
+    c1be6da0 : addasl R2,R24,R2,#0x3 
+    c1be6da4 : memub R3,(R16) ; memub R5,(R16+#0x5) 
+    c1be6da8 : add R3,R5,#-0x1 
+    c1be6dac : memw R2,(R2+R3<<#0x2) 
+    c1be6db0 : and R2,R2,R4 
+    c1be6db4 : asl&= R2,R22,R3 
+    c1be6db8 : jump.if:nt cmp.eq(R2.new,#0x0),0xc1be6efc 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #3]
-  CENTER   : c1cbf338
-  IMMEXT   : 0xc919ac00
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #262]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be6e80
+  FUNCTION: <none>
 
- >>> c1cbf338 : immext #0xc919ac00 
-     c1cbf33c : memw (R2),##0xc919ac30 
-     c1cbf340 : immext #0xc919abc0 
-     c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
-     c1cbf348 : immext #0xc919ab80 
-     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-     c1cbf350 : add.if(P0) R3,R20,#0x4 
-     c1cbf354 : jump.if(!P0) 0xc1cbf378 
-     c1cbf358 : memw (R20),R3 
+  PREVIOUS CONTEXT:
+    c1be6e7c : immext #0xc9191400 
+    c1be6e78 : or R5,##0x1017,asl(R5,#0x8) 
+    c1be6e74 : immext #0x1000 
 
-  HEX IMMEDIATES:
-    c1cbf338 : immext #0xc919ac00 
-      immediate[0] = 0xc919ac00
-    c1cbf33c : memw (R2),##0xc919ac30 
-      immediate[0] = 0xc919ac30
-    c1cbf340 : immext #0xc919abc0 
-      immediate[0] = 0xc919abc0
-    c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
-      immediate[0] = 0xc919abe0
-    c1cbf348 : immext #0xc919ab80 
-      immediate[0] = 0xc919ab80
-    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-      immediate[0] = 0xc919ab90
-    c1cbf350 : add.if(P0) R3,R20,#0x4 
-      immediate[0] = 0x00000004
+  CENTER:
+    >>> c1be6e80 : memw R1,(R6<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be6e84 : memw R6,(R21+#0x4) 
+    c1be6e88 : call 0xc1620c20 
+    c1be6e8c : memw (SP),R6 
+    c1be6e90 : add R3,SP,#0x11d7 
+    c1be6e94 : assign R2,#0x0 
+    c1be6e98 : memb (R16+#0x3ae),R2.new 
+    c1be6e9c : memw (R16+#0x74),R18 
+    c1be6ea0 : assign R0,R16 
+    c1be6ea4 : memw R2,(R16+#0x484) 
+    c1be6ea8 : memd R17R16,(SP+#0x50) 
+    c1be6eac : memd R19R18,(SP+#0x48) ; memd R21R20,(SP+#0x40) 
+    c1be6eb0 : memw R7,(R2+#0x1c) ; memd R23R22,(SP+#0x38) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #4]
-  CENTER   : c1cbf340
-  IMMEXT   : 0xc919abc0
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #263]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be7020
+  FUNCTION: c1be6f50 FUN_c1be6f50
+  RANGE   : c1be6f50 - c1be708b
 
- >>> c1cbf340 : immext #0xc919abc0 
-     c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
-     c1cbf348 : immext #0xc919ab80 
-     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-     c1cbf350 : add.if(P0) R3,R20,#0x4 
-     c1cbf354 : jump.if(!P0) 0xc1cbf378 
-     c1cbf358 : memw (R20),R3 
-     c1cbf35c : cmp.eq P0,R16,#0x3 
-     c1cbf360 : immext #0xc919ab80 
+  PREVIOUS CONTEXT:
+    c1be701c : immext #0xc9191400 
+    c1be7018 : or R3,#0x15,asl(R3,#0x8) 
+    c1be7014 : and R3,R3,#0x3 
 
-  HEX IMMEDIATES:
-    c1cbf340 : immext #0xc919abc0 
-      immediate[0] = 0xc919abc0
-    c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
-      immediate[0] = 0xc919abe0
-    c1cbf348 : immext #0xc919ab80 
-      immediate[0] = 0xc919ab80
-    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-      immediate[0] = 0xc919ab90
-    c1cbf350 : add.if(P0) R3,R20,#0x4 
-      immediate[0] = 0x00000004
-    c1cbf35c : cmp.eq P0,R16,#0x3 
-      immediate[0] = 0x00000003
-    c1cbf360 : immext #0xc919ab80 
-      immediate[0] = 0xc919ab80
+  CENTER:
+    >>> c1be7020 : memw R1,(R5<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be7024 : call 0xc1620c00 
+    c1be7028 : add R4,FP,#0x61f0 
+    c1be702c : memd R17R16,(SP+#0x0) ; dealloc_return 
+    c1be7030 : addasl R2,R3,R2,#0x1 
+    c1be7034 : immext #0xffc0 
+    c1be7038 : assign R0,##0xffff 
+    c1be703c : immext #0xcb53ac00 
+    c1be7040 : memw R2,(R2<<#0x2+##0xcb53ac18) 
+    c1be7044 : memh (R2+#0x2ee),R0.L 
+    c1be7048 : add R17,R16,#0x4b0 
+    c1be704c : call 0xc19cdbf8 
+    c1be7050 : assign R0,R17 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #5]
-  CENTER   : c1cbf348
-  IMMEXT   : 0xc919ab80
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #264]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be7340
+  FUNCTION: c1be72fc FUN_c1be72fc
+  RANGE   : c1be72fc - c1be73fb
 
- >>> c1cbf348 : immext #0xc919ab80 
-     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-     c1cbf350 : add.if(P0) R3,R20,#0x4 
-     c1cbf354 : jump.if(!P0) 0xc1cbf378 
-     c1cbf358 : memw (R20),R3 
-     c1cbf35c : cmp.eq P0,R16,#0x3 
-     c1cbf360 : immext #0xc919ab80 
-     c1cbf364 : memw (R3),##0xc919abb8 
-     c1cbf368 : mux R2,P0,#0x0,#0x18 
+  PREVIOUS CONTEXT:
+    c1be733c : immext #0xc9191400 
+    c1be7338 : memub R2,(R16) ; memb R18,(R16+#0x1) 
+    c1be7334 : assign R0,R17 
 
-  HEX IMMEDIATES:
-    c1cbf348 : immext #0xc919ab80 
-      immediate[0] = 0xc919ab80
-    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
-      immediate[0] = 0xc919ab90
-    c1cbf350 : add.if(P0) R3,R20,#0x4 
-      immediate[0] = 0x00000004
-    c1cbf35c : cmp.eq P0,R16,#0x3 
-      immediate[0] = 0x00000003
-    c1cbf360 : immext #0xc919ab80 
-      immediate[0] = 0xc919ab80
-    c1cbf364 : memw (R3),##0xc919abb8 
-      immediate[0] = 0xc919abb8
-    c1cbf368 : mux R2,P0,#0x0,#0x18 
-      immediate[0] = 0x00000000
-      immediate[1] = 0x00000018
+  CENTER:
+    >>> c1be7340 : memw R19,(R2<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be7344 : memub R20,(R16+#0x5) 
+    c1be7348 : call 0xc16a0d00 
+    c1be734c : memw R21,(R16+#0x45c) 
+    c1be7350 : combine R5R4,R0,R21 
+    c1be7354 : immext #0xc9191400 
+    c1be7358 : memw R2,(##0xc919143c) 
+    c1be735c : memw (SP+#0x4),R2.new 
+    c1be7360 : immext #0x1000 
+    c1be7364 : or R23,##0x1019,asl(R23,#0x8) 
+    c1be7368 : assign R1,R19 
+    c1be736c : combine R3R2,R20,R18 
+    c1be7370 : call 0xc1620c2c 
+
+  OPERAND OBJECTS:
+    operand[0] object = R19
+    operand[1] object = R2
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #6]
-  CENTER   : c1cbf360
-  IMMEXT   : 0xc919ab80
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #265]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be73cc
+  FUNCTION: c1be72fc FUN_c1be72fc
+  RANGE   : c1be72fc - c1be73fb
 
- >>> c1cbf360 : immext #0xc919ab80 
-     c1cbf364 : memw (R3),##0xc919abb8 
-     c1cbf368 : mux R2,P0,#0x0,#0x18 
-     c1cbf36c : immext #0xc919ab40 
-     c1cbf370 : add R2,R2,##-0x36e654a0 
-     c1cbf374 : jump 0xc1cbf394 
-     c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
-     c1cbf37c : cmp.eq P1,R2,#0x65 
-     c1cbf380 : mux R3,P0,#0x0,#0x18 
+  PREVIOUS CONTEXT:
+    c1be73c8 : immext #0xc9191400 
+    c1be73c4 : call 0xc1620c00 
+    c1be73c0 : or R3,##0x1015,asl(R3,#0x8) 
 
-  HEX IMMEDIATES:
-    c1cbf360 : immext #0xc919ab80 
-      immediate[0] = 0xc919ab80
-    c1cbf364 : memw (R3),##0xc919abb8 
-      immediate[0] = 0xc919abb8
-    c1cbf368 : mux R2,P0,#0x0,#0x18 
-      immediate[0] = 0x00000000
-      immediate[1] = 0x00000018
-    c1cbf36c : immext #0xc919ab40 
-      immediate[0] = 0xc919ab40
-    c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
-      immediate[0] = 0x00000003
-    c1cbf37c : cmp.eq P1,R2,#0x65 
-      immediate[0] = 0x00000065
-    c1cbf380 : mux R3,P0,#0x0,#0x18 
-      immediate[0] = 0x00000000
-      immediate[1] = 0x00000018
+  CENTER:
+    >>> c1be73cc : memw R1,(R5<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be73d0 : add R13,R28,#0x118d 
+    c1be73d4 : assign R2,#0x43f8 
+    c1be73d8 : immext #0xc4fbd980 
+    c1be73dc : assign R1,##0xc4fbd996 ; add R0,SP,#0x14 
+    c1be73e0 : call 0xc16a0b1c 
+    c1be73e4 : memd R17R16,(SP+#0x30) ; memd R19R18,(SP+#0x28) 
+    c1be73e8 : memd R21R20,(SP+#0x20) ; memd R23R22,(SP+#0x18) 
+    c1be73ec : dealloc_return 
+    c1be73f0 : call 0xc16fd420 
+    c1be73f4 : immext #0xcf8e29c0 
+    c1be73f8 : assign R0,##0xcf8e29f8 
+    c1be73fc : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #7]
-  CENTER   : c1cbf36c
-  IMMEXT   : 0xc919ab40
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #266]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be74e4
+  FUNCTION: c1be7470 FUN_c1be7470
+  RANGE   : c1be7470 - c1be74f3
 
- >>> c1cbf36c : immext #0xc919ab40 
-     c1cbf370 : add R2,R2,##-0x36e654a0 
-     c1cbf374 : jump 0xc1cbf394 
-     c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
-     c1cbf37c : cmp.eq P1,R2,#0x65 
-     c1cbf380 : mux R3,P0,#0x0,#0x18 
-     c1cbf384 : immext #0xc919ab00 
-     c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
-     c1cbf38c : immext #0xc919aac0 
+  PREVIOUS CONTEXT:
+    c1be74e0 : immext #0xc9191400 
+    c1be74dc : call 0xc1620c00 
+    c1be74d8 : or R3,##0x1015,asl(R3,#0x8) 
 
-  HEX IMMEDIATES:
-    c1cbf36c : immext #0xc919ab40 
-      immediate[0] = 0xc919ab40
-    c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
-      immediate[0] = 0x00000003
-    c1cbf37c : cmp.eq P1,R2,#0x65 
-      immediate[0] = 0x00000065
-    c1cbf380 : mux R3,P0,#0x0,#0x18 
-      immediate[0] = 0x00000000
-      immediate[1] = 0x00000018
-    c1cbf384 : immext #0xc919ab00 
-      immediate[0] = 0xc919ab00
-    c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
-      immediate[0] = 0xc919ab00
-    c1cbf38c : immext #0xc919aac0 
-      immediate[0] = 0xc919aac0
+  CENTER:
+    >>> c1be74e4 : memw R1,(R5<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be74e8 : add R4,R28,#0x1091 
+    c1be74ec : memd R17R16,(SP+#0x0) ; dealloc_return 
+    c1be74f0 : memd R17R16,(SP+#0x0) ; dealloc_return 
+    c1be74f4 : assign R16,#0x0 
+    c1be74f8 : memd (SP+#-0x10),R17R16 ; allocframe #0x10 
+    c1be74fc : assign R18,#0x0 ; memd (SP+#0x0),R19R18 
+    c1be7500 : assign R19,#0x0 ; sxtb R17,R18 
+    c1be7504 : call 0xc19939f0 
+    c1be7508 : assign R0,R17 ; and R1,R19,#0xff 
+    c1be750c : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1be7590 
+    c1be7510 : immext #0xcf8e2500 
+    c1be7514 : assign.if(P0.new) R0,##0xcf8e2516 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #8]
-  CENTER   : c1cbf384
-  IMMEXT   : 0xc919ab00
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #267]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be7d54
+  FUNCTION: c1be7cf0 FUN_c1be7cf0
+  RANGE   : c1be7cf0 - c1be7d93
 
- >>> c1cbf384 : immext #0xc919ab00 
-     c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
-     c1cbf38c : immext #0xc919aac0 
-     c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
-     c1cbf394 : call 0xc1cbf5d8 
-     c1cbf398 : immext #0xcb6ca980 
-     c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
-     c1cbf3a0 : memw (R20+#0x8),R2 
-     c1cbf3a4 : call 0xc1d1080c 
+  PREVIOUS CONTEXT:
+    c1be7d50 : immext #0xc9191400 
+    c1be7d4c : memw R2,(R19) 
+    c1be7d48 : and R4,R18,#0x3 
 
-  HEX IMMEDIATES:
-    c1cbf384 : immext #0xc919ab00 
-      immediate[0] = 0xc919ab00
-    c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
-      immediate[0] = 0xc919ab00
-    c1cbf38c : immext #0xc919aac0 
-      immediate[0] = 0xc919aac0
-    c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
-      immediate[0] = 0xc919aad0
-    c1cbf398 : immext #0xcb6ca980 
-      immediate[0] = 0xcb6ca980
-    c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
-      immediate[0] = 0x00000002
-      immediate[1] = 0xcb6ca9b0
-    c1cbf3a0 : memw (R20+#0x8),R2 
-      immediate[0] = 0x00000008
+  CENTER:
+    >>> c1be7d54 : memw R1,(R17<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be7d58 : immext #0x1000 
+    c1be7d5c : or R4,##0x1016,asl(R4,#0x8) 
+    c1be7d60 : immext #0xc9191400 
+    c1be7d64 : memw R5,(##0xc9191438) 
+    c1be7d68 : call 0xc1620c0c 
+    c1be7d6c : memub R2,(R2+#0x238) 
+    c1be7d70 : add R0,R28,#0x10d4 
+    c1be7d74 : memw R2,(R19) 
+    c1be7d78 : memb (R2+#0x238),R16 
+    c1be7d7c : memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0) 
+    c1be7d80 : dealloc_return 
+    c1be7d84 : call 0xc16fd420 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R17
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #9]
-  CENTER   : c1cbf38c
-  IMMEXT   : 0xc919aac0
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #268]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be82e8
+  FUNCTION: c1be8170 FUN_c1be8170
+  RANGE   : c1be8170 - c1be8497
 
- >>> c1cbf38c : immext #0xc919aac0 
-     c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
-     c1cbf394 : call 0xc1cbf5d8 
-     c1cbf398 : immext #0xcb6ca980 
-     c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
-     c1cbf3a0 : memw (R20+#0x8),R2 
-     c1cbf3a4 : call 0xc1d1080c 
-     c1cbf3a8 : assign R0,#0x84 
-     c1cbf3ac : call 0xc1cbf5e8 
+  PREVIOUS CONTEXT:
+    c1be82e4 : immext #0xc9191400 
+    c1be82e0 : call 0xc1620bec 
+    c1be82dc : asl|= R2,R5,#0x8 
 
-  HEX IMMEDIATES:
-    c1cbf38c : immext #0xc919aac0 
-      immediate[0] = 0xc919aac0
-    c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
-      immediate[0] = 0xc919aad0
-    c1cbf398 : immext #0xcb6ca980 
-      immediate[0] = 0xcb6ca980
-    c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
-      immediate[0] = 0x00000002
-      immediate[1] = 0xcb6ca9b0
-    c1cbf3a0 : memw (R20+#0x8),R2 
-      immediate[0] = 0x00000008
-    c1cbf3a8 : assign R0,#0x84 
-      immediate[0] = 0x00000084
+  CENTER:
+    >>> c1be82e8 : memw R1,(R4<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      PAGE+OFFSET candidate: TYPE_TABLE = 0xc919aa00 + -256 (0xffffffffffffff00)
+  NEXT CONTEXT:
+    c1be82ec : add R0,R28,#0x1104 
+    c1be82f0 : call 0xc1ab556c 
+    c1be82f4 : assign R0,R20 
+    c1be82f8 : memb R2,(R19+#0x4b) 
+    c1be82fc : jump.if:t !cmp.eq(R2.new,#0x1),0xc1be837c 
+    c1be8300 : call 0xc1c019d0 
+    c1be8304 : combine R1R0,#0x0,R16 
+    c1be8308 : memub R2,(R19+#0x5) ; memub R3,(R19+#0x7) 
+    c1be830c : memub R2,(R19+#0xa) 
+    c1be8310 : jump.if:nt cmp.eq(R2.new,#0x3),0xc1be8328 
+    c1be8314 : cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1be8338 
+    c1be8318 : memuh.if(P0.new) R2,(R19+#0x38) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R4
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
 
 ============================================================
-[C919 IMMEXT WINDOW #10]
-  CENTER   : c1cbf578
-  IMMEXT   : 0xc919ab00
-    FUNCTION : c1cbf250 FUN_c1cbf250
-    RANGE    : c1cbf250 - c1cbf5cf
+[HIT #269]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be8b1c
+  FUNCTION: c1be8a50 FUN_c1be8a50
+  RANGE   : c1be8a50 - c1be8b47
 
- >>> c1cbf578 : immext #0xc919ab00 
-     c1cbf57c : add R2,R2,##-0x36e654d0 
-     c1cbf580 : jump 0xc1cbf5a4 
-     c1cbf584 : memw (R20+#0x8),R2.new 
-     c1cbf588 : assign R4,#0x505 
-     c1cbf58c : tstbit P0,R4,R3 
-     c1cbf590 : immext #0x20680000 
-     c1cbf594 : assign.if(!P0.new) R4,##0x20680000 
-     c1cbf598 : jump.if(P0.new):nt 0xc1cbf5ac 
+  PREVIOUS CONTEXT:
+    c1be8b18 : immext #0xc9191400 
+    c1be8b14 : memw (SP+#0x8),R5 
+    c1be8b10 : combine R5R4,R20,R19 
 
-  HEX IMMEDIATES:
-    c1cbf578 : immext #0xc919ab00 
-      immediate[0] = 0xc919ab00
-    c1cbf584 : memw (R20+#0x8),R2.new 
-      immediate[0] = 0x00000008
-    c1cbf588 : assign R4,#0x505 
-      immediate[0] = 0x00000505
-    c1cbf590 : immext #0x20680000 
-      immediate[0] = 0x20680000
-    c1cbf594 : assign.if(!P0.new) R4,##0x20680000 
-      immediate[0] = 0x20680000
+  CENTER:
+    >>> c1be8b1c : memw R1,(R7<<#0x2+##0xc9191428) 
 
-    DERIVED TARGET CHECK:
-      no direct target candidate in this window
+  NEXT CONTEXT:
+    c1be8b20 : immext #0xc9191400 
+    c1be8b24 : memw R8,(##0xc919143c) 
+    c1be8b28 : memw (SP+#0x4),R8 
+    c1be8b2c : memw (SP+#0x10),R16 
+    c1be8b30 : call 0xc1620c2c 
+    c1be8b34 : memw (SP),R6 
+    c1be8b38 : add R4,R28,#0x1145 
+    c1be8b3c : assign R0,R18 
+    c1be8b40 : memd R17R16,(SP+#0x28) ; memd R19R18,(SP+#0x20) 
+    c1be8b44 : memd R21R20,(SP+#0x18) ; dealloc_return 
+    c1be8b50 : cmp.gt P0,R0,#0x1 
+    c1be8b54 : memd (SP+#-0x10),R17R16 ; allocframe #0x18 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R7
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
 ============================================================
+
+============================================================
+[HIT #270]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1be8e64
+  FUNCTION: c1be8dd4 FUN_c1be8dd4
+  RANGE   : c1be8dd4 - c1be8ee7
+
+  PREVIOUS CONTEXT:
+    c1be8e60 : immext #0xc9191400 
+    c1be8e5c : and R0,R3,#0x3 
+    c1be8e58 : memub R2,(R16+#0x5) 
+
+  CENTER:
+    >>> c1be8e64 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1be8e68 : memw (SP+#0x4),R0 
+    c1be8e6c : immext #0x1000 
+    c1be8e70 : or R0,##0x1018,asl(R0,#0x8) 
+    c1be8e74 : assign R3,R17 
+    c1be8e78 : memw (SP),R0.new 
+    c1be8e7c : call 0xc1620c2c 
+    c1be8e80 : add R12,SP,#0x11e5 
+    c1be8e84 : call 0xc1beb690 
+    c1be8e88 : combine R1R0,#0x0,R16 
+    c1be8e8c : cmp.eq P0,R0,#0x1 ; jump.if(P0.new):t 0xc1be8eb0 
+    c1be8e90 : memw R2,(R16+#0x398) 
+    c1be8e94 : jump.if:t !cmp.eq(R2.new,#0x0),0xc1be8ea0 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #271]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea084
+  FUNCTION: c1bea018 FUN_c1bea018
+  RANGE   : c1bea018 - c1bea12f
+
+  PREVIOUS CONTEXT:
+    c1bea080 : immext #0xc9191400 
+    c1bea07c : memw (SP),R8 
+    c1bea078 : add R4,R4,R7 
+
+  CENTER:
+    >>> c1bea084 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea088 : call 0xc1620c20 
+    c1bea08c : add R7,R28,#0x11ca 
+    c1bea090 : call 0xc1bea154 
+    c1bea094 : assign R0,R16 
+    c1bea098 : memw R1,(R17+#0x14) 
+    c1bea09c : memub R2,(R17+#0x18) 
+    c1bea0a0 : call 0xc16a01e0 
+    c1bea0a4 : memub R0,(R16) 
+    c1bea0a8 : !tstbit P0,R0,#0x9 
+    c1bea0ac : jump.if(P0.new):t 0xc1bea0e4 
+    c1bea0b0 : memub.if(!P0.new) R4,(R16+#0x1) 
+    c1bea0b4 : memw.if(!P0.new) R3,(R16+#0x8c) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #272]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea0dc
+  FUNCTION: c1bea018 FUN_c1bea018
+  RANGE   : c1bea018 - c1bea12f
+
+  PREVIOUS CONTEXT:
+    c1bea0d8 : immext #0xc9191400 
+    c1bea0d4 : call 0xc1620c0c 
+    c1bea0d0 : memub R2,(R16+#0x5) 
+
+  CENTER:
+    >>> c1bea0dc : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea0e0 : add R11,R28,#0x11d1 
+    c1bea0e4 : memw R3,(R16+#0x8c) 
+    c1bea0e8 : jump.if:nt cmp.eq(R3.new,#-1),0xc1bea108 
+    c1bea0ec : assign R1,#0x0 
+    c1bea0f0 : memb R0,(R16+#0x1) 
+    c1bea0f4 : immext #0xc4fbde40 
+    c1bea0f8 : memw R4,(##0xc4fbde70) 
+    c1bea0fc : memub R2,(R16+#0x5) 
+    c1bea100 : callr R4 
+    c1bea104 : memw (R16+#0x8c),#-0x1 
+    c1bea108 : memw R3,(R16+#0x90) 
+    c1bea10c : jump.if:nt cmp.eq(R3.new,#-1),0xc1bea12c 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #273]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea31c
+  FUNCTION: c1bea154 FUN_c1bea154
+  RANGE   : c1bea154 - c1bea703
+
+  PREVIOUS CONTEXT:
+    c1bea318 : immext #0xc9191400 
+    c1bea314 : call 0xc1620c0c 
+    c1bea310 : memw R5,(##0xc9191438) 
+
+  CENTER:
+    >>> c1bea31c : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea320 : add R15,FP,#0x10b9 
+    c1bea324 : memub R2,(R23+#0x1c) 
+    c1bea328 : setbit R3,R2,#0x0 
+    c1bea32c : immext #0x3c0 
+    c1bea330 : jump.if:nt !cmp.eq(R3.new,#0xd),0xc1bea6f4 
+    c1bea334 : add R2,R2,#-0xc ; memw R3,(R23+#0x38) 
+    c1bea338 : and R2,R2,#0xff 
+    c1bea33c : memw (R20+R2<<#0x2),R3 
+    c1bea340 : memub R2,(R23+#0x1c) 
+    c1bea344 : add R2,R2,#-0xc 
+    c1bea348 : and R2,R2,#0xff 
+    c1bea34c : immext #0x380 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #274]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea3e4
+  FUNCTION: c1bea154 FUN_c1bea154
+  RANGE   : c1bea154 - c1bea703
+
+  PREVIOUS CONTEXT:
+    c1bea3e0 : immext #0xc9191400 
+    c1bea3dc : or R4,##0x1016,asl(R4,#0x8) 
+    c1bea3d8 : immext #0x1000 
+
+  CENTER:
+    >>> c1bea3e4 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea3e8 : call 0xc1620c0c 
+    c1bea3ec : add R1,SP,#0x10d5 
+    c1bea3f0 : memb R2,(R27+#0x96) 
+    c1bea3f4 : jump.if:nt !cmp.eq(R2.new,#0x0),0xc1bea6a0 
+    c1bea3f8 : assign R6,#0x1 
+    c1bea3fc : memb R2,(R16+#0x1) 
+    c1bea400 : memw R4,(R27+#0x60) 
+    c1bea404 : addasl R2,R19,R2,#0x3 
+    c1bea408 : memub R3,(R16) ; memub R5,(R16+#0x5) 
+    c1bea40c : add R3,R5,#-0x1 
+    c1bea410 : memw R2,(R2+R3<<#0x2) 
+    c1bea414 : and R2,R2,R4 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #275]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea4dc
+  FUNCTION: c1bea154 FUN_c1bea154
+  RANGE   : c1bea154 - c1bea703
+
+  PREVIOUS CONTEXT:
+    c1bea4d8 : immext #0xc9191400 
+    c1bea4d4 : combine R5R4,R19,R22 
+    c1bea4d0 : call 0xc1620c2c 
+
+  CENTER:
+    >>> c1bea4dc : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea4e0 : add R4,FP,#0x10bf 
+    c1bea4e4 : memub R0,(R16) ; memw R2,(SP+#0x2c) 
+    c1bea4e8 : call 0xc16a01e0 
+    c1bea4ec : sub R18,R2,R22 
+    c1bea4f0 : !tstbit P0,R0,#0x9 
+    c1bea4f4 : jump.if(P0.new):t 0xc1bea540 
+    c1bea4f8 : immext #0x480 
+    c1bea4fc : memw.if(!P0.new) R3,(R16+##0x484) 
+    c1bea500 : memub R5,(R16+#0x1) ; memub R6,(R16) 
+    c1bea504 : and R5,R5,#0x3 
+    c1bea508 : memub R2,(R16+#0x5) 
+    c1bea50c : assign R3,R18 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #276]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea538
+  FUNCTION: c1bea154 FUN_c1bea154
+  RANGE   : c1bea154 - c1bea703
+
+  PREVIOUS CONTEXT:
+    c1bea534 : immext #0xc9191400 
+    c1bea530 : call 0xc1620c20 
+    c1bea52c : memw (SP),R8.new 
+
+  CENTER:
+    >>> c1bea538 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea53c : add R9,FP,#0x10ce 
+    c1bea540 : assign R1,#0x2006 
+    c1bea544 : immext #0x20060300 
+    c1bea548 : assign R2,##0x20060307 ; add R0,SP,#0x38 
+    c1bea54c : call 0xc169d6c8 
+    c1bea550 : assign R1,#0x20 
+    c1bea554 : assign R2,#0x0 
+    c1bea558 : add R0,SP,#0x38 ; memw R3,(SP+#0x34) 
+    c1bea55c : memw (SP+#0x4c),R18 
+    c1bea560 : memh (SP+#0x50),R3.L 
+    c1bea564 : call 0xc198af80 
+    c1bea568 : memw (SP+#0x48),R16 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #277]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea604
+  FUNCTION: c1bea154 FUN_c1bea154
+  RANGE   : c1bea154 - c1bea703
+
+  PREVIOUS CONTEXT:
+    c1bea600 : immext #0xc9191400 
+    c1bea5fc : or R5,##0x1017,asl(R5,#0x8) 
+    c1bea5f8 : immext #0x1000 
+
+  CENTER:
+    >>> c1bea604 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea608 : immext #0xc9191400 
+    c1bea60c : memw R6,(##0xc919143c) 
+    c1bea610 : call 0xc1620c20 
+    c1bea614 : memw (SP),R6 
+    c1bea618 : add R9,FP,#0x10c7 
+    c1bea61c : assign R0,#0x0 
+    c1bea620 : memw R2,(SP+#0x14) 
+    c1bea624 : memw (R16+#0x74),R2.new 
+    c1bea628 : memb (R16+#0x3ae),R0 
+    c1bea62c : assign R0,R16 
+    c1bea630 : memw R2,(R16+#0x484) 
+    c1bea634 : memw R2,(R2+#0x1c) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #278]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea78c
+  FUNCTION: c1bea708 FUN_c1bea708
+  RANGE   : c1bea708 - c1bea9a7
+
+  PREVIOUS CONTEXT:
+    c1bea788 : immext #0xc9191400 
+    c1bea784 : and R3,R17,#0x3 
+    c1bea780 : jump.if(P0.new):t 0xc1bea7b0 
+
+  CENTER:
+    >>> c1bea78c : memw R1,(R16<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea790 : immext #0xcb53ab80 
+    c1bea794 : memw R2,(##0xcb53aba8) 
+    c1bea798 : immext #0xc9191400 
+    c1bea79c : memw R4,(##0xc919143c) 
+    c1bea7a0 : immext #0x1000 
+    c1bea7a4 : or R3,##0x1015,asl(R3,#0x8) 
+    c1bea7a8 : call 0xc1620c00 
+    c1bea7ac : add R12,FP,#0x10d5 
+    c1bea7b0 : memw R2,(R24) 
+    c1bea7b4 : memw R3,(R2+#0x114) 
+    c1bea7b8 : jump.if:nt cmp.eq(R3.new,#0x0),0xc1bea954 
+    c1bea7bc : immext #0x100 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R16
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #279]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bea870
+  FUNCTION: c1bea708 FUN_c1bea708
+  RANGE   : c1bea708 - c1bea9a7
+
+  PREVIOUS CONTEXT:
+    c1bea86c : immext #0xc9191400 
+    c1bea868 : memub R2,(R19+#0x5) 
+    c1bea864 : or R5,##0x1017,asl(R5,#0x8) 
+
+  CENTER:
+    >>> c1bea870 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bea874 : immext #0xc9191400 
+    c1bea878 : memw R6,(##0xc9191438) 
+    c1bea87c : call 0xc1620c20 
+    c1bea880 : memw (SP),R6 
+    c1bea884 : add R7,FP,#0x10dc 
+    c1bea888 : add R0,R19,#0x4b0 
+    c1bea88c : memw R2,(R19+#0x8c) 
+    c1bea890 : memw R3,(R19+#0x90) 
+    c1bea894 : cmp.eq P0,R2,#-0x1 
+    c1bea898 : cmp.eq P1,R3,#-0x1 
+    c1bea89c : memw.if(!P0.new) (R19+#0x8c),#-0x1 
+    c1bea8a0 : memw.if(!P1.new) (R19+#0x90),#-0x1 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #280]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beab84
+  FUNCTION: c1beab08 FUN_c1beab08
+  RANGE   : c1beab08 - c1beabab
+
+  PREVIOUS CONTEXT:
+    c1beab80 : immext #0xc9191400 
+    c1beab7c : and R4,R18,#0x3 
+    c1beab78 : call 0xc16fd420 
+
+  CENTER:
+    >>> c1beab84 : memw R1,(R17<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beab88 : memw R2,(R19+#0x178) 
+    c1beab8c : immext #0x1000 
+    c1beab90 : or R4,##0x1016,asl(R4,#0x8) 
+    c1beab94 : immext #0xc9191400 
+    c1beab98 : memw R5,(##0xc919143c) 
+    c1beab9c : call 0xc1620c0c 
+    c1beaba0 : add R7,R28,#0x11ee 
+    c1beaba4 : memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0) 
+    c1beaba8 : dealloc_return 
+    c1beabcc : memd (SP+#-0x10),R17R16 ; allocframe #0x50 
+    c1beabd0 : memw R2,(R0+#0x48c) 
+    c1beabd4 : memd (SP+#0x40),R19R18 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R17
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #281]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bead24
+  FUNCTION: c1beabcc FUN_c1beabcc
+  RANGE   : c1beabcc - c1beae8f
+
+  PREVIOUS CONTEXT:
+    c1bead20 : immext #0xc9191580 
+    c1bead1c : extractu R2,R2,#0x2,#0x4 
+    c1bead18 : memw R2,(R17+#0x3c) 
+
+  CENTER:
+    >>> c1bead24 : memw R18,(R2<<#0x2+##0xc91915a8) 
+
+  NEXT CONTEXT:
+    c1bead28 : memw (R17+#0x28),#0x0 
+    c1bead2c : memd (R17+#0x20),R27R26 
+    c1bead30 : assign R21,UTIMERLO 
+    c1bead34 : call 0xc16a01e0 
+    c1bead38 : memw R23,(R17+#0xc) ; memub R0,(R16) 
+    c1bead3c : !tstbit P0,R0,#0xb 
+    c1bead40 : jump.if(P0.new):t 0xc1bead7c 
+    c1bead44 : lsr-= R21,R23,#0x1 
+    c1bead48 : memw R7,(R17+#0xc) ; memub R2,(R16+#0x1) 
+    c1bead4c : and R4,R2,#0x3 
+    c1bead50 : memub R6,(R16) 
+    c1bead54 : immext #0xc9191400 
+
+  OPERAND OBJECTS:
+    operand[0] object = R18
+    operand[1] object = R2
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc91915a8
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #282]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bead70
+  FUNCTION: c1beabcc FUN_c1beabcc
+  RANGE   : c1beabcc - c1beae8f
+
+  PREVIOUS CONTEXT:
+    c1bead6c : immext #0xc9191400 
+    c1bead68 : or R4,##0x1016,asl(R4,#0x8) 
+    c1bead64 : immext #0x1000 
+
+  CENTER:
+    >>> c1bead70 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bead74 : call 0xc1620c0c 
+    c1bead78 : add R1,SP,#0x10d5 
+    c1bead7c : memb R2,(R19+#0x96) 
+    c1bead80 : jump.if:nt !cmp.eq(R2.new,#0x0),0xc1beae10 
+    c1bead84 : memb R2,(R16+#0x1) 
+    c1bead88 : memw R4,(R19+#0x60) 
+    c1bead8c : addasl R2,R22,R2,#0x3 
+    c1bead90 : memub R3,(R16) ; memub R5,(R16+#0x5) 
+    c1bead94 : add R3,R5,#-0x1 
+    c1bead98 : memw R2,(R2+R3<<#0x2) 
+    c1bead9c : and R2,R2,R4 
+    c1beada0 : asl&= R2,R20,R3 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #283]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beaf10
+  FUNCTION: c1beaea0 FUN_c1beaea0
+  RANGE   : c1beaea0 - c1beb013
+
+  PREVIOUS CONTEXT:
+    c1beaf0c : immext #0xc9191400 
+    c1beaf08 : call 0xc1620c2c 
+    c1beaf04 : memw (SP+#0x4),R8.new 
+
+  CENTER:
+    >>> c1beaf10 : memw R1,(R7<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beaf14 : memw (SP),R6 
+    c1beaf18 : add R10,SP,#0x10ac 
+    c1beaf1c : memw R2,(R18+#0x3c) 
+    c1beaf20 : immext #0xc9191580 
+    c1beaf24 : memw R3,(R19<<#0x2+##0xc91915b8) 
+    c1beaf28 : insert R2,R3,#0x2,#0x4 
+    c1beaf2c : memw (R18+#0x3c),R2.new 
+    c1beaf30 : memw R2,(R16+#0x48c) 
+    c1beaf34 : jump.if:t !cmp.eq(R2.new,#0x0),0xc1beaf40 
+    c1beaf38 : jump 0xc1beaf64 
+    c1beaf3c : memw (R16+#0x490),R18 
+    c1beaf40 : assign R21,R22 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R7
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #284]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beaf24
+  FUNCTION: c1beaea0 FUN_c1beaea0
+  RANGE   : c1beaea0 - c1beb013
+
+  PREVIOUS CONTEXT:
+    c1beaf20 : immext #0xc9191580 
+    c1beaf1c : memw R2,(R18+#0x3c) 
+    c1beaf18 : add R10,SP,#0x10ac 
+
+  CENTER:
+    >>> c1beaf24 : memw R3,(R19<<#0x2+##0xc91915b8) 
+
+  NEXT CONTEXT:
+    c1beaf28 : insert R2,R3,#0x2,#0x4 
+    c1beaf2c : memw (R18+#0x3c),R2.new 
+    c1beaf30 : memw R2,(R16+#0x48c) 
+    c1beaf34 : jump.if:t !cmp.eq(R2.new,#0x0),0xc1beaf40 
+    c1beaf38 : jump 0xc1beaf64 
+    c1beaf3c : memw (R16+#0x490),R18 
+    c1beaf40 : assign R21,R22 
+    c1beaf44 : memw R2,(R16+#0x490) 
+    c1beaf48 : jump 0xc1beaf64 
+    c1beaf4c : memw (R2+#0x24),R18 
+    c1beaf50 : cmp.eq P0,R2,#0x0 
+    c1beaf54 : assign.if(P0.new) R21,R22 
+
+  OPERAND OBJECTS:
+    operand[0] object = R3
+    operand[1] object = R19
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc91915b8
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #285]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beafc4
+  FUNCTION: c1beaea0 FUN_c1beaea0
+  RANGE   : c1beaea0 - c1beb013
+
+  PREVIOUS CONTEXT:
+    c1beafc0 : immext #0xc9191400 
+    c1beafbc : memw R5,(R17+#0x7c) 
+    c1beafb8 : memub R2,(R16+#0x5) 
+
+  CENTER:
+    >>> c1beafc4 : memw R1,(R7<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beafc8 : memw (SP),R6 
+    c1beafcc : call 0xc1620c2c 
+    c1beafd0 : immext #0xc9191400 
+    c1beafd4 : memw R7,(##0xc9191438) 
+    c1beafd8 : memw (SP+#0x4),R7.new 
+    c1beafdc : add R1,SP,#0x10b3 
+    c1beafe0 : call 0xc1be0c1c 
+    c1beafe4 : assign R0,R16 
+    c1beafe8 : memw R1,(R17+#0x80) 
+    c1beafec : immext #0xcb53ab00 
+    c1beaff0 : assign R2,##0xcb53ab06 
+    c1beaff4 : immext #0xcb53ab00 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R7
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #286]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb178
+  FUNCTION: c1beb018 FUN_c1beb018
+  RANGE   : c1beb018 - c1beb573
+
+  PREVIOUS CONTEXT:
+    c1beb174 : immext #0xc9191400 
+    c1beb170 : memub R2,(R16+#0x5) 
+    c1beb16c : or R6,##0x1019,asl(R6,#0x8) 
+
+  CENTER:
+    >>> c1beb178 : memw R1,(R7<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb17c : memw R7,(R22) 
+    c1beb180 : memw (SP+#0x4),R7 ; memw (SP+#0x8),R21 
+    c1beb184 : call 0xc1620c2c 
+    c1beb188 : memw (SP),R6 
+    c1beb18c : add R11,SP,#0x1175 
+    c1beb190 : call 0xc1be17b0 
+    c1beb194 : combine R1R0,R18,R16 
+    c1beb198 : assign R20,R0 
+    c1beb19c : cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):nt 0xc1beb250 
+    c1beb1a0 : memub R2,(R16+#0x3d1) 
+    c1beb1a4 : jump.if:nt !cmp.eq(R2.new,R23),0xc1beb250 
+    c1beb1a8 : memw R2,(R16+#0x3cc) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R7
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #287]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb1e4
+  FUNCTION: c1beb018 FUN_c1beb018
+  RANGE   : c1beb018 - c1beb573
+
+  PREVIOUS CONTEXT:
+    c1beb1e0 : immext #0xc9191400 
+    c1beb1dc : call 0xc1620c0c 
+    c1beb1d8 : or R4,##0x1016,asl(R4,#0x8) 
+
+  CENTER:
+    >>> c1beb1e4 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb1e8 : add R12,SP,#0x117c 
+    c1beb1ec : call 0xc1be2cb0 
+    c1beb1f0 : assign R0,R16 
+    c1beb1f4 : assign R2,#0x5 
+    c1beb1f8 : memw (R16+#0x3cc),R2.new 
+    c1beb1fc : cmp.eq P0,R23,#0x2 
+    c1beb200 : memw R2,(R18+#0x40) 
+    c1beb204 : memw R3,(R16+#0x3b0) 
+    c1beb208 : add R2,R3,R2 
+    c1beb20c : jump.if(!P0) 0xc1beb0c0 
+    c1beb210 : memw (R16+#0x3b0),R2.new 
+    c1beb214 : memw R3,(R17+#0xf0) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #288]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb2c0
+  FUNCTION: c1beb018 FUN_c1beb018
+  RANGE   : c1beb018 - c1beb573
+
+  PREVIOUS CONTEXT:
+    c1beb2bc : immext #0xc9191400 
+    c1beb2b8 : asl|= R5,R6,#0x8 
+    c1beb2b4 : memw R4,(R18+#0x34) ; memub R7,(R16) 
+
+  CENTER:
+    >>> c1beb2c0 : memw R1,(R7<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb2c4 : memw R0,(R22) 
+    c1beb2c8 : call 0xc1620c20 
+    c1beb2cc : memw (SP),R0 
+    c1beb2d0 : add R2,SP,#0x1185 
+    c1beb2d4 : combine R1R0,R18,R16 
+    c1beb2d8 : assign R2,#0x9 
+    c1beb2dc : memw R3,(R16+#0x480) 
+    c1beb2e0 : callr R3 
+    c1beb2e4 : memw R20,(R18+#0x48) 
+    c1beb2e8 : jump.if:nt cmp.eq(R20.new,#0x0),0xc1beb32c 
+    c1beb2ec : memw R18,(R18+#0x4c) 
+    c1beb2f0 : immext #0xcf8e2a80 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R7
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #289]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb39c
+  FUNCTION: c1beb018 FUN_c1beb018
+  RANGE   : c1beb018 - c1beb573
+
+  PREVIOUS CONTEXT:
+    c1beb398 : immext #0xc9191400 
+    c1beb394 : assign R5,R19 
+    c1beb390 : memub R2,(R16+#0x5) 
+
+  CENTER:
+    >>> c1beb39c : memw R1,(R3<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb3a0 : memw R3,(R16+#0x3b4) 
+    c1beb3a4 : memw R4,(R17+#0x100) 
+    c1beb3a8 : memw R0,(R22+#0x4) 
+    c1beb3ac : call 0xc1620c20 
+    c1beb3b0 : memw (SP),R0 
+    c1beb3b4 : add R2,SP,#0x118c 
+    c1beb3b8 : call 0xc1be0458 
+    c1beb3bc : assign R1,#0x0 ; memb R0,(R16+#0x1) 
+    c1beb3c0 : jump 0xc1beb410 
+    c1beb3c4 : cmp.eq P0,R2,#0x0 ; jump.if(P0.new):t 0xc1beb400 
+    c1beb3c8 : memub.if(!P0.new) R2,(R16+#0x1) 
+    c1beb3cc : memub.if(!P0.new) R3,(R16) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R3
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #290]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb3e4
+  FUNCTION: c1beb018 FUN_c1beb018
+  RANGE   : c1beb018 - c1beb573
+
+  PREVIOUS CONTEXT:
+    c1beb3e0 : immext #0xc9191400 
+    c1beb3dc : assign R5,R19 
+    c1beb3d8 : memub R2,(R16+#0x5) 
+
+  CENTER:
+    >>> c1beb3e4 : memw R1,(R3<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb3e8 : memw R3,(R16+#0x3b4) 
+    c1beb3ec : memw R4,(R17+#0x100) 
+    c1beb3f0 : memw R0,(R22+#0x4) 
+    c1beb3f4 : call 0xc1620c20 
+    c1beb3f8 : memw (SP),R0 
+    c1beb3fc : add R14,SP,#0x1192 
+    c1beb400 : call 0xc1be0350 
+    c1beb404 : memb R0,(R16+#0x1) 
+    c1beb408 : immext #0x500 
+    c1beb40c : memub R1,(R16+##0x514) 
+    c1beb410 : call 0xc1be7d94 
+    c1beb414 : assign R0,R16 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R3
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #291]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb468
+  FUNCTION: c1beb018 FUN_c1beb018
+  RANGE   : c1beb018 - c1beb573
+
+  PREVIOUS CONTEXT:
+    c1beb464 : immext #0xc9191400 
+    c1beb460 : asl|= R19,R5,#0x8 
+    c1beb45c : and R5,R2,#0x3 
+
+  CENTER:
+    >>> c1beb468 : memw R1,(R3<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb46c : assign R5,R19 
+    c1beb470 : memw R3,(R18+#0x30) ; memub R2,(R16+#0x5) 
+    c1beb474 : call 0xc1620c20 
+    c1beb478 : memw R0,(R22) 
+    c1beb47c : memw (SP),R0.new 
+    c1beb480 : add R3,SP,#0x1199 
+    c1beb484 : add R3,SP,#0x20 
+    c1beb488 : add R4,SP,#0x24 
+    c1beb48c : memub R1,(R16) ; memb R0,(R16+#0x1) 
+    c1beb490 : call 0xc1c94e4c 
+    c1beb494 : memub R2,(R16+#0x5) 
+    c1beb498 : assign R1,#0x0 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R3
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #292]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb708
+  FUNCTION: c1beb690 FUN_c1beb690
+  RANGE   : c1beb690 - c1beb823
+
+  PREVIOUS CONTEXT:
+    c1beb704 : immext #0xc9191400 
+    c1beb700 : and R5,R4,#0x3 
+    c1beb6fc : memub R5,(R16) ; memub R2,(R16+#0x5) 
+
+  CENTER:
+    >>> c1beb708 : memw R1,(R5<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb70c : immext #0x1000 
+    c1beb710 : or R5,##0x1018,asl(R5,#0x8) 
+    c1beb714 : immext #0xc9191400 
+    c1beb718 : memw R4,(##0xc919143c) 
+    c1beb71c : call 0xc1620c2c 
+    c1beb720 : combine R5R4,R19,R17 
+    c1beb724 : memw (SP+#0x0),R5 ; memw (SP+#0x4),R4 
+    c1beb728 : add R12,SP,#0x11ec 
+    c1beb72c : minu R1,R17,R19 
+    c1beb730 : assign R0,R16 
+    c1beb734 : memw R2,(R16+#0x484) 
+    c1beb738 : assign R2,#0x4 ; memw R3,(R2+#0x10) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #293]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1beb7d0
+  FUNCTION: c1beb690 FUN_c1beb690
+  RANGE   : c1beb690 - c1beb823
+
+  PREVIOUS CONTEXT:
+    c1beb7cc : immext #0xc9191400 
+    c1beb7c8 : or R5,##0x1017,asl(R5,#0x8) 
+    c1beb7c4 : immext #0x1000 
+
+  CENTER:
+    >>> c1beb7d0 : memw R1,(R6<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1beb7d4 : call 0xc1620c20 
+    c1beb7d8 : add R3,SP,#0x11f4 
+    c1beb7dc : combine R1R0,R17,R16 
+    c1beb7e0 : memw R2,(R16+#0x484) 
+    c1beb7e4 : assign R2,#0x4 ; memw R3,(R2+#0x10) 
+    c1beb7e8 : callr R3 
+    c1beb7ec : memw R3,(R16+#0x8c) 
+    c1beb7f0 : jump.if:nt cmp.eq(R3.new,#-1),0xc1beb808 
+    c1beb7f4 : assign R1,#0x0 
+    c1beb7f8 : memw R4,(R20) ; memb R0,(R16+#0x1) 
+    c1beb7fc : memub R2,(R16+#0x5) 
+    c1beb800 : callr R4 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R6
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #294]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bebbc8
+  FUNCTION: <none>
+
+  PREVIOUS CONTEXT:
+    c1bebbc4 : immext #0xc9191400 
+    c1bebbc0 : call 0xc1620c00 
+    c1bebbbc : or R3,##0x1015,asl(R3,#0x8) 
+
+  CENTER:
+    >>> c1bebbc8 : memw R1,(R5<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bebbcc : add R1,FP,#0x1013 
+    c1bebbd0 : call 0xc1bca150 
+    c1bebbd4 : memw R18,(R19+#0x38) 
+    c1bebbd8 : call 0xc1bca160 
+    c1bebbdc : combine R1R0,R0,R18 
+    c1bebbe0 : assign R18,R0 
+    c1bebbe4 : memw R2,(R19+#0x40) 
+    c1bebbe8 : memw R3,(R19+#0x3c) 
+    c1bebbec : cmp.gtu P0,R0,R2 
+    c1bebbf0 : add R20,R3,R0 
+    c1bebbf4 : memd R1R0,(R19+#0x78) 
+    c1bebbf8 : memw (R19+#0x3c),R20.new 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #295]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bebc64
+  FUNCTION: <none>
+
+  PREVIOUS CONTEXT:
+    c1bebc60 : immext #0xc9191400 
+    c1bebc5c : or R6,##0x1018,asl(R6,#0x8) 
+    c1bebc58 : immext #0x1000 
+
+  CENTER:
+    >>> c1bebc64 : memw R1,(R7<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bebc68 : memw (SP),R6 
+    c1bebc6c : call 0xc1620c2c 
+    c1bebc70 : immext #0xc9191400 
+    c1bebc74 : memw R7,(##0xc919143c) 
+    c1bebc78 : memw (SP+#0x4),R7.new 
+    c1bebc7c : add R6,FP,#0x1019 
+    c1bebc80 : combine R1R0,R17,R16 
+    c1bebc84 : assign R3,R18 
+    c1bebc88 : assign R4,#0x0 
+    c1bebc8c : memub R2,(R19+#0x111) 
+    c1bebc90 : call 0xc1c99dd4 
+    c1bebc94 : assign R17,#0x0 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R7
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #296]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bebd38
+  FUNCTION: c1bebce4 FUN_c1bebce4
+  RANGE   : c1bebce4 - c1bebd6f
+
+  PREVIOUS CONTEXT:
+    c1bebd34 : immext #0xc9191400 
+    c1bebd30 : memw R0,(##0xc919143c) 
+    c1bebd2c : immext #0xc9191400 
+
+  CENTER:
+    >>> c1bebd38 : memw R1,(R5<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bebd3c : memub R5,(R7+#0x103) 
+    c1bebd40 : memw (SP+#0x4),R0 
+    c1bebd44 : call 0xc1620c2c 
+    c1bebd48 : memw (SP),R6 
+    c1bebd4c : add R9,FP,#0x1022 
+    c1bebd50 : add R2,R16,#0x1e0 
+    c1bebd54 : combine R1R0,#0x0,R16 
+    c1bebd58 : memw R2,(R16+#0x484) 
+    c1bebd5c : memw+= (R2),#0x1 
+    c1bebd60 : memd R17R16,(SP+#0x8) 
+    c1bebd64 : memw R7,(R2+#0x20) ; deallocframe 
+    c1bebd68 : jumpr R7 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #297]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bec178
+  FUNCTION: c1bec078 FUN_c1bec078
+  RANGE   : c1bec078 - c1bec25f
+
+  PREVIOUS CONTEXT:
+    c1bec174 : immext #0xc9191400 
+    c1bec170 : memd R13R12,(R17+#0xc8) 
+    c1bec16c : or R6,##0x101b,asl(R6,#0x8) 
+
+  CENTER:
+    >>> c1bec178 : memw R1,(R7<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bec17c : immext #0xc9191400 
+    c1bec180 : memw R8,(##0xc919143c) 
+    c1bec184 : memw R9,(R17+#0xbc) 
+    c1bec188 : memw (SP+#0x10),R9.new 
+    c1bec18c : memw (SP+#0x8),R20 
+    c1bec190 : memw (SP+#0xc),R12 
+    c1bec194 : call 0xc1620c2c 
+    c1bec198 : memw (SP+#0x4),R8 
+    c1bec19c : memw (SP),R6 
+    c1bec1a0 : add R0,FP,#0x1066 
+    c1bec1a4 : memd R17R16,(SP+#0x30) ; memd R19R18,(SP+#0x28) 
+    c1bec1a8 : memd R21R20,(SP+#0x20) ; memd R23R22,(SP+#0x18) 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R7
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #298]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bec2b0
+  FUNCTION: c1bec260 FUN_c1bec260
+  RANGE   : c1bec260 - c1bec433
+
+  PREVIOUS CONTEXT:
+    c1bec2ac : immext #0xc9191400 
+    c1bec2a8 : call 0xc1620c00 
+    c1bec2a4 : or R3,##0x1015,asl(R3,#0x8) 
+
+  CENTER:
+    >>> c1bec2b0 : memw R1,(R5<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bec2b4 : add R14,FP,#0x106f 
+    c1bec2b8 : memb R0,(R16+#0x1) 
+    c1bec2bc : memub R1,(R19+#0x101) 
+    c1bec2c0 : call 0xc1bcea98 
+    c1bec2c4 : memub R2,(R16+#0x5) 
+    c1bec2c8 : assign R3,R20 
+    c1bec2cc : memub R2,(R19+#0x100) 
+    c1bec2d0 : mpyi+= R3,R2,#0x60 
+    c1bec2d4 : call 0xc1bca150 
+    c1bec2d8 : memw R18,(R3+#0x10) 
+    c1bec2dc : call 0xc1bca160 
+    c1bec2e0 : combine R1R0,R0,R18 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #299]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bec398
+  FUNCTION: c1bec260 FUN_c1bec260
+  RANGE   : c1bec260 - c1bec433
+
+  PREVIOUS CONTEXT:
+    c1bec394 : immext #0xc9191400 
+    c1bec390 : or R7,##0x1019,asl(R7,#0x8) 
+    c1bec38c : immext #0x1000 
+
+  CENTER:
+    >>> c1bec398 : memw R1,(R5<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bec39c : memw R4,(R20+#0x14) ; memw R5,(R20+#0x38) 
+    c1bec3a0 : memw R8,(R20+#0x30) 
+    c1bec3a4 : memw (SP+#0x8),R8.new 
+    c1bec3a8 : call 0xc1620c2c 
+    c1bec3ac : memw (SP+#0x4),R6 ; memw (SP+#0x0),R7 
+    c1bec3b0 : add R3,FP,#0x1076 
+    c1bec3b4 : combine R1R0,R17,R16 
+    c1bec3b8 : memb R2,(R19+#0x100) 
+    c1bec3bc : cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc1bec3d0 
+    c1bec3c0 : memub R2,(R19+#0x111) 
+    c1bec3c4 : call 0xc1c99dd4 
+    c1bec3c8 : assign R4,#0x0 ; assign R3,R18 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R5
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+============================================================
+[HIT #300]
+  CLASS   : INDEXED C919 ACCESS
+  ADDRESS : c1bef2ac
+  FUNCTION: c1bee890 FUN_c1bee890
+  RANGE   : c1bee890 - c1bef32f
+
+  PREVIOUS CONTEXT:
+    c1bef2a8 : immext #0xc9191400 
+    c1bef2a4 : or R2,##0x1014,asl(R2,#0x8) 
+    c1bef2a0 : immext #0x1000 
+
+  CENTER:
+    >>> c1bef2ac : memw R1,(R4<<#0x2+##0xc9191428) 
+
+  NEXT CONTEXT:
+    c1bef2b0 : call 0xc1620bec 
+    c1bef2b4 : add R9,LR,#0x1030 
+    c1bef2b8 : add R19,R19,#0x4 ; add R18,R18,#0x1 
+    c1bef2bc : memw R2,(R16+#0x114) 
+    c1bef2c0 : jump.if:t cmp.gtu(R2.new,R18),0xc1bef268 
+    c1bef2c4 : combine R1R0,#0x0,#0x0 
+    c1bef2c8 : assign R2,#0x0 
+    c1bef2cc : memb (R16+#0x19a),R2.new 
+    c1bef2d0 : memd (R16+#0x190),R1R0 
+    c1bef2d4 : memd (R16+#0x188),R1R0 
+    c1bef2d8 : memd (R16+#0x180),R1R0 
+    c1bef2dc : memd (R16+#0x178),R1R0 
+
+  OPERAND OBJECTS:
+    operand[0] object = R1
+    operand[1] object = R4
+    operand[1] scalar = 0x2
+    operand[1] scalar = 0xc9191428
+
+  >>> IMPORTANT: indexed C919 access detected
+      Possible table[index] style access.
+============================================================
+
+PRINT LIMIT REACHED: 300
 
 ============================================================
 SUMMARY
-  instructions visited     = 1415334
-  C919 IMMEXT encountered  = 3688
-  useful windows printed   = 10
+  instructions visited = 1090801
+  candidate hits       = 301
+  indexed C919 hits    = 301
+  exact target hits    = 0
+  windows printed      = 300
 ============================================================
-Done. No functions, labels, comments, memory, or register context changed.
+
+No functions, labels, comments, memory, or register context changed.
 ============================================================
-TraceRFDebugPropertyAddressConstruction.java> Finished!
+TraceRFDebugPropertyDirectOperands.java> Finished!
