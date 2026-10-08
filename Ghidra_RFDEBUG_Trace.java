@@ -23,6 +23,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
     private static final int MAX_FOCUSED_INSNS = 320;
+    private static final int MAX_C1902_INSNS = 600;
+    private static final int MAX_CALLER_INSNS = 500;
     private static final int MAX_GLOBAL_INSNS = 1800000;
     private static final int MAX_FUNCTIONS = 120;
     private static final int MAX_LINES = 16000;
@@ -1330,75 +1332,240 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private void printCompactFunction(long off, int maxInsns, boolean onlyRelevant) {
+        if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+        Address entry = toAddr(off);
+        Function f = functionContaining(entry);
+
+        println("\n------------------------------------------------------------");
+        println("COMPACT FUNCTION @ " + entry);
+        if (f == null) {
+            println("FUNCTION: <none>");
+            return;
+        }
+
+        println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+        println("BODY: " + f.getBody());
+
+        ArrayList<Instruction> a = collect(f);
+        int shown = 0;
+
+        // First 40 instructions are always shown to expose the true ABI/input setup.
+        int head = Math.min(40, a.size());
+        for (int i = 0; i < head && shown < maxInsns && lines < MAX_LINES; i++) {
+            Instruction ins = a.get(i);
+            println("  HEAD " + ins.getAddress() + " : " + safe(ins.toString()));
+            lines++;
+            shown++;
+        }
+
+        // Then show instructions near the known 0x4B parser and all calls/memory ops.
+        for (int i = head; i < a.size() && shown < maxInsns && lines < MAX_LINES; i++) {
+            if (monitor.isCancelled()) return;
+
+            Instruction ins = a.get(i);
+            String s = safe(ins.toString()).toLowerCase();
+
+            boolean relevant =
+                !onlyRelevant ||
+                s.contains("mem") ||
+                s.contains("call") ||
+                s.contains("cmp") ||
+                s.contains("assign r0") ||
+                s.contains("assign r1") ||
+                s.contains("assign r2") ||
+                s.contains("assign r3") ||
+                s.contains("r0") || s.contains("r1") ||
+                s.contains("r2") || s.contains("r3") ||
+                (ins.getAddress().getOffset() >= 0xc1902c88L &&
+                 ins.getAddress().getOffset() <= 0xc1902cd8L);
+
+            if (!relevant) continue;
+
+            println("  " + ins.getAddress() + " : " + safe(ins.toString()));
+            lines++;
+            shown++;
+        }
+
+        println("SHOWN: " + shown + " / BOUNDED FUNCTION INSNS=" + a.size());
+    }
+
+    private void inspectCallSiteNeighborhood(long off, int before, int after) {
+        if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+        Address site = toAddr(off);
+        Instruction center = currentProgram.getListing().getInstructionContaining(site);
+
+        println("\n------------------------------------------------------------");
+        println("CALL-SITE NEIGHBORHOOD @ " + site);
+
+        if (center == null) {
+            println("INSTRUCTION: <none>");
+            return;
+        }
+
+        Function f = functionContaining(center.getAddress());
+        println("CALLER FUNCTION: " +
+            (f == null ? "<none>" : f.getName() + " @ " + f.getEntryPoint()));
+
+        Instruction cur = center;
+        ArrayList<Instruction> rev = new ArrayList<Instruction>();
+
+        for (int i = 0; i < before; i++) {
+            Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+            if (p == null) break;
+            rev.add(p);
+            cur = p;
+        }
+
+        for (int i = rev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
+            Instruction p = rev.get(i);
+            println("  PREV " + p.getAddress() + " : " + safe(p.toString()));
+            lines++;
+        }
+
+        println("  CALL " + center.getAddress() + " : " + safe(center.toString()));
+        lines++;
+
+        cur = center;
+        for (int i = 0; i < after && lines < MAX_LINES; i++) {
+            Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+            if (n == null) break;
+            println("  NEXT " + n.getAddress() + " : " + safe(n.toString()));
+            lines++;
+            cur = n;
+        }
+    }
+
+    private void printIncomingCalls(long off, int max) {
+        if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+        Address entry = toAddr(off);
+        Function f = functionContaining(entry);
+
+        println("\n------------------------------------------------------------");
+        println("INCOMING CALLS @ " + entry);
+        if (f == null) {
+            println("FUNCTION: <none>");
+            return;
+        }
+
+        println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+
+        ReferenceIterator rit =
+            currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
+
+        int n = 0;
+        while (rit.hasNext() && n < max && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
+
+            Reference r = rit.next();
+            if (!r.getReferenceType().isCall()) continue;
+
+            Function caller = functionContaining(r.getFromAddress());
+            println("  CALLER " + r.getFromAddress() + " <- " +
+                (caller == null ? "<unknown>" :
+                 caller.getName() + " @ " + caller.getEntryPoint()));
+            lines++;
+            n++;
+        }
+
+        if (n == 0) println("  <none>");
+    }
+
     private void focusedParserTrace() {
         lines = 0;
 
         println("\n============================================================");
-        println("FOCUSED RFDEBUG-ENTRY PARSER TRACE");
-        println("NO GLOBAL SCANS / READ ONLY");
-        println("PRIMARY: c1902c74 + caller @ c1902c70");
-        println("SECONDARY: c1d1a760 + all direct call xrefs");
+        println("FOCUSED RFDEBUG-ENTRY CANDIDATE TRACE");
+        println("PRIMARY ONLY: c1902c74 / call-site c1902c70");
+        println("SECONDARY SUMMARY ONLY: c1d1a760");
+        println("NO GLOBAL SCANS / READ ONLY / HARD LIMITED");
         println("============================================================");
 
-        // Primary candidate: show call-site and whole function, but cap output hard.
-        inspectCallSiteByAddress(0xc1902c70L);
-        inspectFunctionByAddress(0xc1902c74L);
+        // The most important candidate: keep its complete local ABI/input setup.
+        printIncomingCalls(0xc1902c74L, 16);
+        inspectCallSiteNeighborhood(0xc1902c70L, 30, 30);
+        printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
-        // Show the exact caller function containing c1902c70.
+        // Inspect the actual caller function, but do not dump the giant secondary parser.
         Instruction cs = currentProgram.getListing().getInstructionContaining(toAddr(0xc1902c70L));
         Function cf = (cs == null ? null : functionContaining(cs.getAddress()));
+
         if (cf != null) {
             println("\n------------------------------------------------------------");
-            println("CALLER FUNCTION CONTAINING c1902c70");
+            println("CALLER OF c1902c74: COMPACT DATAFLOW");
             println("FUNCTION: " + cf.getName() + " @ " + cf.getEntryPoint());
+
             ArrayList<Instruction> a = collect(cf);
-            int count = 0;
-            for (Instruction ins : a) {
-                if (monitor.isCancelled() || lines >= MAX_LINES || count >= MAX_FOCUSED_INSNS) return;
+            int shown = 0;
+
+            // Show prologue and the region around c1902c70.
+            for (int i = 0; i < a.size() && shown < MAX_CALLER_INSNS && lines < MAX_LINES; i++) {
+                if (monitor.isCancelled()) return;
+
+                Instruction ins = a.get(i);
                 long off = ins.getAddress().getOffset();
-                // Print a compact caller body. Highlight the actual call site and
-                // instructions involving R0-R3/SP/memory immediately around it.
-                String s = safe(ins.toString());
-                if (off >= 0xc1902c00L && off <= 0xc1902ce0L ||
-                    ins.getAddress().equals(toAddr(0xc1902c70L)) ||
-                    s.contains("SP") || s.contains("mem") ||
-                    s.contains("R0") || s.contains("R1") ||
-                    s.contains("R2") || s.contains("R3") ||
-                    isCall(s)) {
-                    println("  " + ins.getAddress() + " : " + s);
-                    lines++;
-                    count++;
-                }
+                String s = safe(ins.toString()).toLowerCase();
+
+                boolean nearCall = off >= 0xc1902bf0L && off <= 0xc1902d00L;
+                boolean setup = i < 70;
+                boolean important =
+                    nearCall || setup ||
+                    s.contains("call") ||
+                    s.contains("memub") || s.contains("memb") ||
+                    s.contains("memw") || s.contains("memd") ||
+                    s.contains("sp+") ||
+                    s.contains("r0") || s.contains("r1") ||
+                    s.contains("r2") || s.contains("r3");
+
+                if (!important) continue;
+
+                println("  " + ins.getAddress() + " : " + safe(ins.toString()));
+                lines++;
+                shown++;
             }
-        }
 
-        // Secondary candidate.
-        inspectFunctionByAddress(0xc1d1a760L);
+            println("CALLER SHOWN: " + shown + " / BOUNDED FUNCTION INSNS=" + a.size());
 
-        Function sf = functionContaining(toAddr(0xc1d1a760L));
-        if (sf != null) {
-            println("\nCALLERS OF c1d1a760:");
+            println("CALLS INTO THIS CALLER FUNCTION:");
             ReferenceIterator rit =
-                currentProgram.getReferenceManager().getReferencesTo(sf.getEntryPoint());
+                currentProgram.getReferenceManager().getReferencesTo(cf.getEntryPoint());
             int n = 0;
-            while (rit.hasNext() && n < 24 && lines < MAX_LINES) {
+            while (rit.hasNext() && n < 12 && lines < MAX_LINES) {
                 if (monitor.isCancelled()) return;
                 Reference r = rit.next();
                 if (!r.getReferenceType().isCall()) continue;
-                Function caller = functionContaining(r.getFromAddress());
+
+                Function caller2 = functionContaining(r.getFromAddress());
                 println("  " + r.getFromAddress() + " <- " +
-                    (caller == null ? "<unknown>" :
-                     caller.getName() + " @ " + caller.getEntryPoint()));
+                    (caller2 == null ? "<unknown>" :
+                     caller2.getName() + " @ " + caller2.getEntryPoint()));
                 lines++;
                 n++;
             }
-            if (n == 0) println("  <none>");
+        }
+
+        // Secondary candidate only needs the entry/header and call-site evidence now.
+        println("\n------------------------------------------------------------");
+        println("SECONDARY CANDIDATE c1d1a760: SUMMARY");
+        Function sf = functionContaining(toAddr(0xc1d1a760L));
+        if (sf == null) {
+            println("FUNCTION: <none>");
+        } else {
+            println("FUNCTION: " + sf.getName() + " @ " + sf.getEntryPoint());
+            println("The previous run already established: 0x4B is read from (R22++#1),");
+            println("then the same parser checks 0x76, 0x45, 0x52, 0x4F, 0x45, 0x5F,");
+            println("and repeatedly manipulates heap/list buffer pointers.");
+            println("This is lower priority than c1902c74.");
         }
 
         println("\n============================================================");
         println("FOCUSED TRACE COMPLETE");
         println("============================================================");
     }
+
 
     private void deepInspectLikelyParsers() {
         println("\n============================================================");
@@ -1573,8 +1740,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     public void run() throws Exception {
         println("============================================================");
         println(" Ghidra_RFDEBUG_Trace");
-        println(" FOCUSED MODE: 0x4B BYTE PARSER -> CALLER DATAFLOW");
-        println(" READ ONLY / HARD LIMITED");
+        println(" C1902 PRIMARY TRACE / READ ONLY");
         println("============================================================");
 
         focusedParserTrace();
@@ -1582,7 +1748,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n============================================================");
         println("DONE");
         println("No memory, symbols, comments, or program structures modified.");
-        println("Keep using this same GitHub file: Ghidra_RFDEBUG_Trace.java");
         println("============================================================");
     }
 }
