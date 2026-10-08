@@ -1,150 +1,1630 @@
-Find7BDispatchCandidates.java> Running...
-============================================================
- RFDEBUG 0x7B DISPATCH CANDIDATE SCAN
- Program : qdsp6sw.mbn
- Image   : c1600000
- READ ONLY
-============================================================
-
-PROGRAM CHECK : PASS
-
-KNOWN PROTOCOL VALUES:
-  FTM SUBSYSTEM      = 0x0B
-  RFDEBUG SUBSYSTEM  = 0x7B
-  RADIO_CONFIGURE    = 0x01
-  PROPERTY_DISCOVERY = 0x05
-
-
-7B HIT 1 : c184b698
-  INS      : cmpb.eq P0,R3,#0x7b 
-  FUNCTION : FUN_c184a38c
-  ENTRY    : c184a38c
-  STATUS   : KNOWN DEMOD FALSE POSITIVE
-
-7B HIT 2 : c1a8393c
-  INS      : cmph.gtu P0,R3,#0x7b 
-  FUNCTION : FUN_c1a83914
-  ENTRY    : c1a83914
-
-7B HIT 3 : c1ca8234
-  INS      : cmp.gt P0,R2,#0x7b 
-  FUNCTION : FUN_c1ca8160
-  ENTRY    : c1ca8160
-
-------------------------------------------------------------
-SCAN SUMMARY
-------------------------------------------------------------
-EXECUTABLE BLOCKS : 8
-INSTRUCTIONS      : 1415334
-RAW 0x7B HITS     : 3
-CANDIDATE FUNCS   : 2
-
+13 8D 02 E0 C1 97 02 00 00 
+    00 00 00 12 7A 00 A0 98 7B 00 01 00 00 00 A0 98 
+    7B 00 40 1F 7D 00 02 00 00 00 40 1F 7D 00 E0 A5 
+    7E 00 03 00 00 00 E0 A5 7E 00 80 2C 80 00 04 00 
+    00 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
 
 ============================================================
-CANDIDATE 0
-FUNCTION : FUN_c1a83914
-ENTRY    : c1a83914
-RANGE    : c1a83914 - c1a83a2f
-
-FEATURES:
-  cmp 0x7B : 1
-  cmp 0x0B : 0
-  cmp 0x01 : 2
-  cmp 0x05 : 0
-  calls    : 5
-  score    : 9
-
-******** HIGH-VALUE CANDIDATE ********
-  c1a83920 : jump.if(P0) 0xc1a83a18 
-  c1a83934 : jumpr R3 
-  c1a8393c : cmph.gtu P0,R3,#0x7b 
-  c1a83948 : jump.if(P0.new):t 0xc1a83958 
-  c1a83954 : jump 0xc1a83a28 
-  c1a83964 : call 0xc1aada40 
-  c1a83968 : jump 0xc1a83a28 
-  c1a83978 : jump.if(P0.new):t 0xc1a8398c 
-  c1a83988 : jump 0xc1a83a28 
-  c1a83998 : jump.if(P0.new):t 0xc1a839a8 
-  c1a839a4 : jump 0xc1a83a28 
-  c1a839a8 : call 0xc169776c 
-  c1a839b4 : jump 0xc1a83a28 
-  c1a839c4 : jump.if(P0.new):t 0xc1a839d8 
-  c1a839d4 : jump 0xc1a83a28 
-  c1a839d8 : call 0xc169776c 
-  c1a839e4 : jump 0xc1a83a28 
-  c1a839f4 : jump.if(P0.new):t 0xc1a83a08 
-  c1a83a04 : jump 0xc1a83a28 
-  c1a83a08 : call 0xc169776c 
-  c1a83a14 : jump 0xc1a83a28 
-  c1a83a18 : call 0xc169776c 
-****************************************
+CANDIDATE #159
+ADDRESS : c4e26588
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    15 00 0F 00 06 00 00 00 49 00 4F 00 53 00 59 00 
+    5F 00 60 00 66 00 6A 00 6F 00 73 00 76 00 79 00 
+    7B 00 7D 00 7E 00 7F 00 1F 00 1E 00 1C 00 1B 00 
+    19 00 18 00 16 00 15 00 14 00 13 00 12 00 11 00 
+    10 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
 
 ============================================================
-CANDIDATE 1
-FUNCTION : FUN_c1ca8160
-ENTRY    : c1ca8160
-RANGE    : c1ca8160 - c1ca844b
+CANDIDATE #160
+ADDRESS : c4e265b4
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    1C 00 1B 00 19 00 18 00 16 00 15 00 14 00 13 00 
+    12 00 11 00 10 00 0E 00 0E 00 0D 00 0C 00 0C 00 
+    0B 00 0A 00 0A 00 0A 00 0A 00 0A 00 0A 00 0A 00 
+    0A 00 0A 00 0A 00 0A 00 0A 00 0A 00 9F 19 00 00 
+    00 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
 
-FEATURES:
-  cmp 0x7B : 1
-  cmp 0x0B : 0
-  cmp 0x01 : 1
-  cmp 0x05 : 0
-  calls    : 6
-  score    : 9
+============================================================
+CANDIDATE #161
+ADDRESS : c4e2935e
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    06 00 64 00 06 00 71 00 06 00 7F 00 06 00 7D 00 
+    07 00 7D 00 08 00 7D 00 09 00 7F 00 0A 00 7F 00 
+    0B 00 79 00 0D 00 79 00 0F 00 79 00 11 00 7F 00 
+    13 00 7F 00 16 00 7F 00 19 00 7F 00 1D 00 7C 00 
+    21 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
 
-******** HIGH-VALUE CANDIDATE ********
-  c1ca8174 : call 0xc1620d4c 
-  c1ca81cc : jump.if(P0) 0xc1ca8430 
-  c1ca81d8 : cmp.gt P0,R2,#0x10 ; jump.if(!P0.new):t 0xc1ca8430 
-  c1ca81e8 : cmp.eq P0,R4,#0x0 ; jump.if(!P0.new):t 0xc1ca8200 
-  c1ca81f0 : cmp.eq P0,R3,#0x0 ; jump.if(!P0.new):t 0xc1ca820c 
-  c1ca81f8 : jump.if:t !cmp.eq(R3.new,#0x0),0xc1ca820c 
-  c1ca81fc : jump 0xc1ca8234 
-  c1ca8200 : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc1ca820c 
-  c1ca8208 : jump.if:t !cmp.eq(R5.new,#0x0),0xc1ca822c 
-  c1ca820c : call 0xc1ca7ff4 
-  c1ca8224 : call 0xc1ca8108 
-  c1ca8228 : assign R0,#0x0 ; jump 0xc1ca8448 
-  c1ca8234 : cmp.gt P0,R2,#0x7b 
-  c1ca8238 : jump.if(!P0.new):t 0xc1ca8254 
-  c1ca8248 : jump 0xc1ca825c 
-  c1ca8258 : jump.if(!P0.new):t 0xc1ca8380 
-  c1ca8260 : cmp.eq P0,R4,#0x0 ; jump.if(!P0.new):t 0xc1ca8290 
-  c1ca8268 : cmp.eq P0,R3,#0x0 ; jump.if(!P0.new):t 0xc1ca82b4 
-  c1ca8270 : jump.if:t !cmp.eq(R3.new,#0x0),0xc1ca82b4 
-  c1ca8278 : jump.if:t !cmp.eq(R3.new,#0x0),0xc1ca82b4 
-  c1ca8280 : jump.if:t !cmp.eq(R3.new,#0x0),0xc1ca82b4 
-  c1ca8288 : jump.if:t !cmp.eq(R3.new,#0x0),0xc1ca82b4 
-  c1ca828c : jump 0xc1ca82e0 
-  c1ca8290 : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc1ca82b4 
-  c1ca8298 : jump.if:nt cmp.eq(R5.new,#0x0),0xc1ca82b4 
-  c1ca82a0 : jump.if:nt cmp.eq(R6.new,#0x0),0xc1ca82b4 
-  c1ca82a8 : jump.if:nt cmp.eq(R7.new,#0x0),0xc1ca82b4 
-  c1ca82b0 : jump.if:t !cmp.eq(R8.new,#0x0),0xc1ca82d0 
-  c1ca82b4 : call 0xc1ca7ff4 
-  c1ca82cc : jump 0xc1ca8224 
-  c1ca82e4 : jump.if(!P0.new):t 0xc1ca8388 
-  c1ca82ec : jump.if:nt cmp.eq(R2.new,#0x0),0xc1ca8388 
-  c1ca82f4 : jump.if:nt cmp.eq(R3.new,#0x0),0xc1ca8340 
-  c1ca82fc : jump.if:nt cmp.eq(R4.new,#0x0),0xc1ca8340 
-  c1ca8304 : jump.if:nt cmp.eq(R5.new,#0x0),0xc1ca8340 
-  c1ca830c : jump.if:nt cmp.eq(R6.new,#0x0),0xc1ca8340 
-  c1ca8314 : jump.if:nt cmp.eq(R7.new,#0x0),0xc1ca8340 
-  c1ca831c : jump.if:nt cmp.eq(R8.new,#0x0),0xc1ca8340 
-  c1ca8324 : jump.if:nt cmp.eq(R9.new,#0x0),0xc1ca8340 
-  c1ca832c : jump.if:nt cmp.eq(R12.new,#0x0),0xc1ca8340 
-  c1ca8334 : jump.if:nt cmp.eq(R13.new,#0x0),0xc1ca8340 
-  c1ca833c : jump.if:t !cmp.eq(R14.new,#0x0),0xc1ca835c 
-  c1ca8340 : call 0xc1ca7ff4 
-  c1ca8358 : jump 0xc1ca8224 
-  c1ca8378 : jump 0xc1ca8388 
-  c1ca8384 : jump.if(!P0.new):t 0xc1ca8430 
-  c1ca843c : call 0xc1cac07c 
-****************************************
+============================================================
+CANDIDATE #162
+ADDRESS : c4e29384
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    79 00 0F 00 79 00 11 00 7F 00 13 00 7F 00 16 00 
+    7F 00 19 00 7F 00 1D 00 7C 00 21 00 7C 00 26 00 
+    7B 00 2B 00 7A 00 31 00 7A 00 37 00 7A 00 3E 00 
+    79 00 46 00 7A 00 4F 00 7F 00 59 00 7F 00 64 00 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #163
+ADDRESS : c4e2998a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    06 00 5D 00 06 00 6A 00 06 00 7D 00 06 00 7A 00 
+    07 00 78 00 08 00 78 00 09 00 79 00 0A 00 7A 00 
+    0B 00 7E 00 0C 00 7B 00 0E 00 7F 00 0F 00 7F 00 
+    11 00 7F 00 13 00 7F 00 16 00 7F 00 19 00 7F 00 
+    1D 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #164
+ADDRESS : c4e29990
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    6A 00 06 00 7D 00 06 00 7A 00 07 00 78 00 08 00 
+    78 00 09 00 79 00 0A 00 7A 00 0B 00 7E 00 0C 00 
+    7B 00 0E 00 7F 00 0F 00 7F 00 11 00 7F 00 13 00 
+    7F 00 16 00 7F 00 19 00 7F 00 1D 00 7F 00 21 00 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #165
+ADDRESS : c4e29a84
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    33 00 06 00 3B 00 06 00 44 00 06 00 4F 00 06 00 
+    5C 00 06 00 6D 00 06 00 6C 00 07 00 7F 00 07 00 
+    7B 00 08 00 79 00 09 00 7A 00 0A 00 7B 00 0B 00 
+    7F 00 0C 00 7A 00 0E 00 7F 00 0F 00 7F 00 11 00 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #166
+ADDRESS : c4e29a90
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    4F 00 06 00 5C 00 06 00 6D 00 06 00 6C 00 07 00 
+    7F 00 07 00 7B 00 08 00 79 00 09 00 7A 00 0A 00 
+    7B 00 0B 00 7F 00 0C 00 7A 00 0E 00 7F 00 0F 00 
+    7F 00 11 00 7F 00 13 00 7F 00 16 00 7F 00 19 00 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #167
+ADDRESS : c4e29a92
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    06 00 5C 00 06 00 6D 00 06 00 6C 00 07 00 7F 00 
+    07 00 7B 00 08 00 79 00 09 00 7A 00 0A 00 7B 00 
+    0B 00 7F 00 0C 00 7A 00 0E 00 7F 00 0F 00 7F 00 
+    11 00 7F 00 13 00 7F 00 16 00 7F 00 19 00 7F 00 
+    1D 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #168
+ADDRESS : c4e29b8c
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    33 00 06 00 3B 00 06 00 44 00 06 00 4F 00 06 00 
+    5C 00 06 00 6D 00 06 00 6C 00 07 00 7F 00 07 00 
+    7B 00 08 00 79 00 09 00 7A 00 0A 00 7B 00 0B 00 
+    7F 00 0C 00 7A 00 0E 00 7F 00 0F 00 7F 00 11 00 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #169
+ADDRESS : c4e29b98
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    4F 00 06 00 5C 00 06 00 6D 00 06 00 6C 00 07 00 
+    7F 00 07 00 7B 00 08 00 79 00 09 00 7A 00 0A 00 
+    7B 00 0B 00 7F 00 0C 00 7A 00 0E 00 7F 00 0F 00 
+    7F 00 11 00 7F 00 13 00 7F 00 16 00 7F 00 19 00 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #170
+ADDRESS : c4e29b9a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    06 00 5C 00 06 00 6D 00 06 00 6C 00 07 00 7F 00 
+    07 00 7B 00 08 00 79 00 09 00 7A 00 0A 00 7B 00 
+    0B 00 7F 00 0C 00 7A 00 0E 00 7F 00 0F 00 7F 00 
+    11 00 7F 00 13 00 7F 00 16 00 7F 00 19 00 7F 00 
+    1D 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #171
+ADDRESS : c4e7ccaf
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    00 00 00 00 20 41 2D 6D 37 00 40 8E 47 62 4E AA 
+    54 82 5A 00 60 31 65 22 6A DA 6E 61 73 35 77 EF 
+    7B 00 80 F0 83 C4 87 7C 8B 1C 8F A4 92 18 96 77 
+    99 C4 9C 00 A0 2B A3 47 A6 54 A9 53 AC 45 AF 2B 
+    B2 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #172
+ADDRESS : c4ed7f1c
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    0B 01 00 00 F3 00 00 00 DC 00 00 00 C7 00 00 00 
+    B3 00 00 00 A3 00 00 00 94 00 00 00 87 00 00 00 
+    7B 00 00 00 70 00 00 00 67 00 00 00 5F 00 00 00 
+    58 00 00 00 52 00 00 00 4C 00 00 00 47 00 00 00 
+    43 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #173
+ADDRESS : c4eea16f
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    7A 57 7A 76 7A 93 7A B1 7A CD 7A E9 7A 05 7B 20 
+    7B 3B 7B 55 7B 6F 7B 88 7B A1 7B B9 7B D1 7B E9 
+    7B 00 7C 00 00 00 00 00 00 E2 7F 00 00 96 78 00 
+    00 6A 72 00 00 1A 6D 00 00 77 68 00 00 60 64 00 
+    00 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #174
+ADDRESS : c4efd8d1
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    72 04 5A 2B 34 35 71 78 48 10 31 07 4F 77 3D 16 
+    54 09 61 5B 0F 15 18 2E 27 5D 69 41 46 7D 63 11 
+    7B 00 00 00 00 00 00 05 00 07 00 09 00 0B 00 0D 
+    00 0F 00 11 00 13 00 15 00 17 00 19 00 1B 00 1D 
+    00 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #175
+ADDRESS : c4efd8de
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    77 3D 16 54 09 61 5B 0F 15 18 2E 27 5D 69 41 46 
+    7D 63 11 7B 00 00 00 00 00 00 05 00 07 00 09 00 
+    0B 00 0D 00 0F 00 11 00 13 00 15 00 17 00 19 00 
+    1B 00 1D 00 1F 00 21 00 23 00 05 00 07 00 09 00 
+    0B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #176
+ADDRESS : c4efd8fe
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    0B 00 0D 00 0F 00 11 00 13 00 15 00 17 00 19 00 
+    1B 00 1D 00 1F 00 21 00 23 00 05 00 07 00 09 00 
+    0B 00 0D 00 0F 00 11 00 13 00 15 00 17 00 19 00 
+    1B 00 1D 00 1F 00 21 00 23 00 00 00 02 00 04 00 
+    06 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #177
+ADDRESS : c4f01b40
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    13 00 00 00 93 00 00 00 53 00 00 00 D3 00 00 00 
+    33 00 00 00 B3 00 00 00 73 00 00 00 F3 00 00 00 
+    0B 00 00 00 8B 00 00 00 4B 00 00 00 CB 00 00 00 
+    2B 00 00 00 AB 00 00 00 6B 00 00 00 EB 00 00 00 
+    1B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #178
+ADDRESS : c4f01b78
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    6B 00 00 00 EB 00 00 00 1B 00 00 00 9B 00 00 00 
+    5B 00 00 00 DB 00 00 00 3B 00 00 00 BB 00 00 00 
+    7B 00 00 00 FB 00 00 00 07 00 00 00 87 00 00 00 
+    47 00 00 00 C7 00 00 00 27 00 00 00 A7 00 00 00 
+    67 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #179
+ADDRESS : c4f6deb3
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    D9 00 00 00 00 00 00 00 00 28 1A 76 D9 C8 0B 76 
+    D9 60 1E 76 D9 E8 DE F6 C4 14 DF F6 C4 8F 4E 60 
+    7B 00 00 00 00 E8 DE F6 C4 2A DF F6 C4 70 EB E0 
+    56 01 00 00 00 E8 DE F6 C4 40 DF F6 C4 1B B4 4E 
+    74 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #180
+ADDRESS : c4f728f1
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    72 00 00 70 72 00 00 70 72 00 00 70 77 00 00 70 
+    77 00 00 70 77 00 00 70 77 00 00 D8 7B 00 00 D8 
+    7B 00 00 D8 7B 00 00 D8 7B 00 00 58 80 00 00 58 
+    80 00 00 58 80 00 00 D8 84 00 00 D8 84 00 00 48 
+    01 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #181
+ADDRESS : c4f728f5
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    72 00 00 70 72 00 00 70 77 00 00 70 77 00 00 70 
+    77 00 00 70 77 00 00 D8 7B 00 00 D8 7B 00 00 D8 
+    7B 00 00 D8 7B 00 00 58 80 00 00 58 80 00 00 58 
+    80 00 00 D8 84 00 00 D8 84 00 00 48 01 00 00 78 
+    02 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #182
+ADDRESS : c4f728f9
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    72 00 00 70 77 00 00 70 77 00 00 70 77 00 00 70 
+    77 00 00 D8 7B 00 00 D8 7B 00 00 D8 7B 00 00 D8 
+    7B 00 00 58 80 00 00 58 80 00 00 58 80 00 00 D8 
+    84 00 00 D8 84 00 00 48 01 00 00 78 02 00 00 C8 
+    03 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #183
+ADDRESS : c4f72931
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    01 00 00 78 02 00 00 C8 03 00 00 08 05 00 00 48 
+    06 00 00 88 07 00 00 E8 08 00 00 28 0A 00 00 A8 
+    0B 00 00 A8 0C 00 00 28 0E 00 00 28 0F 00 00 A8 
+    10 00 00 E8 11 00 00 68 13 00 00 28 14 00 00 A8 
+    15 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #184
+ADDRESS : c4f92970
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    03 00 88 00 04 00 87 00 05 00 86 00 06 00 85 00 
+    07 00 84 00 08 00 83 00 09 00 82 00 0A 00 81 00 
+    0B 00 80 00 0C 00 7F 00 0D 00 7E 00 0E 00 7D 00 
+    0F 00 7C 00 10 00 7B 00 11 00 7A 00 12 00 79 00 
+    13 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #185
+ADDRESS : c4f92986
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    83 00 09 00 82 00 0A 00 81 00 0B 00 80 00 0C 00 
+    7F 00 0D 00 7E 00 0E 00 7D 00 0F 00 7C 00 10 00 
+    7B 00 11 00 7A 00 12 00 79 00 13 00 78 00 14 00 
+    77 00 15 00 76 00 16 00 75 00 17 00 74 00 18 00 
+    73 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #186
+ADDRESS : c4f93822
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    0E 00 26 00 3A 00 6B 00 0A 00 66 00 71 00 5A 00 
+    55 00 16 00 07 00 35 00 13 00 85 00 1D 00 59 00 
+    7B 00 67 00 05 00 18 00 33 00 09 00 7E 00 3B 00 
+    2D 00 04 00 70 00 7C 00 0B 00 52 00 49 00 4E 00 
+    60 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #187
+ADDRESS : c4f9383a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    13 00 85 00 1D 00 59 00 7B 00 67 00 05 00 18 00 
+    33 00 09 00 7E 00 3B 00 2D 00 04 00 70 00 7C 00 
+    0B 00 52 00 49 00 4E 00 60 00 61 00 4F 00 22 00 
+    88 00 47 00 54 00 7A 00 72 00 1E 00 83 00 15 00 
+    79 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #188
+ADDRESS : c4fbf568
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    03 00 88 00 04 00 87 00 05 00 86 00 06 00 85 00 
+    07 00 84 00 08 00 83 00 09 00 82 00 0A 00 81 00 
+    0B 00 80 00 0C 00 7F 00 0D 00 7E 00 0E 00 7D 00 
+    0F 00 7C 00 10 00 7B 00 11 00 7A 00 12 00 79 00 
+    13 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #189
+ADDRESS : c4fbf57e
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    83 00 09 00 82 00 0A 00 81 00 0B 00 80 00 0C 00 
+    7F 00 0D 00 7E 00 0E 00 7D 00 0F 00 7C 00 10 00 
+    7B 00 11 00 7A 00 12 00 79 00 13 00 78 00 14 00 
+    77 00 15 00 76 00 16 00 75 00 17 00 74 00 18 00 
+    73 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #190
+ADDRESS : c503dafa
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    03 00 00 08 53 00 00 08 13 00 15 08 C3 00 13 07 
+    23 00 00 08 73 00 00 08 33 00 00 09 C6 00 11 07 
+    0B 00 00 08 63 00 00 08 23 00 00 09 A6 00 00 08 
+    03 00 00 08 83 00 00 08 43 00 00 09 E6 00 10 07 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #191
+ADDRESS : c503db2e
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    83 00 00 08 43 00 00 09 E6 00 10 07 07 00 00 08 
+    5B 00 00 08 1B 00 00 09 96 00 14 07 43 00 00 08 
+    7B 00 00 08 3B 00 00 09 D6 00 12 07 13 00 00 08 
+    6B 00 00 08 2B 00 00 09 B6 00 00 08 0B 00 00 08 
+    8B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #192
+ADDRESS : c503db4a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    43 00 00 08 7B 00 00 08 3B 00 00 09 D6 00 12 07 
+    13 00 00 08 6B 00 00 08 2B 00 00 09 B6 00 00 08 
+    0B 00 00 08 8B 00 00 08 4B 00 00 09 F6 00 10 07 
+    05 00 00 08 57 00 00 08 17 00 40 08 00 00 13 07 
+    33 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #193
+ADDRESS : c503defa
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    03 00 00 08 53 00 00 08 13 00 15 08 C3 00 13 07 
+    23 00 00 08 73 00 00 08 33 00 00 09 C7 00 11 07 
+    0B 00 00 08 63 00 00 08 23 00 00 09 A7 00 00 08 
+    03 00 00 08 83 00 00 08 43 00 00 09 E7 00 10 07 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #194
+ADDRESS : c503df2e
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    83 00 00 08 43 00 00 09 E7 00 10 07 07 00 00 08 
+    5B 00 00 08 1B 00 00 09 97 00 14 07 43 00 00 08 
+    7B 00 00 08 3B 00 00 09 D7 00 12 07 13 00 00 08 
+    6B 00 00 08 2B 00 00 09 B7 00 00 08 0B 00 00 08 
+    8B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #195
+ADDRESS : c503df4a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    43 00 00 08 7B 00 00 08 3B 00 00 09 D7 00 12 07 
+    13 00 00 08 6B 00 00 08 2B 00 00 09 B7 00 00 08 
+    0B 00 00 08 8B 00 00 08 4B 00 00 09 F7 00 10 07 
+    05 00 00 08 57 00 00 08 17 00 40 08 00 00 13 07 
+    33 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #196
+ADDRESS : c5043334
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    6D 00 07 00 5D 00 13 00 00 00 5E 00 6F 00 04 00 
+    5F 00 71 00 00 00 60 00 74 00 00 00 61 00 76 00 
+    0B 00 63 00 7B 00 00 00 64 00 7D 00 04 00 65 00 
+    7F 00 05 00 66 00 81 00 12 00 69 00 85 00 B8 00 
+    6A 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #197
+ADDRESS : c5043338
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    5D 00 13 00 00 00 5E 00 6F 00 04 00 5F 00 71 00 
+    00 00 60 00 74 00 00 00 61 00 76 00 0B 00 63 00 
+    7B 00 00 00 64 00 7D 00 04 00 65 00 7F 00 05 00 
+    66 00 81 00 12 00 69 00 85 00 B8 00 6A 00 79 00 
+    0B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #198
+ADDRESS : c5043358
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    7B 00 00 00 64 00 7D 00 04 00 65 00 7F 00 05 00 
+    66 00 81 00 12 00 69 00 85 00 B8 00 6A 00 79 00 
+    0B 00 6B 00 87 00 07 00 6C 00 89 00 A6 05 6D 00 
+    8B 00 05 00 6E 00 8D 00 00 00 6F 00 8F 00 00 00 
+    73 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #199
+ADDRESS : c5044652
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    4A 00 00 00 4C 00 4D 00 10 04 4D 00 4F 00 00 00 
+    4E 00 51 00 15 00 4F 00 54 00 00 00 51 00 57 00 
+    7B 00 52 00 59 00 E5 00 53 00 5B 00 0B 00 55 00 
+    5E 00 07 00 58 00 62 00 0E 00 59 00 64 00 10 02 
+    5A 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #200
+ADDRESS : c504465e
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    4F 00 00 00 4E 00 51 00 15 00 4F 00 54 00 00 00 
+    51 00 57 00 7B 00 52 00 59 00 E5 00 53 00 5B 00 
+    0B 00 55 00 5E 00 07 00 58 00 62 00 0E 00 59 00 
+    64 00 10 02 5A 00 67 00 03 01 5B 00 6A 00 03 01 
+    5C 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #201
+ADDRESS : c504468e
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    64 00 10 02 5A 00 67 00 03 01 5B 00 6A 00 03 01 
+    5C 00 6C 00 04 0A 5D 00 6E 00 00 00 5E 00 70 00 
+    0B 00 60 00 74 00 07 00 61 00 77 00 00 00 63 00 
+    79 00 07 00 64 00 7B 00 0B 01 65 00 7D 00 15 00 
+    68 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #202
+ADDRESS : c50446a4
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    5D 00 6E 00 00 00 5E 00 70 00 0B 00 60 00 74 00 
+    07 00 61 00 77 00 00 00 63 00 79 00 07 00 64 00 
+    7B 00 0B 01 65 00 7D 00 15 00 68 00 81 00 00 00 
+    69 00 83 00 0C 00 6D 00 88 00 00 00 70 00 8D 00 
+    FE 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #203
+ADDRESS : c50468f8
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    64 00 70 00 00 00 66 00 73 00 20 00 67 00 75 00 
+    6D 00 68 00 77 00 00 00 69 00 79 00 C9 00 6A 00 
+    7B 00 00 00 6C 00 7E 00 D0 01 6D 00 80 00 00 00 
+    6F 00 83 00 1B 01 70 00 85 00 00 00 72 00 88 00 
+    DA 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #204
+ADDRESS : c5046b48
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    74 00 07 00 67 00 76 00 0B 00 68 00 78 00 78 00 
+    69 00 7A 00 0B 00 6A 00 7C 00 D4 00 6C 00 7F 00 
+    0B 00 6D 00 81 00 DB 01 6F 00 84 00 0B 00 70 00 
+    86 00 26 01 72 00 89 00 0B 00 73 00 8B 00 E5 00 
+    74 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #205
+ADDRESS : c5046b54
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    78 00 78 00 69 00 7A 00 0B 00 6A 00 7C 00 D4 00 
+    6C 00 7F 00 0B 00 6D 00 81 00 DB 01 6F 00 84 00 
+    0B 00 70 00 86 00 26 01 72 00 89 00 0B 00 73 00 
+    8B 00 E5 00 74 00 8E 00 0B 00 75 00 90 00 91 00 
+    77 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #206
+ADDRESS : c5046b60
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    7C 00 D4 00 6C 00 7F 00 0B 00 6D 00 81 00 DB 01 
+    6F 00 84 00 0B 00 70 00 86 00 26 01 72 00 89 00 
+    0B 00 73 00 8B 00 E5 00 74 00 8E 00 0B 00 75 00 
+    90 00 91 00 77 00 93 00 0B 00 78 00 95 00 57 01 
+    7A 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #207
+ADDRESS : c5046b6c
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    81 00 DB 01 6F 00 84 00 0B 00 70 00 86 00 26 01 
+    72 00 89 00 0B 00 73 00 8B 00 E5 00 74 00 8E 00 
+    0B 00 75 00 90 00 91 00 77 00 93 00 0B 00 78 00 
+    95 00 57 01 7A 00 98 00 0B 00 7B 00 9A 00 85 00 
+    7D 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #208
+ADDRESS : c5046b78
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    86 00 26 01 72 00 89 00 0B 00 73 00 8B 00 E5 00 
+    74 00 8E 00 0B 00 75 00 90 00 91 00 77 00 93 00 
+    0B 00 78 00 95 00 57 01 7A 00 98 00 0B 00 7B 00 
+    9A 00 85 00 7D 00 9D 00 0B 00 7E 00 9F 00 94 00 
+    80 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #209
+ADDRESS : c5046b84
+KIND    : FTM_0B_THEN_RFDEBUG_007B
+SCORE   : 18
+EXEC?   : false
+  WINDOW:
+    8B 00 E5 00 74 00 8E 00 0B 00 75 00 90 00 91 00 
+    77 00 93 00 0B 00 78 00 95 00 57 01 7A 00 98 00 
+    0B 00 7B 00 9A 00 85 00 7D 00 9D 00 0B 00 7E 00 
+    9F 00 94 00 80 00 A2 00 0B 00 81 00 A4 00 32 00 
+    83 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #210
+ADDRESS : c5046b86
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    E5 00 74 00 8E 00 0B 00 75 00 90 00 91 00 77 00 
+    93 00 0B 00 78 00 95 00 57 01 7A 00 98 00 0B 00 
+    7B 00 9A 00 85 00 7D 00 9D 00 0B 00 7E 00 9F 00 
+    94 00 80 00 A2 00 0B 00 81 00 A4 00 32 00 83 00 
+    A7 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #211
+ADDRESS : c5046b90
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    90 00 91 00 77 00 93 00 0B 00 78 00 95 00 57 01 
+    7A 00 98 00 0B 00 7B 00 9A 00 85 00 7D 00 9D 00 
+    0B 00 7E 00 9F 00 94 00 80 00 A2 00 0B 00 81 00 
+    A4 00 32 00 83 00 A7 00 0B 00 84 00 A9 00 13 00 
+    86 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #212
+ADDRESS : c5046b9c
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    95 00 57 01 7A 00 98 00 0B 00 7B 00 9A 00 85 00 
+    7D 00 9D 00 0B 00 7E 00 9F 00 94 00 80 00 A2 00 
+    0B 00 81 00 A4 00 32 00 83 00 A7 00 0B 00 84 00 
+    A9 00 13 00 86 00 AC 00 0B 00 87 00 AE 00 1F 00 
+    89 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #213
+ADDRESS : c5046ba8
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    9A 00 85 00 7D 00 9D 00 0B 00 7E 00 9F 00 94 00 
+    80 00 A2 00 0B 00 81 00 A4 00 32 00 83 00 A7 00 
+    0B 00 84 00 A9 00 13 00 86 00 AC 00 0B 00 87 00 
+    AE 00 1F 00 89 00 B1 00 0B 00 8A 00 B3 00 0D 04 
+    8C 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #214
+ADDRESS : c5046bb4
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    9F 00 94 00 80 00 A2 00 0B 00 81 00 A4 00 32 00 
+    83 00 A7 00 0B 00 84 00 A9 00 13 00 86 00 AC 00 
+    0B 00 87 00 AE 00 1F 00 89 00 B1 00 0B 00 8A 00 
+    B3 00 0D 04 8C 00 B6 00 0B 00 8D 00 B8 00 1C 01 
+    8F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #215
+ADDRESS : c5046bc0
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    A4 00 32 00 83 00 A7 00 0B 00 84 00 A9 00 13 00 
+    86 00 AC 00 0B 00 87 00 AE 00 1F 00 89 00 B1 00 
+    0B 00 8A 00 B3 00 0D 04 8C 00 B6 00 0B 00 8D 00 
+    B8 00 1C 01 8F 00 BB 00 0B 00 90 00 BD 00 98 00 
+    93 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #216
+ADDRESS : c5048eee
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    3C 00 07 00 00 00 00 00 00 00 22 00 06 00 07 00 
+    33 00 1B 00 0F 00 36 00 20 00 07 00 3A 00 29 00 
+    0B 00 3C 00 2C 00 7B 00 3F 00 31 00 FB 01 44 00 
+    3A 00 0E 00 00 00 20 00 3D 00 01 00 00 00 20 8F 
+    04 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #217
+ADDRESS : c5048ef4
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    00 00 00 00 22 00 06 00 07 00 33 00 1B 00 0F 00 
+    36 00 20 00 07 00 3A 00 29 00 0B 00 3C 00 2C 00 
+    7B 00 3F 00 31 00 FB 01 44 00 3A 00 0E 00 00 00 
+    20 00 3D 00 01 00 00 00 20 8F 04 C5 20 90 04 C5 
+    60 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #218
+ADDRESS : c504a04a
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    15 00 76 00 A4 00 0E 00 77 00 A5 00 1C 00 78 00 
+    A6 00 5A 00 79 00 A8 00 CC 01 7A 00 AA 00 15 00 
+    7B 00 AC 00 0E 00 7C 00 AD 00 04 00 7D 00 AF 00 
+    07 00 7E 00 B1 00 07 00 7F 00 B3 00 07 00 80 00 
+    1A 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #219
+ADDRESS : c504d100
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    66 00 BB 03 4F 00 69 00 5C 00 50 00 6B 00 07 00 
+    52 00 6E 00 1D 00 56 00 73 00 0C 00 57 00 75 00 
+    0B 00 58 00 77 00 31 00 59 00 79 00 07 00 5A 00 
+    7B 00 9F 00 5B 00 7D 00 07 00 5C 00 80 00 26 00 
+    5D 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #220
+ADDRESS : c504d110
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    52 00 6E 00 1D 00 56 00 73 00 0C 00 57 00 75 00 
+    0B 00 58 00 77 00 31 00 59 00 79 00 07 00 5A 00 
+    7B 00 9F 00 5B 00 7D 00 07 00 5C 00 80 00 26 00 
+    5D 00 82 00 07 00 5E 00 84 00 07 00 5F 00 86 00 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #221
+ADDRESS : c5051684
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    16 00 00 00 03 10 18 00 04 00 00 00 7A 00 01 00 
+    0E 00 87 00 05 00 07 00 A1 00 08 00 07 00 A3 00 
+    0B 00 0E 00 A4 00 0D 00 07 00 DD 00 10 00 07 00 
+    E2 00 12 00 07 00 02 10 17 00 0B 00 03 10 19 00 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #222
+ADDRESS : c505169e
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    08 00 07 00 A3 00 0B 00 0E 00 A4 00 0D 00 07 00 
+    DD 00 10 00 07 00 E2 00 12 00 07 00 02 10 17 00 
+    0B 00 03 10 19 00 07 00 00 00 7B 00 02 00 0B 00 
+    86 00 03 00 08 00 A0 00 06 00 0B 00 A2 00 09 00 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #223
+ADDRESS : c50516a8
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    A4 00 0D 00 07 00 DD 00 10 00 07 00 E2 00 12 00 
+    07 00 02 10 17 00 0B 00 03 10 19 00 07 00 00 00 
+    7B 00 02 00 0B 00 86 00 03 00 08 00 A0 00 06 00 
+    0B 00 A2 00 09 00 07 00 E3 00 13 00 04 00 E4 00 
+    14 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #224
+ADDRESS : c50516ac
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    07 00 DD 00 10 00 07 00 E2 00 12 00 07 00 02 10 
+    17 00 0B 00 03 10 19 00 07 00 00 00 7B 00 02 00 
+    0B 00 86 00 03 00 08 00 A0 00 06 00 0B 00 A2 00 
+    09 00 07 00 E3 00 13 00 04 00 E4 00 14 00 1D 00 
+    E5 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #225
+ADDRESS : c50516b8
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    07 00 02 10 17 00 0B 00 03 10 19 00 07 00 00 00 
+    7B 00 02 00 0B 00 86 00 03 00 08 00 A0 00 06 00 
+    0B 00 A2 00 09 00 07 00 E3 00 13 00 04 00 E4 00 
+    14 00 1D 00 E5 00 15 00 0B 00 01 10 0E 00 0C 00 
+    01 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #226
+ADDRESS : c50516d0
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    03 00 08 00 A0 00 06 00 0B 00 A2 00 09 00 07 00 
+    E3 00 13 00 04 00 E4 00 14 00 1D 00 E5 00 15 00 
+    0B 00 01 10 0E 00 0C 00 01 00 1A 00 01 00 00 00 
+    F0 16 05 C5 F8 16 05 C5 20 91 19 C9 00 00 00 00 
+    08 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #227
+ADDRESS : c50518ae
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    00 00 01 00 00 00 00 00 00 00 20 00 00 00 07 00 
+    21 00 02 00 00 00 22 00 04 00 18 00 23 00 06 00 
+    7B 00 25 00 09 00 00 00 27 00 0C 00 04 00 28 00 
+    0E 00 77 00 2A 00 11 00 00 00 2C 00 14 00 00 00 
+    2D 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #228
+ADDRESS : c50518d2
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    09 00 00 00 27 00 0C 00 04 00 28 00 0E 00 77 00 
+    2A 00 11 00 00 00 2C 00 14 00 00 00 2D 00 16 00 
+    0B 00 2E 00 18 00 00 00 30 00 1B 00 26 00 31 00 
+    1D 00 C3 06 32 00 1F 00 0E 00 00 00 00 00 20 00 
+    01 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #229
+ADDRESS : c505425a
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    54 00 6E 00 04 00 56 00 72 00 05 04 57 00 74 00 
+    05 04 58 00 76 00 05 04 59 00 78 00 05 04 5A 00 
+    7B 00 AD 02 5B 00 7E 00 29 00 5C 00 80 00 47 01 
+    5D 00 83 00 11 14 5E 00 85 00 0E 00 61 00 89 00 
+    2C 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #230
+ADDRESS : c505428c
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    83 00 11 14 5E 00 85 00 0E 00 61 00 89 00 2C 00 
+    62 00 8C 00 18 00 63 00 8E 00 00 00 64 00 90 00 
+    0B 00 65 00 92 00 04 00 66 00 94 00 0B 00 67 00 
+    96 00 0F 00 68 00 98 00 12 02 69 00 9B 00 4F 00 
+    6A 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #231
+ADDRESS : c5054298
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    89 00 2C 00 62 00 8C 00 18 00 63 00 8E 00 00 00 
+    64 00 90 00 0B 00 65 00 92 00 04 00 66 00 94 00 
+    0B 00 67 00 96 00 0F 00 68 00 98 00 12 02 69 00 
+    9B 00 4F 00 6A 00 9D 00 38 02 6B 00 9F 00 0F 00 
+    6C 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #232
+ADDRESS : c50563dc
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    5D 00 09 00 59 00 5E 00 05 00 5A 00 5F 00 13 03 
+    5B 00 60 00 8C 0D 5D 00 63 00 04 00 61 00 6A 00 
+    0B 00 62 00 6B 00 0F 08 63 00 6C 00 0B 00 66 00 
+    6D 00 94 00 6A 00 78 00 0B 00 6B 00 7E 00 07 00 
+    6C 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #233
+ADDRESS : c50563e8
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    5F 00 13 03 5B 00 60 00 8C 0D 5D 00 63 00 04 00 
+    61 00 6A 00 0B 00 62 00 6B 00 0F 08 63 00 6C 00 
+    0B 00 66 00 6D 00 94 00 6A 00 78 00 0B 00 6B 00 
+    7E 00 07 00 6C 00 7F 00 13 08 73 00 7B 00 0E 00 
+    74 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #234
+ADDRESS : c50563f4
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    63 00 04 00 61 00 6A 00 0B 00 62 00 6B 00 0F 08 
+    63 00 6C 00 0B 00 66 00 6D 00 94 00 6A 00 78 00 
+    0B 00 6B 00 7E 00 07 00 6C 00 7F 00 13 08 73 00 
+    7B 00 0E 00 74 00 84 00 22 02 75 00 85 00 08 00 
+    78 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #235
+ADDRESS : c5056404
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    63 00 6C 00 0B 00 66 00 6D 00 94 00 6A 00 78 00 
+    0B 00 6B 00 7E 00 07 00 6C 00 7F 00 13 08 73 00 
+    7B 00 0E 00 74 00 84 00 22 02 75 00 85 00 08 00 
+    78 00 88 00 2A 00 7A 00 8B 00 04 00 7B 00 8E 00 
+    04 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #236
+ADDRESS : c5056420
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    13 08 73 00 7B 00 0E 00 74 00 84 00 22 02 75 00 
+    85 00 08 00 78 00 88 00 2A 00 7A 00 8B 00 04 00 
+    7B 00 8E 00 04 00 7C 00 8F 00 E5 00 7E 00 92 00 
+    85 00 7F 00 95 00 04 00 73 00 96 00 01 00 00 00 
+    50 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #237
+ADDRESS : c50588ae
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    AA 00 05 00 8A 00 AC 00 18 00 8B 00 AE 00 07 00 
+    8D 00 B1 00 04 00 8F 00 B4 00 00 00 90 00 B6 00 
+    0B 00 91 00 B8 00 00 00 92 00 99 00 00 00 93 00 
+    9B 00 7B 00 94 00 9E 00 00 00 96 00 BA 00 04 00 
+    97 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #238
+ADDRESS : c50588c0
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    B1 00 04 00 8F 00 B4 00 00 00 90 00 B6 00 0B 00 
+    91 00 B8 00 00 00 92 00 99 00 00 00 93 00 9B 00 
+    7B 00 94 00 9E 00 00 00 96 00 BA 00 04 00 97 00 
+    BC 00 00 00 98 00 BE 00 07 00 99 00 C0 00 00 00 
+    9C 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #239
+ADDRESS : c5058c48
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    62 00 07 00 54 00 64 00 0D 00 55 00 66 00 07 00 
+    56 00 68 00 0E 00 57 00 6A 00 07 00 58 00 6C 00 
+    0B 00 59 00 6E 00 07 00 5A 00 70 00 0B 00 5B 00 
+    72 00 0B 00 5C 00 74 00 07 00 5D 00 77 00 07 00 
+    5E 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #240
+ADDRESS : c5058c54
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    66 00 07 00 56 00 68 00 0E 00 57 00 6A 00 07 00 
+    58 00 6C 00 0B 00 59 00 6E 00 07 00 5A 00 70 00 
+    0B 00 5B 00 72 00 0B 00 5C 00 74 00 07 00 5D 00 
+    77 00 07 00 5E 00 79 00 0C 00 5F 00 7B 00 12 00 
+    60 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #241
+ADDRESS : c5058c5a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    68 00 0E 00 57 00 6A 00 07 00 58 00 6C 00 0B 00 
+    59 00 6E 00 07 00 5A 00 70 00 0B 00 5B 00 72 00 
+    0B 00 5C 00 74 00 07 00 5D 00 77 00 07 00 5E 00 
+    79 00 0C 00 5F 00 7B 00 12 00 60 00 7D 00 13 00 
+    61 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #242
+ADDRESS : c5058c70
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    5A 00 70 00 0B 00 5B 00 72 00 0B 00 5C 00 74 00 
+    07 00 5D 00 77 00 07 00 5E 00 79 00 0C 00 5F 00 
+    7B 00 12 00 60 00 7D 00 13 00 61 00 7F 00 07 00 
+    62 00 81 00 17 00 63 00 83 00 0B 00 64 00 86 00 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #243
+ADDRESS : c5058c8a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    79 00 0C 00 5F 00 7B 00 12 00 60 00 7D 00 13 00 
+    61 00 7F 00 07 00 62 00 81 00 17 00 63 00 83 00 
+    0B 00 64 00 86 00 07 00 65 00 88 00 0C 00 66 00 
+    8B 00 0C 00 67 00 8E 00 13 04 69 00 91 00 0E 00 
+    6A 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #244
+ADDRESS : c50bd5e8
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    77 00 00 00 D5 96 0B C5 78 00 00 00 F8 96 0B C5 
+    79 00 00 00 18 97 0B C5 7A 00 00 00 37 97 0B C5 
+    7B 00 00 00 57 97 0B C5 7C 00 00 00 76 97 0B C5 
+    7D 00 00 00 9A 97 0B C5 7E 00 00 00 BD 97 0B C5 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #245
+ADDRESS : c50bdf68
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    77 00 00 00 0E BD 0B C5 78 00 00 00 2F BD 0B C5 
+    79 00 00 00 53 BD 0B C5 7A 00 00 00 76 BD 0B C5 
+    7B 00 00 00 9A BD 0B C5 7C 00 00 00 BD BD 0B C5 
+    7D 00 00 00 E2 BD 0B C5 7E 00 00 00 08 BE 0B C5 
+    7F 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #246
+ADDRESS : c510032a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    03 00 00 08 53 00 00 08 13 00 15 08 C3 00 13 07 
+    23 00 00 08 73 00 00 08 33 00 00 09 C6 00 11 07 
+    0B 00 00 08 63 00 00 08 23 00 00 09 A6 00 00 08 
+    03 00 00 08 83 00 00 08 43 00 00 09 E6 00 10 07 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #247
+ADDRESS : c510035e
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    83 00 00 08 43 00 00 09 E6 00 10 07 07 00 00 08 
+    5B 00 00 08 1B 00 00 09 96 00 14 07 43 00 00 08 
+    7B 00 00 08 3B 00 00 09 D6 00 12 07 13 00 00 08 
+    6B 00 00 08 2B 00 00 09 B6 00 00 08 0B 00 00 08 
+    8B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #248
+ADDRESS : c510037a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    43 00 00 08 7B 00 00 08 3B 00 00 09 D6 00 12 07 
+    13 00 00 08 6B 00 00 08 2B 00 00 09 B6 00 00 08 
+    0B 00 00 08 8B 00 00 08 4B 00 00 09 F6 00 10 07 
+    05 00 00 08 57 00 00 08 17 00 40 08 00 00 13 07 
+    33 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #249
+ADDRESS : c510072a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    03 00 00 08 53 00 00 08 13 00 15 08 C3 00 13 07 
+    23 00 00 08 73 00 00 08 33 00 00 09 C7 00 11 07 
+    0B 00 00 08 63 00 00 08 23 00 00 09 A7 00 00 08 
+    03 00 00 08 83 00 00 08 43 00 00 09 E7 00 10 07 
+    07 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #250
+ADDRESS : c510075e
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    83 00 00 08 43 00 00 09 E7 00 10 07 07 00 00 08 
+    5B 00 00 08 1B 00 00 09 97 00 14 07 43 00 00 08 
+    7B 00 00 08 3B 00 00 09 D7 00 12 07 13 00 00 08 
+    6B 00 00 08 2B 00 00 09 B7 00 00 08 0B 00 00 08 
+    8B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #251
+ADDRESS : c510077a
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    43 00 00 08 7B 00 00 08 3B 00 00 09 D7 00 12 07 
+    13 00 00 08 6B 00 00 08 2B 00 00 09 B7 00 00 08 
+    0B 00 00 08 8B 00 00 08 4B 00 00 09 F7 00 10 07 
+    05 00 00 08 57 00 00 08 17 00 40 08 00 00 13 07 
+    33 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #252
+ADDRESS : c513e374
+KIND    : 0B_NEAR_007B
+SCORE   : 9
+EXEC?   : false
+  WINDOW:
+    00 00 00 00 08 00 07 00 06 00 05 00 04 00 03 00 
+    02 00 0E 00 10 00 09 00 0A 00 0C 00 0D 00 0F 00 
+    0B 00 11 00 14 00 16 00 18 00 17 00 13 00 12 00 
+    15 00 38 00 58 00 7A 00 9A 00 39 00 59 00 7B 00 
+    9B 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
+
+============================================================
+CANDIDATE #253
+ADDRESS : c513e392
+KIND    : 007B_NEAR_0B
+SCORE   : 10
+EXEC?   : false
+  WINDOW:
+    0F 00 0B 00 11 00 14 00 16 00 18 00 17 00 13 00 
+    12 00 15 00 38 00 58 00 7A 00 9A 00 39 00 59 00 
+    7B 00 9B 00 3A 00 5A 00 7C 00 9C 00 34 00 54 00 
+    76 00 96 00 35 00 55 00 77 00 97 00 1B 00 5D 00 
+    1C 
+  POSSIBLE EXECUTABLE POINTERS:
+    <none>
+  XREFS TO ADDRESS:
+    <none>
 
 ============================================================
 DONE
 No program structures were modified.
 ============================================================
-Find7BDispatchCandidates.java> Finished!
+FindFtmDispatchTables.java> Finished!
