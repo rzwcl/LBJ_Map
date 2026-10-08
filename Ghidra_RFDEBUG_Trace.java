@@ -127,8 +127,32 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private boolean isByteCompare(Instruction ins) {
         if (ins == null) return false;
+
         String m = safe(ins.getMnemonicString()).toLowerCase();
-        return m.startsWith("cmpb.");
+        if (m.startsWith("cmpb.")) return true;
+
+        // Hexagon commonly performs a byte load (memub/memb) followed by
+        // an ordinary cmp.eq/cmp.gt/cmp.gtu rather than a cmpb mnemonic.
+        // Treat that as byte-oriented only when the same compared register
+        // was populated by a byte load within the preceding 6 instructions.
+        if (!isCompare(ins.toString())) return false;
+
+        String reg = extractComparedRegister(ins.toString());
+        if (reg == null) return false;
+
+        Instruction cur = ins;
+        for (int i = 0; i < 6; i++) {
+            Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+            if (p == null) break;
+
+            String ps = safe(p.toString()).toLowerCase();
+            boolean byteLoad = ps.contains("memub ") || ps.contains("memb ");
+            if (byteLoad && isLoadIntoRegister(ps, reg)) return true;
+
+            cur = p;
+        }
+
+        return false;
     }
 
     private boolean hasMemoryRead(String s) {
