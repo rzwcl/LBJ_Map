@@ -1,163 +1,126 @@
-TraceD615A1BD.java> Running...
+TraceC185B5F0Callers.java> Running...
 ============================================================
- TRACE 0xD615A1BD / c184a38c ARGUMENT PROVENANCE
+ TRACE c185b5f0 CALLERS / D615A1BD PROVENANCE
  Program : qdsp6sw.mbn
  Image   : c1600000
  READ ONLY
 ============================================================
 
 ------------------------------------------------------------
-MEMORY MAPPING CHECK
+TARGET c185b5f0
 ------------------------------------------------------------
-0xD615A1BD IS NOT MAPPED IN CURRENT PROGRAM MEMORY
-This address is therefore an absolute/external/runtime address from the point of view of this ELF image.
+FUNCTION: FUN_c185b5f0
+ENTRY   : c185b5f0
+BODY    : [[c185b5f0, c185b6e7]]
+  c185b5f0 : immext #0xc1d91880 
+  c185b5f4 : assign R16,##0xc1d91880 
+  c185b5f8 : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  c185b5fc : call 0xc1841f14 
+  c185b600 : combine R1R0,#0x1,#0x3 ; memb (R16),#0x1 
+  c185b604 : immext #0xcaf98940 
+  c185b608 : assign R17,##0xcaf98960 
+  c185b60c : call 0xc184d188 
+  c185b610 : immext #0xcaf98940 
+  c185b614 : assign R0,##0xcaf98960 
+  c185b618 : memw R1,(R17) 
+  c185b61c : immext #0x8000000 
+  c185b620 : cmp.eq P0,R1,##0x8000000 
+  c185b624 : jump.if(P0.new):nt 0xc185b648 
+  c185b628 : immext #0x8000500 
+  c185b62c : cmp.eq P0,R1,##0x8000500 
+  c185b630 : jump.if(!P0.new):nt 0xc185b6a8 
+  c185b634 : immext #0xcaf98940 
+  c185b638 : memub R2,(##0xcaf98941) 
+  c185b63c : jump.if:nt cmp.gtu(R2.new,#0x0),0xc185b6d8 
+  c185b640 : call 0xc1850380 
+  c185b644 : jump 0xc185b60c 
+  c185b648 : call 0xc184a350 
+  c185b64c : immext #0xcaf98940 
+  c185b650 : assign R0,##0xcaf98960 
+  c185b654 : call 0xc184265c 
+  c185b658 : immext #0xc4eee040 
+  c185b65c : assign R0,##0xc4eee041 
+  c185b660 : memub R1,(R17+#0x10) 
+  c185b664 : call 0xc1619338 
+  c185b668 : immext #0xd615a140 
+  c185b66c : assign R0,##0xd615a144 
+  c185b670 : memub R1,(R17+#0x10) 
+  c185b674 : memub R0,(R17+#0x10) 
+  c185b678 : memub R2,(R17+#0x11) 
+  c185b67c : call 0xc1850834 
+  c185b680 : memb (R16+#0x1),R2 
+  c185b684 : call 0xc184265c 
+  c185b688 : immext #0xc4eee040 
+  c185b68c : assign R0,##0xc4eee072 
+  c185b690 : memub R1,(R17+#0x10) 
+  c185b694 : call 0xc1619338 
+  c185b698 : immext #0xd615a140 
+  c185b69c : assign R0,##0xd615a175 
+  c185b6a0 : memub R1,(R17+#0x10) 
+  c185b6a4 : jump 0xc185b60c 
+  c185b6a8 : memb R2,(R16) 
+  c185b6ac : jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
+  c185b6b0 : call 0xc184265c 
+  c185b6b4 : immext #0xc4eee080 
+  c185b6b8 : assign R0,##0xc4eee0ba 
+  c185b6bc : call 0xc1619338 
+  c185b6c0 : immext #0xd615a180 
+  c185b6c4 : assign R0,##0xd615a1bd ; memw R1,(R17) 
+  c185b6c8 : call 0xc184a38c 
+  c185b6cc : immext #0xcaf98940 
+  c185b6d0 : assign R0,##0xcaf98960 
+  c185b6d4 : jump 0xc185b60c 
+  c185b6d8 : call 0xc184cfd8 
+  c185b6dc : call 0xc18507e8 
+  c185b6e0 : assign R0,#0x0 
+  c185b6e4 : memd R17R16,(SP+#0x0) ; dealloc_return 
+FUNCTION INSTRUCTIONS PRINTED/SCANNED: 62
 
 ------------------------------------------------------------
-REFERENCES TO 0xD615A1BD
+TARGET CALLERS
+------------------------------------------------------------
+
+------------------------------------------------------------
+REFERENCES TO c185b5f0
 ------------------------------------------------------------
 REFERENCES PROCESSED: 0
 
 ------------------------------------------------------------
-REAL CALL SITE c185b6c8
+RFDEBUG CANDIDATE c184a38c CALLERS (REFERENCE OVERVIEW)
 ------------------------------------------------------------
-TARGET CALL: call 0xc184a38c 
-  assign R0,##0xcaf98960 
-  call 0xc184265c 
-  immext #0xc4eee040 
-  assign R0,##0xc4eee041 
-  memub R1,(R17+#0x10) 
-  call 0xc1619338 
-  immext #0xd615a140 
-  assign R0,##0xd615a144 
-  memub R1,(R17+#0x10) 
-  memub R0,(R17+#0x10) 
-  memub R2,(R17+#0x11) 
-  call 0xc1850834 
-  memb (R16+#0x1),R2 
-  call 0xc184265c 
-  immext #0xc4eee040 
-  assign R0,##0xc4eee072 
-  memub R1,(R17+#0x10) 
-  call 0xc1619338 
-  immext #0xd615a140 
-  assign R0,##0xd615a175 
-  memub R1,(R17+#0x10) 
-  jump 0xc185b60c 
-  memb R2,(R16) 
-  jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
-  call 0xc184265c 
-  immext #0xc4eee080 
-  assign R0,##0xc4eee0ba 
-  call 0xc1619338 
-  immext #0xd615a180 
-  assign R0,##0xd615a1bd ; memw R1,(R17) 
-  call 0xc184a38c   <== CENTER
-  immext #0xcaf98940 
-  assign R0,##0xcaf98960 
-  jump 0xc185b60c 
-  call 0xc184cfd8 
-  call 0xc18507e8 
-  assign R0,#0x0 
-  memd R17R16,(SP+#0x0) ; dealloc_return 
-  immext #0xc9116880 
-  assign R16,##0xc91168b8 
-  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  call 0xc17048b0 
-  add R0,R16,#0x10 
-  add R0,R16,#-0x10 
-  memw R2,(R16+#0x8) ; memw R1,(R16) 
-  call 0xc1845790 
-  immext #0xc185b740 
-  combine R5R4,R0,##0xc185b768 
-  memw R3,(R16+#0xc) 
-  memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0 
-  dealloc_return 
-  add R16,R0,#0x20 
-  memd (SP+#-0x10),R17R16 ; allocframe #0x40 
-  immext #0xc1d9bb40 
-  assign R19,##0xc1d9bb74 
-  memd (SP+#0x30),R19R18 ; memd (SP+#0x28),R21R20 
-  add R20,R19,#-0xb 
-  add R21,R19,#-0xa 
-  add R22,R19,#-0x9 
-  memd (SP+#0x20),R23R22 
-  add R23,R19,#-0x6 
+REF #1 FROM=c185b6c8 TYPE=DATA FUNC=FUN_c185b5f0 @ c185b5f0
+REF #2 FROM=c185b6d0 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c185b5f0 @ c185b5f0
+RFDEBUG REFS PROCESSED: 2
 
 ------------------------------------------------------------
-CALLEE FUN_c184a38c
+REFERENCE CHECK FOR 0xD615A1BD
 ------------------------------------------------------------
-FUNCTION: FUN_c184a38c
-ENTRY   : c184a38c
-EARLY COMMAND EXTRACTION: assign R18,##0xc9116968 ; and R3,R4,#0xff 
-  call 0xc1619338 
-  memd (SP+#0x30),R25R24 
-  memd (SP+#0x28),R27R26 
-  memw R4,(R16) 
-  immext #0xcaf8a980 
-  memw R5,(##0xcaf8a980) 
-  assign R6,#0x40 
-  immext #0xc9116940 
-  assign R18,##0xc9116968 ; and R3,R4,#0xff   <== CENTER
-  immext #0xc1d91880 
-  assign R17,##0xc1d918b0 
-  add R7,R5,#0x1 ; memuh R2,(R18) 
-  immext #0xc1d90040 
-  assign R26,##0xc1d90040 
-  cmp.gt P0,R3,#0x3b 
-  immext #0xc1d98380 
-  assign R27,##0xc1d98380 
-  immext #0xc1d90a40 
-  assign R19,##0xc1d90a6e 
-  modwrap R0,R7,R6 
-  immext #0xc1d96780 
-0x7B CASE: cmpb.eq P0,R3,#0x7b 
-  call 0xc1619338 
-  assign R0,R16 
-  memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
-  memd R21R20,(SP+#0x40) ; memd R23R22,(SP+#0x38) 
-  memd R25R24,(SP+#0x30) 
-  memd R27R26,(SP+#0x28) 
-  jump 0xc1848f14 
-  deallocframe 
-  cmpb.eq P0,R3,#0x7a 
-  immext #0x8008200 
-  assign.if(!P0.new) R6,##0x8008211 
-  jump.if(P0.new):nt 0xc184cd94 
-  cmpb.eq P0,R3,#0x7b   <== CENTER
-  jump.if(!P0.new):nt 0xc184cdd4 
-  memub R1,(R17) ; memub R2,(R17+#0x1) 
-  or R3,R2,R1 
-  immext #0x1300 
-  cmp.eq P0,R3,#0x0 ; jump.if(P0.new):t 0xc184c9c8 
-  memuh R3,(R21) 
-  memub R4,(R20+#0x22) 
-  call 0xc1619338 
-  immext #0xd61538c0 
-  assign R0,##0xd61538dc 
-  immext #0xcf853fc0 
-  assign R0,##0xcf853fd4 
-  memub R1,(R17) ; memuh R3,(R21) 
-  call 0xc18453bc 
-  memub R2,(R17+#0x1) 
-  memub R4,(R20+#0x22) 
-  call 0xc1619338 
-  memub R2,(R19) 
+MAPPED: false
+REFERENCES PROCESSED: 0
 
 ------------------------------------------------------------
-EXECUTABLE INSTRUCTION SCAN: d615a1bd
+EXECUTABLE SCAN FOR D615A100-D615A1FF LITERALS
 ------------------------------------------------------------
-HIT #1 : assign R0,##0xd615a1bd ; memw R1,(R17) 
+HIT #1 : c185b150 : immext #0xd615a100  | FUNC=FUN_c185b084 @ c185b084
+HIT #2 : c185b154 : combine R1R0,#0x0,##0xd615a11a  | FUNC=FUN_c185b084 @ c185b084
+HIT #3 : c185b668 : immext #0xd615a140  | FUNC=FUN_c185b5f0 @ c185b5f0
+HIT #4 : c185b66c : assign R0,##0xd615a144  | FUNC=FUN_c185b5f0 @ c185b5f0
+HIT #5 : c185b698 : immext #0xd615a140  | FUNC=FUN_c185b5f0 @ c185b5f0
+HIT #6 : c185b69c : assign R0,##0xd615a175  | FUNC=FUN_c185b5f0 @ c185b5f0
+HIT #7 : c185b6c0 : immext #0xd615a180  | FUNC=FUN_c185b5f0 @ c185b5f0
+HIT #8 : c185b6c4 : assign R0,##0xd615a1bd ; memw R1,(R17)  | FUNC=FUN_c185b5f0 @ c185b5f0
+HIT #9 : c185b798 : immext #0xd615a1c0  | FUNC=FUN_c185b768 @ c185b768
+HIT #10 : c185b79c : assign R0,##0xd615a1f1  | FUNC=FUN_c185b768 @ c185b768
 INSTRUCTIONS SCANNED: 1405016
-MATCHES: 1
+MATCHES: 10
 
 ------------------------------------------------------------
 INTERPRETATION
 ------------------------------------------------------------
-1) If 0xD615A1BD has many reads/writes but is unmapped, it is an external/runtime/global region address.
-2) If it is used only as R0 before c184a38c, this strongly suggests a fixed global/state object rather than a packet passed by the DIAG stack.
-3) If other code writes a command byte into 0xD615A1BD and those writes are tied to a message receive path, the external-buffer hypothesis remains possible.
-4) Do not write to this address or to modem storage. This script is read-only.
-
-No program structures were modified.
+A) If external callers of c185b5f0 pass message-buffer/state pointers, inspect those call sites first.
+B) If c185b5f0 is reached only from DSP/event/demod functions, it is likely not the DIAG ingress.
+C) D615A100-D615A1FF literals show whether 0xD615A1BD belongs to a wider external address pool.
+D) No memory or program structures are modified.
+============================================================
 DONE
-TraceD615A1BD.java> Finished!
+TraceC185B5F0Callers.java> Finished!
