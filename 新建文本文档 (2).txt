@@ -1,482 +1,163 @@
-TraceC184CallArgs.java> Running...
+TraceD615A1BD.java> Running...
 ============================================================
- TRACE REAL CALL ARGUMENTS FOR FUN_c184a38c
+ TRACE 0xD615A1BD / c184a38c ARGUMENT PROVENANCE
  Program : qdsp6sw.mbn
  Image   : c1600000
  READ ONLY
 ============================================================
 
-TARGET : FUN_c184a38c @ c184a38c
-NOTE  : The callee receives arguments in R0/R1/... . Do not infer R0 from caller R16.
+------------------------------------------------------------
+MEMORY MAPPING CHECK
+------------------------------------------------------------
+0xD615A1BD IS NOT MAPPED IN CURRENT PROGRAM MEMORY
+This address is therefore an absolute/external/runtime address from the point of view of this ELF image.
 
-============================================================
-DIRECT REFERENCES TO TARGET
-============================================================
+------------------------------------------------------------
+REFERENCES TO 0xD615A1BD
+------------------------------------------------------------
+REFERENCES PROCESSED: 0
 
-REF #1
- FROM : c185b6c8
- TYPE : DATA
- CALLER: FUN_c185b5f0 @ c185b5f0
-  c185b4e4     memuh R2,(R16+#0x2) ; memh (R16+#0x4),R0   <== ARG/ROUTE
-  c185b4e8     call 0xc1837260 
-  c185b4ec     sub R2,R0,R2   <== ARG/ROUTE
-  c185b4f0     memh (R16+#0x6),R2.new   <== ARG/ROUTE
-  c185b4f4     assign R2,R0   <== ARG/ROUTE
-  c185b4f8     immext #0xc9116980 
-  c185b4fc     memuh R1,(##0xc911698e)   <== ARG/ROUTE
-  c185b500     call 0xc1619338 
-  c185b504     immext #0xd615a080 
-  c185b508     assign R0,##0xd615a09c ; memuh R3,(R16+#0x6)   <== ARG/ROUTE
-  c185b50c     memh (R18),#0x0   <== ARG/ROUTE
-  c185b510     memw (R17),#0x17   <== ARG/ROUTE
-  c185b514     memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0)   <== ARG/ROUTE
-  c185b518     dealloc_return 
-  c185b520     immext #0xc1d99a00 
-  c185b524     assign R2,##0xc1d99a2f ; allocframe #0x0 
-  c185b528     add R3,R2,#-0x7fed 
-  c185b52c     add R4,R2,#-0x7fe9 
-  c185b530     add R5,R2,#-0x7fe7 
-  c185b534     add R6,R2,#-0x7efd 
-  c185b538     add R1,R2,#-0x7ea5   <== ARG/ROUTE
-  c185b53c     add R0,R2,#-0x7fff   <== ARG/ROUTE
-  c185b540     add R2,R2,#-0x7f37 
-  c185b544     memb (R3),#0x0 
-  c185b548     memh (R4),#-0x1 
-  c185b54c     memh (R5),#-0x1 
-  c185b550     memh (R6),#0x0 
-  c185b554     memh (R1),#0x0   <== ARG/ROUTE
-  c185b558     call 0xc185c3ec 
-  c185b55c     memb (R0),#0x0   <== ARG/ROUTE
-  c185b560     memh (R2),#0x0 
-  c185b564     call 0xc184e080 
-  c185b568     call 0xc185c7b0 
-  c185b56c     call 0xc1850308 
-  c185b570     call 0xc185b9f0 
-  c185b574     call 0xc185cca0 
-  c185b578     call 0xc185c770 
-  c185b57c     call 0xc184dc80 
-  c185b580     call 0xc184db60 
-  c185b584     call 0xc184dbd0 
-  c185b588     call 0xc184f6a0 
-  c185b58c     call 0xc184db50 
-  c185b590     call 0xc185a314 
-  c185b594     call 0xc185c8e4 
-  c185b598     call 0xc18488c8 
-  c185b59c     call 0xc185ba10 
-  c185b5a0     call 0xc18509e4 
-  c185b5a4     call 0xc184e0e0 
-  c185b5a8     immext #0xcaf97400 
-  c185b5ac     memb (##0xcaf97438),R0   <== ARG/ROUTE
-  c185b5b0     dealloc_return 
-  c185b5b4     assign R2,#0x0 ; allocframe #0x8 
-  c185b5b8     call 0xc184d074 
-  c185b5bc     immext #0xcaf98940 
-  c185b5c0     memb (##0xcaf98941),R2 
-  c185b5c4     memd (SP),R17R16   <== ARG/ROUTE
-  c185b5c8     immext #0xc9116880 
-  c185b5cc     assign R16,##0xc9116888   <== ARG/ROUTE
-  c185b5d0     immext #0xc185b5c0 
-  c185b5d4     combine R5R4,#0x0,##0xc185b5f0 
-  c185b5d8     add R0,R16,#-0x10   <== ARG/ROUTE
-  c185b5dc     memw R2,(R16+#0x8) ; memw R1,(R16)   <== ARG/ROUTE
-  c185b5e0     call 0xc1845790 
-  c185b5e4     memw R3,(R16+#0xc)   <== ARG/ROUTE
-  c185b5e8     memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0   <== ARG/ROUTE
-  c185b5ec     dealloc_return 
-  c185b5f0     immext #0xc1d91880 
-  c185b5f4     assign R16,##0xc1d91880   <== ARG/ROUTE
-  c185b5f8     memd (SP+#-0x10),R17R16 ; allocframe #0x8   <== ARG/ROUTE
-  c185b5fc     call 0xc1841f14 
-  c185b600     combine R1R0,#0x1,#0x3 ; memb (R16),#0x1   <== ARG/ROUTE
-  c185b604     immext #0xcaf98940 
-  c185b608     assign R17,##0xcaf98960   <== ARG/ROUTE
-  c185b60c     call 0xc184d188 
-  c185b610     immext #0xcaf98940 
-  c185b614     assign R0,##0xcaf98960   <== ARG/ROUTE
-  c185b618     memw R1,(R17)   <== ARG/ROUTE
-  c185b61c     immext #0x8000000 
-  c185b620     cmp.eq P0,R1,##0x8000000   <== ARG/ROUTE
-  c185b624     jump.if(P0.new):nt 0xc185b648 
-  c185b628     immext #0x8000500 
-  c185b62c     cmp.eq P0,R1,##0x8000500   <== ARG/ROUTE
-  c185b630     jump.if(!P0.new):nt 0xc185b6a8 
-  c185b634     immext #0xcaf98940 
-  c185b638     memub R2,(##0xcaf98941) 
-  c185b63c     jump.if:nt cmp.gtu(R2.new,#0x0),0xc185b6d8 
-  c185b640     call 0xc1850380 
-  c185b644     jump 0xc185b60c 
-  c185b648     call 0xc184a350 
-  c185b64c     immext #0xcaf98940 
-  c185b650     assign R0,##0xcaf98960   <== ARG/ROUTE
-  c185b654     call 0xc184265c 
-  c185b658     immext #0xc4eee040 
-  c185b65c     assign R0,##0xc4eee041   <== ARG/ROUTE
-  c185b660     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b664     call 0xc1619338 
-  c185b668     immext #0xd615a140 
-  c185b66c     assign R0,##0xd615a144   <== ARG/ROUTE
-  c185b670     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b674     memub R0,(R17+#0x10)   <== ARG/ROUTE
-  c185b678     memub R2,(R17+#0x11)   <== ARG/ROUTE
-  c185b67c     call 0xc1850834 
-  c185b680     memb (R16+#0x1),R2   <== ARG/ROUTE
-  c185b684     call 0xc184265c 
-  c185b688     immext #0xc4eee040 
-  c185b68c     assign R0,##0xc4eee072   <== ARG/ROUTE
-  c185b690     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b694     call 0xc1619338 
-  c185b698     immext #0xd615a140 
-  c185b69c     assign R0,##0xd615a175   <== ARG/ROUTE
-  c185b6a0     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b6a4     jump 0xc185b60c 
-  c185b6a8     memb R2,(R16)   <== ARG/ROUTE
-  c185b6ac     jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
-  c185b6b0     call 0xc184265c 
-  c185b6b4     immext #0xc4eee080 
-  c185b6b8     assign R0,##0xc4eee0ba   <== ARG/ROUTE
-  c185b6bc     call 0xc1619338 
-  c185b6c0     immext #0xd615a180 
-  c185b6c4     assign R0,##0xd615a1bd ; memw R1,(R17)   <== ARG/ROUTE
-  c185b6c8     call 0xc184a38c   <== CENTER
-  c185b6cc     immext #0xcaf98940 
-  c185b6d0     assign R0,##0xcaf98960   <== ARG/ROUTE
-  c185b6d4     jump 0xc185b60c 
-  c185b6d8     call 0xc184cfd8 
-  c185b6dc     call 0xc18507e8 
-  c185b6e0     assign R0,#0x0   <== ARG/ROUTE
-  c185b6e4     memd R17R16,(SP+#0x0) ; dealloc_return   <== ARG/ROUTE
-  c185b734     immext #0xc9116880 
-  c185b738     assign R16,##0xc91168b8   <== ARG/ROUTE
-  c185b73c     memd (SP+#-0x10),R17R16 ; allocframe #0x8   <== ARG/ROUTE
-  c185b740     call 0xc17048b0 
-  c185b744     add R0,R16,#0x10   <== ARG/ROUTE
-  c185b748     add R0,R16,#-0x10   <== ARG/ROUTE
-  c185b74c     memw R2,(R16+#0x8) ; memw R1,(R16)   <== ARG/ROUTE
-  c185b750     call 0xc1845790 
-  c185b754     immext #0xc185b740 
-  c185b758     combine R5R4,R0,##0xc185b768   <== ARG/ROUTE
-  c185b75c     memw R3,(R16+#0xc)   <== ARG/ROUTE
-  c185b760     memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0   <== ARG/ROUTE
-  c185b764     dealloc_return 
-  c185b768     add R16,R0,#0x20   <== ARG/ROUTE
-  c185b76c     memd (SP+#-0x10),R17R16 ; allocframe #0x40   <== ARG/ROUTE
-  c185b770     immext #0xc1d9bb40 
-  c185b774     assign R19,##0xc1d9bb74   <== ARG/ROUTE
-  c185b778     memd (SP+#0x30),R19R18 ; memd (SP+#0x28),R21R20   <== ARG/ROUTE
-  c185b77c     add R20,R19,#-0xb   <== ARG/ROUTE
-  c185b780     add R21,R19,#-0xa   <== ARG/ROUTE
-  c185b784     add R22,R19,#-0x9   <== ARG/ROUTE
-  c185b788     memd (SP+#0x20),R23R22 
-  c185b78c     add R23,R19,#-0x6   <== ARG/ROUTE
-  c185b790     memd (SP+#0x18),R25R24 
-  c185b794     call 0xc1619338 
-  c185b798     immext #0xd615a1c0 
-  c185b79c     assign R0,##0xd615a1f1   <== ARG/ROUTE
-  c185b7a0     call 0xc161f0a8 
+------------------------------------------------------------
+REAL CALL SITE c185b6c8
+------------------------------------------------------------
+TARGET CALL: call 0xc184a38c 
+  assign R0,##0xcaf98960 
+  call 0xc184265c 
+  immext #0xc4eee040 
+  assign R0,##0xc4eee041 
+  memub R1,(R17+#0x10) 
+  call 0xc1619338 
+  immext #0xd615a140 
+  assign R0,##0xd615a144 
+  memub R1,(R17+#0x10) 
+  memub R0,(R17+#0x10) 
+  memub R2,(R17+#0x11) 
+  call 0xc1850834 
+  memb (R16+#0x1),R2 
+  call 0xc184265c 
+  immext #0xc4eee040 
+  assign R0,##0xc4eee072 
+  memub R1,(R17+#0x10) 
+  call 0xc1619338 
+  immext #0xd615a140 
+  assign R0,##0xd615a175 
+  memub R1,(R17+#0x10) 
+  jump 0xc185b60c 
+  memb R2,(R16) 
+  jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
+  call 0xc184265c 
+  immext #0xc4eee080 
+  assign R0,##0xc4eee0ba 
+  call 0xc1619338 
+  immext #0xd615a180 
+  assign R0,##0xd615a1bd ; memw R1,(R17) 
+  call 0xc184a38c   <== CENTER
+  immext #0xcaf98940 
+  assign R0,##0xcaf98960 
+  jump 0xc185b60c 
+  call 0xc184cfd8 
+  call 0xc18507e8 
+  assign R0,#0x0 
+  memd R17R16,(SP+#0x0) ; dealloc_return 
+  immext #0xc9116880 
+  assign R16,##0xc91168b8 
+  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  call 0xc17048b0 
+  add R0,R16,#0x10 
+  add R0,R16,#-0x10 
+  memw R2,(R16+#0x8) ; memw R1,(R16) 
+  call 0xc1845790 
+  immext #0xc185b740 
+  combine R5R4,R0,##0xc185b768 
+  memw R3,(R16+#0xc) 
+  memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0 
+  dealloc_return 
+  add R16,R0,#0x20 
+  memd (SP+#-0x10),R17R16 ; allocframe #0x40 
+  immext #0xc1d9bb40 
+  assign R19,##0xc1d9bb74 
+  memd (SP+#0x30),R19R18 ; memd (SP+#0x28),R21R20 
+  add R20,R19,#-0xb 
+  add R21,R19,#-0xa 
+  add R22,R19,#-0x9 
+  memd (SP+#0x20),R23R22 
+  add R23,R19,#-0x6 
 
-REF #2
- FROM : c185b6d0
- TYPE : UNCONDITIONAL_CALL
- CALLER: FUN_c185b5f0 @ c185b5f0
-  c185b4ec     sub R2,R0,R2   <== ARG/ROUTE
-  c185b4f0     memh (R16+#0x6),R2.new   <== ARG/ROUTE
-  c185b4f4     assign R2,R0   <== ARG/ROUTE
-  c185b4f8     immext #0xc9116980 
-  c185b4fc     memuh R1,(##0xc911698e)   <== ARG/ROUTE
-  c185b500     call 0xc1619338 
-  c185b504     immext #0xd615a080 
-  c185b508     assign R0,##0xd615a09c ; memuh R3,(R16+#0x6)   <== ARG/ROUTE
-  c185b50c     memh (R18),#0x0   <== ARG/ROUTE
-  c185b510     memw (R17),#0x17   <== ARG/ROUTE
-  c185b514     memd R17R16,(SP+#0x8) ; memd R19R18,(SP+#0x0)   <== ARG/ROUTE
-  c185b518     dealloc_return 
-  c185b520     immext #0xc1d99a00 
-  c185b524     assign R2,##0xc1d99a2f ; allocframe #0x0 
-  c185b528     add R3,R2,#-0x7fed 
-  c185b52c     add R4,R2,#-0x7fe9 
-  c185b530     add R5,R2,#-0x7fe7 
-  c185b534     add R6,R2,#-0x7efd 
-  c185b538     add R1,R2,#-0x7ea5   <== ARG/ROUTE
-  c185b53c     add R0,R2,#-0x7fff   <== ARG/ROUTE
-  c185b540     add R2,R2,#-0x7f37 
-  c185b544     memb (R3),#0x0 
-  c185b548     memh (R4),#-0x1 
-  c185b54c     memh (R5),#-0x1 
-  c185b550     memh (R6),#0x0 
-  c185b554     memh (R1),#0x0   <== ARG/ROUTE
-  c185b558     call 0xc185c3ec 
-  c185b55c     memb (R0),#0x0   <== ARG/ROUTE
-  c185b560     memh (R2),#0x0 
-  c185b564     call 0xc184e080 
-  c185b568     call 0xc185c7b0 
-  c185b56c     call 0xc1850308 
-  c185b570     call 0xc185b9f0 
-  c185b574     call 0xc185cca0 
-  c185b578     call 0xc185c770 
-  c185b57c     call 0xc184dc80 
-  c185b580     call 0xc184db60 
-  c185b584     call 0xc184dbd0 
-  c185b588     call 0xc184f6a0 
-  c185b58c     call 0xc184db50 
-  c185b590     call 0xc185a314 
-  c185b594     call 0xc185c8e4 
-  c185b598     call 0xc18488c8 
-  c185b59c     call 0xc185ba10 
-  c185b5a0     call 0xc18509e4 
-  c185b5a4     call 0xc184e0e0 
-  c185b5a8     immext #0xcaf97400 
-  c185b5ac     memb (##0xcaf97438),R0   <== ARG/ROUTE
-  c185b5b0     dealloc_return 
-  c185b5b4     assign R2,#0x0 ; allocframe #0x8 
-  c185b5b8     call 0xc184d074 
-  c185b5bc     immext #0xcaf98940 
-  c185b5c0     memb (##0xcaf98941),R2 
-  c185b5c4     memd (SP),R17R16   <== ARG/ROUTE
-  c185b5c8     immext #0xc9116880 
-  c185b5cc     assign R16,##0xc9116888   <== ARG/ROUTE
-  c185b5d0     immext #0xc185b5c0 
-  c185b5d4     combine R5R4,#0x0,##0xc185b5f0 
-  c185b5d8     add R0,R16,#-0x10   <== ARG/ROUTE
-  c185b5dc     memw R2,(R16+#0x8) ; memw R1,(R16)   <== ARG/ROUTE
-  c185b5e0     call 0xc1845790 
-  c185b5e4     memw R3,(R16+#0xc)   <== ARG/ROUTE
-  c185b5e8     memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0   <== ARG/ROUTE
-  c185b5ec     dealloc_return 
-  c185b5f0     immext #0xc1d91880 
-  c185b5f4     assign R16,##0xc1d91880   <== ARG/ROUTE
-  c185b5f8     memd (SP+#-0x10),R17R16 ; allocframe #0x8   <== ARG/ROUTE
-  c185b5fc     call 0xc1841f14 
-  c185b600     combine R1R0,#0x1,#0x3 ; memb (R16),#0x1   <== ARG/ROUTE
-  c185b604     immext #0xcaf98940 
-  c185b608     assign R17,##0xcaf98960   <== ARG/ROUTE
-  c185b60c     call 0xc184d188 
-  c185b610     immext #0xcaf98940 
-  c185b614     assign R0,##0xcaf98960   <== ARG/ROUTE
-  c185b618     memw R1,(R17)   <== ARG/ROUTE
-  c185b61c     immext #0x8000000 
-  c185b620     cmp.eq P0,R1,##0x8000000   <== ARG/ROUTE
-  c185b624     jump.if(P0.new):nt 0xc185b648 
-  c185b628     immext #0x8000500 
-  c185b62c     cmp.eq P0,R1,##0x8000500   <== ARG/ROUTE
-  c185b630     jump.if(!P0.new):nt 0xc185b6a8 
-  c185b634     immext #0xcaf98940 
-  c185b638     memub R2,(##0xcaf98941) 
-  c185b63c     jump.if:nt cmp.gtu(R2.new,#0x0),0xc185b6d8 
-  c185b640     call 0xc1850380 
-  c185b644     jump 0xc185b60c 
-  c185b648     call 0xc184a350 
-  c185b64c     immext #0xcaf98940 
-  c185b650     assign R0,##0xcaf98960   <== ARG/ROUTE
-  c185b654     call 0xc184265c 
-  c185b658     immext #0xc4eee040 
-  c185b65c     assign R0,##0xc4eee041   <== ARG/ROUTE
-  c185b660     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b664     call 0xc1619338 
-  c185b668     immext #0xd615a140 
-  c185b66c     assign R0,##0xd615a144   <== ARG/ROUTE
-  c185b670     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b674     memub R0,(R17+#0x10)   <== ARG/ROUTE
-  c185b678     memub R2,(R17+#0x11)   <== ARG/ROUTE
-  c185b67c     call 0xc1850834 
-  c185b680     memb (R16+#0x1),R2   <== ARG/ROUTE
-  c185b684     call 0xc184265c 
-  c185b688     immext #0xc4eee040 
-  c185b68c     assign R0,##0xc4eee072   <== ARG/ROUTE
-  c185b690     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b694     call 0xc1619338 
-  c185b698     immext #0xd615a140 
-  c185b69c     assign R0,##0xd615a175   <== ARG/ROUTE
-  c185b6a0     memub R1,(R17+#0x10)   <== ARG/ROUTE
-  c185b6a4     jump 0xc185b60c 
-  c185b6a8     memb R2,(R16)   <== ARG/ROUTE
-  c185b6ac     jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
-  c185b6b0     call 0xc184265c 
-  c185b6b4     immext #0xc4eee080 
-  c185b6b8     assign R0,##0xc4eee0ba   <== ARG/ROUTE
-  c185b6bc     call 0xc1619338 
-  c185b6c0     immext #0xd615a180 
-  c185b6c4     assign R0,##0xd615a1bd ; memw R1,(R17)   <== ARG/ROUTE
-  c185b6c8     call 0xc184a38c   <== ARG/ROUTE
-  c185b6cc     immext #0xcaf98940 
-  c185b6d0     assign R0,##0xcaf98960   <== CENTER
-  c185b6d4     jump 0xc185b60c 
-  c185b6d8     call 0xc184cfd8 
-  c185b6dc     call 0xc18507e8 
-  c185b6e0     assign R0,#0x0   <== ARG/ROUTE
-  c185b6e4     memd R17R16,(SP+#0x0) ; dealloc_return   <== ARG/ROUTE
-  c185b734     immext #0xc9116880 
-  c185b738     assign R16,##0xc91168b8   <== ARG/ROUTE
-  c185b73c     memd (SP+#-0x10),R17R16 ; allocframe #0x8   <== ARG/ROUTE
-  c185b740     call 0xc17048b0 
-  c185b744     add R0,R16,#0x10   <== ARG/ROUTE
-  c185b748     add R0,R16,#-0x10   <== ARG/ROUTE
-  c185b74c     memw R2,(R16+#0x8) ; memw R1,(R16)   <== ARG/ROUTE
-  c185b750     call 0xc1845790 
-  c185b754     immext #0xc185b740 
-  c185b758     combine R5R4,R0,##0xc185b768   <== ARG/ROUTE
-  c185b75c     memw R3,(R16+#0xc)   <== ARG/ROUTE
-  c185b760     memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0   <== ARG/ROUTE
-  c185b764     dealloc_return 
-  c185b768     add R16,R0,#0x20   <== ARG/ROUTE
-  c185b76c     memd (SP+#-0x10),R17R16 ; allocframe #0x40   <== ARG/ROUTE
-  c185b770     immext #0xc1d9bb40 
-  c185b774     assign R19,##0xc1d9bb74   <== ARG/ROUTE
-  c185b778     memd (SP+#0x30),R19R18 ; memd (SP+#0x28),R21R20   <== ARG/ROUTE
-  c185b77c     add R20,R19,#-0xb   <== ARG/ROUTE
-  c185b780     add R21,R19,#-0xa   <== ARG/ROUTE
-  c185b784     add R22,R19,#-0x9   <== ARG/ROUTE
-  c185b788     memd (SP+#0x20),R23R22 
-  c185b78c     add R23,R19,#-0x6   <== ARG/ROUTE
-  c185b790     memd (SP+#0x18),R25R24 
-  c185b794     call 0xc1619338 
-  c185b798     immext #0xd615a1c0 
-  c185b79c     assign R0,##0xd615a1f1   <== ARG/ROUTE
-  c185b7a0     call 0xc161f0a8 
-  c185b7a4     immext #0xc0 
-  c185b7a8     combine R1R0,##0xff,R16   <== ARG/ROUTE
+------------------------------------------------------------
+CALLEE FUN_c184a38c
+------------------------------------------------------------
+FUNCTION: FUN_c184a38c
+ENTRY   : c184a38c
+EARLY COMMAND EXTRACTION: assign R18,##0xc9116968 ; and R3,R4,#0xff 
+  call 0xc1619338 
+  memd (SP+#0x30),R25R24 
+  memd (SP+#0x28),R27R26 
+  memw R4,(R16) 
+  immext #0xcaf8a980 
+  memw R5,(##0xcaf8a980) 
+  assign R6,#0x40 
+  immext #0xc9116940 
+  assign R18,##0xc9116968 ; and R3,R4,#0xff   <== CENTER
+  immext #0xc1d91880 
+  assign R17,##0xc1d918b0 
+  add R7,R5,#0x1 ; memuh R2,(R18) 
+  immext #0xc1d90040 
+  assign R26,##0xc1d90040 
+  cmp.gt P0,R3,#0x3b 
+  immext #0xc1d98380 
+  assign R27,##0xc1d98380 
+  immext #0xc1d90a40 
+  assign R19,##0xc1d90a6e 
+  modwrap R0,R7,R6 
+  immext #0xc1d96780 
+0x7B CASE: cmpb.eq P0,R3,#0x7b 
+  call 0xc1619338 
+  assign R0,R16 
+  memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
+  memd R21R20,(SP+#0x40) ; memd R23R22,(SP+#0x38) 
+  memd R25R24,(SP+#0x30) 
+  memd R27R26,(SP+#0x28) 
+  jump 0xc1848f14 
+  deallocframe 
+  cmpb.eq P0,R3,#0x7a 
+  immext #0x8008200 
+  assign.if(!P0.new) R6,##0x8008211 
+  jump.if(P0.new):nt 0xc184cd94 
+  cmpb.eq P0,R3,#0x7b   <== CENTER
+  jump.if(!P0.new):nt 0xc184cdd4 
+  memub R1,(R17) ; memub R2,(R17+#0x1) 
+  or R3,R2,R1 
+  immext #0x1300 
+  cmp.eq P0,R3,#0x0 ; jump.if(P0.new):t 0xc184c9c8 
+  memuh R3,(R21) 
+  memub R4,(R20+#0x22) 
+  call 0xc1619338 
+  immext #0xd61538c0 
+  assign R0,##0xd61538dc 
+  immext #0xcf853fc0 
+  assign R0,##0xcf853fd4 
+  memub R1,(R17) ; memuh R3,(R21) 
+  call 0xc18453bc 
+  memub R2,(R17+#0x1) 
+  memub R4,(R20+#0x22) 
+  call 0xc1619338 
+  memub R2,(R19) 
 
-REFERENCES PROCESSED: 2
+------------------------------------------------------------
+EXECUTABLE INSTRUCTION SCAN: d615a1bd
+------------------------------------------------------------
+HIT #1 : assign R0,##0xd615a1bd ; memw R1,(R17) 
+INSTRUCTIONS SCANNED: 1405016
+MATCHES: 1
 
-============================================================
-0x7B TARGET DIRECT CHECK
-============================================================
-TARGET: c184b698 : cmpb.eq P0,R3,#0x7b 
-OWNER : FUN_c184a38c @ c184a38c
-
-NEIGHBORHOOD AROUND 0x7B:
-  c184b618     immext #0xd6153a80 
-  c184b61c     assign.if(P0.new) R0,##0xd6153a80   <== ARG/ROUTE
-  c184b620     jump.if(P0.new):nt 0xc184cb5c 
-  c184b624     cmpb.eq P0,R3,#0x77 
-  c184b628     jump.if(!P0.new):nt 0xc184cdd4 
-  c184b62c     memb R3,(R17)   <== ARG/ROUTE
-  c184b630     immext #0x1540 
-  c184b634     jump.if:t cmp.eq(R3.new,#0x0),0xc184cb94 
-  c184b638     memub R17,(R25+#0x1)   <== ARG/ROUTE
-  c184b63c     call 0xc1843268 
-  c184b640     immext #0xcf853fc0 
-  c184b644     combine R1R0,R17,##0xcf853fe2   <== ARG/ROUTE
-  c184b648     cmp.gt P0,R3,#0x79 
-  c184b64c     jump.if(P0.new):t 0xc184b688 
-  c184b650     cmpb.eq P0,R3,#0x78 
-  c184b654     jump.if(P0.new):nt 0xc184cd40 
-  c184b658     cmpb.eq P0,R3,#0x79 
-  c184b65c     immext #0xd6153b80 
-  c184b660     assign.if(P0.new) R0,##0xd6153b8a   <== ARG/ROUTE
-  c184b664     jump.if(!P0.new):nt 0xc184cdd4 
-  c184b668     call 0xc1619338 
-  c184b66c     assign R0,R16   <== ARG/ROUTE
-  c184b670     memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48)   <== ARG/ROUTE
-  c184b674     memd R21R20,(SP+#0x40) ; memd R23R22,(SP+#0x38)   <== ARG/ROUTE
-  c184b678     memd R25R24,(SP+#0x30) 
-  c184b67c     memd R27R26,(SP+#0x28) 
-  c184b680     jump 0xc1848f14 
-  c184b684     deallocframe 
-  c184b688     cmpb.eq P0,R3,#0x7a 
-  c184b68c     immext #0x8008200 
-  c184b690     assign.if(!P0.new) R6,##0x8008211 
-  c184b694     jump.if(P0.new):nt 0xc184cd94 
-  c184b698     cmpb.eq P0,R3,#0x7b   <== CENTER
-  c184b69c     jump.if(!P0.new):nt 0xc184cdd4 
-  c184b6a0     memub R1,(R17) ; memub R2,(R17+#0x1)   <== ARG/ROUTE
-  c184b6a4     or R3,R2,R1   <== ARG/ROUTE
-  c184b6a8     immext #0x1300 
-  c184b6ac     cmp.eq P0,R3,#0x0 ; jump.if(P0.new):t 0xc184c9c8 
-  c184b6b0     memuh R3,(R21)   <== ARG/ROUTE
-  c184b6b4     memub R4,(R20+#0x22)   <== ARG/ROUTE
-  c184b6b8     call 0xc1619338 
-  c184b6bc     immext #0xd61538c0 
-  c184b6c0     assign R0,##0xd61538dc   <== ARG/ROUTE
-  c184b6c4     immext #0xcf853fc0 
-  c184b6c8     assign R0,##0xcf853fd4   <== ARG/ROUTE
-  c184b6cc     memub R1,(R17) ; memuh R3,(R21)   <== ARG/ROUTE
-  c184b6d0     call 0xc18453bc 
-  c184b6d4     memub R2,(R17+#0x1)   <== ARG/ROUTE
-  c184b6d8     memub R4,(R20+#0x22)   <== ARG/ROUTE
-  c184b6dc     call 0xc1619338 
-  c184b6e0     memub R2,(R19)   <== ARG/ROUTE
-  c184b6e4     setbit R2,R2,#0x2 
-  c184b6e8     immext #0x1740 
-  c184b6ec     jump.if:nt !cmp.eq(R2.new,#0x6),0xc184ce4c 
-  c184b6f0     immext #0xcaf8e700 
-  c184b6f4     assign R8,##0xcaf8e700 
-  c184b6f8     memuh R2,(R16+#0x10)   <== ARG/ROUTE
-  c184b6fc     cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184b79c 
-  c184b700     loop0 0xc184b714,#0x8 
-  c184b704     immext #0xc1d9c1c0 
-  c184b708     assign R17,##0xc1d9c1d8 ; assign R3,#0x0   <== ARG/ROUTE
-  c184b70c     immext #0xc1d9c1c0 
-  c184b710     combine R5R4,#0x0,##0xc1d9c1d8 
-  c184b714     !tstbit P0,R2,R5 
-  c184b718     jump.if(P0.new):nt 0xc184b73c 
-  c184b71c     memw.if(!P0.new) R6,(R8) 
-  c184b720     add R7,R6,R3 
-  c184b724     memw R6,(R6+R3) 
-  c184b728     memw (R4),R6.new 
-  c184b72c     memw R6,(R7+#0x8) 
-  c184b730     memw (R4+#0x8),R6.new 
-  c184b734     memw R6,(R7+#0x4) 
-  c184b738     memw (R4+#0x4),R6.new 
-  c184b73c     add R4,R4,#0xc 
-  c184b740     add R3,R3,#0xc ; add R5,R5,#0x1 
-  c184b744     memuh R2,(R16+#0x10)   <== ARG/ROUTE
-  c184b748     immext #0xc1d9c200 
-  c184b74c     memh (##0xc1d9c238),R2.new 
-  c184b750     immext #0xc4eea700 
-  c184b754     assign R0,##0xc4eea72b   <== ARG/ROUTE
-  c184b758     memub R4,(R16+#0x12)   <== ARG/ROUTE
-  c184b75c     memb (R18+#0x74),R4.new   <== ARG/ROUTE
-  c184b760     memw R1,(R17) ; memw R2,(R17+#0xc)   <== ARG/ROUTE
-  c184b764     call 0xc1841f1c 
-  c184b768     memw R3,(R17+#0x18) ; memuh R5,(R18)   <== ARG/ROUTE
-  c184b76c     immext #0xd6151c40 
-  c184b770     assign R0,##0xd6151c6c   <== ARG/ROUTE
-  c184b774     memuh R5,(R18) ; memd R19R18,(SP+#0x48)   <== ARG/ROUTE
-  c184b778     memw R1,(R17) ; memw R2,(R17+#0xc)   <== ARG/ROUTE
-  c184b77c     memw R3,(R17+#0x18)   <== ARG/ROUTE
-  c184b780     memub R4,(R16+#0x12)   <== ARG/ROUTE
-  c184b784     memd R17R16,(SP+#0x50) ; memd R21R20,(SP+#0x40)   <== ARG/ROUTE
-  c184b788     memd R23R22,(SP+#0x38) 
-  c184b78c     memd R25R24,(SP+#0x30) 
-  c184b790     jump 0xc1619338 
-  c184b794     memd R27R26,(SP+#0x28) 
-  c184b798     deallocframe 
-  c184b79c     immext #0xc1d9c300 
-  c184b7a0     assign R3,##0xc1d9c30c 
-  c184b7a4     immext #0xc1d9a880 
-  c184b7a8     assign R4,##0xc1d9a8a4 
-  c184b7ac     memh (R3),setbit(#0x0) 
-  c184b7b0     jump 0xc184b700 
-  c184b7b4     memb (R4),#0x1 
-  c184b7b8     call 0xc1619338 
-  c184b7bc     immext #0xc1d91a40 
-  c184b7c0     assign R4,##0xc1d91a58 
-  c184b7c4     add R1,R16,#0x12   <== ARG/ROUTE
-  c184b7c8     assign R2,#0x5a 
-  c184b7cc     call 0xc16b3900 
-  c184b7d0     add R0,R4,#0xc8   <== ARG/ROUTE
-  c184b7d4     memuh R3,(R16+#0x10)   <== ARG/ROUTE
-  c184b7d8     memh (R4+#0x136),R3.new 
-  c184b7dc     add R0,R22,#0x4e   <== ARG/ROUTE
-  c184b7e0     memuh R2,(R16+#0x6c)   <== ARG/ROUTE
-  c184b7e4     immext #0xc1d952c0 
-  c184b7e8     memh (##0xc1d952e8),R2.new 
-  c184b7ec     memuh R3,(R16+#0x6e)   <== ARG/ROUTE
-  c184b7f0     memuh R4,(R16+#0x70)   <== ARG/ROUTE
-  c184b7f4     memh (R22+#0x48),R4.L 
-  c184b7f8     memuh R4,(R16+#0x72)   <== ARG/ROUTE
-  c184b7fc     memh (R22+#0x46),R4.L 
-  c184b800     immext #0xc1d90280 
-
-============================================================
-INTERPRETATION GUIDE
-============================================================
-A) At c185b6c8, inspect the immediately preceding value loaded into R0.
-B) Separately trace R1 and the pointer held in R17.
-C) If R0 is a fixed global/data address and R1/R17 are context-derived, this is not a raw DIAG buffer parser.
-D) If R0/R1/R17 are a packet pointer + length/context passed from a receive dispatcher, the RFDEBUG hypothesis remains open.
-E) The 0x7B case itself is only evidence of an internal command value until its input provenance is established.
+------------------------------------------------------------
+INTERPRETATION
+------------------------------------------------------------
+1) If 0xD615A1BD has many reads/writes but is unmapped, it is an external/runtime/global region address.
+2) If it is used only as R0 before c184a38c, this strongly suggests a fixed global/state object rather than a packet passed by the DIAG stack.
+3) If other code writes a command byte into 0xD615A1BD and those writes are tied to a message receive path, the external-buffer hypothesis remains possible.
+4) Do not write to this address or to modem storage. This script is read-only.
 
 No program structures were modified.
 DONE
-TraceC184CallArgs.java> Finished!
+TraceD615A1BD.java> Finished!
