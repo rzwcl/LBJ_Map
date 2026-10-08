@@ -414,6 +414,260 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private static final String[] HIGH_VALUE_STRINGS = {
+        "ftm_common_dispatch.c:",
+        "ftm_rf_test_radio_config.c:",
+        "ftm_rf_test_control.c:",
+        "ftm_lte_rf_debug.c:",
+        "ftm_lte_common_dispatch.c:",
+        "ftm_nr5g_rf_test.c:",
+        "ftm_nr5g_rf_debug",
+        "rf_cmd_interface.c:",
+        "rf_lte_cmd_proc.c:",
+        "rflte_mc.c:",
+        "RFA_RF_LTE_FDD_RX_CONFIG",
+        "RFA_RF_LTE_TDD_RX_CONFIG",
+        "ftm_common_dispatch",
+        "FTM_PRI_ORDER"
+    };
+
+    private void inspectCodeXref(Address from, String context) {
+        try {
+            Function f = currentProgram.getFunctionManager()
+                .getFunctionContaining(from);
+
+            p("      CODE_XREF_CONTEXT=" + context);
+            p("      FROM=" + from);
+            p("      FUNCTION=" + (f == null ? "<no-function>" :
+                f.getName() + " @ " + f.getEntryPoint()));
+            p("      INSTRUCTION=" + instructionInfo(from.getOffset()));
+
+            if (f != null) {
+                ReferenceIterator it =
+                    currentProgram.getReferenceManager()
+                        .getReferencesTo(f.getEntryPoint());
+
+                int callers = 0;
+                while (it.hasNext() && callers < 16 && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+                    Reference r = it.next();
+                    if (r.getReferenceType().isCall()) {
+                        p("      CALLER[" + callers + "]=" + r.getFromAddress()
+                            + " " + instructionInfo(r.getFromAddress().getOffset()));
+                        callers++;
+                    }
+                }
+                p("      CALLERS_SHOWN=" + callers);
+            }
+        }
+        catch (Exception e) {
+            p("      CODE_XREF INSPECT ERROR: " + e.getMessage());
+        }
+    }
+
+    private void inspectDataXrefNeighborhood(Address from, String context) {
+        try {
+            MemoryBlock b = block(from.getOffset());
+            p("      DATA_XREF_CONTEXT=" + context);
+            p("      FROM=" + from);
+            p("      BLOCK=" + (b == null ? "<none>" : b.getName()));
+
+            Data d = listing().getDataContaining(from);
+            if (d != null) {
+                p("      CONTAINING_DATA=" + d.getAddress()
+                    + " len=" + d.getLength()
+                    + " type=" + d.getDataType()
+                    + " value=" + String.valueOf(d.getValue()));
+            } else {
+                p("      CONTAINING_DATA=<none>");
+            }
+
+            long center = from.getOffset();
+            long start = center - 0x30L;
+            long end = center + 0x50L;
+
+            if (b != null) {
+                if (start < b.getStart().getOffset()) start = b.getStart().getOffset();
+                if (end > b.getEnd().getOffset()) end = b.getEnd().getOffset();
+            } else {
+                return;
+            }
+
+            p("      RAW_NEIGHBORHOOD=" + hex(start) + ".." + hex(end));
+
+            for (long off = start; off <= end; off += 4L) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                if (!initialized(off, 4)) continue;
+
+                long v = u32(off);
+                String tag = "";
+
+                MemoryBlock vb = block(v);
+                if (vb != null) {
+                    tag = vb.isExecute() ? " <EXEC_TARGET>" : " <MEM_TARGET>";
+                }
+
+                p(String.format("        %s -> %s%s",
+                    hex(off), hex(v), tag));
+            }
+        }
+        catch (Exception e) {
+            p("      DATA_NEIGHBORHOOD ERROR: " + e.getMessage());
+        }
+    }
+
+    private void scanHighValueStrings() {
+        p("");
+        p("============================================================");
+        p("HIGH-VALUE FTM / RFA STRING TRACE");
+        p("Exact module/function/RFA anchors from public Qualcomm material");
+        p("Static only / READ ONLY");
+        p("============================================================");
+
+        int inspected = 0;
+        int hits = 0;
+
+        try {
+            ghidra.program.model.listing.DataIterator it =
+                currentProgram.getListing().getDefinedData(true);
+
+            while (it.hasNext()
+                    && inspected < 250000
+                    && hits < 160
+                    && lines < MAX_LINES) {
+
+                if (monitor.isCancelled()) return;
+
+                Data d = it.next();
+                inspected++;
+
+                String typeName =
+                    String.valueOf(d.getDataType()).toLowerCase();
+                if (!typeName.contains("string")) continue;
+
+                String value = String.valueOf(d.getValue());
+                if (value == null || value.length() == 0) continue;
+
+                String matched = null;
+                for (String term : HIGH_VALUE_STRINGS) {
+                    if (containsIgnoreCase(value, term)) {
+                        matched = term;
+                        break;
+                    }
+                }
+
+                if (matched == null) continue;
+
+                hits++;
+
+                p("");
+                p("HIGH-VALUE HIT #" + hits);
+                p("  address=" + d.getAddress());
+                p("  matched=" + matched);
+                p("  value=" + value);
+
+                ReferenceIterator rit =
+                    currentProgram.getReferenceManager()
+                        .getReferencesTo(d.getAddress());
+
+                int n = 0;
+                while (rit.hasNext() && n < 32 && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+
+                    Reference r = rit.next();
+                    Address from = r.getFromAddress();
+
+                    p(String.format(
+                        "  XREF[%02d] from=%s type=%s primary=%s",
+                        n, from, r.getReferenceType(), r.isPrimary()));
+
+                    if (r.getReferenceType().isCall()
+                            || r.getReferenceType().isRead()
+                            || r.getReferenceType().isWrite()
+                            || r.getReferenceType().isData()) {
+                        if (from.getAddressSpace().isMemorySpace()) {
+                            Function ff =
+                                currentProgram.getFunctionManager()
+                                    .getFunctionContaining(from);
+
+                            if (ff != null) {
+                                inspectCodeXref(from, value);
+                            } else {
+                                inspectDataXrefNeighborhood(from, value);
+                            }
+                        }
+                    }
+
+                    n++;
+                }
+
+                p("  XREFS_SHOWN=" + n);
+            }
+
+            p("");
+            p("HIGH-VALUE DATA ITEMS INSPECTED=" + inspected);
+            p("HIGH-VALUE HITS SHOWN=" + hits);
+        }
+        catch (Exception e) {
+            p("HIGH-VALUE SCAN ERROR: " + e.getMessage());
+        }
+    }
+
+    private void scanNamedFunctions() {
+        p("");
+        p("============================================================");
+        p("FUNCTION NAME CENSUS: FTM / RFA / RFDEBUG / DIAG");
+        p("============================================================");
+
+        int inspected = 0;
+        int hits = 0;
+
+        try {
+            Function[] fs = currentProgram.getFunctionManager().getFunctions(true).toArray(new Function[0]);
+
+            for (Function f : fs) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                if (inspected++ >= 250000 || hits >= 320) return;
+
+                String n = f.getName();
+                String low = n.toLowerCase();
+
+                boolean match =
+                    low.contains("ftm")
+                    || low.contains("rfa")
+                    || low.contains("rfdebug")
+                    || low.contains("radio_config")
+                    || low.contains("diag");
+
+                if (!match) continue;
+
+                p("  FUNC HIT #" + (++hits)
+                    + " " + f.getName()
+                    + " @ " + f.getEntryPoint());
+
+                ReferenceIterator rit =
+                    currentProgram.getReferenceManager()
+                        .getReferencesTo(f.getEntryPoint());
+
+                int callers = 0;
+                while (rit.hasNext() && callers < 8 && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+                    Reference r = rit.next();
+                    if (r.getReferenceType().isCall()) {
+                        p("      caller=" + r.getFromAddress());
+                        callers++;
+                    }
+                }
+            }
+
+            p("FUNCTIONS INSPECTED=" + inspected);
+            p("FUNCTION NAME HITS=" + hits);
+        }
+        catch (Exception e) {
+            p("FUNCTION CENSUS ERROR: " + e.getMessage());
+        }
+    }
+
     private void printReferences(long target, int maxRefs) {
         p("");
         p("REFERENCES TO " + hex(target));
@@ -700,7 +954,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         localNonZeroScan(REF_MASTER, LOCAL_ZERO_RADIUS, "MASTER 0xC8DC3B54");
         localNonZeroScan(REF_TABLE, LOCAL_ZERO_RADIUS, "FTM_TABLE 0xC37BD1E8");
 
-        scanFtmLocatorStrings();
+        scanHighValueStrings();
+
+        scanNamedFunctions();
+
+                scanFtmLocatorStrings();
 
         scanReferencePointers();
 
