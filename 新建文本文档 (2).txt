@@ -1,110 +1,143 @@
-FindC185B5F0ConstructedRefs.java> Running...
+TraceC185B5B4CallbackRegistration.java> Running...
 ============================================================
- FIND CONSTRUCTED / CODE REFERENCES TO C185B5F0
+ TRACE C185B5B4 CALLBACK CONSTRUCTION / REGISTRATION
  Program : qdsp6sw.mbn
- Target  : 0xC185B5F0
  READ ONLY
 ============================================================
 
-TARGET FUNCTION
-  entry : c185b5f0
-  name  : FUN_c185b5f0
-  containing : FUN_c185b5f0 @ c185b5f0
+TARGET CALLBACK : c185b5f0
+REGISTRATION FN : c185b5b4
+CALL TARGET     : c1845790
 
 ------------------------------------------------------------
-PASS 1: EXECUTABLE INSTRUCTIONS CONTAINING FULL TARGET LITERAL
+FUNCTION FUN_c185b5b4
 ------------------------------------------------------------
-  HIT : c1848790 : call 0xc185b5b4 
-  FUNC: FUN_c1848720 @ c1848720
-  CONTEXT:
-    c1848778 : call 0xc1846c34 
-    c184877c : assign R0,#0x1 
-    c1848780 : call 0xc1619338 
-    c1848784 : immext #0xd6151680 
-    c1848788 : assign R0,##0xd61516af 
-    c184878c : call 0xc184a240 
-    c1848790 : call 0xc185b5b4    <== MATCH
-    c1848794 : call 0xc1841f04 
-    c1848798 : add R0,SP,#0x4 
-    c184879c : immext #0x10000 
-    c18487a0 : assign R3,##0x10003 
-  HIT : c1850408 : call 0xc185b520 
-  FUNC: FUN_c18503e0 @ c18503e0
-  CONTEXT:
-    c18503f0 : combine R1R0,#0x3,#0x3 
-    c18503f4 : cmp.eq P0,R16,#0x0 
-    c18503f8 : assign.if(P0.new) R0,#0x2 
-    c18503fc : immext #0xf80 
-    c1850400 : call.if(P0) 0xc1851384 
-    c1850404 : call 0xc185b734 
-    c1850408 : call 0xc185b520    <== MATCH
-    c185040c : immext #0xc1d91880 
-    c1850410 : assign R17,##0xc1d91880 
-    c1850414 : memub R2,(R17+#0x1) 
-    c1850418 : or R2,R2,R16 
-  HIT : c1850598 : call 0xc185b520 
-  FUNC: FUN_c1850580 @ c1850580
-  CONTEXT:
-    c1850580 : call 0xc1841f14 
-    c1850584 : combine R1R0,#0x2,#0x3 ; allocframe #0x0 
-    c1850588 : call 0xc1851384 
-    c185058c : assign R0,#0x1 
-    c1850590 : call 0xc1846ba0 
-    c1850594 : assign R0,#0x1 
-    c1850598 : call 0xc185b520    <== MATCH
-    c185059c : call 0xc184d284 
-    c18505a0 : immext #0xc1d91880 
-    c18505a4 : assign R2,##0xc1d91880 
-    c18505a8 : call 0xc1848650 
-  HIT : c185b5d0 : immext #0xc185b5c0 
-  FUNC: FUN_c185b5b4 @ c185b5b4
-  CONTEXT:
-    c185b5b8 : call 0xc184d074 
-    c185b5bc : immext #0xcaf98940 
-    c185b5c0 : memb (##0xcaf98941),R2 
-    c185b5c4 : memd (SP),R17R16 
-    c185b5c8 : immext #0xc9116880 
-    c185b5cc : assign R16,##0xc9116888 
-    c185b5d0 : immext #0xc185b5c0    <== MATCH
-    c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
-    c185b5d8 : add R0,R16,#-0x10 
-    c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
-    c185b5e0 : call 0xc1845790 
-  HIT : c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
-  FUNC: FUN_c185b5b4 @ c185b5b4
-  CONTEXT:
-    c185b5bc : immext #0xcaf98940 
-    c185b5c0 : memb (##0xcaf98941),R2 
-    c185b5c4 : memd (SP),R17R16 
-    c185b5c8 : immext #0xc9116880 
-    c185b5cc : assign R16,##0xc9116888 
-    c185b5d0 : immext #0xc185b5c0 
-    c185b5d4 : combine R5R4,#0x0,##0xc185b5f0    <== MATCH
-    c185b5d8 : add R0,R16,#-0x10 
-    c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
-    c185b5e0 : call 0xc1845790 
-    c185b5e4 : memw R3,(R16+#0xc) 
-
-PASS 1 INSTRUCTIONS SCANNED: 1600001
-PASS 1 MATCHES: 5
+FUNCTION: FUN_c185b5b4
+ENTRY   : c185b5b4
+  c185b5b4 : assign R2,#0x0 ; allocframe #0x8 
+  c185b5b8 : call 0xc184d074 
+  c185b5bc : immext #0xcaf98940 
+  c185b5c0 : memb (##0xcaf98941),R2 
+  c185b5c4 : memd (SP),R17R16 
+  c185b5c8 : immext #0xc9116880 
+  c185b5cc : assign R16,##0xc9116888 
+  c185b5d0 : immext #0xc185b5c0 
+  c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
+  c185b5d8 : add R0,R16,#-0x10 
+  c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
+  c185b5e0 : call 0xc1845790 
+  c185b5e4 : memw R3,(R16+#0xc) 
+  c185b5e8 : memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0 
+  c185b5ec : dealloc_return 
+INSTRUCTIONS PRINTED: 15
 
 ------------------------------------------------------------
-PASS 2: IMMEDIATE-CONSTRUCTION PATTERNS NEAR C185B5F0
+REFERENCES TO FUN_c185b5b4
 ------------------------------------------------------------
-  RANGE HIT : c185b5d0 : immext #0xc185b5c0  | FUN_c185b5b4 @ c185b5b4
-  RANGE HIT : c185b5d4 : combine R5R4,#0x0,##0xc185b5f0  | FUN_c185b5b4 @ c185b5b4
-  RANGE HIT : c185b754 : immext #0xc185b740  | FUN_c185b734 @ c185b734
-  RANGE HIT : c185b758 : combine R5R4,R0,##0xc185b768  | FUN_c185b734 @ c185b734
-  RANGE HIT : c185bf4c : assign R4,R3 ; jump 0xc185bf60  | FUN_c185be20 @ c185be20
-RANGE INSTRUCTIONS SCANNED: 2120
-RANGE MATCHES: 5
+REFERENCES TO c185b5b4
+  REF #1 FROM=c1848790 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1848720 @ c1848720
+REFERENCES PROCESSED: 1
 
 ------------------------------------------------------------
-INTERPRETATION
+REFERENCES TO CALLBACK c185b5f0
 ------------------------------------------------------------
-1) A full 0xC185B5F0 immediate in executable code would support indirect construction/registration.
-2) No code literal + no raw data pointer + no direct references would make C185B5F0 a strong orphan/dead-code candidate or externally-entered symbol.
-3) This script does not write memory, symbols, comments, or program structures.
+REFERENCES TO c185b5f0
+REFERENCES PROCESSED: 0
+
+------------------------------------------------------------
+CALLS TO c1845790 WITHIN c185b5b4
+------------------------------------------------------------
+
+CALL SITE : c185b5e0 -> 3246675856
+FUNC      : FUN_c185b5b4 @ c185b5b4
+  c185b554 : memh (R1),#0x0 
+  c185b558 : call 0xc185c3ec 
+  c185b55c : memb (R0),#0x0 
+  c185b560 : memh (R2),#0x0 
+  c185b564 : call 0xc184e080 
+  c185b568 : call 0xc185c7b0 
+  c185b56c : call 0xc1850308 
+  c185b570 : call 0xc185b9f0 
+  c185b574 : call 0xc185cca0 
+  c185b578 : call 0xc185c770 
+  c185b57c : call 0xc184dc80 
+  c185b580 : call 0xc184db60 
+  c185b584 : call 0xc184dbd0 
+  c185b588 : call 0xc184f6a0 
+  c185b58c : call 0xc184db50 
+  c185b590 : call 0xc185a314 
+  c185b594 : call 0xc185c8e4 
+  c185b598 : call 0xc18488c8 
+  c185b59c : call 0xc185ba10 
+  c185b5a0 : call 0xc18509e4 
+  c185b5a4 : call 0xc184e0e0 
+  c185b5a8 : immext #0xcaf97400 
+  c185b5ac : memb (##0xcaf97438),R0 
+  c185b5b0 : dealloc_return 
+  c185b5b4 : assign R2,#0x0 ; allocframe #0x8 
+  c185b5b8 : call 0xc184d074 
+  c185b5bc : immext #0xcaf98940 
+  c185b5c0 : memb (##0xcaf98941),R2 
+  c185b5c4 : memd (SP),R17R16 
+  c185b5c8 : immext #0xc9116880 
+  c185b5cc : assign R16,##0xc9116888 
+  c185b5d0 : immext #0xc185b5c0 
+  c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
+  c185b5d8 : add R0,R16,#-0x10 
+  c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
+  c185b5e0 : call 0xc1845790 
+  c185b5e4 : memw R3,(R16+#0xc) 
+  c185b5e8 : memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0 
+  c185b5ec : dealloc_return 
+  c185b5f0 : immext #0xc1d91880 
+  c185b5f4 : assign R16,##0xc1d91880 
+  c185b5f8 : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  c185b5fc : call 0xc1841f14 
+  c185b600 : combine R1R0,#0x1,#0x3 ; memb (R16),#0x1 
+  c185b604 : immext #0xcaf98940 
+  c185b608 : assign R17,##0xcaf98960 
+  c185b60c : call 0xc184d188 
+  c185b610 : immext #0xcaf98940 
+CALLS TO c1845790 FOUND: 1
+
+------------------------------------------------------------
+FUNCTION c1845790
+------------------------------------------------------------
+FUNCTION: thunk_EXT_FUN_d89ad4a8
+ENTRY   : c1845790
+  c1845790 : immext #0x17167d00 
+  c1845794 : jump 0xd89ad4a8 
+INSTRUCTIONS PRINTED: 2
+
+------------------------------------------------------------
+REFERENCES TO c1845790
+------------------------------------------------------------
+REFERENCES TO c1845790
+  REF #1 FROM=c1851e84 TYPE=DATA FUNC=FUN_c1851e58 @ c1851e58
+  REF #2 FROM=c1851e88 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1851e58 @ c1851e58
+  REF #3 FROM=c1845780 TYPE=DATA FUNC=FUN_c1845754 @ c1845754
+  REF #4 FROM=c1845784 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1845754 @ c1845754
+  REF #5 FROM=c1846d24 TYPE=DATA FUNC=FUN_c1846cc8 @ c1846cc8
+  REF #6 FROM=c1846d30 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1846cc8 @ c1846cc8
+  REF #7 FROM=c18457c0 TYPE=DATA FUNC=FUN_c1845798 @ c1845798
+  REF #8 FROM=c18457cc TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1845798 @ c1845798
+  REF #9 FROM=c1845810 TYPE=DATA FUNC=FUN_c18457d8 @ c18457d8
+  REF #10 FROM=c184581c TYPE=UNCONDITIONAL_CALL FUNC=FUN_c18457d8 @ c18457d8
+  REF #11 FROM=c185b5e0 TYPE=DATA FUNC=FUN_c185b5b4 @ c185b5b4
+  REF #12 FROM=c185b5e4 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c185b5b4 @ c185b5b4
+  REF #13 FROM=c185b750 TYPE=DATA FUNC=FUN_c185b734 @ c185b734
+  REF #14 FROM=c185b75c TYPE=UNCONDITIONAL_CALL FUNC=FUN_c185b734 @ c185b734
+  REF #15 FROM=c1851c9c TYPE=DATA FUNC=FUN_c1851b60 @ c1851b60
+  REF #16 FROM=c1851ca0 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1851b60 @ c1851b60
+REFERENCES PROCESSED: 16
+
+============================================================
+INTERPRETATION TARGET
+1) c185b5d4 constructs the callback pointer c185b5f0.
+2) Determine how c1845790 consumes the callback register/value.
+3) If c1845790 stores the callback in a table/queue, locate that table and entry fields.
+4) Then trace what external/event source triggers that callback.
+5) No memory, symbols, comments, or program structures are modified.
 ============================================================
 DONE
-FindC185B5F0ConstructedRefs.java> Finished!
+TraceC185B5B4CallbackRegistration.java> Finished!
