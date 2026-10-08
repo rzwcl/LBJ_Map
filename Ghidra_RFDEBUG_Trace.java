@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C17C-R4-PROVENANCE-1";
+    private static final String TRACE_BUILD = "C17C-PRIMARY-2";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -1425,114 +1425,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         lines = 0;
 
         println("\n============================================================");
-        println("FOCUSED RFDEBUG-ENTRY CANDIDATE TRACE");
-        println("PRIMARY ONLY: c1902c74 / call-site c1902c70");
-        println("SECONDARY SUMMARY ONLY: c1d1a760");
-        println("NO GLOBAL SCANS / READ ONLY / HARD LIMITED");
+        println("C17C9460 PRIMARY TRACE ONLY");
+        println("PURPOSE: prove the source of R4 at c17c94d8 and inspect c16191f0");
+        println("NO OLD GLOBAL TRACES / READ ONLY / HARD LIMITED");
         println("============================================================");
 
-        // First inspect the strongest remaining exact-0x4B candidate and its caller.
-        inspectCallSiteNeighborhood(0xc17c94d8L, 60, 20);
-        inspectCallSiteNeighborhood(0xc17b46f8L, 60, 20);
+        inspectCallSiteNeighborhood(0xc17b46f8L, 80, 24);
+        inspectCallSiteNeighborhood(0xc17c94d8L, 48, 24);
         inspectFunctionByAddress(0xc17c9460L);
         inspectFunctionByAddress(0xc16191f0L);
 
-        // The previous primary candidate remains below for comparison.
-        printIncomingCalls(0xc1902c74L, 16);
-        inspectCallSiteNeighborhood(0xc1902c70L, 30, 30);
-        traceC1902Provenance();
-        traceC18E7A50();
-        traceC18D0970Registration();
-        traceC18D0978External();
-        traceC18D09ACRuntime();
-        traceC18E7A50CallersAndObject();
-        traceC18E91D0Chain();
-        traceC18F3530Callbacks();
-        traceExact7BPoints();
-        trace4B0BSequenceCandidates();
-        trace4BBranchFlow();
-        trace4BInputFlow();
-        traceSelected4BParsers();
-        printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
-
-        // Inspect the actual caller function, but do not dump the giant secondary parser.
-        Instruction cs = currentProgram.getListing().getInstructionContaining(toAddr(0xc1902c70L));
-        Function cf = (cs == null ? null : functionContaining(cs.getAddress()));
-
-        if (cf != null) {
-            println("\n------------------------------------------------------------");
-            println("CALLER OF c1902c74: COMPACT DATAFLOW");
-            println("FUNCTION: " + cf.getName() + " @ " + cf.getEntryPoint());
-
-            ArrayList<Instruction> a = collect(cf);
-            int shown = 0;
-
-            // Show prologue and the region around c1902c70.
-            for (int i = 0; i < a.size() && shown < MAX_CALLER_INSNS && lines < MAX_LINES; i++) {
-                if (monitor.isCancelled()) return;
-
-                Instruction ins = a.get(i);
-                long off = ins.getAddress().getOffset();
-                String s = safe(ins.toString()).toLowerCase();
-
-                boolean nearCall = off >= 0xc1902bf0L && off <= 0xc1902d00L;
-                boolean setup = i < 70;
-                boolean important =
-                    nearCall || setup ||
-                    s.contains("call") ||
-                    s.contains("memub") || s.contains("memb") ||
-                    s.contains("memw") || s.contains("memd") ||
-                    s.contains("sp+") ||
-                    s.contains("r0") || s.contains("r1") ||
-                    s.contains("r2") || s.contains("r3");
-
-                if (!important) continue;
-
-                println("  " + ins.getAddress() + " : " + safe(ins.toString()));
-                lines++;
-                shown++;
-            }
-
-            println("CALLER SHOWN: " + shown + " / BOUNDED FUNCTION INSNS=" + a.size());
-
-            println("CALLS INTO THIS CALLER FUNCTION:");
-            ReferenceIterator rit =
-                currentProgram.getReferenceManager().getReferencesTo(cf.getEntryPoint());
-            int n = 0;
-            while (rit.hasNext() && n < 12 && lines < MAX_LINES) {
-                if (monitor.isCancelled()) return;
-                Reference r = rit.next();
-                if (!r.getReferenceType().isCall()) continue;
-
-                Function caller2 = functionContaining(r.getFromAddress());
-                println("  " + r.getFromAddress() + " <- " +
-                    (caller2 == null ? "<unknown>" :
-                     caller2.getName() + " @ " + caller2.getEntryPoint()));
-                lines++;
-                n++;
-            }
-        }
-
-        // Secondary candidate only needs the entry/header and call-site evidence now.
-        println("\n------------------------------------------------------------");
-        println("SECONDARY CANDIDATE c1d1a760: SUMMARY");
-        Function sf = functionContaining(toAddr(0xc1d1a760L));
-        if (sf == null) {
-            println("FUNCTION: <none>");
-        } else {
-            println("FUNCTION: " + sf.getName() + " @ " + sf.getEntryPoint());
-            println("The previous run already established: 0x4B is read from (R22++#1),");
-            println("then the same parser checks 0x76, 0x45, 0x52, 0x4F, 0x45, 0x5F,");
-            println("and repeatedly manipulates heap/list buffer pointers.");
-            println("This is lower priority than c1902c74.");
-        }
-
         println("\n============================================================");
-        println("FOCUSED TRACE COMPLETE");
+        println("C17C PRIMARY TRACE COMPLETE");
         println("============================================================");
     }
-
-
 
     private void traceC1902Provenance() {
         println("\n============================================================");
