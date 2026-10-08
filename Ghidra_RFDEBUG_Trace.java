@@ -13,34 +13,22 @@ import java.util.Set;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final long[] TARGET_FUNCS = {
-        0xc1aafbc0L,
-        0xc1902c74L,
-        0xc1ab5514L,
-        0xc1a23f94L,
-        0xc1a46a70L
-    };
-
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_GLOBAL_INSNS = 1800000;
-    private static final int MAX_RESULTS = 80;
-    private static final int WINDOW_AFTER_4B = 80;
+    private static final int MAX_FUNCTIONS = 120;
+    private static final int MAX_LINES = 12000;
+    private static final int LOCAL_WINDOW = 140;
 
-    private int printed = 0;
+    private int lines = 0;
 
     private String safe(String s) {
         return s == null ? "" : s.replace('\r', ' ').replace('\n', ' ');
     }
 
-    private boolean hasHex(String s, long v) {
+    private boolean containsImm(String s, long v) {
         String x = safe(s).toLowerCase();
-        String h = String.format("0x%x", v);
+        String h = String.format("#0x%x", v);
         return x.contains(h);
-    }
-
-    private boolean isCall(String s) {
-        String x = safe(s).toLowerCase();
-        return x.contains("call ") || x.startsWith("call.") || x.contains(" call.");
     }
 
     private boolean isCompare(String s) {
@@ -48,187 +36,208 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return x.contains("cmp.");
     }
 
-    private Function functionAt(long off) {
-        FunctionManager fm = currentProgram.getFunctionManager();
-        return fm.getFunctionAt(toAddr(off));
+    private boolean isCall(String s) {
+        String x = safe(s).toLowerCase();
+        return x.contains("call ") || x.startsWith("call.") || x.contains(" call.");
     }
 
-    private void printFunction(Function f) {
-        if (f == null) {
-            println("FUNCTION: <none>");
-            return;
-        }
+    private boolean is4BCompare(String s) {
+        if (!isCompare(s) || !containsImm(s, 0x4b)) return false;
+        String x = safe(s).toLowerCase();
+        return x.contains("cmpb") ||
+               x.contains("cmph") ||
+               x.contains("cmp.eq") ||
+               x.contains("cmp.gt") ||
+               x.contains("cmp.gtu");
+    }
 
-        println("FUNCTION: " + f.getName());
-        println("ENTRY   : " + f.getEntryPoint());
-        println("BODY    : " + f.getBody());
+    private boolean is0BCompare(String s) {
+        if (!isCompare(s) || !containsImm(s, 0x0b)) return false;
+        String x = safe(s).toLowerCase();
+        return x.contains("cmpb") ||
+               x.contains("cmph") ||
+               x.contains("cmp.eq") ||
+               x.contains("cmp.gt") ||
+               x.contains("cmp.gtu");
+    }
 
-        InstructionIterator it =
-            currentProgram.getListing().getInstructions(f.getBody(), true);
+    private boolean is7BCompare(String s) {
+        if (!isCompare(s) || !containsImm(s, 0x7b)) return false;
+        String x = safe(s).toLowerCase();
+        return x.contains("cmpb") ||
+               x.contains("cmph") ||
+               x.contains("cmp.eq") ||
+               x.contains("cmp.gt") ||
+               x.contains("cmp.gtu");
+    }
 
-        int n = 0;
-        int count4b = 0;
-        int count0b = 0;
-        int count7b = 0;
-        int calls = 0;
+    private boolean hasMemoryRead(String s) {
+        String x = safe(s).toLowerCase();
+        return x.contains("memub") || x.contains("memuh") ||
+               x.contains("memw") || x.contains("memd") ||
+               x.contains("memb");
+    }
 
-        while (it.hasNext() && n < MAX_FUNCTION_INSNS) {
-            if (monitor.isCancelled()) return;
-            Instruction ins = it.next();
-            n++;
-
-            String s = safe(ins.toString());
-
-            if (hasHex(s, 0x4b)) count4b++;
-            if (hasHex(s, 0x0b)) count0b++;
-            if (hasHex(s, 0x7b)) count7b++;
-            if (isCall(s)) calls++;
-        }
-
-        println("COUNTS: 0x4B=" + count4b +
-                " 0x0B=" + count0b +
-                " 0x7B=" + count7b +
-                " CALLS=" + calls +
-                " SCANNED=" + n);
+    private Function functionContaining(Address a) {
+        return currentProgram.getFunctionManager().getFunctionContaining(a);
     }
 
     private ArrayList<Instruction> collect(Function f) {
-        ArrayList<Instruction> list = new ArrayList<Instruction>();
-        if (f == null) return list;
+        ArrayList<Instruction> out = new ArrayList<Instruction>();
+        if (f == null) return out;
 
         InstructionIterator it =
             currentProgram.getListing().getInstructions(f.getBody(), true);
 
         int n = 0;
         while (it.hasNext() && n < MAX_FUNCTION_INSNS) {
-            if (monitor.isCancelled()) return list;
-            list.add(it.next());
+            if (monitor.isCancelled()) return out;
+            out.add(it.next());
             n++;
         }
-        return list;
+        return out;
     }
 
-    private boolean isPacketLoad(String s, long off) {
-        String x = safe(s).toLowerCase();
-        String base = "r17";
-        if (!x.contains(base)) return false;
-
-        if (off == 0) {
-            return x.contains("(r17)") && !x.contains("(r17+");
+    private int findNext(ArrayList<Instruction> a, int from, boolean want0b, boolean want7b) {
+        for (int i = from + 1; i < a.size() && i <= from + LOCAL_WINDOW; i++) {
+            String s = safe(a.get(i).toString());
+            if ((want0b && is0BCompare(s)) || (want7b && is7BCompare(s))) {
+                return i;
+            }
         }
-
-        String h = String.format("#0x%x", off);
-        String h2 = String.format("+0x%x", off);
-        return x.contains("(r17+" + h2 + ")") ||
-               x.contains("(r17+" + h + ")");
+        return -1;
     }
 
-    private void analyzeCandidate(long off) {
-        Address a = toAddr(off);
-        Function f = functionAt(off);
-
-        println("\n============================================================");
-        println("CANDIDATE FUNCTION @" + a);
-        println("============================================================");
-
-        if (f == null) {
-            println("No function at target.");
-            return;
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {
+        int start = Math.max(0, center - before);
+        int end = Math.min(a.size(), center + after + 1);
+        for (int i = start; i < end && lines < MAX_LINES; i++) {
+            Instruction ins = a.get(i);
+            String s = safe(ins.toString());
+            if (i == center ||
+                is4BCompare(s) ||
+                is0BCompare(s) ||
+                is7BCompare(s) ||
+                isCall(s) ||
+                hasMemoryRead(s)) {
+                println("  " + ins.getAddress() + " : " + s);
+                lines++;
+            }
         }
+    }
 
-        printFunction(f);
+    private void analyzeFunction(Function f) {
+        if (f == null || lines >= MAX_LINES) return;
 
-        ArrayList<Instruction> insns = collect(f);
-        int fourBIndex = -1;
+        ArrayList<Instruction> a = collect(f);
+        if (a.isEmpty()) return;
 
-        for (int i = 0; i < insns.size(); i++) {
+        int count4 = 0, count0 = 0, count7 = 0, calls = 0;
+        ArrayList<Integer> fourB = new ArrayList<Integer>();
+
+        for (int i = 0; i < a.size(); i++) {
             if (monitor.isCancelled()) return;
+            String s = safe(a.get(i).toString());
 
-            String s = safe(insns.get(i).toString());
-
-            boolean is4BCompare =
-                hasHex(s, 0x4b) && isCompare(s) &&
-                (s.toLowerCase().contains("cmpb") ||
-                 s.toLowerCase().contains("cmph") ||
-                 s.toLowerCase().contains("cmp.eq") ||
-                 s.toLowerCase().contains("cmp.gt") ||
-                 s.toLowerCase().contains("cmp.gtu"));
-
-            if (!is4BCompare) continue;
-
-            fourBIndex = i;
-
-            println("\n-- 0x4B COMPARE @ " + insns.get(i).getAddress() + " --");
-            println("   " + s);
-
-            int start = Math.max(0, i - 8);
-            int end = Math.min(insns.size(), i + WINDOW_AFTER_4B);
-
-            int packet0 = -1;
-            int packet1 = -1;
-            int packet2 = -1;
-            int cmd0b = -1;
-            int cmd7b = -1;
-            int firstCall = -1;
-
-            for (int j = start; j < end; j++) {
-                Instruction z = insns.get(j);
-                String zs = safe(z.toString());
-
-                if (isPacketLoad(zs, 0) && packet0 < 0) packet0 = j;
-                if (isPacketLoad(zs, 1) && packet1 < 0) packet1 = j;
-                if (isPacketLoad(zs, 2) && packet2 < 0) packet2 = j;
-
-                if (hasHex(zs, 0x0b) && cmd0b < 0) cmd0b = j;
-                if (hasHex(zs, 0x7b) && cmd7b < 0) cmd7b = j;
-
-                if (j > i && isCall(zs) && firstCall < 0) firstCall = j;
-
-                if ((j >= i - 8 && j <= i + 24) ||
-                    hasHex(zs, 0x0b) ||
-                    hasHex(zs, 0x7b) ||
-                    isPacketLoad(zs, 0) ||
-                    isPacketLoad(zs, 1) ||
-                    isPacketLoad(zs, 2) ||
-                    (j > i && isCall(zs))) {
-
-                    if (printed < MAX_RESULTS) {
-                        println("   " + z.getAddress() + " : " + zs);
-                        printed++;
-                    }
-                }
+            if (is4BCompare(s)) {
+                count4++;
+                fourB.add(i);
             }
+            if (is0BCompare(s)) count0++;
+            if (is7BCompare(s)) count7++;
+            if (isCall(s)) calls++;
+        }
 
-            println("   PACKET LOAD R17+0 : " + (packet0 >= 0 ? insns.get(packet0).getAddress() : "<none>"));
-            println("   PACKET LOAD R17+1 : " + (packet1 >= 0 ? insns.get(packet1).getAddress() : "<none>"));
-            println("   PACKET LOAD R17+2 : " + (packet2 >= 0 ? insns.get(packet2).getAddress() : "<none>"));
-            println("   0x0B RELATED       : " + (cmd0b >= 0 ? insns.get(cmd0b).getAddress() : "<none>"));
-            println("   0x7B RELATED       : " + (cmd7b >= 0 ? insns.get(cmd7b).getAddress() : "<none>"));
-            println("   FIRST CALL AFTER   : " + (firstCall >= 0 ? insns.get(firstCall).getAddress() : "<none>"));
+        if (count4 == 0) return;
 
-            if (packet0 >= 0 && packet1 >= 0 && packet2 >= 0) {
-                println("   >>> BUFFER-STRUCTURE CANDIDATE: byte[0], byte[1], halfword[2] <<<");
+        boolean high = false;
+        int best0 = -1, best7 = -1, best4 = -1;
+        int best0Dist = Integer.MAX_VALUE, best7Dist = Integer.MAX_VALUE;
+
+        for (int i : fourB) {
+            int j0 = findNext(a, i, true, false);
+            int j7 = findNext(a, i, false, true);
+
+            if (j0 >= 0 && j0 - i < best0Dist) {
+                best0 = j0;
+                best0Dist = j0 - i;
+                best4 = i;
             }
-            if (packet0 >= 0 && packet1 >= 0 && cmd0b >= 0) {
-                println("   >>> 4B -> buffer byte[1] / 0x0B CANDIDATE <<<");
+            if (j7 >= 0 && j7 - i < best7Dist) {
+                best7 = j7;
+                best7Dist = j7 - i;
+                if (best4 < 0) best4 = i;
             }
-            if (packet2 >= 0 && cmd7b >= 0) {
-                println("   >>> 4B -> halfword@+2 / 0x7B CANDIDATE <<<");
-            }
-            if (packet0 >= 0 && packet1 >= 0 && packet2 >= 0 && cmd0b >= 0 && cmd7b >= 0) {
-                println("   >>> HIGH-VALUE: potential 4B 0B 7B 00 parser path <<<");
-            }
+        }
+
+        if (best0 >= 0) high = true;
+        if (best7 >= 0) high = true;
+
+        // We only print useful 4B functions:
+        // 4B->0B compare, 4B->7B compare, or both 0B and 7B elsewhere.
+        if (!high && !(count0 > 0 && count7 > 0)) return;
+
+        println("\n============================================================");
+        println("4B DISPATCH CANDIDATE");
+        println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+        println("BODY    : " + f.getBody());
+        println("COUNTS  : 4B_CMP=" + count4 +
+                " 0B_CMP=" + count0 +
+                " 7B_CMP=" + count7 +
+                " CALLS=" + calls);
+
+        if (best0 >= 0) {
+            println("SEQUENCE: 4B -> 0B compare, distance=" + best0Dist +
+                    " instrs");
+            println("  4B @ " + a.get(best4).getAddress() + " : " + safe(a.get(best4).toString()));
+            println("  0B @ " + a.get(best0).getAddress() + " : " + safe(a.get(best0).toString()));
+        }
+
+        if (best7 >= 0) {
+            int from = best4 >= 0 ? best4 : 0;
+            println("SEQUENCE: 4B -> 7B compare, distance=" + best7Dist +
+                    " instrs");
+            println("  4B @ " + a.get(from).getAddress() + " : " + safe(a.get(from).toString()));
+            println("  7B @ " + a.get(best7).getAddress() + " : " + safe(a.get(best7).toString()));
+        }
+
+        if (count0 > 0 && count7 > 0) {
+            println("FUNCTION CONTAINS BOTH 0B_CMP AND 7B_CMP");
+        }
+
+        if (best4 >= 0) {
+            printWindow(a, best4, 12, 48);
+        }
+
+        if (best0 >= 0 && best0 != best4) {
+            println("-- 0B DISPATCH CONTEXT --");
+            printWindow(a, best0, 8, 28);
+        }
+
+        if (best7 >= 0 && best7 != best4) {
+            println("-- 7B DISPATCH CONTEXT --");
+            printWindow(a, best7, 8, 28);
         }
     }
 
-    private void globalScanForPacketPattern() throws Exception {
+    private void seedFunction(long off) {
+        Function f = functionContaining(toAddr(off));
+        if (f != null) {
+            analyzeFunction(f);
+        }
+    }
+
+    private void globalExactCompareScan() {
         println("\n============================================================");
-        println("GLOBAL EXECUTABLE SCAN FOR PACKET-LIKE 0x4B / R17 PATTERNS");
+        println("GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B");
         println("============================================================");
 
         int scanned = 0;
-        int candidates = 0;
-        Set<Long> seen = new HashSet<Long>();
+        int hits4 = 0;
+        int hits0 = 0;
+        int hits7 = 0;
+
+        Set<Long> printedFunctions = new HashSet<Long>();
 
         for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
             if (monitor.isCancelled()) return;
@@ -240,58 +249,73 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
             while (it.hasNext()) {
                 if (monitor.isCancelled()) return;
-                if (scanned >= MAX_GLOBAL_INSNS) {
-                    println("[HARD LIMIT] stopped at " + scanned);
+                if (scanned++ >= MAX_GLOBAL_INSNS) {
+                    println("[HARD LIMIT] " + MAX_GLOBAL_INSNS);
                     return;
                 }
 
                 Instruction ins = it.next();
-                scanned++;
                 String s = safe(ins.toString());
 
-                if (!hasHex(s, 0x4b) || !isCompare(s)) continue;
+                if (!is4BCompare(s) && !is0BCompare(s) && !is7BCompare(s)) continue;
 
-                Function f =
-                    currentProgram.getFunctionManager().getFunctionContaining(ins.getAddress());
+                Function f = functionContaining(ins.getAddress());
                 if (f == null) continue;
 
-                ArrayList<Instruction> sample = collect(f);
-                boolean hasR17_0 = false;
-                boolean hasR17_1 = false;
-                boolean hasR17_2 = false;
-                boolean has0b = false;
-                boolean has7b = false;
+                long key = f.getEntryPoint().getOffset();
 
-                for (Instruction x : sample) {
-                    String xs = safe(x.toString());
-                    if (isPacketLoad(xs, 0)) hasR17_0 = true;
-                    if (isPacketLoad(xs, 1)) hasR17_1 = true;
-                    if (isPacketLoad(xs, 2)) hasR17_2 = true;
-                    if (hasHex(xs, 0x0b)) has0b = true;
-                    if (hasHex(xs, 0x7b)) has7b = true;
+                // Analyze once per function, with strongest candidates first.
+                boolean interesting =
+                    is4BCompare(s) || is0BCompare(s) || is7BCompare(s);
+
+                if (interesting && printedFunctions.add(key) &&
+                    printedFunctions.size() <= MAX_FUNCTIONS) {
+                    analyzeFunction(f);
                 }
 
-                if (hasR17_0 && hasR17_1 && (hasR17_2 || has0b || has7b)) {
-                    long key = f.getEntryPoint().getOffset();
-                    if (!seen.contains(key)) {
-                        seen.add(key);
-                        candidates++;
-                        println("CANDIDATE #" + candidates +
-                                " FUNC=" + f.getName() +
-                                " ENTRY=" + f.getEntryPoint() +
-                                " r17[0]=" + hasR17_0 +
-                                " r17[1]=" + hasR17_1 +
-                                " r17[2]=" + hasR17_2 +
-                                " 0B=" + has0b +
-                                " 7B=" + has7b);
-                        if (candidates >= 40) return;
-                    }
-                }
+                if (is4BCompare(s)) hits4++;
+                if (is0BCompare(s)) hits0++;
+                if (is7BCompare(s)) hits7++;
             }
         }
 
-        println("GLOBAL INSTRUCTIONS SCANNED: " + scanned);
-        println("PACKET-LIKE CANDIDATES: " + candidates);
+        println("EXECUTABLE INSTRUCTIONS SCANNED: " + scanned);
+        println("EXACT COMPARE HITS: 4B=" + hits4 +
+                " 0B=" + hits0 + " 7B=" + hits7);
+        println("FUNCTIONS ANALYZED: " + printedFunctions.size());
+    }
+
+    private void inspectLikelyCurrentFunctions() {
+        long[] seeds = {
+            0xc1aafbc0L,
+            0xc1902c74L,
+            0xc1a23f94L,
+            0xc19883bcL,
+            0xc19963ccL,
+            0xc1aafbc0L,
+            0xc1ab5394L,
+            0xc1ab5514L,
+            0xc1d1a760L,
+            0xc1d1be3cL,
+            0xc1d20cc0L
+        };
+
+        println("\n============================================================");
+        println("TARGETED REVIEW OF PROTOCOL-LIKE 0x4B FUNCTIONS");
+        println("============================================================");
+
+        Set<Long> seen = new HashSet<Long>();
+
+        for (long off : seeds) {
+            if (monitor.isCancelled()) return;
+            Function f = functionContaining(toAddr(off));
+            if (f == null) continue;
+
+            long key = f.getEntryPoint().getOffset();
+            if (seen.add(key)) {
+                analyzeFunction(f);
+            }
+        }
     }
 
     @Override
@@ -299,22 +323,18 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("============================================================");
         println(" Ghidra_RFDEBUG_Trace");
         println(" DIAG 4B -> FTM 0B -> SUBCMD 007B");
-        println(" READ ONLY");
+        println(" READ ONLY / REUSABLE SINGLE SCRIPT");
         println("============================================================");
 
-        printed = 0;
+        lines = 0;
 
-        for (long off : TARGET_FUNCS) {
-            if (monitor.isCancelled()) return;
-            analyzeCandidate(off);
-        }
-
-        globalScanForPacketPattern();
+        inspectLikelyCurrentFunctions();
+        globalExactCompareScan();
 
         println("\n============================================================");
         println("DONE");
         println("No memory, symbols, comments, or program structures modified.");
-        println("The reusable script file should remain named Ghidra_RFDEBUG_Trace.java");
+        println("Keep using this same GitHub file: Ghidra_RFDEBUG_Trace.java");
         println("============================================================");
     }
 }
