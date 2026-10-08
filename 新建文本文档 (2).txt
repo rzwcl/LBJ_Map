@@ -1,217 +1,180 @@
-Trace614RfcBackendXrefs.java> Running...
+FindFreqConst.java> Running...
 ============================================================
- 614 RFC BACKEND XREF TRACE
- Program : 614_0_0.mbn
- Image   : 00010000
- READ ONLY
+ QDSP6SW FREQUENCY CONSTANT SCAN
 ============================================================
+Program : qdsp6sw.mbn
+Image   : c1600000
+READ ONLY
 
+PROGRAM CHECK : PASS
 
-------------------------------------------------------------
-TARGET : get_rfm_path_info_tbl
-------------------------------------------------------------
-ADDRESS : 0002521c
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag21get_rfm_path_info_tblEv
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag21get_rfm_path_info_tblEv
-ENTRY    : 0002521c
-RANGE    : 0002521c - 0002521c
+TARGET FREQUENCY:
+  Hz      : 821237500
+  Hex32   : 0x30F316FC
+  LE32    : FC 16 F3 30
+  BE32    : 30 F3 16 FC
 
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547f8 TYPE=DATA
-       CALLER : <none>
+MEMORY BLOCK COUNT : 30
 
 ------------------------------------------------------------
-TARGET : get_signals_info
-------------------------------------------------------------
-ADDRESS : 000259a4
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag16get_signals_infoEP28rfc_signal_info_wrapper_type
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag16get_signals_infoEP28rfc_signal_info_wrapper_type
-ENTRY    : 000259a4
-RANGE    : 000259a4 - 000259a4
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 00254798 TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_27
+RANGE : a1221000 - a1221093
+FLAGS : R=true W=false X=false
 
 ------------------------------------------------------------
-TARGET : get_phy_device_cfg
-------------------------------------------------------------
-ADDRESS : 00025aa8
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_phy_device_cfgEv
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_phy_device_cfgEv
-ENTRY    : 00025aa8
-RANGE    : 00025aa8 - 00025aa8
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547ac TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_28
+RANGE : a1222000 - a2260fff
+FLAGS : R=true W=false X=false
 
 ------------------------------------------------------------
-TARGET : get_logical_device_cfg
-------------------------------------------------------------
-ADDRESS : 00025abc
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag22get_logical_device_cfgEv
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag22get_logical_device_cfgEv
-ENTRY    : 00025abc
-RANGE    : 00025abc - 00025abc
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547a8 TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_2
+RANGE : c1600000 - c1602fff
+FLAGS : R=true W=false X=true
 
 ------------------------------------------------------------
-TARGET : get_logical_path_config
-------------------------------------------------------------
-ADDRESS : 00025bd0
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_logical_path_configEP30rfm_devices_configuration_type
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_logical_path_configEP30rfm_devices_configuration_type
-ENTRY    : 00025bd0
-RANGE    : 00025bd0 - 00025bd0
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547b8 TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_3
+RANGE : c1610000 - c1647fff
+FLAGS : R=true W=true X=true
 
 ------------------------------------------------------------
-TARGET : get_ant_path_info_config
-------------------------------------------------------------
-ADDRESS : 00025c14
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_ant_path_info_configEv
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_ant_path_info_configEv
-ENTRY    : 00025c14
-RANGE    : 00025c14 - 00025c14
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547b4 TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_4
+RANGE : c1690000 - c16bbfff
+FLAGS : R=true W=true X=true
 
 ------------------------------------------------------------
-TARGET : get_sig_path_info_config
-------------------------------------------------------------
-ADDRESS : 00025c28
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_sig_path_info_configEv
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_sig_path_info_configEv
-ENTRY    : 00025c28
-RANGE    : 00025c28 - 00025c28
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547b0 TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_5
+RANGE : c16bc000 - c16eefff
+FLAGS : R=true W=true X=false
 
 ------------------------------------------------------------
-TARGET : get_cmn_properties
-------------------------------------------------------------
-ADDRESS : 00025d08
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_cmn_propertiesEPP23rfc_cmn_properties_type
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_cmn_propertiesEPP23rfc_cmn_properties_type
-ENTRY    : 00025d08
-RANGE    : 00025d08 - 00025d08
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547bc TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_6
+RANGE : c16ef000 - c16fcfff
+FLAGS : R=true W=false X=false
 
 ------------------------------------------------------------
-TARGET : path_cfg_data_get
-------------------------------------------------------------
-ADDRESS : 00025d50
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17path_cfg_data_getEP21rfc_data_request_typePP25rfc_sig_path_ag_data_type
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17path_cfg_data_getEP21rfc_data_request_typePP25rfc_sig_path_ag_data_type
-ENTRY    : 00025d50
-RANGE    : 00025d50 - 00025d50
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547c4 TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_7
+RANGE : c16fd000 - c171dfff
+FLAGS : R=true W=true X=true
 
 ------------------------------------------------------------
-TARGET : fbrx_cfg_data_get
-------------------------------------------------------------
-ADDRESS : 00025e44
-SYMBOL  : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17fbrx_cfg_data_getEmPP26rfc_fbrx_path_ag_data_type
-TYPE    : Function
-FUNCTION : _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag17fbrx_cfg_data_getEmPP26rfc_fbrx_path_ag_data_type
-ENTRY    : 00025e44
-RANGE    : 00025e44 - 00025e44
-
-XREF COUNT : 2
-
-XREF : Entry Point TYPE=EXTERNAL
-       CALLER : <none>
-
-XREF : 002547c8 TYPE=DATA
-       CALLER : <none>
+BLOCK : segment_8
+RANGE : c171e000 - c177dfff
+FLAGS : R=true W=true X=true
 
 ------------------------------------------------------------
-TARGET : path_cfg_data_get
-------------------------------------------------------------
-ADDRESS : 00255048
-SYMBOL  : _ZN16rfc_tdscdma_data17path_cfg_data_getEP19rfc_cfg_params_typePP18rfc_path_info_type
-TYPE    : Label
-FUNCTION : <none>
-
-XREF COUNT : 0
+BLOCK : segment_9
+RANGE : c1780000 - c1a85fff
+FLAGS : R=true W=false X=true
 
 ------------------------------------------------------------
-TARGET : path_cfg_data_get
+BLOCK : segment_10
+RANGE : c1a90000 - c1a9efff
+FLAGS : R=true W=false X=false
+
 ------------------------------------------------------------
-ADDRESS : 002550a8
-SYMBOL  : _ZN13rfc_gnss_data17path_cfg_data_getEP19rfc_cfg_params_typePP18rfc_path_info_type
-TYPE    : Label
-FUNCTION : <none>
+BLOCK : segment_11
+RANGE : c1aa0000 - c1aa4fff
+FLAGS : R=true W=false X=true
 
-XREF COUNT : 0
+------------------------------------------------------------
+BLOCK : segment_12
+RANGE : c1aa5000 - c1d4dfff
+FLAGS : R=true W=false X=true
 
-SYMBOLS SCANNED : 464
-TARGET SYMBOLS  : 12
+------------------------------------------------------------
+BLOCK : segment_13
+RANGE : c1d80000 - c1dcffff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_14
+RANGE : c1e00000 - c21d3fff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_15
+RANGE : c21d4000 - c21d4fff
+FLAGS : R=true W=false X=false
+
+------------------------------------------------------------
+BLOCK : segment_16
+RANGE : c21d5000 - c240afff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_17
+RANGE : c2440000 - c24defff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_18
+RANGE : c2500000 - c270cfff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_19
+RANGE : c270d000 - c470efff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_20
+RANGE : c470f000 - c8caefff
+FLAGS : R=true W=false X=false
+
+------------------------------------------------------------
+BLOCK : segment_21
+RANGE : c8cb0000 - c922cfff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_22
+RANGE : c9230000 - cbf0efff
+FLAGS : R=true W=false X=false
+
+------------------------------------------------------------
+BLOCK : segment_23
+RANGE : cbf0f000 - cbf28fff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_24
+RANGE : cbf30000 - ce536fff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : segment_25
+RANGE : ce540000 - ce653fff
+FLAGS : R=true W=false X=false
+
+------------------------------------------------------------
+BLOCK : segment_26
+RANGE : ce654000 - ce6bffff
+FLAGS : R=true W=true X=false
+
+------------------------------------------------------------
+BLOCK : _elfHeader
+RANGE : _elfHeader::00000000 - _elfHeader::00000033
+FLAGS : R=false W=false X=false
+
+------------------------------------------------------------
+BLOCK : _elfProgramHeaders
+RANGE : _elfProgramHeaders::00000000 - _elfProgramHeaders::0000039f
+FLAGS : R=false W=false X=false
+
+------------------------------------------------------------
+BLOCK : unallocated_0
+RANGE : unallocated_0::00000000 - unallocated_0::00002c2b
+FLAGS : R=false W=false X=false
 
 ============================================================
-DONE
+TOTAL MATCHES : 0
+
+NO EXACT FREQUENCY CONSTANT FOUND.
+
+This does NOT prove RFDEBUG does not use
+821,237,500 Hz.
+The value may be calculated, split, loaded
+from a table, or represented differently.
+============================================================
 No program structures were modified.
-============================================================
-Trace614RfcBackendXrefs.java> Finished!
+FindFreqConst.java> Finished!
