@@ -197,8 +197,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return -1;
     }
 
-    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {
-            Instruction ins = a.get(i);
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {            Instruction ins = a.get(i);
             String s = safe(ins.toString());
             if (i == center ||
                 is4BCompare(s) ||
@@ -398,7 +397,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n============================================================");        println("RAW HIT / DATA STRUCTURE REVIEW");
         println("KNOWN TARGETS: previous 4B 0B raw hits");        println("PURPOSE: determine whether hits are code, defined data, or literal-pool bytes");
         println("============================================================");
-
         long[] knownHits = {
             0xc1f3b121L,
             0xc1f90fb9L,
@@ -597,7 +595,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 if (!b4 && !b0 && !b7) continue;
                 Function f = functionContaining(ins.getAddress());
                 if (f == null) continue;
-
                 long key = f.getEntryPoint().getOffset();
                 if (!seenFunctions.add(key)) continue;
 
@@ -798,7 +795,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n------------------------------------------------------------");
         println("BYTE-COMPARE 0x0B CONTEXT");
         printByteCompareContexts(exact0List, 0x0b);
-
         println("\n------------------------------------------------------------");
         println("BYTE-COMPARE 0x7B CONTEXT");
         printByteCompareContexts(exact7List, 0x7b);
@@ -997,8 +993,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private int instructionDistance(Instruction a, Instruction b) {
         if (a == null || b == null) return -1;
         long d = Math.abs(a.getAddress().subtract(b.getAddress()));
-        if (d > 0x7fffffffL) return -1;
-        return (int)(d / 4);
+        if (d > 0x7fffffffL) return -1;        return (int)(d / 4);
     }
 
     private int nearestExactInList(Instruction base, ArrayList<Instruction> list, int maxInstr) {
@@ -1198,7 +1193,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         String x = safe(s);
         int comma = x.indexOf(',');
         if (comma < 0) return null;
-
         String rest = x.substring(comma + 1).trim();
 
         // Common Ghidra Hexagon forms:
@@ -1397,8 +1391,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
             if (p == null) break;
             rev.add(p);
-            cur = p;
-        }
+            cur = p;        }
 
         for (int i = rev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
             Instruction p = rev.get(i);
@@ -1597,7 +1590,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
             if (n == 0) println("  REF: <none>");
         }
-
         println("\n------------------------------------------------------------");
         println("C1902C70 PREDECESSOR CHAIN");
 
@@ -1789,7 +1781,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             getReferencesTo(toAddr(0xc1902c70L));
 
         int refShown = 0;
-        while (rr.hasNext() && refShown < 16 && lines < MAX_LINES) {            if (monitor.isCancelled()) return;
+        while (rr.hasNext() && refShown < 16 && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
 
             Reference r = rr.next();
 
@@ -1797,8 +1790,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 r.getFromAddress().getOffset() <= 0xc18e7b40L) {
 
                 println("  FROM " + r.getFromAddress() +
-                        " TYPE=" + r.getReferenceType() +
-                        " " + (r.isPrimary() ? "PRIMARY" : ""));
+                        " TYPE=" + r.getReferenceType() +                        " " + (r.isPrimary() ? "PRIMARY" : ""));
                 lines++;
                 refShown++;
             }
