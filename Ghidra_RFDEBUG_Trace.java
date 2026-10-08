@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "9e9f719f2e416db8f1a8bc0b4d07128372996b6e";
+    private static final String TRACE_BUILD = "C1902PROV-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -197,8 +197,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return -1;
     }
 
-    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {
-        int start = Math.max(0, center - before);
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);
         int end = Math.min(a.size(), center + after + 1);
         for (int i = start; i < end && lines < MAX_LINES; i++) {
             Instruction ins = a.get(i);
@@ -397,7 +396,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             cur = n;
         }
     }
-
     private void rawExecutableByteScan() {
         println("\n============================================================");
         println("RAW HIT / DATA STRUCTURE REVIEW");
@@ -597,7 +595,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 boolean b4 = is4BCompare(s);
                 boolean b0 = is0BCompare(s);
                 boolean b7 = is7BCompare(s);
-
                 if (b4) exact4++;
                 if (b0) exact0++;
                 if (b7) exact7++;
@@ -798,7 +795,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         if (shown >= 24 || lines >= MAX_LINES) break;
                     }
                 }
-
                 printCallerXrefs(f);
             }
         }
@@ -997,8 +993,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 printPairLoadShape(x, y);
                 pairCount++;
 
-                if (pairCount >= 24) {
-                    println("  [PAIR LIMIT] 24");
+                if (pairCount >= 24) {                    println("  [PAIR LIMIT] 24");
                     return;
                 }
             }
@@ -1197,8 +1192,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
             if (p == null) break;
 
-            String ps = safe(p.toString());
-            if (isLoadIntoRegister(ps, reg)) {
+            String ps = safe(p.toString());            if (isLoadIntoRegister(ps, reg)) {
                 println("  LOAD SAME REG: " + p.getAddress() + " : " + ps);
                 lines++;
                 shown++;
@@ -1398,7 +1392,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         Address site = toAddr(off);
         Instruction center = currentProgram.getListing().getInstructionContaining(site);
-
         println("\n------------------------------------------------------------");
         println("CALL-SITE NEIGHBORHOOD @ " + site);
 
@@ -1489,160 +1482,401 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // The most important candidate: keep its complete local ABI/input setup.
         printIncomingCalls(0xc1902c74L, 16);
         inspectCallSiteNeighborhood(0xc1902c70L, 30, 30);
+        traceC1902Provenance();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
- private void traceC1902Provenance() {
-    println("\n============================================================");
-    println("C1902 PROVENANCE TRACE");
-    println("TARGETS: c1902c70 / c1902bc0 / c18d0a18");
-    println("PURPOSE: locate real caller and identify source of SP+1 byte");
-    println("READ ONLY / HARD LIMITED");
-    println("============================================================");
+        // Inspect the actual caller function, but do not dump the giant secondary parser.
+        Instruction cs = currentProgram.getListing().getInstructionContaining(toAddr(0xc1902c70L));
+        Function cf = (cs == null ? null : functionContaining(cs.getAddress()));
 
-    long[] refs = {
-        0xc1902c70L,
-        0xc1902c74L,
-        0xc1902bc0L,
-        0xc18d0a18L
-    };
+        if (cf != null) {
+            println("\n------------------------------------------------------------");
+            println("CALLER OF c1902c74: COMPACT DATAFLOW");
+            println("FUNCTION: " + cf.getName() + " @ " + cf.getEntryPoint());
 
-    for (long off : refs) {
-        if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            ArrayList<Instruction> a = collect(cf);
+            int shown = 0;
 
-        Address a = toAddr(off);
+            // Show prologue and the region around c1902c70.
+            for (int i = 0; i < a.size() && shown < MAX_CALLER_INSNS && lines < MAX_LINES; i++) {
+                if (monitor.isCancelled()) return;
+
+                Instruction ins = a.get(i);
+                long off = ins.getAddress().getOffset();
+                String s = safe(ins.toString()).toLowerCase();
+
+                boolean nearCall = off >= 0xc1902bf0L && off <= 0xc1902d00L;
+                boolean setup = i < 70;
+                boolean important =
+                    nearCall || setup ||
+                    s.contains("call") ||
+                    s.contains("memub") || s.contains("memb") ||
+                    s.contains("memw") || s.contains("memd") ||
+                    s.contains("sp+") ||
+                    s.contains("r0") || s.contains("r1") ||
+                    s.contains("r2") || s.contains("r3");
+
+                if (!important) continue;
+
+                println("  " + ins.getAddress() + " : " + safe(ins.toString()));
+                lines++;
+                shown++;
+            }
+
+            println("CALLER SHOWN: " + shown + " / BOUNDED FUNCTION INSNS=" + a.size());
+
+            println("CALLS INTO THIS CALLER FUNCTION:");
+            ReferenceIterator rit =
+                currentProgram.getReferenceManager().getReferencesTo(cf.getEntryPoint());
+            int n = 0;
+            while (rit.hasNext() && n < 12 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+                Reference r = rit.next();
+                if (!r.getReferenceType().isCall()) continue;
+
+                Function caller2 = functionContaining(r.getFromAddress());
+                println("  " + r.getFromAddress() + " <- " +
+                    (caller2 == null ? "<unknown>" :
+                     caller2.getName() + " @ " + caller2.getEntryPoint()));
+                lines++;
+                n++;
+            }
+        }
+
+        // Secondary candidate only needs the entry/header and call-site evidence now.
+        println("\n------------------------------------------------------------");
+        println("SECONDARY CANDIDATE c1d1a760: SUMMARY");
+        Function sf = functionContaining(toAddr(0xc1d1a760L));
+        if (sf == null) {
+            println("FUNCTION: <none>");
+        } else {
+            println("FUNCTION: " + sf.getName() + " @ " + sf.getEntryPoint());
+            println("The previous run already established: 0x4B is read from (R22++#1),");
+            println("then the same parser checks 0x76, 0x45, 0x52, 0x4F, 0x45, 0x5F,");
+            println("and repeatedly manipulates heap/list buffer pointers.");
+            println("This is lower priority than c1902c74.");
+        }
+
+        println("\n============================================================");
+        println("FOCUSED TRACE COMPLETE");
+        println("============================================================");
+    }
+
+
+
+    private void traceC1902Provenance() {
+        println("\n============================================================");
+        println("C1902 PROVENANCE TRACE");
+        println("TARGETS: c1902c70 / c1902c74 / c1902bc0 / c18d0a18");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        long[] targets = {
+            0xc1902c70L,
+            0xc1902c74L,
+            0xc1902bc0L,
+            0xc18d0a18L
+        };
+
+        for (int t = 0; t < targets.length; t++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(targets[t]);
+            Function f = functionContaining(a);
+
+            println("\n------------------------------------------------------------");
+            println("TARGET: " + a);
+            println("FUNCTION: " +
+                (f == null ? "<none>" :
+                 f.getName() + " @ " + f.getEntryPoint()));
+
+            ReferenceIterator rit =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+
+            int n = 0;
+            while (rit.hasNext() && n < 24 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = rit.next();
+                Function rf = functionContaining(r.getFromAddress());
+
+                println("  REF FROM " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        " " + (r.isPrimary() ? "PRIMARY " : "") +
+                        "<-" +
+                        (rf == null ? "<none>" :
+                         rf.getName() + " @ " + rf.getEntryPoint()));
+                lines++;
+                n++;
+            }
+
+            if (n == 0) println("  REF: <none>");
+        }
 
         println("\n------------------------------------------------------------");
-        println("ALL REFERENCES TO " + a);
+        println("C1902C70 PREDECESSOR CHAIN");
 
+        Instruction cur =
+            currentProgram.getListing().
+            getInstructionBefore(toAddr(0xc1902c70L));
+
+        int prevShown = 0;
+        while (cur != null && prevShown < 48 && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
+
+            println("  PREV " + cur.getAddress() +
+                    " : " + safe(cur.toString()));
+            lines++;
+            prevShown++;
+
+            String m = safe(cur.getMnemonicString()).toLowerCase();
+            if (m.equals("jump") || m.startsWith("jump.")) break;
+
+            cur =
+                currentProgram.getListing().
+                getInstructionBefore(cur.getAddress());
+        }
+
+        println("\n------------------------------------------------------------");
+        println("c1902bc0 FUNCTION");
+
+        Function bf = functionContaining(toAddr(0xc1902bc0L));
+        if (bf == null) {
+            println("  FUNCTION: <none>");
+        } else {
+            println("  FUNCTION: " + bf.getName() +
+                    " @ " + bf.getEntryPoint());
+            println("  BODY: " + bf.getBody());
+
+            ArrayList<Instruction> a = collect(bf);
+            int shown = 0;
+            for (Instruction ins : a) {
+                if (monitor.isCancelled() ||
+                    shown >= 120 ||
+                    lines >= MAX_LINES) return;
+
+                println("  " + ins.getAddress() +
+                        " : " + safe(ins.toString()));
+                lines++;
+                shown++;
+            }
+            println("  SHOWN=" + shown +
+                    " / BOUNDED=" + a.size());
+        }
+
+        println("\n------------------------------------------------------------");
+        println("c18d0a18 FUNCTION");
+
+        Function df = functionContaining(toAddr(0xc18d0a18L));
+        if (df == null) {
+            println("  FUNCTION: <none>");
+        } else {
+            println("  FUNCTION: " + df.getName() +
+                    " @ " + df.getEntryPoint());
+            println("  BODY: " + df.getBody());
+
+            ArrayList<Instruction> a = collect(df);
+            int shown = 0;
+            for (Instruction ins : a) {
+                if (monitor.isCancelled() ||
+                    shown >= 160 ||
+                    lines >= MAX_LINES) return;
+
+                println("  " + ins.getAddress() +
+                        " : " + safe(ins.toString()));
+                lines++;
+                shown++;
+            }
+            println("  SHOWN=" + shown +
+                    " / BOUNDED=" + a.size());
+        }
+
+        println("\n============================================================");
+        println("C1902 PROVENANCE TRACE COMPLETE");
+        println("============================================================");
+    }
+
+    private void deepInspectLikelyParsers() {
+        println("\n============================================================");
+        println("DEEP INSPECTION OF REAL 0x4B PARSER CANDIDATES");
+        println("TARGET A: FUN_c1902c74 @ c1902c74");
+        println("TARGET B: FUN_c1d1a760 @ c1d1a760");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        inspectCallSiteByAddress(0xc1902c70L);
+        inspectFunctionByAddress(0xc1902c74L);
+        inspectFunctionByAddress(0xc1d1a760L);
+    }
+
+    private void inspectFunctionByAddress(long off) {
+        if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+        Address entry = toAddr(off);
+        Function f = functionContaining(entry);
+
+        println("\n------------------------------------------------------------");
+        println("DEEP FUNCTION @ " + entry);
+
+        if (f == null) {
+            println("FUNCTION: <none>");
+            return;
+        }
+
+        println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+        println("BODY: " + f.getBody());
+        ArrayList<Instruction> a = collect(f);
+        println("INSTRUCTION COUNT (bounded): " + a.size());
+
+        int exact4 = 0;
+        int exact0 = 0;
+        int byteLoads = 0;
+        int calls = 0;
+        int printed = 0;
+
+        for (int i = 0; i < a.size() && lines < MAX_LINES && printed < MAX_DEEP_INSNS; i++) {
+            Instruction ins = a.get(i);
+            String s = safe(ins.toString());
+
+            if (isExact4BInsn(ins)) exact4++;
+            if (isExact0BInsn(ins)) exact0++;
+
+            String lo = s.toLowerCase();
+            if (lo.contains("memub") || lo.contains("memuh") || lo.contains("memb")) byteLoads++;
+            if (isCall(s)) calls++;
+
+            // Print every instruction for these small target functions.
+            println("  " + ins.getAddress() + " : " + s);
+            lines++;
+            printed++;
+        }
+
+        println("SUMMARY: exact4B=" + exact4 +
+                " exact0B=" + exact0 +
+                " byteLoads=" + byteLoads +
+                " calls=" + calls);
+
+        println("CALL XREFS INTO FUNCTION:");
         ReferenceIterator rit =
-            currentProgram.getReferenceManager().getReferencesTo(a);
+            currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
 
-        int n = 0;
-
-        while (rit.hasNext() && n < 32 && lines < MAX_LINES) {
+        int shown = 0;
+        while (rit.hasNext() && shown < 32 && lines < MAX_LINES) {
             if (monitor.isCancelled()) return;
 
             Reference r = rit.next();
-            Function f = functionContaining(r.getFromAddress());
+            if (!r.getReferenceType().isCall()) continue;
 
-            println("  FROM " + r.getFromAddress() +
-                    " TYPE=" + r.getReferenceType() +
-                    " " + (r.isPrimary() ? "PRIMARY " : "") +
-                    "FUNC=" +
-                    (f == null ? "<none>" :
-                     f.getName() + " @ " + f.getEntryPoint()));
-
-            lines++;
-            n++;
-        }
-
-        if (n == 0) {
-            println("  <none>");
-        }
-    }
-
-    println("\n------------------------------------------------------------");
-    println("FUNCTION CONTAINING c1902c70");
-
-    Function jf = functionContaining(toAddr(0xc1902c70L));
-
-    if (jf == null) {
-        println("  <none>");
-    } else {
-        println("  " + jf.getName() + " @ " + jf.getEntryPoint());
-        println("  BODY=" + jf.getBody());
-    }
-
-    println("\n------------------------------------------------------------");
-    println("FUNCTION CONTAINING c1902bc0");
-
-    Function bf = functionContaining(toAddr(0xc1902bc0L));
-
-    if (bf == null) {
-        println("  <none>");
-    } else {
-        println("  " + bf.getName() + " @ " + bf.getEntryPoint());
-
-        ArrayList<Instruction> a = collect(bf);
-        int shown = 0;
-
-        for (Instruction ins : a) {
-            if (monitor.isCancelled() ||
-                lines >= MAX_LINES ||
-                shown >= 160) return;
-
-            println("  " + ins.getAddress() + " : " +
-                    safe(ins.toString()));
-
+            Function caller = functionContaining(r.getFromAddress());
+            println("  CALLER " + r.getFromAddress() + " <- " +
+                (caller == null ? "<unknown>" :
+                 caller.getName() + " @ " + caller.getEntryPoint()));
             lines++;
             shown++;
         }
 
-        println("  SHOWN=" + shown +
-                " / BOUNDED=" + a.size());
+        if (shown == 0) println("  <none>");
     }
 
-    println("\n------------------------------------------------------------");
-    println("FUNCTION CONTAINING c18d0a18");
+    private void globalExactCompareScan() {
+        println("\n============================================================");
+        println("GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B");
+        println("============================================================");
 
-    Function df = functionContaining(toAddr(0xc18d0a18L));
+        int scanned = 0;
+        int hits4 = 0;
+        int hits0 = 0;
+        int hits7 = 0;
 
-    if (df == null) {
-        println("  <none>");
-    } else {
-        println("  " + df.getName() + " @ " + df.getEntryPoint());
+        Set<Long> printedFunctions = new HashSet<Long>();
 
-        ArrayList<Instruction> a = collect(df);
-        int shown = 0;
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled()) return;
+            if (!block.isExecute()) continue;
 
-        for (Instruction ins : a) {
-            if (monitor.isCancelled() ||
-                lines >= MAX_LINES ||
-                shown >= 220) return;
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it =
+                currentProgram.getListing().getInstructions(set, true);
 
-            println("  " + ins.getAddress() + " : " +
-                    safe(ins.toString()));
+            while (it.hasNext()) {
+                if (monitor.isCancelled()) return;
+                if (scanned++ >= MAX_GLOBAL_INSNS) {
+                    println("[HARD LIMIT] " + MAX_GLOBAL_INSNS);
+                    return;
+                }
 
-            lines++;
-            shown++;
+                Instruction ins = it.next();
+                String s = safe(ins.toString());
+
+                if (!is4BCompare(s) && !is0BCompare(s) && !is7BCompare(s)) continue;
+
+                Function f = functionContaining(ins.getAddress());
+                if (f == null) continue;
+
+                long key = f.getEntryPoint().getOffset();
+
+                if (printedFunctions.add(key) &&
+                    printedFunctions.size() <= MAX_FUNCTIONS) {
+                    analyzeFunction(f);
+                }
+
+                if (is4BCompare(s)) hits4++;
+                if (is0BCompare(s)) hits0++;
+                if (is7BCompare(s)) hits7++;
+            }
         }
 
-        println("  SHOWN=" + shown +
-                " / BOUNDED=" + a.size());
+        println("EXECUTABLE INSTRUCTIONS SCANNED: " + scanned);
+        println("EXACT COMPARE HITS: 4B=" + hits4 +
+                " 0B=" + hits0 + " 7B=" + hits7);
+        println("FUNCTIONS ANALYZED: " + printedFunctions.size());
     }
 
-    println("\n------------------------------------------------------------");
-    println("C1902C70 LOCAL PREDECESSOR TRACE");
+    private void inspectLikelyCurrentFunctions() {
+        long[] seeds = {
+            0xc1aafbc0L,
+            0xc1902c74L,
+            0xc1a23f94L,
+            0xc19883bcL,
+            0xc19963ccL,
+            0xc1ab5394L,
+            0xc1ab5514L,
+            0xc1d1a760L,
+            0xc1d1be3cL,
+            0xc1d20cc0L
+        };
 
-    Instruction cur =
-        currentProgram.getListing().
-        getInstructionBefore(toAddr(0xc1902c70L));
+        println("\n============================================================");
+        println("TARGETED REVIEW OF PROTOCOL-LIKE 0x4B FUNCTIONS");
+        println("============================================================");
 
-    int shownPrev = 0;
+        Set<Long> seen = new HashSet<Long>();
 
-    while (cur != null &&
-           shownPrev < 80 &&
-           lines < MAX_LINES) {
+        for (long off : seeds) {
+            if (monitor.isCancelled()) return;
+            Function f = functionContaining(toAddr(off));
+            if (f == null) continue;
 
-        if (monitor.isCancelled()) return;
-
-        println("  PREV " + cur.getAddress() +
-                " : " + safe(cur.toString()));
-
-        lines++;
-        shownPrev++;
-
-        if (cur.getMnemonicString() != null &&
-            cur.getMnemonicString().toLowerCase().contains("jumpr")) {
-            break;
+            long key = f.getEntryPoint().getOffset();
+            if (seen.add(key)) {
+                analyzeFunction(f);
+            }
         }
-
-        cur =
-            currentProgram.getListing().
-            getInstructionBefore(cur.getAddress());
     }
 
-    println("\n============================================================");
-    println("C1902 PROVENANCE TRACE COMPLETE");
-    println("============================================================");
+    @Override
+    public void run() throws Exception {
+        println("============================================================");
+        println(" Ghidra_RFDEBUG_Trace");
+        println(" TRACE_BUILD=" + TRACE_BUILD);
+        println(" C1902 PRIMARY TRACE / READ ONLY");
+        println("============================================================");
+
+        focusedParserTrace();
+
+        println("\n============================================================");
+        println("DONE");
+        println("No memory, symbols, comments, or program structures modified.");
+        println("============================================================");
+    }
 }
