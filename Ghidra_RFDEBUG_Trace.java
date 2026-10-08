@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C1902PROV-1";
+    private static final String TRACE_BUILD = "C18E7A50-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -197,8 +197,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return -1;
     }
 
-    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);
-        int end = Math.min(a.size(), center + after + 1);
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);
         for (int i = start; i < end && lines < MAX_LINES; i++) {
             Instruction ins = a.get(i);
             String s = safe(ins.toString());
@@ -397,8 +396,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
     private void rawExecutableByteScan() {
-        println("\n============================================================");
-        println("RAW HIT / DATA STRUCTURE REVIEW");
+        println("\n============================================================");        println("RAW HIT / DATA STRUCTURE REVIEW");
         println("KNOWN TARGETS: previous 4B 0B raw hits");
         println("PURPOSE: determine whether hits are code, defined data, or literal-pool bytes");
         println("============================================================");
@@ -598,7 +596,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 if (b4) exact4++;
                 if (b0) exact0++;
                 if (b7) exact7++;
-
                 if (!b4 && !b0 && !b7) continue;
 
                 Function f = functionContaining(ins.getAddress());
@@ -798,7 +795,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 printCallerXrefs(f);
             }
         }
-
         println("\n------------------------------------------------------------");
         println("BYTE-COMPARE 0x4B CONTEXT");
         printByteCompareContexts(exact4List, 0x4b);
@@ -998,7 +994,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 }
             }
         }
-
         println("PAIR COUNT SHOWN: " + pairCount);
         println("\nEXACT 0B NEAREST CHECK COMPLETE");
         println("Read-only analysis only.");
@@ -1197,7 +1192,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 lines++;
                 shown++;
             }
-
             cur = p;
         }
 
@@ -1397,8 +1391,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         if (center == null) {
             println("INSTRUCTION: <none>");
-            return;
-        }
+            return;        }
 
         Function f = functionContaining(center.getAddress());
         println("CALLER FUNCTION: " +
@@ -1483,6 +1476,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         printIncomingCalls(0xc1902c74L, 16);
         inspectCallSiteNeighborhood(0xc1902c70L, 30, 30);
         traceC1902Provenance();
+        traceC18E7A50();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -1597,8 +1591,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             while (rit.hasNext() && n < 24 && lines < MAX_LINES) {
                 if (monitor.isCancelled()) return;
 
-                Reference r = rit.next();
-                Function rf = functionContaining(r.getFromAddress());
+                Reference r = rit.next();                Function rf = functionContaining(r.getFromAddress());
 
                 println("  REF FROM " + r.getFromAddress() +
                         " TYPE=" + r.getReferenceType() +
@@ -1694,6 +1687,135 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n============================================================");
         println("C1902 PROVENANCE TRACE COMPLETE");
         println("============================================================");
+    }
+
+
+    private void traceC18E7A50() {
+        println("\n============================================================");
+        println("C18E7A50 / C1902C70 PARAM-REFERENCE TRACE");
+        println("PURPOSE: determine what the PARAM reference at c18e7af0 means");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        Address target = toAddr(0xc18e7af0L);
+        Instruction ti =
+            currentProgram.getListing().getInstructionContaining(target);
+
+        println("TARGET INSTRUCTION: " + target);
+        println("INS: " + (ti == null ? "<none>" : safe(ti.toString())));
+
+        Function tf = functionContaining(target);
+        println("FUNCTION: " +
+            (tf == null ? "<none>" :
+             tf.getName() + " @ " + tf.getEntryPoint()));
+
+        println("\nREFERENCES TO c18e7af0:");
+
+        ReferenceIterator tr =
+            currentProgram.getReferenceManager().
+            getReferencesTo(target);
+
+        int trn = 0;
+        while (tr.hasNext() && trn < 24 && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
+
+            Reference r = tr.next();
+            Function rf = functionContaining(r.getFromAddress());
+
+            println("  FROM " + r.getFromAddress() +
+                    " TYPE=" + r.getReferenceType() +
+                    " " + (r.isPrimary() ? "PRIMARY " : "") +
+                    "<-" +
+                    (rf == null ? "<none>" :
+                     rf.getName() + " @ " + rf.getEntryPoint()));
+
+            lines++;
+            trn++;
+        }
+
+        println("\n------------------------------------------------------------");
+        println("FUN_c18e7a50 BOUNDED BODY");
+
+        if (tf == null) {
+            println("FUNCTION: <none>");
+            return;
+        }
+
+        println("BODY: " + tf.getBody());
+
+        ArrayList<Instruction> a = collect(tf);
+        int shown = 0;
+
+        for (int i = 0; i < a.size() && shown < 240 && lines < MAX_LINES; i++) {
+            if (monitor.isCancelled()) return;
+
+            Instruction ins = a.get(i);
+            long off = ins.getAddress().getOffset();
+
+            // Print the entire small function; explicitly mark the target.
+            println((off == 0xc18e7af0L ? ">>> " : "    ") +
+                    ins.getAddress() + " : " + safe(ins.toString()));
+
+            lines++;
+            shown++;
+        }
+
+        println("SHOWN: " + shown + " / BOUNDED=" + a.size());
+
+        println("\n------------------------------------------------------------");
+        println("LOCAL WINDOW AROUND c18e7af0");
+
+        int idx = -1;
+        for (int i = 0; i < a.size(); i++) {
+            if (a.get(i).getAddress().getOffset() == 0xc18e7af0L) {
+                idx = i;
+                break;
+            }
+        }
+
+        if (idx >= 0) {
+            int st = Math.max(0, idx - 20);
+            int en = Math.min(a.size(), idx + 28);
+
+            for (int i = st; i < en && lines < MAX_LINES; i++) {
+                if (monitor.isCancelled()) return;
+
+                Instruction ins = a.get(i);
+                println((i == idx ? ">>> " : "    ") +
+                        ins.getAddress() + " : " + safe(ins.toString()));
+                lines++;
+            }
+        } else {
+            println("c18e7af0 not found as an instruction in containing function.");
+        }
+
+        println("\n------------------------------------------------------------");
+        println("REFERENCES TO c1902c70 FROM THIS AREA");
+
+        ReferenceIterator rr =
+            currentProgram.getReferenceManager().
+            getReferencesTo(toAddr(0xc1902c70L));
+
+        int shown = 0;
+        while (rr.hasNext() && shown < 16 && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
+
+            Reference r = rr.next();
+
+            if (r.getFromAddress().getOffset() >= 0xc18e7a20L &&
+                r.getFromAddress().getOffset() <= 0xc18e7b40L) {
+
+                println("  FROM " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        " " + (r.isPrimary() ? "PRIMARY" : ""));
+                lines++;
+                shown++;
+            }
+        }
+
+        if (shown == 0) println("  <none in local range>");
+
+        println("\nC18E7A50 TRACE COMPLETE");
     }
 
     private void deepInspectLikelyParsers() {
@@ -1797,7 +1919,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             AddressSet set = new AddressSet(block.getStart(), block.getEnd());
             InstructionIterator it =
                 currentProgram.getListing().getInstructions(set, true);
-
             while (it.hasNext()) {
                 if (monitor.isCancelled()) return;
                 if (scanned++ >= MAX_GLOBAL_INSNS) {
