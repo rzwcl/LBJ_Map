@@ -3,6 +3,9 @@ import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressSet;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.FunctionManager;
+import ghidra.program.model.listing.Data;
+import ghidra.program.model.symbol.Reference;
+import ghidra.program.model.symbol.ReferenceIterator;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.InstructionIterator;
 import ghidra.program.model.mem.Memory;
@@ -315,13 +318,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private void rawExecutableByteScan() {
         println("\n============================================================");
-        println("RAW EXECUTABLE HIT REVIEW (NO FULL-MEMORY SCAN)");
+        println("RAW HIT / DATA STRUCTURE REVIEW");
         println("KNOWN TARGETS: previous 4B 0B raw hits");
-        println("PURPOSE: inspect exact addresses only; prevents long unresponsive scans");
+        println("PURPOSE: determine whether hits are code, defined data, or literal-pool bytes");
         println("============================================================");
 
-        // These are the raw 4B 0B executable hits already found by the
-        // previous version of this script.  Do NOT rescan the whole image.
         long[] knownHits = {
             0xc1f3b121L,
             0xc1f90fb9L,
@@ -334,76 +335,154 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             0xc20027cfL
         };
 
-        println("KNOWN 4B 0B HITS: " + knownHits.length);
+        Memory mem = currentProgram.getMemory();
 
-        int reviewed = 0;
-        for (long off : knownHits) {
-            if (monitor.isCancelled()) return;
-            if (lines >= MAX_LINES) return;
+        for (int n = 0; n < knownHits.length; n++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
 
-            Address a = toAddr(off);
-
-            // Verify the actual bytes at the known address.
-            println("\nKNOWN RAW ADDRESS: " + a);
-            println("BYTES: " + readHex(a, 12));
-
+            Address a = toAddr(knownHits[n]);
+            MemoryBlock block = mem.getBlock(a);
+            Data data = currentProgram.getListing().getDataContaining(a);
             Instruction ins = currentProgram.getListing().getInstructionContaining(a);
             Function f = functionContaining(a);
 
-            if (ins != null) {
-                println("INSTRUCTION: " + ins.getAddress() +
-                        " : " + safe(ins.toString()));
-                long delta = a.getOffset() - ins.getMinAddress().getOffset();
-                println("BYTE OFFSET INSIDE INSTRUCTION: " + delta);
-            } else {
-                println("INSTRUCTION: <none>");
-                Instruction before = currentProgram.getListing().getInstructionBefore(a);
-                Instruction after = currentProgram.getListing().getInstructionAfter(a);
+            println("\n------------------------------------------------------------");
+            println("KNOWN RAW HIT #" + (n + 1) + " @ " + a);
+            println("BYTES -32..+64: " + readHex(a.subtract(32), 96));
 
-                if (before != null) {
-                    println("PREV INSTRUCTION: " + before.getAddress() +
-                            " : " + safe(before.toString()));
-                }
-                if (after != null) {
-                    println("NEXT INSTRUCTION: " + after.getAddress() +
-                            " : " + safe(after.toString()));
-                }
+            if (block != null) {
+                println("MEMORY BLOCK: " + block.getName() +
+                        " [" + block.getStart() + " - " + block.getEnd() + "]" +
+                        " EXEC=" + block.isExecute() +
+                        " READ=" + block.isRead() +
+                        " WRITE=" + block.isWrite());
+            } else {
+                println("MEMORY BLOCK: <none>");
             }
 
-            if (f != null) {
-                println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
-                println("FUNCTION BODY: " + f.getBody());
+            println("DEFINED DATA: " +
+                    (data == null ? "<none>" :
+                    data.getAddress() + " : " + safe(data.toString())));
 
-                // Short local context only.  This is deliberately bounded.
-                if (ins != null) {
-                    Instruction cur = ins;
-                    for (int i = 0; i < 8 && lines < MAX_LINES; i++) {
-                        Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
-                        if (p == null) break;
-                        println("  PREV: " + p.getAddress() + " : " + safe(p.toString()));
-                        lines++;
-                        cur = p;
-                    }
+            println("INSTRUCTION: " +
+                    (ins == null ? "<none>" :
+                    ins.getAddress() + " : " + safe(ins.toString())));
 
-                    cur = ins;
-                    for (int i = 0; i < 16 && lines < MAX_LINES; i++) {
-                        Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
-                        if (n == null) break;
-                        println("  NEXT: " + n.getAddress() + " : " + safe(n.toString()));
-                        lines++;
-                        cur = n;
-                    }
-                }
-            } else {
-                println("FUNCTION: <none>");
+            println("FUNCTION: " +
+                    (f == null ? "<none>" :
+                    f.getName() + " @ " + f.getEntryPoint()));
+
+            int refs = 0;
+            ReferenceIterator rit = currentProgram.getReferenceManager().getReferencesTo(a);
+            while (rit.hasNext() && refs < 20) {
+                if (monitor.isCancelled()) return;
+                Reference r = rit.next();
+                println("  XREF TO HIT: " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        " " + (r.isPrimary() ? "PRIMARY" : ""));
+                refs++;
             }
+            if (refs == 0) println("  XREF TO HIT: <none>");
 
-            reviewed++;
+            // Also check a small neighborhood for defined data items.
+            int definedNeighbors = 0;
+            for (int d = -32; d <= 64; d++) {
+                if (monitor.isCancelled() || definedNeighbors >= 24) break;
+                Address x = a.add(d);
+                Data dx = currentProgram.getListing().getDataAt(x);
+                if (dx != null) {
+                    println("  NEAR DATA @ " + dx.getAddress() + " : " + safe(dx.toString()));
+                    definedNeighbors++;
+                }
+            }
         }
 
-        println("\nKNOWN RAW HIT REVIEW SUMMARY");
-        println("ADDRESSES REVIEWED: " + reviewed);
-        println("NO FULL EXECUTABLE-MEMORY RAW SCAN WAS PERFORMED.");
+        println("\nRAW HIT / DATA REVIEW COMPLETE");
+        println("No full executable-memory byte scan was performed.");
+    }
+
+    private void listExactCompareLocations() {
+        println("\n============================================================");
+        println("EXACT 4B / 7B COMPARE LOCATION REVIEW");
+        println("PURPOSE: inspect every true immediate compare, especially the only 2 x 0x7B");
+        println("============================================================");
+
+        int hits4 = 0;
+        int hits7 = 0;
+        int printed4 = 0;
+        int printed7 = 0;
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it = currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                Instruction ins = it.next();
+                String s = safe(ins.toString());
+
+                boolean b4 = is4BCompare(s);
+                boolean b7 = is7BCompare(s);
+
+                if (!b4 && !b7) continue;
+
+                Function f = functionContaining(ins.getAddress());
+
+                if (b4) hits4++;
+                if (b7) hits7++;
+
+                // Print every 4B and 7B compare, but only a short instruction context.
+                println("\n------------------------------------------------------------");
+                println("COMPARE HIT: " + (b4 ? "0x4B" : "0x7B") +
+                        " @ " + ins.getAddress());
+                println("FUNCTION: " +
+                        (f == null ? "<none>" :
+                        f.getName() + " @ " + f.getEntryPoint()));
+                println("INS: " + safe(ins.toString()));
+
+                Instruction cur = ins;
+                ArrayList<Instruction> prev = new ArrayList<Instruction>();
+                for (int i = 0; i < 6; i++) {
+                    Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+                    if (p == null) break;
+                    prev.add(p);
+                    cur = p;
+                }
+
+                for (int i = prev.size() - 1; i >= 0; i--) {
+                    if (lines >= MAX_LINES) return;
+                    Instruction p = prev.get(i);
+                    println("  PREV: " + p.getAddress() + " : " + safe(p.toString()));
+                    lines++;
+                }
+
+                cur = ins;
+                for (int i = 0; i < 10 && lines < MAX_LINES; i++) {
+                    Instruction nx = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+                    if (nx == null) break;
+                    println("  NEXT: " + nx.getAddress() + " : " + safe(nx.toString()));
+                    lines++;
+                    cur = nx;
+                }
+
+                if (b4) printed4++;
+                if (b7) printed7++;
+
+                // Hard safety valve if an unexpected project state creates too many hits.
+                if (printed4 + printed7 >= 64) {
+                    println("[COMPARE REVIEW LIMIT] 64 locations");
+                    return;
+                }
+            }
+        }
+
+        println("\nCOMPARE LOCATION SUMMARY");
+        println("TRUE 0x4B COMPARES: " + hits4);
+        println("TRUE 0x7B COMPARES: " + hits7);
     }
 
     private void globalExactCompareScan() {
@@ -503,11 +582,13 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         lines = 0;
 
         inspectLikelyCurrentFunctions();
-        println("\n[STEP 1/3] Reviewing previously discovered raw 4B 0B addresses...");
+        println("\n[STEP 1/4] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
-        println("\n[STEP 2/3] Running bounded exact compare scan...");
+        println("\n[STEP 2/3] Reviewing exact 4B / 7B compare locations...");
+        listExactCompareLocations();
+        println("\n[STEP 3/3] Running bounded exact compare scan...");
         globalExactCompareScan();
-        println("\n[STEP 3/3] Analysis complete.");
+        println("\n[STEP 4/4] Analysis complete.");
 
         println("\n============================================================");
         println("DONE");
