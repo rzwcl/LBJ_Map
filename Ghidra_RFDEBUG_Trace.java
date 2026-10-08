@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "D89AD4A8-1";
+    private static final String TRACE_BUILD = "C18E7A50CALLERS-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -197,8 +197,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return -1;
     }
 
-    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {            Instruction ins = a.get(i);            String s = safe(ins.toString());            if (i == center ||                is4BCompare(s) ||
-                is0BCompare(s) ||
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {            Instruction ins = a.get(i);            String s = safe(ins.toString());            if (i == center ||                is4BCompare(s) ||                is0BCompare(s) ||
                 is7BCompare(s) ||
                 isCall(s) ||
                 hasMemoryRead(s)) {
@@ -397,8 +396,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         long[] knownHits = {            0xc1f3b121L,
             0xc1f90fb9L,            0xc1f90fcdL,
             0xc1f90fe1L,            0xc1f90ff5L,
-            0xc1fadcf1L,
-            0xc1faee0dL,
+            0xc1fadcf1L,            0xc1faee0dL,
             0xc1fb5c01L,
             0xc20027cfL
         };
@@ -597,8 +595,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                 for (Instruction q : a) {                    String qs = safe(q.toString());
                     if (is4BCompare(qs)) has4 = true;
-                    if (is0BCompare(qs)) has0 = true;
-                    if (is7BCompare(qs)) has7 = true;
+                    if (is0BCompare(qs)) has0 = true;                    if (is7BCompare(qs)) has7 = true;
                 }
 
                 // Only print functions that contain an exact 0x4B selector
@@ -798,7 +795,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         int n = 0;
         while (rit.hasNext() && n < 16) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
-
             Reference r = rit.next();
             if (!r.getReferenceType().isCall()) continue;
 
@@ -997,8 +993,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             if (d >= 0 && d <= maxInstr && d < bestDist) {
                 bestDist = d;
                 best = i;
-            }
-        }
+            }        }
         return best;
     }
 
@@ -1197,8 +1192,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             if (q > p) return rest.substring(p + 1, q).trim();
         }
 
-        return null;
-    }
+        return null;    }
 
     private boolean isLoadIntoRegister(String s, String reg) {
         if (s == null || reg == null) return false;
@@ -1397,7 +1391,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         Address entry = toAddr(off);
         Function f = functionContaining(entry);
-
         println("\n------------------------------------------------------------");
         println("INCOMING CALLS @ " + entry);
         if (f == null) {
@@ -1446,6 +1439,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         traceC18D0970Registration();
         traceC18D0978External();
         traceC18D09ACRuntime();
+        traceC18E7A50CallersAndObject();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -1597,8 +1591,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n------------------------------------------------------------");
         println("c1902bc0 FUNCTION");
 
-        Function bf = functionContaining(toAddr(0xc1902bc0L));
-        if (bf == null) {
+        Function bf = functionContaining(toAddr(0xc1902bc0L));        if (bf == null) {
             println("  FUNCTION: <none>");
         } else {
             println("  FUNCTION: " + bf.getName() +
@@ -1797,7 +1790,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         for (int t = 0; t < targets.length; t++) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
-
             Address a = toAddr(targets[t]);
             Function f = functionContaining(a);
 
@@ -1998,7 +1990,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
              " WRITE=" + block.isWrite()));
 
         println("\nNEXT 16 INSTRUCTIONS AT/AFTER c18d0978:");
-
         Instruction curIns = ti;
         int shown = 0;
 
@@ -2197,8 +2188,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                     " / BOUNDED=" + a.size());
         }
 
-        println("\n------------------------------------------------------------");
-        println("D89AD4A8 LOCAL WINDOW");
+        println("\n------------------------------------------------------------");        println("D89AD4A8 LOCAL WINDOW");
 
         Instruction center =
             currentProgram.getListing().
@@ -2329,6 +2319,146 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("============================================================");
     }
 
+
+    private void traceC18E7A50CallersAndObject() {
+        println("\n============================================================");
+        println("C18E7A50 CALLERS / OBJECT-FIELD TRACE");
+        println("PURPOSE: identify what c18e7a50 builds and what fields reach c18d0978");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        Address target = toAddr(0xc18e7a50L);
+
+        ReferenceIterator rit =
+            currentProgram.getReferenceManager().getReferencesTo(target);
+
+        int n = 0;
+
+        while (rit.hasNext() && n < 12 && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
+
+            Reference r = rit.next();
+            if (!r.getReferenceType().isCall()) continue;
+
+            Address ca = r.getFromAddress();
+            Function f = functionContaining(ca);
+
+            println("\n------------------------------------------------------------");
+            println("CALLER OF c18e7a50: " + ca);
+            println("FUNCTION: " +
+                (f == null ? "<none>" :
+                 f.getName() + " @ " + f.getEntryPoint()));
+
+            if (f == null) {
+                n++;
+                continue;
+            }
+
+            ArrayList<Instruction> a = collect(f);
+            int idx = -1;
+
+            for (int i = 0; i < a.size(); i++) {
+                if (a.get(i).getAddress().equals(ca)) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx >= 0) {
+                int st = Math.max(0, idx - 24);
+                int en = Math.min(a.size(), idx + 36);
+
+                for (int i = st; i < en && lines < MAX_LINES; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    Instruction ins = a.get(i);
+                    println("  " +
+                        (i == idx ? ">>> " : "    ") +
+                        ins.getAddress() + " : " +
+                        safe(ins.toString()));
+                    lines++;
+                }
+            }
+
+            n++;
+        }
+
+        println("\n------------------------------------------------------------");
+        println("C18E7A50 OBJECT FIELD OFFSETS");
+
+        println("The callback sites use R25 as R0 into c18d0970.");
+        println("For first registration:");
+        println("  R25 = R19 + (R24 * 0x2480) + 0x94");
+        println("  c18d0978 reads R0+0x10 and R0+0x12");
+        println("  => backing object fields are base +0xA4 and base +0xA6");
+        println("For second registration:");
+        println("  R25 = R19 + (R24 * 0x30) + 0x18");
+        println("  c18d0978 reads R0+0x10 and R0+0x12");
+        println("  => backing object fields are base +0x28 and base +0x2A");
+
+        println("\n------------------------------------------------------------");
+        println("C18D0978 CALL PARAMETER FLOW");
+
+        Function sf = functionContaining(toAddr(0xc18d0978L));
+        if (sf != null) {
+            ArrayList<Instruction> a = collect(sf);
+
+            int shown = 0;
+            for (Instruction ins : a) {
+                if (monitor.isCancelled() ||
+                    shown >= 24 ||
+                    lines >= MAX_LINES) return;
+
+                println("  " + ins.getAddress() +
+                        " : " + safe(ins.toString()));
+                lines++;
+                shown++;
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("C18E7A50 CALLBACK CONSTANTS");
+
+        long[] constants = {
+            0xc1902c70L,
+            0xc1903840L,
+            0xc1903858L
+        };
+
+        for (int i = 0; i < constants.length; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(constants[i]);
+
+            println("  " + a +
+                    " PRIMARY=" +
+                    (currentProgram.getSymbolTable().getPrimarySymbol(a) == null ?
+                     "<none>" :
+                     currentProgram.getSymbolTable().getPrimarySymbol(a).getName()));
+
+            ReferenceIterator x =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+
+            int xn = 0;
+            while (x.hasNext() && xn < 16 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = x.next();
+
+                println("    REF " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType());
+                lines++;
+                xn++;
+            }
+
+            if (xn == 0) println("    REF <none>");
+        }
+
+        println("\n============================================================");
+        println("C18E7A50 CALLER / OBJECT TRACE COMPLETE");
+        println("============================================================");
+    }
+
     private void deepInspectLikelyParsers() {
         println("\n============================================================");
         println("DEEP INSPECTION OF REAL 0x4B PARSER CANDIDATES");
@@ -2398,7 +2528,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
             Reference r = rit.next();
             if (!r.getReferenceType().isCall()) continue;
-
             Function caller = functionContaining(r.getFromAddress());
             println("  CALLER " + r.getFromAddress() + " <- " +
                 (caller == null ? "<unknown>" :
