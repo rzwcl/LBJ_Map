@@ -315,98 +315,95 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private void rawExecutableByteScan() {
         println("\n============================================================");
-        println("RAW EXECUTABLE BYTE SCAN");
-        println("TARGETS: 4B 0B / 4B 0B 7B 00 / 0B 7B");
-        println("PURPOSE: map raw packet-like bytes back to Hexagon instructions");
+        println("RAW EXECUTABLE HIT REVIEW (NO FULL-MEMORY SCAN)");
+        println("KNOWN TARGETS: previous 4B 0B raw hits");
+        println("PURPOSE: inspect exact addresses only; prevents long unresponsive scans");
         println("============================================================");
 
-        Memory mem = currentProgram.getMemory();
+        // These are the raw 4B 0B executable hits already found by the
+        // previous version of this script.  Do NOT rescan the whole image.
+        long[] knownHits = {
+            0xc1f3b121L,
+            0xc1f90fb9L,
+            0xc1f90fcdL,
+            0xc1f90fe1L,
+            0xc1f90ff5L,
+            0xc1fadcf1L,
+            0xc1faee0dL,
+            0xc1fb5c01L,
+            0xc20027cfL
+        };
 
-        int hits4b0b = 0;
-        int hits4b0b7b00 = 0;
-        int hits0b7b = 0;
-        long bytesScanned = 0;
+        println("KNOWN 4B 0B HITS: " + knownHits.length);
 
-        Set<Long> seen4b0b = new HashSet<Long>();
-        Set<Long> seen4b0b7b00 = new HashSet<Long>();
-        Set<Long> seen0b7b = new HashSet<Long>();
-
-        for (MemoryBlock block : mem.getBlocks()) {
+        int reviewed = 0;
+        for (long off : knownHits) {
             if (monitor.isCancelled()) return;
-            if (!block.isExecute()) continue;
+            if (lines >= MAX_LINES) return;
 
-            long blockSize = block.getSize();
-            long off = 0;
+            Address a = toAddr(off);
 
-            while (off < blockSize) {
-                if (monitor.isCancelled()) return;
+            // Verify the actual bytes at the known address.
+            println("\nKNOWN RAW ADDRESS: " + a);
+            println("BYTES: " + readHex(a, 12));
 
-                long scanOff = off == 0 ? 0 : off - 3;
-                int want = (int)Math.min((long)RAW_CHUNK + 3, blockSize - scanOff);
-                if (want < 2) break;
+            Instruction ins = currentProgram.getListing().getInstructionContaining(a);
+            Function f = functionContaining(a);
 
-                byte[] buf = new byte[want];
-                try {
-                    mem.getBytes(block.getStart().add(scanOff), buf);
-                } catch (Exception e) {
-                    println("[RAW READ ERROR] " + block.getStart().add(scanOff) + " : " + e);
-                    break;
+            if (ins != null) {
+                println("INSTRUCTION: " + ins.getAddress() +
+                        " : " + safe(ins.toString()));
+                long delta = a.getOffset() - ins.getMinAddress().getOffset();
+                println("BYTE OFFSET INSIDE INSTRUCTION: " + delta);
+            } else {
+                println("INSTRUCTION: <none>");
+                Instruction before = currentProgram.getListing().getInstructionBefore(a);
+                Instruction after = currentProgram.getListing().getInstructionAfter(a);
+
+                if (before != null) {
+                    println("PREV INSTRUCTION: " + before.getAddress() +
+                            " : " + safe(before.toString()));
                 }
-
-                for (int i = 0; i + 1 < buf.length; i++) {
-                    if (monitor.isCancelled()) return;
-
-                    long absOff = scanOff + i;
-                    Address a = block.getStart().add(absOff);
-
-                    if ((buf[i] & 0xff) == 0x4b &&
-                        (buf[i + 1] & 0xff) == 0x0b) {
-
-                        if (seen4b0b.add(a.getOffset()) && hits4b0b < MAX_RAW_HITS) {
-                            hits4b0b++;
-                            printInstructionContext(a, "4B 0B", 2);
-                        }
-                    }
-
-                    if (i + 3 < buf.length &&
-                        (buf[i] & 0xff) == 0x4b &&
-                        (buf[i + 1] & 0xff) == 0x0b &&
-                        (buf[i + 2] & 0xff) == 0x7b &&
-                        (buf[i + 3] & 0xff) == 0x00) {
-
-                        if (seen4b0b7b00.add(a.getOffset()) &&
-                            hits4b0b7b00 < MAX_RAW_HITS) {
-                            hits4b0b7b00++;
-                            printInstructionContext(a, "4B 0B 7B 00", 4);
-                        }
-                    }
-
-                    if ((buf[i] & 0xff) == 0x0b &&
-                        (buf[i + 1] & 0xff) == 0x7b) {
-
-                        if (seen0b7b.add(a.getOffset()) &&
-                            hits0b7b < MAX_RAW_HITS) {
-                            hits0b7b++;
-                            printInstructionContext(a, "0B 7B", 2);
-                        }
-                    }
+                if (after != null) {
+                    println("NEXT INSTRUCTION: " + after.getAddress() +
+                            " : " + safe(after.toString()));
                 }
-
-                long advance = Math.max(1, (long)want - 3);
-                off = scanOff + advance;
-                bytesScanned += advance;
             }
+
+            if (f != null) {
+                println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+                println("FUNCTION BODY: " + f.getBody());
+
+                // Short local context only.  This is deliberately bounded.
+                if (ins != null) {
+                    Instruction cur = ins;
+                    for (int i = 0; i < 8 && lines < MAX_LINES; i++) {
+                        Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+                        if (p == null) break;
+                        println("  PREV: " + p.getAddress() + " : " + safe(p.toString()));
+                        lines++;
+                        cur = p;
+                    }
+
+                    cur = ins;
+                    for (int i = 0; i < 16 && lines < MAX_LINES; i++) {
+                        Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+                        if (n == null) break;
+                        println("  NEXT: " + n.getAddress() + " : " + safe(n.toString()));
+                        lines++;
+                        cur = n;
+                    }
+                }
+            } else {
+                println("FUNCTION: <none>");
+            }
+
+            reviewed++;
         }
 
-        println("\nRAW SCAN SUMMARY");
-        println("EXECUTABLE BYTES SCANNED: " + bytesScanned);
-        println("4B 0B HITS: " + hits4b0b);
-        println("4B 0B 7B 00 HITS: " + hits4b0b7b00);
-        println("0B 7B HITS: " + hits0b7b);
-
-        if (hits4b0b == 0 && hits4b0b7b00 == 0 && hits0b7b == 0) {
-            println("No raw packet-like byte sequence found in executable memory.");
-        }
+        println("\nKNOWN RAW HIT REVIEW SUMMARY");
+        println("ADDRESSES REVIEWED: " + reviewed);
+        println("NO FULL EXECUTABLE-MEMORY RAW SCAN WAS PERFORMED.");
     }
 
     private void globalExactCompareScan() {
@@ -506,8 +503,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         lines = 0;
 
         inspectLikelyCurrentFunctions();
+        println("\n[STEP 1/3] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
+        println("\n[STEP 2/3] Running bounded exact compare scan...");
         globalExactCompareScan();
+        println("\n[STEP 3/3] Analysis complete.");
 
         println("\n============================================================");
         println("DONE");
