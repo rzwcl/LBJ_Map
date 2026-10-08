@@ -5,6 +5,7 @@ import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.FunctionManager;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.InstructionIterator;
+import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
 
 import java.util.ArrayList;
@@ -16,8 +17,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_GLOBAL_INSNS = 1800000;
     private static final int MAX_FUNCTIONS = 120;
-    private static final int MAX_LINES = 12000;
-    private static final int LOCAL_WINDOW = 140;
+    private static final int MAX_LINES = 16000;
+
+    private static final int RAW_CHUNK = 0x10000;
+    private static final int MAX_RAW_HITS = 200;
+    private static final int RAW_CONTEXT_BEFORE = 10;
+    private static final int RAW_CONTEXT_AFTER = 26;
 
     private int lines = 0;
 
@@ -32,8 +37,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private boolean isCompare(String s) {
-        String x = safe(s).toLowerCase();
-        return x.contains("cmp.");
+        return safe(s).toLowerCase().contains("cmp.");
     }
 
     private boolean isCall(String s) {
@@ -99,7 +103,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private int findNext(ArrayList<Instruction> a, int from, boolean want0b, boolean want7b) {
-        for (int i = from + 1; i < a.size() && i <= from + LOCAL_WINDOW; i++) {
+        for (int i = from + 1; i < a.size() && i <= from + 120; i++) {
             String s = safe(a.get(i).toString());
             if ((want0b && is0BCompare(s)) || (want7b && is7BCompare(s))) {
                 return i;
@@ -151,7 +155,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         if (count4 == 0) return;
 
         boolean high = false;
-        int best0 = -1, best7 = -1, best4 = -1;
+        int best0 = -1, best7 = -1, best4For0 = -1, best4For7 = -1;
         int best0Dist = Integer.MAX_VALUE, best7Dist = Integer.MAX_VALUE;
 
         for (int i : fourB) {
@@ -161,20 +165,16 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             if (j0 >= 0 && j0 - i < best0Dist) {
                 best0 = j0;
                 best0Dist = j0 - i;
-                best4 = i;
+                best4For0 = i;
             }
             if (j7 >= 0 && j7 - i < best7Dist) {
                 best7 = j7;
                 best7Dist = j7 - i;
-                if (best4 < 0) best4 = i;
+                best4For7 = i;
             }
         }
 
-        if (best0 >= 0) high = true;
-        if (best7 >= 0) high = true;
-
-        // We only print useful 4B functions:
-        // 4B->0B compare, 4B->7B compare, or both 0B and 7B elsewhere.
+        if (best0 >= 0 || best7 >= 0) high = true;
         if (!high && !(count0 > 0 && count7 > 0)) return;
 
         println("\n============================================================");
@@ -187,34 +187,37 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 " CALLS=" + calls);
 
         if (best0 >= 0) {
-            println("SEQUENCE: 4B -> 0B compare, distance=" + best0Dist +
-                    " instrs");
-            println("  4B @ " + a.get(best4).getAddress() + " : " + safe(a.get(best4).toString()));
-            println("  0B @ " + a.get(best0).getAddress() + " : " + safe(a.get(best0).toString()));
+            println("SEQUENCE: 4B -> 0B compare, distance=" + best0Dist + " instrs");
+            println("  4B @ " + a.get(best4For0).getAddress() + " : " +
+                    safe(a.get(best4For0).toString()));
+            println("  0B @ " + a.get(best0).getAddress() + " : " +
+                    safe(a.get(best0).toString()));
         }
 
         if (best7 >= 0) {
-            int from = best4 >= 0 ? best4 : 0;
-            println("SEQUENCE: 4B -> 7B compare, distance=" + best7Dist +
-                    " instrs");
-            println("  4B @ " + a.get(from).getAddress() + " : " + safe(a.get(from).toString()));
-            println("  7B @ " + a.get(best7).getAddress() + " : " + safe(a.get(best7).toString()));
+            println("SEQUENCE: 4B -> 7B compare, distance=" + best7Dist + " instrs");
+            println("  4B @ " + a.get(best4For7).getAddress() + " : " +
+                    safe(a.get(best4For7).toString()));
+            println("  7B @ " + a.get(best7).getAddress() + " : " +
+                    safe(a.get(best7).toString()));
         }
 
         if (count0 > 0 && count7 > 0) {
             println("FUNCTION CONTAINS BOTH 0B_CMP AND 7B_CMP");
         }
 
-        if (best4 >= 0) {
-            printWindow(a, best4, 12, 48);
+        if (best4For0 >= 0) {
+            printWindow(a, best4For0, 12, 48);
+        } else if (best4For7 >= 0) {
+            printWindow(a, best4For7, 12, 48);
         }
 
-        if (best0 >= 0 && best0 != best4) {
+        if (best0 >= 0 && best0 != best4For0) {
             println("-- 0B DISPATCH CONTEXT --");
             printWindow(a, best0, 8, 28);
         }
 
-        if (best7 >= 0 && best7 != best4) {
+        if (best7 >= 0 && best7 != best4For7) {
             println("-- 7B DISPATCH CONTEXT --");
             printWindow(a, best7, 8, 28);
         }
@@ -222,8 +225,187 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private void seedFunction(long off) {
         Function f = functionContaining(toAddr(off));
+        if (f != null) analyzeFunction(f);
+    }
+
+    private String byteHex(byte b) {
+        return String.format("%02X", b & 0xff);
+    }
+
+    private String readHex(Address a, int len) {
+        StringBuilder sb = new StringBuilder();
+        Memory mem = currentProgram.getMemory();
+
+        for (int i = 0; i < len; i++) {
+            if (i != 0) sb.append(' ');
+            try {
+                sb.append(byteHex(mem.getByte(a.add(i))));
+            } catch (Exception e) {
+                sb.append("??");
+            }
+        }
+        return sb.toString();
+    }
+
+    private void printInstructionContext(Address hit, String tag, int patternLen) {
+        if (lines >= MAX_LINES) return;
+
+        Memory mem = currentProgram.getMemory();
+        Instruction ins = currentProgram.getListing().getInstructionContaining(hit);
+
+        Function f = functionContaining(hit);
+        if (f == null && ins != null) {
+            f = functionContaining(ins.getAddress());
+        }
+
+        println("\n------------------------------------------------------------");
+        println("RAW HIT: " + tag + " @ " + hit);
+        println("BYTES  : " + readHex(hit, Math.max(8, patternLen + 4)));
+
         if (f != null) {
-            analyzeFunction(f);
+            println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+        } else {
+            println("FUNCTION: <none>");
+        }
+
+        if (ins == null) {
+            println("INSTRUCTION CONTAINING HIT: <none>");
+            Instruction before = currentProgram.getListing().getInstructionBefore(hit);
+            Instruction after = currentProgram.getListing().getInstructionAfter(hit);
+            if (before != null) {
+                println("  PREV : " + before.getAddress() + " : " + safe(before.toString()));
+            }
+            if (after != null) {
+                println("  NEXT : " + after.getAddress() + " : " + safe(after.toString()));
+            }
+            return;
+        }
+
+        long delta = hit.getOffset() - ins.getMinAddress().getOffset();
+        println("INSTRUCTION CONTAINING HIT: " + ins.getAddress() +
+                " (byte +" + delta + ") : " + safe(ins.toString()));
+
+        Instruction cur = ins;
+        ArrayList<Instruction> prev = new ArrayList<Instruction>();
+        for (int i = 0; i < RAW_CONTEXT_BEFORE; i++) {
+            Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+            if (p == null) break;
+            prev.add(p);
+            cur = p;
+        }
+
+        for (int i = prev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
+            Instruction x = prev.get(i);
+            println("  PREV : " + x.getAddress() + " : " + safe(x.toString()));
+            lines++;
+        }
+
+        println("  HIT  : " + ins.getAddress() + " : " + safe(ins.toString()));
+        lines++;
+
+        cur = ins;
+        for (int i = 0; i < RAW_CONTEXT_AFTER && lines < MAX_LINES; i++) {
+            Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+            if (n == null) break;
+            println("  NEXT : " + n.getAddress() + " : " + safe(n.toString()));
+            lines++;
+            cur = n;
+        }
+    }
+
+    private void rawExecutableByteScan() {
+        println("\n============================================================");
+        println("RAW EXECUTABLE BYTE SCAN");
+        println("TARGETS: 4B 0B / 4B 0B 7B 00 / 0B 7B");
+        println("PURPOSE: map raw packet-like bytes back to Hexagon instructions");
+        println("============================================================");
+
+        Memory mem = currentProgram.getMemory();
+
+        int hits4b0b = 0;
+        int hits4b0b7b00 = 0;
+        int hits0b7b = 0;
+        long bytesScanned = 0;
+
+        Set<Long> seen4b0b = new HashSet<Long>();
+        Set<Long> seen4b0b7b00 = new HashSet<Long>();
+        Set<Long> seen0b7b = new HashSet<Long>();
+
+        for (MemoryBlock block : mem.getBlocks()) {
+            if (monitor.isCancelled()) return;
+            if (!block.isExecute()) continue;
+
+            long blockSize = block.getSize();
+            long off = 0;
+
+            while (off < blockSize) {
+                if (monitor.isCancelled()) return;
+
+                long scanOff = off == 0 ? 0 : off - 3;
+                int want = (int)Math.min((long)RAW_CHUNK + 3, blockSize - scanOff);
+                if (want < 2) break;
+
+                byte[] buf = new byte[want];
+                try {
+                    mem.getBytes(block.getStart().add(scanOff), buf);
+                } catch (Exception e) {
+                    println("[RAW READ ERROR] " + block.getStart().add(scanOff) + " : " + e);
+                    break;
+                }
+
+                for (int i = 0; i + 1 < buf.length; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    long absOff = scanOff + i;
+                    Address a = block.getStart().add(absOff);
+
+                    if ((buf[i] & 0xff) == 0x4b &&
+                        (buf[i + 1] & 0xff) == 0x0b) {
+
+                        if (seen4b0b.add(a.getOffset()) && hits4b0b < MAX_RAW_HITS) {
+                            hits4b0b++;
+                            printInstructionContext(a, "4B 0B", 2);
+                        }
+                    }
+
+                    if (i + 3 < buf.length &&
+                        (buf[i] & 0xff) == 0x4b &&
+                        (buf[i + 1] & 0xff) == 0x0b &&
+                        (buf[i + 2] & 0xff) == 0x7b &&
+                        (buf[i + 3] & 0xff) == 0x00) {
+
+                        if (seen4b0b7b00.add(a.getOffset()) &&
+                            hits4b0b7b00 < MAX_RAW_HITS) {
+                            hits4b0b7b00++;
+                            printInstructionContext(a, "4B 0B 7B 00", 4);
+                        }
+                    }
+
+                    if ((buf[i] & 0xff) == 0x0b &&
+                        (buf[i + 1] & 0xff) == 0x7b) {
+
+                        if (seen0b7b.add(a.getOffset()) &&
+                            hits0b7b < MAX_RAW_HITS) {
+                            hits0b7b++;
+                            printInstructionContext(a, "0B 7B", 2);
+                        }
+                    }
+                }
+
+                long advance = Math.max(1, (long)want - 3);
+                off = scanOff + advance;
+                bytesScanned += advance;
+            }
+        }
+
+        println("\nRAW SCAN SUMMARY");
+        println("EXECUTABLE BYTES SCANNED: " + bytesScanned);
+        println("4B 0B HITS: " + hits4b0b);
+        println("4B 0B 7B 00 HITS: " + hits4b0b7b00);
+        println("0B 7B HITS: " + hits0b7b);
+
+        if (hits4b0b == 0 && hits4b0b7b00 == 0 && hits0b7b == 0) {
+            println("No raw packet-like byte sequence found in executable memory.");
         }
     }
 
@@ -264,11 +446,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                 long key = f.getEntryPoint().getOffset();
 
-                // Analyze once per function, with strongest candidates first.
-                boolean interesting =
-                    is4BCompare(s) || is0BCompare(s) || is7BCompare(s);
-
-                if (interesting && printedFunctions.add(key) &&
+                if (printedFunctions.add(key) &&
                     printedFunctions.size() <= MAX_FUNCTIONS) {
                     analyzeFunction(f);
                 }
@@ -292,7 +470,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             0xc1a23f94L,
             0xc19883bcL,
             0xc19963ccL,
-            0xc1aafbc0L,
             0xc1ab5394L,
             0xc1ab5514L,
             0xc1d1a760L,
@@ -329,6 +506,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         lines = 0;
 
         inspectLikelyCurrentFunctions();
+        rawExecutableByteScan();
         globalExactCompareScan();
 
         println("\n============================================================");
