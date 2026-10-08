@@ -1,186 +1,166 @@
-Trace614InitCallTarget.java> Running...
+Trace614RealGot.java> Running...
 ============================================================
- 614 RFC INIT CALL TARGET TRACE
+ 614 REAL GOT TRACE
  Program : 614_0_0.mbn
  Image   : 00010000
  READ ONLY
 ============================================================
 
+------------------------------------------------------------
+[1] REAL GOT SLOT
+------------------------------------------------------------
+PLT       : 00024bc0
+GOT SLOT  : 00254718
+OFFSET    : 0x22FB58
+EXPECTED  : 0x22FB58
+MEMORY CONTAINS : true
+
+RAW BYTES:
+  00254718 : DC 50 25 00 74 52 02 00 04 50 25 00 18 51 25 00 
+  00254728 : 1C 51 25 00 2C 51 25 00 EC 50 25 00 44 50 25 00 
+  00254738 : 54 54 02 00 F8 50 25 00 38 55 02 00 0C 51 25 00 
+  00254748 : D4 55 02 00 CC 50 25 00 64 55 02 00 40 56 02 00 
+WORD +0x00 : 0x002550DC
+WORD +0x04 : 0x00025274
+WORD +0x08 : 0x00255004
+WORD +0x0C : 0x00255118
+WORD +0x10 : 0x0025511C
+WORD +0x14 : 0x0025512C
+WORD +0x18 : 0x002550EC
+WORD +0x1C : 0x00255044
+WORD +0x20 : 0x00025454
+WORD +0x24 : 0x002550F8
+WORD +0x28 : 0x00025538
+WORD +0x2C : 0x0025510C
+WORD +0x30 : 0x000255D4
+WORD +0x34 : 0x002550CC
+WORD +0x38 : 0x00025564
+WORD +0x3C : 0x00025640
+
+SYMBOL AT GOT : <none>
 
 ------------------------------------------------------------
-WRAPPER
+[2] SYMBOLS AROUND __DT_PLTGOT
 ------------------------------------------------------------
-ENTRY : 00025834  _Z31rfc_hwid614_qrm865ab_v3_ag_initm
-
-RAW PACKET:
-  00025834 : 6C 40 00 00 00 4A 49 6A 00 3C 01 70 C0 F9 FF 5B 
-  00025844 : 40 3F 00 48 
-
-CALLSITE : 00025840
-WORD     : 0x5BFFF9C0
-ENCODED R22 : 0x3FFCE0
-SIGNED R22  : -800
-BYTE OFFSET : 0xFFFFFFFFFFFFF380
-PACKET PC   : 00025834
-
-CALL TARGET : 00024bb4
-
-TARGET DETAILS
-ADDRESS : 00024bb4
-SYMBOL  : <none>
-INSTRUCTION : <none>
-
-TARGET RAW BYTES:
-  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
-  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
-
-XREF COUNT : 0
+00254708  __DT_PLTGOT  TYPE=Label PRIMARY=true
+SYMBOLS SHOWN : 1
 
 ------------------------------------------------------------
-WRAPPER
+[3] GOT RELOCATIONS
 ------------------------------------------------------------
-ENTRY : 00025848  _Z33rfc_hwid614_qrm865ab_v3_ag_deinitm
-
-RAW PACKET:
-  00025848 : 6C 40 00 00 00 46 49 6A 00 3C 01 70 B6 F9 FF 5B 
-  00025858 : 40 3F 00 48 
-
-CALLSITE : 00025854
-WORD     : 0x5BFFF9B6
-ENCODED R22 : 0x3FFCDB
-SIGNED R22  : -805
-BYTE OFFSET : 0xFFFFFFFFFFFFF36C
-PACKET PC   : 00025848
-
-CALL TARGET : 00024bb4
-
-TARGET DETAILS
-ADDRESS : 00024bb4
-SYMBOL  : <none>
-INSTRUCTION : <none>
-
-TARGET RAW BYTES:
-  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
-  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
-
-XREF COUNT : 0
-
-------------------------------------------------------------
-WRAPPER
-------------------------------------------------------------
-ENTRY : 0002585c  _Z33rfc_hwid614_qrm865ab_v3_ag_resumem
-
-RAW PACKET:
-  0002585c : 6C 40 00 00 00 48 49 6A 00 3C 01 70 AC F9 FF 5B 
-  0002586c : 40 3F 00 48 
-
-CALLSITE : 00025868
-WORD     : 0x5BFFF9AC
-ENCODED R22 : 0x3FFCD6
-SIGNED R22  : -810
-BYTE OFFSET : 0xFFFFFFFFFFFFF358
-PACKET PC   : 0002585c
-
-CALL TARGET : 00024bb4
-
-TARGET DETAILS
-ADDRESS : 00024bb4
-SYMBOL  : <none>
-INSTRUCTION : <none>
-
-TARGET RAW BYTES:
-  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
-  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
-
-XREF COUNT : 0
-
-------------------------------------------------------------
-WRAPPER
-------------------------------------------------------------
-ENTRY : 00025870  _Z34rfc_hwid614_qrm865ab_v3_ag_suspendm
-
-RAW PACKET:
-  00025870 : 6B 40 00 00 00 58 49 6A 00 3C 01 70 A2 F9 FF 5B 
-  00025880 : 40 3F 00 48 
-
-CALLSITE : 0002587c
-WORD     : 0x5BFFF9A2
-ENCODED R22 : 0x3FFCD1
-SIGNED R22  : -815
-BYTE OFFSET : 0xFFFFFFFFFFFFF344
-PACKET PC   : 00025870
-
-CALL TARGET : 00024bb4
-
-TARGET DETAILS
-ADDRESS : 00024bb4
-SYMBOL  : <none>
-INSTRUCTION : <none>
-
-TARGET RAW BYTES:
-  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
-  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
-
-XREF COUNT : 0
-
-============================================================
-DONE
-No program structures were modified.
-============================================================
-Trace614InitCallTarget.java> Finished!
-Trace614Relocations.java> Running...
-============================================================
- 614 RELOCATION TRACE
- Program : 614_0_0.mbn
- Image   : 00010000
- READ ONLY
-============================================================
-
 TOTAL RELOCATIONS : 4118
-IS RELOCATABLE    : true
+
+EXACT SLOT RELOCATIONS : 1
+RELOC 00254718 TYPE=34 STATUS=APPLIED SYMBOL=msg_v2_send_1_dll
+      VALUES=0x151
+
+REGION RELOCATIONS:
+RELOC 00254700 TYPE=33 STATUS=APPLIED SYMBOL=rfc_hwid614_qrm865ab_v3_ag_ant_switch_srs_grouping
+      VALUES=0x114
+RELOC 00254718 TYPE=34 STATUS=APPLIED SYMBOL=msg_v2_send_1_dll
+      VALUES=0x151
+RELOC 0025471c TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_lte_agC2Ev
+      VALUES=0x38
+RELOC 00254720 TYPE=34 STATUS=APPLIED SYMBOL=_ZN3rfanwEj
+      VALUES=0x7
+RELOC 00254724 TYPE=34 STATUS=APPLIED SYMBOL=_ZN12rfc_lte_dataC2Ev
+      VALUES=0x1A0
+RELOC 00254728 TYPE=34 STATUS=APPLIED SYMBOL=__save_r16_through_r19
+      VALUES=0x1A6
+RELOC 0025472c TYPE=34 STATUS=APPLIED SYMBOL=rfc_common_get_ag_error_control
+      VALUES=0x1B4
+RELOC 00254730 TYPE=34 STATUS=APPLIED SYMBOL=msg_v2_send_var_dll
+      VALUES=0x16F
+RELOC 00254734 TYPE=34 STATUS=APPLIED SYMBOL=__restore_r16_through_r19_and_deallocframe
+      VALUES=0x53
+RELOC 00254738 TYPE=34 STATUS=APPLIED SYMBOL=_ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_agC2Ev
+      VALUES=0x128
+RELOC 0025473c TYPE=34 STATUS=APPLIED SYMBOL=_ZN13rfc_nr5g_dataC2Ev
+      VALUES=0x177
+RELOC 00254740 TYPE=34 STATUS=APPLIED SYMBOL=_ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_agC2Ev
+      VALUES=0x16D
+RELOC 00254744 TYPE=34 STATUS=APPLIED SYMBOL=_ZN14rfc_wcdma_dataC2Ev
+      VALUES=0x196
+RELOC 00254748 TYPE=34 STATUS=APPLIED SYMBOL=_ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_agC2Ev
+      VALUES=0x1B9
+RELOC 0025474c TYPE=34 STATUS=APPLIED SYMBOL=_ZN13rfc_cdma_dataC2Ev
+      VALUES=0x13B
+RELOC 00254750 TYPE=34 STATUS=APPLIED SYMBOL=_ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+      VALUES=0xF6
+RELOC 00254754 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_agC2Ev
+      VALUES=0x68
+RELOC 00254758 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agC2Ev
+      VALUES=0x174
+RELOC 0025475c TYPE=34 STATUS=APPLIED SYMBOL=_ZN12rfc_gsm_dataC2Ev
+      VALUES=0x3A
+RELOC 00254760 TYPE=34 STATUS=APPLIED SYMBOL=strlcpy
+      VALUES=0xF9
+RELOC 00254764 TYPE=34 STATUS=APPLIED SYMBOL=msg_v2_send_dll
+      VALUES=0x5A
+RELOC 00254768 TYPE=34 STATUS=APPLIED SYMBOL=_ZN15rfc_common_dataC2Ev
+      VALUES=0x1B6
+RELOC 0025476c TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag12get_instanceEv
+      VALUES=0xB4
+RELOC 00254770 TYPE=34 STATUS=APPLIED SYMBOL=memscpy
+      VALUES=0x22
+RELOC 00254774 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag12get_instanceEv
+      VALUES=0xD4
+RELOC 00254778 TYPE=34 STATUS=APPLIED SYMBOL=dmm_register_dm
+      VALUES=0x1AB
+RELOC 0025477c TYPE=34 STATUS=APPLIED SYMBOL=_ZN15rfc_common_dataD2Ev
+      VALUES=0x20
+RELOC 00254780 TYPE=34 STATUS=APPLIED SYMBOL=_ZN3rfadlEPv
+      VALUES=0x6B
+RELOC 00254784 TYPE=34 STATUS=APPLIED SYMBOL=_Z31rfc_hwid614_qrm865ab_v3_ag_initm
+      VALUES=0x31
+RELOC 00254788 TYPE=34 STATUS=APPLIED SYMBOL=_Z33rfc_hwid614_qrm865ab_v3_ag_deinitm
+      VALUES=0xB
+RELOC 0025478c TYPE=34 STATUS=APPLIED SYMBOL=_Z33rfc_hwid614_qrm865ab_v3_ag_resumem
+      VALUES=0xAD
+RELOC 00254790 TYPE=34 STATUS=APPLIED SYMBOL=_Z34rfc_hwid614_qrm865ab_v3_ag_suspendm
+      VALUES=0x14B
+RELOC 00254794 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agD0Ev
+      VALUES=0x162
+RELOC 00254798 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag16get_signals_infoEP28rfc_signal_info_wrapper_type
+      VALUES=0x189
+RELOC 0025479c TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_rffe_sig_info_table_getEPP22rfc_sdr_rffe_info_type15rflm_rfc_enum_t
+      VALUES=0x48
+RELOC 002547a0 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_grfc_sig_info_table_getEPP22rfc_sdr_grfc_info_type15rflm_rfc_enum_t
+      VALUES=0x16B
+RELOC 002547a4 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag29blank_grfc_sig_info_table_getEPP24rfc_blank_grfc_info_type
+      VALUES=0x149
+RELOC 002547a8 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag22get_logical_device_cfgEv
+      VALUES=0x104
+RELOC 002547ac TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_phy_device_cfgEv
+      VALUES=0x175
+RELOC 002547b0 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_sig_path_info_configEv
+      VALUES=0x100
+RELOC 002547b4 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_ant_path_info_configEv
+      VALUES=0x10D
+RELOC 002547b8 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_logical_path_configEP30rfm_devices_configuration_type
+      VALUES=0x121
+RELOC 002547bc TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag18get_cmn_propertiesEPP23rfc_cmn_properties_type
+      VALUES=0x74
+RELOC 002547c0 TYPE=34 STATUS=APPLIED SYMBOL=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_ant_switch_path_infoEP19rfc_cfg_params_typePP29rfc_ant_switch_path_info_type
+      VALUES=0x9
+REGION RELOCATIONS SHOWN : 44
 
 ------------------------------------------------------------
-[EXACT] INITM CALLSITE 0x25840
+[4] XREFS TO REAL GOT SLOT
 ------------------------------------------------------------
-ADDRESS : 00025840
-COUNT   : 0
-<NO RELOCATION>
+XREF COUNT : 0
 
 ------------------------------------------------------------
-[EXACT] INITM ENTRY 0x25834
+[5] PLT BYTES / INSTRUCTIONS
 ------------------------------------------------------------
-ADDRESS : 00025834
-COUNT   : 0
-<NO RELOCATION>
+  00024bc0 : ED 4B 02 00 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 
+  00024bd0 : ED 4B 02 00 0E C6 49 6A 1C C0 8E 91 00 C0 9C 52 
 
-------------------------------------------------------------
-[EXACT] 0x24BB4
-------------------------------------------------------------
-ADDRESS : 00024bb4
-COUNT   : 0
-<NO RELOCATION>
-
-------------------------------------------------------------
-[EXACT] 0x24BC0
-------------------------------------------------------------
-ADDRESS : 00024bc0
-COUNT   : 0
-<NO RELOCATION>
-
-------------------------------------------------------------
-[REGION] INITM REGION
-------------------------------------------------------------
-RANGE : 00025820 - 00025890
-RELOCATIONS SHOWN : 0
-
-------------------------------------------------------------
-[REGION] PLT REGION
-------------------------------------------------------------
-RANGE : 00024ba0 - 00024c80
-RELOCATIONS SHOWN : 0
+DEFINED INSTRUCTIONS:
+<NO GHIRDA INSTRUCTIONS>
 
 ============================================================
 DONE
 No program structures were modified.
 ============================================================
-Trace614Relocations.java> Finished!
+Trace614RealGot.java> Finished!
