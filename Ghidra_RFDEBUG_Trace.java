@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "7BPOINTS-1";
+    private static final String TRACE_BUILD = "4B0BSEQUENCE-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -1443,6 +1443,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         traceC18E91D0Chain();
         traceC18F3530Callbacks();
         traceExact7BPoints();
+        trace4B0BSequenceCandidates();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -2982,6 +2983,139 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("EXACT 0x7B DISPATCH POINT TRACE COMPLETE");
         println("TOTAL EXACT 0x7B COMPARES=" + found);
         println("UNIQUE FUNCTIONS SHOWN=" + shown);
+        println("============================================================");
+    }
+
+    private void trace4B0BSequenceCandidates() {
+        println("\n============================================================");
+        println("EXACT 0x4B -> 0x0B PROTOCOL SEQUENCE TRACE");
+        println("PURPOSE: find functions that parse DIAG_CMD_SUBSYS (0x4B),");
+        println("then compare/branch on FTM SSID 0x0B");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        int scanned = 0;
+        int sequenceHits = 0;
+        int uniqueShown = 0;
+
+        Set<Long> shownFunctions = new HashSet<Long>();
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it =
+                currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                if (scanned++ >= 2000000) {
+                    println("[HARD LIMIT] executable instructions scanned=2000000");
+                    return;
+                }
+
+                Instruction four = it.next();
+                if (!isExact4BInsn(four)) continue;
+
+                Function f = functionContaining(four.getAddress());
+                if (f == null) continue;
+
+                ArrayList<Instruction> a = collect(f);
+                int fourIdx = -1;
+
+                for (int i = 0; i < a.size(); i++) {
+                    if (a.get(i).getAddress().equals(four.getAddress())) {
+                        fourIdx = i;
+                        break;
+                    }
+                }
+
+                if (fourIdx < 0) continue;
+
+                int zeroBIdx = -1;
+                int max = Math.min(a.size(), fourIdx + 97);
+
+                for (int i = fourIdx + 1; i < max; i++) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                    if (isExact0BInsn(a.get(i))) {
+                        zeroBIdx = i;
+                        break;
+                    }
+                }
+
+                if (zeroBIdx < 0) continue;
+
+                sequenceHits++;
+
+                long key = f.getEntryPoint().getOffset();
+                if (!shownFunctions.add(key)) continue;
+                if (uniqueShown >= 16) continue;
+                uniqueShown++;
+
+                println("\n------------------------------------------------------------");
+                println("4B -> 0B CANDIDATE #" + sequenceHits);
+                println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+                println("4B: " + a.get(fourIdx).getAddress() +
+                        " : " + safe(a.get(fourIdx).toString()));
+                println("0B: " + a.get(zeroBIdx).getAddress() +
+                        " : " + safe(a.get(zeroBIdx).toString()));
+                println("DISTANCE: " + (zeroBIdx - fourIdx) + " instructions");
+
+                int st = Math.max(0, fourIdx - 20);
+                int en = Math.min(a.size(), zeroBIdx + 48);
+
+                println("LOCAL PROTOCOL WINDOW:");
+                for (int i = st; i < en && lines < MAX_LINES; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    Instruction x = a.get(i);
+                    String s = safe(x.toString());
+
+                    if (i == fourIdx ||
+                        i == zeroBIdx ||
+                        isCompare(s) ||
+                        isCall(s) ||
+                        hasMemoryRead(s)) {
+                        String mark = (i == fourIdx ? ">>>4B " :
+                                       (i == zeroBIdx ? ">>>0B " : "     "));
+                        println("  " + mark + x.getAddress() +
+                                " : " + s);
+                        lines++;
+                    }
+                }
+
+                println("FUNCTION REFERENCES:");
+                ReferenceIterator rit =
+                    currentProgram.getReferenceManager().
+                    getReferencesTo(f.getEntryPoint());
+
+                int rn = 0;
+                while (rit.hasNext() && rn < 12 && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+
+                    Reference r = rit.next();
+                    if (!r.getReferenceType().isCall()) continue;
+
+                    Function caller = functionContaining(r.getFromAddress());
+                    println("  CALLER " + r.getFromAddress() +
+                            " <- " +
+                            (caller == null ? "<none>" :
+                             caller.getName() + " @ " + caller.getEntryPoint()));
+                    lines++;
+                    rn++;
+                }
+
+                if (rn == 0) println("  <none>");
+            }
+        }
+
+        println("\n============================================================");
+        println("EXACT 0x4B -> 0x0B TRACE COMPLETE");
+        println("EXECUTABLE INSTRUCTIONS SCANNED=" + scanned);
+        println("SEQUENCE HITS=" + sequenceHits);
+        println("UNIQUE FUNCTIONS SHOWN=" + uniqueShown);
         println("============================================================");
     }
 
