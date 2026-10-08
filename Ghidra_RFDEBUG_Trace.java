@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C18E7A50CALLERS-1";
+    private static final String TRACE_BUILD = "C18E91D0CHAIN-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -1440,6 +1440,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         traceC18D0978External();
         traceC18D09ACRuntime();
         traceC18E7A50CallersAndObject();
+        traceC18E91D0Chain();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -2456,6 +2457,202 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         println("\n============================================================");
         println("C18E7A50 CALLER / OBJECT TRACE COMPLETE");
+        println("============================================================");
+    }
+
+    private void traceC18E91D0Chain() {
+        println("\n============================================================");
+        println("C18E91D0 / C18F2EE8 INITIALIZATION CHAIN");
+        println("PURPOSE: identify the parent module/object behind c1902c70 registration");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        long[] targets = {
+            0xc18e91d0L,
+            0xc18f2ee8L,
+            0xc18f2870L,
+            0xc1902c70L,
+            0xc1902c74L
+        };
+
+        for (int t = 0; t < targets.length; t++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(targets[t]);
+            Function f = functionContaining(a);
+            MemoryBlock b = currentProgram.getMemory().getBlock(a);
+
+            println("\n------------------------------------------------------------");
+            println("TARGET: " + a);
+            println("FUNCTION: " +
+                (f == null ? "<none>" :
+                 f.getName() + " @ " + f.getEntryPoint()));
+            println("BLOCK: " +
+                (b == null ? "<none>" :
+                 b.getName() + " [" + b.getStart() + " - " + b.getEnd() +
+                 "] EXEC=" + b.isExecute() +
+                 " READ=" + b.isRead() +
+                 " WRITE=" + b.isWrite()));
+
+            if (f != null) {
+                ArrayList<Instruction> ains = collect(f);
+                int shown = 0;
+                int limit = (a.getOffset() == 0xc18e91d0L ? 96 :
+                             (a.getOffset() == 0xc18f2ee8L ? 180 : 64));
+
+                for (Instruction ins : ains) {
+                    if (monitor.isCancelled() ||
+                        lines >= MAX_LINES ||
+                        shown >= limit) return;
+
+                    println("  " + ins.getAddress() +
+                            " : " + safe(ins.toString()));
+                    lines++;
+                    shown++;
+                }
+
+                println("  SHOWN=" + shown + " / BOUNDED=" + ains.size());
+            }
+
+            println("REFERENCES TO TARGET:");
+            ReferenceIterator rit =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+
+            int rn = 0;
+            while (rit.hasNext() && rn < 32 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = rit.next();
+                Function rf = functionContaining(r.getFromAddress());
+
+                println("  FROM " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        " <-" +
+                        (rf == null ? "<none>" :
+                         rf.getName() + " @ " + rf.getEntryPoint()));
+                lines++;
+                rn++;
+            }
+            if (rn == 0) println("  <none>");
+        }
+
+        println("\n------------------------------------------------------------");
+        println("CALLSITE c18e91e4 -> c18f2ee8 PARAMETER WINDOW");
+
+        Function p1 = functionContaining(toAddr(0xc18e91e4L));
+        if (p1 != null) {
+            ArrayList<Instruction> a = collect(p1);
+            int idx = -1;
+
+            for (int i = 0; i < a.size(); i++) {
+                if (a.get(i).getAddress().getOffset() == 0xc18e91e4L) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx >= 0) {
+                int st = Math.max(0, idx - 18);
+                int en = Math.min(a.size(), idx + 20);
+
+                for (int i = st; i < en && lines < MAX_LINES; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    Instruction ins = a.get(i);
+                    println("  " +
+                        (i == idx ? ">>> " : "    ") +
+                        ins.getAddress() + " : " +
+                        safe(ins.toString()));
+                    lines++;
+                }
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("CALLSITE c18e9204 -> c18f2870 PARAMETER WINDOW");
+
+        Function p2 = functionContaining(toAddr(0xc18e9204L));
+        if (p2 != null) {
+            ArrayList<Instruction> a = collect(p2);
+            int idx = -1;
+
+            for (int i = 0; i < a.size(); i++) {
+                if (a.get(i).getAddress().getOffset() == 0xc18e9204L) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx >= 0) {
+                int st = Math.max(0, idx - 16);
+                int en = Math.min(a.size(), idx + 18);
+
+                for (int i = st; i < en && lines < MAX_LINES; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    Instruction ins = a.get(i);
+                    println("  " +
+                        (i == idx ? ">>> " : "    ") +
+                        ins.getAddress() + " : " +
+                        safe(ins.toString()));
+                    lines++;
+                }
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("SMALL DATA / CONSTANT TARGET REVIEW");
+
+        long[] dataTargets = {
+            0xc18f2b18L,
+            0xcb297340L,
+            0xd6161982L,
+            0xd61619c6L
+        };
+
+        for (int i = 0; i < dataTargets.length; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(dataTargets[i]);
+            MemoryBlock b = currentProgram.getMemory().getBlock(a);
+            Data d = currentProgram.getListing().getDataContaining(a);
+            Instruction ins = currentProgram.getListing().getInstructionContaining(a);
+
+            println("\n  TARGET " + a);
+            println("    BLOCK=" +
+                (b == null ? "<none>" :
+                 b.getName() + " [" + b.getStart() + " - " + b.getEnd() +
+                 "] EXEC=" + b.isExecute() +
+                 " READ=" + b.isRead() +
+                 " WRITE=" + b.isWrite()));
+            println("    DATA=" +
+                (d == null ? "<none>" : safe(d.toString())));
+            println("    INSTRUCTION=" +
+                (ins == null ? "<none>" :
+                 ins.getAddress() + " : " + safe(ins.toString())));
+            println("    BYTES=" + readHex(a, 32));
+
+            ReferenceIterator x =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+            int xn = 0;
+            while (x.hasNext() && xn < 16 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = x.next();
+                Function rf = functionContaining(r.getFromAddress());
+                println("    XREF " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        " <-" +
+                        (rf == null ? "<none>" :
+                         rf.getName() + " @ " + rf.getEntryPoint()));
+                lines++;
+                xn++;
+            }
+            if (xn == 0) println("    XREF <none>");
+        }
+
+        println("\n============================================================");
+        println("C18E91D0 / C18F2EE8 CHAIN TRACE COMPLETE");
         println("============================================================");
     }
 
