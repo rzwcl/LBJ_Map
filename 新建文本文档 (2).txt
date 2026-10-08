@@ -1,100 +1,110 @@
-TraceC185RegionAndRegistration.java> Running...
+FindC185B5F0ConstructedRefs.java> Running...
 ============================================================
- TRACE c185 REGION / POSSIBLE INDIRECT REGISTRATION
+ FIND CONSTRUCTED / CODE REFERENCES TO C185B5F0
  Program : qdsp6sw.mbn
- Image   : c1600000 expected
+ Target  : 0xC185B5F0
  READ ONLY
 ============================================================
 
-------------------------------------------------------------
-EXTERNAL ADDRESS POOL SUMMARY
-------------------------------------------------------------
-  d615a11a mapped=false
-  d615a144 mapped=false
-  d615a175 mapped=false
-  d615a1bd mapped=false
-  d615a1f1 mapped=false
-
-Nearby functions in c185 region:
-  c185b084 -> FUN_c185b084
-  c185b5f0 -> FUN_c185b5f0
-  c185b768 -> FUN_c185b768
+TARGET FUNCTION
+  entry : c185b5f0
+  name  : FUN_c185b5f0
+  containing : FUN_c185b5f0 @ c185b5f0
 
 ------------------------------------------------------------
-c185b084 FUNCTION
+PASS 1: EXECUTABLE INSTRUCTIONS CONTAINING FULL TARGET LITERAL
 ------------------------------------------------------------
-ADDRESS : c185b084
-FUNCTION: FUN_c185b084
-ENTRY   : c185b084
-  c185b084 : immext #0xc1d91a00 
-INSTRUCTIONS PRINTED: 1
+  HIT : c1848790 : call 0xc185b5b4 
+  FUNC: FUN_c1848720 @ c1848720
+  CONTEXT:
+    c1848778 : call 0xc1846c34 
+    c184877c : assign R0,#0x1 
+    c1848780 : call 0xc1619338 
+    c1848784 : immext #0xd6151680 
+    c1848788 : assign R0,##0xd61516af 
+    c184878c : call 0xc184a240 
+    c1848790 : call 0xc185b5b4    <== MATCH
+    c1848794 : call 0xc1841f04 
+    c1848798 : add R0,SP,#0x4 
+    c184879c : immext #0x10000 
+    c18487a0 : assign R3,##0x10003 
+  HIT : c1850408 : call 0xc185b520 
+  FUNC: FUN_c18503e0 @ c18503e0
+  CONTEXT:
+    c18503f0 : combine R1R0,#0x3,#0x3 
+    c18503f4 : cmp.eq P0,R16,#0x0 
+    c18503f8 : assign.if(P0.new) R0,#0x2 
+    c18503fc : immext #0xf80 
+    c1850400 : call.if(P0) 0xc1851384 
+    c1850404 : call 0xc185b734 
+    c1850408 : call 0xc185b520    <== MATCH
+    c185040c : immext #0xc1d91880 
+    c1850410 : assign R17,##0xc1d91880 
+    c1850414 : memub R2,(R17+#0x1) 
+    c1850418 : or R2,R2,R16 
+  HIT : c1850598 : call 0xc185b520 
+  FUNC: FUN_c1850580 @ c1850580
+  CONTEXT:
+    c1850580 : call 0xc1841f14 
+    c1850584 : combine R1R0,#0x2,#0x3 ; allocframe #0x0 
+    c1850588 : call 0xc1851384 
+    c185058c : assign R0,#0x1 
+    c1850590 : call 0xc1846ba0 
+    c1850594 : assign R0,#0x1 
+    c1850598 : call 0xc185b520    <== MATCH
+    c185059c : call 0xc184d284 
+    c18505a0 : immext #0xc1d91880 
+    c18505a4 : assign R2,##0xc1d91880 
+    c18505a8 : call 0xc1848650 
+  HIT : c185b5d0 : immext #0xc185b5c0 
+  FUNC: FUN_c185b5b4 @ c185b5b4
+  CONTEXT:
+    c185b5b8 : call 0xc184d074 
+    c185b5bc : immext #0xcaf98940 
+    c185b5c0 : memb (##0xcaf98941),R2 
+    c185b5c4 : memd (SP),R17R16 
+    c185b5c8 : immext #0xc9116880 
+    c185b5cc : assign R16,##0xc9116888 
+    c185b5d0 : immext #0xc185b5c0    <== MATCH
+    c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
+    c185b5d8 : add R0,R16,#-0x10 
+    c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
+    c185b5e0 : call 0xc1845790 
+  HIT : c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
+  FUNC: FUN_c185b5b4 @ c185b5b4
+  CONTEXT:
+    c185b5bc : immext #0xcaf98940 
+    c185b5c0 : memb (##0xcaf98941),R2 
+    c185b5c4 : memd (SP),R17R16 
+    c185b5c8 : immext #0xc9116880 
+    c185b5cc : assign R16,##0xc9116888 
+    c185b5d0 : immext #0xc185b5c0 
+    c185b5d4 : combine R5R4,#0x0,##0xc185b5f0    <== MATCH
+    c185b5d8 : add R0,R16,#-0x10 
+    c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
+    c185b5e0 : call 0xc1845790 
+    c185b5e4 : memw R3,(R16+#0xc) 
+
+PASS 1 INSTRUCTIONS SCANNED: 1600001
+PASS 1 MATCHES: 5
 
 ------------------------------------------------------------
-c185b5f0 FUNCTION
+PASS 2: IMMEDIATE-CONSTRUCTION PATTERNS NEAR C185B5F0
 ------------------------------------------------------------
-ADDRESS : c185b5f0
-FUNCTION: FUN_c185b5f0
-ENTRY   : c185b5f0
-  c185b5f0 : immext #0xc1d91880 
-INSTRUCTIONS PRINTED: 1
+  RANGE HIT : c185b5d0 : immext #0xc185b5c0  | FUN_c185b5b4 @ c185b5b4
+  RANGE HIT : c185b5d4 : combine R5R4,#0x0,##0xc185b5f0  | FUN_c185b5b4 @ c185b5b4
+  RANGE HIT : c185b754 : immext #0xc185b740  | FUN_c185b734 @ c185b734
+  RANGE HIT : c185b758 : combine R5R4,R0,##0xc185b768  | FUN_c185b734 @ c185b734
+  RANGE HIT : c185bf4c : assign R4,R3 ; jump 0xc185bf60  | FUN_c185be20 @ c185be20
+RANGE INSTRUCTIONS SCANNED: 2120
+RANGE MATCHES: 5
 
 ------------------------------------------------------------
-c185b768 FUNCTION
-------------------------------------------------------------
-ADDRESS : c185b768
-FUNCTION: FUN_c185b768
-ENTRY   : c185b768
-  c185b768 : add R16,R0,#0x20 
-INSTRUCTIONS PRINTED: 1
-
-------------------------------------------------------------
-FUNCTION REFERENCES TO c185b084
-------------------------------------------------------------
-REF #1 FROM=c185a5ec TYPE=UNCONDITIONAL_CALL
-  FUNC=FUN_c185a484 @ c185a484
-REFERENCES PROCESSED: 1
-
-------------------------------------------------------------
-FUNCTION REFERENCES TO c185b5f0
-------------------------------------------------------------
-REFERENCES PROCESSED: 0
-
-------------------------------------------------------------
-FUNCTION REFERENCES TO c185b768
-------------------------------------------------------------
-REF #1 FROM=c185b758 TYPE=PARAM
-  FUNC=FUN_c185b734 @ c185b734
-REFERENCES PROCESSED: 1
-
-------------------------------------------------------------
-EXECUTABLE LITERAL SCAN D615A100-D615A1FF
-------------------------------------------------------------
-HIT #1 : immext #0xd615a100  | FUNC=FUN_c185b084
-HIT #2 : combine R1R0,#0x0,##0xd615a11a  | FUNC=FUN_c185b084
-HIT #3 : immext #0xd615a140  | FUNC=FUN_c185b5f0
-HIT #4 : assign R0,##0xd615a144  | FUNC=FUN_c185b5f0
-HIT #5 : immext #0xd615a140  | FUNC=FUN_c185b5f0
-HIT #6 : assign R0,##0xd615a175  | FUNC=FUN_c185b5f0
-HIT #7 : immext #0xd615a180  | FUNC=FUN_c185b5f0
-HIT #8 : assign R0,##0xd615a1bd ; memw R1,(R17)  | FUNC=FUN_c185b5f0
-HIT #9 : immext #0xd615a1c0  | FUNC=FUN_c185b768
-HIT #10 : assign R0,##0xd615a1f1  | FUNC=FUN_c185b768
-INSTRUCTIONS SCANNED: 1415334
-MATCHES: 10
-
-------------------------------------------------------------
-RAW POINTER SCAN FOR c185b5f0 = 0xc185b5f0
-Initialized/non-uninitialized memory, little-endian 32-bit
-------------------------------------------------------------
-RAW BYTES SCANNED (approx): 227770516
-POINTER HITS: 0
-
-============================================================
 INTERPRETATION
-1) c185b5f0 has no normal callers in the previous trace; a raw pointer hit would support indirect registration.
-2) D615A1xx literals across neighboring functions may identify a shared external/runtime object pool.
-3) Compare c185b084/c185b768 with c185b5f0 for common global objects and callback-style setup.
-4) No memory, comments, symbols, or program structures are modified.
+------------------------------------------------------------
+1) A full 0xC185B5F0 immediate in executable code would support indirect construction/registration.
+2) No code literal + no raw data pointer + no direct references would make C185B5F0 a strong orphan/dead-code candidate or externally-entered symbol.
+3) This script does not write memory, symbols, comments, or program structures.
 ============================================================
 DONE
-TraceC185RegionAndRegistration.java> Finished!
+FindC185B5F0ConstructedRefs.java> Finished!
