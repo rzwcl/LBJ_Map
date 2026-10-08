@@ -1,143 +1,1211 @@
-TraceC185B5B4CallbackRegistration.java> Running...
-============================================================
- TRACE C185B5B4 CALLBACK CONSTRUCTION / REGISTRATION
- Program : qdsp6sw.mbn
- READ ONLY
-============================================================
-
-TARGET CALLBACK : c185b5f0
-REGISTRATION FN : c185b5b4
-CALL TARGET     : c1845790
-
-------------------------------------------------------------
-FUNCTION FUN_c185b5b4
-------------------------------------------------------------
-FUNCTION: FUN_c185b5b4
-ENTRY   : c185b5b4
-  c185b5b4 : assign R2,#0x0 ; allocframe #0x8 
-  c185b5b8 : call 0xc184d074 
-  c185b5bc : immext #0xcaf98940 
-  c185b5c0 : memb (##0xcaf98941),R2 
-  c185b5c4 : memd (SP),R17R16 
-  c185b5c8 : immext #0xc9116880 
-  c185b5cc : assign R16,##0xc9116888 
-  c185b5d0 : immext #0xc185b5c0 
-  c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
-  c185b5d8 : add R0,R16,#-0x10 
-  c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
-  c185b5e0 : call 0xc1845790 
-  c185b5e4 : memw R3,(R16+#0xc) 
-  c185b5e8 : memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0 
-  c185b5ec : dealloc_return 
-INSTRUCTIONS PRINTED: 15
-
-------------------------------------------------------------
-REFERENCES TO FUN_c185b5b4
-------------------------------------------------------------
-REFERENCES TO c185b5b4
-  REF #1 FROM=c1848790 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1848720 @ c1848720
-REFERENCES PROCESSED: 1
-
-------------------------------------------------------------
-REFERENCES TO CALLBACK c185b5f0
-------------------------------------------------------------
-REFERENCES TO c185b5f0
-REFERENCES PROCESSED: 0
-
-------------------------------------------------------------
-CALLS TO c1845790 WITHIN c185b5b4
-------------------------------------------------------------
-
-CALL SITE : c185b5e0 -> 3246675856
-FUNC      : FUN_c185b5b4 @ c185b5b4
-  c185b554 : memh (R1),#0x0 
-  c185b558 : call 0xc185c3ec 
-  c185b55c : memb (R0),#0x0 
-  c185b560 : memh (R2),#0x0 
-  c185b564 : call 0xc184e080 
-  c185b568 : call 0xc185c7b0 
-  c185b56c : call 0xc1850308 
-  c185b570 : call 0xc185b9f0 
-  c185b574 : call 0xc185cca0 
-  c185b578 : call 0xc185c770 
-  c185b57c : call 0xc184dc80 
-  c185b580 : call 0xc184db60 
-  c185b584 : call 0xc184dbd0 
-  c185b588 : call 0xc184f6a0 
-  c185b58c : call 0xc184db50 
-  c185b590 : call 0xc185a314 
-  c185b594 : call 0xc185c8e4 
-  c185b598 : call 0xc18488c8 
-  c185b59c : call 0xc185ba10 
-  c185b5a0 : call 0xc18509e4 
-  c185b5a4 : call 0xc184e0e0 
-  c185b5a8 : immext #0xcaf97400 
-  c185b5ac : memb (##0xcaf97438),R0 
-  c185b5b0 : dealloc_return 
-  c185b5b4 : assign R2,#0x0 ; allocframe #0x8 
-  c185b5b8 : call 0xc184d074 
-  c185b5bc : immext #0xcaf98940 
-  c185b5c0 : memb (##0xcaf98941),R2 
-  c185b5c4 : memd (SP),R17R16 
-  c185b5c8 : immext #0xc9116880 
-  c185b5cc : assign R16,##0xc9116888 
-  c185b5d0 : immext #0xc185b5c0 
-  c185b5d4 : combine R5R4,#0x0,##0xc185b5f0 
-  c185b5d8 : add R0,R16,#-0x10 
-  c185b5dc : memw R2,(R16+#0x8) ; memw R1,(R16) 
-  c185b5e0 : call 0xc1845790 
-  c185b5e4 : memw R3,(R16+#0xc) 
-  c185b5e8 : memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0 
-  c185b5ec : dealloc_return 
-  c185b5f0 : immext #0xc1d91880 
-  c185b5f4 : assign R16,##0xc1d91880 
-  c185b5f8 : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  c185b5fc : call 0xc1841f14 
-  c185b600 : combine R1R0,#0x1,#0x3 ; memb (R16),#0x1 
-  c185b604 : immext #0xcaf98940 
-  c185b608 : assign R17,##0xcaf98960 
-  c185b60c : call 0xc184d188 
-  c185b610 : immext #0xcaf98940 
-CALLS TO c1845790 FOUND: 1
-
-------------------------------------------------------------
-FUNCTION c1845790
-------------------------------------------------------------
-FUNCTION: thunk_EXT_FUN_d89ad4a8
-ENTRY   : c1845790
-  c1845790 : immext #0x17167d00 
-  c1845794 : jump 0xd89ad4a8 
-INSTRUCTIONS PRINTED: 2
-
-------------------------------------------------------------
-REFERENCES TO c1845790
-------------------------------------------------------------
-REFERENCES TO c1845790
-  REF #1 FROM=c1851e84 TYPE=DATA FUNC=FUN_c1851e58 @ c1851e58
-  REF #2 FROM=c1851e88 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1851e58 @ c1851e58
-  REF #3 FROM=c1845780 TYPE=DATA FUNC=FUN_c1845754 @ c1845754
-  REF #4 FROM=c1845784 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1845754 @ c1845754
-  REF #5 FROM=c1846d24 TYPE=DATA FUNC=FUN_c1846cc8 @ c1846cc8
-  REF #6 FROM=c1846d30 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1846cc8 @ c1846cc8
-  REF #7 FROM=c18457c0 TYPE=DATA FUNC=FUN_c1845798 @ c1845798
-  REF #8 FROM=c18457cc TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1845798 @ c1845798
-  REF #9 FROM=c1845810 TYPE=DATA FUNC=FUN_c18457d8 @ c18457d8
-  REF #10 FROM=c184581c TYPE=UNCONDITIONAL_CALL FUNC=FUN_c18457d8 @ c18457d8
-  REF #11 FROM=c185b5e0 TYPE=DATA FUNC=FUN_c185b5b4 @ c185b5b4
-  REF #12 FROM=c185b5e4 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c185b5b4 @ c185b5b4
-  REF #13 FROM=c185b750 TYPE=DATA FUNC=FUN_c185b734 @ c185b734
-  REF #14 FROM=c185b75c TYPE=UNCONDITIONAL_CALL FUNC=FUN_c185b734 @ c185b734
-  REF #15 FROM=c1851c9c TYPE=DATA FUNC=FUN_c1851b60 @ c1851b60
-  REF #16 FROM=c1851ca0 TYPE=UNCONDITIONAL_CALL FUNC=FUN_c1851b60 @ c1851b60
-REFERENCES PROCESSED: 16
+44 : memh.if(P0) (R4+##0xbe),R3.L 
+    CMD-RELATED: c184a548 : memh (R4+#0xba),R2.L 
+    CMD-RELATED: c184a5f8 : cmp.eq P0,R3,#0xb ; jump.if(P0.new):nt 0xc184ba00 
+    CMD-RELATED: c184aa64 : add R2,R17,#0xb6 
+    CMD-RELATED: c184ad54 : memh (R3+#0xb4),R2.L 
+    CMD-RELATED: c184b698 : cmpb.eq P0,R3,#0x7b 
+    CMD-RELATED: c184bb0c : extractu R2,R2,#0x1,#0xb 
+    CMD-RELATED: c184c098 : immext #0xbfc0 
+    CMD-RELATED: c184c09c : and R3,R2,##0xbfff 
+    CMD-RELATED: c184c254 : memw (R17+#0xb8),R2 
 
 ============================================================
-INTERPRETATION TARGET
-1) c185b5d4 constructs the callback pointer c185b5f0.
-2) Determine how c1845790 consumes the callback register/value.
-3) If c1845790 stores the callback in a table/queue, locate that table and entry fields.
-4) Then trace what external/event source triggers that callback.
-5) No memory, symbols, comments, or program structures are modified.
+0x4B COMPARE HIT #13 @ c184e628
+  INS: cmp.eq P0,R3,##0x4b0000 
+  FUNC: FUN_c184e5f0 @ c184e5f0
+    CONTEXT AROUND c184e628 :
+      c184e600 : immext #0x2c0 
+      c184e604 : +mpyi R2,R17,##0x2c0 
+      c184e608 : memw R3,(SP+#0x4) 
+      c184e60c : add R4,R3,#0x2000 
+      c184e610 : immext #0xc1d90cc0 
+      c184e614 : add R2,R2,##-0x3e26f340 
+      c184e618 : immext #0xc1d90f40 
+      c184e61c : memw R3,(R2+##0xc1d90f64) 
+      c184e620 : extractu R4,R4,#0x14,#0x0 
+      c184e624 : immext #0x4b0000 
+      c184e628 : cmp.eq P0,R3,##0x4b0000    <== 0x4B
+      c184e62c : jump.if(!P0.new):t 0xc184e638 
+      c184e630 : lsr R3,R4,#0x3 
+      c184e634 : jump 0xc184e660 
+      c184e638 : immext #0x4b00000 
+      c184e63c : cmp.eq P0,R3,##0x4b00000 
+      c184e640 : jump.if(!P0.new):nt 0xc184e650 
+      c184e644 : memw R3,(R2+#0x2ac) 
+      c184e648 : asl&= R3,R4,#0x1 
+      c184e64c : jump 0xc184e660 
+      c184e650 : lsr R3,R4,#0x2 
+      c184e654 : immext #0x960000 
+      c184e658 : cmp.eq P0,R3,##0x960000 
+      c184e65c : assign.if(!P0) R3,R4 
+      c184e660 : memw R4,(SP) 
+
+  FUNCTION CHECK:
+    NAME : FUN_c184e5f0
+    ENTRY: c184e5f0
+    BODY : [[c184e5f0, c184e687]]
+    FIRST 30 INSTRUCTIONS: 0x4B=4 0x0B=0 0x7B=0 CALLS=1
+
+============================================================
+0x4B COMPARE HIT #14 @ c184e63c
+  INS: cmp.eq P0,R3,##0x4b00000 
+  FUNC: FUN_c184e5f0 @ c184e5f0
+    CONTEXT AROUND c184e63c :
+      c184e614 : add R2,R2,##-0x3e26f340 
+      c184e618 : immext #0xc1d90f40 
+      c184e61c : memw R3,(R2+##0xc1d90f64) 
+      c184e620 : extractu R4,R4,#0x14,#0x0 
+      c184e624 : immext #0x4b0000 
+      c184e628 : cmp.eq P0,R3,##0x4b0000 
+      c184e62c : jump.if(!P0.new):t 0xc184e638 
+      c184e630 : lsr R3,R4,#0x3 
+      c184e634 : jump 0xc184e660 
+      c184e638 : immext #0x4b00000 
+      c184e63c : cmp.eq P0,R3,##0x4b00000    <== 0x4B
+      c184e640 : jump.if(!P0.new):nt 0xc184e650 
+      c184e644 : memw R3,(R2+#0x2ac) 
+      c184e648 : asl&= R3,R4,#0x1 
+      c184e64c : jump 0xc184e660 
+      c184e650 : lsr R3,R4,#0x2 
+      c184e654 : immext #0x960000 
+      c184e658 : cmp.eq P0,R3,##0x960000 
+      c184e65c : assign.if(!P0) R3,R4 
+      c184e660 : memw R4,(SP) 
+      c184e664 : memw R2,(R2+#0x2ac) 
+      c184e668 : add R4,R4,#0xfa0 
+      c184e66c : and R2,R2,R3 
+      c184e670 : memd R17R16,(SP+#0x8) 
+      c184e674 : memw (R16),R2.new 
+
+============================================================
+0x4B COMPARE HIT #15 @ c184f360
+  INS: cmp.eq P0,R26,##0x4b0000 
+  FUNC: FUN_c184f278 @ c184f278
+    CONTEXT AROUND c184f360 :
+      c184f338 : assign R22,#0x0 
+      c184f33c : add R23,R18,#0x2ac 
+      c184f340 : assign R25,#0x1 
+      c184f344 : call 0xc182ffa0 
+      c184f348 : add R0,SP,#0x8 
+      c184f34c : memw R18,(R23+#-0x24) 
+      c184f350 : memw R2,(SP+#0xc) 
+      c184f354 : memw R26,(R23+#-0x8) 
+      c184f358 : add R2,R2,#0x2000 
+      c184f35c : immext #0x4b0000 
+      c184f360 : cmp.eq P0,R26,##0x4b0000    <== 0x4B
+      c184f364 : extractu R2,R2,#0x14,#0x0 
+      c184f368 : jump.if(!P0) 0xc184f374 
+      c184f36c : lsr R3,R2,#0x3 
+      c184f370 : jump 0xc184f39c 
+      c184f374 : immext #0x4b00000 
+      c184f378 : cmp.eq P0,R26,##0x4b00000 
+      c184f37c : jump.if(!P0.new):nt 0xc184f38c 
+      c184f380 : memw.if(P0.new) R3,(R23) 
+      c184f384 : asl&= R3,R2,#0x1 
+      c184f388 : jump 0xc184f39c 
+      c184f38c : lsr R3,R2,#0x2 
+      c184f390 : immext #0x960000 
+      c184f394 : cmp.eq P0,R26,##0x960000 
+      c184f398 : assign.if(!P0) R3,R2 
+
+  FUNCTION CHECK:
+    NAME : FUN_c184f278
+    ENTRY: c184f278
+    BODY : [[c184f278, c184f4a3]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=1 0x7B=0 CALLS=2
+    CMD-RELATED: c184f298 : memd (SP+#0xb8),R27R26 
+    CMD-RELATED: c184f3bc : memb (SP+#0xb4),R25 
+    CMD-RELATED: c184f468 : memd R27R26,(SP+#0xb8) 
+  SEQUENCE: 0x4B -> 0x0B in same function, distance=17 instrs
+    0x0B: c184f3bc : memb (SP+#0xb4),R25 
+    FROM 0x4B: c184f360
+
+============================================================
+0x4B COMPARE HIT #16 @ c184f378
+  INS: cmp.eq P0,R26,##0x4b00000 
+  FUNC: FUN_c184f278 @ c184f278
+    CONTEXT AROUND c184f378 :
+      c184f350 : memw R2,(SP+#0xc) 
+      c184f354 : memw R26,(R23+#-0x8) 
+      c184f358 : add R2,R2,#0x2000 
+      c184f35c : immext #0x4b0000 
+      c184f360 : cmp.eq P0,R26,##0x4b0000 
+      c184f364 : extractu R2,R2,#0x14,#0x0 
+      c184f368 : jump.if(!P0) 0xc184f374 
+      c184f36c : lsr R3,R2,#0x3 
+      c184f370 : jump 0xc184f39c 
+      c184f374 : immext #0x4b00000 
+      c184f378 : cmp.eq P0,R26,##0x4b00000    <== 0x4B
+      c184f37c : jump.if(!P0.new):nt 0xc184f38c 
+      c184f380 : memw.if(P0.new) R3,(R23) 
+      c184f384 : asl&= R3,R2,#0x1 
+      c184f388 : jump 0xc184f39c 
+      c184f38c : lsr R3,R2,#0x2 
+      c184f390 : immext #0x960000 
+      c184f394 : cmp.eq P0,R26,##0x960000 
+      c184f398 : assign.if(!P0) R3,R2 
+      c184f39c : xor R19,R22,R20 
+      c184f3a0 : assign R2,#0x20 
+      c184f3a4 : assign R0,R17 ; memw R4,(R23) 
+      c184f3a8 : addasl R1,R21,R19,#0x5 
+      c184f3ac : and R27,R4,R3 
+      c184f3b0 : immext #0xc9116a00 
+  SEQUENCE: 0x4B -> 0x0B in same function, distance=17 instrs
+    0x0B: c184f3bc : memb (SP+#0xb4),R25 
+    FROM 0x4B: c184f378
+
+============================================================
+0x4B COMPARE HIT #17 @ c187ea08
+  INS: cmp.eq P0,R18,##0x4b000 
+  FUNC: FUN_c187e920 @ c187e920
+    CONTEXT AROUND c187ea08 :
+      c187e9e0 : memw R4,(SP+#0xc) 
+      c187e9e4 : memw (R26+#0x28),R4.new 
+      c187e9e8 : call 0xc16a3ea0 
+      c187e9ec : convert_uw2df R1R0,R18 
+      c187e9f0 : memw R2,(SP+#0x14) 
+      c187e9f4 : memd (R26+#0x38),R1R0 
+      c187e9f8 : immext #0x61a800 
+      c187e9fc : cmp.eq P0,R2,##0x61a800 
+      c187ea00 : jump.if(!P0.new):nt 0xc187ed3c 
+      c187ea04 : immext #0x4b000 
+      c187ea08 : cmp.eq P0,R18,##0x4b000    <== 0x4B
+      c187ea0c : memw R2,(SP+#0x18) 
+      c187ea10 : memw (R26+#0x70),R2.new 
+      c187ea14 : immext #0x99999980 
+      c187ea18 : assign R4,##0x9999999a 
+      c187ea1c : immext #0x40199980 
+      c187ea20 : assign R5,##0x40199999 
+      c187ea24 : jump.if(P0) 0xc187ea3c 
+      c187ea28 : memw (SP+#0x4),R16 
+      c187ea2c : memd (R26+#0x40),R5R4 
+      c187ea30 : immext #0x25800 
+      c187ea34 : cmp.eq P0,R18,##0x25800 
+      c187ea38 : jump.if(!P0.new):nt 0xc187ea64 
+      c187ea3c : immext #0x3fe00000 
+      c187ea40 : assign R5,##0x3fe00000 ; assign R4,#0x0 
+
+  FUNCTION CHECK:
+    NAME : FUN_c187e920
+    ENTRY: c187e920
+    BODY : [[c187e920, c187ed5f]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=2
+
+============================================================
+0x4B COMPARE HIT #18 @ c1902ca4
+  INS: cmp.eq P0,R2,#0x4b 
+  FUNC: FUN_c1902c74 @ c1902c74
+    CONTEXT AROUND c1902ca4 :
+      c1902c7c : call 0xc1902bc0 
+      c1902c80 : memd (SP+#0x10),R19R18 ; memd (SP+#0x8),R21R20 
+      c1902c84 : add R2,SP,#0x0 
+      c1902c88 : assign R20,#0xd1 
+      c1902c8c : setbit R17,R2,#0x0 
+      c1902c90 : setbit R18,R2,#0x2 
+      c1902c94 : call 0xc18d0a18 
+      c1902c98 : combine R3R2,R18,R17 
+      c1902c9c : add R1,SP,#0x0 ; memw R0,(R16+#0x18) 
+      c1902ca0 : memub R2,(SP+#0x1) 
+      c1902ca4 : cmp.eq P0,R2,#0x4b    <== 0x4B
+      c1902ca8 : jump.if(P0.new):nt 0xc1902d4c 
+      c1902cac : cmpb.eq P0,R2,#0x4c 
+      c1902cb0 : jump.if(P0.new):nt 0xc1902cc8 
+      c1902cb4 : cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):t 0xc1902c94 
+      c1902cb8 : memw.if(P0.new) R0,(R16+#0x28) 
+      c1902cbc : call 0xc18e78c0 
+      c1902cc0 : memd R17R16,(SP+#0x18) ; memd R19R18,(SP+#0x10) 
+      c1902cc4 : memd R21R20,(SP+#0x8) ; dealloc_return 
+      c1902cc8 : call 0xc1695fec 
+      c1902ccc : immext #0x2440 
+      c1902cd0 : memw R2,(R16+##0x2464) 
+      c1902cd4 : cmp.eq P0,R2,#0x63 
+      c1902cd8 : call 0xc1cdb764 
+      c1902cdc : immext #0xc0 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1902c74
+    ENTRY: c1902c74
+    BODY : [[c1902c74, c1902d93]]
+    FIRST 30 INSTRUCTIONS: 0x4B=1 0x0B=0 0x7B=0 CALLS=5
+
+============================================================
+0x4B COMPARE HIT #19 @ c1926ab4
+  INS: cmp.gt P0,R21,#0x4b 
+  FUNC: FUN_c1926870 @ c1926870
+    CONTEXT AROUND c1926ab4 :
+      c1926a8c : jump.if:nt cmp.gtu(R4.new,#0x6),0xc1926b54 
+      c1926a90 : add R22,R21,#-0x4b 
+      c1926a94 : jump.if:nt cmp.eq(R22.new,#0x0),0xc1926b54 
+      c1926a98 : immext #0xd60f3780 
+      c1926a9c : combine R1R0,R16,##0xd60f37a5 
+      c1926aa0 : assign R3,R17 ; sxtb R4,R3 
+      c1926aa4 : call 0xc1619338 
+      c1926aa8 : add R2,R18,#-0x8 
+      c1926aac : add R3,R22,R17 
+      c1926ab0 : assign R17,#0x96 
+      c1926ab4 : cmp.gt P0,R21,#0x4b    <== 0x4B
+      c1926ab8 : modwrap R3,R3,R17 
+      c1926abc : memh|= (R2),R19 
+      c1926ac0 : immext #0xd60f3800 
+      c1926ac4 : combine R1R0,R16,##0xd60f3804 
+      c1926ac8 : memuh R4,(R18) ; memb (R20+#0x3),R3 
+      c1926acc : sxtb R2,R22 
+      c1926ad0 : and R3,R3,#0xff 
+      c1926ad4 : or.if(P0) R5,R19,R4 
+      c1926ad8 : memb (R20+#0x65),R22 
+      c1926adc : assign.if(!P0) R5,R4 
+      c1926ae0 : call 0xc1619338 
+      c1926ae4 : memh (R18),R5.L 
+      c1926ae8 : immext #0xc1dbc700 
+      c1926aec : memw R2,(##0xc1dbc730) 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1926870
+    ENTRY: c1926870
+    BODY : [[c1926870, c1926b87]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #20 @ c1941f54
+  INS: cmp.gt P0,R4,#0x4b 
+  FUNC: FUN_c1941da8 @ c1941da8
+    CONTEXT AROUND c1941f54 :
+      c1941f2c : ct0 R3,R3 
+      c1941f30 : memub R1,(R17+#0xba) 
+      c1941f34 : cmp.gtu P0,R3,#0x9 
+      c1941f38 : add.if(P0.new) R3,R3,#-0xa 
+      c1941f3c : assign.if(!P0.new) R0,R2 
+      c1941f40 : assign R2,R3 
+      c1941f44 : mpyi+= R2,R0,#0xa 
+      c1941f48 : immext #0x40 
+      c1941f4c : add R4,R2,sub(##0x4b,R1) 
+      c1941f50 : modwrap R4,R4,R5 
+      c1941f54 : cmp.gt P0,R4,#0x4b    <== 0x4B
+      c1941f58 : jump.if(!P0.new):nt 0xc1941fcc 
+      c1941f5c : immext #0xc0 
+      c1941f60 : memub.if(P0.new) R1,(R17+##0xc6) 
+      c1941f64 : immext #0x40 
+      c1941f68 : add R4,R2,sub(##0x4b,R1) 
+      c1941f6c : modwrap R4,R4,R5 
+      c1941f70 : cmp.gt P0,R4,#0x4b 
+      c1941f74 : jump.if(!P0.new):nt 0xc1941fdc 
+      c1941f78 : immext #0x880 
+      c1941f7c : memh.if(P0.new) R5,(R16+##0x8bc) 
+      c1941f80 : assign R4,R3 
+      c1941f84 : immext #0x19999980 
+      c1941f88 : assign R2,##0x1999999a ; assign R1,R3 
+      c1941f8c : mpyu R2,R3,R2 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1941da8
+    ENTRY: c1941da8
+    BODY : [[c1941da8, c1941feb]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=1 0x7B=0 CALLS=0
+    CMD-RELATED: c1941df4 : extractu R22,R2,#0x8,#0xb 
+    CMD-RELATED: c1941ec4 : memb R3,(R17+#0xb8) 
+    CMD-RELATED: c1941f00 : assign.if(P1.new) R5,#0xb6 
+    CMD-RELATED: c1941f04 : assign.if(!P1) R5,#0xb4 
+    CMD-RELATED: c1941f30 : memub R1,(R17+#0xba) 
+
+============================================================
+0x4B COMPARE HIT #21 @ c1941f70
+  INS: cmp.gt P0,R4,#0x4b 
+  FUNC: FUN_c1941da8 @ c1941da8
+    CONTEXT AROUND c1941f70 :
+      c1941f48 : immext #0x40 
+      c1941f4c : add R4,R2,sub(##0x4b,R1) 
+      c1941f50 : modwrap R4,R4,R5 
+      c1941f54 : cmp.gt P0,R4,#0x4b 
+      c1941f58 : jump.if(!P0.new):nt 0xc1941fcc 
+      c1941f5c : immext #0xc0 
+      c1941f60 : memub.if(P0.new) R1,(R17+##0xc6) 
+      c1941f64 : immext #0x40 
+      c1941f68 : add R4,R2,sub(##0x4b,R1) 
+      c1941f6c : modwrap R4,R4,R5 
+      c1941f70 : cmp.gt P0,R4,#0x4b    <== 0x4B
+      c1941f74 : jump.if(!P0.new):nt 0xc1941fdc 
+      c1941f78 : immext #0x880 
+      c1941f7c : memh.if(P0.new) R5,(R16+##0x8bc) 
+      c1941f80 : assign R4,R3 
+      c1941f84 : immext #0x19999980 
+      c1941f88 : assign R2,##0x1999999a ; assign R1,R3 
+      c1941f8c : mpyu R2,R3,R2 
+      c1941f90 : memd R23R22,(SP+#0x18) 
+      c1941f94 : memd R25R24,(SP+#0x10) 
+      c1941f98 : assign R3,#0x0 
+      c1941f9c : memd R19R18,(SP+#0x28) ; memd R21R20,(SP+#0x20) 
+      c1941fa0 : mpyi-= R4,R2,#0xa 
+      c1941fa4 : addasl R2,R17,R4,#0x1 
+      c1941fa8 : memd R17R16,(SP+#0x30) 
+
+============================================================
+0x4B COMPARE HIT #22 @ c1943e2c
+  INS: cmp.gt P0,R2,##0x4b007 
+  FUNC: FUN_c1943648 @ c1943648
+    CONTEXT AROUND c1943e2c :
+      c1943e04 : jump.if:nt cmp.eq(R2.new,#0x1),0xc1943e48 
+      c1943e08 : assign R3,#0xff 
+      c1943e0c : bitsclr P0,R2,R3 
+      c1943e10 : immext #0x96000 
+      c1943e14 : assign.if(!P0.new) R3,##0x96000 
+      c1943e18 : jump.if(P0.new):nt 0xc1943e48 
+      c1943e1c : immext #0x4b000 
+      c1943e20 : add R2,R18,sub(##0x4b000,R20) 
+      c1943e24 : modwrap R2,R2,R3 
+      c1943e28 : immext #0x4b000 
+      c1943e2c : cmp.gt P0,R2,##0x4b007    <== 0x4B
+      c1943e30 : jump.if(P0.new):nt 0xc1943e48 
+      c1943e34 : add R2,R23,#0x79e 
+      c1943e38 : assign R2,#0x101 
+      c1943e3c : memb (R2),#0x1 
+      c1943e40 : jump 0xc1943e50 
+      c1943e44 : memh (R23+#0x79c),R2.L 
+      c1943e48 : add R2,R23,#0x79c 
+      c1943e4c : memh (R2),#0x0 
+      c1943e50 : assign R1,#0x1 
+      c1943e54 : memb R2,(R23+#0x13) 
+      c1943e58 : call 0xc19494a0 
+      c1943e5c : assign.if(!P0.new) R0,#0x3ff 
+      c1943e60 : cmp.eq P0,R2,#0x0 ; assign.if(P0.new) R0,#0x0 
+      c1943e64 : assign R1,#0x5 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1943648
+    ENTRY: c1943648
+    BODY : [[c1943648, c19465af]]
+    FIRST 30 INSTRUCTIONS: 0x4B=1 0x0B=2 0x7B=0 CALLS=1
+    CMD-RELATED: c194367c : extractu R3,R0,#0x8,#0xb 
+    CMD-RELATED: c19436b8 : asl|= R20,R2,#0xb 
+    CMD-RELATED: c19437f4 : extractu R3,R0,#0x8,#0xb 
+    CMD-RELATED: c1943820 : extractu R3,R0,#0xb,#0x0 
+    CMD-RELATED: c1943830 : extractu R2,R2,#0xb,#0x0 
+    CMD-RELATED: c19438b4 : extractu R2,R20,#0x8,#0xb 
+    CMD-RELATED: c1943b24 : extractu R3,R2,#0x8,#0xb 
+    CMD-RELATED: c1943b40 : asl R1,R3,#0xb 
+    CMD-RELATED: c1943d70 : extractu R20,R2,#0x8,#0xb 
+    CMD-RELATED: c1943d9c : memub R8,(R5+#0xb) 
+    CMD-RELATED: c1944684 : add R4,R23,#0xb40 
+    CMD-RELATED: c19448b8 : add R1,R23,#0xb40 
+    CMD-RELATED: c1944c34 : memw R2,(R23+#0xb3c) 
+    CMD-RELATED: c1944e74 : memuh R3,(R21+#0xbc) 
+    CMD-RELATED: c1944fa4 : memuh R3,(R21+#0xbc) 
+    CMD-RELATED: c1945284 : extractu R4,R2,#0x8,#0xb 
+    CMD-RELATED: c1945294 : asl-= R1,R4,#0xb 
+    CMD-RELATED: c1945738 : extractu R1,R2,#0x8,#0xb 
+    CMD-RELATED: c1945828 : extractu R3,R0,#0x8,#0xb 
+    CMD-RELATED: c194582c : insert R0,R16,#0xb,#0x0 
+    CMD-RELATED: c1945838 : asl-= R1,R3,#0xb 
+    CMD-RELATED: c1945a7c : extractu R3,R3,#0x8,#0xb 
+    CMD-RELATED: c1945af4 : asl R1,R17,#0xb 
+    CMD-RELATED: c1945e4c : extractu R2,R0,#0x8,#0xb 
+    CMD-RELATED SUPPRESSED: 7
+
+============================================================
+0x4B COMPARE HIT #23 @ c19887ac
+  INS: cmp.gt P0,R0,#0x4b 
+  FUNC: FUN_c19883bc @ c19883bc
+    CONTEXT AROUND c19887ac :
+      c1988784 : jump.if:t !cmp.gtu(R2.new,#0x1),0xc19888a8 
+      c1988788 : cmpb.eq P0,R0,#0xc3 
+      c198878c : jump.if(P0.new):t 0xc1988ca4 
+      c1988790 : jump 0xc1988cd0 
+      c1988794 : cmpb.eq P0,R0,#0xd1 
+      c1988798 : jump.if(P0.new):nt 0xc1988ca4 
+      c198879c : cmpb.eq P0,R0,#0xd2 
+      c19887a0 : jump.if(!P0.new):nt 0xc1988cd0 
+      c19887a4 : assign R19,#0x10f 
+      c19887a8 : jump 0xc1988ca4 
+      c19887ac : cmp.gt P0,R0,#0x4b    <== 0x4B
+      c19887b0 : jump.if(P0.new):nt 0xc19887d0 
+      c19887b4 : add R2,R0,#-0x18 
+      c19887b8 : jump.if:t !cmp.gtu(R2.new,#0x1),0xc1988990 
+      c19887bc : combine.if(P0.new) R1R0,R16,R17 
+      c19887c0 : immext #0x500 
+      c19887c4 : cmp.eq P0,R0,#0x1c ; jump.if(!P0.new):nt 0xc1988cd0 
+      c19887c8 : call 0xc1988d28 
+      c19887cc : jump 0xc1988cd0 
+      c19887d0 : cmpb.eq P0,R0,#0x4c 
+      c19887d4 : assign.if(P0.new) R0,R17 
+      c19887d8 : jump.if(P0.new):nt 0xc1988c40 
+      c19887dc : cmpb.eq P0,R0,#0x64 
+      c19887e0 : combine.if(P0.new) R1R0,R16,R17 
+      c19887e4 : jump.if(!P0.new):nt 0xc1988cd0 
+
+  FUNCTION CHECK:
+    NAME : FUN_c19883bc
+    ENTRY: c19883bc
+    BODY : [[c19883bc, c1988c9f] [c1988ca4, c1988cf7]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=1
+    CMD-RELATED: c1988640 : cmp.eq P0,R0,#0xb ; jump.if(!P0.new):t 0xc1988cd4 
+    CMD-RELATED: c19886f0 : cmp.gt P0,R0,#0xb0 
+    CMD-RELATED: c1988710 : cmpb.eq P0,R0,#0xb1 
+    CMD-RELATED: c1988808 : assign.if(!P0.new) R19,#0xb0 
+    CMD-RELATED: c1988a3c : assign R4,#0xbb 
+  SEQUENCE: 0x4B -> 0x0B in same function, distance=23 instrs
+    0x0B: c1988808 : assign.if(!P0.new) R19,#0xb0 
+    FROM 0x4B: c19887ac
+
+============================================================
+0x4B COMPARE HIT #24 @ c1996ab8
+  INS: cmpb.eq P0,R0,#0x4b 
+  FUNC: FUN_c19963cc @ c19963cc
+    CONTEXT AROUND c1996ab8 :
+      c1996a90 : cmp.gt P0,R0,#0x43 
+      c1996a94 : jump.if(P0.new):t 0xc1996ab0 
+      c1996a98 : add R2,R0,#-0x18 
+      c1996a9c : immext #0x680 
+      c1996aa0 : jump.if:t !cmp.gtu(R2.new,#0x1),0xc1997130 
+      c1996aa4 : cmpb.eq P0,R0,#0x41 
+      c1996aa8 : jump.if(P0.new):t 0xc1996d54 
+      c1996aac : jump 0xc1997230 
+      c1996ab0 : cmpb.eq P0,R0,#0x44 
+      c1996ab4 : jump.if(P0.new):nt 0xc19968d0 
+      c1996ab8 : cmpb.eq P0,R0,#0x4b    <== 0x4B
+      c1996abc : jump.if(P0.new):nt 0xc1996d60 
+      c1996ac0 : cmpb.eq P0,R0,#0x5e 
+      c1996ac4 : jump.if(P0.new):t 0xc1996d54 
+      c1996ac8 : jump 0xc1997230 
+      c1996acc : bitsclr P0,R2,R3 
+      c1996ad0 : assign.if(P0.new) R0,#0x0 
+      c1996ad4 : jump.if(P0.new):nt 0xc1996da0 
+      c1996ad8 : cmp.eq P0,R0,#0x1 ; jump.if(P0.new):nt 0xc1996884 
+      c1996adc : immext #0x740 
+      c1996ae0 : cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc1997230 
+      c1996ae4 : memw.if(P0.new) R2,(R20+#0x18) 
+      c1996ae8 : immext #0x1d820400 
+      c1996aec : cmp.eq P0,R2,##0x1d820405 
+      c1996af0 : jump.if(P0.new):nt 0xc1996b0c 
+
+  FUNCTION CHECK:
+    NAME : FUN_c19963cc
+    ENTRY: c19963cc
+    BODY : [[c19963cc, c199732b]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=11
+    CMD-RELATED: c199660c : assign.if(!P0.new) R3,#0xb 
+    CMD-RELATED: c199682c : immext #0xb00 
+    CMD-RELATED: c1996830 : cmp.eq P0,R1,##0xb01 
+    CMD-RELATED: c1996838 : immext #0xb00 
+    CMD-RELATED: c199683c : cmp.eq P0,R1,##0xb03 
+    CMD-RELATED: c1996d0c : cmpb.eq P0,R0,#0xb9 
+    CMD-RELATED: c1996d50 : cmp.eq P0,R0,#0xb ; jump.if(!P0.new):t 0xc1997230 
+    CMD-RELATED: c1996f3c : jump.if:nt cmp.gtu(R2.new,#0xb),0xc1996f60 
+    CMD-RELATED: c1996fdc : jump.if:nt cmp.gtu(R2.new,#0xb),0xc1997000 
+  SEQUENCE: 0x4B -> 0x0B in same function, distance=149 instrs
+    0x0B: c1996d0c : cmpb.eq P0,R0,#0xb9 
+    FROM 0x4B: c1996ab8
+
+============================================================
+0x4B COMPARE HIT #25 @ c1a05460
+  INS: cmp.gtu P1,R16,##0x4b00 
+  FUNC: FUN_c1a05360 @ c1a05360
+    CONTEXT AROUND c1a05460 :
+      c1a05438 : jump.if:nt cmp.eq(R4.new,#0x1),0xc19e40d4 
+      c1a0543c : add R2,R16,#0x3c00 
+      c1a05440 : cmp.gt P0,R2,R17 
+      c1a05444 : immext #0x1000000 
+      c1a05448 : add.if(P0.new) R17,R17,##0x1000000 
+      c1a0544c : sub R0,R17,R2 
+      c1a05450 : memd R17R16,(SP+#0x0) ; dealloc_return 
+      c1a05454 : sub R16,R2,R1 
+      c1a05458 : cmp.gtu P1,R2,R1 ; jump.if(!P1.new):nt 0xc1a0546c 
+      c1a0545c : immext #0x4b00 
+      c1a05460 : cmp.gtu P1,R16,##0x4b00    <== 0x4B
+      c1a05464 : immext #0xfffdec40 
+      c1a05468 : jump.if(P1.new):nt 0xc19e40a8 
+      c1a0546c : jump.if(!P0) 0xc1a053a4 
+      c1a05470 : immext #0xfffdec40 
+      c1a05474 : jump 0xc19e40b8 
+      c1a05478 : mpyi+= R16,R8,#0xa 
+      c1a0547c : jump 0xc1a05410 
+      c1a05480 : memb R2,(R3+#0x2e) 
+      c1a05484 : jump.if:t !cmp.eq(R2.new,#0x1),0xc1a0543c 
+      c1a05488 : immext #0xfffdec40 
+      c1a0548c : jump 0xc19e40f4 
+      c1a05490 : combine R17R16,R1,R3 
+      c1a05494 : memd (SP+#-0x10),R17R16 ; allocframe #0x30 
+      c1a05498 : assign R25,R0 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1a05360
+    ENTRY: c1a05360
+    BODY : [[c19e40a8, c19e40b7] [c1a05360, c1a0547f]]
+    FIRST 30 INSTRUCTIONS: 0x4B=2 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #26 @ c1a24b14
+  INS: cmpb.eq P1,R3,#0x4b 
+  FUNC: FUN_c1a23f94 @ c1a23f94
+    CONTEXT AROUND c1a24b14 :
+      c1a24aec : assign R3,R26 
+      c1a24af0 : memub R2,(R25+#0x1) 
+      c1a24af4 : mpyi+= R3,R2,R7 
+      c1a24af8 : memub R3,(R3+#0xd) 
+      c1a24afc : assign R5,R26 
+      c1a24b00 : add R6,R3,#0x1 
+      c1a24b04 : memub R4,(R21+#0x1a) 
+      c1a24b08 : mpyi+= R5,R2,R7 
+      c1a24b0c : bitsclr P0,R4,#0x1f 
+      c1a24b10 : assign.if(!P0.new) R3,R6 
+      c1a24b14 : cmpb.eq P1,R3,#0x4b    <== 0x4B
+      c1a24b18 : jump.if(!P1) 0xc1a24b60 
+      c1a24b1c : memb.if(!P0) (R5+#0xd),R6 
+      c1a24b20 : memb R3,(R25) 
+      c1a24b24 : jump.if:t cmp.gtu(R3.new,#0x1),0xc1a24b4c 
+      c1a24b28 : assign R20,#0x842 
+      c1a24b2c : immext #0xf8264d80 
+      c1a24b30 : assign R0,##0xf8264da8 ; memw R2,(SP+#0x6c) 
+      c1a24b34 : call 0xc1ad06b0 
+      c1a24b38 : memw R1,(R2) 
+      c1a24b3c : memub R2,(R25+#0x1) 
+      c1a24b40 : mpyi+= R26,R2,R20 
+      c1a24b44 : jump 0xc1a24b60 
+      c1a24b48 : memb (R26+#0xd),#0x0 
+      c1a24b4c : assign R0,R20 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1a23f94
+    ENTRY: c1a23f94
+    BODY : [[c1a23f94, c1a25667]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=1 0x7B=2 CALLS=1
+    CMD-RELATED: c1a23fdc : immext #0x7b40 
+    CMD-RELATED: c1a23fe0 : add.if(P0) R3,R24,##0x7b70 
+    CMD-RELATED: c1a23fe4 : memw (SP+#0x6c),R3 ; memd (SP+#0xb0),R19R18 
+    CMD-RELATED: c1a240fc : memd R17R16,(SP+#0xb8) ; memd R19R18,(SP+#0xb0) 
+    CMD-RELATED: c1a24124 : add R2,R24,#0x7b6e 
+    CMD-RELATED: c1a241ec : immext #0xbd40 
+    CMD-RELATED: c1a241f0 : add R18,R4,##0xbd70 
+    CMD-RELATED: c1a24230 : add R1,R24,#0x7b72 
+    CMD-RELATED: c1a24234 : add R0,R24,#0x7b76 
+    CMD-RELATED: c1a242fc : extractu R2,R2,#0xb,#0x2 
+    CMD-RELATED: c1a24324 : extractu R23,R2,#0x4,#0xb 
+    CMD-RELATED: c1a2444c : extractu R14,R4,#0xb,#0x2 
+    CMD-RELATED: c1a24478 : lsr R9,R9,#0xb 
+    CMD-RELATED: c1a24488 : extractu R13,R8,#0x4,#0xb 
+    CMD-RELATED: c1a24844 : extractu R8,R6,#0x4,#0xb 
+    CMD-RELATED: c1a24938 : and R3,#0x20,lsr(R3,#0xb) 
+    CMD-RELATED: c1a24940 : extractu R4,R4,#0xb,#0x0 
+    CMD-RELATED: c1a249b0 : memb (R21+#0xb),R6 
+    CMD-RELATED: c1a24a20 : extractu R2,R6,#0xb,#0x0 
+    CMD-RELATED: c1a24a24 : extractu R6,R6,#0x1,#0xb 
+    CMD-RELATED: c1a24a58 : or R2,R0,and(R2,#0xbf) 
+    CMD-RELATED: c1a24aac : or R4,R6,and(R4,#0xbf) 
+    CMD-RELATED: c1a24fd8 : add R27,R24,#0x7b72 
+    CMD-RELATED: c1a24fe0 : add R25,R24,#0x7b76 
+    CMD-RELATED SUPPRESSED: 3
+
+============================================================
+0x4B COMPARE HIT #27 @ c1a46b40
+  INS: cmph.gtu P0,R2,#0x4b 
+  FUNC: FUN_c1a46a70 @ c1a46a70
+    CONTEXT AROUND c1a46b40 :
+      c1a46b18 : assign R0,#0x5 
+      c1a46b1c : immext #0xffffdbc0 
+      c1a46b20 : add.if(P0) R2,R16,##0xffffdbeb 
+      c1a46b24 : jump.if(!P0):t 0xc1a46b8c 
+      c1a46b28 : immext #0x80 
+      c1a46b2c : cmph.gtu P0,R2,##0x96 
+      c1a46b30 : assign R0,#0x6 
+      c1a46b34 : immext #0xfffff180 
+      c1a46b38 : add.if(P0) R2,R16,##0xfffff180 
+      c1a46b3c : jump.if(!P0):t 0xc1a46b8c 
+      c1a46b40 : cmph.gtu P0,R2,#0x4b    <== 0x4B
+      c1a46b44 : assign R0,#0x7 
+      c1a46b48 : immext #0xfffffd00 
+      c1a46b4c : add.if(P0.new) R2,R16,##0xfffffd38 
+      c1a46b50 : assign.if(P0) R0,#0x8 
+      c1a46b54 : jump.if(!P0):t 0xc1a46b8c 
+      c1a46b58 : cmph.gtu P0,R2,#0x33 
+      c1a46b5c : immext #0xfffffcc0 
+      c1a46b60 : add.if(P0.new) R2,R16,##0xfffffced 
+      c1a46b64 : jump.if(!P0.new):nt 0xc1a46b8c 
+      c1a46b68 : cmph.gtu P0,R2,#0x32 
+      c1a46b6c : jump.if(!P0.new):nt 0xc1a46b8c 
+      c1a46b70 : call 0xc169776c 
+      c1a46b74 : immext #0xf803c380 
+      c1a46b78 : combine R1R0,R16,##0xf803c380 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1a46a70
+    ENTRY: c1a46a70
+    BODY : [[c1a46a70, c1a46b8f]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #28 @ c1a652d0
+  INS: cmp.eq P0,R2,##0x4b000 
+  FUNC: FUN_c1a651f0 @ c1a651f0
+    CONTEXT AROUND c1a652d0 :
+      c1a652a8 : memw R2,(R20+#0x38) 
+      c1a652ac : jump 0xc1a6558c 
+      c1a652b0 : memw R2,(R2+#0xbc) 
+      c1a652b4 : memh (R16+#0x2a),R2.new 
+      c1a652b8 : assign R3,#0x1b0 
+      c1a652bc : assign R21,#0xbc 
+      c1a652c0 : assign R0,R19 
+      c1a652c4 : immext #0xcbac7940 
+      c1a652c8 : add R24,##0xcbac7958,mpyi(R19,R3) 
+      c1a652cc : immext #0x4b000 
+      c1a652d0 : cmp.eq P0,R2,##0x4b000    <== 0x4B
+      c1a652d4 : jump.if(!P0) 0xc1a653e8 
+      c1a652d8 : call 0xc1a57d0c 
+      c1a652dc : cmp.eq P0,R0,#0x2 ; jump.if(!P0.new):t 0xc1a65318 
+      c1a652e0 : memb R2,(R25+#0x9d) 
+      c1a652e4 : jump.if:t !cmp.eq(R2.new,#0x1),0xc1a65318 
+      c1a652e8 : call 0xc1a655e8 
+      c1a652ec : assign R0,R19 
+      c1a652f0 : cmp.eq P0,R0,#0x5 ; jump.if(!P0.new):t 0xc1a65318 
+      c1a652f4 : memh (R18),#0x1f 
+      c1a652f8 : memh (R17),#0x0 
+      c1a652fc : memb R3,(R16+#0xb) 
+      c1a65300 : memw R2,(R20+#0x10) 
+      c1a65304 : cmp.eq P0,R3,#0x0 
+      c1a65308 : assign.if(!P0.new) R21,#0xa4 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1a651f0
+    ENTRY: c1a651f0
+    BODY : [[c1a651f0, c1a655e7]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=1
+    CMD-RELATED: c1a652b0 : memw R2,(R2+#0xbc) 
+    CMD-RELATED: c1a652bc : assign R21,#0xbc 
+    CMD-RELATED: c1a652fc : memb R3,(R16+#0xb) 
+    CMD-RELATED: c1a65344 : memw R2,(R2+#0xb0) 
+    CMD-RELATED: c1a653cc : memb R2,(R16+#0xb) 
+    CMD-RELATED: c1a653e0 : memw R2,(R0+#0xbc) 
+    CMD-RELATED: c1a65400 : memb R2,(R16+#0xb) 
+    CMD-RELATED: c1a6540c : assign.if(P0.new) R2,#0xb8 
+    CMD-RELATED: c1a65410 : assign.if(!P0.new) R2,#0xb0 
+    CMD-RELATED: c1a6543c : memb R3,(R16+#0xb) 
+    CMD-RELATED: c1a65460 : memb R2,(R16+#0xb) 
+    CMD-RELATED: c1a65474 : memw R2,(R0+#0xbc) 
+    CMD-RELATED: c1a6549c : memw R2,(R2+#0xb8) 
+    CMD-RELATED: c1a654ac : memb R2,(R16+#0xb) 
+    CMD-RELATED: c1a654c0 : memw R2,(R0+#0xb8) 
+    CMD-RELATED: c1a6555c : memb R2,(R16+#0xb) 
+    CMD-RELATED: c1a65570 : memb R2,(R16+#0xb) 
+    CMD-RELATED: c1a655b0 : memb R3,(R16+#0xb) 
+  SEQUENCE: 0x4B -> 0x0B in same function, distance=11 instrs
+    0x0B: c1a652fc : memb R3,(R16+#0xb) 
+    FROM 0x4B: c1a652d0
+
+============================================================
+0x4B COMPARE HIT #29 @ c1aafbf4
+  INS: cmpb.eq P1,R22,#0x4b 
+  FUNC: FUN_c1aafbc0 @ c1aafbc0
+    CONTEXT AROUND c1aafbf4 :
+      c1aafbcc : combine R19R18,R2,R3 
+      c1aafbd0 : add.if(P2) R20,R17,#0x8 
+      c1aafbd4 : memd (SP+#0x38),R19R18 ; memd (SP+#0x30),R21R20 
+      c1aafbd8 : jump.if(P2) 0xc1aafc30 
+      c1aafbdc : memd (SP+#0x28),R23R22 
+      c1aafbe0 : cmp.eq P0,R17,#0x0 ; jump.if(P0.new):nt 0xc1aaff18 
+      c1aafbe4 : memub R22,(R17) 
+      c1aafbe8 : cmpb.eq P0,R22,#0x80 
+      c1aafbec : assign.if(P0.new) R20,#0x80 
+      c1aafbf0 : jump.if(P0.new):nt 0xc1aafc74 
+      c1aafbf4 : cmpb.eq P1,R22,#0x4b    <== 0x4B
+      c1aafbf8 : assign.if(P1.new) R20,#0xff 
+      c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
+      c1aafc00 : immext #0xffff98c0 
+      c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
+      c1aafc08 : assign.if(!P0) R21,#0xff 
+      c1aafc0c : jump.if(P0) 0xc1aafe4c 
+      c1aafc10 : cmpb.eq P1,R22,#0x4b 
+      c1aafc14 : jump.if(P0) 0xc1aafe54 
+      c1aafc18 : memub.if(P1) R21,(R17+#0x1) 
+      c1aafc1c : cmpb.eq P0,R22,#0x4b 
+      c1aafc20 : immext #0xffc0 
+      c1aafc24 : assign R22,##0xffff 
+      c1aafc28 : jump 0xc1aafc88 
+      c1aafc2c : memuh.if(P0) R22,(R17+#0x2) 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1aafbc0
+    ENTRY: c1aafbc0
+    BODY : [[c1aa9328, c1aa94af] [c1aafbc0, c1aafeff]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=6
+
+============================================================
+0x4B COMPARE HIT #30 @ c1aafc10
+  INS: cmpb.eq P1,R22,#0x4b 
+  FUNC: FUN_c1aafbc0 @ c1aafbc0
+    CONTEXT AROUND c1aafc10 :
+      c1aafbe8 : cmpb.eq P0,R22,#0x80 
+      c1aafbec : assign.if(P0.new) R20,#0x80 
+      c1aafbf0 : jump.if(P0.new):nt 0xc1aafc74 
+      c1aafbf4 : cmpb.eq P1,R22,#0x4b 
+      c1aafbf8 : assign.if(P1.new) R20,#0xff 
+      c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
+      c1aafc00 : immext #0xffff98c0 
+      c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
+      c1aafc08 : assign.if(!P0) R21,#0xff 
+      c1aafc0c : jump.if(P0) 0xc1aafe4c 
+      c1aafc10 : cmpb.eq P1,R22,#0x4b    <== 0x4B
+      c1aafc14 : jump.if(P0) 0xc1aafe54 
+      c1aafc18 : memub.if(P1) R21,(R17+#0x1) 
+      c1aafc1c : cmpb.eq P0,R22,#0x4b 
+      c1aafc20 : immext #0xffc0 
+      c1aafc24 : assign R22,##0xffff 
+      c1aafc28 : jump 0xc1aafc88 
+      c1aafc2c : memuh.if(P0) R22,(R17+#0x2) 
+      c1aafc30 : memub R22,(R17) 
+      c1aafc34 : cmp.gt P0,R22,#0x7c 
+      c1aafc38 : jump.if(!P0.new):nt 0xc1aafc58 
+      c1aafc3c : cmpb.eq P0,R22,#0x7d 
+      c1aafc40 : immext #0xffff9740 
+      c1aafc44 : jump.if(P0.new):nt 0xc1aa93ac 
+      c1aafc48 : cmpb.eq P0,R22,#0x82 
+
+============================================================
+0x4B COMPARE HIT #31 @ c1aafc1c
+  INS: cmpb.eq P0,R22,#0x4b 
+  FUNC: FUN_c1aafbc0 @ c1aafbc0
+    CONTEXT AROUND c1aafc1c :
+      c1aafbf4 : cmpb.eq P1,R22,#0x4b 
+      c1aafbf8 : assign.if(P1.new) R20,#0xff 
+      c1aafbfc : jump.if(!P1.new):nt 0xc1aafc80 
+      c1aafc00 : immext #0xffff98c0 
+      c1aafc04 : cmp.gtu P1,R16,#0x3 ; jump.if(!P1.new):nt 0xc1aa94e0 
+      c1aafc08 : assign.if(!P0) R21,#0xff 
+      c1aafc0c : jump.if(P0) 0xc1aafe4c 
+      c1aafc10 : cmpb.eq P1,R22,#0x4b 
+      c1aafc14 : jump.if(P0) 0xc1aafe54 
+      c1aafc18 : memub.if(P1) R21,(R17+#0x1) 
+      c1aafc1c : cmpb.eq P0,R22,#0x4b    <== 0x4B
+      c1aafc20 : immext #0xffc0 
+      c1aafc24 : assign R22,##0xffff 
+      c1aafc28 : jump 0xc1aafc88 
+      c1aafc2c : memuh.if(P0) R22,(R17+#0x2) 
+      c1aafc30 : memub R22,(R17) 
+      c1aafc34 : cmp.gt P0,R22,#0x7c 
+      c1aafc38 : jump.if(!P0.new):nt 0xc1aafc58 
+      c1aafc3c : cmpb.eq P0,R22,#0x7d 
+      c1aafc40 : immext #0xffff9740 
+      c1aafc44 : jump.if(P0.new):nt 0xc1aa93ac 
+      c1aafc48 : cmpb.eq P0,R22,#0x82 
+      c1aafc4c : immext #0xffff9700 
+      c1aafc50 : jump.if(P0.new):t 0xc1aa935c 
+      c1aafc54 : jump 0xc1aafbe8 
+
+============================================================
+0x4B COMPARE HIT #32 @ c1ab53b4
+  INS: cmpb.eq P0,R3,#0x4b 
+  FUNC: FUN_c1ab5394 @ c1ab5394
+    CONTEXT AROUND c1ab53b4 :
+      c1ab538c : asl|= R0,R2,#0x10 
+      c1ab5390 : jumpr LR 
+      c1ab5394 : cmp.eq P0,R0,#0x0 
+      c1ab5398 : immext #0xffc0 
+      c1ab539c : assign R0,##0xffff ; assign R2,R0 
+      c1ab53a0 : jump.if(P0) 0xc1ab53bc 
+      c1ab53a4 : memub.if(!P0) R3,(R2) 
+      c1ab53a8 : cmp.eq P0,R3,#0x80 
+      c1ab53ac : jump.if(P0.new):nt 0xc1ab53bc 
+      c1ab53b0 : memuh.if(P0.new) R0,(R2+#0x2) 
+      c1ab53b4 : cmpb.eq P0,R3,#0x4b    <== 0x4B
+      c1ab53b8 : memuh.if(P0.new) R0,(R2+#0x2) 
+      c1ab53bc : jumpr LR 
+      c1ab53c0 : assign R17,R0 
+      c1ab53c4 : memd (SP+#-0x10),R17R16 ; allocframe #0x30 
+      c1ab53c8 : memw R0,(R0+#0xc) ; memd (SP+#0x10),R23R22 
+      c1ab53cc : memd (SP+#0x20),R19R18 ; memd (SP+#0x18),R21R20 
+      c1ab53d0 : call 0xc1ab5640 
+      c1ab53d4 : immext #0xc95c67c0 
+      c1ab53d8 : memub R22,(##0xc95c67ec) 
+      c1ab53dc : memd (SP+#0x8),R25R24 
+      c1ab53e0 : call 0xc1ab5640 
+      c1ab53e4 : assign R18,R0 ; memw R0,(R17+#0x8) 
+      c1ab53e8 : immext #0xc1629740 
+      c1ab53ec : memw R2,(##0xc1629760) 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1ab5394
+    ENTRY: c1ab5394
+    BODY : [[c1ab5394, c1ab53bf]]
+    FIRST 11 INSTRUCTIONS: 0x4B=1 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #33 @ c1ab5530
+  INS: cmpb.eq P0,R3,#0x4b 
+  FUNC: FUN_c1ab5514 @ c1ab5514
+    CONTEXT AROUND c1ab5530 :
+      c1ab5508 : memd (R16+#0x8),R3R2 
+      c1ab550c : memd R17R16,(SP+#0x0) ; deallocframe 
+      c1ab5510 : jumpr LR 
+      c1ab5514 : assign R2,R0 
+      c1ab5518 : assign R0,#0xff 
+      c1ab551c : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1ab5538 
+      c1ab5520 : memub R3,(R2) 
+      c1ab5524 : cmp.eq P0,R3,#0x80 
+      c1ab5528 : jump.if(P0.new):nt 0xc1ab5538 
+      c1ab552c : memub.if(P0.new) R0,(R2+#0x1) 
+      c1ab5530 : cmpb.eq P0,R3,#0x4b    <== 0x4B
+      c1ab5534 : memub.if(P0.new) R0,(R2+#0x1) 
+      c1ab5538 : jumpr LR 
+      c1ab556c : jumpr LR 
+      c1ab5570 : memw (R0+#0x20),#0x0 
+      c1ab5574 : assign.if(!P0.new) R0,R1 
+      c1ab5578 : immext #0xffff21c0 
+      c1ab557c : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):t 0xc1aa7748 
+      c1ab5580 : jump 0xc1695a84 
+      c1ab5588 : combine R17R16,R2,R4 
+      c1ab558c : memd (SP+#-0x10),R17R16 ; allocframe #0x18 
+      c1ab5590 : call 0xc1ab4090 
+      c1ab5594 : assign R18,R0 
+      c1ab5598 : memd (SP+#0x8),R19R18 
+      c1ab559c : memw (SP),#0x1 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1ab5514
+    ENTRY: c1ab5514
+    BODY : [[c1ab5514, c1ab553b]]
+    FIRST 10 INSTRUCTIONS: 0x4B=1 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #34 @ c1c445d8
+  INS: cmpb.eq P0,R4,#0x4b 
+  FUNC: FUN_c1c44500 @ c1c44500
+    CONTEXT AROUND c1c445d8 :
+      c1c445b0 : assign P0,R3 
+      c1c445b4 : jump.if(P0.new):nt 0xc1c44624 
+      c1c445b8 : memw (R21+#0x68),R2.new 
+      c1c445bc : memub R4,(R18+#0x11) 
+      c1c445c0 : cmp.gt P0,R4,#0x59 
+      c1c445c4 : assign.if(P0.new) R3,#0x4 
+      c1c445c8 : jump.if(P0.new):t 0xc1c445e8 
+      c1c445cc : cmpb.eq P0,R4,#0x32 
+      c1c445d0 : assign R3,#0x1 
+      c1c445d4 : jump.if(P0.new):t 0xc1c445fc 
+      c1c445d8 : cmpb.eq P0,R4,#0x4b    <== 0x4B
+      c1c445dc : assign R3,#0x0 
+      c1c445e0 : assign.if(P0) R3,#0x2 
+      c1c445e4 : jump 0xc1c445fc 
+      c1c445e8 : cmpb.eq P0,R4,#0x5a 
+      c1c445ec : assign.if(!P0.new) R3,#0x0 
+      c1c445f0 : jump.if(P0.new):t 0xc1c445fc 
+      c1c445f4 : cmpb.eq P0,R4,#0x64 
+      c1c445f8 : assign.if(P0) R3,#0x5 
+      c1c445fc : memw R4,(R21+#0x80) 
+      c1c44600 : memb (R21+#0x197),R3 
+      c1c44604 : or R4,R19,and(R4,#-0x9) 
+      c1c44608 : assign R19,#0x0 
+      c1c4460c : memw (R21+#0x80),R4.new 
+      c1c44610 : extractu R5,R4,#0x3,#0x13 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1c44500
+    ENTRY: c1c44500
+    BODY : [[c1c44500, c1c4486f]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=2
+
+============================================================
+0x4B COMPARE HIT #35 @ c1c966e8
+  INS: cmpb.eq P0,R6,#0x4b 
+  FUNC: FUN_c1c96540 @ c1c96540
+    CONTEXT AROUND c1c966e8 :
+      c1c966c0 : assign.if(!P0.new) R0,##0xcf8e723c 
+      c1c966c4 : cmp.eq P0,R0,#0x0 ; jump.if(P0.new):t 0xc1c96854 
+      c1c966c8 : call 0xc16fd420 
+      c1c966cc : cmp.gt P0,R6,#0x4a 
+      c1c966d0 : jump.if(P0.new):t 0xc1c966e8 
+      c1c966d4 : cmp.eq P0,R6,#0x18 ; jump.if(P0.new):nt 0xc1c967e0 
+      c1c966d8 : cmp.eq P0,R6,#0x19 ; jump.if(P0.new):nt 0xc1c967c0 
+      c1c966dc : cmpb.eq P0,R6,#0x20 
+      c1c966e0 : jump.if(P0.new):t 0xc1c9680c 
+      c1c966e4 : jump 0xc1c96828 
+      c1c966e8 : cmpb.eq P0,R6,#0x4b    <== 0x4B
+      c1c966ec : jump.if(P0.new):nt 0xc1c9680c 
+      c1c966f0 : cmpb.eq P0,R6,#0x54 
+      c1c966f4 : jump.if(P0.new):nt 0xc1c9680c 
+      c1c966f8 : cmpb.eq P0,R6,#0x57 
+      c1c966fc : jump.if(!P0.new):nt 0xc1c96828 
+      c1c96700 : assign R0,R16 
+      c1c96704 : memub R1,(R17+#0x10) 
+      c1c96708 : memd R17R16,(SP+#0x18) 
+      c1c9670c : jump 0xc1c0ac80 
+      c1c96710 : deallocframe 
+      c1c96714 : cmp.eq P0,R6,#0x12 ; jump.if(P0.new):t 0xc1c9680c 
+      c1c96718 : jump 0xc1c96828 
+      c1c9671c : add R2,R6,#-0x41 
+      c1c96720 : jump.if:nt cmp.gtu(R2.new,#0xa),0xc1c96828 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1c96540
+    ENTRY: c1c96540
+    BODY : [[c1c96540, c1c96857]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #36 @ c1d1a798
+  INS: cmp.eq P0,R2,#0x4b 
+  FUNC: FUN_c1d1a760 @ c1d1a760
+    CONTEXT AROUND c1d1a798 :
+      c1d1a770 : assign.if(P0) R20,R18 
+      c1d1a774 : memd (SP+#0x30),R23R22 
+      c1d1a778 : memd (SP+#0x28),R25R24 
+      c1d1a77c : jump.if(P0) 0xc1d1aadc 
+      c1d1a780 : memd (SP+#0x20),R27R26 
+      c1d1a784 : assign R17,R2 
+      c1d1a788 : assign R19,R1 
+      c1d1a78c : assign R23,#0x0 ; assign R22,R18 
+      c1d1a790 : add R16,R17,#0x8c 
+      c1d1a794 : memb R2,(R22++#0x1) 
+      c1d1a798 : cmp.eq P0,R2,#0x4b    <== 0x4B
+      c1d1a79c : assign.if(P0.new) R22,R18 
+      c1d1a7a0 : jump.if(P0.new):nt 0xc1d1a7d0 
+      c1d1a7a4 : cmpb.eq P0,R2,#0x56 
+      c1d1a7a8 : assign.if(P0.new) R22,R18 
+      c1d1a7ac : jump.if(P0.new):nt 0xc1d1a9b8 
+      c1d1a7b0 : cmpb.eq P0,R2,#0x72 
+      c1d1a7b4 : combine.if(!P0.new) R1R0,R19,R18 
+      c1d1a7b8 : assign.if(!P0.new) R2,R17 
+      c1d1a7bc : jump.if(!P0.new):t 0xc1d1a9c4 
+      c1d1a7c0 : assign R23,#0x4 ; memub R2,(R22) 
+      c1d1a7c4 : cmpb.eq P0,R2,#0x56 
+      c1d1a7c8 : jump.if(!P0.new):t 0xc1d1a7e0 
+      c1d1a7cc : jump 0xc1d1a7d8 
+      c1d1a7d0 : cmpb.eq P0,R2,#0x56 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1d1a760
+    ENTRY: c1d1a760
+    BODY : [[c1d1a760, c1d1be3b]]
+    FIRST 30 INSTRUCTIONS: 0x4B=1 0x0B=0 0x7B=0 CALLS=0
+    CMD-RELATED: c1d1b370 : memub R3,(R20+#0xa) ; memub R4,(R20+#0xb) 
+    CMD-RELATED: c1d1b3d0 : memub R3,(R20+#0xb) ; memub R4,(R20+#0x9) 
+    CMD-RELATED: c1d1b3f0 : memub R2,(R20+#0xa) ; memub R3,(R20+#0xb) 
+    CMD-RELATED: c1d1b808 : memb (R2+#0xc),#0xb 
+
+============================================================
+0x4B COMPARE HIT #37 @ c1d1a7e0
+  INS: cmpb.eq P1,R2,#0x4b 
+  FUNC: FUN_c1d1a760 @ c1d1a760
+    CONTEXT AROUND c1d1a7e0 :
+      c1d1a7b8 : assign.if(!P0.new) R2,R17 
+      c1d1a7bc : jump.if(!P0.new):t 0xc1d1a9c4 
+      c1d1a7c0 : assign R23,#0x4 ; memub R2,(R22) 
+      c1d1a7c4 : cmpb.eq P0,R2,#0x56 
+      c1d1a7c8 : jump.if(!P0.new):t 0xc1d1a7e0 
+      c1d1a7cc : jump 0xc1d1a7d8 
+      c1d1a7d0 : cmpb.eq P0,R2,#0x56 
+      c1d1a7d4 : jump.if(!P0.new):t 0xc1d1a7e0 
+      c1d1a7d8 : setbit R23,R23,#0x1 
+      c1d1a7dc : add R22,R22,#0x1 ; memub R2,(R22+#0x1) 
+      c1d1a7e0 : cmpb.eq P1,R2,#0x4b    <== 0x4B
+      c1d1a7e4 : assign R20,R18 
+      c1d1a7e8 : add.if(P1.new) R21,R22,#0x1 
+      c1d1a7ec : assign.if(!P1.new) R21,R22 
+      c1d1a7f0 : combine R1R0,R19,R21 
+      c1d1a7f4 : cmp.eq P0,R21,R18 ; jump.if(P0.new):nt 0xc1d1aadc 
+      c1d1a7f8 : memw.if(!P0.new) R22,(R17+#0x4) 
+      c1d1a7fc : assign R2,P1 
+      c1d1a800 : memw (SP+#0x8),R2.new 
+      c1d1a804 : call 0xc1d1a760 
+      c1d1a808 : assign R2,R17 
+      c1d1a80c : memub R19,(R21) 
+      c1d1a810 : memw R24,(R17) 
+      c1d1a814 : sub R2,R22,R24 
+      c1d1a818 : cmp.eq P0,R0,R21 ; jump.if(P0.new):nt 0xc1d1aadc 
+
+============================================================
+0x4B COMPARE HIT #38 @ c1d1bed4
+  INS: cmpb.eq P0,R2,#0x4b 
+  FUNC: FUN_c1d1be3c @ c1d1be3c
+    CONTEXT AROUND c1d1bed4 :
+      c1d1beac : cmp.eq P0,R4,R20 ; jump.if(P0.new):nt 0xc1d1bf8c 
+      c1d1beb0 : assign R23,#0x0 ; memb R2,(R4) 
+      c1d1beb4 : cmp.eq P0,R2,#0x72 
+      c1d1beb8 : assign.if(P0.new) R23,#0x4 
+      c1d1bebc : assign.if(P0.new) R4,R3 
+      c1d1bec0 : memub.if(P0.new) R2,(R3) 
+      c1d1bec4 : cmpb.eq P0,R2,#0x56 
+      c1d1bec8 : jump.if(!P0.new):t 0xc1d1bed4 
+      c1d1becc : setbit R23,R23,#0x1 
+      c1d1bed0 : add R4,R4,#0x1 ; memub R2,(R4+#0x1) 
+      c1d1bed4 : cmpb.eq P0,R2,#0x4b    <== 0x4B
+      c1d1bed8 : add.if(P0.new) R22,R4,#0x1 
+      c1d1bedc : assign R2,P0 
+      c1d1bee0 : assign.if(!P0) R22,R4 
+      c1d1bee4 : memw (SP+#0x1c),R2.new 
+      c1d1bee8 : assign R2,R19 
+      c1d1beec : cmp.eq P0,R22,R20 ; jump.if(P0.new):nt 0xc1d1bf8c 
+      c1d1bef0 : assign R2,#0x0 
+      c1d1bef4 : memb (R18+#0x1dd),R2.new 
+      c1d1bef8 : memub R2,(R22) 
+      c1d1befc : cmp.eq P0,R2,#0x52 
+      c1d1bf00 : assign.if(P0.new) R2,#0x1 
+      c1d1bf04 : jump.if(P0.new):nt 0xc1d1bfac 
+      c1d1bf08 : jump.if(!P0.new):nt 0xc1d1bfb4 
+      c1d1bf0c : cmpb.eq P0,R2,#0x4f 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1d1be3c
+    ENTRY: c1d1be3c
+    BODY : [[c1d1be3c, c1d1cccb]]
+    FIRST 30 INSTRUCTIONS: 0x4B=0 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #39 @ c1d20d1c
+  INS: cmpb.eq P0,R4,#0x4b 
+  FUNC: FUN_c1d20cc0 @ c1d20cc0
+    CONTEXT AROUND c1d20d1c :
+      c1d20cf4 : cmpb.eq P0,R4,#0x70 
+      c1d20cf8 : jump.if(!P0.new):nt 0xc1d20eb4 
+      c1d20cfc : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
+      c1d20d00 : memb.if(!P0.new) R4,(R2) 
+      c1d20d04 : cmp.eq P0,R4,#0x72 
+      c1d20d08 : assign.if(P0.new) R2,R3 
+      c1d20d0c : memub.if(P0.new) R4,(R3) 
+      c1d20d10 : cmpb.eq P0,R4,#0x56 
+      c1d20d14 : add.if(P0.new) R2,R2,#0x1 
+      c1d20d18 : memub.if(P0.new) R4,(R2+#0x1) 
+      c1d20d1c : cmpb.eq P0,R4,#0x4b    <== 0x4B
+      c1d20d20 : add.if(P0.new) R18,R2,#0x1 
+      c1d20d24 : assign.if(!P0.new) R18,R2 
+      c1d20d28 : cmp.eq P0,R18,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
+      c1d20d2c : assign R2,R18 ; assign R19,R18 
+      c1d20d30 : memb R3,(R2++#0x1) 
+      c1d20d34 : cmp.eq P0,R3,#0x6e 
+      c1d20d38 : assign.if(!P0.new) R2,R18 
+      c1d20d3c : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20e34 
+      c1d20d40 : memb.if(!P0.new) R3,(R2++#0x1) 
+      c1d20d44 : cmp.eq P0,R3,#0x30 
+      c1d20d48 : jump.if(!P0.new):t 0xc1d20e14 
+      c1d20d4c : assign R19,R2 
+      c1d20d50 : jump.if:t !cmp.eq(R19.new,R1),0xc1d20e38 
+      c1d20d54 : jump 0xc1d20eb4 
+
+  FUNCTION CHECK:
+    NAME : FUN_c1d20cc0
+    ENTRY: c1d20cc0
+    BODY : [[c1d20cc0, c1d20f5f]]
+    FIRST 30 INSTRUCTIONS: 0x4B=1 0x0B=0 0x7B=0 CALLS=0
+
+============================================================
+0x4B COMPARE HIT #40 @ c1d20dd8
+  INS: cmpb.eq P0,R4,#0x4b 
+  FUNC: FUN_c1d20cc0 @ c1d20cc0
+    CONTEXT AROUND c1d20dd8 :
+      c1d20db0 : jump.if(!P0.new):t 0xc1d20eb4 
+      c1d20db4 : add R3,R2,#0x1 
+      c1d20db8 : jump.if:nt cmp.eq(R3.new,R1),0xc1d20eb4 
+      c1d20dbc : memb R4,(R3) 
+      c1d20dc0 : cmp.eq P0,R4,#0x72 
+      c1d20dc4 : add.if(P0.new) R3,R2,#0x2 
+      c1d20dc8 : memub.if(P0.new) R4,(R2+#0x2) 
+      c1d20dcc : cmpb.eq P0,R4,#0x56 
+      c1d20dd0 : add.if(P0.new) R3,R3,#0x1 
+      c1d20dd4 : memub.if(P0.new) R4,(R3+#0x1) 
+      c1d20dd8 : cmpb.eq P0,R4,#0x4b    <== 0x4B
+      c1d20ddc : add.if(P0.new) R18,R3,#0x1 
+      c1d20de0 : assign.if(!P0.new) R18,R3 
+      c1d20de4 : cmp.eq P0,R18,R1 ; jump.if(P0.new):nt 0xc1d20eb4 
+      c1d20de8 : assign R2,R18 ; assign R19,R18 
+      c1d20dec : memb R3,(R2++#0x1) 
+      c1d20df0 : cmp.eq P0,R3,#0x6e 
+      c1d20df4 : assign.if(!P0.new) R2,R18 
+      c1d20df8 : cmp.eq P0,R2,R1 ; jump.if(P0.new):nt 0xc1d20edc 
+      c1d20dfc : memb.if(!P0.new) R3,(R2++#0x1) 
+      c1d20e00 : cmp.eq P0,R3,#0x30 
+      c1d20e04 : jump.if(!P0.new):t 0xc1d20ebc 
+      c1d20e08 : assign R19,R2 
+      c1d20e0c : jump.if:t !cmp.eq(R19.new,R1),0xc1d20ee0 
+      c1d20e10 : jump 0xc1d20eb4 
+
+============================================================
+RAW SEARCH FOR 4B 0B 7B 00 / 4B 0B / 7B 00
+============================================================
+  7B 00 HIT @ c1a953bf
+  7B 00 HIT @ c1a95d4e
+  7B 00 HIT @ c1a96f2a
+  7B 00 HIT @ c1a98982
+  7B 00 HIT @ c1a999f2
+  7B 00 HIT @ c1a9a4b0
+  7B 00 HIT @ c1a9ac6c
+  7B 00 HIT @ c1a9bd9a
+  7B 00 HIT @ c1d88400
+  7B 00 HIT @ c1dc4299
+  7B 00 HIT @ c1dc4301
+  7B 00 HIT @ c1dc4305
+  7B 00 HIT @ c1dc4309
+  7B 00 HIT @ c1dc430d
+  7B 00 HIT @ c1dc4311
+  7B 00 HIT @ c1dc4315
+  7B 00 HIT @ c1dc4319
+  7B 00 HIT @ c1dc431d
+  7B 00 HIT @ c1dc4321
+  7B 00 HIT @ c1dc4325
+  7B 00 HIT @ c1f04325
+  7B 00 HIT @ c1f05f71
+  7B 00 HIT @ c1f05f91
+  7B 00 HIT @ c1f0aaf5
+  7B 00 HIT @ c1f1148b
+  7B 00 HIT @ c1f14e29
+  7B 00 HIT @ c1f154cd
+  7B 00 HIT @ c1f15fe9
+  7B 00 HIT @ c1f16e91
+  7B 00 HIT @ c1f18559
+  7B 00 HIT @ c1f18569
+  7B 00 HIT @ c1f185e5
+  7B 00 HIT @ c1f187a5
+  7B 00 HIT @ c1f18849
+  7B 00 HIT @ c1f18b8d
+  4B 0B HIT @ c1f3b121
+  7B 00 HIT @ c1f3bf63
+  7B 00 HIT @ c1f3d5a3
+  7B 00 HIT @ c1f3ea71
+  7B 00 HIT @ c1f64db5
+  4B 0B HIT @ c1f90fb9
+  4B 0B HIT @ c1f90fcd
+  4B 0B HIT @ c1f90fe1
+  4B 0B HIT @ c1f90ff5
+  7B 00 HIT @ c1fa6409
+  7B 00 HIT @ c1fa6651
+  4B 0B HIT @ c1fadcf1
+  7B 00 HIT @ c1faec2d
+  4B 0B HIT @ c1faee0d
+  4B 0B HIT @ c1fb5c01
+  4B 0B HIT @ c20027cf
+  7B 00 HIT @ c202f1cd
+  7B 00 HIT @ c202f7d5
+  7B 00 HIT @ c2036109
+  7B 00 HIT @ c2038dfc
+  7B 00 HIT @ c20602d8
+  7B 00 HIT @ c2060324
+  7B 00 HIT @ c20635d9
+  7B 00 HIT @ c20635fa
+  7B 00 HIT @ c2065dd8
+  7B 00 HIT @ c2065e24
+  7B 00 HIT @ c206b3e9
+  7B 00 HIT @ c206c52a
+  7B 00 HIT @ c206c5ac
+  7B 00 HIT @ c206c654
+  7B 00 HIT @ c250831a
+  7B 00 HIT @ c250975c
+  7B 00 HIT @ c250978c
+  7B 00 HIT @ c2611a44
+  7B 00 HIT @ c2622b82
+  7B 00 HIT @ c2622bf2
+  7B 00 HIT @ c262cdbe
+  7B 00 HIT @ c264bb40
+  7B 00 HIT @ c264bb4c
+  7B 00 HIT @ c264cd76
+  7B 00 HIT @ c2657480
+  7B 00 HIT @ c265748a
+  7B 00 HIT @ c265c326
+  7B 00 HIT @ c265c332
+  7B 00 HIT @ c270eb81
+RAW BYTES SCANNED (approx): 227780914
+RAW BYTE HITS (printed capped): 4343
+
+============================================================
+INTERPRETATION
+============================================================
+1) Highest-value result: a function with 0x4B compare followed by 0x0B and/or 0x7B handling.
+2) Even stronger: 0x4B compare, then extraction from the same input buffer, then a dispatch call.
+3) A function containing only a literal 0x4B unrelated to compare/packet parsing is low value.
+4) Exact 4B 0B 7B 00 in static memory is not by itself proof; runtime packets normally are not stored in the image.
+5) No memory, symbols, comments, or program structures were modified.
 ============================================================
 DONE
-TraceC185B5B4CallbackRegistration.java> Finished!
+FindDiag4BParserCandidates.java> Finished!
