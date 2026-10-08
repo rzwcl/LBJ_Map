@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "4B0BSEQUENCE-1";
+    private static final String TRACE_BUILD = "4BBRANCHFLOW-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -1444,6 +1444,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         traceC18F3530Callbacks();
         traceExact7BPoints();
         trace4B0BSequenceCandidates();
+        trace4BBranchFlow();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -3119,16 +3120,190 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("============================================================");
     }
 
+
+    private String extractBranchTarget(String s) {
+        String x = safe(s).toLowerCase();
+        int p = x.indexOf("jump.if");
+        if (p < 0) return null;
+
+        String tail = x.substring(p);
+        Matcher m = Pattern.compile("0x([0-9a-f]{6,16})\\s*$").matcher(tail);
+        if (!m.find()) return null;
+
+        return "0x" + m.group(1);
+    }
+
+    private String extractCallTarget(String s) {
+        String x = safe(s).toLowerCase();
+        int p = x.indexOf("call ");
+        if (p < 0) return null;
+
+        String tail = x.substring(p + 5).trim();
+        Matcher m = Pattern.compile("0x([0-9a-f]{6,16})").matcher(tail);
+        if (!m.find()) return null;
+
+        return "0x" + m.group(1);
+    }
+
+    private void trace4BBranchFlow() {
+        println("\n============================================================");
+        println("0x4B BRANCH / CALL-FLOW TRACE");
+        println("PURPOSE: follow the conditional branch immediately after an exact");
+        println("0x4B parser compare, then inspect the first call targets");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        int scanned = 0;
+        int fourBHits = 0;
+        int branchHits = 0;
+        int shown = 0;
+
+        Set<Long> seenFunctions = new HashSet<Long>();
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it =
+                currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                if (scanned++ >= 2000000) {
+                    println("[HARD LIMIT] executable instructions scanned=2000000");
+                    break;
+                }
+
+                Instruction four = it.next();
+                if (!isExact4BInsn(four)) continue;
+
+                fourBHits++;
+
+                Function f = functionContaining(four.getAddress());
+                if (f == null) continue;
+
+                ArrayList<Instruction> a = collect(f);
+                int idx = -1;
+
+                for (int i = 0; i < a.size(); i++) {
+                    if (a.get(i).getAddress().equals(four.getAddress())) {
+                        idx = i;
+                        break;
+                    }
+                }
+
+                if (idx < 0 || idx + 1 >= a.size()) continue;
+
+                Instruction next = a.get(idx + 1);
+                String ns = safe(next.toString());
+                String branchTargetText = extractBranchTarget(ns);
+                if (branchTargetText == null) continue;
+
+                branchHits++;
+
+                long fkey = f.getEntryPoint().getOffset();
+                if (!seenFunctions.add(fkey) || shown >= 48) continue;
+                shown++;
+
+                long targetOff;
+                try {
+                    targetOff = Long.parseLong(branchTargetText.substring(2), 16);
+                } catch (Exception e) {
+                    continue;
+                }
+
+                println("\n------------------------------------------------------------");
+                println("0x4B BRANCH CANDIDATE #" + branchHits);
+                println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+                println("4B CMP : " + four.getAddress() + " : " + safe(four.toString()));
+                println("BRANCH : " + next.getAddress() + " : " + ns);
+                println("TARGET : " + branchTargetText);
+                lines += 5;
+
+                int targetIdx = -1;
+                for (int i = idx + 1; i < a.size(); i++) {
+                    if (a.get(i).getAddress().getOffset() == targetOff) {
+                        targetIdx = i;
+                        break;
+                    }
+                }
+
+                if (targetIdx < 0) {
+                    println("TARGET LOCATION: outside collected function body");
+                    lines++;
+                    continue;
+                }
+
+                println("TARGET INDEX: +" + (targetIdx - idx) +
+                        " instructions from 4B compare");
+                println("TARGET WINDOW:");
+                lines += 2;
+
+                int end = Math.min(a.size(), targetIdx + 40);
+                int callCount = 0;
+
+                for (int i = targetIdx; i < end && lines < MAX_LINES; i++) {
+                    if (monitor.isCancelled()) return;
+
+                    Instruction x = a.get(i);
+                    String xs = safe(x.toString());
+
+                    if (i == targetIdx || isCall(xs) ||
+                        isCompare(xs) || hasMemoryRead(xs) ||
+                        xs.toLowerCase().contains("jump")) {
+                        String mark = (i == targetIdx ? ">>> " : "    ");
+                        println("  " + mark + x.getAddress() + " : " + xs);
+                        lines++;
+                    }
+
+                    if (isCall(xs) && callCount < 12) {
+                        String callTarget = extractCallTarget(xs);
+                        if (callTarget != null) {
+                            try {
+                                long toff = Long.parseLong(callTarget.substring(2), 16);
+                                Function cf = functionContaining(toAddr(toff));
+
+                                println("      CALL-TARGET " + callTarget +
+                                    " -> " +
+                                    (cf == null ? "<none>" :
+                                     cf.getName() + " @ " + cf.getEntryPoint()));
+                            } catch (Exception e) {
+                                println("      CALL-TARGET " + callTarget + " -> <parse-error>");
+                            }
+                            lines++;
+                            callCount++;
+                        }
+                    }
+                }
+
+                println("TARGET CALLS SHOWN=" + callCount);
+                lines++;
+            }
+        }
+
+        println("\n============================================================");
+        println("0x4B BRANCH / CALL-FLOW TRACE COMPLETE");
+        println("EXECUTABLE INSTRUCTIONS SCANNED=" + scanned);
+        println("EXACT 0x4B COMPARES=" + fourBHits);
+        println("CONDITIONAL BRANCHES AFTER 4B=" + branchHits);
+        println("UNIQUE FUNCTIONS SHOWN=" + shown);
+        println("============================================================");
+    }
+
     private void deepInspectLikelyParsers() {
         println("\n============================================================");
         println("DEEP INSPECTION OF REAL 0x4B PARSER CANDIDATES");
         println("TARGET A: FUN_c1902c74 @ c1902c74");
         println("TARGET B: FUN_c1d1a760 @ c1d1a760");
+        println("TARGET C: FUN_c1902d98 @ c1902d98");
         println("READ ONLY / HARD LIMITED");
         println("============================================================");
 
         inspectCallSiteByAddress(0xc1902c70L);
         inspectFunctionByAddress(0xc1902c74L);
+        inspectFunctionByAddress(0xc1902d98L);
         inspectFunctionByAddress(0xc1d1a760L);
     }
 
