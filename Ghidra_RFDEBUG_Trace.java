@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C18E7A50-2";
+    private static final String TRACE_BUILD = "C18D0970-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -197,8 +197,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return -1;
     }
 
-    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {            Instruction ins = a.get(i);
-            String s = safe(ins.toString());
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {            Instruction ins = a.get(i);            String s = safe(ins.toString());
             if (i == center ||
                 is4BCompare(s) ||
                 is0BCompare(s) ||
@@ -397,8 +396,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n============================================================");        println("RAW HIT / DATA STRUCTURE REVIEW");
         println("KNOWN TARGETS: previous 4B 0B raw hits");        println("PURPOSE: determine whether hits are code, defined data, or literal-pool bytes");
         println("============================================================");
-        long[] knownHits = {
-            0xc1f3b121L,
+        long[] knownHits = {            0xc1f3b121L,
             0xc1f90fb9L,
             0xc1f90fcdL,
             0xc1f90fe1L,
@@ -597,7 +595,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 if (f == null) continue;
                 long key = f.getEntryPoint().getOffset();
                 if (!seenFunctions.add(key)) continue;
-
                 ArrayList<Instruction> a = collect(f);
                 boolean has4 = false;
                 boolean has0 = false;
@@ -797,8 +794,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         printByteCompareContexts(exact0List, 0x0b);
         println("\n------------------------------------------------------------");
         println("BYTE-COMPARE 0x7B CONTEXT");
-        printByteCompareContexts(exact7List, 0x7b);
-    }
+        printByteCompareContexts(exact7List, 0x7b);    }
 
     private void printCallerXrefs(Function f) {
         if (f == null || lines >= MAX_LINES) return;
@@ -997,8 +993,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private int nearestExactInList(Instruction base, ArrayList<Instruction> list, int maxInstr) {
-        int best = -1;
-        int bestDist = Integer.MAX_VALUE;
+        int best = -1;        int bestDist = Integer.MAX_VALUE;
 
         for (int i = 0; i < list.size(); i++) {
             Instruction x = list.get(i);
@@ -1197,8 +1192,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         // Common Ghidra Hexagon forms:
         // cmp.eq P0,R2,#0x4b
-        // cmp.gt P0,R21,#0x4b
-        int comma2 = rest.indexOf(',');
+        // cmp.gt P0,R21,#0x4b        int comma2 = rest.indexOf(',');
         if (comma2 < 0) return null;
 
         String reg = rest.substring(0, comma2).trim();
@@ -1398,7 +1392,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             println("  PREV " + p.getAddress() + " : " + safe(p.toString()));
             lines++;
         }
-
         println("  CALL " + center.getAddress() + " : " + safe(center.toString()));
         lines++;
 
@@ -1463,6 +1456,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         inspectCallSiteNeighborhood(0xc1902c70L, 30, 30);
         traceC1902Provenance();
         traceC18E7A50();
+        traceC18D0970Registration();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -1597,8 +1591,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             currentProgram.getListing().
             getInstructionBefore(toAddr(0xc1902c70L));
 
-        int prevShown = 0;
-        while (cur != null && prevShown < 48 && lines < MAX_LINES) {
+        int prevShown = 0;        while (cur != null && prevShown < 48 && lines < MAX_LINES) {
             if (monitor.isCancelled()) return;
 
             println("  PREV " + cur.getAddress() +
@@ -1797,8 +1790,169 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
 
         if (refShown == 0) println("  <none in local range>");
-
         println("\nC18E7A50 TRACE COMPLETE");
+    }
+
+
+    private void traceC18D0970Registration() {
+        println("\n============================================================");
+        println("C18D0970 REGISTRATION / C1902C70 CALLBACK TRACE");
+        println("PURPOSE: determine what callback c1902c70 is registered for");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        long[] targets = {
+            0xc18d0970L,
+            0xc18e7840L,
+            0xc18e7980L,
+            0xc18e7a50L,
+            0xc1902c70L,
+            0xc1902c74L
+        };
+
+        for (int t = 0; t < targets.length; t++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(targets[t]);
+            Function f = functionContaining(a);
+
+            println("\n------------------------------------------------------------");
+            println("TARGET: " + a);
+            println("FUNCTION: " +
+                (f == null ? "<none>" :
+                 f.getName() + " @ " + f.getEntryPoint()));
+            println("REFERENCES:");
+
+            ReferenceIterator rit =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+
+            int n = 0;
+            while (rit.hasNext() && n < 24 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = rit.next();
+                Function rf = functionContaining(r.getFromAddress());
+
+                println("  FROM " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        "<-" +
+                        (rf == null ? "<none>" :
+                         rf.getName() + " @ " + rf.getEntryPoint()));
+
+                lines++;
+                n++;
+            }
+
+            if (n == 0) println("  <none>");
+        }
+
+        println("\n------------------------------------------------------------");
+        println("FUN_c18d0970 BODY");
+
+        Function rf = functionContaining(toAddr(0xc18d0970L));
+        if (rf == null) {
+            println("FUNCTION: <none>");
+        } else {
+            println("FUNCTION: " + rf.getName() +
+                    " @ " + rf.getEntryPoint());
+            println("BODY: " + rf.getBody());
+
+            ArrayList<Instruction> a = collect(rf);
+            int shown = 0;
+
+            for (Instruction ins : a) {
+                if (monitor.isCancelled() ||
+                    shown >= 220 ||
+                    lines >= MAX_LINES) return;
+
+                println("  " + ins.getAddress() +
+                        " : " + safe(ins.toString()));
+                lines++;
+                shown++;
+            }
+
+            println("SHOWN: " + shown +
+                    " / BOUNDED=" + a.size());
+        }
+
+        println("\n------------------------------------------------------------");
+        println("REGISTRATION CALL SITE c18e7af0");
+
+        Instruction center =
+            currentProgram.getListing().
+            getInstructionContaining(toAddr(0xc18e7af0L));
+
+        if (center == null) {
+            println("INSTRUCTION: <none>");
+        } else {
+            println("CENTER: " + center.getAddress() +
+                    " : " + safe(center.toString()));
+
+            Instruction cur = center;
+            ArrayList<Instruction> prev = new ArrayList<Instruction>();
+
+            for (int i = 0; i < 8; i++) {
+                Instruction q =
+                    currentProgram.getListing().
+                    getInstructionBefore(cur.getAddress());
+                if (q == null) break;
+                prev.add(q);
+                cur = q;
+            }
+
+            for (int i = prev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
+                Instruction q = prev.get(i);
+                println("  PREV " + q.getAddress() +
+                        " : " + safe(q.toString()));
+                lines++;
+            }
+
+            println("  TARGET " + center.getAddress() +
+                    " : " + safe(center.toString()));
+            lines++;
+
+            cur = center;
+            for (int i = 0; i < 12 && lines < MAX_LINES; i++) {
+                Instruction q =
+                    currentProgram.getListing().
+                    getInstructionAfter(cur.getAddress());
+                if (q == null) break;
+
+                println("  NEXT " + q.getAddress() +
+                        " : " + safe(q.toString()));
+                lines++;
+                cur = q;
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("CALL SITES OF c18d0970 INSIDE FUN_c18e7a50");
+
+        Function af = functionContaining(toAddr(0xc18e7a50L));
+        if (af != null) {
+            ArrayList<Instruction> a = collect(af);
+            int shown = 0;
+
+            for (Instruction ins : a) {
+                if (monitor.isCancelled() ||
+                    shown >= 16 ||
+                    lines >= MAX_LINES) return;
+
+                String s = safe(ins.toString());
+                if (!s.contains("c18d0970")) continue;
+
+                println("  CALLSITE " + ins.getAddress() +
+                        " : " + s);
+                lines++;
+                shown++;
+            }
+
+            if (shown == 0) println("  <none>");
+        }
+
+        println("\n============================================================");
+        println("C18D0970 REGISTRATION TRACE COMPLETE");
+        println("============================================================");
     }
 
     private void deepInspectLikelyParsers() {
