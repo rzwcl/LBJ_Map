@@ -671,6 +671,263 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private static final long[] SOURCE_ANCHOR_ADDRS = {
+        0xC4736634L,  // ftm_common_dispatch.c
+        0xC4737608L,  // ftm_nr5g_rf_debug_codebook_override.cpp
+        0xC4737630L,  // ftm_nr5g_rf_debug_mpe_test.cpp
+        0xC473764FL,  // ftm_nr5g_rf_debug_therm_read.cpp
+        0xC4745B65L,  // FTM_PRI_ORDER
+        0xC4952735L,  // ftm_common_dispatch.c (alternate string copy)
+        0xC49CBF0AL   // ftm_nr5g_rf_debug_tx_override.c
+    };
+
+    private static final long[] TLV_NAME_ADDR_HINTS = {
+        0xC414B5AEL,  // IQ_CAPTURE (from previous static report)
+        0xC414B959L,  // FETCH_IQ
+        0xC414BAEAL,  // IQ_CAPTURE_TYPE
+        0xC414C000L   // range hint only; validated before use
+    };
+
+    private String anchorLabel(long target) {
+        switch ((int)target) {
+        case (int)0xC4736634L:
+            return "ftm_common_dispatch.c";
+        case (int)0xC4737608L:
+            return "ftm_nr5g_rf_debug_codebook_override.cpp";
+        case (int)0xC4737630L:
+            return "ftm_nr5g_rf_debug_mpe_test.cpp";
+        case (int)0xC473764FL:
+            return "ftm_nr5g_rf_debug_therm_read.cpp";
+        case (int)0xC4745B65L:
+            return "FTM_PRI_ORDER";
+        case (int)0xC4952735L:
+            return "ftm_common_dispatch.c (copy)";
+        case (int)0xC49CBF0AL:
+            return "ftm_nr5g_rf_debug_tx_override.c";
+        default:
+            return hex(target);
+        }
+    }
+
+    private void printMsgConstCandidate(long holder, long expectedFileNamePtr) {
+        try {
+            if (!initialized(holder, 16)) return;
+
+            long fmtPtr = u32(holder);
+            long filePtr = u32(holder + 4L);
+            long packed = u32(holder + 8L);
+            long argc = u32(holder + 12L);
+
+            MemoryBlock fmtBlock = block(fmtPtr);
+            MemoryBlock fileBlock = block(filePtr);
+
+            boolean fileMatch = filePtr == expectedFileNamePtr;
+            boolean fmtPlausible = fmtBlock != null && !fmtBlock.isExecute();
+            boolean filePlausible = fileBlock != null && !fileBlock.isExecute();
+            int ssid = (int)((packed >>> 16) & 0xffffL);
+            int line = (int)(packed & 0xffffL);
+
+            if (!fileMatch && !(fmtPlausible && filePlausible
+                    && ssid >= 0 && ssid < 8192
+                    && argc <= 64)) {
+                return;
+            }
+
+            p("    MSG_CONST_CANDIDATE holder=" + hex(holder));
+            p("      fmt_ptr=" + hex(fmtPtr)
+                + " block=" + (fmtBlock == null ? "<none>" : fmtBlock.getName()));
+            p("      fname_ptr=" + hex(filePtr)
+                + " expected=" + hex(expectedFileNamePtr)
+                + " match=" + fileMatch);
+            p(String.format(
+                "      packed=%s ssid=%d (0x%X) line=%d argc=%d",
+                hex(packed), ssid, ssid, line, argc));
+
+            if (fmtPtr != 0 && initialized(fmtPtr, 1)) {
+                Data fd = listing().getDataContaining(addr(fmtPtr));
+                if (fd != null) {
+                    p("      fmt_data=" + String.valueOf(fd.getValue()));
+                }
+            }
+        }
+        catch (Exception e) {
+            p("    MSG_CONST_CANDIDATE ERROR: " + e.getMessage());
+        }
+    }
+
+    private int scanPointersInBlock(MemoryBlock b, long target, int maxMatches) {
+        if (b == null || !b.isInitialized() || b.isExecute()) return 0;
+
+        long start = b.getStart().getOffset();
+        long end = b.getEnd().getOffset();
+
+        byte[] buf = new byte[RAW_CHUNK];
+        long pos = start;
+        int matches = 0;
+
+        try {
+            while (pos <= end && matches < maxMatches) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return matches;
+
+                int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
+                memory().getBytes(addr(pos), buf, 0, want);
+
+                for (int i = 0; i + 4 <= want && matches < maxMatches; i++) {
+                    long v = ((long)(buf[i] & 0xff))
+                        | ((long)(buf[i + 1] & 0xff) << 8)
+                        | ((long)(buf[i + 2] & 0xff) << 16)
+                        | ((long)(buf[i + 3] & 0xff) << 24);
+
+                    if (v != target) continue;
+
+                    long hit = pos + i;
+
+                    p("  PTR_HIT target=" + hex(target)
+                        + " (" + anchorLabel(target) + ")"
+                        + " @ " + hex(hit)
+                        + " aligned4=" + ((hit & 3L) == 0L));
+
+                    long holderA = hit - 4L;
+                    long holderB = hit - 8L;
+
+                    p("    around(-4) u32/u32/u32/u32:");
+                    for (long off = holderA; off <= holderA + 12L; off += 4L) {
+                        if (!initialized(off, 4)) continue;
+                        p("      " + hex(off) + " = " + hex(u32(off)));
+                    }
+
+                    printMsgConstCandidate(holderA, target);
+                    printMsgConstCandidate(holderB, target);
+
+                    matches++;
+                }
+
+                if (want <= 3) break;
+                pos += (long)(want - 3);
+            }
+        }
+        catch (Exception e) {
+            p("  PTR SCAN ERROR block=" + b.getName()
+                + " target=" + hex(target) + ": " + e.getMessage());
+        }
+
+        return matches;
+    }
+
+    private void scanSourceAnchorPointers() {
+        p("");
+        p("============================================================");
+        p("SOURCE / MSG_CONST POINTER TRACE");
+        p("Uses source-file strings as anchors; checks Qualcomm 16-byte msg_const shape");
+        p("Expected shape: fmt_ptr, fname_ptr, (ssid<<16)|line, argc");
+        p("READ ONLY / HARD LIMITED");
+        p("============================================================");
+
+        int totalTargets = 0;
+        int totalMatches = 0;
+
+        for (long target : SOURCE_ANCHOR_ADDRS) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            MemoryBlock tb = block(target);
+            if (tb == null || !tb.isInitialized()) {
+                p("TARGET " + hex(target) + " (" + anchorLabel(target)
+                    + ") block=<none>");
+                continue;
+            }
+
+            p("");
+            p("TARGET STRING " + hex(target) + " " + anchorLabel(target));
+            p("  block=" + tb.getName()
+                + " range=" + tb.getStart() + ".." + tb.getEnd());
+
+            int m = scanPointersInBlock(tb, target, 96);
+            totalMatches += m;
+            totalTargets++;
+
+            if (m == 0) {
+                p("  No local-block pointers. Skipping global fallback.");
+            }
+        }
+
+        p("");
+        p("SOURCE TARGETS INSPECTED=" + totalTargets);
+        p("SOURCE POINTER MATCHES=" + totalMatches);
+    }
+
+    private void scanExactRfConstants() {
+        p("");
+        p("============================================================");
+        p("EXACT RF CONSTANT TRACE");
+        p("Read-only search for 821237500 Hz and related static constants");
+        p("No command generation");
+        p("============================================================");
+
+        long[] vals = {
+            821237500L,
+            0x30F316FCL,
+            821222652L,
+            0x30F2DCDCL
+        };
+
+        String[] names = {
+            "TARGET_HZ",
+            "TARGET_HEX",
+            "NEARBY_HISTORICAL_HZ",
+            "NEARBY_HISTORICAL_HEX"
+        };
+
+        int hits = 0;
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!b.isInitialized() || b.isExecute()) continue;
+
+            byte[] buf = new byte[RAW_CHUNK];
+            long pos = b.getStart().getOffset();
+            long end = b.getEnd().getOffset();
+
+            try {
+                while (pos <= end && hits < 128) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                    int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
+                    memory().getBytes(addr(pos), buf, 0, want);
+
+                    for (int i = 0; i + 4 <= want && hits < 128; i++) {
+                        long v = ((long)(buf[i] & 0xff))
+                            | ((long)(buf[i + 1] & 0xff) << 8)
+                            | ((long)(buf[i + 2] & 0xff) << 16)
+                            | ((long)(buf[i + 3] & 0xff) << 24);
+
+                        for (int k = 0; k < vals.length; k++) {
+                            if (v != vals[k]) continue;
+
+                            long hit = pos + i;
+                            p("  RF_CONSTANT_HIT @ " + hex(hit)
+                                + " block=" + b.getName()
+                                + " kind=" + names[k]
+                                + " value=" + hex(v)
+                                + " aligned4=" + ((hit & 3L) == 0L));
+                            p("      function=" + functionInfo(hit));
+
+                            hits++;
+                        }
+                    }
+
+                    if (want <= 3) break;
+                    pos += (long)(want - 3);
+                }
+            }
+            catch (Exception e) {
+                p("  RF CONSTANT SCAN ERROR block=" + b.getName()
+                    + " " + e.getMessage());
+            }
+        }
+
+        p("RF CONSTANT HITS=" + hits);
+    }
+
     private void printReferences(long target, int maxRefs) {
         p("");
         p("REFERENCES TO " + hex(target));
@@ -961,6 +1218,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         scanNamedFunctions();
 
+        scanSourceAnchorPointers();
+
+        scanExactRfConstants();
+
                 scanFtmLocatorStrings();
 
         scanReferencePointers();
@@ -977,7 +1238,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("   dependent until another image is identified.");
         p("5. A code XREF from a function into C37BD1E8 is the key next step.");
         p("6. FTM/RFA/DIAG strings with code XREFs are now the primary locator evidence.");
-        p("7. If localNonZeroScan is entirely zero, inspect block metadata/source info.");
+        p("7. Source-string pointer hits with a plausible msg_const shape are the strongest current-build anchor.");
+        p("8. Exact RF constants are corroborative only; absence does not exclude runtime frequency handling.");
+        p("9. If localNonZeroScan is entirely zero, inspect block metadata/source info.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
