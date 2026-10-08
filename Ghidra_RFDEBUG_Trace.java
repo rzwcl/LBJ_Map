@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C18D0978-1";
+    private static final String TRACE_BUILD = "D89AD4A8-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -197,8 +197,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return -1;
     }
 
-    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {            Instruction ins = a.get(i);            String s = safe(ins.toString());            if (i == center ||
-                is4BCompare(s) ||
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {            Instruction ins = a.get(i);            String s = safe(ins.toString());            if (i == center ||                is4BCompare(s) ||
                 is0BCompare(s) ||
                 is7BCompare(s) ||
                 isCall(s) ||
@@ -397,8 +396,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("============================================================");
         long[] knownHits = {            0xc1f3b121L,
             0xc1f90fb9L,            0xc1f90fcdL,
-            0xc1f90fe1L,
-            0xc1f90ff5L,
+            0xc1f90fe1L,            0xc1f90ff5L,
             0xc1fadcf1L,
             0xc1faee0dL,
             0xc1fb5c01L,
@@ -597,8 +595,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 boolean has4 = false;
                 boolean has0 = false;                boolean has7 = false;
 
-                for (Instruction q : a) {
-                    String qs = safe(q.toString());
+                for (Instruction q : a) {                    String qs = safe(q.toString());
                     if (is4BCompare(qs)) has4 = true;
                     if (is0BCompare(qs)) has0 = true;
                     if (is7BCompare(qs)) has7 = true;
@@ -798,7 +795,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("CALLER XREFS:");
         ReferenceIterator rit =
             currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
-
         int n = 0;
         while (rit.hasNext() && n < 16) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
@@ -997,7 +993,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
             if (f1 == null || f2 == null ||
                 !f1.getEntryPoint().equals(f2.getEntryPoint())) continue;
-
             int d = instructionDistance(base, x);
             if (d >= 0 && d <= maxInstr && d < bestDist) {
                 bestDist = d;
@@ -1197,8 +1192,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         // Some predicated forms may have an extra predicate token.
         int p = rest.indexOf(",R");
-        if (p < 0) p = rest.indexOf(",r");
-        if (p >= 0) {
+        if (p < 0) p = rest.indexOf(",r");        if (p >= 0) {
             int q = rest.indexOf(',', p + 1);
             if (q > p) return rest.substring(p + 1, q).trim();
         }
@@ -1398,7 +1392,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             cur = n;
         }
     }
-
     private void printIncomingCalls(long off, int max) {
         if (monitor.isCancelled() || lines >= MAX_LINES) return;
 
@@ -1452,6 +1445,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         traceC18E7A50();
         traceC18D0970Registration();
         traceC18D0978External();
+        traceC18D09ACRuntime();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -1597,8 +1591,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             if (m.equals("jump") || m.startsWith("jump.")) break;
 
             cur =
-                currentProgram.getListing().
-                getInstructionBefore(cur.getAddress());
+                currentProgram.getListing().                getInstructionBefore(cur.getAddress());
         }
 
         println("\n------------------------------------------------------------");
@@ -1797,8 +1790,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         long[] targets = {
             0xc18d0970L,
             0xc18e7840L,
-            0xc18e7980L,
-            0xc18e7a50L,
+            0xc18e7980L,            0xc18e7a50L,
             0xc1902c70L,
             0xc1902c74L
         };
@@ -1997,7 +1989,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             (currentProgram.getSymbolTable().getPrimarySymbol(target) == null ?
              "<none>" :
              currentProgram.getSymbolTable().getPrimarySymbol(target).getName()));
-
         MemoryBlock block = currentProgram.getMemory().getBlock(target);
         println("MEMORY BLOCK: " +
             (block == null ? "<none>" :
@@ -2120,6 +2111,224 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("============================================================");
     }
 
+
+    private void traceC18D09ACRuntime() {
+        println("\n============================================================");
+        println("C18D09AC -> D89AD4A8 RUNTIME-CALL TRACE");
+        println("PURPOSE: resolve the final shared-runtime call used by c18d0978");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        long[] targets = {
+            0xc18d09acL,
+            0xd89ad4a8L,
+            0xc18d0978L
+        };
+
+        for (int t = 0; t < targets.length; t++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Address a = toAddr(targets[t]);
+            Function f = functionContaining(a);
+
+            println("\n------------------------------------------------------------");
+            println("TARGET: " + a);
+            println("FUNCTION: " +
+                (f == null ? "<none>" :
+                 f.getName() + " @ " + f.getEntryPoint()));
+
+            MemoryBlock b = currentProgram.getMemory().getBlock(a);
+            println("BLOCK: " +
+                (b == null ? "<none>" :
+                 b.getName() + " [" + b.getStart() + " - " +
+                 b.getEnd() + "] EXEC=" + b.isExecute() +
+                 " READ=" + b.isRead() +
+                 " WRITE=" + b.isWrite()));
+
+            println("REFERENCES TO TARGET:");
+
+            ReferenceIterator rit =
+                currentProgram.getReferenceManager().
+                getReferencesTo(a);
+
+            int n = 0;
+            while (rit.hasNext() && n < 32 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = rit.next();
+                Function rf = functionContaining(r.getFromAddress());
+
+                println("  FROM " + r.getFromAddress() +
+                        " TYPE=" + r.getReferenceType() +
+                        "<-" +
+                        (rf == null ? "<none>" :
+                         rf.getName() + " @ " + rf.getEntryPoint()));
+                lines++;
+                n++;
+            }
+
+            if (n == 0) println("  <none>");
+        }
+
+        println("\n------------------------------------------------------------");
+        println("c18d09ac LOCAL");
+
+        Function af = functionContaining(toAddr(0xc18d09acL));
+        if (af == null) {
+            println("FUNCTION: <none>");
+        } else {
+            println("FUNCTION: " + af.getName() +
+                    " @ " + af.getEntryPoint());
+            ArrayList<Instruction> a = collect(af);
+            int shown = 0;
+
+            for (Instruction ins : a) {
+                if (monitor.isCancelled() ||
+                    shown >= 32 ||
+                    lines >= MAX_LINES) return;
+
+                println("  " + ins.getAddress() +
+                        " : " + safe(ins.toString()));
+                lines++;
+                shown++;
+            }
+
+            println("SHOWN: " + shown +
+                    " / BOUNDED=" + a.size());
+        }
+
+        println("\n------------------------------------------------------------");
+        println("D89AD4A8 LOCAL WINDOW");
+
+        Instruction center =
+            currentProgram.getListing().
+            getInstructionContaining(toAddr(0xd89ad4a8L));
+
+        if (center == null) {
+            println("  INSTRUCTION: <none>");
+        } else {
+            println("  CENTER " + center.getAddress() +
+                    " : " + safe(center.toString()));
+
+            Instruction cur = center;
+            ArrayList<Instruction> prev = new ArrayList<Instruction>();
+
+            for (int i = 0; i < 12; i++) {
+                Instruction q =
+                    currentProgram.getListing().
+                    getInstructionBefore(cur.getAddress());
+                if (q == null) break;
+                prev.add(q);
+                cur = q;
+            }
+
+            for (int i = prev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
+                Instruction q = prev.get(i);
+                println("  PREV " + q.getAddress() +
+                        " : " + safe(q.toString()));
+                lines++;
+            }
+
+            cur = center;
+            for (int i = 0; i < 20 && lines < MAX_LINES; i++) {
+                Instruction q =
+                    currentProgram.getListing().
+                    getInstructionAfter(cur.getAddress());
+                if (q == null) break;
+
+                println("  NEXT " + q.getAddress() +
+                        " : " + safe(q.toString()));
+                lines++;
+                cur = q;
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("c18d0978 PARAMETER SHAPE");
+
+        Function sf = functionContaining(toAddr(0xc18d0978L));
+        if (sf != null) {
+            ArrayList<Instruction> a = collect(sf);
+
+            for (int i = 0; i < a.size() && lines < MAX_LINES; i++) {
+                if (monitor.isCancelled()) return;
+
+                Instruction ins = a.get(i);
+                long off = ins.getAddress().getOffset();
+
+                if (off >= 0xc18d0978L && off <= 0xc18d09a8L) {
+                    println("  " + ins.getAddress() +
+                            " : " + safe(ins.toString()));
+                    lines++;
+                }
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("c18d0978 CALL SITES / OBJECT FIELD SHAPE");
+
+        ReferenceIterator cr =
+            currentProgram.getReferenceManager().
+            getReferencesTo(toAddr(0xc18d0978L));
+
+        int shownCalls = 0;
+
+        while (cr.hasNext() && shownCalls < 16 && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
+
+            Reference r = cr.next();
+            if (!r.getReferenceType().isCall()) continue;
+
+            Function f = functionContaining(r.getFromAddress());
+
+            println("  CALL FROM " + r.getFromAddress() +
+                    " FUNCTION=" +
+                    (f == null ? "<none>" :
+                     f.getName() + " @ " + f.getEntryPoint()));
+            lines++;
+            shownCalls++;
+        }
+
+        println("\n------------------------------------------------------------");
+        println("c18e7a50 REGISTRATION OBJECT WINDOWS");
+
+        Function ef = functionContaining(toAddr(0xc18e7a50L));
+        if (ef != null) {
+            ArrayList<Instruction> a = collect(ef);
+            int[] sites = { 0xc18e7af0, 0xc18e7b98 };
+
+            for (int s = 0; s < sites.length && lines < MAX_LINES; s++) {
+                int want = sites[s];
+                int idx = -1;
+
+                for (int i = 0; i < a.size(); i++) {
+                    if ((int)a.get(i).getAddress().getOffset() == want) {
+                        idx = i;
+                        break;
+                    }
+                }
+
+                if (idx < 0) continue;
+
+                println("  SITE @ " + a.get(idx).getAddress());
+
+                int st = Math.max(0, idx - 6);
+                int en = Math.min(a.size(), idx + 8);
+
+                for (int i = st; i < en && lines < MAX_LINES; i++) {
+                    Instruction ins = a.get(i);
+                    println("    " + ins.getAddress() +
+                            " : " + safe(ins.toString()));
+                    lines++;
+                }
+            }
+        }
+
+        println("\n============================================================");
+        println("C18D09AC RUNTIME TRACE COMPLETE");
+        println("============================================================");
+    }
+
     private void deepInspectLikelyParsers() {
         println("\n============================================================");
         println("DEEP INSPECTION OF REAL 0x4B PARSER CANDIDATES");
@@ -2197,7 +2406,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             lines++;
             shown++;
         }
-
         if (shown == 0) println("  <none>");
     }
 
