@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
+    private static final String TRACE_BUILD = "9e9f719f2e416db8f1a8bc0b4d07128372996b6e";
+
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
     private static final int MAX_FOCUSED_INSNS = 320;
@@ -1740,6 +1742,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     public void run() throws Exception {
         println("============================================================");
         println(" Ghidra_RFDEBUG_Trace");
+        println(" TRACE_BUILD=" + TRACE_BUILD);
         println(" C1902 PRIMARY TRACE / READ ONLY");
         println("============================================================");
 
