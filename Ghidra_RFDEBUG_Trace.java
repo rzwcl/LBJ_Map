@@ -1,52 +1,57 @@
 import ghidra.app.script.GhidraScript;
 import ghidra.program.model.address.Address;
+import ghidra.program.model.data.Data;
 import ghidra.program.model.listing.Function;
+import ghidra.program.model.listing.Instruction;
+import ghidra.program.model.listing.Listing;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
+import ghidra.program.model.symbol.Reference;
 import ghidra.program.model.symbol.ReferenceIterator;
+import ghidra.program.model.symbol.ReferenceManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * Focused read-only locator for the DIAG -> FTM -> RFDEBUG routing chain.
+ * TRACE_BUILD = DIAG-FTM-TARGET-DUMP-2
  *
- * Target structure:
- *   DIAG master record
- *      subsys = 0x000B
- *      table pointer -> FTM selector table
- *      selector 0x007B -> common FTM dispatcher
+ * Phase 2:
+ *   1) Directly inspect the externally-derived reference addresses.
+ *   2) Dump raw bytes around:
+ *        0xC8DC3B54  (DIAG master candidate)
+ *        0xC37BD1E8  (FTM table candidate)
+ *   3) Print defined Ghidra data and all direct references.
+ *   4) Look for raw little-endian pointer copies only in segment_19/21.
+ *   5) Do NOT assume a master/table layout before seeing the bytes.
  *
- * Also checks the reference-build addresses:
- *   master       0xC8DC3B54
- *   FTM table    0xC37BD1E8
- *   common disp  0xD8150ED8
- *
- * Those addresses are only references. Do not assume they belong to the
- * current firmware. The script first verifies whether they are mapped.
- *
- * READ ONLY. No modem access. No program modifications.
+ * IMPORTANT:
+ *   - READ ONLY.
+ *   - No memory, symbol, comment, or program-structure modifications.
+ *   - No modem access.
+ *   - No FTM/RF command transmission.
  */
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-MASTER-1";
+    private static final String TRACE_BUILD = "DIAG-FTM-TARGET-DUMP-2";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
     private static final long REF_DISP   = 0xD8150ED8L;
+    private static final long REF_TABLE2 = 0xC37BD1A8L;
+    private static final long REF_DISP2  = 0xD8150E24L;
+    private static final long REF_DISP3  = 0xD815056CL;
 
-    private static final int TARGET_SUBSYS = 0x000B;
-    private static final int TARGET_SELECTOR = 0x007B;
+    private static final int DUMP_MASTER_RADIUS = 0x100;
+    private static final int DUMP_TABLE_RADIUS  = 0x200;
 
-    private static final int MAX_SCAN_POSITIONS = 2500000;
-    private static final int MAX_CANDIDATES = 64;
-    private static final int MAX_TABLE_ENTRIES = 96;
-    private static final int MAX_LINES = 5000;
+    private static final int MAX_LINES = 8000;
+    private static final int MAX_REFS = 128;
+    private static final long MAX_RAW_SCAN_BYTES = 0x800000L;
+    private static final int RAW_CHUNK = 0x4000;
 
     private int lines = 0;
 
@@ -59,19 +64,22 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return currentProgram.getMemory();
     }
 
-    private boolean mapped(long off) {
-        try {
-            return memory().contains(addr(off));
-        }
-        catch (Exception e) {
-            return false;
-        }
+    private Listing listing() {
+        return currentProgram.getListing();
+    }
+
+    private String hex(long v) {
+        return String.format("0x%08X", v & 0xffffffffL);
+    }
+
+    private String hex64(long v) {
+        return String.format("0x%016X", v);
     }
 
     private MemoryBlock block(long off) {
-        if (!mapped(off)) return null;
         try {
-            return memory().getBlock(addr(off));
+            Address a = addr(off);
+            return memory().getBlock(a);
         }
         catch (Exception e) {
             return null;
@@ -82,409 +90,392 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         MemoryBlock b = block(off);
         if (b == null || !b.isInitialized()) return false;
 
-        long end = off + len - 1L;
-        return end >= off && end <= b.getEnd().getOffset();
+        long end = off + (long)len - 1L;
+        if (end < off) return false;
+
+        return off >= b.getStart().getOffset()
+            && end <= b.getEnd().getOffset();
     }
 
-    private long u32(long off) throws Exception {
-        return memory().getInt(addr(off)) & 0xffffffffL;
+    private int u8(long off) throws Exception {
+        return memory().getByte(addr(off)) & 0xff;
     }
 
     private int u16(long off) throws Exception {
         return memory().getShort(addr(off)) & 0xffff;
     }
 
-    private String hex(long v) {
-        return String.format("0x%08X", v & 0xffffffffL);
+    private long u32(long off) throws Exception {
+        return memory().getInt(addr(off)) & 0xffffffffL;
     }
 
-    private String fn(long off) {
+    private long u64(long off) throws Exception {
+        return memory().getLong(addr(off));
+    }
+
+    private String byteString(byte[] b) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < b.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(String.format("%02X", b[i] & 0xff));
+        }
+        return sb.toString();
+    }
+
+    private String asciiPreview(byte[] b) {
+        StringBuilder sb = new StringBuilder();
+        for (byte x : b) {
+            int c = x & 0xff;
+            sb.append(c >= 0x20 && c <= 0x7e ? (char)c : '.');
+        }
+        return sb.toString();
+    }
+
+    private void p(String s) {
+        if (lines >= MAX_LINES) return;
+        println(s);
+        lines++;
+    }
+
+    private String functionInfo(long off) {
         try {
-            Function f = currentProgram.getFunctionManager().getFunctionContaining(addr(off));
+            Function f = currentProgram.getFunctionManager()
+                .getFunctionContaining(addr(off));
             return f == null ? "<no-function>" :
                 f.getName() + " @ " + f.getEntryPoint();
         }
         catch (Exception e) {
-            return "<error>";
+            return "<function-error>";
         }
     }
 
-    private boolean plausibleHandler(long off) {
-        MemoryBlock b = block(off);
-        return b != null && b.isExecute();
-    }
-
-    private long[] tableEntry(long table, int index) throws Exception {
-        long p = table + (long)index * 8L;
-        if (!initialized(p, 8)) return null;
-
-        int lo = u16(p);
-        int hi = u16(p + 2);
-        long handler = u32(p + 4);
-
-        if (lo > hi) return null;
-        if (handler == 0) return null;
-
-        return new long[] { lo, hi, handler };
-    }
-
-    private int validEntries(long table, int max) throws Exception {
-        int good = 0;
-        for (int i = 0; i < Math.min(max, MAX_TABLE_ENTRIES); i++) {
-            if (monitor.isCancelled()) break;
-            if (tableEntry(table, i) != null) good++;
-        }
-        return good;
-    }
-
-    private static class Candidate {
-        long record;
-        long table;
-        int delay;
-        int cmd;
-        int subsys;
-        int count;
-        int proc;
-        int good;
-        int executable;
-        int selectorIndex;
-        long selectorHandler;
-        int score;
-
-        Candidate(long record, long table, int delay, int cmd, int subsys,
-                  int count, int proc, int good, int executable,
-                  int selectorIndex, long selectorHandler, int score) {
-            this.record = record;
-            this.table = table;
-            this.delay = delay;
-            this.cmd = cmd;
-            this.subsys = subsys;
-            this.count = count;
-            this.proc = proc;
-            this.good = good;
-            this.executable = executable;
-            this.selectorIndex = selectorIndex;
-            this.selectorHandler = selectorHandler;
-            this.score = score;
-        }
-    }
-
-    private Candidate inspectMaster16(long p) {
+    private String instructionInfo(long off) {
         try {
-            if (!initialized(p, 0x18)) return null;
-
-            int delay = u16(p);
-            int cmd = u16(p + 2);
-            int subsys = u16(p + 4);
-            int count = u16(p + 6);
-            int proc = u16(p + 8);
-            long table = u32(p + 0x10);
-
-            if (subsys != TARGET_SUBSYS) return null;
-            if (count < 1 || count > MAX_TABLE_ENTRIES) return null;
-            if (delay != 0 && delay != 1) return null;
-            if (cmd != 0 && cmd != 0x00FF) return null;
-            if (proc > 0x1000) return null;
-            if (!mapped(table)) return null;
-
-            int good = validEntries(table, count);
-            if (good < 2) return null;
-
-            int executable = 0;
-            int selectorIndex = -1;
-            long selectorHandler = 0;
-
-            for (int i = 0; i < count && i < MAX_TABLE_ENTRIES; i++) {
-                long[] e = tableEntry(table, i);
-                if (e == null) continue;
-                if (plausibleHandler(e[2])) executable++;
-                if (e[0] <= TARGET_SELECTOR && TARGET_SELECTOR <= e[1]) {
-                    selectorIndex = i;
-                    selectorHandler = e[2];
-                }
-            }
-
-            int score = 20 + Math.min(good, 8);
-            if (executable > 0) score += 12;
-            if (selectorIndex >= 0) score += 25;
-
-            return new Candidate(p, table, delay, cmd, subsys, count, proc,
-                                 good, executable, selectorIndex,
-                                 selectorHandler, score);
+            Instruction ins = listing().getInstructionAt(addr(off));
+            if (ins == null) return "<no-instruction>";
+            return ins.toString();
         }
         catch (Exception e) {
-            return null;
+            return "<instruction-error>";
         }
     }
 
-    private Candidate inspectMasterByte(long p) {
+    private void printDataInfo(long off) {
         try {
-            if (!initialized(p, 0x18)) return null;
-
-            int delay = memory().getByte(addr(p)) & 0xff;
-            int cmd = memory().getByte(addr(p + 1)) & 0xff;
-            int subsys = u16(p + 2);
-            int count = u16(p + 4);
-            int proc = u16(p + 6);
-            long table = u32(p + 0x10);
-
-            if (subsys != TARGET_SUBSYS) return null;
-            if (count < 1 || count > MAX_TABLE_ENTRIES) return null;
-            if (delay != 0 && delay != 1) return null;
-            if (cmd != 0 && cmd != 0x00FF) return null;
-            if (proc > 0x1000) return null;
-            if (!mapped(table)) return null;
-
-            int good = validEntries(table, count);
-            if (good < 2) return null;
-
-            int executable = 0;
-            int selectorIndex = -1;
-            long selectorHandler = 0;
-
-            for (int i = 0; i < count && i < MAX_TABLE_ENTRIES; i++) {
-                long[] e = tableEntry(table, i);
-                if (e == null) continue;
-                if (plausibleHandler(e[2])) executable++;
-                if (e[0] <= TARGET_SELECTOR && TARGET_SELECTOR <= e[1]) {
-                    selectorIndex = i;
-                    selectorHandler = e[2];
-                }
+            Address a = addr(off);
+            Data d = listing().getDataContaining(a);
+            if (d == null) {
+                p("  DATA: <none>");
+                return;
             }
 
-            int score = 18 + Math.min(good, 8);
-            if (executable > 0) score += 12;
-            if (selectorIndex >= 0) score += 25;
-
-            return new Candidate(p, table, delay, cmd, subsys, count, proc,
-                                 good, executable, selectorIndex,
-                                 selectorHandler, score);
+            p("  DATA: " + d.getAddress()
+                + " len=" + d.getLength()
+                + " type=" + d.getDataType()
+                + " value=" + String.valueOf(d.getValue()));
         }
         catch (Exception e) {
-            return null;
+            p("  DATA: <error> " + e.getMessage());
         }
     }
 
-    private void dumpTable(Candidate c) {
-        if (lines >= MAX_LINES) return;
+    private void printReferences(long target, int maxRefs) {
+        p("");
+        p("REFERENCES TO " + hex(target));
 
-        println("");
-        println("------------------------------------------------------------");
-        println("FTM TABLE @ " + hex(c.table));
-        println("record @ " + hex(c.record));
-        println("count=" + c.count + " valid=" + c.good +
-                " executable_handlers=" + c.executable);
+        try {
+            ReferenceManager rm = currentProgram.getReferenceManager();
+            ReferenceIterator it = rm.getReferencesTo(addr(target));
 
-        int shown = 0;
-        for (int i = 0; i < c.count && i < MAX_TABLE_ENTRIES && shown < MAX_TABLE_ENTRIES; i++) {
-            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            int n = 0;
+            while (it.hasNext() && n < maxRefs && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
 
-            try {
-                long[] e = tableEntry(c.table, i);
-                if (e == null) continue;
+                Reference r = it.next();
+                Address from = r.getFromAddress();
 
-                String hit = (e[0] <= TARGET_SELECTOR && TARGET_SELECTOR <= e[1])
-                    ? "  <<< TARGET 0x7B >>>" : "";
+                String kind = r.getReferenceType().toString();
+                String srcType = from.getAddressSpace().isMemorySpace()
+                    ? "MEM" : from.getAddressSpace().getName();
 
-                println(String.format(
-                    "  entry[%02d] @%s  lo=%s hi=%s handler=%s  %s",
-                    i,
-                    hex(c.table + (long)i * 8L),
-                    hex(e[0]),
-                    hex(e[1]),
-                    hex(e[2]),
-                    hit));
-                lines++;
-                shown++;
-            }
-            catch (Exception ignored) {}
-        }
+                p(String.format(
+                    "  #%03d from=%s type=%s source=%s primary=%s",
+                    n, from, kind, srcType, r.isPrimary()));
 
-        println("TARGET SELECTOR INDEX=" + c.selectorIndex);
-        println("TARGET HANDLER=" + (c.selectorIndex < 0
-            ? "<not found>" : hex(c.selectorHandler)));
-        if (c.selectorIndex >= 0) {
-            println("TARGET HANDLER MAPPED=" + mapped(c.selectorHandler));
-            println("TARGET HANDLER EXEC=" + plausibleHandler(c.selectorHandler));
-            println("TARGET HANDLER FUNCTION=" + fn(c.selectorHandler));
-        }
-        lines += 4;
-    }
-
-    private void inspectReferenceAddresses() {
-        println("");
-        println("============================================================");
-        println("REFERENCE ADDRESS IDENTITY CHECK");
-        println("============================================================");
-
-        long[] refs = { REF_MASTER, REF_TABLE, REF_DISP };
-        String[] names = { "MASTER", "FTM_TABLE", "COMMON_DISPATCH" };
-
-        for (int i = 0; i < refs.length; i++) {
-            if (monitor.isCancelled() || lines >= MAX_LINES) return;
-
-            MemoryBlock b = block(refs[i]);
-            println(names[i] + " " + hex(refs[i]) +
-                    " mapped=" + (b != null) +
-                    " block=" + (b == null ? "<none>" : b.getName()) +
-                    " exec=" + (b != null && b.isExecute()));
-            lines++;
-        }
-
-        println("CURRENT IMAGE BASE=" + currentProgram.getImageBase());
-        println("PROGRAM=" + currentProgram.getName());
-        lines += 2;
-    }
-
-    private void scanMasterRecords() throws Exception {
-        println("");
-        println("============================================================");
-        println("STRUCTURAL DIAG MASTER TABLE SCAN");
-        println("TARGET: SUBSYS 0x000B / FTM");
-        println("Layouts tested: 16-bit fields and byte+16-bit variant");
-        println("READ ONLY / HARD LIMITED");
-        println("============================================================");
-
-        List<Candidate> hits = new ArrayList<Candidate>();
-        Memory mem = memory();
-
-        long scanned = 0;
-
-        for (MemoryBlock b : mem.getBlocks()) {
-            if (monitor.isCancelled() || lines >= MAX_LINES) return;
-            if (!b.isInitialized() || b.isExecute()) continue;
-
-            long start = b.getStart().getOffset();
-            long end = b.getEnd().getOffset();
-
-            // Master records are aligned in the known reference layout.
-            long p = (start + 3L) & ~3L;
-            long limit = end - 0x18L + 1L;
-            if (limit < p) continue;
-
-            println("SCAN " + b.getName() + " " + hex(start) + " - " + hex(end));
-            lines++;
-
-            while (p <= limit && scanned < MAX_SCAN_POSITIONS) {
-                if (monitor.isCancelled() || lines >= MAX_LINES) return;
-
-                // Avoid expensive full-record tests unless the possible subsys
-                // field already equals 0x000B.
-                boolean possible16 = false;
-                boolean possibleByte = false;
-
-                try {
-                    possible16 = u16(p + 4) == TARGET_SUBSYS;
-                    possibleByte = u16(p + 2) == TARGET_SUBSYS;
+                if (r.getReferenceType().isCall()) {
+                    p("       caller=" + functionInfo(from.getOffset()));
                 }
-                catch (Exception ignored) {}
-
-                if (possible16) {
-                    Candidate c = inspectMaster16(p);
-                    if (c != null && hits.size() < MAX_CANDIDATES) hits.add(c);
+                else if (from.getAddressSpace().isMemorySpace()) {
+                    p("       ins=" + instructionInfo(from.getOffset()));
                 }
 
-                if (possibleByte) {
-                    Candidate c = inspectMasterByte(p);
-                    if (c != null && hits.size() < MAX_CANDIDATES) hits.add(c);
-                }
-
-                p += 4L;
-                scanned++;
-            }
-        }
-
-        Collections.sort(hits, new Comparator<Candidate>() {
-            @Override
-            public int compare(Candidate a, Candidate b) {
-                return Integer.compare(b.score, a.score);
-            }
-        });
-
-        println("");
-        println("============================================================");
-        println("MASTER CANDIDATES=" + hits.size());
-        println("SCANNED POSITIONS=" + scanned);
-        println("============================================================");
-        lines += 3;
-
-        int shown = 0;
-        for (Candidate c : hits) {
-            if (monitor.isCancelled() || lines >= MAX_LINES) return;
-            if (shown++ >= MAX_CANDIDATES) break;
-
-            println("");
-            println(String.format(
-                "CANDIDATE #%d score=%d record=%s table=%s count=%d selector_index=%d",
-                shown, c.score, hex(c.record), hex(c.table),
-                c.count, c.selectorIndex));
-            println(String.format(
-                "  delay=0x%04X cmd=0x%04X subsys=0x%04X proc=0x%04X",
-                c.delay, c.cmd, c.subsys, c.proc));
-            println("  valid=" + c.good + " executable=" + c.executable);
-            lines += 3;
-
-            dumpTable(c);
-        }
-
-        if (hits.isEmpty()) {
-            println("");
-            println("NO FTM MASTER TABLE CANDIDATE FOUND.");
-            println("If the reference addresses are also unmapped, this is likely");
-            println("the wrong firmware image for DIAG/FTM routing.");
-            lines += 3;
-        }
-    }
-
-    private void inspectHandlerCallers(long handler) {
-        if (!mapped(handler) || lines >= MAX_LINES) return;
-
-        Function f = currentProgram.getFunctionManager()
-            .getFunctionContaining(addr(handler));
-        if (f == null) return;
-
-        println("");
-        println("------------------------------------------------------------");
-        println("TARGET HANDLER CALLERS");
-        println("FUNCTION=" + f.getName() + " @ " + f.getEntryPoint());
-        lines += 2;
-
-        ReferenceIterator it =
-            currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
-
-        int n = 0;
-        while (it.hasNext() && n < 16 && lines < MAX_LINES) {
-            if (monitor.isCancelled()) return;
-
-            if (it.next().getReferenceType().isCall()) {
                 n++;
             }
+
+            p("  TOTAL_SHOWN=" + n + " (limit=" + maxRefs + ")");
+        }
+        catch (Exception e) {
+            p("  REFS ERROR: " + e.getMessage());
+        }
+    }
+
+    private void dumpWindow(long center, int radius, String name) {
+        p("");
+        p("============================================================");
+        p("RAW WINDOW: " + name + " @ " + hex(center));
+        p("RANGE " + hex(center - radius) + " .. " + hex(center + radius));
+        p("============================================================");
+
+        long start = center - radius;
+        long end = center + radius;
+
+        if (!initialized(start, (int)(end - start + 1L))) {
+            MemoryBlock b = block(center);
+            p("WINDOW NOT FULLY INITIALIZED");
+            p("CENTER BLOCK=" + (b == null ? "<none>" : b.getName()));
+            if (b != null) {
+                p("BLOCK RANGE=" + b.getStart() + " .. " + b.getEnd());
+                p("BLOCK EXEC=" + b.isExecute() + " INIT=" + b.isInitialized());
+            }
+            return;
         }
 
-        println("CALL REFERENCES FOUND=" + n);
-        lines++;
+        p("BLOCK=" + block(center).getName());
+        p("CENTER DATA:");
+        printDataInfo(center);
+
+        byte[] row = new byte[16];
+
+        for (long line = start; line <= end; line += 16L) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            int want = (int)Math.min(16L, end - line + 1L);
+            try {
+                byte[] tmp = new byte[want];
+                memory().getBytes(addr(line), tmp);
+
+                StringBuilder b = new StringBuilder();
+                b.append(String.format("%s  ", hex(line)));
+                b.append(String.format("%-47s", byteString(tmp)));
+                b.append("  |").append(asciiPreview(tmp)).append("|");
+                p(b.toString());
+
+                if (line + 16L <= end && (line & 0xfL) == 0) {
+                    try {
+                        long v32 = u32(line);
+                        p(String.format("       +00 u32=%s", hex(v32)));
+                    }
+                    catch (Exception ignored) {
+                    }
+                }
+            }
+            catch (Exception e) {
+                p("  DUMP ERROR @" + hex(line) + ": " + e.getMessage());
+                return;
+            }
+        }
+
+        p("");
+        p("ALIGNED 16-BIT / 32-BIT / 64-BIT VIEW");
+
+        long a16 = (start + 1L) & ~1L;
+        int shown16 = 0;
+        for (long off = a16; off + 1L <= end && shown16 < 64; off += 2L) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            try {
+                p(String.format("  %s u16=%s", hex(off), hex(u16(off))));
+                shown16++;
+            }
+            catch (Exception ignored) {
+            }
+        }
+
+        long a32 = (start + 3L) & ~3L;
+        int shown32 = 0;
+        for (long off = a32; off + 3L <= end && shown32 < 64; off += 4L) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            try {
+                p(String.format("  %s u32=%s", hex(off), hex(u32(off))));
+                shown32++;
+            }
+            catch (Exception ignored) {
+            }
+        }
+
+        long a64 = (start + 7L) & ~7L;
+        int shown64 = 0;
+        for (long off = a64; off + 7L <= end && shown64 < 32; off += 8L) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            try {
+                p(String.format("  %s u64=%s", hex(off), hex64(u64(off))));
+                shown64++;
+            }
+            catch (Exception ignored) {
+            }
+        }
+    }
+
+    private boolean fourBytesEqual(byte[] buf, int i, long value) {
+        if (i + 4 > buf.length) return false;
+
+        return (buf[i]     & 0xff) == (int)(value & 0xff)
+            && (buf[i + 1] & 0xff) == (int)((value >>> 8) & 0xff)
+            && (buf[i + 2] & 0xff) == (int)((value >>> 16) & 0xff)
+            && (buf[i + 3] & 0xff) == (int)((value >>> 24) & 0xff);
+    }
+
+    private String refName(long value) {
+        if (value == REF_MASTER) return "MASTER";
+        if (value == REF_TABLE) return "FTM_TABLE";
+        if (value == REF_DISP) return "COMMON_DISPATCH";
+        if (value == REF_TABLE2) return "FTM_TABLE_CMD08";
+        if (value == REF_DISP2) return "COMMON_DISPATCH_CMD08";
+        if (value == REF_DISP3) return "COMMON_DISPATCH_ALT";
+        return null;
+    }
+
+    private void rawPointerScan(String blockName, long target, long maxBytes) {
+        MemoryBlock b = currentProgram.getMemory().getBlock(blockName);
+        if (b == null || !b.isInitialized() || b.isExecute()) {
+            p("RAW SCAN SKIP " + blockName + " target=" + hex(target));
+            return;
+        }
+
+        long start = b.getStart().getOffset();
+        long end = b.getEnd().getOffset();
+        long total = end - start + 1L;
+        if (total > maxBytes) {
+            total = maxBytes;
+            end = start + total - 1L;
+        }
+
+        p("");
+        p("RAW POINTER SCAN block=" + blockName
+            + " target=" + hex(target)
+            + " bytes=" + total);
+
+        byte[] buf = new byte[RAW_CHUNK];
+        long pos = start;
+        long matches = 0;
+
+        try {
+            while (pos <= end && matches < 128) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
+                memory().getBytes(addr(pos), buf, 0, want);
+
+                for (int i = 0; i + 4 <= want; i++) {
+                    if ((matches >= 128) || monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                    if (fourBytesEqual(buf, i, target)) {
+                        long hit = pos + i;
+                        p(String.format(
+                            "  HIT %s @%s block=%s aligned4=%s function=%s",
+                            hex(target), hex(hit), blockName,
+                            ((hit & 3L) == 0L),
+                            functionInfo(hit)));
+                        matches++;
+                    }
+                }
+
+                // 3-byte overlap prevents missing a little-endian 4-byte value
+                // crossing a chunk boundary.
+                if (want <= 3) break;
+                pos += (long)(want - 3);
+            }
+
+            p("RAW SCAN MATCHES=" + matches);
+        }
+        catch (Exception e) {
+            p("RAW SCAN ERROR: " + e.getMessage());
+        }
+    }
+
+    private void scanReferencePointers() {
+        String[] blocks = { "segment_19", "segment_21" };
+        long[] targets = {
+            REF_MASTER, REF_TABLE, REF_DISP,
+            REF_TABLE2, REF_DISP2, REF_DISP3
+        };
+
+        p("");
+        p("============================================================");
+        p("LOCAL RAW POINTER SCAN");
+        p("Only segment_19 / segment_21; bounded; little-endian 32-bit");
+        p("============================================================");
+
+        for (String b : blocks) {
+            for (long t : targets) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                rawPointerScan(b, t, MAX_RAW_SCAN_BYTES);
+            }
+        }
+    }
+
+    private void inspectAddress(long off, String label) {
+        p("");
+        p("------------------------------------------------------------");
+        p(label + " " + hex(off));
+        MemoryBlock b = block(off);
+        p("mapped=" + (b != null)
+            + " block=" + (b == null ? "<none>" : b.getName())
+            + " exec=" + (b != null && b.isExecute())
+            + " init=" + (b != null && b.isInitialized()));
+        if (b != null) {
+            p("block_range=" + b.getStart() + " .. " + b.getEnd());
+        }
+
+        try {
+            p("function=" + functionInfo(off));
+            p("instruction=" + instructionInfo(off));
+        }
+        catch (Exception ignored) {
+        }
+
+        printDataInfo(off);
+        printReferences(off, MAX_REFS);
     }
 
     @Override
     public void run() throws Exception {
-        println("============================================================");
-        println(" Ghidra_RFDEBUG_Trace");
-        println(" TRACE_BUILD=" + TRACE_BUILD);
-        println(" DIAG -> FTM MASTER LOCATOR / READ ONLY");
-        println("============================================================");
+        p("============================================================");
+        p(" Ghidra_RFDEBUG_Trace");
+        p(" TRACE_BUILD=" + TRACE_BUILD);
+        p(" DIAG -> FTM TARGET ADDRESS INSPECTOR / READ ONLY");
+        p("============================================================");
 
-        inspectReferenceAddresses();
-        scanMasterRecords();
+        p("PROGRAM=" + currentProgram.getName());
+        p("IMAGE_BASE=" + currentProgram.getImageBase());
+        p("REFERENCE MASTER=" + hex(REF_MASTER));
+        p("REFERENCE FTM_TABLE=" + hex(REF_TABLE));
+        p("REFERENCE COMMON_DISPATCH=" + hex(REF_DISP));
 
-        println("");
-        println("============================================================");
-        println("NEXT ROUTING TARGET");
-        println("If selector 0x7B is found, the next static target is its common");
-        println("handler. Do not chase generic 0x4B literals in unrelated code.");
-        println("============================================================");
+        inspectAddress(REF_MASTER, "MASTER");
+        inspectAddress(REF_TABLE, "FTM_TABLE");
+        inspectAddress(REF_DISP, "COMMON_DISPATCH");
+        inspectAddress(REF_TABLE2, "FTM_TABLE_CMD08");
+        inspectAddress(REF_DISP2, "COMMON_DISPATCH_CMD08");
+        inspectAddress(REF_DISP3, "COMMON_DISPATCH_ALT");
 
-        println("");
-        println("DONE");
-        println("No memory, symbols, comments, or program structures modified.");
+        dumpWindow(REF_MASTER, DUMP_MASTER_RADIUS, "DIAG MASTER CANDIDATE");
+        dumpWindow(REF_TABLE, DUMP_TABLE_RADIUS, "FTM TABLE CANDIDATE");
+
+        scanReferencePointers();
+
+        p("");
+        p("============================================================");
+        p("INTERPRETATION GUIDE");
+        p("============================================================");
+        p("1. First determine whether C8DC3B54/C37BD1E8 are real structures.");
+        p("2. Prefer actual XREFs over guessed table layouts.");
+        p("3. If D8150ED8 occurs as a raw pointer in segment_19/21,");
+        p("   record the exact slot and surrounding bytes.");
+        p("4. If it does not, treat the published address as build/image-");
+        p("   dependent until another image is identified.");
+        p("5. A code XREF from a function into C37BD1E8 is the key next step.");
+        p("");
+        p("DONE");
+        p("No program data or structures modified.");
     }
 }
