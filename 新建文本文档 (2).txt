@@ -1,133 +1,130 @@
-Dump614RfcInitBytes.java> Running...
+Trace614InitCallTarget.java> Running...
 ============================================================
- 614 RFC INIT RAW TRACE
+ 614 RFC INIT CALL TARGET TRACE
  Program : 614_0_0.mbn
  Image   : 00010000
- Target  : 00025834
  READ ONLY
 ============================================================
 
+
 ------------------------------------------------------------
-[1] TARGET
+WRAPPER
 ------------------------------------------------------------
-ADDRESS : 00025834
-MEMORY CONTAINS : true
-BLOCK : segment_2 00010000 - 00026b62
-PERMISSIONS : R=true W=false X=true
-SYMBOL : _Z31rfc_hwid614_qrm865ab_v3_ag_initm
-TYPE   : Function
-PRIMARY: true
+ENTRY : 00025834  _Z31rfc_hwid614_qrm865ab_v3_ag_initm
+
+RAW PACKET:
+  00025834 : 6C 40 00 00 00 4A 49 6A 00 3C 01 70 C0 F9 FF 5B 
+  00025844 : 40 3F 00 48 
+
+CALLSITE : 00025840
+WORD     : 0x5BFFF9C0
+ENCODED R22 : 0x3FFCE0
+SIGNED R22  : -800
+BYTE OFFSET : 0xFFFFFFFFFFFFF380
+PACKET PC   : 00025834
+
+CALL TARGET : 00024bb4
+
+TARGET DETAILS
+ADDRESS : 00024bb4
+SYMBOL  : <none>
 INSTRUCTION : <none>
 
+TARGET RAW BYTES:
+  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
+  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
+
+XREF COUNT : 0
+
 ------------------------------------------------------------
-[RAW] INITM / RFC SYMBOL REGION
+WRAPPER
 ------------------------------------------------------------
-  00025680 : 00 40 9F 52 FE 7F FF 0F 82 40 82 91 00 D2 A1 A1 
-  00025690 : C0 3F 00 48 C1 4B 02 00 11 5A 49 6A 10 1C F4 EB 
-  000256a0 : FF 7F FF 0F 02 C5 91 91 10 40 82 91 10 E0 42 24 
-  000256b0 : DE FD FF 5B EE 7B FF 5B 10 C0 60 70 FF 7F FF 0F 
-  000256c0 : 02 C5 91 91 00 D0 82 A1 00 40 70 70 40 1F 04 3E 
-  000256d0 : E8 7B FF 5B 10 40 60 70 10 1C F4 EB C0 4B 02 00 
-  000256e0 : 02 D6 49 6A FF 7F FF 0F 82 C5 82 91 02 41 02 B0 
-  000256f0 : 10 40 DD 91 00 D4 B0 A1 1E C0 1E 96 D2 FA FF 59 
-  00025700 : C0 4B 02 00 11 44 49 6A 10 1C F4 EB FF 7F FF 0F 
-  00025710 : 02 C6 91 91 10 40 82 91 10 E0 42 24 A8 FD FF 5B 
-  00025720 : C8 7B FF 5B 10 C0 60 70 FF 7F FF 0F 02 C6 91 91 
-  00025730 : 00 D0 82 A1 00 40 70 70 40 1F 04 3E C2 7B FF 5B 
-  00025740 : 10 40 60 70 10 1C F4 EB BF 4B 02 00 02 C0 49 6A 
-  00025750 : FF 7F FF 0F 82 C6 82 91 02 41 02 B0 10 40 DD 91 
-  00025760 : 00 D4 B0 A1 1E C0 1E 96 20 60 80 7E 10 C0 01 10 
-  00025770 : BE 4B 02 00 02 CC 49 6A 00 40 9F 52 FF 7F FF 0F 
-  00025780 : 02 47 82 91 00 D2 A1 A1 C0 3F 00 48 E2 7B FF 5B 
-  00025790 : 10 40 60 70 10 1C F4 EB 00 40 70 70 00 1F 04 3E 
-  000257a0 : E0 FA FF 59 DE 7B FF 5B 10 40 60 70 10 1C F4 EB 
-  000257b0 : 00 40 70 70 00 1F 04 3E D4 FA FF 59 FA 7B FF 5B 
-  000257c0 : 10 40 60 70 10 1C F4 EB 00 40 70 70 00 1F 04 3E 
-  000257d0 : C8 FA FF 59 F6 7B FF 5B 10 40 60 70 10 1C F4 EB 
-  000257e0 : 00 40 70 70 00 1F 04 3E BC FA FF 59 F2 7B FF 5B 
-  000257f0 : 10 40 60 70 10 1C F4 EB 00 40 70 70 00 1F 04 3E 
-  00025800 : B0 FA FF 59 EE 7B FF 5B 10 40 60 70 10 1C F4 EB 
-  00025810 : 00 40 70 70 00 1F 04 3E A4 FA FF 59 EA 7B FF 5B 
-  00025820 : 10 40 60 70 10 1C F4 EB 00 40 70 70 00 1F 04 3E 
-  00025830 : 98 FA FF 59 6C 40 00 00 00 4A 49 6A 00 3C 01 70 
-  00025840 : C0 F9 FF 5B 40 3F 00 48 6C 40 00 00 00 46 49 6A 
-  00025850 : 00 3C 01 70 B6 F9 FF 5B 40 3F 00 48 6C 40 00 00 
-  00025860 : 00 48 49 6A 00 3C 01 70 AC F9 FF 5B 40 3F 00 48 
+ENTRY : 00025848  _Z33rfc_hwid614_qrm865ab_v3_ag_deinitm
+
+RAW PACKET:
+  00025848 : 6C 40 00 00 00 46 49 6A 00 3C 01 70 B6 F9 FF 5B 
+  00025858 : 40 3F 00 48 
+
+CALLSITE : 00025854
+WORD     : 0x5BFFF9B6
+ENCODED R22 : 0x3FFCDB
+SIGNED R22  : -805
+BYTE OFFSET : 0xFFFFFFFFFFFFF36C
+PACKET PC   : 00025848
+
+CALL TARGET : 00024bb4
+
+TARGET DETAILS
+ADDRESS : 00024bb4
+SYMBOL  : <none>
+INSTRUCTION : <none>
+
+TARGET RAW BYTES:
+  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
+  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
+
+XREF COUNT : 0
+
+------------------------------------------------------------
+WRAPPER
+------------------------------------------------------------
+ENTRY : 0002585c  _Z33rfc_hwid614_qrm865ab_v3_ag_resumem
+
+RAW PACKET:
+  0002585c : 6C 40 00 00 00 48 49 6A 00 3C 01 70 AC F9 FF 5B 
+  0002586c : 40 3F 00 48 
+
+CALLSITE : 00025868
+WORD     : 0x5BFFF9AC
+ENCODED R22 : 0x3FFCD6
+SIGNED R22  : -810
+BYTE OFFSET : 0xFFFFFFFFFFFFF358
+PACKET PC   : 0002585c
+
+CALL TARGET : 00024bb4
+
+TARGET DETAILS
+ADDRESS : 00024bb4
+SYMBOL  : <none>
+INSTRUCTION : <none>
+
+TARGET RAW BYTES:
+  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
+  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
+
+XREF COUNT : 0
+
+------------------------------------------------------------
+WRAPPER
+------------------------------------------------------------
+ENTRY : 00025870  _Z34rfc_hwid614_qrm865ab_v3_ag_suspendm
+
+RAW PACKET:
   00025870 : 6B 40 00 00 00 58 49 6A 00 3C 01 70 A2 F9 FF 5B 
-  00025880 : 40 3F 00 48 BA 4B 02 00 11 42 49 6A 10 1C F4 EB 
-  00025890 : FC 7F FF 0F 02 C7 91 91 10 40 82 91 12 E0 42 24 
-  000258a0 : A0 79 FF 5B 00 C1 00 78 0C 7A FF 5B 10 C0 60 70 
-  000258b0 : FC 7F FF 0F 02 C7 91 91 00 D0 82 A1 00 40 70 70 
-  000258c0 : 40 1F 04 3E 1E 7A FF 5B 10 40 60 70 10 1C F4 EB 
-  000258d0 : B8 4B 02 00 02 DC 49 6A FE 7F FF 0F 02 C1 82 91 
-  000258e0 : 02 41 02 B0 10 40 DD 91 00 D4 B0 A1 1E C0 1E 96 
-  000258f0 : 00 40 00 78 22 C0 01 10 20 60 00 7E 12 C2 02 10 
-  00025900 : E0 61 00 7E 1A C1 42 10 B8 4B 02 00 02 C0 49 6A 
-  00025910 : 0E 40 00 58 FE 7F FF 0F 82 C1 82 91 B7 4B 02 00 
-  00025920 : 02 D6 49 6A FE 7F FF 0F 02 C2 82 91 00 40 9F 52 
-  00025930 : 00 C2 81 A1 00 C0 9F 52 00 40 00 78 22 C0 01 10 
-  00025940 : 20 
-BYTES READ : 705
+  00025880 : 40 3F 00 48 
 
-------------------------------------------------------------
-[SYMBOLS]
-------------------------------------------------------------
-SYMBOL : 00025694  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag12get_instanceEv  TYPE=Function PRIMARY=true
-SYMBOL : 000256d0  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_agC2Ev  TYPE=Function PRIMARY=true
-SYMBOL : 000256d0  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_agC1Ev  TYPE=Label PRIMARY=false
-SYMBOL : 000256fc  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type  TYPE=Function PRIMARY=true
-SYMBOL : 00025700  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_ag12get_instanceEv  TYPE=Function PRIMARY=true
-SYMBOL : 0002573c  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_agC2Ev  TYPE=Function PRIMARY=true
-SYMBOL : 0002573c  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_agC1Ev  TYPE=Label PRIMARY=false
-SYMBOL : 00025768  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag31get_lte_srs_grouping_propertiesEPP35rfm_ant_switch_config_grouping_type  TYPE=Function PRIMARY=true
-SYMBOL : 0002578c  _ZN33rfc_hwid614_qrm865ab_v3_ag_lte_agD0Ev  TYPE=Function PRIMARY=true
-SYMBOL : 000257a4  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_agD0Ev  TYPE=Function PRIMARY=true
-SYMBOL : 000257bc  _ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_agD0Ev  TYPE=Function PRIMARY=true
-SYMBOL : 000257d4  _ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_agD0Ev  TYPE=Function PRIMARY=true
-SYMBOL : 000257ec  _ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_agD0Ev  TYPE=Function PRIMARY=true
-SYMBOL : 00025804  _ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_agD0Ev  TYPE=Function PRIMARY=true
-SYMBOL : 0002581c  _ZN34rfc_hwid614_qrm865ab_v3_ag_gnss_agD0Ev  TYPE=Function PRIMARY=true
-SYMBOL : 00025834  _Z31rfc_hwid614_qrm865ab_v3_ag_initm  TYPE=Function PRIMARY=true
-SYMBOL : 00025848  _Z33rfc_hwid614_qrm865ab_v3_ag_deinitm  TYPE=Function PRIMARY=true
-SYMBOL : 0002585c  _Z33rfc_hwid614_qrm865ab_v3_ag_resumem  TYPE=Function PRIMARY=true
-SYMBOL : 00025870  _Z34rfc_hwid614_qrm865ab_v3_ag_suspendm  TYPE=Function PRIMARY=true
-SYMBOL : 00025884  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag12get_instanceEv  TYPE=Function PRIMARY=true
-SYMBOL : 000258c4  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agC2Ev  TYPE=Function PRIMARY=true
-SYMBOL : 000258c4  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_agC1Ev  TYPE=Label PRIMARY=false
-SYMBOL : 000258f0  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_rffe_sig_info_table_getEPP22rfc_sdr_rffe_info_type15rflm_rfc_enum_t  TYPE=Function PRIMARY=true
-SYMBOL : 00025938  _ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag27sdr_grfc_sig_info_table_getEPP22rfc_sdr_grfc_info_type15rflm_rfc_enum_t  TYPE=Function PRIMARY=true
-SYMBOLS SHOWN : 24
+CALLSITE : 0002587c
+WORD     : 0x5BFFF9A2
+ENCODED R22 : 0x3FFCD1
+SIGNED R22  : -815
+BYTE OFFSET : 0xFFFFFFFFFFFFF344
+PACKET PC   : 00025870
 
-------------------------------------------------------------
-[INSTRUCTIONS]
-------------------------------------------------------------
-INSTRUCTIONS SHOWN : 0
+CALL TARGET : 00024bb4
 
-------------------------------------------------------------
-[XREFS TO INITM]
-------------------------------------------------------------
-XREF COUNT : 2
-XREF : Entry Point TYPE=EXTERNAL
-XREF : 00254784 TYPE=DATA
+TARGET DETAILS
+ADDRESS : 00024bb4
+SYMBOL  : <none>
+INSTRUCTION : <none>
 
-------------------------------------------------------------
-[RAW] GOT / DYNAMIC SYMBOL REGION
-------------------------------------------------------------
-  00025460 : CA 4B 02 00 02 D4 49 6A FD 7F FF 0F 82 C3 82 91 
-  00025470 : 02 41 02 B0 10 40 DD 91 00 D4 B0 A1 1E C0 1E 96 
-  00025480 : 00 40 00 78 38 C0 02 10 34 40 01 10 00 C0 42 3C 
-  00025490 : 00 40 00 78 83 40 01 91 1A E0 42 24 00 40 00 78 
-  000254a0 : 43 
-BYTES READ : 65
+TARGET RAW BYTES:
+  00024bb4 : 00 00 00 00 00 00 00 00 00 00 00 00 ED 4B 02 00 
+  00024bc4 : 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 ED 4B 02 00 
 
-------------------------------------------------------------
-[SYMBOLS]
-------------------------------------------------------------
-SYMBOL : 00025480  _ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP27rfc_sub_band_info_list_type  TYPE=Function PRIMARY=true
-SYMBOLS SHOWN : 1
+XREF COUNT : 0
 
 ============================================================
 DONE
 No program structures were modified.
 ============================================================
-Dump614RfcInitBytes.java> Finished!
+Trace614InitCallTarget.java> Finished!
