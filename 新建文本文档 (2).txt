@@ -1,42 +1,400 @@
-FindRFDebugPropertyTableConsumers.java> Running...
+TraceRFDebugPropertyAddressConstruction.java> Running...
 ============================================================
- RFDEBUG PROPERTY TABLE CONSUMER FINDER
+ RFDEBUG PROPERTY ADDRESS-CONSTRUCTION TRACER
  Program : qdsp6sw.mbn
  Image   : c1600000
  READ ONLY
 ============================================================
 
-EXACT TARGETS:
+Exact targets:
   C9199FB8 = PROPERTY_NAME_TABLE
   C919A892 = CRITICAL_TABLE
   C919A900 = TYPE_TABLE
   C919A028 = FREQUENCY_SLOT
-  C5084812 = FREQUENCY STRING
-  C50847FF = TUNE_TX_TO_RX_FREQ
+
 
 ============================================================
-PHASE 1 - EXACT RFDEBUG PROPERTY TARGETS
+[C919 IMMEXT WINDOW #1]
+  CENTER   : c170b024
+  IMMEXT   : 0xc919acc0
+    FUNCTION : c170aaa4 FUN_c170aaa4
+    RANGE    : c170aaa4 - c170b1fb
+
+ >>> c170b024 : immext #0xc919acc0 
+     c170b028 : assign R0,##0xc919ace8 
+     c170b02c : memub R1,(R18+#0x1) 
+     c170b030 : memb R2,(R17+#0x9d) 
+     c170b034 : call 0xc170b204 
+     c170b038 : assign R12,#0x0 
+     c170b03c : asl|= R12,R0,#0xb 
+     c170b040 : assign R3,#0xb0 
+     c170b044 : memub R2,(R17+#0x9d) 
+
+  HEX IMMEDIATES:
+    c170b024 : immext #0xc919acc0 
+      immediate[0] = 0xc919acc0
+    c170b028 : assign R0,##0xc919ace8 
+      immediate[0] = 0xc919ace8
+    c170b02c : memub R1,(R18+#0x1) 
+      immediate[0] = 0x00000001
+    c170b030 : memb R2,(R17+#0x9d) 
+      immediate[0] = 0x0000009d
+    c170b038 : assign R12,#0x0 
+      immediate[0] = 0x00000000
+    c170b03c : asl|= R12,R0,#0xb 
+      immediate[0] = 0x0000000b
+    c170b040 : assign R3,#0xb0 
+      immediate[0] = 0x000000b0
+    c170b044 : memub R2,(R17+#0x9d) 
+      immediate[0] = 0x0000009d
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
 ============================================================
 
-Instructions visited = 1415334
-Exact target hits = 0
+============================================================
+[C919 IMMEXT WINDOW #2]
+  CENTER   : c1cbf330
+  IMMEXT   : 0xc919ac00
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf330 : immext #0xc919ac00 
+     c1cbf334 : assign.if(P1) R3,##0xc919ac08 
+     c1cbf338 : immext #0xc919ac00 
+     c1cbf33c : memw (R2),##0xc919ac30 
+     c1cbf340 : immext #0xc919abc0 
+     c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
+     c1cbf348 : immext #0xc919ab80 
+     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+     c1cbf350 : add.if(P0) R3,R20,#0x4 
+
+  HEX IMMEDIATES:
+    c1cbf330 : immext #0xc919ac00 
+      immediate[0] = 0xc919ac00
+    c1cbf334 : assign.if(P1) R3,##0xc919ac08 
+      immediate[0] = 0xc919ac08
+    c1cbf338 : immext #0xc919ac00 
+      immediate[0] = 0xc919ac00
+    c1cbf33c : memw (R2),##0xc919ac30 
+      immediate[0] = 0xc919ac30
+    c1cbf340 : immext #0xc919abc0 
+      immediate[0] = 0xc919abc0
+    c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
+      immediate[0] = 0xc919abe0
+    c1cbf348 : immext #0xc919ab80 
+      immediate[0] = 0xc919ab80
+    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+      immediate[0] = 0xc919ab90
+    c1cbf350 : add.if(P0) R3,R20,#0x4 
+      immediate[0] = 0x00000004
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
+============================================================
 
 ============================================================
-PHASE 2 - C919 PAGE CONSTRUCTION CLUES
+[C919 IMMEXT WINDOW #3]
+  CENTER   : c1cbf338
+  IMMEXT   : 0xc919ac00
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf338 : immext #0xc919ac00 
+     c1cbf33c : memw (R2),##0xc919ac30 
+     c1cbf340 : immext #0xc919abc0 
+     c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
+     c1cbf348 : immext #0xc919ab80 
+     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+     c1cbf350 : add.if(P0) R3,R20,#0x4 
+     c1cbf354 : jump.if(!P0) 0xc1cbf378 
+     c1cbf358 : memw (R20),R3 
+
+  HEX IMMEDIATES:
+    c1cbf338 : immext #0xc919ac00 
+      immediate[0] = 0xc919ac00
+    c1cbf33c : memw (R2),##0xc919ac30 
+      immediate[0] = 0xc919ac30
+    c1cbf340 : immext #0xc919abc0 
+      immediate[0] = 0xc919abc0
+    c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
+      immediate[0] = 0xc919abe0
+    c1cbf348 : immext #0xc919ab80 
+      immediate[0] = 0xc919ab80
+    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+      immediate[0] = 0xc919ab90
+    c1cbf350 : add.if(P0) R3,R20,#0x4 
+      immediate[0] = 0x00000004
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
 ============================================================
-Page clue hits = 0
 
 ============================================================
-PHASE 3 - EXACT RAW POINTERS
+[C919 IMMEXT WINDOW #4]
+  CENTER   : c1cbf340
+  IMMEXT   : 0xc919abc0
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf340 : immext #0xc919abc0 
+     c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
+     c1cbf348 : immext #0xc919ab80 
+     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+     c1cbf350 : add.if(P0) R3,R20,#0x4 
+     c1cbf354 : jump.if(!P0) 0xc1cbf378 
+     c1cbf358 : memw (R20),R3 
+     c1cbf35c : cmp.eq P0,R16,#0x3 
+     c1cbf360 : immext #0xc919ab80 
+
+  HEX IMMEDIATES:
+    c1cbf340 : immext #0xc919abc0 
+      immediate[0] = 0xc919abc0
+    c1cbf344 : assign.if(!P1) R3,##0xc919abe0 
+      immediate[0] = 0xc919abe0
+    c1cbf348 : immext #0xc919ab80 
+      immediate[0] = 0xc919ab80
+    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+      immediate[0] = 0xc919ab90
+    c1cbf350 : add.if(P0) R3,R20,#0x4 
+      immediate[0] = 0x00000004
+    c1cbf35c : cmp.eq P0,R16,#0x3 
+      immediate[0] = 0x00000003
+    c1cbf360 : immext #0xc919ab80 
+      immediate[0] = 0xc919ab80
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
 ============================================================
-Exact raw pointer hits = 0
 
 ============================================================
-FINAL SUMMARY
-  exact executable hits = 0
-  page clues            = 0
-  exact raw pointers    = 0
+[C919 IMMEXT WINDOW #5]
+  CENTER   : c1cbf348
+  IMMEXT   : 0xc919ab80
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf348 : immext #0xc919ab80 
+     c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+     c1cbf350 : add.if(P0) R3,R20,#0x4 
+     c1cbf354 : jump.if(!P0) 0xc1cbf378 
+     c1cbf358 : memw (R20),R3 
+     c1cbf35c : cmp.eq P0,R16,#0x3 
+     c1cbf360 : immext #0xc919ab80 
+     c1cbf364 : memw (R3),##0xc919abb8 
+     c1cbf368 : mux R2,P0,#0x0,#0x18 
+
+  HEX IMMEDIATES:
+    c1cbf348 : immext #0xc919ab80 
+      immediate[0] = 0xc919ab80
+    c1cbf34c : memw.if(!P0) (R4),##0xc919ab90 
+      immediate[0] = 0xc919ab90
+    c1cbf350 : add.if(P0) R3,R20,#0x4 
+      immediate[0] = 0x00000004
+    c1cbf35c : cmp.eq P0,R16,#0x3 
+      immediate[0] = 0x00000003
+    c1cbf360 : immext #0xc919ab80 
+      immediate[0] = 0xc919ab80
+    c1cbf364 : memw (R3),##0xc919abb8 
+      immediate[0] = 0xc919abb8
+    c1cbf368 : mux R2,P0,#0x0,#0x18 
+      immediate[0] = 0x00000000
+      immediate[1] = 0x00000018
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
 ============================================================
-No firmware, functions, labels, comments, or register context modified.
+
 ============================================================
-FindRFDebugPropertyTableConsumers.java> Finished!
+[C919 IMMEXT WINDOW #6]
+  CENTER   : c1cbf360
+  IMMEXT   : 0xc919ab80
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf360 : immext #0xc919ab80 
+     c1cbf364 : memw (R3),##0xc919abb8 
+     c1cbf368 : mux R2,P0,#0x0,#0x18 
+     c1cbf36c : immext #0xc919ab40 
+     c1cbf370 : add R2,R2,##-0x36e654a0 
+     c1cbf374 : jump 0xc1cbf394 
+     c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
+     c1cbf37c : cmp.eq P1,R2,#0x65 
+     c1cbf380 : mux R3,P0,#0x0,#0x18 
+
+  HEX IMMEDIATES:
+    c1cbf360 : immext #0xc919ab80 
+      immediate[0] = 0xc919ab80
+    c1cbf364 : memw (R3),##0xc919abb8 
+      immediate[0] = 0xc919abb8
+    c1cbf368 : mux R2,P0,#0x0,#0x18 
+      immediate[0] = 0x00000000
+      immediate[1] = 0x00000018
+    c1cbf36c : immext #0xc919ab40 
+      immediate[0] = 0xc919ab40
+    c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
+      immediate[0] = 0x00000003
+    c1cbf37c : cmp.eq P1,R2,#0x65 
+      immediate[0] = 0x00000065
+    c1cbf380 : mux R3,P0,#0x0,#0x18 
+      immediate[0] = 0x00000000
+      immediate[1] = 0x00000018
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
+============================================================
+
+============================================================
+[C919 IMMEXT WINDOW #7]
+  CENTER   : c1cbf36c
+  IMMEXT   : 0xc919ab40
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf36c : immext #0xc919ab40 
+     c1cbf370 : add R2,R2,##-0x36e654a0 
+     c1cbf374 : jump 0xc1cbf394 
+     c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
+     c1cbf37c : cmp.eq P1,R2,#0x65 
+     c1cbf380 : mux R3,P0,#0x0,#0x18 
+     c1cbf384 : immext #0xc919ab00 
+     c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
+     c1cbf38c : immext #0xc919aac0 
+
+  HEX IMMEDIATES:
+    c1cbf36c : immext #0xc919ab40 
+      immediate[0] = 0xc919ab40
+    c1cbf378 : cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
+      immediate[0] = 0x00000003
+    c1cbf37c : cmp.eq P1,R2,#0x65 
+      immediate[0] = 0x00000065
+    c1cbf380 : mux R3,P0,#0x0,#0x18 
+      immediate[0] = 0x00000000
+      immediate[1] = 0x00000018
+    c1cbf384 : immext #0xc919ab00 
+      immediate[0] = 0xc919ab00
+    c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
+      immediate[0] = 0xc919ab00
+    c1cbf38c : immext #0xc919aac0 
+      immediate[0] = 0xc919aac0
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
+============================================================
+
+============================================================
+[C919 IMMEXT WINDOW #8]
+  CENTER   : c1cbf384
+  IMMEXT   : 0xc919ab00
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf384 : immext #0xc919ab00 
+     c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
+     c1cbf38c : immext #0xc919aac0 
+     c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
+     c1cbf394 : call 0xc1cbf5d8 
+     c1cbf398 : immext #0xcb6ca980 
+     c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
+     c1cbf3a0 : memw (R20+#0x8),R2 
+     c1cbf3a4 : call 0xc1d1080c 
+
+  HEX IMMEDIATES:
+    c1cbf384 : immext #0xc919ab00 
+      immediate[0] = 0xc919ab00
+    c1cbf388 : add.if(P1) R2,R3,##0xc919ab00 
+      immediate[0] = 0xc919ab00
+    c1cbf38c : immext #0xc919aac0 
+      immediate[0] = 0xc919aac0
+    c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
+      immediate[0] = 0xc919aad0
+    c1cbf398 : immext #0xcb6ca980 
+      immediate[0] = 0xcb6ca980
+    c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
+      immediate[0] = 0x00000002
+      immediate[1] = 0xcb6ca9b0
+    c1cbf3a0 : memw (R20+#0x8),R2 
+      immediate[0] = 0x00000008
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
+============================================================
+
+============================================================
+[C919 IMMEXT WINDOW #9]
+  CENTER   : c1cbf38c
+  IMMEXT   : 0xc919aac0
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf38c : immext #0xc919aac0 
+     c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
+     c1cbf394 : call 0xc1cbf5d8 
+     c1cbf398 : immext #0xcb6ca980 
+     c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
+     c1cbf3a0 : memw (R20+#0x8),R2 
+     c1cbf3a4 : call 0xc1d1080c 
+     c1cbf3a8 : assign R0,#0x84 
+     c1cbf3ac : call 0xc1cbf5e8 
+
+  HEX IMMEDIATES:
+    c1cbf38c : immext #0xc919aac0 
+      immediate[0] = 0xc919aac0
+    c1cbf390 : add.if(!P1) R2,R3,##0xc919aad0 
+      immediate[0] = 0xc919aad0
+    c1cbf398 : immext #0xcb6ca980 
+      immediate[0] = 0xcb6ca980
+    c1cbf39c : combine R1R0,#0x2,##0xcb6ca9b0 
+      immediate[0] = 0x00000002
+      immediate[1] = 0xcb6ca9b0
+    c1cbf3a0 : memw (R20+#0x8),R2 
+      immediate[0] = 0x00000008
+    c1cbf3a8 : assign R0,#0x84 
+      immediate[0] = 0x00000084
+
+    DERIVED TARGET CHECK:
+      PAGE+OFFSET candidate: TYPE_TABLE = 0xc919aa00 + -256 (0xffffffffffffff00)
+============================================================
+
+============================================================
+[C919 IMMEXT WINDOW #10]
+  CENTER   : c1cbf578
+  IMMEXT   : 0xc919ab00
+    FUNCTION : c1cbf250 FUN_c1cbf250
+    RANGE    : c1cbf250 - c1cbf5cf
+
+ >>> c1cbf578 : immext #0xc919ab00 
+     c1cbf57c : add R2,R2,##-0x36e654d0 
+     c1cbf580 : jump 0xc1cbf5a4 
+     c1cbf584 : memw (R20+#0x8),R2.new 
+     c1cbf588 : assign R4,#0x505 
+     c1cbf58c : tstbit P0,R4,R3 
+     c1cbf590 : immext #0x20680000 
+     c1cbf594 : assign.if(!P0.new) R4,##0x20680000 
+     c1cbf598 : jump.if(P0.new):nt 0xc1cbf5ac 
+
+  HEX IMMEDIATES:
+    c1cbf578 : immext #0xc919ab00 
+      immediate[0] = 0xc919ab00
+    c1cbf584 : memw (R20+#0x8),R2.new 
+      immediate[0] = 0x00000008
+    c1cbf588 : assign R4,#0x505 
+      immediate[0] = 0x00000505
+    c1cbf590 : immext #0x20680000 
+      immediate[0] = 0x20680000
+    c1cbf594 : assign.if(!P0.new) R4,##0x20680000 
+      immediate[0] = 0x20680000
+
+    DERIVED TARGET CHECK:
+      no direct target candidate in this window
+============================================================
+
+============================================================
+SUMMARY
+  instructions visited     = 1415334
+  C919 IMMEXT encountered  = 3688
+  useful windows printed   = 10
+============================================================
+Done. No functions, labels, comments, memory, or register context changed.
+============================================================
+TraceRFDebugPropertyAddressConstruction.java> Finished!
