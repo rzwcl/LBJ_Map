@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C18E7A50-1";
+    private static final String TRACE_BUILD = "C18E7A50-2";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -197,8 +197,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return -1;
     }
 
-    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);
-        for (int i = start; i < end && lines < MAX_LINES; i++) {
+    private void printWindow(ArrayList<Instruction> a, int center, int before, int after) {        int start = Math.max(0, center - before);        int end = Math.min(a.size(), center + after + 1);        for (int i = start; i < end && lines < MAX_LINES; i++) {
             Instruction ins = a.get(i);
             String s = safe(ins.toString());
             if (i == center ||
@@ -397,8 +396,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
     private void rawExecutableByteScan() {
         println("\n============================================================");        println("RAW HIT / DATA STRUCTURE REVIEW");
-        println("KNOWN TARGETS: previous 4B 0B raw hits");
-        println("PURPOSE: determine whether hits are code, defined data, or literal-pool bytes");
+        println("KNOWN TARGETS: previous 4B 0B raw hits");        println("PURPOSE: determine whether hits are code, defined data, or literal-pool bytes");
         println("============================================================");
 
         long[] knownHits = {
@@ -597,7 +595,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 if (b0) exact0++;
                 if (b7) exact7++;
                 if (!b4 && !b0 && !b7) continue;
-
                 Function f = functionContaining(ins.getAddress());
                 if (f == null) continue;
 
@@ -798,7 +795,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n------------------------------------------------------------");
         println("BYTE-COMPARE 0x4B CONTEXT");
         printByteCompareContexts(exact4List, 0x4b);
-
         println("\n------------------------------------------------------------");
         println("BYTE-COMPARE 0x0B CONTEXT");
         printByteCompareContexts(exact0List, 0x0b);
@@ -998,7 +994,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\nEXACT 0B NEAREST CHECK COMPLETE");
         println("Read-only analysis only.");
     }
-
     private int instructionDistance(Instruction a, Instruction b) {
         if (a == null || b == null) return -1;
         long d = Math.abs(a.getAddress().subtract(b.getAddress()));
@@ -1197,7 +1192,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         if (shown == 0) println("  LOAD SAME REG: <none within " + before + " instructions>");
     }
-
     private String extractComparedRegister(String s) {
         if (s == null) return null;
 
@@ -1397,8 +1391,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("CALLER FUNCTION: " +
             (f == null ? "<none>" : f.getName() + " @ " + f.getEntryPoint()));
 
-        Instruction cur = center;
-        ArrayList<Instruction> rev = new ArrayList<Instruction>();
+        Instruction cur = center;        ArrayList<Instruction> rev = new ArrayList<Instruction>();
 
         for (int i = 0; i < before; i++) {
             Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
@@ -1597,8 +1590,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         " TYPE=" + r.getReferenceType() +
                         " " + (r.isPrimary() ? "PRIMARY " : "") +
                         "<-" +
-                        (rf == null ? "<none>" :
-                         rf.getName() + " @ " + rf.getEntryPoint()));
+                        (rf == null ? "<none>" :                         rf.getName() + " @ " + rf.getEntryPoint()));
                 lines++;
                 n++;
             }
@@ -1744,23 +1736,23 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("BODY: " + tf.getBody());
 
         ArrayList<Instruction> a = collect(tf);
-        int shown = 0;
+        int bodyShown = 0;
 
-        for (int i = 0; i < a.size() && shown < 240 && lines < MAX_LINES; i++) {
+        for (int i = 0; i < a.size() && bodyShown < 240 && lines < MAX_LINES; i++) {
             if (monitor.isCancelled()) return;
 
             Instruction ins = a.get(i);
             long off = ins.getAddress().getOffset();
 
-            // Print the entire small function; explicitly mark the target.
+            // Print the bounded function body; explicitly mark the target.
             println((off == 0xc18e7af0L ? ">>> " : "    ") +
                     ins.getAddress() + " : " + safe(ins.toString()));
 
             lines++;
-            shown++;
+            bodyShown++;
         }
 
-        println("SHOWN: " + shown + " / BOUNDED=" + a.size());
+        println("BODY SHOWN: " + bodyShown + " / BOUNDED=" + a.size());
 
         println("\n------------------------------------------------------------");
         println("LOCAL WINDOW AROUND c18e7af0");
@@ -1796,9 +1788,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             currentProgram.getReferenceManager().
             getReferencesTo(toAddr(0xc1902c70L));
 
-        int shown = 0;
-        while (rr.hasNext() && shown < 16 && lines < MAX_LINES) {
-            if (monitor.isCancelled()) return;
+        int refShown = 0;
+        while (rr.hasNext() && refShown < 16 && lines < MAX_LINES) {            if (monitor.isCancelled()) return;
 
             Reference r = rr.next();
 
@@ -1809,11 +1800,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         " TYPE=" + r.getReferenceType() +
                         " " + (r.isPrimary() ? "PRIMARY" : ""));
                 lines++;
-                shown++;
+                refShown++;
             }
         }
 
-        if (shown == 0) println("  <none in local range>");
+        if (refShown == 0) println("  <none in local range>");
 
         println("\nC18E7A50 TRACE COMPLETE");
     }
@@ -1997,7 +1988,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         println("\n============================================================");
         println("DONE");
-        println("No memory, symbols, comments, or program structures modified.");
-        println("============================================================");
+        println("No memory, symbols, comments, or program structures modified.");        println("============================================================");
     }
 }
