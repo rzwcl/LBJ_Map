@@ -14,6 +14,8 @@ import ghidra.program.model.mem.MemoryBlock;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
@@ -33,10 +35,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return s == null ? "" : s.replace('\r', ' ').replace('\n', ' ');
     }
 
-    private boolean containsImm(String s, long v) {
-        String x = safe(s).toLowerCase();
-        String h = String.format("#0x%x", v);
-        return x.contains(h);
+    private boolean containsExactImm(String s, long v) {
+        String x = safe(s);
+        Pattern p = Pattern.compile("(?i)#\\s*#?0x([0-9a-f]+)(?![0-9a-f])");
+        Matcher m = p.matcher(x);
+
+        while (m.find()) {
+            try {
+                long n = Long.parseLong(m.group(1), 16);
+                if (n == v) return true;
+            } catch (Exception e) {
+                // Ignore malformed/non-numeric immediate text.
+            }
+        }
+        return false;
     }
 
     private boolean isCompare(String s) {
@@ -49,7 +61,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private boolean is4BCompare(String s) {
-        if (!isCompare(s) || !containsImm(s, 0x4b)) return false;
+        if (!isCompare(s) || !containsExactImm(s, 0x4b)) return false;
         String x = safe(s).toLowerCase();
         return x.contains("cmpb") ||
                x.contains("cmph") ||
@@ -59,7 +71,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private boolean is0BCompare(String s) {
-        if (!isCompare(s) || !containsImm(s, 0x0b)) return false;
+        if (!isCompare(s) || !containsExactImm(s, 0x0b)) return false;
         String x = safe(s).toLowerCase();
         return x.contains("cmpb") ||
                x.contains("cmph") ||
@@ -69,7 +81,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private boolean is7BCompare(String s) {
-        if (!isCompare(s) || !containsImm(s, 0x7b)) return false;
+        if (!isCompare(s) || !containsExactImm(s, 0x7b)) return false;
         String x = safe(s).toLowerCase();
         return x.contains("cmpb") ||
                x.contains("cmph") ||
@@ -485,6 +497,118 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("TRUE 0x7B COMPARES: " + hits7);
     }
 
+    private void inspectExactProtocolCandidates() {
+        println("\n============================================================");
+        println("EXACT IMMEDIATE PROTOCOL CANDIDATES");
+        println("MATCH RULE: immediate numeric value MUST equal 0x4B / 0x0B / 0x7B");
+        println("NOT A STRING-SUBSTRING MATCH");
+        println("============================================================");
+
+        int exact4 = 0;
+        int exact0 = 0;
+        int exact7 = 0;
+        int candidateFunctions = 0;
+
+        Set<Long> seenFunctions = new HashSet<Long>();
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it = currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                Instruction ins = it.next();
+                String s = safe(ins.toString());
+
+                boolean b4 = is4BCompare(s);
+                boolean b0 = is0BCompare(s);
+                boolean b7 = is7BCompare(s);
+
+                if (b4) exact4++;
+                if (b0) exact0++;
+                if (b7) exact7++;
+
+                if (!b4 && !b0 && !b7) continue;
+
+                Function f = functionContaining(ins.getAddress());
+                if (f == null) continue;
+
+                long key = f.getEntryPoint().getOffset();
+                if (!seenFunctions.add(key)) continue;
+
+                ArrayList<Instruction> a = collect(f);
+                boolean has4 = false;
+                boolean has0 = false;
+                boolean has7 = false;
+
+                for (Instruction q : a) {
+                    String qs = safe(q.toString());
+                    if (is4BCompare(qs)) has4 = true;
+                    if (is0BCompare(qs)) has0 = true;
+                    if (is7BCompare(qs)) has7 = true;
+                }
+
+                // Only print functions that contain an exact 0x4B selector
+                // together with exact 0x0B / 0x7B, or a clearly byte-oriented 0x4B.
+                boolean candidate = (has4 && (has0 || has7)) || (has4 && isByteOriented4B(s));
+                if (!candidate) continue;
+
+                candidateFunctions++;
+
+                println("\n------------------------------------------------------------");
+                println("PROTOCOL CANDIDATE FUNCTION");
+                println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+                println("HAS EXACT: 4B=" + has4 + " 0B=" + has0 + " 7B=" + has7);
+
+                int shown = 0;
+                for (Instruction q : a) {
+                    String qs = safe(q.toString());
+                    if (is4BCompare(qs) || is0BCompare(qs) || is7BCompare(qs)) {
+                        println("  CMP: " + q.getAddress() + " : " + qs);
+                        lines++;
+                        shown++;
+                        if (shown >= 24 || lines >= MAX_LINES) break;
+                    }
+                }
+
+                // Focused byte-read context around each exact 4B compare.
+                for (Instruction q : a) {
+                    if (lines >= MAX_LINES) return;
+                    String qs = safe(q.toString());
+                    if (!is4BCompare(qs)) continue;
+
+                    println("  -- 4B BYTE CONTEXT @ " + q.getAddress() + " --");
+                    int qi = a.indexOf(q);
+                    int st = Math.max(0, qi - 6);
+                    int en = Math.min(a.size(), qi + 9);
+                    for (int k = st; k < en && lines < MAX_LINES; k++) {
+                        Instruction z = a.get(k);
+                        println("     " + z.getAddress() + " : " + safe(z.toString()));
+                        lines++;
+                    }
+                }
+            }
+        }
+
+        println("\nEXACT IMMEDIATE SUMMARY");
+        println("EXACT 0x4B COMPARES: " + exact4);
+        println("EXACT 0x0B COMPARES: " + exact0);
+        println("EXACT 0x7B COMPARES: " + exact7);
+        println("PROTOCOL CANDIDATE FUNCTIONS: " + candidateFunctions);
+    }
+
+    private boolean isByteOriented4B(String s) {
+        String x = safe(s).toLowerCase();
+        return x.contains("cmpb.eq") ||
+               x.contains("cmpb.gt") ||
+               x.contains("cmpb.gtu") ||
+               x.contains("memub");
+    }
+
     private void globalExactCompareScan() {
         println("\n============================================================");
         println("GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B");
@@ -584,9 +708,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         inspectLikelyCurrentFunctions();
         println("\n[STEP 1/4] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
-        println("\n[STEP 2/3] Reviewing exact 4B / 7B compare locations...");
-        listExactCompareLocations();
-        println("\n[STEP 3/3] Running bounded exact compare scan...");
+        println("\n[STEP 2/4] Running exact-immediate protocol candidate analysis...");
+        inspectExactProtocolCandidates();
+        println("\n[STEP 3/4] Running bounded exact compare scan...");
         globalExactCompareScan();
         println("\n[STEP 4/4] Analysis complete.");
 
