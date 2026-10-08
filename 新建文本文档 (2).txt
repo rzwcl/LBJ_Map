@@ -1,211 +1,773 @@
-FindFreqConst.java> Running...
+TracePropertyGp.java> Running...
 ============================================================
- QDSP6SW FREQUENCY REPRESENTATION SCAN
+ RFDEBUG PROPERTY / GP TRACE
+ Program : qdsp6sw.mbn
+ Image   : c1600000
+ READ ONLY
 ============================================================
-Program : qdsp6sw.mbn
-Image   : c1600000
-READ ONLY
 
 PROGRAM CHECK : PASS
 
-TARGET:
-  Hz        = 821237500
-  Hex32     = 0x30F316FC
-  LE32      = FC 16 F3 30
-  BE32      = 30 F3 16 FC
+------------------------------------------------------------
+[1] PROPERTY METADATA ADDRESSES
+------------------------------------------------------------
 
-ALTERNATE INTEGER VALUES:
-  821237500
-   82123750
-    8212375
-     821238
-     821237
+PROPERTY NAME TABLE : c9199fb8
+  MEMORY : true
+  BLOCK  : segment_21
+  RANGE  : c8cb0000 - c922cfff
+  FLAGS  : R=true W=true X=false
+  SYMBOL : <none>
 
-IEEE754:
-  float  821237500.0
-  double 821237500.0
-  float  821237.5
-  double 821237.5
-  float  821.2375
-  double 821.2375
+FREQUENCY NAME : c919a028
+  MEMORY : true
+  BLOCK  : segment_21
+  RANGE  : c8cb0000 - c922cfff
+  FLAGS  : R=true W=true X=false
+  SYMBOL : <none>
+
+CRITICAL / ATTRIBUTE TABLE : c919a892
+  MEMORY : true
+  BLOCK  : segment_21
+  RANGE  : c8cb0000 - c922cfff
+  FLAGS  : R=true W=true X=false
+  SYMBOL : <none>
+
+PROPERTY TYPE TABLE : c919a900
+  MEMORY : true
+  BLOCK  : segment_21
+  RANGE  : c8cb0000 - c922cfff
+  FLAGS  : R=true W=true X=false
+  SYMBOL : <none>
+
+PAGE 0xC9199000 : c9199000
+PAGE 0xC919A000 : c919a000
+
+PROP_NAMES - 0xC919A000 = 0xFFFFFFFFFFFFFFB8
+PROP_FREQ  - 0xC919A000 = 0x28
+PROP_CRIT  - 0xC919A000 = 0x892
+PROP_TYPES - 0xC919A000 = 0x900
 
 ------------------------------------------------------------
-BLOCK : segment_27
-RANGE : a1221000 - a1221093
-FLAGS : R=true W=false X=false
+[2] GP REGISTER
+------------------------------------------------------------
+GP REGISTER : GP
+GP SIZE     : 32 bits
+GP DEFAULT  : not queried
+Reason      : this Ghidra version requires
+              an Address argument for getDefaultValue().
 
 ------------------------------------------------------------
-BLOCK : segment_28
-RANGE : a1222000 - a2260fff
-FLAGS : R=true W=false X=false
+[3] PROPERTY ADDRESS-FORMATION SCAN
+------------------------------------------------------------
+Targets:
+  0xC9199FB8
+  0xC919A028
+  0xC919A892
+  0xC919A900
+  0xC9199000
+  0xC919A000
+
+
+EXECUTABLE BLOCKS SCANNED : 8
+INSTRUCTIONS SCANNED       : 1415334
+PROPERTY-RELATED HITS      : 0
 
 ------------------------------------------------------------
-BLOCK : segment_2
-RANGE : c1600000 - c1602fff
-FLAGS : R=true W=false X=true
-
+[4] GP INSTRUCTION SCAN
 ------------------------------------------------------------
-BLOCK : segment_3
-RANGE : c1610000 - c1647fff
-FLAGS : R=true W=true X=true
 
-------------------------------------------------------------
-BLOCK : segment_4
-RANGE : c1690000 - c16bbfff
-FLAGS : R=true W=true X=true
+################ GP HIT 1 ################
+ADDRESS     : c16012e0
+INSTRUCTION : assign GP,R1 
+FUNCTION    : FUN_c1600cc4
+ENTRY       : c1600cc4
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_5
-RANGE : c16bc000 - c16eefff
-FLAGS : R=true W=true X=false
+################ GP HIT 2 ################
+ADDRESS     : c16012e4
+INSTRUCTION : assign SGP0,SP 
+FUNCTION    : FUN_c1600cc4
+ENTRY       : c1600cc4
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_6
-RANGE : c16ef000 - c16fcfff
-FLAGS : R=true W=false X=false
+################ GP HIT 3 ################
+ADDRESS     : c16017a8
+INSTRUCTION : assign ISDBGPR,R1 
+FUNCTION    : FUN_c1601770
+ENTRY       : c1601770
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_7
-RANGE : c16fd000 - c171dfff
-FLAGS : R=true W=true X=true
+################ GP HIT 4 ################
+ADDRESS     : c16025b4
+INSTRUCTION : assign R2,GP 
+FUNCTION    : FUN_c1601834
+ENTRY       : c1601834
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_8
-RANGE : c171e000 - c177dfff
-FLAGS : R=true W=true X=true
+################ GP HIT 5 ################
+ADDRESS     : c16025c0
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c1601834
+ENTRY       : c1601834
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_9
-RANGE : c1780000 - c1a85fff
-FLAGS : R=true W=false X=true
+################ GP HIT 6 ################
+ADDRESS     : c1602760
+INSTRUCTION : assign R19,SGP0 
+FUNCTION    : FUN_c1602730
+ENTRY       : c1602730
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_10
-RANGE : c1a90000 - c1a9efff
-FLAGS : R=true W=false X=false
+################ GP HIT 7 ################
+ADDRESS     : c1614c70
+INSTRUCTION : assign R9,SGP0 
+FUNCTION    : FUN_c1614c00
+ENTRY       : c1614c00
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_11
-RANGE : c1aa0000 - c1aa4fff
-FLAGS : R=true W=false X=true
+################ GP HIT 8 ################
+ADDRESS     : c1615298
+INSTRUCTION : assign R5,SGP0 
+FUNCTION    : FUN_c1615288
+ENTRY       : c1615288
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_12
-RANGE : c1aa5000 - c1d4dfff
-FLAGS : R=true W=false X=true
+################ GP HIT 9 ################
+ADDRESS     : c1615394
+INSTRUCTION : assign SP,SGP0 
+FUNCTION    : FUN_c1615314
+ENTRY       : c1615314
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_13
-RANGE : c1d80000 - c1dcffff
-FLAGS : R=true W=true X=false
+################ GP HIT 10 ################
+ADDRESS     : c161540c
+INSTRUCTION : assign SP,SGP0 
+FUNCTION    : FUN_c16153a4
+ENTRY       : c16153a4
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_14
-RANGE : c1e00000 - c21d3fff
-FLAGS : R=true W=true X=false
+################ GP HIT 11 ################
+ADDRESS     : c1615438
+INSTRUCTION : assign SP,SGP0 
+FUNCTION    : FUN_c1615300
+ENTRY       : c1615300
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_15
-RANGE : c21d4000 - c21d4fff
-FLAGS : R=true W=false X=false
+################ GP HIT 12 ################
+ADDRESS     : c161545c
+INSTRUCTION : assign SP,SGP0 
+FUNCTION    : FUN_c1615448
+ENTRY       : c1615448
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_16
-RANGE : c21d5000 - c240afff
-FLAGS : R=true W=true X=false
+################ GP HIT 13 ################
+ADDRESS     : c1615564
+INSTRUCTION : assign SP,SGP0 
+FUNCTION    : FUN_c161553c
+ENTRY       : c161553c
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_17
-RANGE : c2440000 - c24defff
-FLAGS : R=true W=true X=false
+################ GP HIT 14 ################
+ADDRESS     : c1615654
+INSTRUCTION : assign UGP,R4 
+FUNCTION    : FUN_c161553c
+ENTRY       : c161553c
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_18
-RANGE : c2500000 - c270cfff
-FLAGS : R=true W=true X=false
+################ GP HIT 15 ################
+ADDRESS     : c1615d14
+INSTRUCTION : assign UGP,R13 
+FUNCTION    : FUN_c1615cdc
+ENTRY       : c1615cdc
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_19
-RANGE : c270d000 - c470efff
-FLAGS : R=true W=true X=false
+################ GP HIT 16 ################
+ADDRESS     : c1615d28
+INSTRUCTION : assign GP,R12 
+FUNCTION    : FUN_c1615cdc
+ENTRY       : c1615cdc
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_20
-RANGE : c470f000 - c8caefff
-FLAGS : R=true W=false X=false
+################ GP HIT 17 ################
+ADDRESS     : c1615da8
+INSTRUCTION : assign UGP,R13 
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_21
-RANGE : c8cb0000 - c922cfff
-FLAGS : R=true W=true X=false
+################ GP HIT 18 ################
+ADDRESS     : c1615db4
+INSTRUCTION : assign GP,R12 
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_22
-RANGE : c9230000 - cbf0efff
-FLAGS : R=true W=false X=false
+################ GP HIT 19 ################
+ADDRESS     : c1616504
+INSTRUCTION : assign R21,SGP0 
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_23
-RANGE : cbf0f000 - cbf28fff
-FLAGS : R=true W=true X=false
+################ GP HIT 20 ################
+ADDRESS     : c1616594
+INSTRUCTION : assign R3,SGP0 
+FUNCTION    : FUN_c1616580
+ENTRY       : c1616580
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_24
-RANGE : cbf30000 - ce536fff
-FLAGS : R=true W=true X=false
+################ GP HIT 21 ################
+ADDRESS     : c1616928
+INSTRUCTION : assign R2,SGP0 
+FUNCTION    : FUN_c1616920
+ENTRY       : c1616920
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_25
-RANGE : ce540000 - ce653fff
-FLAGS : R=true W=false X=false
+################ GP HIT 22 ################
+ADDRESS     : c161709c
+INSTRUCTION : assign R2,SGP0 
+FUNCTION    : FUN_c1616f30
+ENTRY       : c1616f30
+############################################################
 
-------------------------------------------------------------
-BLOCK : segment_26
-RANGE : ce654000 - ce6bffff
-FLAGS : R=true W=true X=false
+################ GP HIT 23 ################
+ADDRESS     : c16172b4
+INSTRUCTION : assign R2,SGP0 
+FUNCTION    : FUN_c16172a8
+ENTRY       : c16172a8
+############################################################
 
-------------------------------------------------------------
-BLOCK : _elfHeader
-RANGE : _elfHeader::00000000 - _elfHeader::00000033
-FLAGS : R=false W=false X=false
+################ GP HIT 24 ################
+ADDRESS     : c1617308
+INSTRUCTION : assign R2,SGP0 
+FUNCTION    : FUN_c16172e4
+ENTRY       : c16172e4
+############################################################
 
-------------------------------------------------------------
-BLOCK : _elfProgramHeaders
-RANGE : _elfProgramHeaders::00000000 - _elfProgramHeaders::0000039f
-FLAGS : R=false W=false X=false
+################ GP HIT 25 ################
+ADDRESS     : c161737c
+INSTRUCTION : assign R2,SGP0 
+FUNCTION    : FUN_c1617358
+ENTRY       : c1617358
+############################################################
 
-------------------------------------------------------------
-BLOCK : unallocated_0
-RANGE : unallocated_0::00000000 - unallocated_0::00002c2b
-FLAGS : R=false W=false X=false
+################ GP HIT 26 ################
+ADDRESS     : c1617410
+INSTRUCTION : assign R2,SGP0 
+FUNCTION    : FUN_c1617358
+ENTRY       : c1617358
+############################################################
+
+################ GP HIT 27 ################
+ADDRESS     : c1617440
+INSTRUCTION : assign R2,SGP0 
+FUNCTION    : FUN_c1617358
+ENTRY       : c1617358
+############################################################
+
+################ GP HIT 28 ################
+ADDRESS     : c1617954
+INSTRUCTION : assign R10,UGP 
+############################################################
+
+################ GP HIT 29 ################
+ADDRESS     : c16179f4
+INSTRUCTION : assign UGP,R3 
+FUNCTION    : FUN_c16179b8
+ENTRY       : c16179b8
+############################################################
+
+################ GP HIT 30 ################
+ADDRESS     : c1617a04
+INSTRUCTION : assign GP,R2 
+FUNCTION    : FUN_c16179b8
+ENTRY       : c16179b8
+############################################################
+
+################ GP HIT 31 ################
+ADDRESS     : c1618120
+INSTRUCTION : assign R17,UGP 
+FUNCTION    : FUN_c16180fc
+ENTRY       : c16180fc
+############################################################
+
+################ GP HIT 32 ################
+ADDRESS     : c161812c
+INSTRUCTION : assign R16,GP 
+FUNCTION    : FUN_c16180fc
+ENTRY       : c16180fc
+############################################################
+
+################ GP HIT 33 ################
+ADDRESS     : c161e7d0
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c161e6f4
+ENTRY       : c161e6f4
+############################################################
+
+################ GP HIT 34 ################
+ADDRESS     : c161e7ec
+INSTRUCTION : memw R0,(GP+#0x773c) 
+FUNCTION    : FUN_c161e6f4
+ENTRY       : c161e6f4
+############################################################
+
+################ GP HIT 35 ################
+ADDRESS     : c161e82c
+INSTRUCTION : memw R2,(GP+#0x773c) 
+FUNCTION    : FUN_c161e6f4
+ENTRY       : c161e6f4
+############################################################
+
+################ GP HIT 36 ################
+ADDRESS     : c161e844
+INSTRUCTION : memw R2,(GP+#0x773c) 
+FUNCTION    : FUN_c161e6f4
+ENTRY       : c161e6f4
+############################################################
+
+################ GP HIT 37 ################
+ADDRESS     : c161e924
+INSTRUCTION : memw R5,(GP+#0x11bc4) 
+FUNCTION    : FUN_c161e910
+ENTRY       : c161e910
+############################################################
+
+################ GP HIT 38 ################
+ADDRESS     : c161eb24
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c161eb00
+ENTRY       : c161eb00
+############################################################
+
+################ GP HIT 39 ################
+ADDRESS     : c161f4a4
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f478
+ENTRY       : c161f478
+############################################################
+
+################ GP HIT 40 ################
+ADDRESS     : c161f524
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f478
+ENTRY       : c161f478
+############################################################
+
+################ GP HIT 41 ################
+ADDRESS     : c161f584
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f580
+ENTRY       : c161f580
+############################################################
+
+################ GP HIT 42 ################
+ADDRESS     : c161f5c0
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f5c0
+ENTRY       : c161f5c0
+############################################################
+
+################ GP HIT 43 ################
+ADDRESS     : c161f644
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f640
+ENTRY       : c161f640
+############################################################
+
+################ GP HIT 44 ################
+ADDRESS     : c161f6a0
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f640
+ENTRY       : c161f640
+############################################################
+
+################ GP HIT 45 ################
+ADDRESS     : c161f6c0
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f640
+ENTRY       : c161f640
+############################################################
+
+################ GP HIT 46 ################
+ADDRESS     : c161f72c
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f728
+ENTRY       : c161f728
+############################################################
+
+################ GP HIT 47 ################
+ADDRESS     : c161f780
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f780
+ENTRY       : c161f780
+############################################################
+
+################ GP HIT 48 ################
+ADDRESS     : c161f824
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f818
+ENTRY       : c161f818
+############################################################
+
+################ GP HIT 49 ################
+ADDRESS     : c161f888
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f818
+ENTRY       : c161f818
+############################################################
+
+################ GP HIT 50 ################
+ADDRESS     : c161f8d4
+INSTRUCTION : assign R3,UGP 
+FUNCTION    : FUN_c161f8d4
+ENTRY       : c161f8d4
+############################################################
+
+################ GP HIT 51 ################
+ADDRESS     : c161f918
+INSTRUCTION : assign R3,UGP 
+############################################################
+
+################ GP HIT 52 ################
+ADDRESS     : c161fee4
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c161fe80
+ENTRY       : c161fe80
+############################################################
+
+################ GP HIT 53 ################
+ADDRESS     : c16200cc
+INSTRUCTION : memw R0,(GP+#0x11bc8) 
+FUNCTION    : FUN_c1620080
+ENTRY       : c1620080
+############################################################
+
+################ GP HIT 54 ################
+ADDRESS     : c16201cc
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c16201a0
+ENTRY       : c16201a0
+############################################################
+
+################ GP HIT 55 ################
+ADDRESS     : c1620550
+INSTRUCTION : memw R6,(GP+#0x11bc8) 
+FUNCTION    : FUN_c1620520
+ENTRY       : c1620520
+############################################################
+
+################ GP HIT 56 ################
+ADDRESS     : c16205d8
+INSTRUCTION : memw R5,(GP+#0x11bc8) 
+FUNCTION    : FUN_c1620598
+ENTRY       : c1620598
+############################################################
+
+################ GP HIT 57 ################
+ADDRESS     : c1620770
+INSTRUCTION : memw R5,(GP+#0x11bc4) 
+FUNCTION    : FUN_c1620598
+ENTRY       : c1620598
+############################################################
+
+################ GP HIT 58 ################
+ADDRESS     : c16208ac
+INSTRUCTION : memw R0,(GP+#0x11bc8) 
+FUNCTION    : FUN_c1620880
+ENTRY       : c1620880
+############################################################
+
+################ GP HIT 59 ################
+ADDRESS     : c16215ec
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c1621508
+ENTRY       : c1621508
+############################################################
+
+################ GP HIT 60 ################
+ADDRESS     : c1621eb0
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c1621e58
+ENTRY       : c1621e58
+############################################################
+
+################ GP HIT 61 ################
+ADDRESS     : c1622228
+INSTRUCTION : assign R0,GP 
+FUNCTION    : FUN_c1622228
+ENTRY       : c1622228
+############################################################
+
+################ GP HIT 62 ################
+ADDRESS     : c1622618
+INSTRUCTION : memw R0,(GP+#0x11bc8) 
+FUNCTION    : FUN_c16225f0
+ENTRY       : c16225f0
+############################################################
+
+################ GP HIT 63 ################
+ADDRESS     : c1622670
+INSTRUCTION : memw R6,(GP+#0x11bc8) 
+FUNCTION    : FUN_c1622640
+ENTRY       : c1622640
+############################################################
+
+################ GP HIT 64 ################
+ADDRESS     : c16227ac
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c1622754
+ENTRY       : c1622754
+############################################################
+
+################ GP HIT 65 ################
+ADDRESS     : c1622834
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c16227dc
+ENTRY       : c16227dc
+############################################################
+
+################ GP HIT 66 ################
+ADDRESS     : c16902b4
+INSTRUCTION : memw R4,(GP+#0x11bd0) 
+FUNCTION    : FUN_c1697054
+ENTRY       : c1697054
+############################################################
+
+################ GP HIT 67 ################
+ADDRESS     : c1690bf0
+INSTRUCTION : memw R2,(GP+#0x11bc4) 
+FUNCTION    : FUN_c1693330
+ENTRY       : c1693330
+############################################################
+
+################ GP HIT 68 ################
+ADDRESS     : c1692088
+INSTRUCTION : memb R2,(GP+#0x18c8) 
+FUNCTION    : FUN_c1694370
+ENTRY       : c1694370
+############################################################
+
+################ GP HIT 69 ################
+ADDRESS     : c16920b4
+INSTRUCTION : memb R2,(GP+#0x18c8) 
+FUNCTION    : FUN_c1694370
+ENTRY       : c1694370
+############################################################
+
+################ GP HIT 70 ################
+ADDRESS     : c16926bc
+INSTRUCTION : memw R2,(GP+#0x11cc4) 
+FUNCTION    : FUN_c169f7b0
+ENTRY       : c169f7b0
+############################################################
+
+################ GP HIT 71 ################
+ADDRESS     : c1693500
+INSTRUCTION : memd R5R4,(GP+#0x12128) 
+FUNCTION    : FUN_c16934e8
+ENTRY       : c16934e8
+############################################################
+
+################ GP HIT 72 ################
+ADDRESS     : c1693570
+INSTRUCTION : memd R5R4,(GP+#0x122d0) 
+FUNCTION    : FUN_c16934e8
+ENTRY       : c16934e8
+############################################################
+
+################ GP HIT 73 ################
+ADDRESS     : c16935d0
+INSTRUCTION : memd R5R4,(GP+#0x12128) 
+FUNCTION    : FUN_c16934e8
+ENTRY       : c16934e8
+############################################################
+
+################ GP HIT 74 ################
+ADDRESS     : c1693640
+INSTRUCTION : memd R7R6,(GP+#0x122d0) 
+FUNCTION    : FUN_c16934e8
+ENTRY       : c16934e8
+############################################################
+
+################ GP HIT 75 ################
+ADDRESS     : c1693890
+INSTRUCTION : memd R7R6,(GP+#0x121b8) 
+FUNCTION    : FUN_c1693848
+ENTRY       : c1693848
+############################################################
+
+################ GP HIT 76 ################
+ADDRESS     : c16942b4
+INSTRUCTION : memb R2,(GP+#0x18cd) 
+FUNCTION    : FUN_c16942b0
+ENTRY       : c16942b0
+############################################################
+
+################ GP HIT 77 ################
+ADDRESS     : c1694310
+INSTRUCTION : memw (GP+#0x72e4),R7 
+FUNCTION    : FUN_c16942d8
+ENTRY       : c16942d8
+############################################################
+
+################ GP HIT 78 ################
+ADDRESS     : c16943a8
+INSTRUCTION : memb R2,(GP+#0x18cf) 
+FUNCTION    : FUN_c1694370
+ENTRY       : c1694370
+############################################################
+
+################ GP HIT 79 ################
+ADDRESS     : c1694510
+INSTRUCTION : memb R3,(GP+#0x18c8) 
+FUNCTION    : FUN_c1694370
+ENTRY       : c1694370
+############################################################
+
+################ GP HIT 80 ################
+ADDRESS     : c1694cb0
+INSTRUCTION : memw R2,(GP+#0x72f0) 
+FUNCTION    : FUN_c1694cb0
+ENTRY       : c1694cb0
+############################################################
+
+################ GP HIT 81 ################
+ADDRESS     : c1694cd8
+INSTRUCTION : memw R2,(GP+#0x72f0) 
+FUNCTION    : FUN_c1694cb0
+ENTRY       : c1694cb0
+############################################################
+
+################ GP HIT 82 ################
+ADDRESS     : c16959f4
+INSTRUCTION : memub R0,(GP+#0x18ad) 
+FUNCTION    : FUN_c16959f0
+ENTRY       : c16959f0
+############################################################
+
+################ GP HIT 83 ################
+ADDRESS     : c1695ad4
+INSTRUCTION : memw R0,(GP+#0xc464) 
+FUNCTION    : FUN_c1695ad0
+ENTRY       : c1695ad0
+############################################################
+
+################ GP HIT 84 ################
+ADDRESS     : c1695c80
+INSTRUCTION : memw R2,(GP+#0xce74) 
+FUNCTION    : FUN_c1695c80
+ENTRY       : c1695c80
+############################################################
+
+################ GP HIT 85 ################
+ADDRESS     : c1695ca0
+INSTRUCTION : assign R2,UGP 
+FUNCTION    : FUN_c1695ca0
+ENTRY       : c1695ca0
+############################################################
+
+################ GP HIT 86 ################
+ADDRESS     : c16962b4
+INSTRUCTION : memw R0,(GP+#0x11bd0) 
+FUNCTION    : FUN_c16961cc
+ENTRY       : c16961cc
+############################################################
+
+################ GP HIT 87 ################
+ADDRESS     : c16962d0
+INSTRUCTION : memw R5,(GP+#0x11bd0) 
+FUNCTION    : FUN_c16961cc
+ENTRY       : c16961cc
+############################################################
+
+################ GP HIT 88 ################
+ADDRESS     : c16966bc
+INSTRUCTION : memw R5,(GP+#0x11bd0) 
+FUNCTION    : FUN_c1696610
+ENTRY       : c1696610
+############################################################
+
+################ GP HIT 89 ################
+ADDRESS     : c16966dc
+INSTRUCTION : memw R5,(GP+#0x11bd0) 
+FUNCTION    : FUN_c1696610
+ENTRY       : c1696610
+############################################################
+
+################ GP HIT 90 ################
+ADDRESS     : c1696a04
+INSTRUCTION : memw R4,(GP+#0x11bd0) 
+FUNCTION    : FUN_c16969a8
+ENTRY       : c16969a8
+############################################################
+
+################ GP HIT 91 ################
+ADDRESS     : c1696ae8
+INSTRUCTION : memw R4,(GP+#0x11bd0) 
+FUNCTION    : FUN_c16969a8
+ENTRY       : c16969a8
+############################################################
+
+################ GP HIT 92 ################
+ADDRESS     : c1696e44
+INSTRUCTION : memw R5,(GP+#0x11bcc) 
+############################################################
+
+################ GP HIT 93 ################
+ADDRESS     : c1696e64
+INSTRUCTION : memw R5,(GP+#0x11bd0) 
+############################################################
+
+################ GP HIT 94 ################
+ADDRESS     : c1697038
+INSTRUCTION : memw R4,(GP+#0x11bd0) 
+FUNCTION    : FUN_c1696f90
+ENTRY       : c1696f90
+############################################################
+
+################ GP HIT 95 ################
+ADDRESS     : c1697248
+INSTRUCTION : memw R5,(GP+#0x11bd0) 
+FUNCTION    : FUN_c169721c
+ENTRY       : c169721c
+############################################################
+
+################ GP HIT 96 ################
+ADDRESS     : c16972ac
+INSTRUCTION : memw R5,(GP+#0x11bd0) 
+FUNCTION    : FUN_c169721c
+ENTRY       : c169721c
+############################################################
+
+################ GP HIT 97 ################
+ADDRESS     : c1697984
+INSTRUCTION : memw (GP+#0x6524),R2.new 
+FUNCTION    : FUN_c16978c0
+ENTRY       : c16978c0
+############################################################
+
+################ GP HIT 98 ################
+ADDRESS     : c1697f28
+INSTRUCTION : memw R2,(GP+#0x6514) 
+############################################################
+
+################ GP HIT 99 ################
+ADDRESS     : c1699718
+INSTRUCTION : memd R3R2,(GP+#0x12588) 
+FUNCTION    : FUN_c1698ac8
+ENTRY       : c1698ac8
+############################################################
+
+################ GP HIT 100 ################
+ADDRESS     : c16998d0
+INSTRUCTION : memd R3R2,(GP+#0x12588) 
+FUNCTION    : FUN_c1698ac8
+ENTRY       : c1698ac8
+############################################################
+[GP OUTPUT LIMIT REACHED]
+
+EXECUTABLE BLOCKS : 3
+INSTRUCTIONS      : 20991
+GP HITS           : 100
 
 ============================================================
-TOTAL MATCHES : 0
-
-NO ALTERNATE FREQUENCY REPRESENTATION FOUND.
-
-Next step should be dynamic/dataflow analysis:
-property ID 28 -> frequency conversion/storage
-============================================================
+DONE
 No program structures were modified.
-FindFreqConst.java> Finished!
-TracePropertyGp.java:266: error: method getDefaultValue in interface ghidra.program.model.listing.ProgramContext cannot be applied to given types;
-                    .getDefaultValue(gp)
-                    ^
-  required: ghidra.program.model.lang.Register,ghidra.program.model.address.Address
-  found:    ghidra.program.model.lang.Register
-  reason: actual and formal argument lists differ in length
-TracePropertyGp.java:349: error: incompatible types: ghidra.program.model.address.AddressRange cannot be converted to ghidra.program.model.address.AddressSetView
-                block.getAddressRange();
-                                     ^
-TracePropertyGp.java:728: error: no suitable method found for getInstructions(ghidra.program.model.address.AddressRange,boolean)
-                    .getInstructions(
-                    ^
-    method ghidra.program.model.listing.Listing.getInstructions(ghidra.program.model.address.Address,boolean) is not applicable
-      (argument mismatch; ghidra.program.model.address.AddressRange cannot be converted to ghidra.program.model.address.Address)
-    method ghidra.program.model.listing.Listing.getInstructions(ghidra.program.model.address.AddressSetView,boolean) is not applicable
-      (argument mismatch; ghidra.program.model.address.AddressRange cannot be converted to ghidra.program.model.address.AddressSetView)
-Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
-skipping D:\X55RE\ghidra_scripts\TracePropertyGp.java
-> Unable to load script: TracePropertyGp.java
->   detail: The class could not be found. It must be the public class of the .java file: TracePropertyGp not found by 96d0d82b [121]
+============================================================
+TracePropertyGp.java> Finished!
