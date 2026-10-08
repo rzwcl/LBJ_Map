@@ -189,3 +189,23 @@ property ID 28 -> frequency conversion/storage
 ============================================================
 No program structures were modified.
 FindFreqConst.java> Finished!
+TracePropertyGp.java:266: error: method getDefaultValue in interface ghidra.program.model.listing.ProgramContext cannot be applied to given types;
+                    .getDefaultValue(gp)
+                    ^
+  required: ghidra.program.model.lang.Register,ghidra.program.model.address.Address
+  found:    ghidra.program.model.lang.Register
+  reason: actual and formal argument lists differ in length
+TracePropertyGp.java:349: error: incompatible types: ghidra.program.model.address.AddressRange cannot be converted to ghidra.program.model.address.AddressSetView
+                block.getAddressRange();
+                                     ^
+TracePropertyGp.java:728: error: no suitable method found for getInstructions(ghidra.program.model.address.AddressRange,boolean)
+                    .getInstructions(
+                    ^
+    method ghidra.program.model.listing.Listing.getInstructions(ghidra.program.model.address.Address,boolean) is not applicable
+      (argument mismatch; ghidra.program.model.address.AddressRange cannot be converted to ghidra.program.model.address.Address)
+    method ghidra.program.model.listing.Listing.getInstructions(ghidra.program.model.address.AddressSetView,boolean) is not applicable
+      (argument mismatch; ghidra.program.model.address.AddressRange cannot be converted to ghidra.program.model.address.AddressSetView)
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+skipping D:\X55RE\ghidra_scripts\TracePropertyGp.java
+> Unable to load script: TracePropertyGp.java
+>   detail: The class could not be found. It must be the public class of the .java file: TracePropertyGp not found by 96d0d82b [121]
