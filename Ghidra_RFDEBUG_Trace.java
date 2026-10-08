@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C18F3530CALLBACKS-1";
+    private static final String TRACE_BUILD = "7BPOINTS-1";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -1442,6 +1442,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         traceC18E7A50CallersAndObject();
         traceC18E91D0Chain();
         traceC18F3530Callbacks();
+        traceExact7BPoints();
         printCompactFunction(0xc1902c74L, MAX_C1902_INSNS, false);
 
         // Inspect the actual caller function, but do not dump the giant secondary parser.
@@ -2853,6 +2854,134 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         println("\n============================================================");
         println("C18F3530 / C18F2B18 TRACE COMPLETE");
+        println("============================================================");
+    }
+
+    private void traceExact7BPoints() {
+        println("\n============================================================");
+        println("EXACT 0x7B DISPATCH POINT TRACE");
+        println("PURPOSE: locate the real 0x7B branch used by FTM RFDEBUG");
+        println("STRATEGY: enumerate exact immediate 0x7B compares only, then inspect");
+        println("their function bodies, callsites, and nearby 0x4B/0x0B evidence");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        int found = 0;
+        int shown = 0;
+        Set<Long> seenFunctions = new HashSet<Long>();
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it =
+                currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                Instruction ins = it.next();
+                if (!isExact7BInsn(ins)) continue;
+
+                found++;
+
+                Function f = functionContaining(ins.getAddress());
+                println("\n------------------------------------------------------------");
+                println("0x7B COMPARE #" + found + " @ " + ins.getAddress());
+                println("INS: " + safe(ins.toString()));
+                println("FUNCTION: " +
+                    (f == null ? "<none>" :
+                     f.getName() + " @ " + f.getEntryPoint()));
+
+                if (f == null || shown >= 8) continue;
+
+                long key = f.getEntryPoint().getOffset();
+                if (!seenFunctions.add(key)) continue;
+                shown++;
+
+                ArrayList<Instruction> a = collect(f);
+                int idx = -1;
+
+                for (int i = 0; i < a.size(); i++) {
+                    if (a.get(i).getAddress().equals(ins.getAddress())) {
+                        idx = i;
+                        break;
+                    }
+                }
+
+                int c4 = 0;
+                int c0 = 0;
+                int c7 = 0;
+                int calls = 0;
+
+                for (int i = 0; i < a.size(); i++) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                    String s = safe(a.get(i).toString());
+                    if (is4BCompare(s)) c4++;
+                    if (is0BCompare(s)) c0++;
+                    if (is7BCompare(s)) c7++;
+                    if (isCall(s)) calls++;
+                }
+
+                println("FUNCTION COUNTS: 4B=" + c4 +
+                        " 0B=" + c0 +
+                        " 7B=" + c7 +
+                        " CALLS=" + calls);
+
+                if (idx >= 0) {
+                    int st = Math.max(0, idx - 32);
+                    int en = Math.min(a.size(), idx + 64);
+
+                    println("LOCAL WINDOW:");
+                    for (int i = st; i < en && lines < MAX_LINES; i++) {
+                        if (monitor.isCancelled()) return;
+
+                        Instruction x = a.get(i);
+                        String s = safe(x.toString());
+
+                        if (i == idx ||
+                            is4BCompare(s) ||
+                            is0BCompare(s) ||
+                            is7BCompare(s) ||
+                            isCall(s) ||
+                            hasMemoryRead(s)) {
+                            println("  " +
+                                (i == idx ? ">>> " : "    ") +
+                                x.getAddress() + " : " + s);
+                            lines++;
+                        }
+                    }
+                }
+
+                println("CALLERS OF FUNCTION:");
+                ReferenceIterator rit =
+                    currentProgram.getReferenceManager().
+                    getReferencesTo(f.getEntryPoint());
+
+                int cn = 0;
+                while (rit.hasNext() && cn < 12 && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+
+                    Reference r = rit.next();
+                    if (!r.getReferenceType().isCall()) continue;
+
+                    Function caller = functionContaining(r.getFromAddress());
+                    println("  CALLER " + r.getFromAddress() +
+                        " <- " +
+                        (caller == null ? "<none>" :
+                         caller.getName() + " @ " + caller.getEntryPoint()));
+                    lines++;
+                    cn++;
+                }
+
+                if (cn == 0) println("  <none>");
+            }
+        }
+
+        println("\n============================================================");
+        println("EXACT 0x7B DISPATCH POINT TRACE COMPLETE");
+        println("TOTAL EXACT 0x7B COMPARES=" + found);
+        println("UNIQUE FUNCTIONS SHOWN=" + shown);
         println("============================================================");
     }
 
