@@ -1075,6 +1075,187 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         if (shown == 0) println("    CALLER: <none>");
     }
 
+    private void scanCombinedProtocolConstants() {
+        println("\n============================================================");
+        println("COMBINED PROTOCOL CONSTANT SCAN");
+        println("TARGET BYTE STREAM: 4B 0B 7B 00");
+        println("TEST VALUES:");
+        println("  LE32 = 0x007B0B4B");
+        println("  24BIT = 0x7B0B4B");
+        println("  LE16(first2) = 0x0B4B");
+        println("  LE16(last2)  = 0x007B");
+        println("  FTM SUBCMD   = 0x007B");
+        println("============================================================");
+
+        long[] targets = {
+            0x007b0b4bL,
+            0x7b0b4bL,
+            0x0b4bL,
+            0x7bL,
+            0x0bL,
+            0x4bL
+        };
+
+        int[] counts = new int[targets.length];
+        int scanned = 0;
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it = currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                Instruction ins = it.next();
+                scanned++;
+
+                if (!isCompare(ins.toString())) continue;
+
+                for (int k = 0; k < targets.length; k++) {
+                    if (!instructionHasExactImm(ins, targets[k])) continue;
+
+                    counts[k]++;
+
+                    println("\nCOMBINED CONSTANT HIT");
+                    println("VALUE: 0x" + Long.toHexString(targets[k]));
+                    println("ADDR : " + ins.getAddress());
+                    println("INS  : " + safe(ins.toString()));
+
+                    Function f = functionContaining(ins.getAddress());
+                    println("FUNC : " +
+                        (f == null ? "<none>" :
+                         f.getName() + " @ " + f.getEntryPoint()));
+
+                    printNearbyLoadsForComparedRegister(ins, 14);
+                    printCallsAfter(ins, 18);
+
+                    lines++;
+                    if (counts[k] >= 24) {
+                        println("  [PER-VALUE LIMIT] 24");
+                        break;
+                    }
+                }
+            }
+        }
+
+        println("\nCOMBINED CONSTANT SUMMARY");
+        for (int k = 0; k < targets.length; k++) {
+            println("0x" + Long.toHexString(targets[k]) + " : " + counts[k]);
+        }
+        println("SCANNED: " + scanned);
+    }
+
+    private void printNearbyLoadsForComparedRegister(Instruction cmp, int before) {
+        if (cmp == null || lines >= MAX_LINES) return;
+
+        String cs = safe(cmp.toString());
+        String reg = extractComparedRegister(cs);
+        if (reg == null) {
+            println("  COMPARED REGISTER: <not parsed>");
+            return;
+        }
+
+        println("  COMPARED REGISTER: " + reg);
+
+        Instruction cur = cmp;
+        int shown = 0;
+
+        for (int i = 0; i < before && lines < MAX_LINES; i++) {
+            Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+            if (p == null) break;
+
+            String ps = safe(p.toString());
+            if (isLoadIntoRegister(ps, reg)) {
+                println("  LOAD SAME REG: " + p.getAddress() + " : " + ps);
+                lines++;
+                shown++;
+            }
+
+            cur = p;
+        }
+
+        if (shown == 0) println("  LOAD SAME REG: <none within " + before + " instructions>");
+    }
+
+    private String extractComparedRegister(String s) {
+        if (s == null) return null;
+
+        String x = safe(s);
+        int comma = x.indexOf(',');
+        if (comma < 0) return null;
+
+        String rest = x.substring(comma + 1).trim();
+
+        // Common Ghidra Hexagon forms:
+        // cmp.eq P0,R2,#0x4b
+        // cmp.gt P0,R21,#0x4b
+        int comma2 = rest.indexOf(',');
+        if (comma2 < 0) return null;
+
+        String reg = rest.substring(0, comma2).trim();
+        if (reg.startsWith("R") || reg.startsWith("r")) {
+            return reg;
+        }
+
+        // Some predicated forms may have an extra predicate token.
+        int p = rest.indexOf(",R");
+        if (p < 0) p = rest.indexOf(",r");
+        if (p >= 0) {
+            int q = rest.indexOf(',', p + 1);
+            if (q > p) return rest.substring(p + 1, q).trim();
+        }
+
+        return null;
+    }
+
+    private boolean isLoadIntoRegister(String s, String reg) {
+        if (s == null || reg == null) return false;
+
+        String x = safe(s);
+        String lo = x.toLowerCase();
+        String rr = reg.toLowerCase();
+
+        boolean load = lo.contains("memub ") ||
+                       lo.contains("memuh ") ||
+                       lo.contains("memw ") ||
+                       lo.contains("memd ") ||
+                       lo.contains("memb ");
+
+        if (!load) return false;
+
+        // Avoid needing an ISA parser: require the destination register
+        // to occur before the first '(' or before the first comma if needed.
+        int paren = x.indexOf('(');
+        String lhs = paren >= 0 ? x.substring(0, paren) : x;
+        return lhs.toLowerCase().contains(rr);
+    }
+
+    private void printCallsAfter(Instruction center, int count) {
+        if (center == null || lines >= MAX_LINES) return;
+
+        Instruction cur = center;
+        int shown = 0;
+
+        for (int i = 0; i < count && lines < MAX_LINES; i++) {
+            Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+            if (n == null) break;
+
+            String s = safe(n.toString());
+            if (isCall(s)) {
+                println("  CALL AFTER: " + n.getAddress() + " : " + s);
+                lines++;
+                shown++;
+            }
+
+            cur = n;
+        }
+
+        if (shown == 0) println("  CALL AFTER: <none within " + count + " instructions>");
+    }
+
     private void globalExactCompareScan() {
         println("\n============================================================");
         println("GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B");
@@ -1172,17 +1353,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         lines = 0;
 
         inspectLikelyCurrentFunctions();
-        println("\n[STEP 1/6] Reviewing previously discovered raw 4B 0B addresses...");
+        println("\n[STEP 1/7] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
-        println("\n[STEP 2/6] Running exact-immediate protocol candidate analysis...");
+        println("\n[STEP 2/7] Running exact-immediate protocol candidate analysis...");
         inspectExactProtocolCandidates();
-        println("\n[STEP 3/6] Ranking packet-header dataflow candidates...");
+        println("\n[STEP 3/7] Ranking packet-header dataflow candidates...");
         rankPacketHeaderCandidates();
-        println("\n[STEP 4/6] Running exact byte-compare protocol trace...");
+        println("\n[STEP 4/7] Scanning combined protocol constants and register dataflow...");
+        scanCombinedProtocolConstants();
+        println("\n[STEP 5/7] Running exact byte-compare protocol trace...");
         traceExactByteProtocol();
-        println("\n[STEP 5/6] Running bounded legacy compare scan...");
         globalExactCompareScan();
-        println("\n[STEP 6/6] Analysis complete.");
+        println("\n[STEP 6/7] Running bounded legacy compare scan...");
+        globalExactCompareScan();
+        println("\n[STEP 7/7] Analysis complete.");
 
         println("\n============================================================");
         println("DONE");
