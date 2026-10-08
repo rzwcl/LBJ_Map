@@ -10,6 +10,7 @@ import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.listing.InstructionIterator;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
+import ghidra.program.model.scalar.Scalar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -88,6 +89,45 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                x.contains("cmp.eq") ||
                x.contains("cmp.gt") ||
                x.contains("cmp.gtu");
+    }
+
+    private boolean instructionHasExactImm(Instruction ins, long wanted) {
+        if (ins == null) return false;
+
+        int n = ins.getNumOperands();
+        for (int op = 0; op < n; op++) {
+            Object[] objs = ins.getOpObjects(op);
+            if (objs == null) continue;
+
+            for (Object obj : objs) {
+                if (obj instanceof Scalar) {
+                    Scalar sc = (Scalar)obj;
+                    if (sc.getUnsignedValue() == wanted) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isExact4BInsn(Instruction ins) {
+        if (ins == null) return false;
+        return isCompare(ins.toString()) && instructionHasExactImm(ins, 0x4b);
+    }
+
+    private boolean isExact0BInsn(Instruction ins) {
+        if (ins == null) return false;
+        return isCompare(ins.toString()) && instructionHasExactImm(ins, 0x0b);
+    }
+
+    private boolean isExact7BInsn(Instruction ins) {
+        if (ins == null) return false;
+        return isCompare(ins.toString()) && instructionHasExactImm(ins, 0x7b);
+    }
+
+    private boolean isByteCompare(Instruction ins) {
+        if (ins == null) return false;
+        String m = safe(ins.getMnemonicString()).toLowerCase();
+        return m.startsWith("cmpb.");
     }
 
     private boolean hasMemoryRead(String s) {
@@ -609,6 +649,218 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                x.contains("memub");
     }
 
+    private void traceExactByteProtocol() {
+        println("\n============================================================");
+        println("EXACT BYTE-COMPARE PROTOCOL TRACE");
+        println("USES Ghidra Scalar OPERANDS — NOT TEXT SUBSTRING MATCHING");
+        println("TARGETS: byte compares against exact 0x4B / 0x0B / 0x7B");
+        println("============================================================");
+
+        int total4 = 0, total0 = 0, total7 = 0;
+        int byte4 = 0, byte0 = 0, byte7 = 0;
+
+        Set<Long> functions4 = new HashSet<Long>();
+        Set<Long> functions0 = new HashSet<Long>();
+        Set<Long> functions7 = new HashSet<Long>();
+
+        ArrayList<Instruction> exact4List = new ArrayList<Instruction>();
+        ArrayList<Instruction> exact0List = new ArrayList<Instruction>();
+        ArrayList<Instruction> exact7List = new ArrayList<Instruction>();
+
+        int scanned = 0;
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it = currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                Instruction ins = it.next();
+                scanned++;
+
+                boolean e4 = isExact4BInsn(ins);
+                boolean e0 = isExact0BInsn(ins);
+                boolean e7 = isExact7BInsn(ins);
+
+                if (e4) {
+                    total4++;
+                    if (isByteCompare(ins)) byte4++;
+                    exact4List.add(ins);
+                    Function f = functionContaining(ins.getAddress());
+                    if (f != null) functions4.add(f.getEntryPoint().getOffset());
+                }
+
+                if (e0) {
+                    total0++;
+                    if (isByteCompare(ins)) byte0++;
+                    exact0List.add(ins);
+                    Function f = functionContaining(ins.getAddress());
+                    if (f != null) functions0.add(f.getEntryPoint().getOffset());
+                }
+
+                if (e7) {
+                    total7++;
+                    if (isByteCompare(ins)) byte7++;
+                    exact7List.add(ins);
+                    Function f = functionContaining(ins.getAddress());
+                    if (f != null) functions7.add(f.getEntryPoint().getOffset());
+                }
+            }
+        }
+
+        println("EXECUTABLE INSTRUCTIONS SCANNED: " + scanned);
+        println("EXACT IMMEDIATE COUNTS: 4B=" + total4 + " 0B=" + total0 + " 7B=" + total7);
+        println("BYTE-COMPARE COUNTS    : 4B=" + byte4 + " 0B=" + byte0 + " 7B=" + byte7);
+        println("FUNCTION SETS          : 4B=" + functions4.size() +
+                " 0B=" + functions0.size() + " 7B=" + functions7.size());
+
+        // First pass: functions that contain a byte compare against 4B and also
+        // a byte compare against 0B or 7B. These are the strongest static matches.
+        Set<Long> strongPrinted = new HashSet<Long>();
+
+        for (MemoryBlock block : currentProgram.getMemory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!block.isExecute()) continue;
+
+            AddressSet set = new AddressSet(block.getStart(), block.getEnd());
+            InstructionIterator it = currentProgram.getListing().getInstructions(set, true);
+
+            while (it.hasNext()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                Instruction ins = it.next();
+                if (!isExact4BInsn(ins) || !isByteCompare(ins)) continue;
+
+                Function f = functionContaining(ins.getAddress());
+                if (f == null) continue;
+
+                ArrayList<Instruction> a = collect(f);
+                boolean has0 = false, has7 = false;
+                for (Instruction q : a) {
+                    if (!isByteCompare(q)) continue;
+                    if (isExact0BInsn(q)) has0 = true;
+                    if (isExact7BInsn(q)) has7 = true;
+                }
+
+                if (!has0 && !has7) continue;
+
+                long key = f.getEntryPoint().getOffset();
+                if (!strongPrinted.add(key)) continue;
+
+                println("\n------------------------------------------------------------");
+                println("STRONG BYTE-PROTOCOL CANDIDATE");
+                println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+                println("HAS: cmpb 0x4B=" + true +
+                        "  cmpb 0x0B=" + has0 +
+                        "  cmpb 0x7B=" + has7);
+
+                int shown = 0;
+                for (Instruction q : a) {
+                    if (isByteCompare(q) &&
+                        (isExact4BInsn(q) || isExact0BInsn(q) || isExact7BInsn(q))) {
+                        println("  CMPB: " + q.getAddress() + " : " + safe(q.toString()));
+                        lines++;
+                        shown++;
+                        if (shown >= 24 || lines >= MAX_LINES) break;
+                    }
+                }
+
+                printCallerXrefs(f);
+            }
+        }
+
+        println("\n------------------------------------------------------------");
+        println("BYTE-COMPARE 0x4B CONTEXT");
+        printByteCompareContexts(exact4List, 0x4b);
+
+        println("\n------------------------------------------------------------");
+        println("BYTE-COMPARE 0x0B CONTEXT");
+        printByteCompareContexts(exact0List, 0x0b);
+
+        println("\n------------------------------------------------------------");
+        println("BYTE-COMPARE 0x7B CONTEXT");
+        printByteCompareContexts(exact7List, 0x7b);
+    }
+
+    private void printCallerXrefs(Function f) {
+        if (f == null || lines >= MAX_LINES) return;
+
+        println("CALLER XREFS:");
+        ReferenceIterator rit =
+            currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
+
+        int n = 0;
+        while (rit.hasNext() && n < 16) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            Reference r = rit.next();
+            if (!r.getReferenceType().isCall()) continue;
+
+            Function caller = functionContaining(r.getFromAddress());
+            println("  " + r.getFromAddress() + " -> " +
+                    (caller == null ? "<unknown>" :
+                    caller.getName() + " @ " + caller.getEntryPoint()));
+            lines++;
+            n++;
+        }
+
+        if (n == 0) println("  <no CALL xrefs>");
+    }
+
+    private void printByteCompareContexts(ArrayList<Instruction> list, long wanted) {
+        int printed = 0;
+
+        for (Instruction center : list) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!isByteCompare(center)) continue;
+
+            // For this focused pass, only exact scalar byte compares.
+            if (!instructionHasExactImm(center, wanted)) continue;
+
+            Function f = functionContaining(center.getAddress());
+
+            println("  HIT @ " + center.getAddress() +
+                    " : " + safe(center.toString()) +
+                    " FUNCTION=" +
+                    (f == null ? "<none>" : f.getName()));
+
+            Instruction cur = center;
+            ArrayList<Instruction> prev = new ArrayList<Instruction>();
+            for (int i = 0; i < 5; i++) {
+                Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+                if (p == null) break;
+                prev.add(p);
+                cur = p;
+            }
+
+            for (int i = prev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
+                Instruction p = prev.get(i);
+                println("    PREV: " + p.getAddress() + " : " + safe(p.toString()));
+                lines++;
+            }
+
+            cur = center;
+            for (int i = 0; i < 9 && lines < MAX_LINES; i++) {
+                Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+                if (n == null) break;
+                println("    NEXT: " + n.getAddress() + " : " + safe(n.toString()));
+                lines++;
+                cur = n;
+            }
+
+            lines++;
+            printed++;
+            if (printed >= 40) {
+                println("  [BYTE-COMPARE CONTEXT LIMIT] 40");
+                return;
+            }
+        }
+    }
+
     private void globalExactCompareScan() {
         println("\n============================================================");
         println("GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B");
@@ -706,13 +958,15 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         lines = 0;
 
         inspectLikelyCurrentFunctions();
-        println("\n[STEP 1/4] Reviewing previously discovered raw 4B 0B addresses...");
+        println("\n[STEP 1/5] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
-        println("\n[STEP 2/4] Running exact-immediate protocol candidate analysis...");
+        println("\n[STEP 2/5] Running exact-immediate protocol candidate analysis...");
         inspectExactProtocolCandidates();
-        println("\n[STEP 3/4] Running bounded exact compare scan...");
+        println("\n[STEP 3/4] Running exact byte-compare protocol trace...");
+        traceExactByteProtocol();
+        println("\n[STEP 4/4] Running bounded legacy compare scan...");
         globalExactCompareScan();
-        println("\n[STEP 4/4] Analysis complete.");
+        println("\n[STEP 5/5] Analysis complete.");
 
         println("\n============================================================");
         println("DONE");
