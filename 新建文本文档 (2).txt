@@ -1,6 +1,6 @@
 FindFreqConst.java> Running...
 ============================================================
- QDSP6SW FREQUENCY CONSTANT SCAN
+ QDSP6SW FREQUENCY REPRESENTATION SCAN
 ============================================================
 Program : qdsp6sw.mbn
 Image   : c1600000
@@ -8,13 +8,26 @@ READ ONLY
 
 PROGRAM CHECK : PASS
 
-TARGET FREQUENCY:
-  Hz      : 821237500
-  Hex32   : 0x30F316FC
-  LE32    : FC 16 F3 30
-  BE32    : 30 F3 16 FC
+TARGET:
+  Hz        = 821237500
+  Hex32     = 0x30F316FC
+  LE32      = FC 16 F3 30
+  BE32      = 30 F3 16 FC
 
-MEMORY BLOCK COUNT : 30
+ALTERNATE INTEGER VALUES:
+  821237500
+   82123750
+    8212375
+     821238
+     821237
+
+IEEE754:
+  float  821237500.0
+  double 821237500.0
+  float  821237.5
+  double 821237.5
+  float  821.2375
+  double 821.2375
 
 ------------------------------------------------------------
 BLOCK : segment_27
@@ -169,12 +182,10 @@ FLAGS : R=false W=false X=false
 ============================================================
 TOTAL MATCHES : 0
 
-NO EXACT FREQUENCY CONSTANT FOUND.
+NO ALTERNATE FREQUENCY REPRESENTATION FOUND.
 
-This does NOT prove RFDEBUG does not use
-821,237,500 Hz.
-The value may be calculated, split, loaded
-from a table, or represented differently.
+Next step should be dynamic/dataflow analysis:
+property ID 28 -> frequency conversion/storage
 ============================================================
 No program structures were modified.
 FindFreqConst.java> Finished!
