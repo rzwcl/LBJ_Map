@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "C18D0970-1";
+    private static final String TRACE_BUILD = "C18D0970-2";
 
     private static final int MAX_FUNCTION_INSNS = 20000;
     private static final int MAX_DEEP_INSNS = 4000;
@@ -1192,7 +1192,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         // Common Ghidra Hexagon forms:
         // cmp.eq P0,R2,#0x4b
-        // cmp.gt P0,R21,#0x4b        int comma2 = rest.indexOf(',');
+        // cmp.gt P0,R21,#0x4b
+        int comma2 = rest.indexOf(',');
         if (comma2 < 0) return null;
 
         String reg = rest.substring(0, comma2).trim();
