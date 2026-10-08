@@ -304,6 +304,116 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private static final String[] FTM_LOCATOR_TERMS = {
+        "ftm", "rfa", "pdm", "diag", "factory", "calibration",
+        "ara", "rfdebug", "radio_configure", "rf_test"
+    };
+
+    private boolean containsIgnoreCase(String s, String needle) {
+        return s != null && needle != null
+            && s.toLowerCase().contains(needle.toLowerCase());
+    }
+
+    private String matchedTerms(String s) {
+        StringBuilder out = new StringBuilder();
+
+        for (String term : FTM_LOCATOR_TERMS) {
+            if (containsIgnoreCase(s, term)) {
+                if (out.length() > 0) out.append(",");
+                out.append(term);
+            }
+        }
+
+        return out.toString();
+    }
+
+    private void printDataStringXrefs(Data d, int maxRefs) {
+        try {
+            ReferenceIterator it =
+                currentProgram.getReferenceManager().getReferencesTo(d.getAddress());
+
+            int n = 0;
+
+            while (it.hasNext() && n < maxRefs && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Reference r = it.next();
+                Address from = r.getFromAddress();
+
+                p(String.format(
+                    "      XREF[%02d] from=%s type=%s primary=%s",
+                    n, from, r.getReferenceType(), r.isPrimary()));
+
+                if (from.getAddressSpace().isMemorySpace()) {
+                    p("             function=" + functionInfo(from.getOffset()));
+                    p("             instruction=" + instructionInfo(from.getOffset()));
+                }
+
+                n++;
+            }
+
+            p("      XREF_COUNT_SHOWN=" + n);
+        }
+        catch (Exception e) {
+            p("      STRING XREF ERROR: " + e.getMessage());
+        }
+    }
+
+    private void scanFtmLocatorStrings() {
+        p("");
+        p("============================================================");
+        p("FTM / RFA / DIAG STRING LOCATOR");
+        p("Static string census with code-reference reporting");
+        p("READ ONLY");
+        p("============================================================");
+
+        int inspected = 0;
+        int hits = 0;
+
+        try {
+            ghidra.program.model.listing.DataIterator it =
+                currentProgram.getListing().getDefinedData(true);
+
+            while (it.hasNext()
+                    && inspected < 250000
+                    && hits < 320
+                    && lines < MAX_LINES) {
+
+                if (monitor.isCancelled()) return;
+
+                Data d = it.next();
+                inspected++;
+
+                String typeName =
+                    String.valueOf(d.getDataType()).toLowerCase();
+
+                if (!typeName.contains("string")) continue;
+
+                String value = String.valueOf(d.getValue());
+                if (value == null || value.length() == 0) continue;
+
+                String matched = matchedTerms(value);
+                if (matched.length() == 0) continue;
+
+                p("");
+                p("LOCATOR HIT #" + (++hits));
+                p("  address=" + d.getAddress());
+                p("  type=" + d.getDataType());
+                p("  terms=" + matched);
+                p("  value=" + value);
+
+                printDataStringXrefs(d, 24);
+            }
+
+            p("");
+            p("STRING DATA ITEMS INSPECTED=" + inspected);
+            p("LOCATOR HITS SHOWN=" + hits);
+        }
+        catch (Exception e) {
+            p("STRING LOCATOR ERROR: " + e.getMessage());
+        }
+    }
+
     private void printReferences(long target, int maxRefs) {
         p("");
         p("REFERENCES TO " + hex(target));
@@ -590,6 +700,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         localNonZeroScan(REF_MASTER, LOCAL_ZERO_RADIUS, "MASTER 0xC8DC3B54");
         localNonZeroScan(REF_TABLE, LOCAL_ZERO_RADIUS, "FTM_TABLE 0xC37BD1E8");
 
+        scanFtmLocatorStrings();
+
         scanReferencePointers();
 
         p("");
@@ -603,7 +715,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("4. If it does not, treat the published address as build/image-");
         p("   dependent until another image is identified.");
         p("5. A code XREF from a function into C37BD1E8 is the key next step.");
-        p("6. If localNonZeroScan is entirely zero, inspect block metadata/source info.");
+        p("6. FTM/RFA/DIAG strings with code XREFs are now the primary locator evidence.");
+        p("7. If localNonZeroScan is entirely zero, inspect block metadata/source info.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
