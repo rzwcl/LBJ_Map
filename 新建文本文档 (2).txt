@@ -1,539 +1,169 @@
-TraceC184B698Owner.java> Running...
+DumpC184B698Neighborhood.java> Running...
 ============================================================
- TRACE OWNER OF c184b698 / POSSIBLE 0x7B DISPATCH
+ DUMP c184b698 NEIGHBORHOOD
  Program : qdsp6sw.mbn
- Image   : c1600000
  READ ONLY
 ============================================================
-
-TARGET INSTRUCTION:
-  c184b698 : cmpb.eq P0,R3,#0x7b 
-
-------------------------------------------------------------
-OWNER FUNCTION
-------------------------------------------------------------
-NAME  : FUN_c184a38c
-ENTRY : c184a38c
-BODY  : [[c184a38c, c184cfcf] [c184d2a0, c184d2f7]]
+TARGET : c184b698
+TEXT   : cmpb.eq P0,R3,#0x7b 
+OWNER  : FUN_c184a38c
+ENTRY  : c184a38c
 
 ------------------------------------------------------------
-TARGET FUNCTION CONTEXT +/- 50 INSTRUCTIONS
+EXACT NEIGHBORHOOD (address ordered, not CFG-walk)
 ------------------------------------------------------------
-TARGET NOT REACHED WHEN WALKING FROM FUNCTION ENTRY
+  cmpb.eq P0,R3,#0x75 
+  immext #0xd6153a40 
+  assign.if(P0.new) R0,##0xd6153a48 
+  jump.if(!P0.new):nt 0xc184cdd4 
+  call 0xc1619338 
+  memw R2,(R16+#0x10) 
+  memw (R19+#0x4),R2.new 
+  memw R1,(R16+#0x14) 
+  memw (R19+#0x8),R1.new 
+  jump 0xc184ce38 
+  memw R0,(R16+#0x18) 
+  memw (R19+#0xc),R0.new 
+  cmpb.eq P0,R3,#0x76 
+  immext #0xd6153a80 
+  assign.if(P0.new) R0,##0xd6153a80 
+  jump.if(P0.new):nt 0xc184cb5c 
+  cmpb.eq P0,R3,#0x77 
+  jump.if(!P0.new):nt 0xc184cdd4 
+  memb R3,(R17) 
+  immext #0x1540 
+  jump.if:t cmp.eq(R3.new,#0x0),0xc184cb94 
+  memub R17,(R25+#0x1) 
+  call 0xc1843268 
+  immext #0xcf853fc0 
+  combine R1R0,R17,##0xcf853fe2 
+  cmp.gt P0,R3,#0x79 
+  jump.if(P0.new):t 0xc184b688 
+  cmpb.eq P0,R3,#0x78 
+  jump.if(P0.new):nt 0xc184cd40 
+  cmpb.eq P0,R3,#0x79 
+  immext #0xd6153b80 
+  assign.if(P0.new) R0,##0xd6153b8a 
+  jump.if(!P0.new):nt 0xc184cdd4 
+  call 0xc1619338 
+  assign R0,R16 
+  memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
+  memd R21R20,(SP+#0x40) ; memd R23R22,(SP+#0x38) 
+  memd R25R24,(SP+#0x30) 
+  memd R27R26,(SP+#0x28) 
+  jump 0xc1848f14 
+  deallocframe 
+  cmpb.eq P0,R3,#0x7a 
+  immext #0x8008200 
+  assign.if(!P0.new) R6,##0x8008211 
+  jump.if(P0.new):nt 0xc184cd94 
+  cmpb.eq P0,R3,#0x7b   <== TARGET
+  jump.if(!P0.new):nt 0xc184cdd4 
+  memub R1,(R17) ; memub R2,(R17+#0x1) 
+  or R3,R2,R1 
+  immext #0x1300 
+  cmp.eq P0,R3,#0x0 ; jump.if(P0.new):t 0xc184c9c8 
+  memuh R3,(R21) 
+  memub R4,(R20+#0x22) 
+  call 0xc1619338 
+  immext #0xd61538c0 
+  assign R0,##0xd61538dc 
+  immext #0xcf853fc0 
+  assign R0,##0xcf853fd4 
+  memub R1,(R17) ; memuh R3,(R21) 
+  call 0xc18453bc 
+  memub R2,(R17+#0x1) 
+  memub R4,(R20+#0x22) 
+  call 0xc1619338 
+  memub R2,(R19) 
+  setbit R2,R2,#0x2 
+  immext #0x1740 
+  jump.if:nt !cmp.eq(R2.new,#0x6),0xc184ce4c 
+  immext #0xcaf8e700 
+  assign R8,##0xcaf8e700 
+  memuh R2,(R16+#0x10) 
+  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184b79c 
+  loop0 0xc184b714,#0x8 
+  immext #0xc1d9c1c0 
+  assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
+  immext #0xc1d9c1c0 
+  combine R5R4,#0x0,##0xc1d9c1d8 
+  !tstbit P0,R2,R5 
+  jump.if(P0.new):nt 0xc184b73c 
+  memw.if(!P0.new) R6,(R8) 
+  add R7,R6,R3 
+  memw R6,(R6+R3) 
+  memw (R4),R6.new 
+  memw R6,(R7+#0x8) 
+  memw (R4+#0x8),R6.new 
+  memw R6,(R7+#0x4) 
+  memw (R4+#0x4),R6.new 
+  add R4,R4,#0xc 
+  add R3,R3,#0xc ; add R5,R5,#0x1 
+  memuh R2,(R16+#0x10) 
+  immext #0xc1d9c200 
+  memh (##0xc1d9c238),R2.new 
+  immext #0xc4eea700 
+  assign R0,##0xc4eea72b 
+  memub R4,(R16+#0x12) 
+  memb (R18+#0x74),R4.new 
+  memw R1,(R17) ; memw R2,(R17+#0xc) 
+  call 0xc1841f1c 
+  memw R3,(R17+#0x18) ; memuh R5,(R18) 
+  immext #0xd6151c40 
+  assign R0,##0xd6151c6c 
+  memuh R5,(R18) ; memd R19R18,(SP+#0x48) 
+  memw R1,(R17) ; memw R2,(R17+#0xc) 
+  memw R3,(R17+#0x18) 
+  memub R4,(R16+#0x12) 
+  memd R17R16,(SP+#0x50) ; memd R21R20,(SP+#0x40) 
+  memd R23R22,(SP+#0x38) 
+  memd R25R24,(SP+#0x30) 
+  jump 0xc1619338 
+  memd R27R26,(SP+#0x28) 
+  deallocframe 
+  immext #0xc1d9c300 
+  assign R3,##0xc1d9c30c 
+  immext #0xc1d9a880 
+  assign R4,##0xc1d9a8a4 
+  memh (R3),setbit(#0x0) 
+  jump 0xc184b700 
 
 ------------------------------------------------------------
-OWNER FUNCTION: ALL INTERESTING INSTRUCTIONS
+IMPORTANT REGISTER DEFINITIONS BEFORE TARGET
 ------------------------------------------------------------
-  c184a38c   : assign R16,R0 
-  c184a390   : memd (SP+#-0x10),R17R16 ; allocframe #0x58 
-  c184a3a4   : call 0xc1619338 
-  c184a3b0   : memw R4,(R16) 
-  c184a3c4   : assign R18,##0xc9116968 ; and R3,R4,#0xff 
-  c184a3dc   : cmp.gt P0,R3,#0x3b 
-  c184a40c   : jump.if(P0) 0xc184adc4 
-  c184a418   : cmp.gt P0,R3,#0x1d 
-  c184a450   : jump.if(P0) 0xc184a92c 
-  c184a454   : cmp.gt P0,R3,#0xe ; jump.if(P0.new):t 0xc184a6c8 
-  c184a458   : cmp.gt P0,R3,#0x7 ; jump.if(P0.new):t 0xc184a5a8 
-  c184a45c   : cmp.gt P0,R3,#0x3 ; jump.if(P0.new):t 0xc184a4fc 
-  c184a46c   : cmp.eq P0,R3,#0x1 ; jump.if(P0.new):nt 0xc184b6dc 
-  c184a474   : cmp.eq P0,R3,#0x2 ; jump.if(P0.new):nt 0xc184bf94 
-  c184a484   : cmp.eq P0,R3,#0x3 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a488   : call 0xc1619338 
-  c184a494   : memuh R2,(R16+#0x10) 
-  c184a498   : add.if(P0.new) R1,R16,#0x12 
-  c184a4a0   : tstbit P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184a4b4 
-  c184a4a4   : call 0xc16b3900 
-  c184a4ac   : memuh R2,(R16+#0x1e) 
-  c184a4c4   : assign R3,##0xc1d9bac2 ; memb (R2),#0x1 
-  c184a4c8   : add R1,R3,#-0x2 
-  c184a4cc   : memuh R4,(R16+#0x20) 
-  c184a4d4   : memuh R4,(R16+#0x26) 
-  c184a4dc   : memub R4,(R16+#0x28) 
-  c184a4e4   : memuh R4,(R16+#0x24) 
-  c184a4e8   : memh (R3+#0x2),R4.new 
-  c184a4ec   : memuh R0,(R16+#0x22) 
-  c184a4f0   : memh (R3),R0.new 
-  c184a4f4   : jump 0xc184ce38 
-  c184a4fc   : cmp.gt P0,R3,#0x5 ; jump.if(P0.new):t 0xc184a554 
-  c184a50c   : cmp.eq P0,R3,#0x4 ; jump.if(P0.new):nt 0xc184b7b8 
-  c184a51c   : cmp.eq P0,R3,#0x5 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a520   : call 0xc1619338 
-  c184a530   : memh R2,(R16+#0x10) 
-  c184a534   : cmp.gt P0,R2,#-0x1 
-  c184a53c   : memuh.if(P0.new) R3,(R16+#0x12) 
-  c184a544   : memh.if(P0) (R4+##0xbe),R3.L 
-  c184a54c   : jump 0xc184ce38 
-  c184a560   : cmp.eq P0,R3,#0x6 ; jump.if(P0.new):nt 0xc184b81c 
-  c184a570   : cmp.eq P0,R3,#0x7 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a574   : call 0xc1619338 
-  c184a584   : jump.if:t cmp.eq(R2.new,#0x6),0xc184b894 
-  c184a590   : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
-  c184a5a0   : jump 0xc1619338 
-  c184a5a8   : cmp.gt P0,R3,#0xa ; jump.if(P0.new):t 0xc184a5e8 
-  c184a5b0   : cmp.eq P0,R3,#0x8 ; jump.if(P0.new):nt 0xc184b8dc 
-  c184a5b4   : memuh.if(P0.new) R2,(R16+#0x20) 
-  c184a5c4   : cmp.eq P0,R3,#0x9 ; jump.if(P0.new):nt 0xc184b9c8 
-  c184a5d4   : cmp.eq P0,R3,#0xa ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a5d8   : call 0xc1619338 
-  c184a5dc   : jump 0xc184ce38 
-  c184a5e0   : memw R2,(R16+#0x10) 
-  c184a5e8   : cmp.gt P0,R3,#0xc ; jump.if(P0.new):t 0xc184a62c 
-  c184a5f8   : cmp.eq P0,R3,#0xb ; jump.if(P0.new):nt 0xc184ba00 
-  c184a608   : cmp.eq P0,R3,#0xc ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a60c   : call 0xc1619338 
-  c184a610   : assign R0,R16 
-  c184a614   : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
-  c184a624   : jump 0xc18300d4 
-  c184a638   : cmp.eq P0,R3,#0xd ; jump.if(P0.new):nt 0xc184ba0c 
-  c184a648   : cmp.eq P0,R3,#0xe ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a64c   : call 0xc1619338 
-  c184a658   : memuh R1,(R16+#0x10) 
-  c184a65c   : memuh R3,(R18) 
-  c184a660   : call 0xc184cfd0 
-  c184a664   : memuh R2,(R16+#0x12) 
-  c184a668   : memuh R4,(R16+#0x14) 
-  c184a674   : memuh R1,(R16+#0x10) 
-  c184a678   : memuh R3,(R18) 
-  c184a67c   : call 0xc1619338 
-  c184a680   : memuh R2,(R16+#0x12) 
-  c184a684   : memuh R4,(R16+#0x14) 
-  c184a68c   : assign R3,##0xc1d902b0 
-  c184a690   : memuh R2,(R16+#0x14) 
-  c184a694   : memh (R3+#0x70),R2.L 
-  c184a698   : memuh R2,(R16+#0x12) 
-  c184a69c   : memh (R3+#0x6e),R2.L 
-  c184a6a0   : memuh R2,(R16+#0x10) 
-  c184a6a4   : memh (R3+#0x6c),R2.L 
-  c184a6a8   : memh R2,(R16+#0x10) 
-  c184a6ac   : cmp.eq P0,R2,#0x2 
-  c184a6c0   : jump 0xc184ce38 
-  c184a6c4   : memw (R3+#0x68),R2 
-  c184a6c8   : cmp.gt P0,R3,#0x15 ; jump.if(P0.new):t 0xc184a7a8 
-  c184a6cc   : cmp.gt P0,R3,#0x11 ; jump.if(P0.new):t 0xc184a714 
-  c184a6dc   : cmp.eq P0,R3,#0xf ; jump.if(P0.new):nt 0xc184bac4 
-  c184a6ec   : cmp.eq P0,R3,#0x10 ; jump.if(P0.new):nt 0xc184bad8 
-  c184a6fc   : cmp.eq P0,R3,#0x11 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a700   : call 0xc1619338 
-  c184a708   : assign R4,##0xc1d9b6ac ; memw R2,(R16+#0x10) 
-  c184a70c   : jump 0xc184ce38 
-  c184a714   : cmp.gt P0,R3,#0x13 ; jump.if(P0.new):t 0xc184a76c 
-  c184a724   : cmp.eq P0,R3,#0x12 ; jump.if(P0.new):nt 0xc184bae8 
-  c184a734   : cmp.eq P0,R3,#0x13 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a738   : call 0xc1619338 
-  c184a748   : jump.if:t cmp.eq(R2.new,#0x6),0xc184bb18 
-  c184a754   : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
-  c184a764   : jump 0xc1619338 
-  c184a770   : cmp.eq P0,R3,#0x14 ; jump.if(P0.new):nt 0xc184bb5c 
-  c184a780   : cmp.eq P0,R3,#0x15 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a784   : call 0xc1619338 
-  c184a78c   : memuh R2,(R16+#0x10) 
-  c184a790   : memuh R3,(R16+#0x12) 
-  c184a798   : memh (R2<<#0x1+##0xc91169e6),R3.L 
-  c184a7a4   : jump 0xc184ce38 
-  c184a7a8   : cmp.gt P0,R3,#0x19 ; jump.if(P0.new):t 0xc184a854 
-  c184a7ac   : cmp.gt P0,R3,#0x17 ; jump.if(P0.new):t 0xc184a804 
-  c184a7bc   : cmp.eq P0,R3,#0x16 ; jump.if(P0.new):nt 0xc184bb88 
-  c184a7cc   : cmp.eq P0,R3,#0x17 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a7d0   : call 0xc1619338 
-  c184a7d4   : memuh R2,(R16+#0x10) 
-  c184a7dc   : tstbit P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184ce38 
-  c184a7e0   : memuh.if(P0.new) R3,(R16+#0x16) 
-  c184a7e4   : memuh.if(P0.new) R4,(R16+#0x12) 
-  c184a7f0   : memuh R0,(R16+#0x14) 
-  c184a7fc   : memh (R2+#0x2),R0 ; memh (R2+#0x4),R3 
-  c184a800   : jump 0xc184ce38 
-  c184a808   : cmp.eq P0,R3,#0x18 ; jump.if(P0.new):nt 0xc184bbb4 
-  c184a818   : cmp.eq P0,R3,#0x19 ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a81c   : call 0xc1619338 
-  c184a820   : memw R2,(R16+#0x14) 
-  c184a828   : memw R2,(R16+#0x18) 
-  c184a830   : memuh R2,(R16+#0x1c) 
-  c184a838   : memw R2,(R16+#0x20) 
-  c184a840   : memw R2,(R16+#0x10) 
-  c184a848   : jump 0xc184ce38 
-  c184a84c   : memuh R0,(R16+#0x24) 
-  c184a854   : cmp.gt P0,R3,#0x1b ; jump.if(P0.new):t 0xc184a8b0 
-  c184a864   : cmp.eq P0,R3,#0x1a ; jump.if(P0.new):nt 0xc184bd24 
-  c184a874   : cmp.eq P0,R3,#0x1b ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a878   : call 0xc1619338 
-  c184a87c   : memw R2,(R16+#0x1c) 
-  c184a884   : memw R2,(R16+#0x18) 
-  c184a88c   : memw R2,(R16+#0x14) 
-  c184a894   : memw R2,(R16+#0x10) 
-  c184a89c   : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
-  c184a8bc   : cmp.eq P0,R3,#0x1c ; jump.if(P0.new):nt 0xc184bd3c 
-  c184a8cc   : cmp.eq P0,R3,#0x1d ; jump.if(!P0.new):nt 0xc184cdd4 
-  c184a8d0   : call 0xc1619338 
-  c184a8dc   : memuh R2,(R16+#0x10) 
-  c184a8e8   : memuh R3,(R16+#0x14) 
-  c184a8ec   : memuh R1,(R16+#0x16) 
-  c184a8f0   : memh (R20+#0x10),R3.L 
-  c184a8f4   : memuh R0,(R16+#0x18) 
-  c184a904   : memuh R2,(R16+#0x12) 
-  c184a910   : memuh R2,(R16+#0x1a) 
-  c184a918   : memuh R2,(R16+#0x1c) 
-  c184a920   : jump 0xc184ce38 
-  c184a924   : memuh R2,(R16+#0x1e) 
-  c184a92c   : cmp.gt P0,R3,#0x2c 
-  c184a930   : jump.if(P0.new):t 0xc184ab40 
-  c184a934   : cmp.gt P0,R3,#0x24 
-  c184a938   : jump.if(P0.new):t 0xc184aa30 
-  c184a93c   : cmp.gt P0,R3,#0x20 
-  c184a940   : jump.if(P0.new):t 0xc184a988 
-  c184a948   : cmp.eq P0,R3,#0x1e ; jump.if(P0.new):nt 0xc184bd68 
-  c184a94c   : memb.if(P0.new) R3,(R27) 
-  c184a958   : cmp.eq P0,R3,#0x1f ; jump.if(P0.new):nt 0xc184bda4 
-  c184a95c   : memub.if(P0.new) R3,(R16+#0x10) 
-  c184a960   : cmpb.eq P0,R3,#0x20 
-  c184a96c   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184a970   : call 0xc1619338 
-  c184a974   : memh R2,(R16+#0x10) 
-  c184a978   : !cmp.eq R2,R2,#0x0 
-  c184a97c   : jump 0xc184ce38 
-  c184a988   : cmp.gt P0,R3,#0x22 
-  c184a98c   : jump.if(P0.new):t 0xc184a9c4 
-  c184a990   : cmpb.eq P0,R3,#0x21 
-  c184a99c   : jump.if(P0.new):nt 0xc184be34 
-  c184a9a0   : cmpb.eq P0,R3,#0x22 
-  c184a9ac   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184a9b0   : call 0xc1619338 
-  c184a9b4   : jump 0xc184ce38 
-  c184a9b8   : memw R2,(R16+#0x10) 
-  c184a9c4   : cmpb.eq P0,R3,#0x23 
-  c184a9d0   : jump.if(P0.new):nt 0xc184be74 
-  c184a9d4   : cmpb.eq P0,R3,#0x24 
-  c184a9e0   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184a9e4   : call 0xc1619338 
-  c184a9ec   : memub R2,(R16+#0x10) 
-  c184a9f4   : memuh R0,(R16+#0x12) 
-  c184aa00   : memuh R2,(R16+#0x14) 
-  c184aa08   : memub R2,(R16+#0x10) 
-  c184aa18   : memub R3,(R16+#0x10) 
-  c184aa20   : extractu R0,R3,#0x1,#0x4 
-  c184aa24   : jump 0xc184ce38 
-  c184aa30   : cmp.gt P0,R3,#0x28 
-  c184aa34   : jump.if(P0.new):t 0xc184aab0 
-  c184aa38   : cmp.gt P0,R3,#0x26 
-  c184aa3c   : jump.if(P0.new):t 0xc184aa70 
-  c184aa40   : cmpb.eq P0,R3,#0x25 
-  c184aa4c   : jump.if(P0.new):nt 0xc184be90 
-  c184aa50   : cmpb.eq P0,R3,#0x26 
-  c184aa5c   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184aa60   : call 0xc1619338 
-  c184aa68   : jump 0xc184ce38 
-  c184aa70   : cmpb.eq P0,R3,#0x27 
-  c184aa7c   : jump.if(P0.new):nt 0xc184bec0 
-  c184aa80   : cmpb.eq P0,R3,#0x28 
-  c184aa8c   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184aa90   : call 0xc1619338 
-  c184aa94   : memuh R2,(R16+#0x12) 
-  c184aaa0   : jump 0xc184ce38 
-  c184aaa4   : memuh R2,(R16+#0x10) 
-  c184aab0   : cmp.gt P0,R3,#0x2a 
-  c184aab4   : jump.if(P0.new):t 0xc184aaec 
-  c184aab8   : cmpb.eq P0,R3,#0x29 
-  c184aac4   : jump.if(P0.new):nt 0xc184bee8 
-  c184aac8   : cmpb.eq P0,R3,#0x2a 
-  c184aad4   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184aad8   : call 0xc1619338 
-  c184aadc   : jump 0xc184ce38 
-  c184aae0   : memuh R2,(R16+#0x10) 
-  c184aaec   : cmpb.eq P0,R3,#0x2b 
-  c184aaf8   : jump.if(P0.new):nt 0xc184befc 
-  c184aafc   : cmpb.eq P0,R3,#0x2c 
-  c184ab08   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ab0c   : call 0xc1619338 
-  c184ab10   : memh R2,(R16+#0x10) 
-  c184ab18   : memb R3,(##0xcaf8a765) 
-  c184ab1c   : togglebit R3,R2,#0xf 
-  c184ab20   : cmp.eq P0,R3,#0x0 
-  c184ab24   : cmp.gt P1,R2,#-0x1 
-  c184ab28   : memuh R4,(R16+#0x12) 
-  c184ab2c   : assign.if(!P0) R3,R2 
-  c184ab34   : assign.if(P1) R3,R2 
-  c184ab38   : jump 0xc184ce38 
-  c184ab3c   : memh (R17+#0x2),R3.L 
-  c184ab40   : cmp.gt P0,R3,#0x33 
-  c184ab44   : jump.if(P0.new):t 0xc184ac18 
-  c184ab48   : cmp.gt P0,R3,#0x2f 
-  c184ab4c   : jump.if(P0.new):t 0xc184ab90 
-  c184ab50   : cmpb.eq P0,R3,#0x2d 
-  c184ab5c   : jump.if(P0.new):nt 0xc184bf10 
-  c184ab60   : cmpb.eq P0,R3,#0x2e 
-  c184ab6c   : jump.if(P0.new):nt 0xc184bf28 
-  c184ab70   : cmpb.eq P0,R3,#0x2f 
-  c184ab7c   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ab80   : call 0xc1619338 
-  c184ab84   : jump 0xc184ce38 
-  c184ab88   : memuh R2,(R16+#0x10) 
-  c184ab90   : cmp.gt P0,R3,#0x31 
-  c184ab94   : jump.if(P0.new):t 0xc184abe8 
-  c184ab98   : cmpb.eq P0,R3,#0x30 
-  c184aba4   : jump.if(P0.new):nt 0xc184bf40 
-  c184aba8   : cmpb.eq P0,R3,#0x31 
-  c184abb4   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184abb8   : call 0xc1619338 
-  c184abbc   : memh R2,(R16+#0x10) 
-  c184abc8   : cmp.gt P0,R2,#-0x1 
-  c184abcc   : assign.if(P0.new) R3,#0x200 
-  c184abd8   : assign.if(!P0) R3,#0x400 
-  c184abe0   : jump 0xc184ce38 
-  c184abe4   : memh (R21+#0x6),R3.L 
-  c184abe8   : cmpb.eq P0,R3,#0x32 
-  c184abf4   : jump.if(P0.new):nt 0xc184bf6c 
-  c184abf8   : cmpb.eq P0,R3,#0x33 
-  c184ac04   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ac08   : call 0xc1619338 
-  c184ac0c   : jump 0xc184ce38 
-  c184ac10   : memuh R2,(R16+#0x10) 
-  c184ac18   : cmp.gt P0,R3,#0x37 
-  c184ac1c   : jump.if(P0.new):t 0xc184acdc 
-  c184ac20   : cmp.gt P0,R3,#0x35 
-  c184ac24   : jump.if(P0.new):t 0xc184ac88 
-  c184ac28   : cmpb.eq P0,R3,#0x34 
-  c184ac34   : jump.if(P0.new):nt 0xc184bf80 
-  c184ac38   : cmpb.eq P0,R3,#0x35 
-  c184ac44   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ac48   : call 0xc1619338 
-  c184ac4c   : memuh R2,(R16+#0x10) 
-  c184ac54   : memuh R2,(R16+#0x12) 
-  c184ac60   : memw R2,(R16+#0x14) 
-  c184ac68   : jump.if:nt cmp.eq(R2.new,#0x0),0xc184ce38 
-  c184ac6c   : memw R2,(R16+#0x18) 
-  c184ac78   : jump 0xc184ce38 
-  c184ac7c   : memw R2,(R16+#0x1c) 
-  c184ac88   : cmpb.eq P0,R3,#0x36 
-  c184ac94   : jump.if(P0.new):nt 0xc184cdf8 
-  c184ac98   : cmpb.eq P0,R3,#0x37 
-  c184aca4   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184aca8   : call 0xc1619338 
-  c184acac   : memuh R2,(R16+#0x10) 
-  c184acb8   : tstbit P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184ce38 
-  c184acc0   : add R1,R16,#0x12 
-  c184acc4   : assign R2,#0x1e ; memd R17R16,(SP+#0x50) 
-  c184acd0   : jump 0xc16b3900 
-  c184acdc   : cmp.gt P0,R3,#0x39 
-  c184ace0   : jump.if(P0.new):t 0xc184ad64 
-  c184ace4   : cmpb.eq P0,R3,#0x38 
-  c184acf0   : jump.if(P0.new):nt 0xc184bfb0 
-  c184acf4   : cmpb.eq P0,R3,#0x39 
-  c184ad00   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ad04   : call 0xc1619338 
-  c184ad08   : memuh R2,(R16+#0x10) 
-  c184ad0c   : tstbit P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184ad28 
-  c184ad10   : memuh R2,(R16+#0x12) 
-  c184ad18   : memuh R0,(R16+#0x14) 
-  c184ad20   : memuh R2,(R16+#0x16) 
-  c184ad34   : assign R3,##0xc1d91a58 
-  c184ad40   : memuh R2,(R16+#0x18) 
-  c184ad44   : memh (R3+#0x6e),R2.L 
-  c184ad48   : memuh R2,(R16+#0x1a) 
-  c184ad4c   : memh (R3+#0x70),R2.L 
-  c184ad50   : memuh R2,(R16+#0x1c) 
-  c184ad54   : memh (R3+#0xb4),R2.L 
-  c184ad58   : memuh R2,(R16+#0x1e) 
-  c184ad5c   : jump 0xc184ce38 
-  c184ad64   : cmpb.eq P0,R3,#0x3a 
-  c184ad70   : jump.if(P0.new):nt 0xc184c0b0 
-  c184ad74   : cmpb.eq P0,R3,#0x3b 
-  c184ad80   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ad84   : call 0xc1619338 
-  c184ad88   : memw R2,(R16+#0x10) 
-  c184ad90   : jump.if(P0.new):t 0xc184ce38 
-  c184ad98   : memw R2,(R16+#0x10) 
-  c184ada4   : jump.if:t cmp.gt(R2.new,#-1),0xc184ce38 
-  c184adac   : assign R3,##0xc1d96780 
-  c184adb4   : mpyi+= R3,R2,R24 
-  c184adb8   : jump 0xc184ce38 
-  c184adbc   : memuh R2,(R3+#0x3c) 
-  c184adc4   : cmp.gt P0,R3,#0x5a 
-  c184add8   : jump.if(P0) 0xc184b248 
-  c184addc   : cmp.gt P0,R3,#0x4a 
-  c184ade4   : jump.if(P0.new):nt 0xc184b048 
-  c184ade8   : cmp.gt P0,R3,#0x42 
-  c184adec   : jump.if(P0.new):t 0xc184af08 
-  c184adf0   : cmp.gt P0,R3,#0x3e 
-  c184adf4   : jump.if(P0.new):t 0xc184ae44 
-  c184adf8   : cmpb.eq P0,R3,#0x3c 
-  c184ae04   : jump.if(P0.new):nt 0xc184c100 
-  c184ae08   : cmpb.eq P0,R3,#0x3d 
-  c184ae14   : jump.if(P0.new):nt 0xc184c118 
-  c184ae18   : cmpb.eq P0,R3,#0x3e 
-  c184ae24   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ae28   : call 0xc1619338 
-  c184ae2c   : memuh R2,(R16+#0x10) 
-  c184ae3c   : jump 0xc184ce38 
-  c184ae44   : cmp.gt P0,R3,#0x40 
-  c184ae48   : jump.if(P0.new):t 0xc184aeb0 
-  c184ae4c   : cmpb.eq P0,R3,#0x3f 
-  c184ae58   : jump.if(P0.new):nt 0xc184c12c 
-  c184ae5c   : cmpb.eq P0,R3,#0x40 
-  c184ae68   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184ae6c   : call 0xc1619338 
-  c184ae74   : assign R3,##0xc1d972a0 
-  c184ae78   : memuh R4,(R16+#0x16) 
-  c184ae7c   : memuh R2,(R16+#0x18) 
-  c184ae80   : memuh R0,(R16+#0x14) 
-  c184ae84   : memh (R3+#0x4),R0.new 
-  c184ae88   : memuh R1,(R16+#0x12) 
-  c184ae8c   : memh (R3+#0x2),R1.new 
-  c184ae90   : memuh R0,(R16+#0x10) 
-  c184ae94   : memh (R3),R0.new 
-  c184ae98   : memd R17R16,(SP+#0x50) ; memh (R3+#0x8),R2 
-  c184ae9c   : memd R19R18,(SP+#0x48) ; memh (R3+#0x6),R4 
-  c184aeb0   : cmpb.eq P0,R3,#0x41 
-  c184aebc   : jump.if(P0.new):nt 0xc184c160 
-  c184aec0   : cmpb.eq P0,R3,#0x42 
-  c184aecc   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184aed0   : call 0xc1619338 
-  c184aed4   : memuh R2,(R16+#0x10) 
-  c184aee0   : memuh R3,(R16+#0x12) 
-  c184aee4   : memuh R0,(R16+#0x16) 
-  c184aee8   : memh (R2+#0x2),R3.L 
-  c184aeec   : memuh R1,(R16+#0x14) 
-  c184aef8   : memuh R0,(R16+#0x18) 
-  c184af00   : jump 0xc184ce38 
-  c184af08   : cmp.gt P0,R3,#0x46 
-  c184af0c   : jump.if(P0.new):t 0xc184af98 
-  c184af10   : cmp.gt P0,R3,#0x44 
-  c184af14   : jump.if(P0.new):t 0xc184af58 
-  c184af18   : cmpb.eq P0,R3,#0x43 
-  c184af24   : jump.if(P0.new):nt 0xc184c174 
-  c184af28   : cmpb.eq P0,R3,#0x44 
-  c184af34   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184af38   : call 0xc1619338 
-  c184af40   : add R2,R16,#0x10 
-  c184af48   : assign R3,##0xc1d95450 
-  c184af50   : memh (R3++#0x2),R4.new  :endloop0
-  c184af54   : jump 0xc184ce38 
-  c184af58   : cmpb.eq P0,R3,#0x45 
-  c184af5c   : jump.if(P0.new):nt 0xc184c188 
-  c184af68   : cmpb.eq P0,R3,#0x46 
-  c184af74   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184af78   : call 0xc1619338 
-  c184af7c   : assign R0,R16 
-  c184af80   : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
-  c184af90   : jump 0xc184d920 
-  c184af98   : cmp.gt P0,R3,#0x48 
-  c184af9c   : jump.if(P0.new):t 0xc184b010 
-  c184afa0   : cmpb.eq P0,R3,#0x47 
-  c184afac   : jump.if(P0.new):nt 0xc184c19c 
-  c184afb0   : cmpb.eq P0,R3,#0x48 
-  c184afbc   : jump.if(!P0.new):nt 0xc184cdd4 
-  c184afc0   : call 0xc1619338 
-  c184afcc   : memd R1R0,(R16+#0x10) 
-  c184afd0   : memw R2,(R16+#0x18) 
-  c184afd4   : memw R0,(R16+#0x1c) 
-  c184afdc   : memw R3,(R17+#0x4) ; memw (R17+#0x8),R2 
-  c184afe4   : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc184ce38 
-  c184aff8   : memw R3,(##0xcaf8e700) 
-  c184affc   : call 0xc1621160 
-  c184b000   : add R1,R3,#0x400 
-  c184b008   : jump 0xc184ce38 
-INSTRUCTIONS SCANNED : 800
-INTERESTING LINES     : 407
-[HARD LIMIT REACHED]
+  cmpb.eq P0,R3,#0x7b 
+  cmpb.eq P0,R3,#0x7a 
+  memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
+  assign R0,R16 
+  assign.if(P0.new) R0,##0xd6153b8a 
+  cmpb.eq P0,R3,#0x79 
+  cmpb.eq P0,R3,#0x78 
+  cmp.gt P0,R3,#0x79 
+  combine R1R0,R17,##0xcf853fe2 
+  jump.if:t cmp.eq(R3.new,#0x0),0xc184cb94 
+  memb R3,(R17) 
+  cmpb.eq P0,R3,#0x77 
+  assign.if(P0.new) R0,##0xd6153a80 
+  cmpb.eq P0,R3,#0x76 
+  memw (R19+#0xc),R0.new 
+  memw R0,(R16+#0x18) 
+  memw R1,(R16+#0x14) 
+  memw R2,(R16+#0x10) 
+  assign.if(P0.new) R0,##0xd6153a48 
+  cmpb.eq P0,R3,#0x75 
+  cmpb.eq P0,R3,#0x74 
+  cmp.gt P0,R3,#0x75 
+  cmp.gt P0,R3,#0x77 
+  memw R2,(R16+#0x10) 
+  memub R2,(R16+#0x10) 
+  assign R0,##0xd6153887 
+  assign.if(P0.new) R0,##0xc4eeaecf 
+  cmpb.eq P0,R3,#0x73 
+  assign.if(P0.new) R0,##0xd6153764 
+  cmpb.eq P0,R3,#0x71 
 
 ------------------------------------------------------------
-CALLER FUNCTIONS OF OWNER
+DONE / NO PROGRAM CHANGES
 ------------------------------------------------------------
-
-CALLER #1 : FUN_c185b5f0 @ c185b5f0
-REF FROM   : c185b6c8 TYPE=DATA
-    c185b62c : cmp.eq P0,R1,##0x8000500 
-    c185b630 : jump.if(!P0.new):nt 0xc185b6a8 
-    c185b634 : immext #0xcaf98940 
-    c185b638 : memub R2,(##0xcaf98941) 
-    c185b63c : jump.if:nt cmp.gtu(R2.new,#0x0),0xc185b6d8 
-    c185b640 : call 0xc1850380 
-    c185b644 : jump 0xc185b60c 
-    c185b648 : call 0xc184a350 
-    c185b64c : immext #0xcaf98940 
-    c185b650 : assign R0,##0xcaf98960 
-    c185b654 : call 0xc184265c 
-    c185b658 : immext #0xc4eee040 
-    c185b65c : assign R0,##0xc4eee041 
-    c185b660 : memub R1,(R17+#0x10) 
-    c185b664 : call 0xc1619338 
-    c185b668 : immext #0xd615a140 
-    c185b66c : assign R0,##0xd615a144 
-    c185b670 : memub R1,(R17+#0x10) 
-    c185b674 : memub R0,(R17+#0x10) 
-    c185b678 : memub R2,(R17+#0x11) 
-    c185b67c : call 0xc1850834 
-    c185b680 : memb (R16+#0x1),R2 
-    c185b684 : call 0xc184265c 
-    c185b688 : immext #0xc4eee040 
-    c185b68c : assign R0,##0xc4eee072 
-    c185b690 : memub R1,(R17+#0x10) 
-    c185b694 : call 0xc1619338 
-    c185b698 : immext #0xd615a140 
-    c185b69c : assign R0,##0xd615a175 
-    c185b6a0 : memub R1,(R17+#0x10) 
-    c185b6a4 : jump 0xc185b60c 
-    c185b6a8 : memb R2,(R16) 
-    c185b6ac : jump.if:t !cmp.eq(R2.new,#0x6),0xc185b6c8 
-    c185b6b0 : call 0xc184265c 
-    c185b6b4 : immext #0xc4eee080 
-    c185b6b8 : assign R0,##0xc4eee0ba 
-    c185b6bc : call 0xc1619338 
-    c185b6c0 : immext #0xd615a180 
-    c185b6c4 : assign R0,##0xd615a1bd ; memw R1,(R17) 
-    c185b6c8 <== REF : call 0xc184a38c 
-    c185b6cc : immext #0xcaf98940 
-    c185b6d0 : assign R0,##0xcaf98960 
-    c185b6d4 : jump 0xc185b60c 
-    c185b6d8 : call 0xc184cfd8 
-    c185b6dc : call 0xc18507e8 
-    c185b6e0 : assign R0,#0x0 
-    c185b6e4 : memd R17R16,(SP+#0x0) ; dealloc_return 
-    c185b734 : immext #0xc9116880 
-    c185b738 : assign R16,##0xc91168b8 
-    c185b73c : memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-    c185b740 : call 0xc17048b0 
-    c185b744 : add R0,R16,#0x10 
-    c185b748 : add R0,R16,#-0x10 
-    c185b74c : memw R2,(R16+#0x8) ; memw R1,(R16) 
-    c185b750 : call 0xc1845790 
-    c185b754 : immext #0xc185b740 
-    c185b758 : combine R5R4,R0,##0xc185b768 
-    c185b75c : memw R3,(R16+#0xc) 
-    c185b760 : memd R17R16,(SP+#0x0) ; memw (R16+#0x4),R0 
-    c185b764 : dealloc_return 
-    c185b768 : add R16,R0,#0x20 
-    c185b76c : memd (SP+#-0x10),R17R16 ; allocframe #0x40 
-    c185b770 : immext #0xc1d9bb40 
-    c185b774 : assign R19,##0xc1d9bb74 
-    c185b778 : memd (SP+#0x30),R19R18 ; memd (SP+#0x28),R21R20 
-    c185b77c : add R20,R19,#-0xb 
-    c185b780 : add R21,R19,#-0xa 
-    c185b784 : add R22,R19,#-0x9 
-    c185b788 : memd (SP+#0x20),R23R22 
-    c185b78c : add R23,R19,#-0x6 
-    c185b790 : memd (SP+#0x18),R25R24 
-    c185b794 : call 0xc1619338 
-    c185b798 : immext #0xd615a1c0 
-    c185b79c : assign R0,##0xd615a1f1 
-    c185b7a0 : call 0xc161f0a8 
-    c185b7a4 : immext #0xc0 
-    c185b7a8 : combine R1R0,##0xff,R16 
-    c185b7ac : assign R2,#0x0 
-    c185b7b0 : assign R17,R0 
-    c185b7b4 : call 0xc161fb78 
-
-OWNER REFERENCES PROCESSED : 2
-CALLER FUNCTIONS PROCESSED  : 1
-
-------------------------------------------------------------
-INTERPRETATION
-------------------------------------------------------------
-1) Verify that c184b698 is actually the 0x7B equality compare.
-2) Identify where R3 comes from immediately before c184b698.
-3) Identify where R16/R0 comes from before the load feeding R3.
-4) A packet-origin path must show a message/buffer pointer entering the owner function.
-5) A demod/internal path will show context/state pointers or DSP buffers instead.
-
-No program structures were modified.
-DONE
-TraceC184B698Owner.java> Finished!
+DumpC184B698Neighborhood.java> Finished!
