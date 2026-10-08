@@ -37,7 +37,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-TARGET-DUMP-2";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-3";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -928,6 +928,163 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("RF CONSTANT HITS=" + hits);
     }
 
+    private static final long DIAG_REC_MAGIC0 = 0x00FF0000L;
+    private static final long DIAG_REC_MAGIC2 = 0x000000FFL;
+    private static final long DIAG_REC_MAGIC3 = 0xFFFFFFFFL;
+    private static final int TARGET_FTM_SUBSYS = 0x000B;
+    private static final int MAX_MASTER_RECORD_HITS = 64;
+    private static final long MAX_MASTER_SCAN_BYTES = 0x80000000L;
+
+    private boolean validDataPointer(long value) {
+        MemoryBlock b = block(value);
+        return b != null && b.isInitialized() && !b.isExecute();
+    }
+
+    private void dumpFtmTableCandidate(long table, int count) {
+        p("    FTM_TABLE_CANDIDATE=" + hex(table) + " count=" + count);
+
+        if (!validDataPointer(table)) {
+            p("      table_valid=false");
+            return;
+        }
+
+        MemoryBlock b = block(table);
+        p("      table_block=" + b.getName()
+            + " range=" + b.getStart() + ".." + b.getEnd());
+
+        int shown = 0;
+        for (int i = 0; i < count && i < 96 && shown < 20; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+            long p0 = table + (long)i * 8L;
+            if (!initialized(p0, 8)) break;
+
+            try {
+                int lo = u16(p0);
+                int hi = u16(p0 + 2L);
+                long handler = u32(p0 + 4L);
+                if (lo > hi) continue;
+
+                MemoryBlock hb = block(handler);
+
+                p(String.format(
+                    "      entry[%02d] @%s lo=%s hi=%s handler=%s handler_block=%s",
+                    i, hex(p0), hex(lo), hex(hi), hex(handler),
+                    hb == null ? "<none>" : hb.getName()));
+
+                shown++;
+            }
+            catch (Exception e) {
+                p("      entry[" + i + "] ERROR=" + e.getMessage());
+            }
+        }
+    }
+
+    private void scanDiagMasterRecordsExact() {
+        p("");
+        p("============================================================");
+        p("DIAG MASTER RECORD STRUCTURE SCAN");
+        p("Independent Qualcomm FTM report structure:");
+        p("[u32 0x00FF0000][u32 count<<16|subsys][u32 0xFF][u32 FFFFFFFF][u32 table]");
+        p("Target subsys=0x000B; READ ONLY / HARD LIMITED");
+        p("============================================================");
+
+        long scanned = 0;
+        int hits = 0;
+
+        try {
+            for (MemoryBlock b : memory().getBlocks()) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                if (!b.isInitialized() || b.isExecute()) continue;
+
+                long start = b.getStart().getOffset();
+                long end = b.getEnd().getOffset();
+
+                p("MASTER_SCAN_BLOCK " + b.getName()
+                    + " " + hex(start) + ".." + hex(end));
+
+                byte[] buf = new byte[RAW_CHUNK];
+                long pos = start;
+
+                while (pos <= end
+                        && scanned < MAX_MASTER_SCAN_BYTES
+                        && hits < MAX_MASTER_RECORD_HITS) {
+
+                    if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                    int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
+                    memory().getBytes(addr(pos), buf, 0, want);
+
+                    for (int i = 0; i + 20 <= want
+                            && hits < MAX_MASTER_RECORD_HITS; i += 4) {
+
+                        long p0 = pos + i;
+
+                        long magic0 = ((long)(buf[i] & 0xff))
+                            | ((long)(buf[i + 1] & 0xff) << 8)
+                            | ((long)(buf[i + 2] & 0xff) << 16)
+                            | ((long)(buf[i + 3] & 0xff) << 24);
+
+                        if (magic0 != DIAG_REC_MAGIC0) continue;
+
+                        long packed = ((long)(buf[i + 4] & 0xff))
+                            | ((long)(buf[i + 5] & 0xff) << 8)
+                            | ((long)(buf[i + 6] & 0xff) << 16)
+                            | ((long)(buf[i + 7] & 0xff) << 24);
+
+                        int subsys = (int)(packed & 0xffffL);
+                        int count = (int)((packed >>> 16) & 0xffffL);
+
+                        if (subsys != TARGET_FTM_SUBSYS || count < 1 || count > 256)
+                            continue;
+
+                        long magic2 = ((long)(buf[i + 8] & 0xff))
+                            | ((long)(buf[i + 9] & 0xff) << 8)
+                            | ((long)(buf[i + 10] & 0xff) << 16)
+                            | ((long)(buf[i + 11] & 0xff) << 24);
+
+                        if (magic2 != DIAG_REC_MAGIC2) continue;
+
+                        long magic3 = ((long)(buf[i + 12] & 0xff))
+                            | ((long)(buf[i + 13] & 0xff) << 8)
+                            | ((long)(buf[i + 14] & 0xff) << 16)
+                            | ((long)(buf[i + 15] & 0xff) << 24);
+
+                        if (magic3 != DIAG_REC_MAGIC3) continue;
+
+                        long table = ((long)(buf[i + 16] & 0xff))
+                            | ((long)(buf[i + 17] & 0xff) << 8)
+                            | ((long)(buf[i + 18] & 0xff) << 16)
+                            | ((long)(buf[i + 19] & 0xff) << 24);
+
+                        p("");
+                        p("MASTER_RECORD_HIT #" + (++hits) + " @" + hex(p0));
+                        p("  packed=" + hex(packed)
+                            + " subsys=" + hex(subsys)
+                            + " count=" + count);
+                        p("  magic2=" + hex(magic2)
+                            + " magic3=" + hex(magic3));
+                        p("  table=" + hex(table)
+                            + " valid=" + validDataPointer(table));
+
+                        dumpFtmTableCandidate(table, count);
+                    }
+
+                    scanned += want;
+                    if (want <= 0) break;
+                    pos += want;
+                }
+            }
+        }
+        catch (Exception e) {
+            p("MASTER STRUCTURE SCAN ERROR: " + e.getMessage());
+        }
+
+        p("");
+        p("MASTER STRUCTURE BYTES SCANNED=" + scanned);
+        p("MASTER STRUCTURE HITS=" + hits);
+    }
+
     private void printReferences(long target, int maxRefs) {
         p("");
         p("REFERENCES TO " + hex(target));
@@ -1201,30 +1358,16 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("REFERENCE FTM_TABLE=" + hex(REF_TABLE));
         p("REFERENCE COMMON_DISPATCH=" + hex(REF_DISP));
 
-        inspectAddress(REF_MASTER, "MASTER");
-        inspectAddress(REF_TABLE, "FTM_TABLE");
-        inspectAddress(REF_DISP, "COMMON_DISPATCH");
-        inspectAddress(REF_TABLE2, "FTM_TABLE_CMD08");
-        inspectAddress(REF_DISP2, "COMMON_DISPATCH_CMD08");
-        inspectAddress(REF_DISP3, "COMMON_DISPATCH_ALT");
+        inspectAddress(REF_MASTER, "MASTER_REFERENCE_ADDRESS");
+        inspectAddress(REF_TABLE, "FTM_TABLE_REFERENCE_ADDRESS");
 
-        dumpWindow(REF_MASTER, DUMP_MASTER_RADIUS, "DIAG MASTER CANDIDATE");
-        dumpWindow(REF_TABLE, DUMP_TABLE_RADIUS, "FTM TABLE CANDIDATE");
-
-        localNonZeroScan(REF_MASTER, LOCAL_ZERO_RADIUS, "MASTER 0xC8DC3B54");
-        localNonZeroScan(REF_TABLE, LOCAL_ZERO_RADIUS, "FTM_TABLE 0xC37BD1E8");
+        scanDiagMasterRecordsExact();
 
         scanHighValueStrings();
-
-        scanNamedFunctions();
 
         scanSourceAnchorPointers();
 
         scanExactRfConstants();
-
-                scanFtmLocatorStrings();
-
-        scanReferencePointers();
 
         p("");
         p("============================================================");
