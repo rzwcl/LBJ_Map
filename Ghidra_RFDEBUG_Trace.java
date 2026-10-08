@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private static final int MAX_FUNCTION_INSNS = 20000;
+    private static final int MAX_DEEP_INSNS = 4000;
     private static final int MAX_GLOBAL_INSNS = 1800000;
     private static final int MAX_FUNCTIONS = 120;
     private static final int MAX_LINES = 16000;
@@ -1256,6 +1257,54 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         if (shown == 0) println("  CALL AFTER: <none within " + count + " instructions>");
     }
 
+    private void inspectCallSiteByAddress(long off) {
+        if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+        Address site = toAddr(off);
+        Instruction callIns = currentProgram.getListing().getInstructionContaining(site);
+
+        println("\n------------------------------------------------------------");
+        println("FOCUSED CALL-SITE @ " + site);
+
+        if (callIns == null) {
+            println("INSTRUCTION: <none>");
+            Instruction p = currentProgram.getListing().getInstructionBefore(site);
+            Instruction n = currentProgram.getListing().getInstructionAfter(site);
+            if (p != null) println("PREV: " + p.getAddress() + " : " + safe(p.toString()));
+            if (n != null) println("NEXT: " + n.getAddress() + " : " + safe(n.toString()));
+            return;
+        }
+
+        Function f = functionContaining(callIns.getAddress());
+        println("FUNCTION: " + (f == null ? "<none>" : f.getName() + " @ " + f.getEntryPoint()));
+
+        Instruction cur = callIns;
+        ArrayList<Instruction> prev = new ArrayList<Instruction>();
+        for (int i = 0; i < 10; i++) {
+            Instruction p = currentProgram.getListing().getInstructionBefore(cur.getAddress());
+            if (p == null) break;
+            prev.add(p);
+            cur = p;
+        }
+        for (int i = prev.size() - 1; i >= 0 && lines < MAX_LINES; i--) {
+            Instruction p = prev.get(i);
+            println("  PREV: " + p.getAddress() + " : " + safe(p.toString()));
+            lines++;
+        }
+
+        println("  CALL: " + callIns.getAddress() + " : " + safe(callIns.toString()));
+        lines++;
+
+        cur = callIns;
+        for (int i = 0; i < 14 && lines < MAX_LINES; i++) {
+            Instruction n = currentProgram.getListing().getInstructionAfter(cur.getAddress());
+            if (n == null) break;
+            println("  NEXT: " + n.getAddress() + " : " + safe(n.toString()));
+            lines++;
+            cur = n;
+        }
+    }
+
     private void deepInspectLikelyParsers() {
         println("\n============================================================");
         println("DEEP INSPECTION OF REAL 0x4B PARSER CANDIDATES");
@@ -1264,6 +1313,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("READ ONLY / HARD LIMITED");
         println("============================================================");
 
+        inspectCallSiteByAddress(0xc1902c70L);
         inspectFunctionByAddress(0xc1902c74L);
         inspectFunctionByAddress(0xc1d1a760L);
     }
@@ -1292,8 +1342,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         int exact0 = 0;
         int byteLoads = 0;
         int calls = 0;
+        int printed = 0;
 
-        for (int i = 0; i < a.size() && lines < MAX_LINES; i++) {
+        for (int i = 0; i < a.size() && lines < MAX_LINES && printed < MAX_DEEP_INSNS; i++) {
             Instruction ins = a.get(i);
             String s = safe(ins.toString());
 
@@ -1307,6 +1358,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             // Print every instruction for these small target functions.
             println("  " + ins.getAddress() + " : " + s);
             lines++;
+            printed++;
         }
 
         println("SUMMARY: exact4B=" + exact4 +
@@ -1432,11 +1484,16 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         lines = 0;
 
+        // IMPORTANT: deep parser inspection comes first so high-volume reports
+        // cannot consume the shared output budget before we reach it.
+        deepInspectLikelyParsers();
+        println("\n[DEEP PHASE COMPLETE] Resetting output budget for broad scans...");
+        lines = 0;
+
         inspectLikelyCurrentFunctions();
         println("\n[STEP 1/7] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
         println("\n[STEP 2/7] Running exact-immediate protocol candidate analysis...");
-        deepInspectLikelyParsers();
         inspectExactProtocolCandidates();
         println("\n[STEP 3/7] Ranking packet-header dataflow candidates...");
         rankPacketHeaderCandidates();
