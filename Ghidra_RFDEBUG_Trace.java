@@ -1256,6 +1256,86 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         if (shown == 0) println("  CALL AFTER: <none within " + count + " instructions>");
     }
 
+    private void deepInspectLikelyParsers() {
+        println("\n============================================================");
+        println("DEEP INSPECTION OF REAL 0x4B PARSER CANDIDATES");
+        println("TARGET A: FUN_c1902c74 @ c1902c74");
+        println("TARGET B: FUN_c1d1a760 @ c1d1a760");
+        println("READ ONLY / HARD LIMITED");
+        println("============================================================");
+
+        inspectFunctionByAddress(0xc1902c74L);
+        inspectFunctionByAddress(0xc1d1a760L);
+    }
+
+    private void inspectFunctionByAddress(long off) {
+        if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+        Address entry = toAddr(off);
+        Function f = functionContaining(entry);
+
+        println("\n------------------------------------------------------------");
+        println("DEEP FUNCTION @ " + entry);
+
+        if (f == null) {
+            println("FUNCTION: <none>");
+            return;
+        }
+
+        println("FUNCTION: " + f.getName() + " @ " + f.getEntryPoint());
+        println("BODY: " + f.getBody());
+
+        ArrayList<Instruction> a = collect(f);
+        println("INSTRUCTION COUNT (bounded): " + a.size());
+
+        int exact4 = 0;
+        int exact0 = 0;
+        int byteLoads = 0;
+        int calls = 0;
+
+        for (int i = 0; i < a.size() && lines < MAX_LINES; i++) {
+            Instruction ins = a.get(i);
+            String s = safe(ins.toString());
+
+            if (isExact4BInsn(ins)) exact4++;
+            if (isExact0BInsn(ins)) exact0++;
+
+            String lo = s.toLowerCase();
+            if (lo.contains("memub") || lo.contains("memuh") || lo.contains("memb")) byteLoads++;
+            if (isCall(s)) calls++;
+
+            // Print every instruction for these small target functions.
+            println("  " + ins.getAddress() + " : " + s);
+            lines++;
+        }
+
+        println("SUMMARY: exact4B=" + exact4 +
+                " exact0B=" + exact0 +
+                " byteLoads=" + byteLoads +
+                " calls=" + calls);
+
+        println("CALL XREFS INTO FUNCTION:");
+        ReferenceIterator rit =
+            currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
+
+        int shown = 0;
+        while (rit.hasNext() && shown < 32 && lines < MAX_LINES) {
+            if (monitor.isCancelled()) return;
+
+            Reference r = rit.next();
+            if (!r.getReferenceType().isCall()) continue;
+
+            Function caller = functionContaining(r.getFromAddress());
+            println("  CALLER " + r.getFromAddress() + " <- " +
+                (caller == null ? "<unknown>" :
+                 caller.getName() + " @ " + caller.getEntryPoint()));
+            lines++;
+            shown++;
+        }
+
+        if (shown == 0) println("  <none>");
+    }
+
     private void globalExactCompareScan() {
         println("\n============================================================");
         println("GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B");
@@ -1356,6 +1436,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n[STEP 1/7] Reviewing previously discovered raw 4B 0B addresses...");
         rawExecutableByteScan();
         println("\n[STEP 2/7] Running exact-immediate protocol candidate analysis...");
+        deepInspectLikelyParsers();
         inspectExactProtocolCandidates();
         println("\n[STEP 3/7] Ranking packet-header dataflow candidates...");
         rankPacketHeaderCandidates();
@@ -1364,8 +1445,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("\n[STEP 5/7] Running exact byte-compare protocol trace...");
         traceExactByteProtocol();
         globalExactCompareScan();
-        println("\n[STEP 6/7] Running bounded legacy compare scan...");
-        globalExactCompareScan();
+        println("\n[STEP 6/7] Legacy scan skipped; focused parser analysis is complete.");
         println("\n[STEP 7/7] Analysis complete.");
 
         println("\n============================================================");
