@@ -52,6 +52,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private static final int MAX_REFS = 128;
     private static final long MAX_RAW_SCAN_BYTES = 0x800000L;
     private static final int RAW_CHUNK = 0x4000;
+    private static final int LOCAL_ZERO_RADIUS = 0x10000;
+    private static final int LOCAL_CHUNK = 0x4000;
 
     private int lines = 0;
 
@@ -176,6 +178,129 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
         catch (Exception e) {
             p("  DATA: <error> " + e.getMessage());
+        }
+    }
+
+    private void printBlockDetails(MemoryBlock b) {
+        if (b == null) {
+            p("  BLOCK_DETAILS: <none>");
+            return;
+        }
+
+        try {
+            p("  block_type=" + b.getType());
+            p("  flags=0x" + Integer.toHexString(b.getFlags()));
+            p("  read=" + b.isRead()
+                + " write=" + b.isWrite()
+                + " exec=" + b.isExecute()
+                + " volatile=" + b.isVolatile()
+                + " artificial=" + b.isArtificial());
+            p("  loaded=" + b.isLoaded()
+                + " mapped=" + b.isMapped()
+                + " overlay=" + b.isOverlay()
+                + " initialized=" + b.isInitialized());
+            p("  source_name=" + String.valueOf(b.getSourceName()));
+            try {
+                p("  source_infos=" + b.getSourceInfos().size());
+            }
+            catch (Exception ignored) {
+                p("  source_infos=<error>");
+            }
+            try {
+                p("  block_data_stream=" + (b.getData() == null ? "<null>" : "<present>"));
+            }
+            catch (Exception ignored) {
+                p("  block_data_stream=<error>");
+            }
+        }
+        catch (Exception e) {
+            p("  BLOCK_DETAILS ERROR: " + e.getMessage());
+        }
+    }
+
+    private void localNonZeroScan(long center, int radius, String name) {
+        p("");
+        p("LOCAL BYTE ACTIVITY: " + name);
+        p("RANGE " + hex(center - radius) + " .. " + hex(center + radius));
+
+        long start = center - (long)radius;
+        long end = center + (long)radius;
+        MemoryBlock b = block(center);
+
+        if (b == null) {
+            p("  CENTER_BLOCK=<none>");
+            return;
+        }
+
+        long bs = b.getStart().getOffset();
+        long be = b.getEnd().getOffset();
+        if (start < bs) start = bs;
+        if (end > be) end = be;
+
+        byte[] buf = new byte[LOCAL_CHUNK];
+        long pos = start;
+        long total = 0;
+        long nonZero = 0;
+        long first = -1;
+        long last = -1;
+        int runs = 0;
+        long runStart = -1;
+        long runEnd = -1;
+
+        try {
+            while (pos <= end) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                int want = (int)Math.min((long)LOCAL_CHUNK, end - pos + 1L);
+                memory().getBytes(addr(pos), buf, 0, want);
+
+                for (int i = 0; i < want; i++) {
+                    long a = pos + i;
+                    int v = buf[i] & 0xff;
+                    total++;
+
+                    if (v != 0) {
+                        nonZero++;
+                        if (first < 0) first = a;
+                        last = a;
+
+                        if (runStart < 0) runStart = a;
+                        runEnd = a;
+                    }
+                    else if (runStart >= 0) {
+                        runs++;
+                        if (runs <= 24) {
+                            p("  NONZERO_RUN[" + runs + "] "
+                                + hex(runStart) + " .. " + hex(runEnd)
+                                + " len=" + (runEnd - runStart + 1L));
+                        }
+                        runStart = -1;
+                        runEnd = -1;
+                    }
+                }
+
+                if (want <= 0) break;
+                pos += want;
+            }
+
+            if (runStart >= 0) {
+                runs++;
+                if (runs <= 24) {
+                    p("  NONZERO_RUN[" + runs + "] "
+                        + hex(runStart) + " .. " + hex(runEnd)
+                        + " len=" + (runEnd - runStart + 1L));
+                }
+            }
+
+            p("  TOTAL_BYTES=" + total);
+            p("  NONZERO_BYTES=" + nonZero);
+            p("  ZERO_BYTES=" + (total - nonZero));
+            p("  NONZERO_RUNS=" + runs);
+            p("  FIRST_NONZERO=" + (first < 0 ? "<none>" : hex(first)));
+            p("  LAST_NONZERO=" + (last < 0 ? "<none>" : hex(last)));
+        }
+        catch (Exception e) {
+            p("  LOCAL SCAN ERROR: " + e.getMessage());
         }
     }
 
@@ -424,6 +549,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             + " init=" + (b != null && b.isInitialized()));
         if (b != null) {
             p("block_range=" + b.getStart() + " .. " + b.getEnd());
+            printBlockDetails(b);
         }
 
         try {
@@ -461,6 +587,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         dumpWindow(REF_MASTER, DUMP_MASTER_RADIUS, "DIAG MASTER CANDIDATE");
         dumpWindow(REF_TABLE, DUMP_TABLE_RADIUS, "FTM TABLE CANDIDATE");
 
+        localNonZeroScan(REF_MASTER, LOCAL_ZERO_RADIUS, "MASTER 0xC8DC3B54");
+        localNonZeroScan(REF_TABLE, LOCAL_ZERO_RADIUS, "FTM_TABLE 0xC37BD1E8");
+
         scanReferencePointers();
 
         p("");
@@ -474,6 +603,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("4. If it does not, treat the published address as build/image-");
         p("   dependent until another image is identified.");
         p("5. A code XREF from a function into C37BD1E8 is the key next step.");
+        p("6. If localNonZeroScan is entirely zero, inspect block metadata/source info.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
