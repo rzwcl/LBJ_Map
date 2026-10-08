@@ -1,6 +1,6 @@
-TraceRFDebugExternalTargets.java> Running...
+TraceRFDebugEightSlotStructure.java> Running...
 ============================================================
- RFDEBUG EXTERNAL TARGET TRACE
+ RFDEBUG 8-SLOT STRUCTURE TRACE
  Program : qdsp6sw.mbn
  Image   : c1600000
  READ ONLY
@@ -8,542 +8,433 @@ TraceRFDebugExternalTargets.java> Running...
 
 
 ------------------------------------------------------------
-THUNK c18453bc
- ADDRESS : c18453bc
-------------------------------------------------------------
- SYMBOL  : thunk_EXT_FUN_d89b2790
- NAMESPACE : <EXTERNAL>
- FUNCTION : thunk_EXT_FUN_d89b2790
- ENTRY    : c18453bc
- REFERENCED FUNCTION : thunk_EXT_FUN_d89b2790
- REFERENCED ENTRY     : c18453bc
- XREF COUNT : 9
-  XREF : c185d578  TYPE=DATA
-         FUNCTION=FUN_c185d4e0
-  XREF : c185d580  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c185d4e0
-  XREF : c1852170  TYPE=DATA
-         FUNCTION=FUN_c18520d0
-  XREF : c1852174  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c18520d0
-  XREF : c18452f0  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c18451a4
-  XREF : c184b6d0  TYPE=DATA
-         FUNCTION=FUN_c184a38c
-  XREF : c184b6d8  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c184a38c
-  XREF : c184cf9c  TYPE=DATA
-         FUNCTION=FUN_c184a38c
-  XREF : c184cfa4  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c184a38c
-
-------------------------------------------------------------
-THUNK c1841f1c
- ADDRESS : c1841f1c
-------------------------------------------------------------
- SYMBOL  : thunk_EXT_FUN_d89b2ac0
- NAMESPACE : <EXTERNAL>
- FUNCTION : thunk_EXT_FUN_d89b2ac0
- ENTRY    : c1841f1c
- REFERENCED FUNCTION : thunk_EXT_FUN_d89b2ac0
- REFERENCED ENTRY     : c1841f1c
- XREF COUNT : 18
-  XREF : c1841eb0  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c1841d94
-  XREF : c1841ee0  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c1841d94
-  XREF : c1857884  TYPE=DATA
-         FUNCTION=FUN_c1857760
-  XREF : c1857888  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c1857760
-  XREF : c1848820  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c1848720
-  XREF : c1848850  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c1848720
-  XREF : c1854b58  TYPE=DATA
-         FUNCTION=FUN_c1854af8
-  XREF : c1854b5c  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c1854af8
-  XREF : c1854b8c  TYPE=DATA
-         FUNCTION=FUN_c1854af8
-  XREF : c1854b90  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c1854af8
-  XREF : c184b764  TYPE=DATA
-         FUNCTION=FUN_c184a38c
-  XREF : c184b768  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c184a38c
-  XREF : c184c2c0  TYPE=DATA
-         FUNCTION=FUN_c184a38c
-  XREF : c184c2c4  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c184a38c
-  XREF : c184c3a0  TYPE=DATA
-         FUNCTION=FUN_c184a38c
-  XREF : c184c3a4  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c184a38c
-  XREF : c184c958  TYPE=DATA
-         FUNCTION=FUN_c184a38c
-  XREF : c184c95c  TYPE=UNCONDITIONAL_CALL
-         FUNCTION=FUN_c184a38c
-
-------------------------------------------------------------
-EXTERNAL TARGET d89b2790
- ADDRESS : d89b2790
-------------------------------------------------------------
- SYMBOL  : LAB_d89b2790
- NAMESPACE : Global
- FUNCTION : <none>
- REFERENCED FUNCTION : <none>
- XREF COUNT : 98
-  XREF : c16187e8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1618c10  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c161abbc  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1618868  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17a4848  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c191b660  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c191c0dc  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c179e5f0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c16a4820  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c16a47d8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1791c30  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1795c48  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1797434  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c178f728  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1797424  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1aa007c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1aa0628  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1aa2a54  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1aa2a7c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c179f0e4  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17a3338  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1809044  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17cbc48  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17a214c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1808be8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17e8ef4  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17f30b4  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17c2fd0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17d9704  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17f5028  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17f9be0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c17c22ac  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1817530  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1841f28  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c184326c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1817d68  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1817bac  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1818564  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1818650  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18235f0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18271e8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c182a1f0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1842f78  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18547c8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18469b8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1848334  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=FUN_c1848300
-  XREF : c1820120  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c182020c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c1825d44  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18271f0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c182c51c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c182f5d8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c182f280  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18300d0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18303d8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c183e6ec  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c183df68  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c183df70  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18453c0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c183fdc0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c185e440  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c185e498  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c185e438  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c186b784  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c186ea14  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c187a644  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c187926c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18adc18  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18afd24  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18815cc  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c185ef6c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18b891c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18bb044  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18b90cc  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c188b600  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18948e4  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18b88d4  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18bb2dc  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18c5708  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  XREF : c18c610c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2790
-  [XREF OUTPUT LIMIT REACHED]
-
-------------------------------------------------------------
-EXTERNAL TARGET d89b2ac0
- ADDRESS : d89b2ac0
-------------------------------------------------------------
- SYMBOL  : SUB_d89b2ac0
- NAMESPACE : Global
- FUNCTION : <none>
- REFERENCED FUNCTION : <none>
- XREF COUNT : 11
-  XREF : c178b190  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c179fe74  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c17e1420  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c17f7ce8  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c1831134  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c1841f20  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c1844cb8  TYPE=CONDITIONAL_CALL
-         FUNCTION=FUN_c1844c78
-  XREF : c188c898  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c18e1af0  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c18c5e5c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-  XREF : c190e22c  TYPE=UNCONDITIONAL_JUMP
-         FUNCTION=thunk_EXT_FUN_d89b2ac0
-
-------------------------------------------------------------
-GLOBAL c1d9c1d8
+C1D9C1D8 : DESTINATION / 8x0x0C CANDIDATE
  ADDRESS : c1d9c1d8
+ SIZE    : 0x60
 ------------------------------------------------------------
- SYMBOL : DAT_c1d9c1d8
- XREF COUNT : 3
-  XREF : c185c7d4  TYPE=PARAM
-         FUNCTION=FUN_c185c7b0
-  XREF : c184b760  TYPE=READ
-         FUNCTION=FUN_c184a38c
-  XREF : c184b778  TYPE=READ
-         FUNCTION=FUN_c184a38c
+ DATA TYPE : undefined4
+ DEFAULT   : 00000000h
+  +0x00 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  +0x10 :  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  +0x20 :  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  +0x30 :  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  +0x40 :  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  +0x50 :  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+
+RECORD OFFSETS:
+  record[0] : 0xC1D9C1D8 - 0xC1D9C1E3
+  record[1] : 0xC1D9C1E4 - 0xC1D9C1EF
+  record[2] : 0xC1D9C1F0 - 0xC1D9C1FB
+  record[3] : 0xC1D9C1FC - 0xC1D9C207
+  record[4] : 0xC1D9C208 - 0xC1D9C213
+  record[5] : 0xC1D9C214 - 0xC1D9C21F
+  record[6] : 0xC1D9C220 - 0xC1D9C22B
+  record[7] : 0xC1D9C22C - 0xC1D9C237
 
 ------------------------------------------------------------
-GLOBAL c1d9c238
- ADDRESS : c1d9c238
-------------------------------------------------------------
- SYMBOL : DAT_c1d9c238
- XREF COUNT : 3
-  XREF : c183a9bc  TYPE=READ
-         FUNCTION=FUN_c183a9b4
-  XREF : c184b74c  TYPE=WRITE
-         FUNCTION=FUN_c184a38c
-  XREF : c183aaac  TYPE=WRITE
-         FUNCTION=FUN_c183a9b4
-
-------------------------------------------------------------
-GLOBAL caf8e700
+CAF8E700 : SOURCE POINTER CANDIDATE
  ADDRESS : caf8e700
 ------------------------------------------------------------
- SYMBOL : DAT_caf8e700
+ DATA TYPE : undefined4
+ DEFAULT   : 00000000h
+ VALUE     : 0x0
+ RAW U32   : 0x00000000
+ POINTER   : NULL
+
+------------------------------------------------------------
+C1D9C238 : OTHER GLOBAL USED NEAR LOOP
+ ADDRESS : c1d9c238
+------------------------------------------------------------
+ DATA TYPE : undefined2
+ DEFAULT   : 0000h
+ VALUE     : 0x0
+  +0x00 : 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+
+------------------------------------------------------------
+XREFS : CAF8E700
+ ADDRESS : caf8e700
+------------------------------------------------------------
  XREF COUNT : 12
-  XREF : c18340f8  TYPE=READ
-         FUNCTION=FUN_c18340f0
-  XREF : c18346d4  TYPE=READ
-         FUNCTION=FUN_c183475c
-  XREF : c18344dc  TYPE=READ
-         FUNCTION=FUN_c18344d0
-  XREF : c184aff8  TYPE=READ
-         FUNCTION=FUN_c184a38c
-  XREF : c184c3dc  TYPE=READ
-         FUNCTION=FUN_c184a38c
-  XREF : c184c634  TYPE=READ
-         FUNCTION=FUN_c184a38c
-  XREF : c184ff04  TYPE=WRITE
-         FUNCTION=FUN_c184fee8
-  XREF : c184bc24  TYPE=PARAM
-         FUNCTION=FUN_c184a38c
-  XREF : c184bc84  TYPE=READ
-         FUNCTION=FUN_c184a38c
-  XREF : c184bc88  TYPE=READ
-         FUNCTION=FUN_c184a38c
-  XREF : c184bcc0  TYPE=PARAM
-         FUNCTION=FUN_c184a38c
-  XREF : c184b71c  TYPE=READ
-         FUNCTION=FUN_c184a38c
+  c18340f8  TYPE=READ
+      FUNCTION=FUN_c18340f0 ENTRY=c18340f0
+      c18340e0 : modwrap R3,R3,R5 
+      c18340e4 : jumpr LR 
+      c18340e8 : memw (R2+#0x1b0),R3.new 
+      c18340ec : assign R0,#0x0 ; jumpr LR 
+      c18340f0 : assign R3,#0x7000 
+      c18340f4 : immext #0xcaf8e700 
+   >>> c18340f8 : memw R2,(##0xcaf8e700) 
+      c18340fc : add R2,R2,#0x2114 
+      c1834100 : memw R4,(R2) 
+      c1834104 : immext #0xc1d97140 
+      c1834108 : memw (R4=##0xc1d97150),R4 
+      c183410c : memw R5,(R2+#0x8) 
+      c1834110 : memw R6,(R2+#0xc) ; memw (R4+#0x8),R5 
+  c18346d4  TYPE=READ
+      FUNCTION=FUN_c183475c ENTRY=c183475c
+      c18346b8 : memw (R3+R6),R4 
+      c18346c0 : immext #0xc1d98180 
+      c18346c4 : assign R2,##0xc1d98188 
+      c18346c8 : immext #0xc91169c0 
+      c18346cc : memuh R3,(##0xc91169ce) 
+      c18346d0 : immext #0xcaf8e700 
+   >>> c18346d4 : memw R4,(##0xcaf8e700) 
+      c18346d8 : memw R5,(R2+#0x8) 
+      c18346dc : add R4,R4,#0x2104 
+      c18346e0 : add R7,R2,#-0x8 
+      c18346e4 : memw R6,(R2+#0x4) 
+      c18346e8 : immext #0xc1d96640 
+      c18346ec : memw R12,(R3<<#0x2+##0xc1d96640) 
+  c18344dc  TYPE=READ
+      FUNCTION=FUN_c18344d0 ENTRY=c18344d0
+      c18344b8 : combine R3R2,#0x1,R16 
+      c18344bc : memd R17R16,(SP+#0x8) ; deallocframe 
+      c18344c0 : jump 0xc182c3b0 
+      c18344d0 : immext #0x7fc0 
+      c18344d4 : combine R3R2,##0x7fff,#0x0 
+      c18344d8 : immext #0xcaf8e700 
+   >>> c18344dc : memw R5,(##0xcaf8e700) 
+      c18344e0 : loop0 0xc18344f0,#0x2 
+      c18344e4 : immext #0x8000 
+      c18344e8 : assign R4,##0x8000 
+      c18344ec : add R5,R5,#0x20ea 
+      c18344f0 : immext #0xc1d97100 
+      c18344f4 : add R6,R2,##-0x3e268ee8 
+  c184aff8  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184afe0 : immext #0x1e40 
+      c184afe4 : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc184ce38 
+      c184afe8 : memw (R17+#0xc),R0 
+      c184afec : add R0,R17,#0x20 
+      c184aff0 : assign R2,#0x40 
+      c184aff4 : immext #0xcaf8e700 
+   >>> c184aff8 : memw R3,(##0xcaf8e700) 
+      c184affc : call 0xc1621160 
+      c184b000 : add R1,R3,#0x400 
+      c184b004 : add R2,R17,#0x4 
+      c184b008 : jump 0xc184ce38 
+      c184b00c : memw (R2),#0x0 
+      c184b010 : cmpb.eq P0,R3,#0x49 
+  c184c3dc  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184c3c4 : memw R4,(R16+#0x20) 
+      c184c3c8 : mpyi+= R5,R1,R23 
+      c184c3cc : call 0xc1619338 
+      c184c3d0 : memub R5,(R5+#0x29) 
+      c184c3d4 : memw R2,(R16+#0x10) 
+      c184c3d8 : immext #0xcaf8e700 
+   >>> c184c3dc : memw R3,(##0xcaf8e700) 
+      c184c3e0 : immext #0x140 
+      c184c3e4 : +mpyi R4,R2,##0x160 
+      c184c3e8 : mpyi R2,R2,R23 
+      c184c3ec : immext #0x140 
+      c184c3f0 : add R1,R3,add(R4,##0x140) 
+      c184c3f4 : immext #0x80 
+  c184c634  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184c61c : immext #0xc1d96fc0 
+      c184c620 : memb R2,(##0xc1d96fc4) 
+      c184c624 : immext #0x900 
+      c184c628 : jump.if:nt !cmp.eq(R2.new,#0x2),0xc184cf44 
+      c184c62c : assign R0,R16 
+      c184c630 : immext #0xcaf8e700 
+   >>> c184c634 : memw R2,(##0xcaf8e700) 
+      c184c638 : memb (R17+#0x1),#0x1 
+      c184c63c : immext #0x2100 
+      c184c640 : memw R2,(R2+##0x2100) 
+      c184c644 : extractu R2,R2,#0x3,#0x3 
+      c184c648 : immext #0xc1d97180 
+      c184c64c : memb (##0xc1d971b8),R2.new 
+  c184ff04  TYPE=WRITE
+      FUNCTION=FUN_c184fee8 ENTRY=c184fee8
+      c184feec : assign R2,##0xcaf8e700 
+      c184fef0 : immext #0xcaf8e700 
+      c184fef4 : assign R3,##0xcaf8e704 
+      c184fef8 : immext #0xcaf8c5c0 
+      c184fefc : memw (R2),##0xcaf8c5c0 
+      c184ff00 : immext #0xcaf8be40 
+   >>> c184ff04 : memw (R3),##0xcaf8be60 
+      c184ff08 : jumpr LR 
+      c184ff0c : jumpr LR 
+      c184ff10 : loop0 0xc184ff5c,#0x1 
+      c184ff14 : assign R3,#0x0 
+      c184ff18 : immext #0xcaf8e700 
+      c184ff1c : memw R2,(##0xcaf8e704) 
+  c184bc24  TYPE=PARAM
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184bc0c : assign R4,##0xc1d9a8a4 
+      c184bc10 : cmp.eq P0,R2,#0x0 
+      c184bc14 : immext #0x8008200 
+      c184bc18 : assign R5,##0x8008211 
+      c184bc1c : memh|= (R3),R2 
+      c184bc20 : immext #0xcaf8e700 
+   >>> c184bc24 : assign R4,##0xcaf8e700 
+      c184bc28 : memb.if(!P0) (R4),#0x1 
+      c184bc2c : immext #0xcaf8ab00 
+      c184bc30 : memw R3,(##0xcaf8ab0c) 
+      c184bc34 : cmp.eq P0,R3,#0x0 ; jump.if(P0.new):nt 0xc184bc50 
+      c184bc38 : immext #0xcaf98f40 
+      c184bc3c : memuh.if(P0.new) R3,(##0xcaf98f60) 
+  c184bc84  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184bc6c : immext #0xc1d9c400 
+      c184bc70 : assign R19,##0xc1d9c438 ; combine R21R20,#0x0,#0x0 
+      c184bc74 : memuh R2,(R16+#0x12) 
+      c184bc78 : tstbit P0,R2,R21 
+      c184bc7c : add.if(P0.new) R0,R18,#-0x2c 
+      c184bc80 : jump.if(!P0.new):nt 0xc184bccc 
+   >>> c184bc84 : memw.if(!P0.new) R22,(R4) 
+      c184bc88 : assign R2,#0x24 ; memw R22,(R4) 
+      c184bc8c : add R23,R22,R20 
+      c184bc90 : call 0xc16b3900 
+      c184bc94 : add R1,R23,#0x60 
+      c184bc98 : memw R2,(R17) 
+      c184bc9c : sxth R3,R2 
+  c184bc88  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184bc70 : assign R19,##0xc1d9c438 ; combine R21R20,#0x0,#0x0 
+      c184bc74 : memuh R2,(R16+#0x12) 
+      c184bc78 : tstbit P0,R2,R21 
+      c184bc7c : add.if(P0.new) R0,R18,#-0x2c 
+      c184bc80 : jump.if(!P0.new):nt 0xc184bccc 
+      c184bc84 : memw.if(!P0.new) R22,(R4) 
+   >>> c184bc88 : assign R2,#0x24 ; memw R22,(R4) 
+      c184bc8c : add R23,R22,R20 
+      c184bc90 : call 0xc16b3900 
+      c184bc94 : add R1,R23,#0x60 
+      c184bc98 : memw R2,(R17) 
+      c184bc9c : sxth R3,R2 
+      c184bca0 : cmp.gt P0,R3,#-0x1 ; jump.if(!P0.new):t 0xc184bcbc 
+  c184bcc0  TYPE=PARAM
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184bca8 : memw.if(!P0.new) (R18+#0x4),#0x0 
+      c184bcac : !tstbit P0,R2,#0xe 
+      c184bcb0 : memh.if(!P0.new) R2,(R26) 
+      c184bcb4 : memw.if(!P0.new) (R18+#0x4),R0.new 
+      c184bcb8 : memh.if(!P0) (R18),#0x0 
+      c184bcbc : immext #0xcaf8e700 
+   >>> c184bcc0 : assign R4,##0xcaf8e700 
+      c184bcc4 : memuh R2,(R23+#0x80) 
+      c184bcc8 : memh (R18+#0x14),R2.new 
+      c184bccc : add R2,R22,R21 
+      c184bcd0 : add R18,R18,#0x44 
+      c184bcd4 : add R20,R20,#0x24 ; add R21,R21,#0x1 
+      c184bcd8 : cmp.eq P0,R21,#0x6 
+  c184b71c  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184b704 : immext #0xc1d9c1c0 
+      c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
+      c184b70c : immext #0xc1d9c1c0 
+      c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
+      c184b714 : !tstbit P0,R2,R5 
+      c184b718 : jump.if(P0.new):nt 0xc184b73c 
+   >>> c184b71c : memw.if(!P0.new) R6,(R8) 
+      c184b720 : add R7,R6,R3 
+      c184b724 : memw R6,(R6+R3) 
+      c184b728 : memw (R4),R6.new 
+      c184b72c : memw R6,(R7+#0x8) 
+      c184b730 : memw (R4+#0x8),R6.new 
+      c184b734 : memw R6,(R7+#0x4) 
+
+------------------------------------------------------------
+XREFS : C1D9C1D8
+ ADDRESS : c1d9c1d8
+------------------------------------------------------------
+ XREF COUNT : 3
+  c185c7d4  TYPE=PARAM
+      FUNCTION=FUN_c185c7b0 ENTRY=c185c7b0
+      c185c7bc : immext #0xc1d9bd00 
+      c185c7c0 : combine R1R0,#0x0,##0xc1d9bd38 
+      c185c7c4 : assign R2,#0x4a0 
+      c185c7c8 : memd (SP),R19R18 
+      c185c7cc : call 0xc1620d4c 
+      c185c7d0 : add R16,R17,#-0x14 
+   >>> c185c7d4 : memw R18,(R17) 
+      c185c7d8 : call 0xc1620d4c 
+      c185c7dc : immext #0xc1d9c1c0 
+      c185c7e0 : combine R1R0,#0x0,##0xc1d9c1d8 
+      c185c7e4 : assign R2,#0x60 
+      c185c7e8 : call 0xc1620d4c 
+      c185c7ec : combine R1R0,#0x0,R16 
+  c184b760  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184b748 : immext #0xc1d9c200 
+      c184b74c : memh (##0xc1d9c238),R2.new 
+      c184b750 : immext #0xc4eea700 
+      c184b754 : assign R0,##0xc4eea72b 
+      c184b758 : memub R4,(R16+#0x12) 
+      c184b75c : memb (R18+#0x74),R4.new 
+   >>> c184b760 : memw R1,(R17) ; memw R2,(R17+#0xc) 
+      c184b764 : call 0xc1841f1c 
+      c184b768 : memw R3,(R17+#0x18) ; memuh R5,(R18) 
+      c184b76c : immext #0xd6151c40 
+      c184b770 : assign R0,##0xd6151c6c 
+      c184b774 : memuh R5,(R18) ; memd R19R18,(SP+#0x48) 
+      c184b778 : memw R1,(R17) ; memw R2,(R17+#0xc) 
+  c184b778  TYPE=READ
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184b760 : memw R1,(R17) ; memw R2,(R17+#0xc) 
+      c184b764 : call 0xc1841f1c 
+      c184b768 : memw R3,(R17+#0x18) ; memuh R5,(R18) 
+      c184b76c : immext #0xd6151c40 
+      c184b770 : assign R0,##0xd6151c6c 
+      c184b774 : memuh R5,(R18) ; memd R19R18,(SP+#0x48) 
+   >>> c184b778 : memw R1,(R17) ; memw R2,(R17+#0xc) 
+      c184b77c : memw R3,(R17+#0x18) 
+      c184b780 : memub R4,(R16+#0x12) 
+      c184b784 : memd R17R16,(SP+#0x50) ; memd R21R20,(SP+#0x40) 
+      c184b788 : memd R23R22,(SP+#0x38) 
+      c184b78c : memd R25R24,(SP+#0x30) 
+      c184b790 : jump 0xc1619338 
+
+------------------------------------------------------------
+XREFS : C1D9C238
+ ADDRESS : c1d9c238
+------------------------------------------------------------
+ XREF COUNT : 3
+  c183a9bc  TYPE=READ
+      FUNCTION=FUN_c183a9b4 ENTRY=c183a9b4
+      c183a9a4 : memw (##0xc1d9c2cc),R3 
+      c183a9a8 : add R0,R0,#0x4 
+      c183a9ac : nop  :endloop0
+      c183a9b0 : jumpr LR 
+      c183a9b4 : memd (SP+#-0x10),R17R16 ; allocframe #0xc0 
+      c183a9b8 : immext #0xc1d9c200 
+   >>> c183a9bc : memuh R18,(##0xc1d9c238) 
+      c183a9c0 : memd (SP+#0xb0),R19R18 
+      c183a9c4 : cmp.eq P0,R18,#0x0 ; jump.if(P0.new):nt 0xc183ab60 
+      c183a9c8 : assign.if(!P0.new) R19,#0x0 ; memd (SP+#0xa8),R21R20 
+      c183a9cc : immext #0xc1d9c300 
+      c183a9d0 : assign R2,##0xc1d9c30c 
+      c183a9d4 : add R3,SP,#0x40 
+  c184b74c  TYPE=WRITE
+      FUNCTION=FUN_c184a38c ENTRY=c184a38c
+      c184b734 : memw R6,(R7+#0x4) 
+      c184b738 : memw (R4+#0x4),R6.new 
+      c184b73c : add R4,R4,#0xc 
+      c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
+      c184b744 : memuh R2,(R16+#0x10) 
+      c184b748 : immext #0xc1d9c200 
+   >>> c184b74c : memh (##0xc1d9c238),R2.new 
+      c184b750 : immext #0xc4eea700 
+      c184b754 : assign R0,##0xc4eea72b 
+      c184b758 : memub R4,(R16+#0x12) 
+      c184b75c : memb (R18+#0x74),R4.new 
+      c184b760 : memw R1,(R17) ; memw R2,(R17+#0xc) 
+      c184b764 : call 0xc1841f1c 
+  c183aaac  TYPE=WRITE
+      FUNCTION=FUN_c183a9b4 ENTRY=c183a9b4
+      c183aa94 : assign R2,#0x0 
+      c183aa98 : immext #0xc1d9c200 
+      c183aa9c : assign R5,##0xc1d9c238 ; add R3,SP,#0x40 
+      c183aaa0 : loop1 0xc183aab0,#0x6 
+      c183aaa4 : add R4,SP,#0x10 
+      c183aaa8 : assign R5,#0x0 
+   >>> c183aaac : memh (R5),#0x0 
+      c183aab0 : addasl R6,R4,R5,#0x3 
+      c183aab4 : immext #0xc1d9b3c0 
+      c183aab8 : assign R7,##0xc1d9b3e8 
+      c183aabc : mpyi+= R7,R5,#0x44 
+      c183aac0 : setbit R6,R6,#0x2 
+      c183aac4 : memw R6,(R6) 
 
 ============================================================
-RELATED FUNCTION c185c7b0
- ADDRESS : c185c7b0
+[LOOP] C184B700 - C184B748
 ============================================================
-FUNCTION : FUN_c185c7b0
-ENTRY : c185c7b0
-RANGE : c185c7b0 - c185c817
-
-  c185c7b0 : immext #0xc1d9c2c0 
-  c185c7b4 : assign R17,##0xc1d9c2d8 
-  c185c7b8 : memd (SP+#-0x10),R17R16 ; allocframe #0x10 
-  c185c7bc : immext #0xc1d9bd00 
-  c185c7c0 : combine R1R0,#0x0,##0xc1d9bd38 
-  c185c7c4 : assign R2,#0x4a0 
-  c185c7c8 : memd (SP),R19R18 
-  c185c7cc : call 0xc1620d4c 
-  c185c7d0 : add R16,R17,#-0x14 
-  c185c7d4 : memw R18,(R17) 
-  c185c7d8 : call 0xc1620d4c 
-  c185c7dc : immext #0xc1d9c1c0 
-  c185c7e0 : combine R1R0,#0x0,##0xc1d9c1d8 
-  c185c7e4 : assign R2,#0x60 
-  c185c7e8 : call 0xc1620d4c 
-  c185c7ec : combine R1R0,#0x0,R16 
-  c185c7f0 : assign R2,#0x50 
-  c185c7f4 : immext #0xc1d9c2c0 
-  c185c7f8 : assign R3,##0xc1d9c2c0 
-  c185c7fc : immext #0xc1d9b3c0 
-  c185c800 : combine R1R0,#0x0,##0xc1d9b3e8 
-  c185c804 : call 0xc1620d4c 
-  c185c808 : assign R2,#0x198 
-  c185c80c : memh (R3),#0x0 
-  c185c810 : memd R17R16,(SP+#0x8) ; memw (R17),R18 
-  c185c814 : memd R19R18,(SP+#0x0) ; dealloc_return 
+  c184b700 : loop0 0xc184b714,#0x8 
+  c184b704 : immext #0xc1d9c1c0 
+  c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
+  c184b70c : immext #0xc1d9c1c0 
+  c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
+  c184b714 : !tstbit P0,R2,R5 
+  c184b718 : jump.if(P0.new):nt 0xc184b73c 
+  c184b71c : memw.if(!P0.new) R6,(R8) 
+  c184b720 : add R7,R6,R3 
+  c184b724 : memw R6,(R6+R3) 
+  c184b728 : memw (R4),R6.new 
+  c184b72c : memw R6,(R7+#0x8) 
+  c184b730 : memw (R4+#0x8),R6.new 
+  c184b734 : memw R6,(R7+#0x4) 
+  c184b738 : memw (R4+#0x4),R6.new 
+  c184b73c : add R4,R4,#0xc 
+  c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
+  c184b744 : memuh R2,(R16+#0x10) 
+  c184b748 : immext #0xc1d9c200 
 
 ============================================================
-RELATED FUNCTION c183a9b4
- ADDRESS : c183a9b4
+[R16 PROVENANCE]
+ Search backwards from C184B6F8
 ============================================================
-FUNCTION : FUN_c183a9b4
-ENTRY : c183a9b4
-RANGE : c183a9b4 - c183ab73
+  c184b6f8 : memuh R2,(R16+#0x10) 
+  c184b670 : memd R17R16,(SP+#0x50) ; memd R19R18,(SP+#0x48) 
+  c184b66c : assign R0,R16 
+  c184b60c : memw R0,(R16+#0x18) 
+  c184b600 : memw R1,(R16+#0x14) 
+  c184b5f8 : memw R2,(R16+#0x10) 
 
-  c183a9b4 : memd (SP+#-0x10),R17R16 ; allocframe #0xc0 
-  c183a9b8 : immext #0xc1d9c200 
-  c183a9bc : memuh R18,(##0xc1d9c238) 
-  c183a9c0 : memd (SP+#0xb0),R19R18 
-  c183a9c4 : cmp.eq P0,R18,#0x0 ; jump.if(P0.new):nt 0xc183ab60 
-  c183a9c8 : assign.if(!P0.new) R19,#0x0 ; memd (SP+#0xa8),R21R20 
-  c183a9cc : immext #0xc1d9c300 
-  c183a9d0 : assign R2,##0xc1d9c30c 
-  c183a9d4 : add R3,SP,#0x40 
-  c183a9d8 : memw (SP+#0x10),R3.new 
-  c183a9dc : add R2,R3,#0x10 
-  c183a9e0 : memh (R2),setbit(#0x0) 
-  c183a9e4 : add R2,R3,#0x20 
-  c183a9e8 : immext #0xc1d9bd00 
-  c183a9ec : assign R16,##0xc1d9bd38 ; memw (SP+#0x18),R2 
-  c183a9f0 : add R20,SP,#0x10 
-  c183a9f4 : immext #0xc1d9c1c0 
-  c183a9f8 : assign R17,##0xc1d9c1d8 ; memw (SP+#0x20),R2 
-  c183a9fc : add R2,R3,#0x30 
-  c183aa00 : memw (SP+#0x28),R2.new 
-  c183aa04 : add R2,R3,#0x40 
-  c183aa08 : memw (SP+#0x14),#0x0 
-  c183aa0c : memw (SP+#0x1c),#0x0 
-  c183aa10 : add R2,R3,#0x50 
-  c183aa14 : memw (SP+#0x30),R2 
-  c183aa18 : memw (SP+#0x24),#0x0 
-  c183aa1c : memw (SP+#0x38),R2 
-  c183aa20 : memw (SP+#0x3c),#0x0 
-  c183aa24 : memw (SP+#0x2c),#0x0 
-  c183aa28 : memw (SP+#0x34),#0x0 
-  c183aa2c : tstbit P0,R18,#0x0 ; jump.if(!P0.new):t 0xc183aa4c 
-  c183aa30 : memw R2,(R17) ; memw (R16),#0x0 
-  c183aa34 : tstbit P0,R2,#0x0 
-  c183aa38 : combine.if(P0.new) R1R0,R16,R17 
-  c183aa3c : immext #0xc1d9b3c0 
-  c183aa40 : assign.if(P0.new) R2,##0xc1d9b3e8 
-  c183aa44 : immext #0xfffffe40 
-  c183aa48 : call.if(P0) 0xc183a8b0 
-  c183aa4c : memw R2,(R16) 
-  c183aa50 : tstbit P0,R2,#0x0 ; jump.if(!P0.new):t 0xc183aa84 
-  c183aa54 : immext #0x80 
-  c183aa58 : memh.if(P0.new) R2,(R16+##0x8c) 
-  c183aa5c : addasl R2,R20,R2,#0x3 
-  c183aa60 : setbit R3,R2,#0x2 
-  c183aa64 : memw R3,(R3) 
-  c183aa68 : jump.if:nt cmp.gt(R3.new,#0x3),0xc183ab68 
-  c183aa6c : add R3,R3,#0x1 
-  c183aa70 : memw R4,(R2) 
-  c183aa74 : memw (R2+#0x4),R3.new 
-  c183aa78 : add R3,R4,#0x4 
-  c183aa7c : memw (R2),R3.new 
-  c183aa80 : memw (R4),R16 
-  c183aa84 : extractu R18,R18,#0xf,#0x1 
-  c183aa88 : add R16,R16,#0x94 
-  c183aa8c : add R17,R17,#0xc ; add R19,R19,#0x1 
-  c183aa90 : cmp.gtu P0,R19,#0x7 ; jump.if(!P0.new):t 0xc183aa2c 
-  c183aa94 : assign R2,#0x0 
-  c183aa98 : immext #0xc1d9c200 
-  c183aa9c : assign R5,##0xc1d9c238 ; add R3,SP,#0x40 
-  c183aaa0 : loop1 0xc183aab0,#0x6 
-  c183aaa4 : add R4,SP,#0x10 
-  c183aaa8 : assign R5,#0x0 
-  c183aaac : memh (R5),#0x0 
-  c183aab0 : addasl R6,R4,R5,#0x3 
-  c183aab4 : immext #0xc1d9b3c0 
-  c183aab8 : assign R7,##0xc1d9b3e8 
-  c183aabc : mpyi+= R7,R5,#0x44 
-  c183aac0 : setbit R6,R6,#0x2 
-  c183aac4 : memw R6,(R6) 
-  c183aac8 : cmp.gt P0,R6,#0x0 ; jump.if(!P0.new):nt 0xc183aafc 
-  c183aacc : memh (R7+#0x3e),R2.L 
-  c183aad0 : memh (R7+#0x3c),R6.L 
-  c183aad4 : loop0 0xc183aae8,R6 
-  c183aad8 : assign R7,R2 
-  c183aadc : combine R9R8,R2,R3 
-  c183aae0 : immext #0xc1d9c280 
-  c183aae4 : add R7,##0xc1d9c2a0,asl(R7,#0x2) 
-  c183aae8 : memw R12,(R8++#0x4) 
-  c183aaec : add R9,R9,#0x1 
-  c183aaf0 : memw (R12+#0x90),R9 
-  c183aaf4 : memw (R7++#0x4),R12  :endloop0
-  c183aaf8 : add R2,R2,R6 
-  c183aafc : nop 
-  c183ab00 : nop 
-  c183ab04 : add R3,R3,#0x10 ; add R5,R5,#0x1 
-  c183ab08 : immext #0xc1d9c2c0 
-  c183ab0c : assign R2,##0xc1d9c2cc 
-  c183ab10 : immext #0xc1d9c2c0 
-  c183ab14 : memh (##0xc1d9c2c0),R2.L 
-  c183ab18 : call 0xc183a958 
-  c183ab1c : assign R0,#0x0 ; memw (R2),#0x0 
-  c183ab20 : call 0xc18316e0 
-  c183ab24 : call 0xc184ff0c 
-  c183ab28 : immext #0xc9116940 
-  c183ab2c : assign R16,##0xc9116968 
-  c183ab30 : memb R2,(R16+#0x74) 
-  c183ab34 : jump.if:t !cmp.eq(R2.new,#0x0),0xc183ab60 
-  c183ab38 : call 0xc182a9c4 
-  c183ab3c : immext #0xc4eee280 
-  c183ab40 : assign R0,##0xc4eee2bb ; memuh R1,(R16) 
-  c183ab44 : call 0xc1619338 
-  c183ab48 : immext #0xd615a640 
-  c183ab4c : assign R0,##0xd615a670 ; memuh R1,(R16) 
-  c183ab50 : immext #0x8000200 
-  c183ab54 : combine R3R2,#0x0,##0x8000201 
-  c183ab58 : assign R1,#0x10 ; add R0,SP,#0x0 
-  c183ab5c : call 0xc184a260 
-  c183ab60 : memd R17R16,(SP+#0xb8) ; memd R19R18,(SP+#0xb0) 
-  c183ab64 : memd R21R20,(SP+#0xa8) ; dealloc_return 
-  c183ab68 : call 0xc182c518 
-  c183ab6c : immext #0xcf855680 
-  c183ab70 : assign R0,##0xcf85568c 
-
-------------------------------------------------------------
-DATA c4eea72b
- ADDRESS : c4eea72b
-------------------------------------------------------------
- DATA TYPE : pointer
- DEFAULT   : c4739b15
- VALUE     : c4739b15
- DEFINED   : true
- HEX : 15 9B 73 C4 DD A6 EE C4 CE 01 02 18 05 52 65 63 65 69 76 65 64 20 48 44 52 5F 46 57 5F 43 4D 44
- ASCII: ..s..........Received HDR_FW_CMD
- HEX :  5F 52 45 4C 30 5F 52 4C 5F 43 46 47 20 2E 2E 2E 20 74 78 41 67 63 41 63 63 65 73 73 4D 6F 64 65
- ASCII: _REL0_RL_CFG ... txAgcAccessMode
- HEX :  5F 56 61 6C 69 64 20 25 64 20 41 63 63 65 73 73 20 6D 6F 64 65 20 25 64 00 15 9B 73 C4 38 A7 EE
- ASCII: _Valid %d Access mode %d...s.8..
- HEX :  C4 9F 04 02 18 02 52 65 63 65 69 76 65 64 20 48 44 52 5F 46 57 5F 43 4D 44 5F 46 50 44 20 2E 2E
- ASCII: ......Received HDR_FW_CMD_FPD ..
-
-------------------------------------------------------------
-DATA d61538dc
- ADDRESS : d61538dc
-------------------------------------------------------------
- DATA      : <none>
- RAW BYTES : <unreadable>
- REASON    : MemoryAccessException
-
-------------------------------------------------------------
-DATA cf853fd4
- ADDRESS : cf853fd4
-------------------------------------------------------------
- DATA      : <none>
- RAW BYTES : <unreadable>
- REASON    : MemoryAccessException
-
-------------------------------------------------------------
-DATA d6151c6c
- ADDRESS : d6151c6c
-------------------------------------------------------------
- DATA      : <none>
- RAW BYTES : <unreadable>
- REASON    : MemoryAccessException
+ Instructions examined : 80
+ R16-related hits       : 6
 
 ============================================================
-DONE
+[R2 PROVENANCE]
+ Around C184B6F8 / C184B714
+============================================================
+  c184b6a0 : memub R1,(R17) ; memub R2,(R17+#0x1) 
+  c184b6a4 : or R3,R2,R1 
+  c184b6b0 : memuh R3,(R21) 
+  c184b6b4 : memub R4,(R20+#0x22) 
+  c184b6cc : memub R1,(R17) ; memuh R3,(R21) 
+  c184b6d4 : memub R2,(R17+#0x1) 
+  c184b6d8 : memub R4,(R20+#0x22) 
+  c184b6e0 : memub R2,(R19) 
+  c184b6e4 : setbit R2,R2,#0x2 
+  c184b6ec : jump.if:nt !cmp.eq(R2.new,#0x6),0xc184ce4c 
+  c184b6f8 : memuh R2,(R16+#0x10) 
+  c184b6fc : cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184b79c 
+  c184b714 : !tstbit P0,R2,R5 
+  c184b744 : memuh R2,(R16+#0x10) 
+
+============================================================
+[CAF8E700 USAGE WINDOWS]
+============================================================
+
+[CAF XREF IN RFDEBUG]
+ ADDRESS : c184b71c
+      c184b6f4 : assign R8,##0xcaf8e700 
+      c184b6f8 : memuh R2,(R16+#0x10) 
+      c184b6fc : cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc184b79c 
+      c184b700 : loop0 0xc184b714,#0x8 
+      c184b704 : immext #0xc1d9c1c0 
+      c184b708 : assign R17,##0xc1d9c1d8 ; assign R3,#0x0 
+      c184b70c : immext #0xc1d9c1c0 
+      c184b710 : combine R5R4,#0x0,##0xc1d9c1d8 
+      c184b714 : !tstbit P0,R2,R5 
+      c184b718 : jump.if(P0.new):nt 0xc184b73c 
+   >>> c184b71c : memw.if(!P0.new) R6,(R8) 
+      c184b720 : add R7,R6,R3 
+      c184b724 : memw R6,(R6+R3) 
+      c184b728 : memw (R4),R6.new 
+      c184b72c : memw R6,(R7+#0x8) 
+      c184b730 : memw (R4+#0x8),R6.new 
+      c184b734 : memw R6,(R7+#0x4) 
+      c184b738 : memw (R4+#0x4),R6.new 
+      c184b73c : add R4,R4,#0xc 
+      c184b740 : add R3,R3,#0xc ; add R5,R5,#0x1 
+      c184b744 : memuh R2,(R16+#0x10) 
+      c184b748 : immext #0xc1d9c200 
+      c184b74c : memh (##0xc1d9c238),R2.new 
+      c184b750 : immext #0xc4eea700 
+      c184b754 : assign R0,##0xc4eea72b 
+
+============================================================
+SUMMARY
+  destination buffer size candidate : 0x60
+  record size candidate             : 0x0C
+  record count candidate            : 8
+  mask source                       : R16 + 0x10
+  source pointer global             : CAF8E700
+  destination/global workspace      : C1D9C1D8
+
 No program structures were modified.
 ============================================================
-TraceRFDebugExternalTargets.java> Finished!
+TraceRFDebugEightSlotStructure.java> Finished!
