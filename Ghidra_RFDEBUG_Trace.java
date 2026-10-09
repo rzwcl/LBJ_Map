@@ -37,7 +37,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-5";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-6";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -416,7 +416,19 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private static final String[] HIGH_VALUE_STRINGS = {
-        "ftm_common_dispatch.c:",
+        "CENTER_FREQ",
+        "RX_CARRIER",
+        "TX_CARRIER",
+        "TECH_MODE",
+        "SUB_TECH",
+        "TECHNOLOGY",
+        "RFM_DEVICE",
+        "BANDWIDTH",
+        "SIG_PATH",
+        "ANT_PATH",
+        "RX_TUNE",
+        "RFA_RF_LTE_FDD_RX_CONFIG",
+        "RFA_RF_LTE_TDD_RX_CONFIG",
         "ftm_rf_test_radio_config.c:",
         "ftm_rf_test_rx_measure.c:",
         "ftm_rf_test_control.c:",
@@ -429,21 +441,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         "rf_cmd_interface.c:",
         "rf_lte_cmd_proc.c:",
         "rflte_mc.c:",
-        "RFA_RF_LTE_FDD_RX_CONFIG",
-        "RFA_RF_LTE_TDD_RX_CONFIG",
-        "CENTER_FREQ",
-        "RX_CARRIER",
-        "TX_CARRIER",
-        "TECH_MODE",
-        "SUB_TECH",
-        "TECHNOLOGY",
-        "RFM_DEVICE",
-        "BANDWIDTH",
-        "CHANNEL",
-        "SIG_PATH",
-        "ANT_PATH",
-        "RX_TUNE",
         "RADIO_CONFIG",
+        "ftm_common_dispatch.c:",
         "ftm_common_dispatch",
         "FTM_PRI_ORDER"
     };
@@ -1007,6 +1006,172 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         return !name.startsWith("_elf") && !name.startsWith("unallocated_");
     }
 
+
+
+    private static final String[] EXACT_RF_FIELD_NAMES = {
+        "CENTER_FREQ", "RX_CARRIER", "TX_CARRIER", "TECH_MODE",
+        "SUB_TECH", "TECHNOLOGY", "RFM_DEVICE", "BANDWIDTH",
+        "CHANNEL", "SIG_PATH", "ANT_PATH", "USER_ADJ", "TOTAL_ADJ",
+        "ENABLE_XO", "SAMP_FREQ", "FREQ_ADJUST", "FREQADJUST",
+        "RADIO_CONFIG", "RX_TUNE", "BAND"
+    };
+
+    private boolean isExactRfFieldName(String value) {
+        if (value == null) return false;
+        String normalized = value.trim().toUpperCase();
+        for (String name : EXACT_RF_FIELD_NAMES) {
+            if (normalized.equals(name)) return true;
+        }
+        return false;
+    }
+
+    private boolean isRfFrequencyContext(String value) {
+        if (value == null || value.length() > 320) return false;
+        String low = value.toLowerCase();
+        return low.contains("center_freq")
+            || low.contains("rx_carrier")
+            || low.contains("tx_carrier")
+            || low.contains("freqadjust")
+            || low.contains("freq adjust")
+            || low.contains("frequency")
+            || low.contains("dl freq")
+            || low.contains("rx_tune")
+            || low.contains("radio_config")
+            || low.contains("samp_freq")
+            || low.contains("ftm.rf")
+            || low.contains("rflte_ftm_mc_set_trx_on_off");
+    }
+
+    private void scanRfTuneFieldStrings() {
+        p("");
+        p("============================================================");
+        p("TARGETED RF TUNE / FREQUENCY STRING SCAN");
+        p("Separate from broad CHANNEL search to avoid generic-string flooding");
+        p("Exact field labels plus frequency/tuning context; static read-only");
+        p("============================================================");
+
+        int inspected = 0;
+        int exactHits = 0;
+        int contextHits = 0;
+        int reported = 0;
+        final int MAX_EXACT = 100;
+        final int MAX_CONTEXT = 80;
+        final int MAX_TOTAL = 160;
+
+        try {
+            ghidra.program.model.listing.DataIterator it =
+                currentProgram.getListing().getDefinedData(true);
+
+            while (it.hasNext()
+                    && inspected < 300000
+                    && reported < MAX_TOTAL
+                    && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+
+                Data d = it.next();
+                inspected++;
+
+                String typeName = String.valueOf(d.getDataType()).toLowerCase();
+                if (!typeName.contains("string")) continue;
+
+                String value = String.valueOf(d.getValue());
+                if (value == null || value.length() == 0) continue;
+
+                boolean exact = isExactRfFieldName(value);
+                boolean context = !exact && isRfFrequencyContext(value);
+
+                if (exact && exactHits >= MAX_EXACT) continue;
+                if (context && contextHits >= MAX_CONTEXT) continue;
+                if (!exact && !context) continue;
+
+                if (exact) exactHits++;
+                else contextHits++;
+                reported++;
+
+                p("");
+                p("RF_TUNE_STRING #" + reported
+                    + " kind=" + (exact ? "EXACT_FIELD" : "FREQ_CONTEXT"));
+                p("  address=" + d.getAddress());
+                p("  type=" + d.getDataType());
+                p("  value=" + value);
+
+                ReferenceIterator refs =
+                    currentProgram.getReferenceManager().getReferencesTo(d.getAddress());
+                int refCount = 0;
+                while (refs.hasNext() && refCount < 8 && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+                    Reference ref = refs.next();
+                    Address from = ref.getFromAddress();
+                    p("  XREF[" + refCount + "] from=" + from
+                        + " type=" + ref.getReferenceType());
+                    if (from.getAddressSpace().isMemorySpace()
+                            && currentProgram.getFunctionManager()
+                                .getFunctionContaining(from) != null) {
+                        p("    function=" + functionInfo(from.getOffset()));
+                        p("    instruction=" + instructionInfo(from.getOffset()));
+                    }
+                    refCount++;
+                }
+                p("  XREFS_SHOWN=" + refCount);
+            }
+
+            p("");
+            p("RF_TUNE_DATA_ITEMS_INSPECTED=" + inspected);
+            p("RF_TUNE_EXACT_FIELD_HITS=" + exactHits);
+            p("RF_TUNE_CONTEXT_HITS=" + contextHits);
+            p("RF_TUNE_TOTAL_REPORTED=" + reported);
+        }
+        catch (Exception e) {
+            p("RF_TUNE STRING SCAN ERROR: " + e.getMessage());
+        }
+    }
+
+    private void dumpStaticWordNeighborhood(long center, int radius, String label) {
+        p("");
+        p("============================================================");
+        p("STATIC POINTER NEIGHBORHOOD: " + label + " @ " + hex(center));
+        p("Aligned u32 words around the non-table handler-pointer candidate");
+        p("============================================================");
+
+        long start = center - radius;
+        long end = center + radius;
+        MemoryBlock b = block(center);
+
+        if (b == null || !b.isInitialized()) {
+            p("  CENTER_BLOCK=<none>");
+            return;
+        }
+
+        if (start < b.getStart().getOffset()) start = b.getStart().getOffset();
+        if (end > b.getEnd().getOffset()) end = b.getEnd().getOffset();
+
+        start = (start + 3L) & ~3L;
+        for (long off = start; off + 3L <= end; off += 4L) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            try {
+                long value = u32(off);
+                MemoryBlock vb = block(value);
+                String tag = "";
+                if (value == CURRENT_RUNTIME_DISPATCH) tag = " <CURRENT_HANDLER_VALUE>";
+                else if (value == PREVIOUS_BUILD_DISPATCH) tag = " <OLD_HANDLER_VALUE>";
+                else if (vb != null) tag = vb.isExecute()
+                    ? " <POINTER_TO_EXEC_BLOCK:" + vb.getName() + ">"
+                    : " <POINTER_TO_DATA_BLOCK:" + vb.getName() + ">";
+
+                String pointedText = "";
+                if (vb != null && !vb.isExecute()) {
+                    String text = readAsciiAt(value, 96);
+                    if (text != null) pointedText = " text=\"" + text + "\"";
+                }
+
+                p("  " + hex(off) + " = " + hex(value) + tag + pointedText);
+            }
+            catch (Exception e) {
+                p("  WORD_READ_ERROR @ " + hex(off) + ": " + e.getMessage());
+            }
+        }
+    }
+
     private static final long CURRENT_RUNTIME_DISPATCH = 0xD819C208L;
     private static final long PREVIOUS_BUILD_DISPATCH = 0xD8150ED8L;
     private static final long CURRENT_FTM_TABLE = 0xC4951828L;
@@ -1122,9 +1287,15 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                 for (int k = 0; k < storedCounts[t]; k++) {
                     long hit = storedHits[t][k];
+                    String role = currentDispatchPointerRole(hit);
                     p("    PTR_HIT[" + k + "] at=" + hex(hit)
-                        + " role=" + currentDispatchPointerRole(hit)
+                        + " role=" + role
                         + " function=" + functionInfo(hit));
+
+                    if (role.equals("EXTERNAL_OR_NON_TABLE_REFERENCE")) {
+                        dumpStaticWordNeighborhood(hit, 0x30,
+                            labels[t] + "_NON_TABLE_HIT_" + hex(hit));
+                    }
 
                     if (b.isExecute()) {
                         p("      instruction=" + instructionInfo(hit));
@@ -1715,6 +1886,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         scanRfMsgConstRecords();
 
+        scanRfTuneFieldStrings();
+
         scanHighValueStrings();
 
         scanSourceAnchorPointers();
@@ -1726,8 +1899,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("INTERPRETATION GUIDE");
         p("============================================================");
         p("1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.");
-        p("2. Pointer census classifies every D819C208 hit as table entry or external/non-table reference.");
-        p("3. Expanded string trace now includes frequency/tuning and RADIO_CONFIG field-name candidates.");
+        p("2. The 81st pointer hit must be evaluated from the printed neighboring words; it may be adjacent data, not a call reference.");
+        p("3. Targeted RF tune strings are scanned separately so common CHANNEL strings cannot consume the output cap.");
         p("4. D8150ED8 is retained only as a previous-build comparison, not assumed current.");
         p("5. RFTEST msg_const records provide source filename, SSID, line, argc, and format text.");
         p("6. All scans are static and read-only; no DIAG packets are emitted.");
