@@ -1463,6 +1463,83 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         summaryStringTargetCodeHits = stringPointerHits;
     }
 
+    /*
+     * Slot-level xref audit restored from STRUCTURE-11.
+     * Checks references to each pointer slot in the 54-entry primary region.
+     * This uses Ghidra's existing ReferenceManager and makes no program changes.
+     */
+    private void traceRadioConfigSlotConsumers() {
+        long base = RADIO_CONFIG_FIELD_NAME_TABLE;
+        long totalInstructionOrigins = 0;
+        long totalDataOrigins = 0;
+        int instructionOriginsShown = 0;
+        int dataOriginsShown = 0;
+        int slotsVisited = 0;
+
+        p("");
+        p("============================================================");
+        p("RADIO_CONFIG FIELD SLOT XREF AUDIT");
+        p("Checks references TO each of the 54 primary-table slots, not only to their strings");
+        p("Origin is classified by whether the reference address belongs to an instruction in an executable block");
+        p("READ ONLY");
+        p("============================================================");
+
+        for (int i = 0; i < RADIO_CONFIG_FIELD_NAME_COUNT; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            long slot = base + (long)i * 4L;
+            slotsVisited++;
+            try {
+                ReferenceIterator refs =
+                    currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+                while (refs.hasNext() && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+                    Reference r = refs.next();
+                    Address from = r.getFromAddress();
+                    MemoryBlock fb = from.getAddressSpace().isMemorySpace()
+                        ? block(from.getOffset()) : null;
+                    Instruction ins = (fb != null && fb.isExecute())
+                        ? listing().getInstructionAt(from) : null;
+
+                    if (ins != null) {
+                        totalInstructionOrigins++;
+                        if (instructionOriginsShown < MAX_FIELD_CODE_HITS) {
+                            p("  SLOT_CODE_ORIGIN index=" + i
+                                + " slot=" + hex(slot)
+                                + " from=" + from
+                                + " type=" + r.getReferenceType()
+                                + " function=" + functionInfo(from.getOffset())
+                                + " instruction=" + ins);
+                            instructionOriginsShown++;
+                        }
+                    }
+                    else {
+                        totalDataOrigins++;
+                        if (dataOriginsShown < 24) {
+                            p("  SLOT_DATA_ORIGIN index=" + i
+                                + " slot=" + hex(slot)
+                                + " from=" + from
+                                + " type=" + r.getReferenceType()
+                                + " block=" + (fb == null ? "<none>" : fb.getName()));
+                            dataOriginsShown++;
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                p("  SLOT_XREF_AUDIT_ERROR index=" + i
+                    + " slot=" + hex(slot) + " error=" + e.getMessage());
+            }
+        }
+
+        p("  SLOTS_VISITED=" + slotsVisited);
+        p("  INSTRUCTION_ORIGIN_REFS_TOTAL=" + totalInstructionOrigins);
+        p("  INSTRUCTION_ORIGIN_REFS_SHOWN=" + instructionOriginsShown);
+        p("  DATA_ORIGIN_REFS_TOTAL=" + totalDataOrigins);
+        p("  DATA_ORIGIN_REFS_SHOWN=" + dataOriginsShown);
+        summarySlotInstructionRefs = totalInstructionOrigins;
+        summarySlotDataRefs = totalDataOrigins;
+    }
+
     private static final String[] RF_FIELD_TABLE_TARGETS = {
         "CENTER_FREQ", "BWP_CENTER_FREQ", "RX_CARRIER", "TX_CARRIER",
         "SUB_TECH", "TECH_MODE", "TECHNOLOGY", "RFM_DEVICE",
