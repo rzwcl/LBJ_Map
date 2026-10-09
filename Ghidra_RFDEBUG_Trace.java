@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-39
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-40
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-39";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-40";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -5359,7 +5359,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             0x00025598L, 0x00025604L, 0x00025694L, 0x00025700L
         };
         long[] singletonSlots = new long[] {
-            0x00254684L, 0x0025468CL, 0x002546F8L, 0x00254700L
+            0x0025467CL, 0x00254684L, 0x002546F0L, 0x002546F8L
         };
 
         int singletonCount = 0;
@@ -5540,7 +5540,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("");
         p("============================================================");
         p("614_0_0 RFC GET_INSTANCE EFFECTIVE SLOT AUDIT");
-        p("Recomputes PC-relative base + memw displacement for four known getter bodies.");
+        p("Recomputes packet-start PC-relative base + memw displacement for four known getter bodies.");
         p("Compares actual calculated access sites with Ghidra's stored references.");
         p("READ ONLY; no instructions, references, data, or structures are created or modified.");
         p("============================================================");
@@ -5552,7 +5552,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             {0x00025700L, 0x00025704L, 0x00025710L, 0x0002572CL}
         };
         long[] expectedSlots = new long[] {
-            0x00254684L, 0x0025468CL, 0x002546F8L, 0x00254700L
+            0x0025467CL, 0x00254684L, 0x002546F0L, 0x002546F8L
         };
 
         int gettersInspected = 0;
@@ -5598,10 +5598,26 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
 
             long addImmediate = audit614RfcSigned32(addImmediateRaw.longValue());
-            long pcAfter = addAddress + (long)addIns.getLength();
-            long computedBase = pcAfter + addImmediate;
+            long packetStart = addAddress;
+            Instruction previousPacketInstruction = listing().getInstructionAt(addr(addAddress - 4L));
+            boolean precedingImmext = previousPacketInstruction != null
+                && "immext".equalsIgnoreCase(previousPacketInstruction.getMnemonicString())
+                && previousPacketInstruction.getAddress().getOffset()
+                    + (long)previousPacketInstruction.getLength() == addAddress;
+            if (precedingImmext) {
+                packetStart = previousPacketInstruction.getAddress().getOffset();
+            }
+            else {
+                p("  614_RFC_EFFECTIVE_AUDIT_WARNING preceding_immext_not_confirmed add="
+                    + hex(addAddress)
+                    + " previous_instruction="
+                    + (previousPacketInstruction == null ? "<none>" : previousPacketInstruction.toString())
+                    + "; packet start is not assumed to be add+length.");
+            }
+            long computedBase = packetStart + addImmediate;
             p("  614_RFC_EFFECTIVE_AUDIT_PC_BASE site=" + addIns.getAddress()
-                + " pc_after=" + hex(pcAfter)
+                + " packet_start=" + hex(packetStart)
+                + " preceding_immext_confirmed=" + precedingImmext
                 + " immediate_raw=" + hex(addImmediateRaw.longValue())
                 + " immediate_signed=" + addImmediate
                 + " computed_base=" + hex(computedBase)
@@ -5671,7 +5687,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES=" + computedSlotMatches);
         p("614_RFC_EFFECTIVE_AUDIT_STORED_DIRECT_REFERENCE_MATCHES=" + directReferenceMatches);
         p("614_RFC_EFFECTIVE_AUDIT_MISSING_INSTRUCTIONS_OR_IMMEDIATES=" + missingInstructions);
-        p("Interpretation rule: calculated address is based on the Listing's PC-relative add and memw scalar; stored references are reported separately and are not treated as ground truth.");
+        p("Interpretation rule: Hexagon PC-relative arithmetic uses the packet start; for these four sites the preceding immext is explicitly checked. Stored references are reported separately, not treated as ground truth.");
     }
 
 
