@@ -37,7 +37,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-6";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-7";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -1008,6 +1008,182 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
 
 
+
+
+    private static final String[] RF_FIELD_TABLE_TARGETS = {
+        "CENTER_FREQ", "BWP_CENTER_FREQ", "RX_CARRIER", "TX_CARRIER",
+        "SUB_TECH", "TECH_MODE", "TECHNOLOGY", "RFM_DEVICE",
+        "BANDWIDTH", "SIG_PATH", "SRC_SIG_PATH", "ANT_PATH",
+        "USER_ADJ", "TOTAL_ADJ", "ENABLE_XO", "SAMP_FREQ",
+        "FREQ_ADJUST", "FREQADJUST", "RX_TUNE", "BAND"
+    };
+
+    private boolean isRfFieldTableTarget(String value) {
+        if (value == null) return false;
+        String n = value.trim().toUpperCase();
+        for (String target : RF_FIELD_TABLE_TARGETS) {
+            if (n.equals(target)) return true;
+        }
+        return false;
+    }
+
+    private boolean slotAlreadyClustered(List<Long> centers, MemoryBlock targetBlock, long slot) {
+        for (Long center : centers) {
+            MemoryBlock cb = block(center.longValue());
+            if (cb == null || targetBlock == null) continue;
+            if (!cb.getName().equals(targetBlock.getName())) continue;
+            if (Math.abs(center.longValue() - slot) <= 0x40L) return true;
+        }
+        return false;
+    }
+
+    private void dumpRfPointerCluster(long center, int radius) {
+        MemoryBlock b = block(center);
+        if (b == null || !b.isInitialized() || b.isExecute()) {
+            p("    TABLE_CLUSTER center=" + hex(center) + " block=<none-or-exec>");
+            return;
+        }
+
+        long start = center - radius;
+        long end = center + radius;
+        if (start < b.getStart().getOffset()) start = b.getStart().getOffset();
+        if (end > b.getEnd().getOffset()) end = b.getEnd().getOffset();
+        start = (start + 3L) & ~3L;
+
+        p("    TABLE_CLUSTER block=" + b.getName()
+            + " range=" + hex(start) + ".." + hex(end));
+
+        for (long off = start; off + 3L <= end; off += 4L) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            try {
+                long value = u32(off);
+                String pointed = readAsciiAt(value, 100);
+                MemoryBlock vb = block(value);
+                String details = "";
+                if (pointed != null) details = " text=\"" + pointed + "\"";
+                else if (vb != null) details = vb.isExecute()
+                    ? " target_exec=" + vb.getName()
+                    : " target_mem=" + vb.getName();
+
+                p("      slot=" + hex(off)
+                    + " value=" + hex(value) + details);
+            }
+            catch (Exception e) {
+                p("      SLOT_READ_ERROR @ " + hex(off) + ": " + e.getMessage());
+            }
+        }
+    }
+
+    private void inspectRefsToPointerSlot(long slot) {
+        try {
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+            int n = 0;
+            while (refs.hasNext() && n < 16 && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+                Reference r = refs.next();
+                Address from = r.getFromAddress();
+                Function f = from.getAddressSpace().isMemorySpace()
+                    ? currentProgram.getFunctionManager().getFunctionContaining(from)
+                    : null;
+
+                p("      SLOT_XREF[" + n + "] from=" + from
+                    + " type=" + r.getReferenceType()
+                    + " function=" + (f == null ? "<none>" : f.getName() + "@" + f.getEntryPoint()));
+                if (f != null) p("        instruction=" + instructionInfo(from.getOffset()));
+                n++;
+            }
+            p("      SLOT_XREFS_SHOWN=" + n);
+        }
+        catch (Exception e) {
+            p("      SLOT_XREF_ERROR @ " + hex(slot) + ": " + e.getMessage());
+        }
+    }
+
+    private void scanRfFieldPointerTables() {
+        p("");
+        p("============================================================");
+        p("RF FIELD-NAME POINTER TABLE TRACE");
+        p("Exact field-label pointers, surrounding pointer slots, and references to each slot");
+        p("Distinguishes data-table references from code references; static read-only");
+        p("============================================================");
+
+        List<Long> dumpedCenters = new ArrayList<Long>();
+        int stringsInspected = 0;
+        int fieldsMatched = 0;
+        int pointerSlots = 0;
+        int clusters = 0;
+        final int MAX_STRINGS = 300000;
+        final int MAX_SLOTS = 120;
+
+        try {
+            ghidra.program.model.listing.DataIterator it =
+                currentProgram.getListing().getDefinedData(true);
+
+            while (it.hasNext()
+                    && stringsInspected < MAX_STRINGS
+                    && pointerSlots < MAX_SLOTS
+                    && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+                Data d = it.next();
+                stringsInspected++;
+
+                String typeName = String.valueOf(d.getDataType()).toLowerCase();
+                if (!typeName.contains("string")) continue;
+
+                String value = String.valueOf(d.getValue());
+                if (!isRfFieldTableTarget(value)) continue;
+
+                fieldsMatched++;
+                p("");
+                p("RF_FIELD_STRING value=" + value + " address=" + d.getAddress());
+
+                ReferenceIterator refs =
+                    currentProgram.getReferenceManager().getReferencesTo(d.getAddress());
+                int refsShown = 0;
+
+                while (refs.hasNext() && refsShown < 32
+                        && pointerSlots < MAX_SLOTS
+                        && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+
+                    Reference r = refs.next();
+                    Address from = r.getFromAddress();
+                    if (!from.getAddressSpace().isMemorySpace()) continue;
+
+                    long slot = from.getOffset();
+                    MemoryBlock slotBlock = block(slot);
+                    p("  STRING_REF_SLOT=" + hex(slot)
+                        + " block=" + (slotBlock == null ? "<none>" : slotBlock.getName())
+                        + " type=" + r.getReferenceType()
+                        + " primary=" + r.isPrimary());
+
+                    inspectRefsToPointerSlot(slot);
+                    pointerSlots++;
+                    refsShown++;
+
+                    if (slotBlock != null && !slotBlock.isExecute()
+                            && !slotAlreadyClustered(dumpedCenters, slotBlock, slot)) {
+                        dumpRfPointerCluster(slot, 0x30);
+                        dumpedCenters.add(slot);
+                        clusters++;
+                    }
+                }
+
+                p("  STRING_REF_SLOTS_SHOWN=" + refsShown);
+            }
+
+            p("");
+            p("RF_FIELD_STRINGS_INSPECTED=" + stringsInspected);
+            p("RF_FIELD_NAMES_MATCHED=" + fieldsMatched);
+            p("RF_FIELD_POINTER_SLOTS_REPORTED=" + pointerSlots);
+            p("RF_FIELD_POINTER_CLUSTERS_DUMPED=" + clusters);
+        }
+        catch (Exception e) {
+            p("RF FIELD POINTER TABLE SCAN ERROR: " + e.getMessage());
+        }
+    }
+
     private static final String[] EXACT_RF_FIELD_NAMES = {
         "CENTER_FREQ", "RX_CARRIER", "TX_CARRIER", "TECH_MODE",
         "SUB_TECH", "TECHNOLOGY", "RFM_DEVICE", "BANDWIDTH",
@@ -1888,6 +2064,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         scanRfTuneFieldStrings();
 
+        scanRfFieldPointerTables();
+
         scanHighValueStrings();
 
         scanSourceAnchorPointers();
@@ -1899,12 +2077,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("INTERPRETATION GUIDE");
         p("============================================================");
         p("1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.");
-        p("2. The 81st pointer hit must be evaluated from the printed neighboring words; it may be adjacent data, not a call reference.");
-        p("3. Targeted RF tune strings are scanned separately so common CHANNEL strings cannot consume the output cap.");
+        p("2. The 81st pointer hit is examined separately; do not infer call semantics from a data-pointer match.");
+        p("3. RF field-name pointer slots are dumped separately and direct references to each slot are enumerated.");
         p("4. D8150ED8 is retained only as a previous-build comparison, not assumed current.");
         p("5. RFTEST msg_const records provide source filename, SSID, line, argc, and format text.");
         p("6. All scans are static and read-only; no DIAG packets are emitted.");
-        p("7. Frequency selection is not inferred from a matching string alone; correlate field IDs and dispatch flow.");
+        p("7. A field-name string table does not itself prove a command ID; correlate slot use with executable code.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
