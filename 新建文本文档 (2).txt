@@ -1,10 +1,10 @@
 Ghidra_RFDEBUG_Trace.java> Running...
 ============================================================
  Ghidra_RFDEBUG_Trace
- TRACE_BUILD=DIAG-FTM-STRUCTURE-11
+ TRACE_BUILD=DIAG-FTM-STRUCTURE-12
  DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY
-Broad high-volume scans are intentionally skipped in this run.
-STRUCTURE-11 treats the index-53 NULL as a candidate table boundary.
+Bounded static analysis only; no FTM/RF command is generated or transmitted.
+STRUCTURE-12 samples executable blocks across their address ranges and checks string-pointer targets.
 ============================================================
 PROGRAM=qdsp6sw.mbn
 IMAGE_BASE=c1600000
@@ -107,8 +107,327 @@ Not assumed to share the primary table's enum.
   ADJ_POOL[11] slot=0xC919989C ptr=0xC508258C actual=CTON
 
 ============================================================
+RADIO_CONFIG STRING-POINTER REFERENCE AUDIT
+Queries references to each unique string address used by the primary table
+and the adjacent candidate pool; read-only
+============================================================
+  UNIQUE_STRING_TARGETS=60
+
+  STRING_TARGET[0] name=UNASSIGNED address=0xC49535C6
+    STRING_XREF[0] from=c8eb7450 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c8eb7470 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c8eb74a8 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c8eb74c0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c8eb74d0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[5] from=c8f12090 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=33 instruction=0 data=33 other=0 shown=6
+
+  STRING_TARGET[1] name=RX_CARRIER address=0xC5082337
+    STRING_XREF[0] from=c919979c type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199874 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199a48 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199f08 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=4 instruction=0 data=4 other=0 shown=4
+
+  STRING_TARGET[2] name=TX_CARRIER address=0xC5082342
+    STRING_XREF[0] from=c91997a0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199994 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199a44 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199ab0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c9199f04 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=5 instruction=0 data=5 other=0 shown=5
+
+  STRING_TARGET[3] name=RFM_DEVICE address=0xC49535DB
+    STRING_XREF[0] from=c8eb7458 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c8eb747c type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c8eb74ac type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c8eb74c4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c8eb74d8 type=DATA block=segment_21 function=<none>
+    STRING_XREF[5] from=c8f12134 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=18 instruction=0 data=18 other=0 shown=6
+
+  STRING_TARGET[4] name=DEPRECATED address=0xC5011968
+    STRING_XREF[0] from=c5011a6c type=DATA block=segment_20 function=<none>
+    STRING_XREF[1] from=c91997a8 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[5] name=BAND address=0xC49D5DF4
+    STRING_XREF[0] from=c9199778 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c91997ac type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199e1c type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199eb0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c9199f7c type=DATA block=segment_21 function=<none>
+    STRING_XREF[5] from=c9199fd4 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=6 instruction=0 data=6 other=0 shown=6
+
+  STRING_TARGET[6] name=CHANNEL address=0xC508234D
+    STRING_XREF[0] from=c91997b0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199eb4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199f80 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199fe0 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=4 instruction=0 data=4 other=0 shown=4
+
+  STRING_TARGET[7] name=BANDWIDTH address=0xC5082355
+    STRING_XREF[0] from=c91997b4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199e24 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199eb8 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199f84 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c9199fe8 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=5 instruction=0 data=5 other=0 shown=5
+
+  STRING_TARGET[8] name=CONT_MODE address=0xC508235F
+    STRING_XREF[0] from=c91997b8 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[9] name=SIG_PATH address=0xC4953AF0
+    STRING_XREF[0] from=c8eb7478 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c8f12130 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c91997bc type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199888 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c91999a8 type=DATA block=segment_21 function=<none>
+    STRING_XREF[5] from=c9199a50 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=15 instruction=0 data=15 other=0 shown=6
+
+  STRING_TARGET[10] name=ANT_PATH address=0xC5082369
+    STRING_XREF[0] from=c91997c0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199eac type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199fcc type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c919a174 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=4 instruction=0 data=4 other=0 shown=4
+
+  STRING_TARGET[11] name=USER_ADJ address=0xC5082372
+    STRING_XREF[0] from=c91997c4 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[12] name=CENTER_FREQ address=0xC508237B
+    STRING_XREF[0] from=c91997c8 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c91997ec type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[13] name=ENABLE_XO address=0xC5082387
+    STRING_XREF[0] from=c91997cc type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[14] name=TOTAL_ADJ address=0xC5082391
+    STRING_XREF[0] from=c91997d0 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[15] name=BURST_PATTERN address=0xC508239B
+    STRING_XREF[0] from=c91997d4 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[16] name=BEAM_ID address=0xC50823A9
+    STRING_XREF[0] from=c91997d8 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[17] name=SUB_FRAME_CONFIG address=0xC50823B2
+    STRING_XREF[0] from=c91997dc type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c91998d4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c91999d4 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=3 instruction=0 data=3 other=0 shown=3
+
+  STRING_TARGET[18] name=PLL_ID address=0xC49CC70C
+    STRING_XREF[0] from=c8f1215c type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199790 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c91997e0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199e50 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c9199ebc type=DATA block=segment_21 function=<none>
+    STRING_XREF[5] from=c9199f78 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=13 instruction=0 data=13 other=0 shown=6
+
+  STRING_TARGET[19] name=TIME_US address=0xC50823C3
+    STRING_XREF[0] from=c91997e4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c91998d0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c91999d0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199e54 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=4 instruction=0 data=4 other=0 shown=4
+
+  STRING_TARGET[20] name=INTER_FREQ address=0xC50823CB
+    STRING_XREF[0] from=c91997e8 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[21] name=SUB_TECH address=0xC50823D6
+    STRING_XREF[0] from=c91997f0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199930 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c91999e0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c9199aa4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[4] from=c9199da0 type=DATA block=segment_21 function=<none>
+    STRING_XREF[5] from=c9199e58 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=6 instruction=0 data=6 other=0 shown=6
+
+  STRING_TARGET[22] name=BWP_START_LOC address=0xC50823DF
+    STRING_XREF[0] from=c91997f4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199e64 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[23] name=PATH_FILTER_TYPE address=0xC50823ED
+    STRING_XREF[0] from=c91997f8 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[24] name=TECH_MODE address=0xC50823FE
+    STRING_XREF[0] from=c91997fc type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[25] name=SCS address=0xC5082408
+    STRING_XREF[0] from=c9199800 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[26] name=LOAD_CODEBOOK address=0xC508240C
+    STRING_XREF[0] from=c9199804 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c919a024 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[27] name=NDR_STATE address=0xC508241A
+    STRING_XREF[0] from=c9199808 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c919a040 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[28] name=TECHNOLOGY address=0xC4953EA5
+    STRING_XREF[0] from=c8eb74d4 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c919980c type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199a40 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=3 instruction=0 data=3 other=0 shown=3
+
+  STRING_TARGET[29] name=NETWORK_SIGNAL address=0xC5082424
+    STRING_XREF[0] from=c9199810 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c91999b4 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[30] name=RESERVED2 address=0xC5082433
+    STRING_XREF[0] from=c9199814 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199b4c type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199e7c type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=3 instruction=0 data=3 other=0 shown=3
+
+  STRING_TARGET[31] name=SELFTEST_TYPE address=0xC508243D
+    STRING_XREF[0] from=c9199818 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[32] name=UE_POWER_CLASS address=0xC508244B
+    STRING_XREF[0] from=c919981c type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c91999cc type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[33] name=RESERVED3 address=0xC508245A
+    STRING_XREF[0] from=c9199820 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[34] name=NB_ID address=0xC5082464
+    STRING_XREF[0] from=c9199824 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199e70 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199ee8 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=3 instruction=0 data=3 other=0 shown=3
+
+  STRING_TARGET[35] name=LANE_ID address=0xC508246A
+    STRING_XREF[0] from=c9199828 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199e74 type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c9199eec type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=3 instruction=0 data=3 other=0 shown=3
+
+  STRING_TARGET[36] name=TX_GAIN_ADJUSTMENT address=0xC5082472
+    STRING_XREF[0] from=c919982c type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[37] name=SRS_CS_TYPE address=0xC5082485
+    STRING_XREF[0] from=c9199830 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[38] name=SRS_SOURCE_CARRIER address=0xC5082491
+    STRING_XREF[0] from=c9199834 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199e84 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+  STRING_TARGET[39] name=IF_PLL_UNLOCK_STATUS address=0xC50824A4
+    STRING_XREF[0] from=c9199838 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[40] name=RF_PLL_UNLOCK_STATUS address=0xC50824B9
+    STRING_XREF[0] from=c919983c type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[41] name=SUBSCRIPTION_INDEX address=0xC50824CE
+    STRING_XREF[0] from=c9199840 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[42] name=TX_SHARING address=0xC50824E1
+    STRING_XREF[0] from=c9199844 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[43] name=TX_PRORITY address=0xC50824EC
+    STRING_XREF[0] from=c9199848 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[44] name=BWP_ID address=0xC50824F7
+    STRING_XREF[0] from=c919984c type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[45] name=BWP_BW address=0xC50824FE
+    STRING_XREF[0] from=c9199850 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[46] name=TARGET_BWP_ID address=0xC5082505
+    STRING_XREF[0] from=c9199854 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[47] name=BWP_CENTER_FREQ address=0xC5082513
+    STRING_XREF[0] from=c9199858 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[48] name=BWP_PRIORITY address=0xC5082523
+    STRING_XREF[0] from=c919985c type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[49] name=BWP_CUSTOM address=0xC5082530
+    STRING_XREF[0] from=c9199860 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[50] name=SUB_CFG_ID address=0xC508253B
+    STRING_XREF[0] from=c9199864 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[51] name=TARGET_SUB_CFG address=0xC5082546
+    STRING_XREF[0] from=c9199868 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[52] name=EXPECTED_AGC address=0xC4953B06
+    STRING_XREF[0] from=c8eb7484 type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c8f1213c type=DATA block=segment_21 function=<none>
+    STRING_XREF[2] from=c919987c type=DATA block=segment_21 function=<none>
+    STRING_XREF[3] from=c919a064 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=4 instruction=0 data=4 other=0 shown=4
+
+  STRING_TARGET[53] name=RX_AGC address=0xC5082555
+    STRING_XREF[0] from=c9199880 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[54] name=LNA_GS address=0xC508255C
+    STRING_XREF[0] from=c9199884 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[55] name=RX_MODE address=0xC5082563
+    STRING_XREF[0] from=c919988c type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[56] name=RX_SLOT address=0xC508256B
+    STRING_XREF[0] from=c9199890 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[57] name=NUM_OF_BURST address=0xC5082573
+    STRING_XREF[0] from=c9199894 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[58] name=SENSITIVITY address=0xC5082580
+    STRING_XREF[0] from=c9199898 type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=1 instruction=0 data=1 other=0 shown=1
+
+  STRING_TARGET[59] name=CTON address=0xC508258C
+    STRING_XREF[0] from=c919989c type=DATA block=segment_21 function=<none>
+    STRING_XREF[1] from=c9199a8c type=DATA block=segment_21 function=<none>
+    XREF_TOTAL=2 instruction=0 data=2 other=0 shown=2
+
+============================================================
 RADIO_CONFIG FIELD SLOT XREF AUDIT
-Checks references TO each of the 60 table slots, not merely references to their strings
+Checks references TO each of the 54 primary-table slots, not only to their strings
 Origin is classified by whether the reference address belongs to an instruction in an executable block
 READ ONLY
 ============================================================
@@ -119,17 +438,31 @@ READ ONLY
   DATA_ORIGIN_REFS_SHOWN=0
 
 ============================================================
-RADIO_CONFIG TABLE CODE-IMMEDIATE SCAN
-Scans executable instructions only; bounded to 600000 instructions
-Exact hit range=0xC9199798..0xC919986F
+RADIO_CONFIG DISTRIBUTED CODE-REFERENCE SCAN
+Bounded to 600000 decoded instructions across executable blocks
+Samples each executable block near its beginning, middle, and end
+Exact table range=0xC9199798..0xC919986F
 Nearby context range=0xC9199718..0xC91998EF
-A hit is an operand value, not by itself proof of an executed call path
-No hit does not rule out a base assembled across instructions or a pointer loaded from another descriptor.
+Also checks operands against unique string addresses in both candidate pools.
+A hit is a static lead, not proof of an executed call path.
 ============================================================
-  EXECUTABLE_INSTRUCTIONS_SCANNED=600000
+  EXECUTABLE_BLOCKS_TOTAL=8
+  UNIQUE_STRING_TARGETS=60
+  EXEC_BLOCK_SAMPLE name=segment_2 range=0xC1600000..0xC1602FFF instructions_sampled=1701
+  EXEC_BLOCK_SAMPLE name=segment_3 range=0xC1610000..0xC1647FFF instructions_sampled=10318
+  EXEC_BLOCK_SAMPLE name=segment_4 range=0xC1690000..0xC16BBFFF instructions_sampled=29180
+  EXEC_BLOCK_SAMPLE name=segment_7 range=0xC16FD000..0xC171DFFF instructions_sampled=31589
+  EXEC_BLOCK_SAMPLE name=segment_8 range=0xC171E000..0xC177DFFF instructions_sampled=15458
+  EXEC_BLOCK_SAMPLE name=segment_9 range=0xC1780000..0xC1A85FFF instructions_sampled=75000
+  EXEC_BLOCK_SAMPLE name=segment_11 range=0xC1AA0000..0xC1AA4FFF instructions_sampled=3840
+  EXEC_BLOCK_SAMPLE name=segment_12 range=0xC1AA5000..0xC1D4DFFF instructions_sampled=75000
+  EXECUTABLE_BLOCKS_SAMPLED=8
+  EXECUTABLE_INSTRUCTIONS_SCANNED=242086
   TABLE_CODE_IMMEDIATE_HITS_SHOWN=0
   TABLE_NEARBY_IMMEDIATE_HITS_SHOWN=0
-  SCAN_LIMIT_REACHED=true
+  STRING_POINTER_CODE_HITS_TOTAL=0
+  STRING_POINTER_CODE_HITS_SHOWN=0
+  SCAN_LIMIT_REACHED=false
 
 HANDLER_REFERENCE_SUMMARY CURRENT_HANDLER_D819C208 target=0xD819C208
   mapped=false block=<none> exec=false
@@ -289,12 +622,12 @@ POINTER_TOTAL HISTORICAL_SHARED_THUNK=0
 
 INTERPRETATION:
 Table/string agreement supports the field-table hypothesis; it does not identify the parser by itself.
-A direct immediate hit is a lead, not proof of an executed call path.
+A direct immediate or string-pointer hit is a lead, not proof of an executed call path.
 No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.
 
 ============================================================
-STRUCTURE11 EXECUTION FOOTER
-TRACE_BUILD=DIAG-FTM-STRUCTURE-11
+STRUCTURE12 EXECUTION FOOTER
+TRACE_BUILD=DIAG-FTM-STRUCTURE-12
 PROGRAM=qdsp6sw.mbn
 RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54
 RADIO_CONFIG_ADJACENT_POOL=0xC9199870 entries_checked=12
@@ -303,9 +636,13 @@ FIELD_REFERENCE_LABEL_MATCHES=53
 FIELD_ANCHOR_MISMATCHES=0
 SLOT_INSTRUCTION_ORIGIN_REFS=0
 SLOT_DATA_ORIGIN_REFS=0
-EXECUTABLE_INSTRUCTIONS_SCANNED=600000
+UNIQUE_STRING_TARGETS=60
+EXECUTABLE_BLOCKS_TOTAL=8
+EXECUTABLE_BLOCKS_SAMPLED=8
+EXECUTABLE_INSTRUCTIONS_SCANNED=242086
 TABLE_CODE_IMMEDIATE_HITS=0
 TABLE_NEARBY_IMMEDIATE_HITS=0
+STRING_POINTER_CODE_HITS=0
 PTRS_D819C208=81
 PTRS_D8150ED8=0
 PTRS_D89B2790=0
