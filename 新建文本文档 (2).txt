@@ -1,190 +1,77 @@
-Ghidra_RFDEBUG_Trace.java> Running...
-============================================================
- Ghidra_RFDEBUG_Trace
- TRACE_BUILD=DIAG-FTM-STRUCTURE-4
- DIAG -> FTM TARGET ADDRESS INSPECTOR / READ ONLY
-============================================================
-PROGRAM=qdsp6sw.mbn
-IMAGE_BASE=c1600000
-REFERENCE MASTER=0xC8DC3B54
-REFERENCE FTM_TABLE=0xC37BD1E8
-REFERENCE COMMON_DISPATCH=0xD8150ED8
-
-------------------------------------------------------------
-MASTER_REFERENCE_ADDRESS 0xC8DC3B54
-mapped=true block=segment_21 exec=false init=true
-block_range=c8cb0000 .. c922cfff
-  block_type=Default
-  flags=0x6
-  read=true write=true exec=false volatile=false artificial=false
-  loaded=true mapped=false overlay=false initialized=true
-  source_name=Elf Loader
-  source_infos=2
-  block_data_stream=<present>
-function=<no-function>
-instruction=<no-instruction>
-  DATA: c8dc3b54 len=1 type=undefined value=0x0
-
-REFERENCES TO 0xC8DC3B54
-  TOTAL_SHOWN=0 (limit=128)
-
-------------------------------------------------------------
-FTM_TABLE_REFERENCE_ADDRESS 0xC37BD1E8
-mapped=true block=segment_19 exec=false init=true
-block_range=c270d000 .. c470efff
-  block_type=Default
-  flags=0x6
-  read=true write=true exec=false volatile=false artificial=false
-  loaded=true mapped=false overlay=false initialized=true
-  source_name=Elf Loader
-  source_infos=2
-  block_data_stream=<present>
-function=<no-function>
-instruction=<no-instruction>
-  DATA: c37bd1e8 len=1 type=undefined value=0x0
-
-REFERENCES TO 0xC37BD1E8
-  TOTAL_SHOWN=0 (limit=128)
-
-============================================================
-DIAG MASTER RECORD STRUCTURE SCAN
-Independent Qualcomm FTM report structure:
-[u32 0x00FF0000][u32 count<<16|subsys][u32 0xFF][u32 FFFFFFFF][u32 table]
-Target subsys=0x000B; READ ONLY / HARD LIMITED
-============================================================
-MASTER_SCAN_BLOCK segment_27 0xA1221000..0xA1221093
-MASTER_SCAN_BLOCK segment_28 0xA1222000..0xA2260FFF
-MASTER_SCAN_BLOCK segment_5 0xC16BC000..0xC16EEFFF
-MASTER_SCAN_BLOCK segment_6 0xC16EF000..0xC16FCFFF
-MASTER_SCAN_BLOCK segment_10 0xC1A90000..0xC1A9EFFF
-MASTER_SCAN_BLOCK segment_13 0xC1D80000..0xC1DCFFFF
-MASTER_SCAN_BLOCK segment_14 0xC1E00000..0xC21D3FFF
-MASTER_SCAN_BLOCK segment_15 0xC21D4000..0xC21D4FFF
-MASTER_SCAN_BLOCK segment_16 0xC21D5000..0xC240AFFF
-MASTER_SCAN_BLOCK segment_17 0xC2440000..0xC24DEFFF
-MASTER_SCAN_BLOCK segment_18 0xC2500000..0xC270CFFF
-MASTER_SCAN_BLOCK segment_19 0xC270D000..0xC470EFFF
-MASTER_SCAN_BLOCK segment_20 0xC470F000..0xC8CAEFFF
-MASTER_SCAN_BLOCK segment_21 0xC8CB0000..0xC922CFFF
-
-MASTER_RECORD_HIT #1 @0xC8EB6EE0
-  packed=0x0050000B subsys=0x0000000B count=80
-  magic2=0x000000FF magic3=0xFFFFFFFF
-  table=0xC4951828 valid=true
-    FTM_TABLE_CANDIDATE=0xC4951828 count=80
-      table_block=segment_20 range=c470f000..c8caefff
-      entry[00] @0xC4951828 lo=0x00000000 hi=0x00000000 handler=0xD819C208 handler_block=<none>
-      entry[01] @0xC4951830 lo=0x00000003 hi=0x00000003 handler=0xD819C208 handler_block=<none>
-      entry[02] @0xC4951838 lo=0x00000020 hi=0x00000020 handler=0xD819C208 handler_block=<none>
-      entry[03] @0xC4951840 lo=0x00000028 hi=0x00000028 handler=0xD819C208 handler_block=<none>
-      entry[04] @0xC4951848 lo=0x00000027 hi=0x00000027 handler=0xD819C208 handler_block=<none>
-      entry[05] @0xC4951850 lo=0x00000069 hi=0x00000069 handler=0xD819C208 handler_block=<none>
-      entry[06] @0xC4951858 lo=0x0000007A hi=0x0000007A handler=0xD819C208 handler_block=<none>
-      entry[07] @0xC4951860 lo=0x0000007B hi=0x0000007B handler=0xD819C208 handler_block=<none>
-      entry[08] @0xC4951868 lo=0x0000007E hi=0x0000007E handler=0xD819C208 handler_block=<none>
-      entry[09] @0xC4951870 lo=0x0000000B hi=0x0000000B handler=0xD819C208 handler_block=<none>
-      entry[10] @0xC4951878 lo=0x00000007 hi=0x00000007 handler=0xD819C208 handler_block=<none>
-      entry[11] @0xC4951880 lo=0x00000008 hi=0x00000008 handler=0xD819C208 handler_block=<none>
-      entry[12] @0xC4951888 lo=0x00000002 hi=0x00000002 handler=0xD819C208 handler_block=<none>
-      entry[13] @0xC4951890 lo=0x0000003A hi=0x0000003A handler=0xD819C208 handler_block=<none>
-      entry[14] @0xC4951898 lo=0x00000031 hi=0x00000031 handler=0xD819C208 handler_block=<none>
-      entry[15] @0xC49518A0 lo=0x0000003D hi=0x0000003D handler=0xD819C208 handler_block=<none>
-      entry[16] @0xC49518A8 lo=0x00000065 hi=0x00000065 handler=0xD819C208 handler_block=<none>
-      entry[17] @0xC49518B0 lo=0x00000066 hi=0x00000066 handler=0xD819C208 handler_block=<none>
-      entry[18] @0xC49518B8 lo=0x00000011 hi=0x00000011 handler=0xD819C208 handler_block=<none>
-      entry[19] @0xC49518C0 lo=0x0000003B hi=0x0000003B handler=0xD819C208 handler_block=<none>
-      entry[20] @0xC49518C8 lo=0x00000032 hi=0x00000032 handler=0xD819C208 handler_block=<none>
-      entry[21] @0xC49518D0 lo=0x0000003E hi=0x0000003E handler=0xD819C208 handler_block=<none>
-      entry[22] @0xC49518D8 lo=0x00000067 hi=0x00000067 handler=0xD819C208 handler_block=<none>
-      entry[23] @0xC49518E0 lo=0x00000068 hi=0x00000068 handler=0xD819C208 handler_block=<none>
-      entry[24] @0xC49518E8 lo=0x00000001 hi=0x00000001 handler=0xD819C208 handler_block=<none>
-      entry[25] @0xC49518F0 lo=0x00000015 hi=0x00000015 handler=0xD819C208 handler_block=<none>
-      entry[26] @0xC49518F8 lo=0x00000038 hi=0x00000038 handler=0xD819C208 handler_block=<none>
-      entry[27] @0xC4951900 lo=0x00000039 hi=0x00000039 handler=0xD819C208 handler_block=<none>
-      entry[28] @0xC4951908 lo=0x00000044 hi=0x00000044 handler=0xD819C208 handler_block=<none>
-      entry[29] @0xC4951910 lo=0x00000045 hi=0x00000045 handler=0xD819C208 handler_block=<none>
-      entry[30] @0xC4951918 lo=0x00000046 hi=0x00000046 handler=0xD819C208 handler_block=<none>
-      entry[31] @0xC4951920 lo=0x00000047 hi=0x00000047 handler=0xD819C208 handler_block=<none>
-      entry[32] @0xC4951928 lo=0x00000009 hi=0x00000009 handler=0xD819C208 handler_block=<none>
-      entry[33] @0xC4951930 lo=0x0000000A hi=0x0000000A handler=0xD819C208 handler_block=<none>
-      entry[34] @0xC4951938 lo=0x0000000D hi=0x0000000D handler=0xD819C208 handler_block=<none>
-      entry[35] @0xC4951940 lo=0x0000003C hi=0x0000003C handler=0xD819C208 handler_block=<none>
-      entry[36] @0xC4951948 lo=0x00000033 hi=0x00000033 handler=0xD819C208 handler_block=<none>
-      entry[37] @0xC4951950 lo=0x0000003F hi=0x0000003F handler=0xD819C208 handler_block=<none>
-      entry[38] @0xC4951958 lo=0x00000010 hi=0x00000010 handler=0xD819C208 handler_block=<none>
-      entry[39] @0xC4951960 lo=0x0000001B hi=0x0000001B handler=0xD819C208 handler_block=<none>
-      entry[40] @0xC4951968 lo=0x00008000 hi=0x00008000 handler=0xD819C208 handler_block=<none>
-      entry[41] @0xC4951970 lo=0x00000012 hi=0x00000012 handler=0xD819C208 handler_block=<none>
-      entry[42] @0xC4951978 lo=0x00000014 hi=0x00000014 handler=0xD819C208 handler_block=<none>
-      entry[43] @0xC4951980 lo=0x0000001D hi=0x0000001D handler=0xD819C208 handler_block=<none>
-      entry[44] @0xC4951988 lo=0x0000001E hi=0x0000001E handler=0xD819C208 handler_block=<none>
-      entry[45] @0xC4951990 lo=0x00000023 hi=0x00000023 handler=0xD819C208 handler_block=<none>
-      entry[46] @0xC4951998 lo=0x0000002F hi=0x0000002F handler=0xD819C208 handler_block=<none>
-      entry[47] @0xC49519A0 lo=0x00000030 hi=0x00000030 handler=0xD819C208 handler_block=<none>
-      entry[48] @0xC49519A8 lo=0x0000004A hi=0x0000004A handler=0xD819C208 handler_block=<none>
-      entry[49] @0xC49519B0 lo=0x0000004B hi=0x0000004B handler=0xD819C208 handler_block=<none>
-      entry[50] @0xC49519B8 lo=0x0000004C hi=0x0000004C handler=0xD819C208 handler_block=<none>
-      entry[51] @0xC49519C0 lo=0x0000004D hi=0x0000004D handler=0xD819C208 handler_block=<none>
-      entry[52] @0xC49519C8 lo=0x00000041 hi=0x00000041 handler=0xD819C208 handler_block=<none>
-      entry[53] @0xC49519D0 lo=0x00000042 hi=0x00000042 handler=0xD819C208 handler_block=<none>
-      entry[54] @0xC49519D8 lo=0x0000004E hi=0x0000004E handler=0xD819C208 handler_block=<none>
-      entry[55] @0xC49519E0 lo=0x0000004F hi=0x0000004F handler=0xD819C208 handler_block=<none>
-      entry[56] @0xC49519E8 lo=0x00000050 hi=0x00000050 handler=0xD819C208 handler_block=<none>
-      entry[57] @0xC49519F0 lo=0x00000051 hi=0x00000051 handler=0xD819C208 handler_block=<none>
-      entry[58] @0xC49519F8 lo=0x00000052 hi=0x00000052 handler=0xD819C208 handler_block=<none>
-      entry[59] @0xC4951A00 lo=0x00000053 hi=0x00000053 handler=0xD819C208 handler_block=<none>
-      entry[60] @0xC4951A08 lo=0x00000054 hi=0x00000054 handler=0xD819C208 handler_block=<none>
-      entry[61] @0xC4951A10 lo=0x00000055 hi=0x00000055 handler=0xD819C208 handler_block=<none>
-      entry[62] @0xC4951A18 lo=0x00000056 hi=0x00000056 handler=0xD819C208 handler_block=<none>
-      entry[63] @0xC4951A20 lo=0x00000057 hi=0x00000057 handler=0xD819C208 handler_block=<none>
-      entry[64] @0xC4951A28 lo=0x00000080 hi=0x00000080 handler=0xD819C208 handler_block=<none>
-      entry[65] @0xC4951A30 lo=0x00000043 hi=0x00000043 handler=0xD819C208 handler_block=<none>
-      entry[66] @0xC4951A38 lo=0x00000022 hi=0x00000022 handler=0xD819C208 handler_block=<none>
-      entry[67] @0xC4951A40 lo=0x00000025 hi=0x00000025 handler=0xD819C208 handler_block=<none>
-      entry[68] @0xC4951A48 lo=0x0000001F hi=0x0000001F handler=0xD819C208 handler_block=<none>
-      entry[69] @0xC4951A50 lo=0x00000021 hi=0x00000021 handler=0xD819C208 handler_block=<none>
-      entry[70] @0xC4951A58 lo=0x0000000A hi=0x0000000A handler=0xD819C208 handler_block=<none>
-      entry[71] @0xC4951A60 lo=0x00000024 hi=0x00000024 handler=0xD819C208 handler_block=<none>
-      entry[72] @0xC4951A68 lo=0x0000002A hi=0x0000002A handler=0xD819C208 handler_block=<none>
-      entry[73] @0xC4951A70 lo=0x0000002B hi=0x0000002B handler=0xD819C208 handler_block=<none>
-      entry[74] @0xC4951A78 lo=0x00000063 hi=0x00000063 handler=0xD819C208 handler_block=<none>
-      entry[75] @0xC4951A80 lo=0x00000064 hi=0x00000064 handler=0xD819C208 handler_block=<none>
-      entry[76] @0xC4951A88 lo=0x0000002C hi=0x0000002C handler=0xD819C208 handler_block=<none>
-      entry[77] @0xC4951A90 lo=0x00000079 hi=0x00000079 handler=0xD819C208 handler_block=<none>
-      entry[78] @0xC4951A98 lo=0x0000007C hi=0x0000007C handler=0xD819C208 handler_block=<none>
-      entry[79] @0xC4951AA0 lo=0x00008001 hi=0x00008001 handler=0xD819C208 handler_block=<none>
-      TABLE_VALID_ENTRIES_SHOWN=80
-      UNIQUE_HANDLER_POINTERS=1
-      HANDLER_SUMMARY[0] ptr=0xD819C208 count=80 block=<none>
-MASTER_SCAN_BLOCK segment_22 0xC9230000..0xCBF0EFFF
-MASTER_SCAN_BLOCK segment_23 0xCBF0F000..0xCBF28FFF
-MASTER_SCAN_BLOCK segment_24 0xCBF30000..0xCE536FFF
-MASTER_SCAN_BLOCK segment_25 0xCE540000..0xCE653FFF
-MASTER_SCAN_BLOCK segment_26 0xCE654000..0xCE6BFFFF
-
-MASTER STRUCTURE BYTES SCANNED=227758228
-MASTER STRUCTURE HITS=1
-
-============================================================
-RUNTIME DISPATCH POINTER CENSUS
-Searches aligned 32-bit references throughout initialized blocks
-Targets: current candidate 0xD819C208 and prior-build 0xD8150ED8
-READ ONLY / NO COMMAND GENERATION
-============================================================
-  PTR_BLOCK target=CURRENT_FTM_HANDLER value=0xD819C208 block=segment_20 exec=false hits_in_block=81
-    PTR_HIT[0] at=0xC495182C function=<no-function>
-    PTR_HIT[1] at=0xC4951834 function=<no-function>
-    PTR_HIT[2] at=0xC495183C function=<no-function>
-    PTR_HIT[3] at=0xC4951844 function=<no-function>
-    PTR_HIT[4] at=0xC495184C function=<no-function>
-    PTR_HIT[5] at=0xC4951854 function=<no-function>
-    PTR_HIT[6] at=0xC495185C function=<no-function>
-    PTR_HIT[7] at=0xC4951864 function=<no-function>
-    PTR_HIT[8] at=0xC495186C function=<no-function>
-    PTR_HIT[9] at=0xC4951874 function=<no-function>
-    PTR_HIT[10] at=0xC495187C function=<no-function>
-    PTR_HIT[11] at=0xC4951884 function=<no-function>
-    ADDITIONAL_HITS_NOT_LISTED=69
+ctor_hi=0x007B function=<no-function>
+    PTR_HIT[8] at=0xC495186C role=FTM_TABLE_ENTRY index=8 selector_lo=0x007E selector_hi=0x007E function=<no-function>
+    PTR_HIT[9] at=0xC4951874 role=FTM_TABLE_ENTRY index=9 selector_lo=0x000B selector_hi=0x000B function=<no-function>
+    PTR_HIT[10] at=0xC495187C role=FTM_TABLE_ENTRY index=10 selector_lo=0x0007 selector_hi=0x0007 function=<no-function>
+    PTR_HIT[11] at=0xC4951884 role=FTM_TABLE_ENTRY index=11 selector_lo=0x0008 selector_hi=0x0008 function=<no-function>
+    PTR_HIT[12] at=0xC495188C role=FTM_TABLE_ENTRY index=12 selector_lo=0x0002 selector_hi=0x0002 function=<no-function>
+    PTR_HIT[13] at=0xC4951894 role=FTM_TABLE_ENTRY index=13 selector_lo=0x003A selector_hi=0x003A function=<no-function>
+    PTR_HIT[14] at=0xC495189C role=FTM_TABLE_ENTRY index=14 selector_lo=0x0031 selector_hi=0x0031 function=<no-function>
+    PTR_HIT[15] at=0xC49518A4 role=FTM_TABLE_ENTRY index=15 selector_lo=0x003D selector_hi=0x003D function=<no-function>
+    PTR_HIT[16] at=0xC49518AC role=FTM_TABLE_ENTRY index=16 selector_lo=0x0065 selector_hi=0x0065 function=<no-function>
+    PTR_HIT[17] at=0xC49518B4 role=FTM_TABLE_ENTRY index=17 selector_lo=0x0066 selector_hi=0x0066 function=<no-function>
+    PTR_HIT[18] at=0xC49518BC role=FTM_TABLE_ENTRY index=18 selector_lo=0x0011 selector_hi=0x0011 function=<no-function>
+    PTR_HIT[19] at=0xC49518C4 role=FTM_TABLE_ENTRY index=19 selector_lo=0x003B selector_hi=0x003B function=<no-function>
+    PTR_HIT[20] at=0xC49518CC role=FTM_TABLE_ENTRY index=20 selector_lo=0x0032 selector_hi=0x0032 function=<no-function>
+    PTR_HIT[21] at=0xC49518D4 role=FTM_TABLE_ENTRY index=21 selector_lo=0x003E selector_hi=0x003E function=<no-function>
+    PTR_HIT[22] at=0xC49518DC role=FTM_TABLE_ENTRY index=22 selector_lo=0x0067 selector_hi=0x0067 function=<no-function>
+    PTR_HIT[23] at=0xC49518E4 role=FTM_TABLE_ENTRY index=23 selector_lo=0x0068 selector_hi=0x0068 function=<no-function>
+    PTR_HIT[24] at=0xC49518EC role=FTM_TABLE_ENTRY index=24 selector_lo=0x0001 selector_hi=0x0001 function=<no-function>
+    PTR_HIT[25] at=0xC49518F4 role=FTM_TABLE_ENTRY index=25 selector_lo=0x0015 selector_hi=0x0015 function=<no-function>
+    PTR_HIT[26] at=0xC49518FC role=FTM_TABLE_ENTRY index=26 selector_lo=0x0038 selector_hi=0x0038 function=<no-function>
+    PTR_HIT[27] at=0xC4951904 role=FTM_TABLE_ENTRY index=27 selector_lo=0x0039 selector_hi=0x0039 function=<no-function>
+    PTR_HIT[28] at=0xC495190C role=FTM_TABLE_ENTRY index=28 selector_lo=0x0044 selector_hi=0x0044 function=<no-function>
+    PTR_HIT[29] at=0xC4951914 role=FTM_TABLE_ENTRY index=29 selector_lo=0x0045 selector_hi=0x0045 function=<no-function>
+    PTR_HIT[30] at=0xC495191C role=FTM_TABLE_ENTRY index=30 selector_lo=0x0046 selector_hi=0x0046 function=<no-function>
+    PTR_HIT[31] at=0xC4951924 role=FTM_TABLE_ENTRY index=31 selector_lo=0x0047 selector_hi=0x0047 function=<no-function>
+    PTR_HIT[32] at=0xC495192C role=FTM_TABLE_ENTRY index=32 selector_lo=0x0009 selector_hi=0x0009 function=<no-function>
+    PTR_HIT[33] at=0xC4951934 role=FTM_TABLE_ENTRY index=33 selector_lo=0x000A selector_hi=0x000A function=<no-function>
+    PTR_HIT[34] at=0xC495193C role=FTM_TABLE_ENTRY index=34 selector_lo=0x000D selector_hi=0x000D function=<no-function>
+    PTR_HIT[35] at=0xC4951944 role=FTM_TABLE_ENTRY index=35 selector_lo=0x003C selector_hi=0x003C function=<no-function>
+    PTR_HIT[36] at=0xC495194C role=FTM_TABLE_ENTRY index=36 selector_lo=0x0033 selector_hi=0x0033 function=<no-function>
+    PTR_HIT[37] at=0xC4951954 role=FTM_TABLE_ENTRY index=37 selector_lo=0x003F selector_hi=0x003F function=<no-function>
+    PTR_HIT[38] at=0xC495195C role=FTM_TABLE_ENTRY index=38 selector_lo=0x0010 selector_hi=0x0010 function=<no-function>
+    PTR_HIT[39] at=0xC4951964 role=FTM_TABLE_ENTRY index=39 selector_lo=0x001B selector_hi=0x001B function=<no-function>
+    PTR_HIT[40] at=0xC495196C role=FTM_TABLE_ENTRY index=40 selector_lo=0x8000 selector_hi=0x8000 function=<no-function>
+    PTR_HIT[41] at=0xC4951974 role=FTM_TABLE_ENTRY index=41 selector_lo=0x0012 selector_hi=0x0012 function=<no-function>
+    PTR_HIT[42] at=0xC495197C role=FTM_TABLE_ENTRY index=42 selector_lo=0x0014 selector_hi=0x0014 function=<no-function>
+    PTR_HIT[43] at=0xC4951984 role=FTM_TABLE_ENTRY index=43 selector_lo=0x001D selector_hi=0x001D function=<no-function>
+    PTR_HIT[44] at=0xC495198C role=FTM_TABLE_ENTRY index=44 selector_lo=0x001E selector_hi=0x001E function=<no-function>
+    PTR_HIT[45] at=0xC4951994 role=FTM_TABLE_ENTRY index=45 selector_lo=0x0023 selector_hi=0x0023 function=<no-function>
+    PTR_HIT[46] at=0xC495199C role=FTM_TABLE_ENTRY index=46 selector_lo=0x002F selector_hi=0x002F function=<no-function>
+    PTR_HIT[47] at=0xC49519A4 role=FTM_TABLE_ENTRY index=47 selector_lo=0x0030 selector_hi=0x0030 function=<no-function>
+    PTR_HIT[48] at=0xC49519AC role=FTM_TABLE_ENTRY index=48 selector_lo=0x004A selector_hi=0x004A function=<no-function>
+    PTR_HIT[49] at=0xC49519B4 role=FTM_TABLE_ENTRY index=49 selector_lo=0x004B selector_hi=0x004B function=<no-function>
+    PTR_HIT[50] at=0xC49519BC role=FTM_TABLE_ENTRY index=50 selector_lo=0x004C selector_hi=0x004C function=<no-function>
+    PTR_HIT[51] at=0xC49519C4 role=FTM_TABLE_ENTRY index=51 selector_lo=0x004D selector_hi=0x004D function=<no-function>
+    PTR_HIT[52] at=0xC49519CC role=FTM_TABLE_ENTRY index=52 selector_lo=0x0041 selector_hi=0x0041 function=<no-function>
+    PTR_HIT[53] at=0xC49519D4 role=FTM_TABLE_ENTRY index=53 selector_lo=0x0042 selector_hi=0x0042 function=<no-function>
+    PTR_HIT[54] at=0xC49519DC role=FTM_TABLE_ENTRY index=54 selector_lo=0x004E selector_hi=0x004E function=<no-function>
+    PTR_HIT[55] at=0xC49519E4 role=FTM_TABLE_ENTRY index=55 selector_lo=0x004F selector_hi=0x004F function=<no-function>
+    PTR_HIT[56] at=0xC49519EC role=FTM_TABLE_ENTRY index=56 selector_lo=0x0050 selector_hi=0x0050 function=<no-function>
+    PTR_HIT[57] at=0xC49519F4 role=FTM_TABLE_ENTRY index=57 selector_lo=0x0051 selector_hi=0x0051 function=<no-function>
+    PTR_HIT[58] at=0xC49519FC role=FTM_TABLE_ENTRY index=58 selector_lo=0x0052 selector_hi=0x0052 function=<no-function>
+    PTR_HIT[59] at=0xC4951A04 role=FTM_TABLE_ENTRY index=59 selector_lo=0x0053 selector_hi=0x0053 function=<no-function>
+    PTR_HIT[60] at=0xC4951A0C role=FTM_TABLE_ENTRY index=60 selector_lo=0x0054 selector_hi=0x0054 function=<no-function>
+    PTR_HIT[61] at=0xC4951A14 role=FTM_TABLE_ENTRY index=61 selector_lo=0x0055 selector_hi=0x0055 function=<no-function>
+    PTR_HIT[62] at=0xC4951A1C role=FTM_TABLE_ENTRY index=62 selector_lo=0x0056 selector_hi=0x0056 function=<no-function>
+    PTR_HIT[63] at=0xC4951A24 role=FTM_TABLE_ENTRY index=63 selector_lo=0x0057 selector_hi=0x0057 function=<no-function>
+    PTR_HIT[64] at=0xC4951A2C role=FTM_TABLE_ENTRY index=64 selector_lo=0x0080 selector_hi=0x0080 function=<no-function>
+    PTR_HIT[65] at=0xC4951A34 role=FTM_TABLE_ENTRY index=65 selector_lo=0x0043 selector_hi=0x0043 function=<no-function>
+    PTR_HIT[66] at=0xC4951A3C role=FTM_TABLE_ENTRY index=66 selector_lo=0x0022 selector_hi=0x0022 function=<no-function>
+    PTR_HIT[67] at=0xC4951A44 role=FTM_TABLE_ENTRY index=67 selector_lo=0x0025 selector_hi=0x0025 function=<no-function>
+    PTR_HIT[68] at=0xC4951A4C role=FTM_TABLE_ENTRY index=68 selector_lo=0x001F selector_hi=0x001F function=<no-function>
+    PTR_HIT[69] at=0xC4951A54 role=FTM_TABLE_ENTRY index=69 selector_lo=0x0021 selector_hi=0x0021 function=<no-function>
+    PTR_HIT[70] at=0xC4951A5C role=FTM_TABLE_ENTRY index=70 selector_lo=0x000A selector_hi=0x000A function=<no-function>
+    PTR_HIT[71] at=0xC4951A64 role=FTM_TABLE_ENTRY index=71 selector_lo=0x0024 selector_hi=0x0024 function=<no-function>
+    PTR_HIT[72] at=0xC4951A6C role=FTM_TABLE_ENTRY index=72 selector_lo=0x002A selector_hi=0x002A function=<no-function>
+    PTR_HIT[73] at=0xC4951A74 role=FTM_TABLE_ENTRY index=73 selector_lo=0x002B selector_hi=0x002B function=<no-function>
+    PTR_HIT[74] at=0xC4951A7C role=FTM_TABLE_ENTRY index=74 selector_lo=0x0063 selector_hi=0x0063 function=<no-function>
+    PTR_HIT[75] at=0xC4951A84 role=FTM_TABLE_ENTRY index=75 selector_lo=0x0064 selector_hi=0x0064 function=<no-function>
+    PTR_HIT[76] at=0xC4951A8C role=FTM_TABLE_ENTRY index=76 selector_lo=0x002C selector_hi=0x002C function=<no-function>
+    PTR_HIT[77] at=0xC4951A94 role=FTM_TABLE_ENTRY index=77 selector_lo=0x0079 selector_hi=0x0079 function=<no-function>
+    PTR_HIT[78] at=0xC4951A9C role=FTM_TABLE_ENTRY index=78 selector_lo=0x007C selector_hi=0x007C function=<no-function>
+    PTR_HIT[79] at=0xC4951AA4 role=FTM_TABLE_ENTRY index=79 selector_lo=0x8001 selector_hi=0x8001 function=<no-function>
+    PTR_HIT[80] at=0xC4951AAC role=EXTERNAL_OR_NON_TABLE_REFERENCE function=<no-function>
 POINTER_SCAN_BYTES_APPROX=234688579
 POINTER_TOTAL CURRENT_FTM_HANDLER=81
 POINTER_TOTAL PREVIOUS_BUILD_HANDLER=0
@@ -410,49 +297,1086 @@ Static only / READ ONLY
 ============================================================
 
 HIGH-VALUE HIT #1
+  address=c16f0ae6
+  matched=CHANNEL
+  value=cc_IslandStmCheckNoJobAbortsPending: channel %d in CC_SLICER_JOB_ABORT state
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #2
+  address=c16f3062
+  matched=CHANNEL
+  value=SMG: channel ready invalid ch %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #3
+  address=c16f3083
+  matched=CHANNEL
+  value=SMG: Ch%d unexpected state for channel ready %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #4
+  address=c16f3185
+  matched=CHANNEL
+  value=SMG: channel done invalid ch %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #5
+  address=c16f31a5
+  matched=CHANNEL
+  value=SMG: Ch%d unexpected state for channel done %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #6
+  address=c16f431e
+  matched=CHANNEL
+  value=p_Chan is NULL in cc_CpPrecomputeChannelParams
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #7
+  address=c16f4415
+  matched=CHANNEL
+  value=Direct Mode channels are not supported in 4Ms SMI buffer
+
+  XREF[00] from=c170ac40 type=PARAM primary=true
+      CODE_XREF_CONTEXT=Direct Mode channels are not supported in 4Ms SMI buffer
+
+      FROM=c170ac40
+      FUNCTION=FUN_c170aaa4 @ c170aaa4
+      INSTRUCTION=assign.if(!P0) R0,##0xc16f4415 
+      CALLER[0]=c170c694 add R4,SP,#0xaa 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #8
+  address=c16f447f
+  matched=CHANNEL
+  value=CP: CCM buffer overflow %x %x  #of Channels %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #9
+  address=c16f4787
+  matched=CHANNEL
+  value=CpBuild - Active Channel present. ccz_CpDb.q_BeginMs: %d. EndMs: %d
+  XREF[00] from=c170c0c4 type=PARAM primary=true
+      CODE_XREF_CONTEXT=CpBuild - Active Channel present. ccz_CpDb.q_BeginMs: %d. EndMs: %d
+      FROM=c170c0c4
+      FUNCTION=FUN_c170baec @ c170baec
+      INSTRUCTION=assign R2,##0xc16f4787 
+      CALLER[0]=c170e4b0 assign R0,#0x1 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #10
+  address=c16f4912
+  matched=CHANNEL
+  value=CC_CP: Mismatch Ch%u Channel CPRM Bytes %lu DMA Bytes %lu
+  XREF[00] from=c170cdf8 type=PARAM primary=true
+      CODE_XREF_CONTEXT=CC_CP: Mismatch Ch%u Channel CPRM Bytes %lu DMA Bytes %lu
+      FROM=c170cdf8
+      FUNCTION=FUN_c170baec @ c170baec
+      INSTRUCTION=assign R0,##0xc16f4912 ; memub R1,(R21) 
+      CALLER[0]=c170e4b0 assign R0,#0x1 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #11
+  address=c16f4a3a
+  matched=CHANNEL
+  value=MemMode cannot be internal when all channels are Direct
+  XREF[00] from=c170d1b4 type=PARAM primary=true
+      CODE_XREF_CONTEXT=MemMode cannot be internal when all channels are Direct
+      FROM=c170d1b4
+      FUNCTION=FUN_c170baec @ c170baec
+      INSTRUCTION=assign R0,##0xc16f4a3a 
+      CALLER[0]=c170e4b0 assign R0,#0x1 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #12
+  address=c16f62b8
+  matched=CHANNEL
+  value=DP Error: No Channel done callback registered
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #13
+  address=c16f6bef
+  matched=CHANNEL
+  value=CP and DP direct mode Channel orders don't match %d != %d
+  XREF[00] from=c17131d8 type=PARAM primary=true
+      CODE_XREF_CONTEXT=CP and DP direct mode Channel orders don't match %d != %d
+      FROM=c17131d8
+      FUNCTION=FUN_c1710c50 @ c1710c50
+      INSTRUCTION=assign R0,##0xc16f6bef 
+      CALLER[0]=c17134ac assign R0,#0x0 
+      CALLER[1]=c1710c28 deallocframe 
+      CALLERS_SHOWN=2
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #14
+  address=c16f7296
+  matched=CHANNEL
+  value=DP Channel Skipped Ch %d fscan %d firstEnergy %d ChOrder %d jobId 0x%08x%08x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #15
+  address=c16f7425
+  matched=CHANNEL
+  value=DP channel ready Ch %d SrchMode: %lu
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #16
+  address=c16f744a
+  matched=CHANNEL
+  value=DP Error: No Channel ready callback registered
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #17
+  address=c16f7622
+  matched=CHANNEL
+  value=DP Error: Delayed channel in DPO Ch %d SV %d IQ collect %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #18
+  address=c16f772d
+  matched=CHANNEL
+  value=No peak to estimate DPO offset with %d Channels
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #19
+  address=c16f7f90
+  matched=CHANNEL
+  value=IQSumsInfo Channel params NULL. ChId:%d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #20
+  address=c203afd2
+  matched=CHANNEL
+  value=PMCH OUT channel est sym0 rx0 %x rx1 %x num_rs_tones  %x ifft_size  %x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #21
+  address=c203b0e1
+  matched=CHANNEL
+  value=PMCH OUT channel est sym0 rx0 %x rx1 %x sym1 rx0  %x rx1  %x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #22
+  address=c203b14e
+  matched=CHANNEL
+  value=Channel raw_cov_alpha %x raw_cov_beta %x raw_cov_update_en[%d] 
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #23
+  address=c2046ac3
+  matched=CHANNEL
+  value=CSF band_type: %d  cmr_num_port: %d  WhChannel_pp_instance: %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #24
+  address=c204a5f2
+  matched=CHANNEL
+  value=Crash condition met for CSF channel Whitening
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #25
+  address=c204a6c6
+  matched=CHANNEL
+  value=Crash condition met for CSF channel Logging
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #26
+  address=c204a731
+  matched=CHANNEL
+  value=Crash condition met for CSF Channel Estimation
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #27
+  address=c2051020
+  matched=BANDWIDTH
+  value=Assertion (system_bandwidth < LVFW_NUM_BW) failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #28
+  address=c2051b08
+  matched=CHANNEL
+  value=Assertion ((crs_nt_symbol_cfg->ce_td_left_channel_index[iRx_adjust_in_2Rx_state] < LVFW_TOTAL_TX01_CHAN_RAM_COUNT) && (crs_nt_symbol_cfg->ce_td_left_channel_index[iRx_adjust_in_2Rx_state] >= 0)) failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #29
+  address=c2051bdf
+  matched=CHANNEL
+  value=Assertion ((crs_nt_symbol_cfg->ce_td_right_channel_index[iRx_adjust_in_2Rx_state] < LVFW_TOTAL_TX01_CHAN_RAM_COUNT) && (crs_nt_symbol_cfg->ce_td_right_channel_index[iRx_adjust_in_2Rx_state] >= 0)) failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #30
+  address=c2051cb8
+  matched=CHANNEL
+  value=Assertion ((crs_nt_symbol_cfg->ce_td_left_channel_index[iRx_adjust_in_2Rx_state] < LVFW_TOTAL_TX23_CHAN_RAM_COUNT) && (crs_nt_symbol_cfg->ce_td_left_channel_index[iRx_adjust_in_2Rx_state] >= 0)) failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #31
+  address=c2051d8f
+  matched=CHANNEL
+  value=Assertion ((crs_nt_symbol_cfg->ce_td_right_channel_index[iRx_adjust_in_2Rx_state] < LVFW_TOTAL_TX23_CHAN_RAM_COUNT) && (crs_nt_symbol_cfg->ce_td_right_channel_index[iRx_adjust_in_2Rx_state] >= 0)) failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #32
+  address=c205308f
+  matched=CHANNEL
+  value=Assertion (LVFW_USER_FW_EFS_TRIGGERED_CRASH_FDMIMO_CHANNEL_WHITENING) failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #33
+  address=c2053c18
+  matched=CHANNEL
+  value=Assertion (l1s_index<WFW_VECTOR_NUM_HS_CHANNEL_PER_SILVER) failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #34
+  address=c2053fb5
+  matched=CHANNEL
+  value=PCCPCH channel index out of range: %d, %d channels supported, %x, %x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #35
+  address=c20540e6
+  matched=CHANNEL
+  value=SCCPCH channel index out of range: %d, %d channels supported
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #36
+  address=c472fdf8
+  matched=CHANNEL
+  value=glink_channel_migration.c
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #37
   address=c4736634
   matched=ftm_common_dispatch
   value=ftm_common_dispatch.c
   XREFS_SHOWN=0
 
-HIGH-VALUE HIT #2
+HIGH-VALUE HIT #38
+  address=c47367f9
+  matched=RADIO_CONFIG
+  value=ftm_rf_test_radio_config.c
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #39
   address=c4737608
   matched=ftm_nr5g_rf_debug
   value=ftm_nr5g_rf_debug_codebook_override.cpp
   XREFS_SHOWN=0
 
-HIGH-VALUE HIT #3
+HIGH-VALUE HIT #40
   address=c4737630
   matched=ftm_nr5g_rf_debug
   value=ftm_nr5g_rf_debug_mpe_test.cpp
   XREFS_SHOWN=0
 
-HIGH-VALUE HIT #4
+HIGH-VALUE HIT #41
   address=c473764f
   matched=ftm_nr5g_rf_debug
   value=ftm_nr5g_rf_debug_therm_read.cpp
   XREFS_SHOWN=0
 
-HIGH-VALUE HIT #5
+HIGH-VALUE HIT #42
+  address=c473b9b6
+  matched=CHANNEL
+  value=gfw_channel_filters.cc
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #43
   address=c4745b65
   matched=FTM_PRI_ORDER
   value=FTM_PRI_ORDER
   XREFS_SHOWN=0
 
-HIGH-VALUE HIT #6
-  address=c4952735
-  matched=ftm_common_dispatch
-  value=ftm_common_dispatch.c
+HIGH-VALUE HIT #44
+  address=c47760ae
+  matched=CHANNEL
+  value=channel2_mss_trans_done_irq
   XREFS_SHOWN=0
 
-HIGH-VALUE HIT #7
-  address=c49cbf0a
-  matched=ftm_nr5g_rf_debug
-  value=ftm_nr5g_rf_debug_tx_override.c
+HIGH-VALUE HIT #45
+  address=c4776b71
+  matched=CHANNEL
+  value=SECURE_CHANNEL
   XREFS_SHOWN=0
 
-HIGH-VALUE DATA ITEMS INSPECTED=218857
-HIGH-VALUE HITS SHOWN=7
+HIGH-VALUE HIT #46
+  address=c4785fe9
+  matched=CHANNEL
+  value=mhi_channel_open: Invalid channel passed to channel open
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #47
+  address=c4786022
+  matched=CHANNEL
+  value=mhi_channel_open: Couldn't create event. Fatal error
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #48
+  address=c4786057
+  matched=CHANNEL
+  value=mhi_channel_open: Channel already opened
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #49
+  address=c4786080
+  matched=CHANNEL
+  value=mhi_channel_open: Failed to allocate logical channel context
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #50
+  address=c47860bd
+  matched=CHANNEL
+  value=mhi_channel_open: Unable to allocate channel request pool
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #51
+  address=c47860f7
+  matched=CHANNEL
+  value=mhi_channel_abort: Invalid channel passed in
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #52
+  address=c4786124
+  matched=CHANNEL
+  value=mhi_channel_abort: Client attempting to abort a channel that wasn't opened
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #53
+  address=c478616f
+  matched=CHANNEL
+  value=mhi_channel_abort: Channel not in opened state
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #54
+  address=c478619e
+  matched=CHANNEL
+  value=mhi_channel_abort: Fatal error, Request is null
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #55
+  address=c47861ce
+  matched=CHANNEL
+  value=mhi_channel_close: Invalid channel passed in
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #56
+  address=c47861fb
+  matched=CHANNEL
+  value=mhi_channel_close: Client attempting to close a channel that wasn't opened
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #57
+  address=c4786246
+  matched=CHANNEL
+  value=mhi_channel_close: Channel not in opened state
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #58
+  address=c4786275
+  matched=CHANNEL
+  value=mhi_channel_close: Couldn't create event. Fatal error
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #59
+  address=c47862ab
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Invalid channel passed in
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #60
+  address=c47862de
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Invalid data array passed in
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #61
+  address=c4786314
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Bad parameters received
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #62
+  address=c4786345
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Payload cannot be bigger than channel request queue size
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #63
+  address=c4786397
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Client attempting to rw on channel that wasn't opened
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #64
+  address=c47863e6
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Client attempting to rw on channel that is not in open state. Channel state: %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #65
+  address=c478644f
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Couldn't create event. Fatal error
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #66
+  address=c478648b
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: Buffer is NULL
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #67
+  address=c47864b3
+  matched=CHANNEL
+  value=mhi_channel_rw_multiple: core_packet=start, ch_id=%d, req_userdata=0x%x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #68
+  address=c47884e6
+  matched=CHANNEL
+  value=mhi_core_process_ch_requestopen: Pending Open channel has no request. Generating system error
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #69
+  address=c4788544
+  matched=CHANNEL
+  value=mhi_core_process_ch_requestopen: First request for a un-open channel should be open. Generating system error
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #70
+  address=c4788693
+  matched=CHANNEL
+  value=mhi_core_init: Could not allocate local channel context
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #71
+  address=c4788845
+  matched=CHANNEL
+  value=mhi_core_ack_interrupts: mhiCtx->pendingChannels[i]=%x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #72
+  address=c478887c
+  matched=CHANNEL
+  value=mhi_core_ack_interrupts: Triggering wake from M3 due to stalled channel: %d, count : %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #73
+  address=c47888d4
+  matched=CHANNEL
+  value=mhi_core_ack_interrupts: Supressing wake from M3 due to stalled channel: %d, count : %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #74
+  address=c478894f
+  matched=CHANNEL
+  value=mhi_core_process_command: Invalid channel specified: %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #75
+  address=c4788987
+  matched=CHANNEL
+  value=mhi_core_process_command: Reset command for channel that has neverbeen started. Ch:%d 
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #76
+  address=c4788aa5
+  matched=CHANNEL
+  value=mhi_core_process_command: Stop command for channel that has neverbeen started. Ch:%d 
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #77
+  address=c4788d47
+  matched=CHANNEL
+  value=mhi_core_fetch_ctx: Unknown channel state
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #78
+  address=c4788e66
+  matched=CHANNEL
+  value=mhi_core_flush_ctx: Unknown channel state
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #79
+  address=c4788e90
+  matched=CHANNEL
+  value=mhi_core_flush_ctx: Failed to flush out channel context to host
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #80
+  address=c4789130
+  matched=CHANNEL
+  value=Invalid Channel Id %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #81
+  address=c47897e9
+  matched=CHANNEL
+  value=mhi_core_process_tre: Channel is not opened, pending close ch: %d 
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #82
+  address=c478985b
+  matched=CHANNEL
+  value=mhi_core_process_tre: Clearing stalled channel flag due to data flow ch:%d, and clearing ch wake counter
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #83
+  address=c4789dc0
+  matched=CHANNEL
+  value=mhi_core_resume: Failed to set channel state for channel %d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #84
+  address=c4789ff3
+  matched=CHANNEL
+  value=%s: Invalid channel
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #85
+  address=c478a007
+  matched=CHANNEL
+  value=mhi_core_channel_notify_event
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #86
+  address=c478a025
+  matched=CHANNEL
+  value=%s: Invalid channel context
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #87
+  address=c478a420
+  matched=CHANNEL
+  value=Unable to allocate ipc channel pool
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #88
+  address=c478a4b6
+  matched=CHANNEL
+  value=mhi_ipc_init: ipc channel open
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #89
+  address=c478a4d5
+  matched=CHANNEL
+  value=opening ipc channel failed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #90
+  address=c478a60b
+  matched=CHANNEL
+  value=%s: channel UP
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #91
+  address=c478af45
+  matched=CHANNEL
+  value=mhi_ring_validate_rel:Channel command has invalid channel number: %x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #92
+  address=c478b727
+  matched=CHANNEL
+  value=Channel %s successfully opened
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #93
+  address=c478b7bd
+  matched=CHANNEL
+  value=Channel successfully closed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #94
+  address=c478bac1
+  matched=CHANNEL
+  value=Glink channel opened
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #95
+  address=c478bcf5
+  matched=CHANNEL
+  value=Glink channel event callback - GLINK_CONNECTED
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #96
+  address=c478bd24
+  matched=CHANNEL
+  value=Glink channel event callback - GLINK_LOCAL_DISCONNECTED
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #97
+  address=c478bd96
+  matched=CHANNEL
+  value=Glink channel event callback - GLINK_REMOTE_DISCONNECTED
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #98
+  address=c478be96
+  matched=CHANNEL
+  value=Glink channel closed
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #99
+  address=c478c24f
+  matched=CHANNEL
+  value=TsensDiag: GetTempReq invalid num channels
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #100
+  address=c4791a20
+  matched=CHANNEL
+  value=Dropping intent(size=%d,riid=%d) for unknown channel(rcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #101
+  address=c4791a78
+  matched=CHANNEL
+  value=Dropping TX Done(riid=%d) for unknown channel(rcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #102
+  address=c4791ac6
+  matched=CHANNEL
+  value=Dropping intent req for unknown channel(rcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #103
+  address=c4791af7
+  matched=CHANNEL
+  value=Dropping intent req (size=%d) for unknown channel(rcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #104
+  address=c4791b32
+  matched=CHANNEL
+  value=Dropping packet req(liid=%d) for unknown channel(rcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #105
+  address=c4791ea3
+  matched=CHANNEL
+  value=Dropping open ack for unknown channel(lcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #106
+  address=c4791efc
+  matched=CHANNEL
+  value=Channel could not be found - resetting filter
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #107
+  address=c4791f2a
+  matched=CHANNEL
+  value=Channel Name Filter = %s ch_ctx=%x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #108
+  address=c479200c
+  matched=CHANNEL
+  value=Dropping open ack for closed/closing channel(lcid=%d,chctx=%x)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #109
+  address=c479204b
+  matched=CHANNEL
+  value=Dropping close ack for unknown channel(lcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #110
+  address=c4792094
+  matched=CHANNEL
+  value=Dropping remote close for unknown channel(rcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #111
+  address=c47920e3
+  matched=CHANNEL
+  value=Dropping put_pkt_ctx for unknown channel(rcid=%d)
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #112
+  address=c4792130
+  matched=CHANNEL
+  value=Dropping remote sigs update for unknown channel(rcid=%d), sigs=0x%x
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #113
+  address=c47922d0
+  matched=CHANNEL
+  value=LB Ctrl channel allocation failed num_subsytems=%d
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #114
+  address=c4792358
+  matched=CHANNEL
+  value=Control channel close sucess: %s@%s
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #115
+  address=c479237c
+  matched=CHANNEL
+  value=Cannot close control channel with %s
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #116
+  address=c47923a1
+  matched=CHANNEL
+  value=Control channel Open sucess: %s@%s
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #117
+  address=c47923c4
+  matched=CHANNEL
+  value=Cannot Open control channel with %s (error: %d).
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #118
+  address=c47924a4
+  matched=CHANNEL
+  value=Channel %s open is deferred till local close.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #119
+  address=c47924d2
+  matched=CHANNEL
+  value=Channel %s already exists.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #120
+  address=c4792540
+  matched=CHANNEL
+  value=Channel %s does not exist.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #121
+  address=c4792609
+  matched=CHANNEL
+  value=Assigning transform %d for channel %s@%s.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #122
+  address=c47926ef
+  matched=CHANNEL
+  value=Received TX notification from channel %s.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #123
+  address=c4792719
+  matched=CHANNEL
+  value=Could not queue RX intents of size %d on channel %s.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #124
+  address=c479274e
+  matched=CHANNEL
+  value=Cannot close control channel with %s (error: %d).
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #125
+  address=c4792780
+  matched=CHANNEL
+  value=Could not queue RX intent on channel %s@%s of size %d.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #126
+  address=c47927b7
+  matched=CHANNEL
+  value=Queued RX intent on channel %s@%s of size %d.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #127
+  address=c479286e
+  matched=CHANNEL
+  value=Channel open sucess: %s@%s
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #128
+  address=c4792889
+  matched=CHANNEL
+  value=Cannot create channel %s with %s
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #129
+  address=c47929ab
+  matched=CHANNEL
+  value=TRACER PACKET Data RX on channel %s: Buffer 0x%X - Size %d.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #130
+  address=c4792b0c
+  matched=CHANNEL
+  value=Channel %s@%s not in open list.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #131
+  address=c4792b2c
+  matched=CHANNEL
+  value=RX Done on channel 0x%X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #132
+  address=c4792b45
+  matched=CHANNEL
+  value=Could not notify RX Done in channel %s@%s with size.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #133
+  address=c4792b7a
+  matched=CHANNEL
+  value=Closing channel %s@%s.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #134
+  address=c4792bd7
+  matched=CHANNEL
+  value=Queued RX intent in channel %s@%s with size %d.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #135
+  address=c4792c07
+  matched=CHANNEL
+  value=Could not queue RX intent in channel %s@%s with size.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #136
+  address=c4792c3d
+  matched=CHANNEL
+  value=glink_lb_server_channel_tx: tx_req_list was empty
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #137
+  address=c4792ca5
+  matched=CHANNEL
+  value=Transmitted echo packet in channel %s@%s with size %d.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #138
+  address=c4792cdc
+  matched=CHANNEL
+  value=Could not send echo packet in channel %s@%s with size %d.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #139
+  address=c479366c
+  matched=CHANNEL
+  value=SSR channel event: %d.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #140
+  address=c47936ee
+  matched=CHANNEL
+  value=Opened SSR channel: %s@%s
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #141
+  address=c4793708
+  matched=CHANNEL
+  value=Cannot create SSR channel with %s (error: %d).
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #142
+  address=c4793b21
+  matched=CHANNEL
+  value=Invalid channel name length.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #143
+  address=c4793bd7
+  matched=CHANNEL
+  value=Dropping RX packet as intent was not queued or channel might be closed.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #144
+  address=c4793e6c
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] RX_CMD: OPEN_CHANNEL, cid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #145
+  address=c4793ea0
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] RX_CMD: OPEN_CHANNEL_ACK, cid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #146
+  address=c4793ed8
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] RX_CMD: CLOSE_CHANNEL, cid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #147
+  address=c4793f0d
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] RX_CMD: CLOSE_CHANNEL_ACK, cid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #148
+  address=c4794a46
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] TX_CMD: OPEN_CHANNEL, name=%s, lcid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #149
+  address=c4794a84
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] TX_CMD: CLOSE_CHANNEL, lcid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #150
+  address=c4794aba
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] TX_CMD: OPEN_CHANNEL_ACK, rcid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #151
+  address=c4794af3
+  matched=CHANNEL
+  value=[INF:%04d:0x%08X] TX_CMD: CLOSE_CHANNEL_ACK, rcid=0x%08X.
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #152
+  address=c47964c6
+  matched=CHANNEL
+  value=Error obtaining the number of ADC device channels
+  XREF[00] from=c1d3ecb8 type=PARAM primary=true
+      CODE_XREF_CONTEXT=Error obtaining the number of ADC device channels
+      FROM=c1d3ecb8
+      FUNCTION=FUN_c1d3e8e8 @ c1d3e8e8
+      INSTRUCTION=assign.if(!P0.new) R2,##0xc47964c6 
+      CALLER[0]=c1d3e12c memw R0,(R1+#0x8) 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #153
+  address=c47965ae
+  matched=CHANNEL
+  value=Adc read requested with invalid channel index
+  XREF[00] from=c1d3f454 type=PARAM primary=true
+      DATA_XREF_CONTEXT=Adc read requested with invalid channel index
+      FROM=c1d3f454
+      BLOCK=segment_12
+      CONTAINING_DATA=<none>
+      RAW_NEIGHBORHOOD=0xC1D3F424..0xC1D3F4A4
+        0xC1D3F424 -> 0x780044E2
+        0xC1D3F428 -> 0x484101A0
+        0xC1D3F42C -> 0x5BFF7D00
+        0xC1D3F430 -> 0x7800C032
+        0xC1D3F434 -> 0x59FFFFEE
+        0xC1D3F438 -> 0x0C476596
+        0xC1D3F43C -> 0x78004282
+        0xC1D3F440 -> 0x484101A0
+        0xC1D3F444 -> 0x5BFF7CF4
+        0xC1D3F448 -> 0x7800C032
+        0xC1D3F44C -> 0x59FFFFE2
+        0xC1D3F450 -> 0x0C476596
+        0xC1D3F454 -> 0x780045C2
+        0xC1D3F458 -> 0x484101A0
+        0xC1D3F45C -> 0x5BFF7CE8
+        0xC1D3F460 -> 0x7800C052
+        0xC1D3F464 -> 0x59FFFFD6
+        0xC1D3F468 -> 0x919D4022
+        0xC1D3F46C -> 0x2402C008
+        0xC1D3F470 -> 0x78004075
+        0xC1D3F474 -> 0x1042E43A
+        0xC1D3F478 -> 0x919D4042
+        0xC1D3F47C -> 0xA1B0D203 <MEM_TARGET>
+        0xC1D3F480 -> 0x919D4080
+        0xC1D3F484 -> 0xA1B0D205 <MEM_TARGET>
+        0xC1D3F488 -> 0x9C31208D
+        0xC1D3F48C -> 0x49986520
+        0xC1D3F490 -> 0xA190C104 <MEM_TARGET>
+        0xC1D3F494 -> 0x5B2C52C6
+        0xC1D3F498 -> 0x919D40A1
+        0xC1D3F49C -> 0xA1B0D206 <MEM_TARGET>
+        0xC1D3F4A0 -> 0x78004063
+        0xC1D3F4A4 -> 0x9193DE22
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #154
+  address=c4796646
+  matched=CHANNEL
+  value=Adc conversion requested with invalid channel index
+  XREF[00] from=c1aa5a80 type=PARAM primary=true
+      CODE_XREF_CONTEXT=Adc conversion requested with invalid channel index
+      FROM=c1aa5a80
+      FUNCTION=FUN_c1ab5d54 @ c1ab5d54
+      INSTRUCTION=assign R2,##0xc4796646 
+      CALLER[0]=c1ab88e4 jump 0xc1ab5d54 
+      CALLERS_SHOWN=1
+  XREF[01] from=c1d3f658 type=PARAM primary=true
+      CODE_XREF_CONTEXT=Adc conversion requested with invalid channel index
+      FROM=c1d3f658
+      FUNCTION=FUN_c1d3f5d8 @ c1d3f5d8
+      INSTRUCTION=assign R2,##0xc4796646 
+      CALLER[0]=c1d3e254 memw R0,(R1+#0x8) 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=2
+
+HIGH-VALUE HIT #155
+  address=c4796759
+  matched=CHANNEL
+  value=Get range requested with invalid channel index
+  XREF[00] from=c1d3f7fc type=PARAM primary=true
+      CODE_XREF_CONTEXT=Get range requested with invalid channel index
+      FROM=c1d3f7fc
+      FUNCTION=FUN_c1d3f768 @ c1d3f768
+      INSTRUCTION=assign R2,##0xc4796759 
+      CALLER[0]=c1d3e29c jump 0xc1d3f768 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #156
+  address=c4796812
+  matched=CHANNEL
+  value=Set threshold requested with invalid channel index
+  XREF[00] from=c1d3f8ec type=PARAM primary=true
+      CODE_XREF_CONTEXT=Set threshold requested with invalid channel index
+      FROM=c1d3f8ec
+      FUNCTION=FUN_c1d3f80c @ c1d3f80c
+      INSTRUCTION=assign R2,##0xc4796812 
+      CALLER[0]=c1d3e2b8 jump 0xc1d3f80c 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #157
+  address=c47968fb
+  matched=CHANNEL
+  value=Set tolerance requested with invalid channel index
+  XREF[00] from=c1d3ffb0 type=PARAM primary=true
+      CODE_XREF_CONTEXT=Set tolerance requested with invalid channel index
+      FROM=c1d3ffb0
+      FUNCTION=FUN_c1d3fee8 @ c1d3fee8
+      INSTRUCTION=assign R2,##0xc47968fb 
+      CALLER[0]=c1d3e304 jump 0xc1d3fee8 
+      CALLERS_SHOWN=1
+  XREFS_SHOWN=1
+
+HIGH-VALUE HIT #158
+  address=c4796b5d
+  matched=CHANNEL
+  value=VAdc - could not allocate memory for averaged channels
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #159
+  address=c4796b94
+  matched=CHANNEL
+  value=VAdc - low averaged channel not found
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #160
+  address=c4796bba
+  matched=CHANNEL
+  value=VAdc - med averaged channel not found
+  XREFS_SHOWN=0
+
+HIGH-VALUE DATA ITEMS INSPECTED=22137
+HIGH-VALUE HITS SHOWN=160
 
 ============================================================
 SOURCE / MSG_CONST POINTER TRACE
@@ -525,12 +1449,12 @@ SOURCE POINTER MATCHES=3
 INTERPRETATION GUIDE
 ============================================================
 1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.
-2. The full selector table and per-handler summary are printed above.
-3. D819C208 is the current table handler candidate; the pointer census tests all initialized blocks.
+2. Pointer census classifies every D819C208 hit as table entry or external/non-table reference.
+3. Expanded string trace now includes frequency/tuning and RADIO_CONFIG field-name candidates.
 4. D8150ED8 is retained only as a previous-build comparison, not assumed current.
-5. RFTEST msg_const candidates provide source filename, SSID, line, argc, and format text.
+5. RFTEST msg_const records provide source filename, SSID, line, argc, and format text.
 6. All scans are static and read-only; no DIAG packets are emitted.
-7. Exact frequency literals were not useful in the previous run; focus remains on dispatch structure.
+7. Frequency selection is not inferred from a matching string alone; correlate field IDs and dispatch flow.
 
 DONE
 No program data or structures modified.
