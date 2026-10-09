@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-27
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-28
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-27";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-28";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3958,6 +3958,244 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("Interpret negative offsets from 0x00254710 as accesses to earlier data addresses; confirm base-register liveness and branch paths in the disassembly.");
     }
 
+
+    private void scan614PriorityRfcCallGraphSummary() {
+        p("");
+        p("============================================================");
+        p("614_0_0 PRIORITY RFC CONFIGURATION API / POINTER-SLOT SUMMARY");
+        p("Prioritizes configuration getters and singleton accessors after broad scans.");
+        p("Maps initialized data words that equal selected API entry points and checks slot references.");
+        p("READ ONLY; do not interpret a data slot as an indirect call without confirming use-site flow.");
+        p("============================================================");
+
+        String[] terms = {
+            "timing_cfg_data_get",
+            "band_split_cfg_data_get",
+            "path_cfg_data_get",
+            "fbrx_cfg_data_get",
+            "get_fbrx_path_table_cfg",
+            "get_sig_path_table_cfg",
+            "get_instance",
+            "get_signals_info",
+            "get_lte_srs_grouping_properties",
+            "get_rfm_path_info_tbl",
+            "get_band_info_rrc_table",
+            "get_res_alloc_tbl",
+            "get_rrc_ca_table",
+            "get_nr_bands_bitmask_in_endc"
+        };
+
+        java.util.List<Function> targets = new java.util.ArrayList<Function>();
+        java.util.Map<Long, Function> byEntry =
+            new java.util.HashMap<Long, Function>();
+        java.util.Map<Long, java.util.List<Long>> slotsByEntry =
+            new java.util.HashMap<Long, java.util.List<Long>>();
+
+        try {
+            FunctionIterator fit = currentProgram.getFunctionManager().getFunctions(true);
+            while (fit.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                Function f = fit.next();
+                if (f.isThunk()) continue;
+                Address entry = f.getEntryPoint();
+                MemoryBlock owner;
+                try {
+                    owner = memory().getBlock(entry);
+                }
+                catch (Exception e) {
+                    continue;
+                }
+                if (owner == null || !owner.isExecute()
+                        || !isDefaultDynamicAddressBlock(owner)) continue;
+
+                String lower = f.getName().toLowerCase();
+                boolean match = false;
+                for (String term : terms) {
+                    if (lower.contains(term)) {
+                        match = true;
+                        break;
+                    }
+                }
+                if (!match || targets.size() >= 48) continue;
+
+                targets.add(f);
+                byEntry.put(Long.valueOf(entry.getOffset() & 0xffffffffL), f);
+                slotsByEntry.put(Long.valueOf(entry.getOffset() & 0xffffffffL),
+                    new java.util.ArrayList<Long>());
+            }
+        }
+        catch (Exception e) {
+            p("614_PRIORITY_TARGET_ENUMERATION_ERROR="
+                + e.getClass().getSimpleName() + ": " + e.getMessage());
+            return;
+        }
+
+        p("614_PRIORITY_TARGET_FUNCTIONS=" + targets.size());
+        for (Function f : targets) {
+            p("614_PRIORITY_FUNCTION name=" + f.getName()
+                + " entry=" + f.getEntryPoint()
+                + " body=" + f.getBody().getMinAddress()
+                + ".." + f.getBody().getMaxAddress());
+        }
+
+        long dataWordsScanned = 0L;
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            if (!b.isInitialized() || b.isExecute()
+                    || !isDefaultDynamicAddressBlock(b)) continue;
+            long pos = (b.getStart().getOffset() + 3L) & ~3L;
+            long end = b.getEnd().getOffset();
+            while (pos + 3L <= end && !monitor.isCancelled()
+                    && lines < MAX_LINES) {
+                long value;
+                try {
+                    value = u32(pos);
+                }
+                catch (Exception e) {
+                    pos += 4L;
+                    continue;
+                }
+                dataWordsScanned++;
+                java.util.List<Long> slots =
+                    slotsByEntry.get(Long.valueOf(value & 0xffffffffL));
+                if (slots != null && slots.size() < 12) {
+                    slots.add(Long.valueOf(pos));
+                }
+                pos += 4L;
+            }
+        }
+
+        long targetFunctionInstructions = 0L;
+        int incomingReferencesPrinted = 0;
+        int instructionWindowsPrinted = 0;
+        int slotReferencesPrinted = 0;
+
+        for (Function f : targets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            p("");
+            p("614_PRIORITY_DETAIL name=" + f.getName()
+                + " entry=" + f.getEntryPoint());
+
+            int interestingInstructions = 0;
+            InstructionIterator iit = listing().getInstructions(f.getBody(), true);
+            while (iit.hasNext() && !monitor.isCancelled()
+                    && lines < MAX_LINES) {
+                Instruction ins = iit.next();
+                targetFunctionInstructions++;
+                String mnemonic = ins.getMnemonicString().toLowerCase();
+                boolean interesting = mnemonic.startsWith("call")
+                    || mnemonic.startsWith("jump")
+                    || mnemonic.startsWith("jumpr")
+                    || mnemonic.startsWith("mem");
+                if (!interesting || interestingInstructions >= 24) continue;
+
+                p("  614_PRIORITY_INS " + ins.getAddress() + " " + ins);
+                interestingInstructions++;
+                instructionWindowsPrinted++;
+            }
+            p("  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED="
+                + interestingInstructions);
+
+            ReferenceIterator rit = currentProgram.getReferenceManager()
+                .getReferencesTo(f.getEntryPoint());
+            int refsForFunction = 0;
+            while (rit.hasNext() && !monitor.isCancelled()
+                    && refsForFunction < 16 && lines < MAX_LINES) {
+                Reference ref = rit.next();
+                Address from = ref.getFromAddress();
+                Function caller = null;
+                Instruction fromIns = null;
+                try {
+                    caller = currentProgram.getFunctionManager()
+                        .getFunctionContaining(from);
+                    fromIns = listing().getInstructionAt(from);
+                }
+                catch (Exception e) {
+                    // Report the raw reference even if disassembly metadata is unavailable.
+                }
+                p("  614_PRIORITY_INCOMING_REF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " caller=" + (caller == null ? "<none>"
+                        : caller.getName() + "@" + caller.getEntryPoint())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns));
+                refsForFunction++;
+                incomingReferencesPrinted++;
+            }
+            p("  614_PRIORITY_INCOMING_REFS_PRINTED=" + refsForFunction);
+
+            java.util.List<Long> slots =
+                slotsByEntry.get(Long.valueOf(f.getEntryPoint().getOffset() & 0xffffffffL));
+            if (slots != null) {
+                p("  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=" + slots.size());
+                for (Long slotValue : slots) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) break;
+                    long slot = slotValue.longValue();
+                    p("    614_PRIORITY_FUNCTION_POINTER_SLOT=" + hex(slot)
+                        + " value=" + hex(f.getEntryPoint().getOffset()));
+
+                    ReferenceIterator slotRefs =
+                        currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+                    int slotRefCount = 0;
+                    while (slotRefs.hasNext() && slotRefCount < 6
+                            && lines < MAX_LINES) {
+                        Reference ref = slotRefs.next();
+                        Address from = ref.getFromAddress();
+                        Function caller = null;
+                        Instruction fromIns = null;
+                        try {
+                            caller = currentProgram.getFunctionManager()
+                                .getFunctionContaining(from);
+                            fromIns = listing().getInstructionAt(from);
+                        }
+                        catch (Exception e) {
+                            // Preserve raw reference details below.
+                        }
+                        p("      614_PRIORITY_SLOT_REF from=" + from
+                            + " type=" + ref.getReferenceType()
+                            + " caller=" + (caller == null ? "<none>"
+                                : caller.getName() + "@" + caller.getEntryPoint())
+                            + " instruction="
+                            + (fromIns == null ? "<no-instruction>" : fromIns));
+                        slotRefCount++;
+                        slotReferencesPrinted++;
+                    }
+                    p("      614_PRIORITY_SLOT_REFS_PRINTED=" + slotRefCount);
+
+                    long windowStart = Math.max(0x00027000L, slot - 8L);
+                    long windowEnd = Math.min(0x002548A7L, slot + 8L);
+                    windowStart = (windowStart + 3L) & ~3L;
+                    p("      614_PRIORITY_SLOT_WINDOW="
+                        + hex(windowStart) + ".." + hex(windowEnd));
+                    for (long at = windowStart; at <= windowEnd && lines < MAX_LINES;
+                            at += 4L) {
+                        try {
+                            long value = u32(at);
+                            Function exact = currentProgram.getFunctionManager()
+                                .getFunctionAt(addr(value));
+                            p("        614_PRIORITY_SLOT_WORD slot=" + hex(at)
+                                + " value=" + hex(value)
+                                + (exact == null ? "" :
+                                    " function=" + exact.getName()
+                                        + "@" + exact.getEntryPoint()));
+                        }
+                        catch (Exception e) {
+                            p("        614_PRIORITY_SLOT_WORD_ERROR slot=" + hex(at)
+                                + " error=" + e.getMessage());
+                        }
+                    }
+                }
+            }
+        }
+
+        p("");
+        p("614_PRIORITY_DATA_WORDS_SCANNED=" + dataWordsScanned);
+        p("614_PRIORITY_TARGET_FUNCTION_INSTRUCTIONS_COUNTED="
+            + targetFunctionInstructions);
+        p("614_PRIORITY_FLOW_OR_MEMORY_INSTRUCTION_LINES=" + instructionWindowsPrinted);
+        p("614_PRIORITY_INCOMING_REFERENCE_LINES=" + incomingReferencesPrinted);
+        p("614_PRIORITY_SLOT_REFERENCE_LINES=" + slotReferencesPrinted);
+        p("614_PRIORITY_NOTE=This summarizes candidate API relationships; indirect dispatch needs instruction-level confirmation.");
+    }
+
     private void scan614CodePointerRuns() {
         dynamic614CodePointerRunRanges.clear();
         p("");
@@ -4644,6 +4882,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614AnchorEffectiveMemoryAccesses();
             scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
+            scan614PriorityRfcCallGraphSummary();
         }
         else {
             p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");
