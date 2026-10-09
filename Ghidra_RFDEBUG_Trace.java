@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-10
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-11
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-10";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-11";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -1028,7 +1028,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
 
     private static final long RADIO_CONFIG_FIELD_NAME_TABLE = 0xC9199798L;
-    private static final int RADIO_CONFIG_FIELD_NAME_COUNT = 60;
+    private static final int RADIO_CONFIG_FIELD_NAME_COUNT = 54;
+    private static final int ADJACENT_NAME_POOL_COUNT = 12;
 
     // Cross-build comparison labels only. Runtime strings read from this image
     // are the primary evidence; these labels are printed as a sanity check.
@@ -1080,7 +1081,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("");
         p("============================================================");
         p("RADIO_CONFIG FIELD-NAME TABLE CANDIDATE");
-        p("Candidate base=0xC9199798; count=60; entry size=4");
+        p("Candidate base=0xC9199798; primary count=54 (indices 0..53); entry size=4");
+        p("Index 53 is NULL in STRUCTURE-10 output; following pointer entries are treated as a separate pool until proven otherwise.");
         p("The decoded strings in this image are authoritative; reference labels are cross-build comparison only.");
         p("Read-only; checks repeated CENTER_FREQ entries and other index anchors.");
         p("============================================================");
@@ -1130,7 +1132,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
         }
 
-        p("  FIELD_ENTRIES=" + RADIO_CONFIG_FIELD_NAME_COUNT);
+        p("  PRIMARY_FIELD_ENTRIES=" + RADIO_CONFIG_FIELD_NAME_COUNT);
         p("  FIELD_STRINGS_READABLE=" + readable);
         p("  EXACT_REFERENCE_LABEL_MATCHES=" + stringMatches);
         p("  ANCHOR_MISMATCHES=" + anchorMismatches);
@@ -1146,6 +1148,33 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         printReferencesToAddress(base + 48L * 4L, 12, "FIELD_48_BWP_CENTER_FREQ_SLOT");
     }
 
+
+
+    private void dumpAdjacentRadioConfigNamePool() {
+        long base = RADIO_CONFIG_FIELD_NAME_TABLE
+            + (long)RADIO_CONFIG_FIELD_NAME_COUNT * 4L;
+        p("");
+        p("============================================================");
+        p("RADIO_CONFIG ADJACENT NAME POOL CANDIDATE");
+        p("Start=0xC9199870; entries_checked=" + ADJACENT_NAME_POOL_COUNT);
+        p("Not assumed to share the primary table's enum.");
+        p("============================================================");
+
+        for (int i = 0; i < ADJACENT_NAME_POOL_COUNT; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            long slot = base + (long)i * 4L;
+            try {
+                long ptr = u32(slot);
+                String actual = ptr == 0L ? null : readAsciiAt(ptr, 120);
+                p("  ADJ_POOL[" + i + "] slot=" + hex(slot)
+                    + " ptr=" + hex(ptr)
+                    + " actual=" + (ptr == 0L ? "<NULL>" : actual == null ? "<unreadable>" : actual));
+            }
+            catch (Exception e) {
+                p("  ADJ_POOL[" + i + "] ERROR=" + e.getMessage());
+            }
+        }
+    }
 
     private static final int MAX_FIELD_TRACE_INSNS = 600000;
     private static final int MAX_FIELD_CODE_HITS = 96;
@@ -1242,8 +1271,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
 
         for (MemoryBlock b : memory().getBlocks()) {
-            if (monitor.isCancelled() || lines >= MAX_LINES
-                    || scanned >= MAX_FIELD_TRACE_INSNS) return;
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (scanned >= MAX_FIELD_TRACE_INSNS) break;
             if (!b.isInitialized() || !b.isExecute()) continue;
 
             long blockStart = b.getStart().getOffset();
@@ -2414,15 +2443,16 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  SAMPLES_SHOWN=" + shown);
     }
 
-    private void printStructure9ExecutionFooter() {
+    private void printStructure11ExecutionFooter() {
         // Deliberately bypass p()/MAX_LINES for this compact diagnostic footer.
         // This reserves a small bounded tail even if an earlier scan used the full log budget.
         println("");
         println("============================================================");
-        println("STRUCTURE10 EXECUTION FOOTER");
+        println("STRUCTURE11 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
-        println("RADIO_CONFIG_TABLE=0xC9199798 entries=60");
+        println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54");
+        println("RADIO_CONFIG_ADJACENT_POOL=0xC9199870 entries_checked=" + ADJACENT_NAME_POOL_COUNT);
         println("FIELD_STRINGS_READABLE=" + summaryFieldStringsReadable);
         println("FIELD_REFERENCE_LABEL_MATCHES=" + summaryFieldReferenceMatches);
         println("FIELD_ANCHOR_MISMATCHES=" + summaryFieldAnchorMismatches);
@@ -2445,6 +2475,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p(" TRACE_BUILD=" + TRACE_BUILD);
         p(" DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY");
         p("Broad high-volume scans are intentionally skipped in this run.");
+        p("STRUCTURE-11 treats the index-53 NULL as a candidate table boundary.");
         p("============================================================");
 
         p("PROGRAM=" + currentProgram.getName());
@@ -2452,6 +2483,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         // Priority 1: decode the candidate 60-pointer table and test its xrefs.
         dumpRadioConfigFieldNameTable();
+        dumpAdjacentRadioConfigNamePool();
         traceRadioConfigSlotConsumers();
 
         // Priority 2: try direct instruction operands while the output budget is fresh.
@@ -2470,7 +2502,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("Table/string agreement supports the field-table hypothesis; it does not identify the parser by itself.");
         p("A direct immediate hit is a lead, not proof of an executed call path.");
         p("No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.");
-        printStructure9ExecutionFooter();
+        printStructure11ExecutionFooter();
         p("DONE");
         p("No program data or structures modified.");
     }
