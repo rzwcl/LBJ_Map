@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-11
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-12
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-11";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-12";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -72,6 +72,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private long summaryCurrentDispatchPointers = -1L;
     private long summaryPreviousDispatchPointers = -1L;
     private long summarySharedThunkPointers = -1L;
+    private int summaryUniqueStringTargets = -1;
+    private long summaryStringTargetCodeHits = -1L;
+    private int summaryExecutableBlocks = -1;
+    private int summaryExecutableBlocksSampled = -1;
 
     private Address addr(long off) {
         return currentProgram.getAddressFactory()
@@ -1178,182 +1182,285 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private static final int MAX_FIELD_TRACE_INSNS = 600000;
     private static final int MAX_FIELD_CODE_HITS = 96;
+    private static final int MAX_STRING_POINTER_CODE_HITS = 128;
 
-    private void traceRadioConfigSlotConsumers() {
-        long base = RADIO_CONFIG_FIELD_NAME_TABLE;
-        long totalInstructionOrigins = 0;
-        long totalDataOrigins = 0;
-        int instructionOriginsShown = 0;
-        int dataOriginsShown = 0;
-        int slotsVisited = 0;
+    /*
+     * Collect unique string addresses from the validated 53-entry primary
+     * table and the adjacent 12-entry candidate pool. This is a read-only
+     * candidate set; adjacency alone does not prove a shared enum or parser.
+     */
+    private int buildRadioConfigStringTargets(long[] targets, String[] names) {
+        int count = 0;
+        for (int group = 0; group < 2; group++) {
+            long start = group == 0
+                ? RADIO_CONFIG_FIELD_NAME_TABLE
+                : RADIO_CONFIG_FIELD_NAME_TABLE
+                    + (long)RADIO_CONFIG_FIELD_NAME_COUNT * 4L;
+            int items = group == 0
+                ? RADIO_CONFIG_FIELD_NAME_COUNT - 1
+                : ADJACENT_NAME_POOL_COUNT;
+
+            for (int i = 0; i < items; i++) {
+                try {
+                    long ptr = u32(start + (long)i * 4L);
+                    if (ptr == 0L) continue;
+                    String name = readAsciiAt(ptr, 120);
+                    if (name == null) continue;
+
+                    boolean seen = false;
+                    for (int j = 0; j < count; j++) {
+                        if (targets[j] == ptr) {
+                            seen = true;
+                            break;
+                        }
+                    }
+                    if (!seen && count < targets.length) {
+                        targets[count] = ptr;
+                        names[count] = name.trim();
+                        count++;
+                    }
+                }
+                catch (Exception e) {
+                    p("  STRING_TARGET_READ_ERROR group=" + group
+                        + " index=" + i + " error=" + e.getMessage());
+                }
+            }
+        }
+        return count;
+    }
+
+    /*
+     * Inspect ReferenceManager edges TO the actual strings rather than only
+     * to their pointer-table slots. This remains evidence of static references,
+     * not proof that a path is reachable at runtime.
+     */
+    private void auditRadioConfigStringPointerReferences() {
+        long[] targets = new long[65];
+        String[] names = new String[65];
+        int targetCount = buildRadioConfigStringTargets(targets, names);
+        summaryUniqueStringTargets = targetCount;
 
         p("");
         p("============================================================");
-        p("RADIO_CONFIG FIELD SLOT XREF AUDIT");
-        p("Checks references TO each of the 60 table slots, not merely references to their strings");
-        p("Origin is classified by whether the reference address belongs to an instruction in an executable block");
-        p("READ ONLY");
+        p("RADIO_CONFIG STRING-POINTER REFERENCE AUDIT");
+        p("Queries references to each unique string address used by the primary table");
+        p("and the adjacent candidate pool; read-only");
         p("============================================================");
+        p("  UNIQUE_STRING_TARGETS=" + targetCount);
 
-        for (int i = 0; i < RADIO_CONFIG_FIELD_NAME_COUNT; i++) {
+        for (int i = 0; i < targetCount; i++) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
-            long slot = base + (long)i * 4L;
-            slotsVisited++;
+
+            int total = 0;
+            int instructionRefs = 0;
+            int dataRefs = 0;
+            int otherRefs = 0;
+            int shown = 0;
+            p("");
+            p("  STRING_TARGET[" + i + "] name=" + names[i]
+                + " address=" + hex(targets[i]));
+
             try {
                 ReferenceIterator refs =
-                    currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+                    currentProgram.getReferenceManager().getReferencesTo(addr(targets[i]));
                 while (refs.hasNext() && lines < MAX_LINES) {
                     if (monitor.isCancelled()) return;
-                    Reference r = refs.next();
-                    Address from = r.getFromAddress();
-                    MemoryBlock fb = from.getAddressSpace().isMemorySpace()
+                    Reference ref = refs.next();
+                    total++;
+                    Address from = ref.getFromAddress();
+                    MemoryBlock sourceBlock = from.getAddressSpace().isMemorySpace()
                         ? block(from.getOffset()) : null;
-                    Instruction ins = (fb != null && fb.isExecute())
-                        ? listing().getInstructionAt(from) : null;
+                    boolean isInstruction = sourceBlock != null
+                        && sourceBlock.isExecute()
+                        && listing().getInstructionAt(from) != null;
 
-                    if (ins != null) {
-                        totalInstructionOrigins++;
-                        if (instructionOriginsShown < MAX_FIELD_CODE_HITS) {
-                            p("  SLOT_CODE_ORIGIN index=" + i
-                                + " slot=" + hex(slot)
-                                + " from=" + from
-                                + " type=" + r.getReferenceType()
-                                + " function=" + functionInfo(from.getOffset())
-                                + " instruction=" + ins);
-                            instructionOriginsShown++;
-                        }
-                    }
-                    else {
-                        totalDataOrigins++;
-                        if (dataOriginsShown < 24) {
-                            p("  SLOT_DATA_ORIGIN index=" + i
-                                + " slot=" + hex(slot)
-                                + " from=" + from
-                                + " type=" + r.getReferenceType()
-                                + " block=" + (fb == null ? "<none>" : fb.getName()));
-                            dataOriginsShown++;
-                        }
+                    if (isInstruction) instructionRefs++;
+                    else if (sourceBlock != null && !sourceBlock.isExecute()) dataRefs++;
+                    else otherRefs++;
+
+                    if (shown < 6) {
+                        Function f = from.getAddressSpace().isMemorySpace()
+                            ? currentProgram.getFunctionManager().getFunctionContaining(from)
+                            : null;
+                        p("    STRING_XREF[" + shown + "] from=" + from
+                            + " type=" + ref.getReferenceType()
+                            + " block=" + (sourceBlock == null ? "<none>" : sourceBlock.getName())
+                            + " function=" + (f == null ? "<none>" : f.getName() + "@" + f.getEntryPoint()));
+                        shown++;
                     }
                 }
             }
             catch (Exception e) {
-                p("  SLOT_XREF_AUDIT_ERROR index=" + i
-                    + " slot=" + hex(slot) + " error=" + e.getMessage());
+                p("    STRING_XREF_ERROR=" + e.getMessage());
             }
-        }
 
-        p("  SLOTS_VISITED=" + slotsVisited);
-        p("  INSTRUCTION_ORIGIN_REFS_TOTAL=" + totalInstructionOrigins);
-        p("  INSTRUCTION_ORIGIN_REFS_SHOWN=" + instructionOriginsShown);
-        p("  DATA_ORIGIN_REFS_TOTAL=" + totalDataOrigins);
-        p("  DATA_ORIGIN_REFS_SHOWN=" + dataOriginsShown);
-        summarySlotInstructionRefs = totalInstructionOrigins;
-        summarySlotDataRefs = totalDataOrigins;
+            p("    XREF_TOTAL=" + total
+                + " instruction=" + instructionRefs
+                + " data=" + dataRefs
+                + " other=" + otherRefs
+                + " shown=" + shown);
+        }
     }
 
+    /*
+     * Scan a bounded sample across every executable block instead of spending
+     * the entire instruction budget only at the beginning of the block list.
+     * Each block is sampled at its beginning, middle, and end. Operands are
+     * compared both with table addresses and with the actual string pointers.
+     */
     private void scanExecutableInstructionsForRadioConfigTable() {
         long base = RADIO_CONFIG_FIELD_NAME_TABLE;
         long tableEnd = base + (long)RADIO_CONFIG_FIELD_NAME_COUNT * 4L;
         long scanStart = base - 0x80L;
         long scanEnd = tableEnd + 0x80L;
-        long scanned = 0;
+        long scanned = 0L;
         int exactHits = 0;
         int nearbyHits = 0;
+        long stringPointerHits = 0L;
+        int stringPointerHitsShown = 0;
+
+        long[] stringTargets = new long[65];
+        String[] stringNames = new String[65];
+        int stringTargetCount = buildRadioConfigStringTargets(stringTargets, stringNames);
+        summaryUniqueStringTargets = stringTargetCount;
+
+        List<MemoryBlock> executableBlocks = new ArrayList<MemoryBlock>();
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (b.isInitialized() && b.isExecute()) executableBlocks.add(b);
+        }
+        summaryExecutableBlocks = executableBlocks.size();
 
         p("");
         p("============================================================");
-        p("RADIO_CONFIG TABLE CODE-IMMEDIATE SCAN");
-        p("Scans executable instructions only; bounded to " + MAX_FIELD_TRACE_INSNS + " instructions");
-        p("Exact hit range=" + hex(base) + ".." + hex(tableEnd - 1L));
+        p("RADIO_CONFIG DISTRIBUTED CODE-REFERENCE SCAN");
+        p("Bounded to " + MAX_FIELD_TRACE_INSNS + " decoded instructions across executable blocks");
+        p("Samples each executable block near its beginning, middle, and end");
+        p("Exact table range=" + hex(base) + ".." + hex(tableEnd - 1L));
         p("Nearby context range=" + hex(scanStart) + ".." + hex(scanEnd - 1L));
-        p("A hit is an operand value, not by itself proof of an executed call path");
-        p("No hit does not rule out a base assembled across instructions or a pointer loaded from another descriptor.");
+        p("Also checks operands against unique string addresses in both candidate pools.");
+        p("A hit is a static lead, not proof of an executed call path.");
         p("============================================================");
+        p("  EXECUTABLE_BLOCKS_TOTAL=" + executableBlocks.size());
+        p("  UNIQUE_STRING_TARGETS=" + stringTargetCount);
 
-        for (MemoryBlock b : memory().getBlocks()) {
+        int blocksSampled = 0;
+        int perBlockBudget = executableBlocks.isEmpty()
+            ? 0 : Math.max(1, MAX_FIELD_TRACE_INSNS / executableBlocks.size());
+
+        for (MemoryBlock b : executableBlocks) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
             if (scanned >= MAX_FIELD_TRACE_INSNS) break;
-            if (!b.isInitialized() || !b.isExecute()) continue;
 
             long blockStart = b.getStart().getOffset();
             long blockEnd = b.getEnd().getOffset();
+            long blockLength = blockEnd - blockStart + 1L;
+            long blockScanned = 0L;
+            int zoneBudget = Math.max(1, perBlockBudget / 3);
 
-            try {
-                InstructionIterator it = listing().getInstructions(b.getStart(), true);
-                while (it.hasNext() && scanned < MAX_FIELD_TRACE_INSNS
-                        && lines < MAX_LINES) {
-                    if (monitor.isCancelled()) return;
-                    Instruction ins = it.next();
-                    long insOff = ins.getAddress().getOffset();
-                    if (insOff > blockEnd) break;
-                    if (insOff < blockStart) continue;
-                    scanned++;
+            for (int zone = 0; zone < 3; zone++) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                if (scanned >= MAX_FIELD_TRACE_INSNS) break;
 
-                    boolean exact = false;
-                    boolean nearby = false;
-                    long matchedValue = 0L;
-                    int matchedOperand = -1;
+                long zoneStart = blockStart + (blockLength * (long)zone) / 3L;
+                long zoneEnd = zone == 2
+                    ? blockEnd
+                    : blockStart + (blockLength * (long)(zone + 1)) / 3L - 1L;
+                if (zoneEnd < zoneStart) continue;
 
-                    for (int op = 0; op < ins.getNumOperands(); op++) {
-                        Object[] objects = ins.getOpObjects(op);
-                        for (Object object : objects) {
-                            long value;
-                            if (object instanceof Scalar) {
-                                value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
-                            }
-                            else if (object instanceof Address) {
-                                value = ((Address)object).getOffset() & 0xffffffffL;
-                            }
-                            else {
-                                continue;
-                            }
+                int zoneScanned = 0;
+                try {
+                    InstructionIterator it = listing().getInstructions(addr(zoneStart), true);
+                    while (it.hasNext()
+                            && zoneScanned < zoneBudget
+                            && scanned < MAX_FIELD_TRACE_INSNS
+                            && lines < MAX_LINES) {
+                        if (monitor.isCancelled()) return;
+                        Instruction ins = it.next();
+                        long insOff = ins.getAddress().getOffset();
+                        if (insOff < zoneStart) continue;
+                        if (insOff > zoneEnd) break;
 
-                            if (value >= base && value < tableEnd) {
-                                exact = true;
-                                matchedValue = value;
-                                matchedOperand = op;
-                            }
-                            else if (value >= scanStart && value < scanEnd) {
-                                nearby = true;
-                                if (!exact) {
-                                    matchedValue = value;
-                                    matchedOperand = op;
+                        scanned++;
+                        zoneScanned++;
+                        blockScanned++;
+
+                        for (int op = 0; op < ins.getNumOperands(); op++) {
+                            Object[] objects = ins.getOpObjects(op);
+                            for (Object object : objects) {
+                                long value;
+                                if (object instanceof Scalar) {
+                                    value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
+                                }
+                                else if (object instanceof Address) {
+                                    value = ((Address)object).getOffset() & 0xffffffffL;
+                                }
+                                else {
+                                    continue;
+                                }
+
+                                if (value >= base && value < tableEnd) {
+                                    if (exactHits < MAX_FIELD_CODE_HITS) {
+                                        p("  TABLE_CODE_IMMEDIATE_HIT value=" + hex(value)
+                                            + " operand=" + op
+                                            + " at=" + ins.getAddress()
+                                            + " function=" + functionInfo(insOff)
+                                            + " instruction=" + ins);
+                                        exactHits++;
+                                    }
+                                }
+                                else if (value >= scanStart && value < scanEnd) {
+                                    if (nearbyHits < MAX_FIELD_CODE_HITS) {
+                                        p("  TABLE_NEARBY_IMMEDIATE_HIT value=" + hex(value)
+                                            + " operand=" + op
+                                            + " at=" + ins.getAddress()
+                                            + " function=" + functionInfo(insOff)
+                                            + " instruction=" + ins);
+                                        nearbyHits++;
+                                    }
+                                }
+
+                                for (int t = 0; t < stringTargetCount; t++) {
+                                    if (value != stringTargets[t]) continue;
+                                    stringPointerHits++;
+                                    if (stringPointerHitsShown < MAX_STRING_POINTER_CODE_HITS) {
+                                        p("  STRING_POINTER_CODE_HIT target="
+                                            + stringNames[t] + "@" + hex(stringTargets[t])
+                                            + " operand=" + op
+                                            + " at=" + ins.getAddress()
+                                            + " function=" + functionInfo(insOff)
+                                            + " instruction=" + ins);
+                                        stringPointerHitsShown++;
+                                    }
                                 }
                             }
                         }
                     }
-
-                    if (exact && exactHits < MAX_FIELD_CODE_HITS) {
-                        p("  TABLE_CODE_IMMEDIATE_HIT value=" + hex(matchedValue)
-                            + " operand=" + matchedOperand
-                            + " at=" + ins.getAddress()
-                            + " function=" + functionInfo(insOff)
-                            + " instruction=" + ins);
-                        exactHits++;
-                    }
-                    else if (!exact && nearby && nearbyHits < MAX_FIELD_CODE_HITS) {
-                        p("  TABLE_NEARBY_IMMEDIATE_HIT value=" + hex(matchedValue)
-                            + " operand=" + matchedOperand
-                            + " at=" + ins.getAddress()
-                            + " function=" + functionInfo(insOff)
-                            + " instruction=" + ins);
-                        nearbyHits++;
-                    }
+                }
+                catch (Exception e) {
+                    p("  EXEC_INSTRUCTION_SCAN_ERROR block=" + b.getName()
+                        + " zone=" + zone + " error=" + e.getMessage());
                 }
             }
-            catch (Exception e) {
-                p("  EXEC_INSTRUCTION_SCAN_ERROR block=" + b.getName()
-                    + " error=" + e.getMessage());
-            }
+
+            p("  EXEC_BLOCK_SAMPLE name=" + b.getName()
+                + " range=" + hex(blockStart) + ".." + hex(blockEnd)
+                + " instructions_sampled=" + blockScanned);
+            blocksSampled++;
         }
 
+        p("  EXECUTABLE_BLOCKS_SAMPLED=" + blocksSampled);
         p("  EXECUTABLE_INSTRUCTIONS_SCANNED=" + scanned);
         p("  TABLE_CODE_IMMEDIATE_HITS_SHOWN=" + exactHits);
         p("  TABLE_NEARBY_IMMEDIATE_HITS_SHOWN=" + nearbyHits);
+        p("  STRING_POINTER_CODE_HITS_TOTAL=" + stringPointerHits);
+        p("  STRING_POINTER_CODE_HITS_SHOWN=" + stringPointerHitsShown);
         p("  SCAN_LIMIT_REACHED=" + (scanned >= MAX_FIELD_TRACE_INSNS));
+
+        summaryExecutableBlocksSampled = blocksSampled;
         summaryExecutableInsnsScanned = scanned;
         summaryTableImmediateHits = exactHits;
         summaryTableNearbyHits = nearbyHits;
+        summaryStringTargetCodeHits = stringPointerHits;
     }
 
     private static final String[] RF_FIELD_TABLE_TARGETS = {
@@ -2443,12 +2550,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  SAMPLES_SHOWN=" + shown);
     }
 
-    private void printStructure11ExecutionFooter() {
-        // Deliberately bypass p()/MAX_LINES for this compact diagnostic footer.
-        // This reserves a small bounded tail even if an earlier scan used the full log budget.
+    private void printStructure12ExecutionFooter() {
+        // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE11 EXECUTION FOOTER");
+        println("STRUCTURE12 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54");
@@ -2458,9 +2564,13 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("FIELD_ANCHOR_MISMATCHES=" + summaryFieldAnchorMismatches);
         println("SLOT_INSTRUCTION_ORIGIN_REFS=" + summarySlotInstructionRefs);
         println("SLOT_DATA_ORIGIN_REFS=" + summarySlotDataRefs);
+        println("UNIQUE_STRING_TARGETS=" + summaryUniqueStringTargets);
+        println("EXECUTABLE_BLOCKS_TOTAL=" + summaryExecutableBlocks);
+        println("EXECUTABLE_BLOCKS_SAMPLED=" + summaryExecutableBlocksSampled);
         println("EXECUTABLE_INSTRUCTIONS_SCANNED=" + summaryExecutableInsnsScanned);
         println("TABLE_CODE_IMMEDIATE_HITS=" + summaryTableImmediateHits);
         println("TABLE_NEARBY_IMMEDIATE_HITS=" + summaryTableNearbyHits);
+        println("STRING_POINTER_CODE_HITS=" + summaryStringTargetCodeHits);
         println("PTRS_D819C208=" + summaryCurrentDispatchPointers);
         println("PTRS_D8150ED8=" + summaryPreviousDispatchPointers);
         println("PTRS_D89B2790=" + summarySharedThunkPointers);
@@ -2474,19 +2584,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p(" Ghidra_RFDEBUG_Trace");
         p(" TRACE_BUILD=" + TRACE_BUILD);
         p(" DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY");
-        p("Broad high-volume scans are intentionally skipped in this run.");
-        p("STRUCTURE-11 treats the index-53 NULL as a candidate table boundary.");
+        p("Bounded static analysis only; no FTM/RF command is generated or transmitted.");
+        p("STRUCTURE-12 samples executable blocks across their address ranges and checks string-pointer targets.");
         p("============================================================");
 
         p("PROGRAM=" + currentProgram.getName());
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
-        // Priority 1: decode the candidate 60-pointer table and test its xrefs.
+        // Priority 1: validate the primary candidate table and adjacent pool.
         dumpRadioConfigFieldNameTable();
         dumpAdjacentRadioConfigNamePool();
+        auditRadioConfigStringPointerReferences();
         traceRadioConfigSlotConsumers();
 
-        // Priority 2: try direct instruction operands while the output budget is fresh.
+        // Priority 2: inspect xrefs to the actual strings and scan distributed code samples.
         scanExecutableInstructionsForRadioConfigTable();
 
         // Priority 3: compare target address identity and registered ref origins compactly.
@@ -2500,9 +2611,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("");
         p("INTERPRETATION:");
         p("Table/string agreement supports the field-table hypothesis; it does not identify the parser by itself.");
-        p("A direct immediate hit is a lead, not proof of an executed call path.");
+        p("A direct immediate or string-pointer hit is a lead, not proof of an executed call path.");
         p("No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.");
-        printStructure11ExecutionFooter();
+        printStructure12ExecutionFooter();
         p("DONE");
         p("No program data or structures modified.");
     }
