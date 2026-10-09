@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-9
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-10
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-9";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-10";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -2364,12 +2364,62 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+
+    private void printCompactReferenceSummary(long target, String label, int maxSamples) {
+        int total = 0;
+        int instructionSources = 0;
+        int dataSources = 0;
+        int shown = 0;
+
+        p("");
+        p("HANDLER_REFERENCE_SUMMARY " + label + " target=" + hex(target));
+        MemoryBlock tb = block(target);
+        p("  mapped=" + (tb != null)
+            + " block=" + (tb == null ? "<none>" : tb.getName())
+            + " exec=" + (tb != null && tb.isExecute()));
+
+        try {
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager().getReferencesTo(addr(target));
+            while (refs.hasNext()) {
+                if (monitor.isCancelled()) return;
+                Reference r = refs.next();
+                total++;
+                Address from = r.getFromAddress();
+                MemoryBlock fb = from.getAddressSpace().isMemorySpace()
+                    ? block(from.getOffset()) : null;
+                Instruction ins = (fb != null && fb.isExecute())
+                    ? listing().getInstructionAt(from) : null;
+
+                if (ins != null) instructionSources++;
+                else dataSources++;
+
+                if (shown < maxSamples && lines < MAX_LINES) {
+                    p("  REF[" + shown + "] from=" + from
+                        + " type=" + r.getReferenceType()
+                        + " source_block=" + (fb == null ? "<none>" : fb.getName())
+                        + " instruction=" + (ins == null ? "<none>" : ins.toString())
+                        + " function=" + functionInfo(from.getOffset()));
+                    shown++;
+                }
+            }
+        }
+        catch (Exception e) {
+            p("  REFERENCE_SCAN_ERROR=" + e.getMessage());
+        }
+
+        p("  TOTAL_REFERENCES=" + total);
+        p("  INSTRUCTION_SOURCES=" + instructionSources);
+        p("  NON_INSTRUCTION_SOURCES=" + dataSources);
+        p("  SAMPLES_SHOWN=" + shown);
+    }
+
     private void printStructure9ExecutionFooter() {
         // Deliberately bypass p()/MAX_LINES for this compact diagnostic footer.
         // This reserves a small bounded tail even if an earlier scan used the full log budget.
         println("");
         println("============================================================");
-        println("STRUCTURE9 EXECUTION FOOTER");
+        println("STRUCTURE10 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_TABLE=0xC9199798 entries=60");
@@ -2393,55 +2443,36 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
         p(" Ghidra_RFDEBUG_Trace");
         p(" TRACE_BUILD=" + TRACE_BUILD);
-        p(" DIAG -> FTM TARGET ADDRESS INSPECTOR / READ ONLY");
+        p(" DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY");
+        p("Broad high-volume scans are intentionally skipped in this run.");
         p("============================================================");
 
         p("PROGRAM=" + currentProgram.getName());
         p("IMAGE_BASE=" + currentProgram.getImageBase());
-        p("REFERENCE MASTER=" + hex(REF_MASTER));
-        p("REFERENCE FTM_TABLE=" + hex(REF_TABLE));
-        p("REFERENCE COMMON_DISPATCH=" + hex(REF_DISP));
 
-        inspectAddress(REF_MASTER, "MASTER_REFERENCE_ADDRESS");
-        inspectAddress(REF_TABLE, "FTM_TABLE_REFERENCE_ADDRESS");
-
-        scanDiagMasterRecordsExact();
-
-        scanRuntimeDispatchPointers();
-
-        inspectAddress(CURRENT_RUNTIME_DISPATCH, "CURRENT_RUNTIME_HANDLER_VALUE");
-        inspectAddress(PREVIOUS_SHARED_THUNK, "HISTORICAL_SHARED_THUNK_COMPARISON");
-
+        // Priority 1: decode the candidate 60-pointer table and test its xrefs.
         dumpRadioConfigFieldNameTable();
         traceRadioConfigSlotConsumers();
+
+        // Priority 2: try direct instruction operands while the output budget is fresh.
         scanExecutableInstructionsForRadioConfigTable();
 
-        scanRfMsgConstRecords();
+        // Priority 3: compare target address identity and registered ref origins compactly.
+        printCompactReferenceSummary(CURRENT_RUNTIME_DISPATCH, "CURRENT_HANDLER_D819C208", 12);
+        printCompactReferenceSummary(PREVIOUS_BUILD_DISPATCH, "PREVIOUS_HANDLER_D8150ED8", 12);
+        printCompactReferenceSummary(PREVIOUS_SHARED_THUNK, "HISTORICAL_THUNK_D89B2790", 12);
 
-        scanRfTuneFieldStrings();
-
-        scanRfFieldPointerTables();
-
-        scanHighValueStrings();
-
-        scanSourceAnchorPointers();
-
-        // Exact-Hz literal scan was already negative; prioritize structural evidence here.
+        // Bounded static pointer census: establishes stored pointer copies, not call semantics.
+        scanRuntimeDispatchPointers();
 
         p("");
-        p("============================================================");
-        p("INTERPRETATION GUIDE");
-        p("============================================================");
-        p("1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.");
-        p("2. Candidate field-name table at C9199798 is decoded before broad string scans.");
-        p("3. Each table slot is checked for direct reference origins, then executable operands are searched under a hard instruction limit.");
-        p("4. Direct operand hits are evidence of address use, not proof of successful runtime command execution.");
-        p("5. D8150ED8 is a previous-build comparison; D89B2790 is tracked separately as a historical shared-thunk candidate.");
-        p("6. All scans are static and read-only; no DIAG packets are emitted.");
-        p("7. No relationship between D819C208 and D89B2790 is assumed without cross-reference evidence.");
-        p("");
+        p("INTERPRETATION:");
+        p("Table/string agreement supports the field-table hypothesis; it does not identify the parser by itself.");
+        p("A direct immediate hit is a lead, not proof of an executed call path.");
+        p("No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.");
         printStructure9ExecutionFooter();
         p("DONE");
         p("No program data or structures modified.");
     }
+
 }
