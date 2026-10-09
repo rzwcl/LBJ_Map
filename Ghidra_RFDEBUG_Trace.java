@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-34
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-35
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -4800,6 +4800,194 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+    private void scan614SignalGetterDescriptorsAndBodies() {
+        p("");
+        p("============================================================");
+        p("614_0_0 SIGNAL GETTER DESCRIPTOR / FUNCTION BODY FOLLOW-UP");
+        p("Resolves the six R2 descriptor records seen at get_signals_info call sites.");
+        p("Prints target block permissions, descriptor bytes, target code context, and getter bodies.");
+        p("READ ONLY; no program memory or structures are modified.");
+        p("============================================================");
+
+        long[] descriptorAddresses = new long[] {
+            0x000272C0L, 0x000272CCL, 0x000272D8L,
+            0x000272E4L, 0x000272F0L, 0x000272FCL
+        };
+        int descriptorCount = 0;
+        for (int i = 0; i < descriptorAddresses.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long descriptor = descriptorAddresses[i];
+            long codePointer = -1L;
+            long dataPointer = -1L;
+            long byteCount = -1L;
+            try {
+                codePointer = u32(descriptor);
+                dataPointer = u32(descriptor + 4L);
+                byteCount = u32(descriptor + 8L);
+            }
+            catch (Exception e) {
+                p("614_SIGNAL_DESCRIPTOR_READ_ERROR index=" + i
+                    + " address=" + hex(descriptor)
+                    + " error=" + e.getClass().getSimpleName());
+                continue;
+            }
+
+            MemoryBlock descriptorBlock;
+            MemoryBlock codeBlock;
+            MemoryBlock dataBlock;
+            try { descriptorBlock = memory().getBlock(addr(descriptor)); }
+            catch (Exception e) { descriptorBlock = null; }
+            try { codeBlock = memory().getBlock(addr(codePointer)); }
+            catch (Exception e) { codeBlock = null; }
+            try { dataBlock = memory().getBlock(addr(dataPointer)); }
+            catch (Exception e) { dataBlock = null; }
+
+            Function codeExact = null;
+            Function codeOwner = null;
+            try {
+                codeExact = currentProgram.getFunctionManager().getFunctionAt(addr(codePointer));
+                codeOwner = codeExact != null ? codeExact
+                    : currentProgram.getFunctionManager().getFunctionContaining(addr(codePointer));
+            }
+            catch (Exception e) {
+                codeOwner = null;
+            }
+
+            p("614_SIGNAL_DESCRIPTOR #" + (i + 1)
+                + " address=" + hex(descriptor)
+                + " descriptor_block=" + (descriptorBlock == null ? "<none>" : descriptorBlock.getName())
+                + " code_pointer=" + hex(codePointer)
+                + " code_block=" + (codeBlock == null ? "<none>" : codeBlock.getName())
+                + " code_executable=" + (codeBlock != null && codeBlock.isExecute())
+                + " exact_function="
+                + (codeExact == null ? "<no-exact-entry>"
+                    : codeExact.getName() + "@" + codeExact.getEntryPoint())
+                + " containing_function="
+                + (codeOwner == null ? "<none>"
+                    : codeOwner.getName() + "@" + codeOwner.getEntryPoint())
+                + " data_pointer=" + hex(dataPointer)
+                + " data_block=" + (dataBlock == null ? "<none>" : dataBlock.getName())
+                + " data_initialized=" + (dataBlock != null && dataBlock.isInitialized())
+                + " length_word=" + hex(byteCount));
+            descriptorCount++;
+
+            int byteLimit = (byteCount >= 0L && byteCount <= 32L)
+                ? (int)byteCount : 16;
+            if (dataBlock != null && dataBlock.isInitialized() && byteLimit > 0) {
+                StringBuilder bytes = new StringBuilder();
+                for (int k = 0; k < byteLimit; k++) {
+                    try {
+                        int value = memory().getByte(addr(dataPointer + (long)k)) & 0xff;
+                        if (bytes.length() > 0) bytes.append(' ');
+                        bytes.append(String.format("%02X", Integer.valueOf(value)));
+                    }
+                    catch (Exception e) {
+                        break;
+                    }
+                }
+                p("  614_SIGNAL_DESCRIPTOR_DATA index=" + (i + 1)
+                    + " address=" + hex(dataPointer)
+                    + " requested_bytes=" + byteLimit
+                    + " bytes=" + bytes.toString());
+            }
+
+            if (codeBlock != null && codeBlock.isExecute() && lines < MAX_LINES) {
+                Instruction cursor = listing().getInstructionAt(addr(codePointer));
+                int shown = 0;
+                long maxAddress = codePointer + 0x38L;
+                while (cursor != null && shown < 12 && lines < MAX_LINES
+                        && cursor.getAddress().getOffset() <= maxAddress) {
+                    Function cursorOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(cursor.getAddress());
+                    if (codeOwner != null && (cursorOwner == null
+                            || !cursorOwner.getEntryPoint().equals(codeOwner.getEntryPoint()))) break;
+                    if (codeOwner == null && shown > 0 && cursorOwner != null) break;
+                    p("  614_SIGNAL_DESCRIPTOR_CODE index=" + (i + 1)
+                        + " " + cursor.getAddress() + " " + cursor);
+                    shown++;
+                    cursor = listing().getInstructionAfter(cursor.getAddress());
+                }
+                p("  614_SIGNAL_DESCRIPTOR_CODE_INSNS index=" + (i + 1) + " count=" + shown);
+            }
+        }
+
+        long[] getterTargets = new long[] {
+            0x00025598L, 0x00025604L, 0x00025694L, 0x00025700L,
+            0x00027384L, 0x00217458L
+        };
+        int getterCount = 0;
+        for (int i = 0; i < getterTargets.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long target = getterTargets[i];
+            MemoryBlock targetBlock;
+            try { targetBlock = memory().getBlock(addr(target)); }
+            catch (Exception e) { targetBlock = null; }
+
+            Function exact = null;
+            Function owner = null;
+            try {
+                exact = currentProgram.getFunctionManager().getFunctionAt(addr(target));
+                owner = exact != null ? exact
+                    : currentProgram.getFunctionManager().getFunctionContaining(addr(target));
+            }
+            catch (Exception e) {
+                owner = null;
+            }
+
+            p("");
+            p("614_SIGNAL_GETTER_TARGET #" + (i + 1)
+                + " address=" + hex(target)
+                + " block=" + (targetBlock == null ? "<none>" : targetBlock.getName())
+                + " executable=" + (targetBlock != null && targetBlock.isExecute())
+                + " initialized=" + (targetBlock != null && targetBlock.isInitialized())
+                + " exact_function="
+                + (exact == null ? "<no-exact-entry>" : exact.getName() + "@" + exact.getEntryPoint())
+                + " containing_function="
+                + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint()));
+            getterCount++;
+
+            if (targetBlock != null && targetBlock.isInitialized()
+                    && !targetBlock.isExecute()) {
+                StringBuilder bytes = new StringBuilder();
+                for (int k = 0; k < 24; k++) {
+                    try {
+                        int value = memory().getByte(addr(target + (long)k)) & 0xff;
+                        if (bytes.length() > 0) bytes.append(' ');
+                        bytes.append(String.format("%02X", Integer.valueOf(value)));
+                    }
+                    catch (Exception e) {
+                        break;
+                    }
+                }
+                p("  614_SIGNAL_GETTER_TARGET_DATA address=" + hex(target)
+                    + " bytes=" + bytes.toString());
+            }
+
+            if (targetBlock != null && targetBlock.isExecute() && lines < MAX_LINES) {
+                Instruction cursor = listing().getInstructionAt(addr(target));
+                int shown = 0;
+                long maxAddress = target + 0x70L;
+                while (cursor != null && shown < 20 && lines < MAX_LINES
+                        && cursor.getAddress().getOffset() <= maxAddress) {
+                    Function cursorOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(cursor.getAddress());
+                    if (owner != null && (cursorOwner == null
+                            || !cursorOwner.getEntryPoint().equals(owner.getEntryPoint()))) break;
+                    if (owner == null && shown > 0 && cursorOwner != null) break;
+                    p("  614_SIGNAL_GETTER_BODY #" + (i + 1)
+                        + " " + cursor.getAddress() + " " + cursor);
+                    shown++;
+                    cursor = listing().getInstructionAfter(cursor.getAddress());
+                }
+                p("  614_SIGNAL_GETTER_BODY_INSNS #" + (i + 1) + "=" + shown);
+            }
+        }
+
+        p("614_SIGNAL_DESCRIPTOR_COUNT=" + descriptorCount);
+        p("614_SIGNAL_GETTER_TARGETS_INSPECTED=" + getterCount);
+    }
+
+
     private void scan614PltGotThunkMap() {
         p("");
         p("============================================================");
@@ -5760,6 +5948,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614PriorityRfcCallGraphSummary();
             scan614PriorityCalleeExpansion();
             scan614SignalInfoCallsiteContext();
+            scan614SignalGetterDescriptorsAndBodies();
             scan614PltGotThunkMap();
         }
         else {
