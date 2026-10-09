@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-17
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-18
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -3077,7 +3077,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  SAMPLES_SHOWN=" + shown);
     }
 
-    private void printStructure17ExecutionFooter() {
+    private void printStructure18ExecutionFooter() {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
@@ -3661,7 +3661,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("INTERPRETATION:");
             p("Property IDs 26 and 28 are checked against the confirmed qdsp6sw RFDEBUG property_names[] table.");
             p("A 0x007B immediate hit is only a candidate; inspect comparison/branch context before assigning dispatcher semantics.");
-            printStructure17ExecutionFooter();
+            printStructure18ExecutionFooter();
         }
 
         p("DONE");
