@@ -1220,6 +1220,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("Exact hit range=" + hex(base) + ".." + hex(tableEnd - 1L));
         p("Nearby context range=" + hex(scanStart) + ".." + hex(scanEnd - 1L));
         p("A hit is an operand value, not by itself proof of an executed call path");
+        p("No hit does not rule out a base assembled across instructions or a pointer loaded from another descriptor.");
         p("============================================================");
 
         for (MemoryBlock b : memory().getBlocks()) {
@@ -1250,15 +1251,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         Object[] objects = ins.getOpObjects(op);
                         for (Object object : objects) {
                             long value;
-                            boolean numeric = false;
-
                             if (object instanceof Scalar) {
                                 value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
-                                numeric = true;
                             }
                             else if (object instanceof Address) {
                                 value = ((Address)object).getOffset() & 0xffffffffL;
-                                numeric = true;
                             }
                             else {
                                 continue;
