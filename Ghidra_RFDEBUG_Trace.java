@@ -3254,6 +3254,14 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             + " value=\"" + value + "\"");
     }
 
+    private int countDynamic614LabelHits(String label) {
+        int count = 0;
+        for (DynamicStringHit hit : dynamic614StringHits) {
+            if (hit.label.equals(label)) count++;
+        }
+        return count;
+    }
+
     private void search614StringInBlock(MemoryBlock b, String label) {
         byte[] pattern = new byte[label.length()];
         for (int i = 0; i < label.length(); i++) pattern[i] = (byte)label.charAt(i);
@@ -3265,7 +3273,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         long matchCount = 0L;
 
         while (pos <= end && !monitor.isCancelled() && lines < MAX_LINES
-                && retained < DYNAMIC_STRING_HITS_PER_LABEL) {
+                && countDynamic614LabelHits(label) < DYNAMIC_STRING_HITS_PER_LABEL) {
             int want = (int)Math.min((long)DYNAMIC_SCAN_CHUNK, end - pos + 1L);
             if (want < pattern.length) break;
 
@@ -3297,7 +3305,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 matchCount++;
                 addDynamic614String(at, label, actual, b);
                 retained++;
-                if (retained >= DYNAMIC_STRING_HITS_PER_LABEL) break;
+                if (countDynamic614LabelHits(label) >= DYNAMIC_STRING_HITS_PER_LABEL) break;
             }
 
             long advance = (long)want - pattern.length + 1L;
