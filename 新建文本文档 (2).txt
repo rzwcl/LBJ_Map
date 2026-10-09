@@ -1,411 +1,4 @@
-ffff80 
-  RF_INS 00025658  memw R2,(R2+##0xffffff80) 
-  RF_INS 0002565c  add R2,R2,#0x8 
-  RF_INS 00025660  memd R17R16,(SP) 
-  RF_INS 00025664  memw (R16),R2.new 
-  RF_INS 00025668  dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=11
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254754 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00024cbc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_gsm_ag@00024cb0 instruction=jumpr R28 
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #15 name=band_split_cfg_data_get entry=0002566c body_min=0002566c body_max=0002566f body_bytes=4
-  RF_INS 0002566c  jump 0x00024ca0 
-  RF_INSTRUCTIONS_TOTAL=1
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=0025485c type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027160 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #16 name=get_gsm_properties entry=00025670 body_min=00025670 body_max=00025693 body_bytes=36
-  RF_INS 00025670  assign.if(!P0.new) R0,#0x1 
-  RF_INS 00025674  cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025690 
-  RF_INS 00025678  immext #0x22f080 
-  RF_INS 0002567c  add R2,PC,##0x22f090 
-  RF_INS 00025680  jumpr LR 
-  RF_INS 00025684  immext #0xffffff80 
-  RF_INS 00025688  memw R2,(R2+##0xffffff84) 
-  RF_INS 0002568c  memw (R1),R2.new 
-  RF_INS 00025690  assign R0,#0x0 ; jumpr LR 
-  RF_INSTRUCTIONS_TOTAL=9
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254860 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027164 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #17 name=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=000256d0 body_min=000256d0 body_max=000256fb body_bytes=44
-  RF_INS 000256d0  call 0x00024ea0 
-  RF_INS 000256d4  assign R16,R0 
-  RF_INS 000256d8  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 000256dc  immext #0x22f000 
-  RF_INS 000256e0  add R2,PC,##0x22f02c 
-  RF_INS 000256e4  immext #0xffffffc0 
-  RF_INS 000256e8  memw R2,(R2+##0xffffffec) 
-  RF_INS 000256ec  add R2,R2,#0x8 
-  RF_INS 000256f0  memd R17R16,(SP) 
-  RF_INS 000256f4  memw (R16),R2.new 
-  RF_INS 000256f8  dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=11
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547cc type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00024e9c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00024e90 instruction=jumpr R28 
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #18 name=band_split_cfg_data_get entry=000256fc body_min=000256fc body_max=000256ff body_bytes=4
-  RF_INS 000256fc  jump 0x00024ca0 
-  RF_INSTRUCTIONS_TOTAL=1
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254868 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027188 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #19 name=rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0002573c body_min=0002573c body_max=00025767 body_bytes=44
-  RF_INS 0002573c  call 0x00024ec0 
-  RF_INS 00025740  assign R16,R0 
-  RF_INS 00025744  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 00025748  immext #0x22efc0 
-  RF_INS 0002574c  add R2,PC,##0x22efc0 
-  RF_INS 00025750  immext #0xffffffc0 
-  RF_INS 00025754  memw R2,(R2+##0xfffffff4) 
-  RF_INS 00025758  add R2,R2,#0x8 
-  RF_INS 0002575c  memd R17R16,(SP) 
-  RF_INS 00025760  memw (R16),R2.new 
-  RF_INS 00025764  dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=11
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547d4 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00024ebc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@00024eb0 instruction=jumpr R28 
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #20 name=~rfc_hwid614_qrm865ab_v3_ag_lte_ag entry=0002578c body_min=0002578c body_max=000257a3 body_bytes=24
-  RF_INS 0002578c  call 0x00024f50 
-  RF_INS 00025790  assign R16,R0 
-  RF_INS 00025794  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 00025798  assign R0,R16 
-  RF_INS 0002579c  memd R17R16,(SP+#0x0) ; deallocframe 
-  RF_INS 000257a0  jump 0x00024d60 
-  RF_INSTRUCTIONS_TOTAL=6
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254828 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=000270a4 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #21 name=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=000257a4 body_min=000257a4 body_max=000257bb body_bytes=24
-  RF_INS 000257a4  call 0x00024f60 
-  RF_INS 000257a8  assign R16,R0 
-  RF_INS 000257ac  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 000257b0  assign R0,R16 
-  RF_INS 000257b4  memd R17R16,(SP+#0x0) ; deallocframe 
-  RF_INS 000257b8  jump 0x00024d60 
-  RF_INSTRUCTIONS_TOTAL=6
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254838 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=000270e4 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #22 name=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=000257bc body_min=000257bc body_max=000257d3 body_bytes=24
-  RF_INS 000257bc  call 0x00024fb0 
-  RF_INS 000257c0  assign R16,R0 
-  RF_INS 000257c4  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 000257c8  assign R0,R16 
-  RF_INS 000257cc  memd R17R16,(SP+#0x0) ; deallocframe 
-  RF_INS 000257d0  jump 0x00024d60 
-  RF_INSTRUCTIONS_TOTAL=6
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254844 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027108 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #23 name=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=000257d4 body_min=000257d4 body_max=000257eb body_bytes=24
-  RF_INS 000257d4  call 0x00024fc0 
-  RF_INS 000257d8  assign R16,R0 
-  RF_INS 000257dc  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 000257e0  assign R0,R16 
-  RF_INS 000257e4  memd R17R16,(SP+#0x0) ; deallocframe 
-  RF_INS 000257e8  jump 0x00024d60 
-  RF_INSTRUCTIONS_TOTAL=6
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=0025484c type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027130 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #24 name=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=000257ec body_min=000257ec body_max=00025803 body_bytes=24
-  RF_INS 000257ec  call 0x00024fd0 
-  RF_INS 000257f0  assign R16,R0 
-  RF_INS 000257f4  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 000257f8  assign R0,R16 
-  RF_INS 000257fc  memd R17R16,(SP+#0x0) ; deallocframe 
-  RF_INS 00025800  jump 0x00024d60 
-  RF_INSTRUCTIONS_TOTAL=6
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254854 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027154 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #25 name=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=00025804 body_min=00025804 body_max=0002581b body_bytes=24
-  RF_INS 00025804  call 0x00024fe0 
-  RF_INS 00025808  assign R16,R0 
-  RF_INS 0002580c  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 00025810  assign R0,R16 
-  RF_INS 00025814  memd R17R16,(SP+#0x0) ; deallocframe 
-  RF_INS 00025818  jump 0x00024d60 
-  RF_INSTRUCTIONS_TOTAL=6
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254864 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=0002717c type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #26 name=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0002581c body_min=0002581c body_max=00025833 body_bytes=24
-  RF_INS 0002581c  call 0x00024ff0 
-  RF_INS 00025820  assign R16,R0 
-  RF_INS 00025824  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 00025828  assign R0,R16 
-  RF_INS 0002582c  memd R17R16,(SP+#0x0) ; deallocframe 
-  RF_INS 00025830  jump 0x00024d60 
-  RF_INSTRUCTIONS_TOTAL=6
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=000271a4 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=0025486c type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #27 name=rfc_hwid614_qrm865ab_v3_ag_init entry=00025834 body_min=00025834 body_max=00025847 body_bytes=20
-  RF_INS 00025834  immext #0x1b00 
-  RF_INS 00025838  add R0,PC,##0x1b14 
-  RF_INS 0002583c  assign R1,R0 ; allocframe #0x0 
-  RF_INS 00025840  call 0x00024bc0 
-  RF_INS 00025844  assign R0,#0x0 ; dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254784 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=2 printed=2
-
-614_RF_FUNCTION #28 name=rfc_hwid614_qrm865ab_v3_ag_deinit entry=00025848 body_min=00025848 body_max=0002585b body_bytes=20
-  RF_INS 00025848  immext #0x1b00 
-  RF_INS 0002584c  add R0,PC,##0x1b0c 
-  RF_INS 00025850  assign R1,R0 ; allocframe #0x0 
-  RF_INS 00025854  call 0x00024bc0 
-  RF_INS 00025858  assign R0,#0x0 ; dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254788 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=2 printed=2
-
-614_RF_FUNCTION #29 name=rfc_hwid614_qrm865ab_v3_ag_resume entry=0002585c body_min=0002585c body_max=0002586f body_bytes=20
-  RF_INS 0002585c  immext #0x1b00 
-  RF_INS 00025860  add R0,PC,##0x1b10 
-  RF_INS 00025864  assign R1,R0 ; allocframe #0x0 
-  RF_INS 00025868  call 0x00024bc0 
-  RF_INS 0002586c  assign R0,#0x0 ; dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=0025478c type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=2 printed=2
-
-614_RF_FUNCTION #30 name=rfc_hwid614_qrm865ab_v3_ag_suspend entry=00025870 body_min=00025870 body_max=00025883 body_bytes=20
-  RF_INS 00025870  immext #0x1ac0 
-  RF_INS 00025874  add R0,PC,##0x1af0 
-  RF_INS 00025878  assign R1,R0 ; allocframe #0x0 
-  RF_INS 0002587c  call 0x00024bc0 
-  RF_INS 00025880  assign R0,#0x0 ; dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254790 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=2 printed=2
-
-614_RF_FUNCTION #31 name=rfc_hwid614_qrm865ab_v3_ag_cmn_ag entry=000258c4 body_min=000258c4 body_max=000258ef body_bytes=44
-  RF_INS 000258c4  call 0x00024d00 
-  RF_INS 000258c8  assign R16,R0 
-  RF_INS 000258cc  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 000258d0  immext #0x22ee00 
-  RF_INS 000258d4  add R2,PC,##0x22ee38 
-  RF_INS 000258d8  immext #0xffffff80 
-  RF_INS 000258dc  memw R2,(R2+##0xffffff88) 
-  RF_INS 000258e0  add R2,R2,#0x8 
-  RF_INS 000258e4  memd R17R16,(SP) 
-  RF_INS 000258e8  memw (R16),R2.new 
-  RF_INS 000258ec  dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=11
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254758 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00024ccc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_cmn_ag@00024cc0 instruction=jumpr R28 
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #32 name=get_signals_info entry=000259a4 body_min=000259a4 body_max=00025a93 body_bytes=240
-  RF_INS 000259a4  call 0x00024c00 
-  RF_INS 000259a8  cmp.eq P0,R1,#0x0 ; allocframe #0x10 
-  RF_INS 000259ac  assign.if(!P0) R17,R1 
-  RF_INS 000259b0  add.if(!P0) R16,R1,#0x4 
-  RF_INS 000259b4  jump.if(P0) 0x00025a80 
-  RF_INS 000259b8  immext #0x22ed40 
-  RF_INS 000259bc  add R18,PC,##0x22ed50 
-  RF_INS 000259c0  immext #0xffffff80 
-  RF_INS 000259c4  memw R2,(R18+##0xffffffa0) 
-  RF_INS 000259c8  memw (R1+#0x8),R2.new 
-  RF_INS 000259cc  call 0x00024d10 
-  RF_INS 000259d0  memb (R1+#0x4),#0x8 
-  RF_INS 000259d4  cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
-  RF_INS 000259d8  immext #0x18c0 
-  RF_INS 000259dc  add R0,PC,##0x18d4 
-  RF_INS 000259e0  call 0x00024cf0 
-  RF_INS 000259e4  memb (R17+#0x4),#0x0 
-  RF_INS 000259e8  immext #0x18c0 
-  RF_INS 000259ec  add R2,PC,##0x18d0 
-  RF_INS 000259f0  immext #0xffffff80 
-  RF_INS 000259f4  memw R0,(R18+##0xffffffa4) 
-  RF_INS 000259f8  call 0x00025f70 
-  RF_INS 000259fc  assign R1,#0x0 ; assign R3,R16 
-  RF_INS 00025a00  immext #0x18c0 
-  RF_INS 00025a04  add R2,PC,##0x18c4 
-  RF_INS 00025a08  immext #0xffffff80 
-  RF_INS 00025a0c  memw R0,(R18+##0xffffffa8) 
-  RF_INS 00025a10  call 0x00025f70 
-  RF_INS 00025a14  assign R1,#0x0 ; assign R3,R16 
-  RF_INS 00025a18  immext #0x1880 
-  RF_INS 00025a1c  add R2,PC,##0x18b8 
-  RF_INS 00025a20  immext #0xffffff80 
-  RF_INS 00025a24  memw R0,(R18+##0xffffffac) 
-  RF_INS 00025a28  call 0x00025f70 
-  RF_INS 00025a2c  assign R1,#0x0 ; assign R3,R16 
-  RF_INS 00025a30  immext #0x1880 
-  RF_INS 00025a34  add R2,PC,##0x18ac 
-  RF_INS 00025a38  immext #0xffffff80 
-  RF_INS 00025a3c  memw R0,(R18+##0xffffffb0) 
-  RF_INS 00025a40  call 0x00025f70 
-  RF_INS 00025a44  assign R1,#0x0 ; assign R3,R16 
-  RF_INS 00025a48  immext #0x1880 
-  RF_INS 00025a4c  add R2,PC,##0x18a0 
-  RF_INS 00025a50  immext #0xffffff80 
-  RF_INS 00025a54  memw R0,(R18+##0xffffffb4) 
-  RF_INS 00025a58  call 0x00025f70 
-  RF_INS 00025a5c  assign R1,#0x0 ; assign R3,R16 
-  RF_INS 00025a60  immext #0x1880 
-  RF_INS 00025a64  add R2,PC,##0x1894 
-  RF_INS 00025a68  immext #0xffffff80 
-  RF_INS 00025a6c  memw R0,(R18+##0xffffffb8) 
-  RF_INS 00025a70  call 0x00025f70 
-  RF_INS 00025a74  assign R1,#0x0 ; assign R3,R16 
-  RF_INS 00025a78  assign R0,#0x1 
-  RF_INS 00025a7c  jump 0x00024c30 
-  RF_INS 00025a80  immext #0x1800 
-  RF_INS 00025a84  add R0,PC,##0x1820 
-  RF_INS 00025a88  call 0x00024cf0 
-  RF_INS 00025a8c  assign R0,#0x0 
-  RF_INS 00025a90  jump 0x00024c30 
-  RF_INSTRUCTIONS_TOTAL=60
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=00254798 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027220 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #33 name=get_phy_device_cfg entry=00025aa8 body_min=00025aa8 body_max=00025abb body_bytes=20
-  RF_INS 00025aa8  immext #0x22ec40 
-  RF_INS 00025aac  add R2,PC,##0x22ec60 
-  RF_INS 00025ab0  jumpr LR 
-  RF_INS 00025ab4  immext #0xffffffc0 
-  RF_INS 00025ab8  memw R0,(R2+##0xffffffc0) 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547ac type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027234 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #34 name=get_logical_device_cfg entry=00025abc body_min=00025abc body_max=00025acf body_bytes=20
-  RF_INS 00025abc  immext #0x22ec40 
-  RF_INS 00025ac0  add R2,PC,##0x22ec4c 
-  RF_INS 00025ac4  jumpr LR 
-  RF_INS 00025ac8  immext #0xffffffc0 
-  RF_INS 00025acc  memw R0,(R2+##0xffffffc4) 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547a8 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027230 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #35 name=get_ant_switch_path_info entry=00025ad0 body_min=00025ad0 body_max=00025bc3 body_bytes=244
-  RF_INS 00025ad0  cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):t 0x00025aec 
-  RF_INS 00025ad4  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 00025ad8  immext #0x1800 
-  RF_INS 00025adc  add R0,PC,##0x1828 
-  RF_INS 00025ae0  call 0x00024cf0 
-  RF_INS 00025ae4  assign R16,#0x0 
-  RF_INS 00025ae8  jump 0x00025b9c 
-  RF_INS 00025aec  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0x00025afc 
-  RF_INS 00025af0  immext #0x1800 
-  RF_INS 00025af4  add R0,PC,##0x181c 
-  RF_INS 00025af8  jump 0x00025ae0 
-  RF_INS 00025afc  assign R16,#0x0 ; memw (R2),#0x0 
-  RF_INS 00025b00  memb R3,(R1+#0xc) 
-  RF_INS 00025b04  jump.if:t !cmp.eq(R3.new,#0x9),0x00025b9c 
-  RF_INS 00025b08  immext #0x1f3d00 
-  RF_INS 00025b0c  add R4,PC,##0x1f3d3c 
-  RF_INS 00025b10  memw R3,(R4+#0x4) 
-  RF_INS 00025b14  jump.if:nt cmp.eq(R3.new,#0x0),0x00025b20 
-  RF_INS 00025b18  memh R5,(R4) 
-  RF_INS 00025b1c  jump.if:t !cmp.eq(R5.new,#0x0),0x00025b28 
-  RF_INS 00025b20  call 0x00025a94 
-  RF_INS 00025b24  jump 0x00025b9c 
-  RF_INS 00025b28  memuh R4,(R1+#0x18) 
-  RF_INS 00025b2c  memh R6,(R3) 
-  RF_INS 00025b30  sxth R4,R4 
-  RF_INS 00025b34  jump.if:t cmp.gtu(R6,R4.new),0x00025b9c 
-  RF_INS 00025b38  add R6,R5,#-0x1 
-  RF_INS 00025b3c  zxth R5,R6 
-  RF_INS 00025b40  memh R5,(R3+R5<<#0x3) 
-  RF_INS 00025b44  jump.if:t cmp.gtu(R4,R5.new),0x00025b9c 
-  RF_INS 00025b48  assign R5,#0x0 
-  RF_INS 00025b4c  zxth R7,R5 
-  RF_INS 00025b50  zxth R8,R6 
-  RF_INS 00025b54  jump.if:t !cmp.eq(R8.new,R7),0x00025b68 
-  RF_INS 00025b58  assign R16,#0x0 
-  RF_INS 00025b5c  memh R6,(R3+R7<<#0x3) 
-  RF_INS 00025b60  jump.if:t cmp.eq(R6.new,R4),0x00025b7c 
-  RF_INS 00025b64  jump 0x00025b9c 
-  RF_INS 00025b68  add R7,R8,R7 
-  RF_INS 00025b6c  lsr R7,R7,#0x1 
-  RF_INS 00025b70  memh R8,(R3+R7<<#0x3) 
-  RF_INS 00025b74  jump.if:t !cmp.eq(R8.new,R4),0x00025ba4 
-  RF_INS 00025b78  assign R5,R7 
-  RF_INS 00025b7c  assign R16,#0x0 ; zxth R4,R5 
-  RF_INS 00025b80  immext #0xde80 
-  RF_INS 00025b84  cmp.eq P0,R4,##0xdead 
-  RF_INS 00025b88  assign.if(!P0.new) R16,#0x1 
-  RF_INS 00025b8c  jump.if(P0.new):t 0x00025b9c 
-  RF_INS 00025b90  addasl R3,R3,R4,#0x3 
-  RF_INS 00025b94  memw R3,(R3+#0x4) 
-  RF_INS 00025b98  memw (R2),R3.new 
-  RF_INS 00025b9c  assign R0,R16 
-  RF_INS 00025ba0  memd R17R16,(SP+#0x0) ; dealloc_return 
-  RF_INS 00025ba4  cmp.gtu P0,R4,R8 
-  RF_INS 00025ba8  assign R16,#0x0 
-  RF_INS 00025bac  add.if(!P0.new) R6,R7,#-0x1 
-  RF_INS 00025bb0  add.if(P0.new) R5,R7,#0x1 
-  RF_INS 00025bb4  zxth R7,R5 
-  RF_INS 00025bb8  zxth R1,R6 
-  RF_INS 00025bbc  jump.if:t !cmp.gtu(R7,R1.new),0x00025b4c 
-  RF_INS 00025bc0  jump 0x00025b9c 
-  RF_INSTRUCTIONS_TOTAL=61
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547c0 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=00027258 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #36 name=get_antenna_path_table_cfg entry=00025bc4 body_min=00025bc4 body_max=00025bcf body_bytes=12
-  RF_INS 00025bc4  immext #0x1f3c80 
-  RF_INS 00025bc8  add R0,PC,##0x1f3c80 
-  RF_INS 00025bcc  jumpr LR 
-  RF_INSTRUCTIONS_TOTAL=3
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547e8 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[2] from=0002727c type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #37 name=get_logical_path_config entry=00025bd0 body_min=00025bd0 body_max=00025c13 body_bytes=68
-  RF_INS 00025bd0  cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):t 0x00025bec 
-  RF_INS 00025bd4  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 00025bd8  immext #0x1740 
-  RF_INS 00025bdc  add R0,PC,##0x1740 
-  RF_INS 00025be0  assign R1,#0x0 ; assign R16,#0x0 
+025be0  assign R1,#0x0 ; assign R16,#0x0 
   RF_INS 00025be4  call 0x00024bc0 
   RF_INS 00025be8  jump 0x00025c0c 
   RF_INS 00025bec  immext #0x22eb00 
@@ -421,7 +14,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=17
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547b8 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547b8 center=0x002547B8 block=segment_3 range=0x002547A8..0x002547C8
+    RF_DATA_WORD slot=0x002547A8 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
+    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
+    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
+    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
+    RF_DATA_WORD slot=0x002547C4 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
   RF_INCOMING_REF[2] from=00027244 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00027244 center=0x00027244 block=segment_3 range=0x00027234..0x00027254
+    RF_DATA_WORD slot=0x00027234 value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
+    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
+    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x00027248 value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
+    RF_DATA_WORD slot=0x0002724C value=0x00255000 target_block=EXTERNAL target_function=get_alt_path_selection_tbl@00255000 (entry)
+    RF_DATA_WORD slot=0x00027250 value=0x0025500C target_block=EXTERNAL target_function=get_irat_alt_path_selection_tbl@0025500c (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #38 name=get_ant_path_info_config entry=00025c14 body_min=00025c14 body_max=00025c27 body_bytes=20
@@ -433,7 +44,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=5
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547b4 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547b4 center=0x002547B4 block=segment_3 range=0x002547A4..0x002547C4
+    RF_DATA_WORD slot=0x002547A4 value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
+    RF_DATA_WORD slot=0x002547A8 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
+    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
+    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
+    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
   RF_INCOMING_REF[2] from=0002723c type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=0002723c center=0x0002723C block=segment_3 range=0x0002722C..0x0002724C
+    RF_DATA_WORD slot=0x0002722C value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
+    RF_DATA_WORD slot=0x00027230 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
+    RF_DATA_WORD slot=0x00027234 value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
+    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
+    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x00027248 value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #39 name=get_sig_path_info_config entry=00025c28 body_min=00025c28 body_max=00025c3b body_bytes=20
@@ -445,7 +74,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=5
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547b0 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547b0 center=0x002547B0 block=segment_3 range=0x002547A0..0x002547C0
+    RF_DATA_WORD slot=0x002547A0 value=0x00025938 target_block=segment_2 target_function=sdr_grfc_sig_info_table_get@00025938 (entry)
+    RF_DATA_WORD slot=0x002547A4 value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
+    RF_DATA_WORD slot=0x002547A8 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
+    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
+    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
   RF_INCOMING_REF[2] from=00027238 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00027238 center=0x00027238 block=segment_3 range=0x00027228..0x00027248
+    RF_DATA_WORD slot=0x00027228 value=0x00025938 target_block=segment_2 target_function=sdr_grfc_sig_info_table_get@00025938 (entry)
+    RF_DATA_WORD slot=0x0002722C value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
+    RF_DATA_WORD slot=0x00027230 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
+    RF_DATA_WORD slot=0x00027234 value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
+    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
+    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #40 name=get_rffe_speeds_info entry=00025c3c body_min=00025c3c body_max=00025d07 body_bytes=204
@@ -517,7 +164,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=9
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547bc type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547bc center=0x002547BC block=segment_3 range=0x002547AC..0x002547CC
+    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
+    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
+    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
+    RF_DATA_WORD slot=0x002547C4 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
+    RF_DATA_WORD slot=0x002547C8 value=0x00025E44 target_block=segment_2 target_function=fbrx_cfg_data_get@00025e44 (entry)
   RF_INCOMING_REF[2] from=00027248 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00027248 center=0x00027248 block=segment_3 range=0x00027238..0x00027258
+    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
+    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
+    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x00027248 value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
+    RF_DATA_WORD slot=0x0002724C value=0x00255000 target_block=EXTERNAL target_function=get_alt_path_selection_tbl@00255000 (entry)
+    RF_DATA_WORD slot=0x00027250 value=0x0025500C target_block=EXTERNAL target_function=get_irat_alt_path_selection_tbl@0025500c (entry)
+    RF_DATA_WORD slot=0x00027254 value=0x002550F0 target_block=EXTERNAL target_function=get_asd_device_info@002550f0 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #42 name=path_cfg_data_get entry=00025d50 body_min=00025d50 body_max=00025e37 body_bytes=232
@@ -582,7 +247,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=58
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547c4 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547c4 center=0x002547C4 block=segment_3 range=0x002547B4..0x002547D4
+    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
+    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
+    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
+    RF_DATA_WORD slot=0x002547C4 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
+    RF_DATA_WORD slot=0x002547C8 value=0x00025E44 target_block=segment_2 target_function=fbrx_cfg_data_get@00025e44 (entry)
+    RF_DATA_WORD slot=0x002547CC value=0x000256D0 target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@000256d0 (entry)
+    RF_DATA_WORD slot=0x002547D0 value=0x00255054 target_block=EXTERNAL target_function=rfc_tdscdma_data@00255054 (entry)
   RF_INCOMING_REF[2] from=00027260 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00027260 center=0x00027260 block=segment_3 range=0x00027250..0x00027270
+    RF_DATA_WORD slot=0x00027250 value=0x0025500C target_block=EXTERNAL target_function=get_irat_alt_path_selection_tbl@0025500c (entry)
+    RF_DATA_WORD slot=0x00027254 value=0x002550F0 target_block=EXTERNAL target_function=get_asd_device_info@002550f0 (entry)
+    RF_DATA_WORD slot=0x00027258 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
+    RF_DATA_WORD slot=0x0002725C value=0x002550B0 target_block=EXTERNAL target_function=unique_path_table_get@002550b0 (entry)
+    RF_DATA_WORD slot=0x00027260 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
+    RF_DATA_WORD slot=0x00027264 value=0x00025E44 target_block=segment_2 target_function=fbrx_cfg_data_get@00025e44 (entry)
+    RF_DATA_WORD slot=0x00027268 value=0x00255018 target_block=EXTERNAL target_function=rfc_cmw_data_get_rfcard_type@00255018 (entry)
+    RF_DATA_WORD slot=0x0002726C value=0x00255090 target_block=EXTERNAL target_function=get_aggressor_device_associations@00255090 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #43 name=fbrx_cfg_data_get entry=00025e44 body_min=00025e44 body_max=00025f1f body_bytes=220
@@ -644,7 +327,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=55
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547c8 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547c8 center=0x002547C8 block=segment_3 range=0x002547B8..0x002547D8
+    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
+    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
+    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
+    RF_DATA_WORD slot=0x002547C4 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
+    RF_DATA_WORD slot=0x002547C8 value=0x00025E44 target_block=segment_2 target_function=fbrx_cfg_data_get@00025e44 (entry)
+    RF_DATA_WORD slot=0x002547CC value=0x000256D0 target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@000256d0 (entry)
+    RF_DATA_WORD slot=0x002547D0 value=0x00255054 target_block=EXTERNAL target_function=rfc_tdscdma_data@00255054 (entry)
+    RF_DATA_WORD slot=0x002547D4 value=0x0002573C target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c (entry)
   RF_INCOMING_REF[2] from=00027264 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00027264 center=0x00027264 block=segment_3 range=0x00027254..0x00027274
+    RF_DATA_WORD slot=0x00027254 value=0x002550F0 target_block=EXTERNAL target_function=get_asd_device_info@002550f0 (entry)
+    RF_DATA_WORD slot=0x00027258 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
+    RF_DATA_WORD slot=0x0002725C value=0x002550B0 target_block=EXTERNAL target_function=unique_path_table_get@002550b0 (entry)
+    RF_DATA_WORD slot=0x00027260 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
+    RF_DATA_WORD slot=0x00027264 value=0x00025E44 target_block=segment_2 target_function=fbrx_cfg_data_get@00025e44 (entry)
+    RF_DATA_WORD slot=0x00027268 value=0x00255018 target_block=EXTERNAL target_function=rfc_cmw_data_get_rfcard_type@00255018 (entry)
+    RF_DATA_WORD slot=0x0002726C value=0x00255090 target_block=EXTERNAL target_function=get_aggressor_device_associations@00255090 (entry)
+    RF_DATA_WORD slot=0x00027270 value=0x00025F38 target_block=segment_2 target_function=rfc_get_remapped_device_info@00025f38 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #44 name=get_fbrx_path_table_cfg entry=00025f20 body_min=00025f20 body_max=00025f33 body_bytes=20
@@ -656,7 +357,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=5
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547e4 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547e4 center=0x002547E4 block=segment_3 range=0x002547D4..0x002547F4
+    RF_DATA_WORD slot=0x002547D4 value=0x0002573C target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c (entry)
+    RF_DATA_WORD slot=0x002547D8 value=0x002550B4 target_block=EXTERNAL target_function=rfc_gnss_data@002550b4 (entry)
+    RF_DATA_WORD slot=0x002547DC value=0x00025F38 target_block=segment_2 target_function=rfc_get_remapped_device_info@00025f38 (entry)
+    RF_DATA_WORD slot=0x002547E0 value=0x00025E38 target_block=segment_2 target_function=get_sig_path_table_cfg@00025e38 (entry)
+    RF_DATA_WORD slot=0x002547E4 value=0x00025F20 target_block=segment_2 target_function=get_fbrx_path_table_cfg@00025f20 (entry)
+    RF_DATA_WORD slot=0x002547E8 value=0x00025BC4 target_block=segment_2 target_function=get_antenna_path_table_cfg@00025bc4 (entry)
+    RF_DATA_WORD slot=0x002547EC value=0x00025120 target_block=segment_2 target_function=get_res_alloc_tbl@00025120 (entry)
+    RF_DATA_WORD slot=0x002547F0 value=0x000251F0 target_block=segment_2 target_function=get_rrc_ca_table@000251f0 (entry)
   RF_INCOMING_REF[2] from=00027278 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00027278 center=0x00027278 block=segment_3 range=0x00027268..0x00027288
+    RF_DATA_WORD slot=0x00027268 value=0x00255018 target_block=EXTERNAL target_function=rfc_cmw_data_get_rfcard_type@00255018 (entry)
+    RF_DATA_WORD slot=0x0002726C value=0x00255090 target_block=EXTERNAL target_function=get_aggressor_device_associations@00255090 (entry)
+    RF_DATA_WORD slot=0x00027270 value=0x00025F38 target_block=segment_2 target_function=rfc_get_remapped_device_info@00025f38 (entry)
+    RF_DATA_WORD slot=0x00027274 value=0x00025E38 target_block=segment_2 target_function=get_sig_path_table_cfg@00025e38 (entry)
+    RF_DATA_WORD slot=0x00027278 value=0x00025F20 target_block=segment_2 target_function=get_fbrx_path_table_cfg@00025f20 (entry)
+    RF_DATA_WORD slot=0x0002727C value=0x00025BC4 target_block=segment_2 target_function=get_antenna_path_table_cfg@00025bc4 (entry)
+    RF_DATA_WORD slot=0x00027280 value=0x00025120 target_block=segment_2 target_function=get_res_alloc_tbl@00025120 (entry)
+    RF_DATA_WORD slot=0x00027284 value=0x000251F0 target_block=segment_2 target_function=get_rrc_ca_table@000251f0 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #45 name=rfc_get_remapped_device_info entry=00025f38 body_min=00025f38 body_max=00025f3b body_bytes=4
@@ -664,7 +383,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=1
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=002547dc type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=002547dc center=0x002547DC block=segment_3 range=0x002547CC..0x002547EC
+    RF_DATA_WORD slot=0x002547CC value=0x000256D0 target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@000256d0 (entry)
+    RF_DATA_WORD slot=0x002547D0 value=0x00255054 target_block=EXTERNAL target_function=rfc_tdscdma_data@00255054 (entry)
+    RF_DATA_WORD slot=0x002547D4 value=0x0002573C target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c (entry)
+    RF_DATA_WORD slot=0x002547D8 value=0x002550B4 target_block=EXTERNAL target_function=rfc_gnss_data@002550b4 (entry)
+    RF_DATA_WORD slot=0x002547DC value=0x00025F38 target_block=segment_2 target_function=rfc_get_remapped_device_info@00025f38 (entry)
+    RF_DATA_WORD slot=0x002547E0 value=0x00025E38 target_block=segment_2 target_function=get_sig_path_table_cfg@00025e38 (entry)
+    RF_DATA_WORD slot=0x002547E4 value=0x00025F20 target_block=segment_2 target_function=get_fbrx_path_table_cfg@00025f20 (entry)
+    RF_DATA_WORD slot=0x002547E8 value=0x00025BC4 target_block=segment_2 target_function=get_antenna_path_table_cfg@00025bc4 (entry)
   RF_INCOMING_REF[2] from=00027270 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00027270 center=0x00027270 block=segment_3 range=0x00027260..0x00027280
+    RF_DATA_WORD slot=0x00027260 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
+    RF_DATA_WORD slot=0x00027264 value=0x00025E44 target_block=segment_2 target_function=fbrx_cfg_data_get@00025e44 (entry)
+    RF_DATA_WORD slot=0x00027268 value=0x00255018 target_block=EXTERNAL target_function=rfc_cmw_data_get_rfcard_type@00255018 (entry)
+    RF_DATA_WORD slot=0x0002726C value=0x00255090 target_block=EXTERNAL target_function=get_aggressor_device_associations@00255090 (entry)
+    RF_DATA_WORD slot=0x00027270 value=0x00025F38 target_block=segment_2 target_function=rfc_get_remapped_device_info@00025f38 (entry)
+    RF_DATA_WORD slot=0x00027274 value=0x00025E38 target_block=segment_2 target_function=get_sig_path_table_cfg@00025e38 (entry)
+    RF_DATA_WORD slot=0x00027278 value=0x00025F20 target_block=segment_2 target_function=get_fbrx_path_table_cfg@00025f20 (entry)
+    RF_DATA_WORD slot=0x0002727C value=0x00025BC4 target_block=segment_2 target_function=get_antenna_path_table_cfg@00025bc4 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_FUNCTION #46 name=rfc_card_instance_get entry=00025f3c body_min=00025f3c body_max=00025f3f body_bytes=4
@@ -672,6 +409,15 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=1
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=00254858 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00254858 center=0x00254858 block=segment_3 range=0x00254848..0x00254868
+    RF_DATA_WORD slot=0x00254848 value=0x00025574 target_block=segment_2 target_function=get_wcdma_properties@00025574 (entry)
+    RF_DATA_WORD slot=0x0025484C value=0x000257D4 target_block=segment_2 target_function=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000257d4 (entry)
+    RF_DATA_WORD slot=0x00254850 value=0x00025600 target_block=segment_2 target_function=band_split_cfg_data_get@00025600 (entry)
+    RF_DATA_WORD slot=0x00254854 value=0x000257EC target_block=segment_2 target_function=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag@000257ec (entry)
+    RF_DATA_WORD slot=0x00254858 value=0x00025F3C target_block=segment_2 target_function=rfc_card_instance_get@00025f3c (entry)
+    RF_DATA_WORD slot=0x0025485C value=0x0002566C target_block=segment_2 target_function=band_split_cfg_data_get@0002566c (entry)
+    RF_DATA_WORD slot=0x00254860 value=0x00025670 target_block=segment_2 target_function=get_gsm_properties@00025670 (entry)
+    RF_DATA_WORD slot=0x00254864 value=0x00025804 target_block=segment_2 target_function=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00025804 (entry)
   RF_INCOMING_REFS_TOTAL=2 printed=2
 
 614_RF_FUNCTION #47 name=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag entry=00025f58 body_min=00025f58 body_max=00025f6f body_bytes=24
@@ -684,7 +430,25 @@ ffff80
   RF_INSTRUCTIONS_TOTAL=6
   RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
   RF_INCOMING_REF[1] from=00254794 type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=00254794 center=0x00254794 block=segment_3 range=0x00254784..0x002547A4
+    RF_DATA_WORD slot=0x00254784 value=0x00025834 target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_init@00025834 (entry)
+    RF_DATA_WORD slot=0x00254788 value=0x00025848 target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_deinit@00025848 (entry)
+    RF_DATA_WORD slot=0x0025478C value=0x0002585C target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_resume@0002585c (entry)
+    RF_DATA_WORD slot=0x00254790 value=0x00025870 target_block=segment_2 target_function=rfc_hwid614_qrm865ab_v3_ag_suspend@00025870 (entry)
+    RF_DATA_WORD slot=0x00254794 value=0x00025F58 target_block=segment_2 target_function=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag@00025f58 (entry)
+    RF_DATA_WORD slot=0x00254798 value=0x000259A4 target_block=segment_2 target_function=get_signals_info@000259a4 (entry)
+    RF_DATA_WORD slot=0x0025479C value=0x000258F0 target_block=segment_2 target_function=sdr_rffe_sig_info_table_get@000258f0 (entry)
+    RF_DATA_WORD slot=0x002547A0 value=0x00025938 target_block=segment_2 target_function=sdr_grfc_sig_info_table_get@00025938 (entry)
   RF_INCOMING_REF[2] from=0002721c type=DATA caller=<no-function> instruction=<no-instruction>
+  RF_DATA_WINDOW from=0002721c center=0x0002721C block=segment_3 range=0x0002720C..0x0002722C
+    RF_DATA_WORD slot=0x0002720C value=0x00255038 target_block=EXTERNAL
+    RF_DATA_WORD slot=0x00027210 value=0x00000000
+    RF_DATA_WORD slot=0x00027214 value=0x00027378 target_block=segment_3
+    RF_DATA_WORD slot=0x00027218 value=0x0025501C target_block=EXTERNAL target_function=~rfc_common_data@0025501c (entry)
+    RF_DATA_WORD slot=0x0002721C value=0x00025F58 target_block=segment_2 target_function=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag@00025f58 (entry)
+    RF_DATA_WORD slot=0x00027220 value=0x000259A4 target_block=segment_2 target_function=get_signals_info@000259a4 (entry)
+    RF_DATA_WORD slot=0x00027224 value=0x000258F0 target_block=segment_2 target_function=sdr_rffe_sig_info_table_get@000258f0 (entry)
+    RF_DATA_WORD slot=0x00027228 value=0x00025938 target_block=segment_2 target_function=sdr_grfc_sig_info_table_get@00025938 (entry)
   RF_INCOMING_REFS_TOTAL=3 printed=3
 
 614_RF_TARGET_FUNCTIONS_FOUND=47
@@ -1020,7 +784,7 @@ DYNAMIC_CONTEXT_WINDOWS_PRINTED=0
 
 ============================================================
 614_0_0 DYNAMIC FREQUENCY TRACE SUMMARY
-TRACE_BUILD=DIAG-FTM-STRUCTURE-22
+TRACE_BUILD=DIAG-FTM-STRUCTURE-23
 PROGRAM=614_0_0.mbn
 DYNAMIC_STRING_HITS=0
 DYNAMIC_POINTER_SLOTS=0
