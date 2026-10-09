@@ -4519,8 +4519,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 .getFunctionContaining(addIns.getAddress());
             int searchEnd = Math.min(executableInstructions.size() - 1, i + 5);
             boolean matchedThunk = false;
+            Instruction previousInSequence = addIns;
             for (int j = i + 1; j <= searchEnd; j++) {
                 Instruction load = executableInstructions.get(j);
+                if (load.getAddress().getOffset()
+                        - addIns.getAddress().getOffset() > 0x20L) break;
+                Instruction expectedNext = listing().getInstructionAfter(
+                    previousInSequence.getAddress());
+                if (expectedNext == null
+                        || !expectedNext.getAddress().equals(load.getAddress())) break;
+                previousInSequence = load;
+                Function loadOwner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(load.getAddress());
+                if (owner != null && (loadOwner == null
+                        || !loadOwner.getEntryPoint().equals(owner.getEntryPoint()))) break;
                 if (!load.getMnemonicString().toLowerCase().startsWith("mem")) continue;
 
                 boolean baseUsed = false;
@@ -4560,8 +4572,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                 boolean indirectJumpFollows = false;
                 int jumpIndex = -1;
+                Instruction previousBeforeJump = load;
                 for (int k = j + 1; k <= Math.min(executableInstructions.size() - 1, j + 3); k++) {
                     Instruction jump = executableInstructions.get(k);
+                    if (jump.getAddress().getOffset()
+                            - addIns.getAddress().getOffset() > 0x20L) break;
+                    Instruction expectedNext = listing().getInstructionAfter(
+                        previousBeforeJump.getAddress());
+                    if (expectedNext == null
+                            || !expectedNext.getAddress().equals(jump.getAddress())) break;
+                    previousBeforeJump = jump;
+                    Function jumpOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(jump.getAddress());
+                    if (owner != null && (jumpOwner == null
+                            || !jumpOwner.getEntryPoint().equals(owner.getEntryPoint()))) break;
                     String mnemonic = jump.getMnemonicString().toLowerCase();
                     if (!mnemonic.startsWith("jumpr") && !mnemonic.startsWith("callr")) continue;
                     boolean sameRegister = false;
