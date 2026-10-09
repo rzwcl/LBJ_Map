@@ -1,243 +1,4 @@
-025be0  assign R1,#0x0 ; assign R16,#0x0 
-  RF_INS 00025be4  call 0x00024bc0 
-  RF_INS 00025be8  jump 0x00025c0c 
-  RF_INS 00025bec  immext #0x22eb00 
-  RF_INS 00025bf0  add R2,PC,##0x22eb1c 
-  RF_INS 00025bf4  combine R1R0,#0x14,R1 
-  RF_INS 00025bf8  assign R3,#0x14 
-  RF_INS 00025bfc  call 0x00024d20 
-  RF_INS 00025c00  assign R16,#0x1 
-  RF_INS 00025c04  immext #0xffffffc0 
-  RF_INS 00025c08  memw R2,(R2+##0xffffffc8) 
-  RF_INS 00025c0c  assign R0,R16 
-  RF_INS 00025c10  memd R17R16,(SP+#0x0) ; dealloc_return 
-  RF_INSTRUCTIONS_TOTAL=17
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547b8 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=002547b8 center=0x002547B8 block=segment_3 range=0x002547A8..0x002547C8
-    RF_DATA_WORD slot=0x002547A8 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
-    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
-    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
-    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
-    RF_DATA_WORD slot=0x002547C4 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
-  RF_INCOMING_REF[2] from=00027244 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=00027244 center=0x00027244 block=segment_3 range=0x00027234..0x00027254
-    RF_DATA_WORD slot=0x00027234 value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
-    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
-    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-    RF_DATA_WORD slot=0x00027248 value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
-    RF_DATA_WORD slot=0x0002724C value=0x00255000 target_block=EXTERNAL target_function=get_alt_path_selection_tbl@00255000 (entry)
-    RF_DATA_WORD slot=0x00027250 value=0x0025500C target_block=EXTERNAL target_function=get_irat_alt_path_selection_tbl@0025500c (entry)
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #38 name=get_ant_path_info_config entry=00025c14 body_min=00025c14 body_max=00025c27 body_bytes=20
-  RF_INS 00025c14  immext #0x22eac0 
-  RF_INS 00025c18  add R2,PC,##0x22eaf4 
-  RF_INS 00025c1c  jumpr LR 
-  RF_INS 00025c20  immext #0xffffffc0 
-  RF_INS 00025c24  memw R0,(R2+##0xffffffcc) 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547b4 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=002547b4 center=0x002547B4 block=segment_3 range=0x002547A4..0x002547C4
-    RF_DATA_WORD slot=0x002547A4 value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
-    RF_DATA_WORD slot=0x002547A8 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
-    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
-    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
-    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
-  RF_INCOMING_REF[2] from=0002723c type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=0002723c center=0x0002723C block=segment_3 range=0x0002722C..0x0002724C
-    RF_DATA_WORD slot=0x0002722C value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
-    RF_DATA_WORD slot=0x00027230 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
-    RF_DATA_WORD slot=0x00027234 value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
-    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
-    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-    RF_DATA_WORD slot=0x00027248 value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #39 name=get_sig_path_info_config entry=00025c28 body_min=00025c28 body_max=00025c3b body_bytes=20
-  RF_INS 00025c28  immext #0x22eac0 
-  RF_INS 00025c2c  add R2,PC,##0x22eae0 
-  RF_INS 00025c30  jumpr LR 
-  RF_INS 00025c34  immext #0xffffffc0 
-  RF_INS 00025c38  memw R0,(R2+##0xffffffd0) 
-  RF_INSTRUCTIONS_TOTAL=5
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547b0 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=002547b0 center=0x002547B0 block=segment_3 range=0x002547A0..0x002547C0
-    RF_DATA_WORD slot=0x002547A0 value=0x00025938 target_block=segment_2 target_function=sdr_grfc_sig_info_table_get@00025938 (entry)
-    RF_DATA_WORD slot=0x002547A4 value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
-    RF_DATA_WORD slot=0x002547A8 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
-    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
-    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
-  RF_INCOMING_REF[2] from=00027238 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=00027238 center=0x00027238 block=segment_3 range=0x00027228..0x00027248
-    RF_DATA_WORD slot=0x00027228 value=0x00025938 target_block=segment_2 target_function=sdr_grfc_sig_info_table_get@00025938 (entry)
-    RF_DATA_WORD slot=0x0002722C value=0x00025980 target_block=segment_2 target_function=blank_grfc_sig_info_table_get@00025980 (entry)
-    RF_DATA_WORD slot=0x00027230 value=0x00025ABC target_block=segment_2 target_function=get_logical_device_cfg@00025abc (entry)
-    RF_DATA_WORD slot=0x00027234 value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
-    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
-    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #40 name=get_rffe_speeds_info entry=00025c3c body_min=00025c3c body_max=00025d07 body_bytes=204
-  RF_INS 00025c3c  cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0x00025c54 
-  RF_INS 00025c40  allocframe #0x0 
-  RF_INS 00025c44  immext #0x16c0 
-  RF_INS 00025c48  add R0,PC,##0x16e0 
-  RF_INS 00025c4c  call 0x00024cf0 
-  RF_INS 00025c50  jump 0x00025cf0 
-  RF_INS 00025c54  immext #0x22ea80 
-  RF_INS 00025c58  add R3,PC,##0x22eab4 
-  RF_INS 00025c5c  immext #0xffffffc0 
-  RF_INS 00025c60  add R3,R3,##-0x2c 
-  RF_INS 00025c64  add R5,R1,#-0x21 
-  RF_INS 00025c68  memw R4,(R3) 
-  RF_INS 00025c6c  jump.if:t !cmp.gtu(R5.new,#0x8),0x00025cf4 
-  RF_INS 00025c70  cmp.eq P0,R1,#0x1 ; jump.if(P0.new):nt 0x00025c84 
-  RF_INS 00025c74  add.if(P0.new) R3,R4,#0xe 
-  RF_INS 00025c78  cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):nt 0x00025ce4 
-  RF_INS 00025c7c  assign R0,#0x1 ; memw (R2),R3 
-  RF_INS 00025c80  dealloc_return 
-  RF_INS 00025c84  memw R3,(R3) 
-  RF_INS 00025c88  add R3,R3,#0x10 
-  RF_INS 00025c8c  jump 0x00025c7c 
-  RF_INS 00025c90  memw R3,(R3) 
-  RF_INS 00025c94  add R3,R3,#0x12 
-  RF_INS 00025c98  jump 0x00025c7c 
-  RF_INS 00025c9c  memw R3,(R3) 
-  RF_INS 00025ca0  add R3,R3,#0x14 
-  RF_INS 00025ca4  jump 0x00025c7c 
-  RF_INS 00025ca8  memw R3,(R3) 
-  RF_INS 00025cac  add R3,R3,#0x16 
-  RF_INS 00025cb0  jump 0x00025c7c 
-  RF_INS 00025cb4  memw R3,(R3) 
-  RF_INS 00025cb8  add R3,R3,#0x18 
-  RF_INS 00025cbc  jump 0x00025c7c 
-  RF_INS 00025cc0  memw R3,(R3) 
-  RF_INS 00025cc4  add R3,R3,#0x1a 
-  RF_INS 00025cc8  jump 0x00025c7c 
-  RF_INS 00025ccc  memw R3,(R3) 
-  RF_INS 00025cd0  add R3,R3,#0x1c 
-  RF_INS 00025cd4  jump 0x00025c7c 
-  RF_INS 00025cd8  memw R3,(R3) 
-  RF_INS 00025cdc  add R3,R3,#0x1e 
-  RF_INS 00025ce0  jump 0x00025c7c 
-  RF_INS 00025ce4  immext #0x1640 
-  RF_INS 00025ce8  add R0,PC,##0x164c 
-  RF_INS 00025cec  call 0x00024bc0 
-  RF_INS 00025cf0  assign R0,#0x0 ; dealloc_return 
-  RF_INS 00025cf4  immext #0x400 
-  RF_INS 00025cf8  add R4,PC,##0x424 
-  RF_INS 00025cfc  memw R5,(R4+R5<<#0x2) 
-  RF_INS 00025d00  add R4,R5,R4 
-  RF_INS 00025d04  jumpr R4 
-  RF_INSTRUCTIONS_TOTAL=51
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REFS_TOTAL=1 printed=1
-
-614_RF_FUNCTION #41 name=get_cmn_properties entry=00025d08 body_min=00025d08 body_max=00025d2b body_bytes=36
-  RF_INS 00025d08  assign.if(!P0.new) R0,#0x1 
-  RF_INS 00025d0c  cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025d28 
-  RF_INS 00025d10  immext #0x22e9c0 
-  RF_INS 00025d14  add R2,PC,##0x22e9f8 
-  RF_INS 00025d18  jumpr LR 
-  RF_INS 00025d1c  immext #0xffffffc0 
-  RF_INS 00025d20  memw R2,(R2+##0xffffffd4) 
-  RF_INS 00025d24  memw (R1),R2.new 
-  RF_INS 00025d28  assign R0,#0x0 ; jumpr LR 
-  RF_INSTRUCTIONS_TOTAL=9
-  RF_INCOMING_REF[0] from=Entry Point type=EXTERNAL caller=<no-function> instruction=<no-instruction>
-  RF_INCOMING_REF[1] from=002547bc type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=002547bc center=0x002547BC block=segment_3 range=0x002547AC..0x002547CC
-    RF_DATA_WORD slot=0x002547AC value=0x00025AA8 target_block=segment_2 target_function=get_phy_device_cfg@00025aa8 (entry)
-    RF_DATA_WORD slot=0x002547B0 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x002547B4 value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x002547B8 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-    RF_DATA_WORD slot=0x002547BC value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
-    RF_DATA_WORD slot=0x002547C0 value=0x00025AD0 target_block=segment_2 target_function=get_ant_switch_path_info@00025ad0 (entry)
-    RF_DATA_WORD slot=0x002547C4 value=0x00025D50 target_block=segment_2 target_function=path_cfg_data_get@00025d50 (entry)
-    RF_DATA_WORD slot=0x002547C8 value=0x00025E44 target_block=segment_2 target_function=fbrx_cfg_data_get@00025e44 (entry)
-  RF_INCOMING_REF[2] from=00027248 type=DATA caller=<no-function> instruction=<no-instruction>
-  RF_DATA_WINDOW from=00027248 center=0x00027248 block=segment_3 range=0x00027238..0x00027258
-    RF_DATA_WORD slot=0x00027238 value=0x00025C28 target_block=segment_2 target_function=get_sig_path_info_config@00025c28 (entry)
-    RF_DATA_WORD slot=0x0002723C value=0x00025C14 target_block=segment_2 target_function=get_ant_path_info_config@00025c14 (entry)
-    RF_DATA_WORD slot=0x00027240 value=0x00255024 target_block=EXTERNAL target_function=get_rfcard_data@00255024 (entry)
-    RF_DATA_WORD slot=0x00027244 value=0x00025BD0 target_block=segment_2 target_function=get_logical_path_config@00025bd0 (entry)
-    RF_DATA_WORD slot=0x00027248 value=0x00025D08 target_block=segment_2 target_function=get_cmn_properties@00025d08 (entry)
-    RF_DATA_WORD slot=0x0002724C value=0x00255000 target_block=EXTERNAL target_function=get_alt_path_selection_tbl@00255000 (entry)
-    RF_DATA_WORD slot=0x00027250 value=0x0025500C target_block=EXTERNAL target_function=get_irat_alt_path_selection_tbl@0025500c (entry)
-    RF_DATA_WORD slot=0x00027254 value=0x002550F0 target_block=EXTERNAL target_function=get_asd_device_info@002550f0 (entry)
-  RF_INCOMING_REFS_TOTAL=3 printed=3
-
-614_RF_FUNCTION #42 name=path_cfg_data_get entry=00025d50 body_min=00025d50 body_max=00025e37 body_bytes=232
-  RF_INS 00025d50  cmp.eq P0,R2,#0x0 
-  RF_INS 00025d54  assign R16,#0x0 
-  RF_INS 00025d58  memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RF_INS 00025d5c  jump.if(P0) 0x00025e30 
-  RF_INS 00025d60  cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025e30 
-  RF_INS 00025d64  assign R17,R1 ; memw (R2),#0x0 
-  RF_INS 00025d68  memb R3,(R17+#0x11) 
-  RF_INS 00025d6c  jump.if:t !cmp.eq(R3.new,#0x9),0x00025e18 
-  RF_INS 00025d70  immext #0x1fb340 
-  RF_INS 00025d74  add R4,PC,##0x1fb348 
-  RF_INS 00025d78  memw R3,(R4+#0x4) 
-  RF_INS 00025d7c  jump.if:nt cmp.eq(R3.new,#0x0),0x00025d88 
-  RF_INS 00025d80  memh R5,(R4) 
-  RF_INS 00025d84  jump.if:t !cmp.eq(R5.new,#0x0),0x00025d90 
-  RF_INS 00025d88  call 0x00025a94 
-  RF_INS 00025d8c  jump 0x00025e18 
-  RF_INS 00025d90  memh R6,(R3) ; memuh R4,(R17+#0x2) 
-  RF_INS 00025d94  sxth R4,R4 
-  RF_INS 00025d98  jump.if:t cmp.gtu(R6,R4.new),0x00025e18 
-  RF_INS 00025d9c  add R6,R5,#-0x1 
-  RF_INS 00025da0  zxth R5,R6 
-  RF_INS 00025da4  memh R5,(R3+R5<<#0x3) 
-  RF_INS 00025da8  jump.if:t cmp.gtu(R4,R5.new),0x00025e18 
-  RF_INS 00025dac  assign R5,#0x0 
-  RF_INS 00025db0  zxth R7,R5 
-  RF_INS 00025db4  zxth R8,R6 
-  RF_INS 00025db8  jump.if:t !cmp.eq(R8.new,R7),0x00025dc8 
-  RF_INS 00025dbc  memh R6,(R3+R7<<#0x3) 
-  RF_INS 00025dc0  jump.if:t cmp.eq(R6.new,R4),0x00025ddc 
-  RF_INS 00025dc4  jump 0x00025e18 
-  RF_INS 00025dc8  add R7,R8,R7 
-  RF_INS 00025dcc  lsr R7,R7,#0x1 
-  RF_INS 00025dd0  memh R8,(R3+R7<<#0x3) 
-  RF_INS 00025dd4  jump.if:t !cmp.eq(R8.new,R4),0x00025e00 
-  RF_INS 00025dd8  assign R5,R7 
-  RF_INS 00025ddc  zxth R4,R5 
-  RF_INS 00025de0  immext #0xde80 
-  RF_INS 00025de4  cmp.eq P0,R4,##0xdead 
-  RF_INS 00025de8  assign.if(!P0.new) R16,#0x1 
-  RF_INS 00025dec  jump.if(P0.new):t 0x00025e18 
-  RF_INS 00025df0  addasl R3,R3,R4,#0x3 
-  RF_INS 00025df4  jump 0x00025e30 
-  RF_INS 00025df8  memw R3,(R3+#0x4) 
-  RF_INS 00025dfc  memw (R2),R3.new 
-  RF_INS 00025e00  cmp.gtu P0,R4,R8 
-  RF_INS 00025e04  add.if(!P0.new) R6,R7,#-0x1 
-  RF_INS 00025e08  add.if(P0.new) R5,R7,#0x1 
-  RF_INS 00025e0c  zxth R7,R5 
-  RF_INS 00025e10  zxth R1,R6 
-  RF_INS 00025e14  jump.if:t !cmp.gtu(R7,R1.new),0x00025db0 
-  RF_INS 00025e18  call 0x00024c10 
-  RF_INS 00025e1c  cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0x00025e30 
+1 ; jump.if(!P0.new):t 0x00025e30 
   RF_INS 00025e20  immext #0x1500 
   RF_INS 00025e24  add R0,PC,##0x151c 
   RF_INS 00025e28  call 0x00024bc0 
@@ -456,6 +217,214 @@
 614_RF_INSTRUCTIONS_COUNTED=607
 614_RF_INCOMING_REFERENCES_COUNTED=135
 614_RF_INCOMING_REFERENCES_PRINTED=135
+
+============================================================
+614_0_0 CONTIGUOUS FUNCTION-POINTER RUN SCAN
+Finds aligned 32-bit words in data blocks that point to known function entries.
+This scan does not modify the listing or infer vtable semantics automatically.
+READ ONLY
+============================================================
+614_CODE_POINTER_FUNCTION_ENTRIES_INDEXED=172
+614_CODE_POINTER_RUN #1 block=segment_3 range=0x000270A0..0x000270C8 count=11
+  CODE_PTR slot=0x000270A0 value=0x0025513C target=~rfc_lte_data@0025513c
+  CODE_PTR slot=0x000270A4 value=0x0002578C target=~rfc_hwid614_qrm865ab_v3_ag_lte_ag@0002578c
+  CODE_PTR slot=0x000270A8 value=0x00255074 target=sig_cfg_data_get@00255074
+  CODE_PTR slot=0x000270AC value=0x00255084 target=devices_cfg_data_get@00255084
+  CODE_PTR slot=0x000270B0 value=0x000252A0 target=timing_cfg_data_get@000252a0
+  CODE_PTR slot=0x000270B4 value=0x00025378 target=band_split_cfg_data_get@00025378
+  CODE_PTR slot=0x000270B8 value=0x00255028 target=ca_scell_log_path_swap_data_get@00255028
+  CODE_PTR slot=0x000270BC value=0x002550E4 target=get_rfcard_data@002550e4
+  CODE_PTR slot=0x000270C0 value=0x0025509C target=get_lte_properties@0025509c
+  CODE_PTR slot=0x000270C4 value=0x00025768 target=get_lte_srs_grouping_properties@00025768
+  CODE_PTR slot=0x000270C8 value=0x00255014 target=unique_path_table_get@00255014
+614_CODE_POINTER_RUN #2 block=segment_3 range=0x000270E0..0x000270EC count=4
+  CODE_PTR slot=0x000270E0 value=0x00255110 target=~rfc_nr5g_data@00255110
+  CODE_PTR slot=0x000270E4 value=0x000257A4 target=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@000257a4
+  CODE_PTR slot=0x000270E8 value=0x00025480 target=band_split_cfg_data_get@00025480
+  CODE_PTR slot=0x000270EC value=0x000254F4 target=timing_cfg_data_get@000254f4
+614_CODE_POINTER_RUN #3 block=segment_3 range=0x00027104..0x00027120 count=8
+  CODE_PTR slot=0x00027104 value=0x00255134 target=~rfc_wcdma_data@00255134
+  CODE_PTR slot=0x00027108 value=0x000257BC target=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@000257bc
+  CODE_PTR slot=0x0002710C value=0x00255078 target=sig_cfg_data_get@00255078
+  CODE_PTR slot=0x00027110 value=0x002550BC target=devices_cfg_data_get@002550bc
+  CODE_PTR slot=0x00027114 value=0x00025564 target=band_split_cfg_data_get@00025564
+  CODE_PTR slot=0x00027118 value=0x00025574 target=get_wcdma_properties@00025574
+  CODE_PTR slot=0x0002711C value=0x00255128 target=get_rfcard_data@00255128
+  CODE_PTR slot=0x00027120 value=0x0025507C target=unique_path_table_get@0025507c
+614_CODE_POINTER_RUN #4 block=segment_3 range=0x0002712C..0x00027144 count=7
+  CODE_PTR slot=0x0002712C value=0x002550F4 target=~rfc_cdma_data@002550f4
+  CODE_PTR slot=0x00027130 value=0x000257D4 target=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000257d4
+  CODE_PTR slot=0x00027134 value=0x0025508C target=sig_cfg_data_get@0025508c
+  CODE_PTR slot=0x00027138 value=0x002550E0 target=devices_cfg_data_get@002550e0
+  CODE_PTR slot=0x0002713C value=0x00025600 target=band_split_cfg_data_get@00025600
+  CODE_PTR slot=0x00027140 value=0x002550A0 target=get_rfcard_data@002550a0
+  CODE_PTR slot=0x00027144 value=0x00255080 target=unique_path_table_get@00255080
+614_CODE_POINTER_RUN #5 block=segment_3 range=0x00027150..0x0002716C count=8
+  CODE_PTR slot=0x00027150 value=0x0025505C target=~rfc_gsm_data@0025505c
+  CODE_PTR slot=0x00027154 value=0x000257EC target=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag@000257ec
+  CODE_PTR slot=0x00027158 value=0x00255034 target=sig_cfg_data_get@00255034
+  CODE_PTR slot=0x0002715C value=0x002550C8 target=devices_cfg_data_get@002550c8
+  CODE_PTR slot=0x00027160 value=0x0002566C target=band_split_cfg_data_get@0002566c
+  CODE_PTR slot=0x00027164 value=0x00025670 target=get_gsm_properties@00025670
+  CODE_PTR slot=0x00027168 value=0x00255114 target=get_rfcard_data@00255114
+  CODE_PTR slot=0x0002716C value=0x00255140 target=unique_path_table_get@00255140
+614_CODE_POINTER_RUN #6 block=segment_3 range=0x00027178..0x00027194 count=8
+  CODE_PTR slot=0x00027178 value=0x00255068 target=~rfc_tdscdma_data@00255068
+  CODE_PTR slot=0x0002717C value=0x00025804 target=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00025804
+  CODE_PTR slot=0x00027180 value=0x00255108 target=sig_cfg_data_get@00255108
+  CODE_PTR slot=0x00027184 value=0x002550C4 target=devices_cfg_data_get@002550c4
+  CODE_PTR slot=0x00027188 value=0x000256FC target=band_split_cfg_data_get@000256fc
+  CODE_PTR slot=0x0002718C value=0x00255048 target=path_cfg_data_get@00255048
+  CODE_PTR slot=0x00027190 value=0x002550AC target=get_rfcard_data@002550ac
+  CODE_PTR slot=0x00027194 value=0x00255010 target=unique_path_table_get@00255010
+614_CODE_POINTER_RUN #7 block=segment_3 range=0x000271A0..0x000271BC count=8
+  CODE_PTR slot=0x000271A0 value=0x002550D0 target=~rfc_gnss_data@002550d0
+  CODE_PTR slot=0x000271A4 value=0x0002581C target=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002581c
+  CODE_PTR slot=0x000271A8 value=0x00255008 target=sig_cfg_data_get@00255008
+  CODE_PTR slot=0x000271AC value=0x00255100 target=devices_cfg_data_get@00255100
+  CODE_PTR slot=0x000271B0 value=0x0025502C target=band_split_cfg_data_get@0025502c
+  CODE_PTR slot=0x000271B4 value=0x00255060 target=get_rfcard_data@00255060
+  CODE_PTR slot=0x000271B8 value=0x002550A8 target=path_cfg_data_get@002550a8
+  CODE_PTR slot=0x000271BC value=0x0025509C target=get_lte_properties@0025509c
+614_CODE_POINTER_RUN #8 block=segment_3 range=0x00027218..0x0002729C count=34
+  CODE_PTR slot=0x00027218 value=0x0025501C target=~rfc_common_data@0025501c
+  CODE_PTR slot=0x0002721C value=0x00025F58 target=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag@00025f58
+  CODE_PTR slot=0x00027220 value=0x000259A4 target=get_signals_info@000259a4
+  CODE_PTR slot=0x00027224 value=0x000258F0 target=sdr_rffe_sig_info_table_get@000258f0
+  CODE_PTR slot=0x00027228 value=0x00025938 target=sdr_grfc_sig_info_table_get@00025938
+  CODE_PTR slot=0x0002722C value=0x00025980 target=blank_grfc_sig_info_table_get@00025980
+  CODE_PTR slot=0x00027230 value=0x00025ABC target=get_logical_device_cfg@00025abc
+  CODE_PTR slot=0x00027234 value=0x00025AA8 target=get_phy_device_cfg@00025aa8
+  CODE_PTR slot=0x00027238 value=0x00025C28 target=get_sig_path_info_config@00025c28
+  CODE_PTR slot=0x0002723C value=0x00025C14 target=get_ant_path_info_config@00025c14
+  CODE_PTR slot=0x00027240 value=0x00255024 target=get_rfcard_data@00255024
+  CODE_PTR slot=0x00027244 value=0x00025BD0 target=get_logical_path_config@00025bd0
+  CODE_PTR slot=0x00027248 value=0x00025D08 target=get_cmn_properties@00025d08
+  CODE_PTR slot=0x0002724C value=0x00255000 target=get_alt_path_selection_tbl@00255000
+  CODE_PTR slot=0x00027250 value=0x0025500C target=get_irat_alt_path_selection_tbl@0025500c
+  CODE_PTR slot=0x00027254 value=0x002550F0 target=get_asd_device_info@002550f0
+  CODE_PTR slot=0x00027258 value=0x00025AD0 target=get_ant_switch_path_info@00025ad0
+  CODE_PTR slot=0x0002725C value=0x002550B0 target=unique_path_table_get@002550b0
+  CODE_PTR slot=0x00027260 value=0x00025D50 target=path_cfg_data_get@00025d50
+  CODE_PTR slot=0x00027264 value=0x00025E44 target=fbrx_cfg_data_get@00025e44
+  CODE_PTR slot=0x00027268 value=0x00255018 target=rfc_cmw_data_get_rfcard_type@00255018
+  CODE_PTR slot=0x0002726C value=0x00255090 target=get_aggressor_device_associations@00255090
+  CODE_PTR slot=0x00027270 value=0x00025F38 target=rfc_get_remapped_device_info@00025f38
+  CODE_PTR slot=0x00027274 value=0x00025E38 target=get_sig_path_table_cfg@00025e38
+  CODE_PTR slot=0x00027278 value=0x00025F20 target=get_fbrx_path_table_cfg@00025f20
+  CODE_PTR slot=0x0002727C value=0x00025BC4 target=get_antenna_path_table_cfg@00025bc4
+  CODE_PTR slot=0x00027280 value=0x00025120 target=get_res_alloc_tbl@00025120
+  CODE_PTR slot=0x00027284 value=0x000251F0 target=get_rrc_ca_table@000251f0
+  CODE_PTR slot=0x00027288 value=0x00025D2C target=get_band_info_rrc_table@00025d2c
+  CODE_PTR slot=0x0002728C value=0x0002521C target=get_rfm_path_info_tbl@0002521c
+  CODE_PTR slot=0x00027290 value=0x00025F34 target=is_fbrx_override_enabled@00025f34
+  CODE_PTR slot=0x00027294 value=0x0002513C target=get_nr_bands_bitmask_in_endc@0002513c
+  CODE_PTR slot=0x00027298 value=0x00025158 target=get_ver_size@00025158
+  CODE_PTR slot=0x0002729C value=0x00025178 target=get_ver_info@00025178
+614_CODE_POINTER_RUN #9 block=segment_3 range=0x00217444..0x00217450 count=4
+  CODE_PTR slot=0x00217444 value=0x00025834 target=rfc_hwid614_qrm865ab_v3_ag_init@00025834
+  CODE_PTR slot=0x00217448 value=0x00025848 target=rfc_hwid614_qrm865ab_v3_ag_deinit@00025848
+  CODE_PTR slot=0x0021744C value=0x0002585C target=rfc_hwid614_qrm865ab_v3_ag_resume@0002585c
+  CODE_PTR slot=0x00217450 value=0x00025870 target=rfc_hwid614_qrm865ab_v3_ag_suspend@00025870
+614_CODE_POINTER_RUN #10 block=segment_3 range=0x002546AC..0x002546C0 count=6
+  CODE_PTR slot=0x002546AC value=0x00025418 target=get_instance@00025418
+  CODE_PTR slot=0x002546B0 value=0x000254FC target=get_instance@000254fc
+  CODE_PTR slot=0x002546B4 value=0x00025598 target=get_instance@00025598
+  CODE_PTR slot=0x002546B8 value=0x00025604 target=get_instance@00025604
+  CODE_PTR slot=0x002546BC value=0x00025694 target=get_instance@00025694
+  CODE_PTR slot=0x002546C0 value=0x00025700 target=get_instance@00025700
+614_CODE_POINTER_RUN #11 block=segment_3 range=0x00254718..0x0025486C count=86
+  CODE_PTR slot=0x00254718 value=0x002550DC target=msg_v2_send_1_dll@002550dc
+  CODE_PTR slot=0x0025471C value=0x00025274 target=rfc_hwid614_qrm865ab_v3_ag_lte_ag@00025274
+  CODE_PTR slot=0x00254720 value=0x00255004 target=operator.new@00255004
+  CODE_PTR slot=0x00254724 value=0x00255118 target=rfc_lte_data@00255118
+  CODE_PTR slot=0x00254728 value=0x0025511C target=__save_r16_through_r19@0025511c
+  CODE_PTR slot=0x0025472C value=0x0025512C target=rfc_common_get_ag_error_control@0025512c
+  CODE_PTR slot=0x00254730 value=0x002550EC target=msg_v2_send_var_dll@002550ec
+  CODE_PTR slot=0x00254734 value=0x00255044 target=__restore_r16_through_r19_and_deallocframe@00255044
+  CODE_PTR slot=0x00254738 value=0x00025454 target=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@00025454
+  CODE_PTR slot=0x0025473C value=0x002550F8 target=rfc_nr5g_data@002550f8
+  CODE_PTR slot=0x00254740 value=0x00025538 target=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@00025538
+  CODE_PTR slot=0x00254744 value=0x0025510C target=rfc_wcdma_data@0025510c
+  CODE_PTR slot=0x00254748 value=0x000255D4 target=rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000255d4
+  CODE_PTR slot=0x0025474C value=0x002550CC target=rfc_cdma_data@002550cc
+  CODE_PTR slot=0x00254750 value=0x00025564 target=band_split_cfg_data_get@00025564
+  CODE_PTR slot=0x00254754 value=0x00025640 target=rfc_hwid614_qrm865ab_v3_ag_gsm_ag@00025640
+  CODE_PTR slot=0x00254758 value=0x000258C4 target=rfc_hwid614_qrm865ab_v3_ag_cmn_ag@000258c4
+  CODE_PTR slot=0x0025475C value=0x00255030 target=rfc_gsm_data@00255030
+  CODE_PTR slot=0x00254760 value=0x002550A4 target=strlcpy@002550a4
+  CODE_PTR slot=0x00254764 value=0x0025504C target=msg_v2_send_dll@0025504c
+  CODE_PTR slot=0x00254768 value=0x00255130 target=rfc_common_data@00255130
+  CODE_PTR slot=0x0025476C value=0x00025230 target=get_instance@00025230
+  CODE_PTR slot=0x00254770 value=0x00255020 target=memscpy@00255020
+  CODE_PTR slot=0x00254774 value=0x00025884 target=get_instance@00025884
+  CODE_PTR slot=0x00254778 value=0x00255124 target=dmm_register_dm@00255124
+  CODE_PTR slot=0x0025477C value=0x0025501C target=~rfc_common_data@0025501c
+  CODE_PTR slot=0x00254780 value=0x00255058 target=operator.delete@00255058
+  CODE_PTR slot=0x00254784 value=0x00025834 target=rfc_hwid614_qrm865ab_v3_ag_init@00025834
+  CODE_PTR slot=0x00254788 value=0x00025848 target=rfc_hwid614_qrm865ab_v3_ag_deinit@00025848
+  CODE_PTR slot=0x0025478C value=0x0002585C target=rfc_hwid614_qrm865ab_v3_ag_resume@0002585c
+  CODE_PTR slot=0x00254790 value=0x00025870 target=rfc_hwid614_qrm865ab_v3_ag_suspend@00025870
+  CODE_PTR slot=0x00254794 value=0x00025F58 target=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag@00025f58
+  CODE_PTR slot=0x00254798 value=0x000259A4 target=get_signals_info@000259a4
+  CODE_PTR slot=0x0025479C value=0x000258F0 target=sdr_rffe_sig_info_table_get@000258f0
+  CODE_PTR slot=0x002547A0 value=0x00025938 target=sdr_grfc_sig_info_table_get@00025938
+  CODE_PTR slot=0x002547A4 value=0x00025980 target=blank_grfc_sig_info_table_get@00025980
+  CODE_PTR slot=0x002547A8 value=0x00025ABC target=get_logical_device_cfg@00025abc
+  CODE_PTR slot=0x002547AC value=0x00025AA8 target=get_phy_device_cfg@00025aa8
+  CODE_PTR slot=0x002547B0 value=0x00025C28 target=get_sig_path_info_config@00025c28
+  CODE_PTR slot=0x002547B4 value=0x00025C14 target=get_ant_path_info_config@00025c14
+  CODE_PTR slot=0x002547B8 value=0x00025BD0 target=get_logical_path_config@00025bd0
+  CODE_PTR slot=0x002547BC value=0x00025D08 target=get_cmn_properties@00025d08
+  CODE_PTR slot=0x002547C0 value=0x00025AD0 target=get_ant_switch_path_info@00025ad0
+  CODE_PTR slot=0x002547C4 value=0x00025D50 target=path_cfg_data_get@00025d50
+  CODE_PTR slot=0x002547C8 value=0x00025E44 target=fbrx_cfg_data_get@00025e44
+  CODE_PTR slot=0x002547CC value=0x000256D0 target=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@000256d0
+  CODE_PTR slot=0x002547D0 value=0x00255054 target=rfc_tdscdma_data@00255054
+  CODE_PTR slot=0x002547D4 value=0x0002573C target=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c
+  CODE_PTR slot=0x002547D8 value=0x002550B4 target=rfc_gnss_data@002550b4
+  CODE_PTR slot=0x002547DC value=0x00025F38 target=rfc_get_remapped_device_info@00025f38
+  CODE_PTR slot=0x002547E0 value=0x00025E38 target=get_sig_path_table_cfg@00025e38
+  CODE_PTR slot=0x002547E4 value=0x00025F20 target=get_fbrx_path_table_cfg@00025f20
+  CODE_PTR slot=0x002547E8 value=0x00025BC4 target=get_antenna_path_table_cfg@00025bc4
+  CODE_PTR slot=0x002547EC value=0x00025120 target=get_res_alloc_tbl@00025120
+  CODE_PTR slot=0x002547F0 value=0x000251F0 target=get_rrc_ca_table@000251f0
+  CODE_PTR slot=0x002547F4 value=0x00025D2C target=get_band_info_rrc_table@00025d2c
+  CODE_PTR slot=0x002547F8 value=0x0002521C target=get_rfm_path_info_tbl@0002521c
+  CODE_PTR slot=0x002547FC value=0x0025513C target=~rfc_lte_data@0025513c
+  CODE_PTR slot=0x00254800 value=0x00255110 target=~rfc_nr5g_data@00255110
+  CODE_PTR slot=0x00254804 value=0x00025F34 target=is_fbrx_override_enabled@00025f34
+  CODE_PTR slot=0x00254808 value=0x0002513C target=get_nr_bands_bitmask_in_endc@0002513c
+  CODE_PTR slot=0x0025480C value=0x00025158 target=get_ver_size@00025158
+  CODE_PTR slot=0x00254810 value=0x00025178 target=get_ver_info@00025178
+  CODE_PTR slot=0x00254814 value=0x00255134 target=~rfc_wcdma_data@00255134
+  CODE_PTR slot=0x00254818 value=0x002550F4 target=~rfc_cdma_data@002550f4
+  CODE_PTR slot=0x0025481C value=0x0025505C target=~rfc_gsm_data@0025505c
+  CODE_PTR slot=0x00254820 value=0x00255068 target=~rfc_tdscdma_data@00255068
+  CODE_PTR slot=0x00254824 value=0x002550D0 target=~rfc_gnss_data@002550d0
+  CODE_PTR slot=0x00254828 value=0x0002578C target=~rfc_hwid614_qrm865ab_v3_ag_lte_ag@0002578c
+  CODE_PTR slot=0x0025482C value=0x000252A0 target=timing_cfg_data_get@000252a0
+  CODE_PTR slot=0x00254830 value=0x00025378 target=band_split_cfg_data_get@00025378
+  CODE_PTR slot=0x00254834 value=0x00025768 target=get_lte_srs_grouping_properties@00025768
+  CODE_PTR slot=0x00254838 value=0x000257A4 target=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@000257a4
+  CODE_PTR slot=0x0025483C value=0x00025480 target=band_split_cfg_data_get@00025480
+  CODE_PTR slot=0x00254840 value=0x000254F4 target=timing_cfg_data_get@000254f4
+  CODE_PTR slot=0x00254844 value=0x000257BC target=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@000257bc
+  CODE_PTR slot=0x00254848 value=0x00025574 target=get_wcdma_properties@00025574
+  CODE_PTR slot=0x0025484C value=0x000257D4 target=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000257d4
+  CODE_PTR slot=0x00254850 value=0x00025600 target=band_split_cfg_data_get@00025600
+  CODE_PTR slot=0x00254854 value=0x000257EC target=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag@000257ec
+  CODE_PTR slot=0x00254858 value=0x00025F3C target=rfc_card_instance_get@00025f3c
+  CODE_PTR slot=0x0025485C value=0x0002566C target=band_split_cfg_data_get@0002566c
+  CODE_PTR slot=0x00254860 value=0x00025670 target=get_gsm_properties@00025670
+  CODE_PTR slot=0x00254864 value=0x00025804 target=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00025804
+  CODE_PTR slot=0x00254868 value=0x000256FC target=band_split_cfg_data_get@000256fc
+  CODE_PTR slot=0x0025486C value=0x0002581C target=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002581c
+614_CODE_POINTER_RUNS_FOUND=11
+614_CODE_POINTER_RUNS_PRINTED=11
+614_CODE_POINTER_ENTRIES_PRINTED=184
+614_CODE_POINTER_MIN_RUN_LENGTH=4
+Pointer runs are candidates; table type/ownership still requires cross-reference validation.
 
 ============================================================
 FTM / RFA / DIAG STRING LOCATOR
@@ -784,7 +753,7 @@ DYNAMIC_CONTEXT_WINDOWS_PRINTED=0
 
 ============================================================
 614_0_0 DYNAMIC FREQUENCY TRACE SUMMARY
-TRACE_BUILD=DIAG-FTM-STRUCTURE-23
+TRACE_BUILD=DIAG-FTM-STRUCTURE-24
 PROGRAM=614_0_0.mbn
 DYNAMIC_STRING_HITS=0
 DYNAMIC_POINTER_SLOTS=0
