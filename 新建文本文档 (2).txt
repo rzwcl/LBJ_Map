@@ -1,82 +1,3 @@
-ORITY_INS 00025d88 call 0x00025a94 
-  614_PRIORITY_INS 00025d8c jump 0x00025e18 
-  614_PRIORITY_INS 00025d90 memh R6,(R3) ; memuh R4,(R17+#0x2) 
-  614_PRIORITY_INS 00025d98 jump.if:t cmp.gtu(R6,R4.new),0x00025e18 
-  614_PRIORITY_INS 00025da4 memh R5,(R3+R5<<#0x3) 
-  614_PRIORITY_INS 00025da8 jump.if:t cmp.gtu(R4,R5.new),0x00025e18 
-  614_PRIORITY_INS 00025db8 jump.if:t !cmp.eq(R8.new,R7),0x00025dc8 
-  614_PRIORITY_INS 00025dbc memh R6,(R3+R7<<#0x3) 
-  614_PRIORITY_INS 00025dc0 jump.if:t cmp.eq(R6.new,R4),0x00025ddc 
-  614_PRIORITY_INS 00025dc4 jump 0x00025e18 
-  614_PRIORITY_INS 00025dd0 memh R8,(R3+R7<<#0x3) 
-  614_PRIORITY_INS 00025dd4 jump.if:t !cmp.eq(R8.new,R4),0x00025e00 
-  614_PRIORITY_INS 00025dec jump.if(P0.new):t 0x00025e18 
-  614_PRIORITY_INS 00025df4 jump 0x00025e30 
-  614_PRIORITY_INS 00025df8 memw R3,(R3+#0x4) 
-  614_PRIORITY_INS 00025dfc memw (R2),R3.new 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=24
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=002547c4 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00027260 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00027260 value=0x00025D50
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00027258..0x00027268
-        614_PRIORITY_SLOT_WORD slot=0x00027258 value=0x00025AD0 function=get_ant_switch_path_info@00025ad0
-        614_PRIORITY_SLOT_WORD slot=0x0002725C value=0x002550B0 function=unique_path_table_get@002550b0
-        614_PRIORITY_SLOT_WORD slot=0x00027260 value=0x00025D50 function=path_cfg_data_get@00025d50
-        614_PRIORITY_SLOT_WORD slot=0x00027264 value=0x00025E44 function=fbrx_cfg_data_get@00025e44
-        614_PRIORITY_SLOT_WORD slot=0x00027268 value=0x00255018 function=rfc_cmw_data_get_rfcard_type@00255018
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x002547C4 value=0x00025D50
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x002547BC..0x002547CC
-        614_PRIORITY_SLOT_WORD slot=0x002547BC value=0x00025D08 function=get_cmn_properties@00025d08
-        614_PRIORITY_SLOT_WORD slot=0x002547C0 value=0x00025AD0 function=get_ant_switch_path_info@00025ad0
-        614_PRIORITY_SLOT_WORD slot=0x002547C4 value=0x00025D50 function=path_cfg_data_get@00025d50
-        614_PRIORITY_SLOT_WORD slot=0x002547C8 value=0x00025E44 function=fbrx_cfg_data_get@00025e44
-        614_PRIORITY_SLOT_WORD slot=0x002547CC value=0x000256D0 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@000256d0
-
-614_PRIORITY_DETAIL name=get_sig_path_table_cfg entry=00025e38
-  614_PRIORITY_INS 00025e40 jumpr LR 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=1
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=002547e0 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00027274 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00027274 value=0x00025E38
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x0002726C..0x0002727C
-        614_PRIORITY_SLOT_WORD slot=0x0002726C value=0x00255090 function=get_aggressor_device_associations@00255090
-        614_PRIORITY_SLOT_WORD slot=0x00027270 value=0x00025F38 function=rfc_get_remapped_device_info@00025f38
-        614_PRIORITY_SLOT_WORD slot=0x00027274 value=0x00025E38 function=get_sig_path_table_cfg@00025e38
-        614_PRIORITY_SLOT_WORD slot=0x00027278 value=0x00025F20 function=get_fbrx_path_table_cfg@00025f20
-        614_PRIORITY_SLOT_WORD slot=0x0002727C value=0x00025BC4 function=get_antenna_path_table_cfg@00025bc4
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x002547E0 value=0x00025E38
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x002547D8..0x002547E8
-        614_PRIORITY_SLOT_WORD slot=0x002547D8 value=0x002550B4 function=rfc_gnss_data@002550b4
-        614_PRIORITY_SLOT_WORD slot=0x002547DC value=0x00025F38 function=rfc_get_remapped_device_info@00025f38
-        614_PRIORITY_SLOT_WORD slot=0x002547E0 value=0x00025E38 function=get_sig_path_table_cfg@00025e38
-        614_PRIORITY_SLOT_WORD slot=0x002547E4 value=0x00025F20 function=get_fbrx_path_table_cfg@00025f20
-        614_PRIORITY_SLOT_WORD slot=0x002547E8 value=0x00025BC4 function=get_antenna_path_table_cfg@00025bc4
-
-614_PRIORITY_DETAIL name=fbrx_cfg_data_get entry=00025e44
-  614_PRIORITY_INS 00025e4c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_PRIORITY_INS 00025e50 jump.if(P0) 0x00025ef8 
-  614_PRIORITY_INS 00025e54 memw.if(!P0) (R2),#0x0 
-  614_PRIORITY_INS 00025e64 memw R3,(R4+##0xffffffe0) 
-  614_PRIORITY_INS 00025e68 memw R3,(R3+#0x4) 
-  614_PRIORITY_INS 00025e6c jump.if:nt cmp.eq(R3.new,#0x0),0x00025e80 
-  614_PRIORITY_INS 00025e74 memw R4,(R4+##0xffffffe0) 
-  614_PRIORITY_INS 00025e78 memh R5,(R4) 
-  614_PRIORITY_INS 00025e7c jump.if:t !cmp.eq(R5.new,#0x0),0x00025e88 
-  614_PRIORITY_INS 00025e80 call 0x00025a94 
-  614_PRIORITY_INS 00025e84 jump 0x00025ef8 
-  614_PRIORITY_INS 00025e8c memh R6,(R3) 
-  614_PRIORITY_INS 00025e90 jump.if:t cmp.gtu(R6.new,R4),0x00025ef8 
-  614_PRIORITY_INS 00025e9c memh R5,(R3+R5<<#0x3) 
   614_PRIORITY_INS 00025ea0 jump.if:t cmp.gtu(R4,R5.new),0x00025ef8 
   614_PRIORITY_INS 00025eb0 jump.if:t !cmp.eq(R8.new,R7),0x00025ec4 
   614_PRIORITY_INS 00025eb8 memh R6,(R3+R7<<#0x3) 
@@ -310,6 +231,137 @@ READ ONLY; direct call targets are static leads, and indirect call flow needs se
 614_PRIORITY_CALLEE_INSTRUCTIONS_PRINTED=47
 614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=50
 614_PRIORITY_CALLEE_NOTE=Start with target 0x00025F70; determine whether it dereferences/calls the getter pointers passed by get_signals_info.
+
+============================================================
+614_0_0 get_signals_info -> indirect getter call-site context
+Prints the six direct call sites to 0x25F70 and their same-function instruction context.
+Also reports the nearest backward R0 write or call-return candidate; this is a heuristic, not full data-flow proof.
+READ ONLY
+============================================================
+614_SIGNAL_CALLER=get_signals_info entry=000259a4 target=0x00025F70
+
+614_SIGNAL_CALLSITE #1 at=000259f8 instruction=call 0x00025f70 
+  PRE 000259c8 memw (R1+#0x8),R2.new 
+  PRE 000259cc call 0x00024d10 
+  PRE 000259d0 memb (R1+#0x4),#0x8 
+  PRE 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
+  PRE 000259d8 immext #0x18c0 
+  PRE 000259dc add R0,PC,##0x18d4 
+  PRE 000259e0 call 0x00024cf0 
+  PRE 000259e4 memb (R17+#0x4),#0x0 
+  PRE 000259e8 immext #0x18c0 
+  PRE 000259ec add R2,PC,##0x18d0 
+  PRE 000259f0 immext #0xffffff80 
+  PRE 000259f4 memw R0,(R18+##0xffffffa4) 
+  >>> CALL 000259f8 call 0x00025f70 
+  POST 000259fc assign R1,#0x0 ; assign R3,R16 
+  POST 00025a00 immext #0x18c0 
+  POST 00025a04 add R2,PC,##0x18c4 
+  POST 00025a08 immext #0xffffff80 
+  R0_BACKWARD_CANDIDATE kind=explicit-destination at=000259f4 instruction=memw R0,(R18+##0xffffffa4) 
+
+614_SIGNAL_CALLSITE #2 at=00025a10 instruction=call 0x00025f70 
+  PRE 000259e0 call 0x00024cf0 
+  PRE 000259e4 memb (R17+#0x4),#0x0 
+  PRE 000259e8 immext #0x18c0 
+  PRE 000259ec add R2,PC,##0x18d0 
+  PRE 000259f0 immext #0xffffff80 
+  PRE 000259f4 memw R0,(R18+##0xffffffa4) 
+  PRE 000259f8 call 0x00025f70 
+  PRE 000259fc assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a00 immext #0x18c0 
+  PRE 00025a04 add R2,PC,##0x18c4 
+  PRE 00025a08 immext #0xffffff80 
+  PRE 00025a0c memw R0,(R18+##0xffffffa8) 
+  >>> CALL 00025a10 call 0x00025f70 
+  POST 00025a14 assign R1,#0x0 ; assign R3,R16 
+  POST 00025a18 immext #0x1880 
+  POST 00025a1c add R2,PC,##0x18b8 
+  POST 00025a20 immext #0xffffff80 
+  R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a0c instruction=memw R0,(R18+##0xffffffa8) 
+
+614_SIGNAL_CALLSITE #3 at=00025a28 instruction=call 0x00025f70 
+  PRE 000259f8 call 0x00025f70 
+  PRE 000259fc assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a00 immext #0x18c0 
+  PRE 00025a04 add R2,PC,##0x18c4 
+  PRE 00025a08 immext #0xffffff80 
+  PRE 00025a0c memw R0,(R18+##0xffffffa8) 
+  PRE 00025a10 call 0x00025f70 
+  PRE 00025a14 assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a18 immext #0x1880 
+  PRE 00025a1c add R2,PC,##0x18b8 
+  PRE 00025a20 immext #0xffffff80 
+  PRE 00025a24 memw R0,(R18+##0xffffffac) 
+  >>> CALL 00025a28 call 0x00025f70 
+  POST 00025a2c assign R1,#0x0 ; assign R3,R16 
+  POST 00025a30 immext #0x1880 
+  POST 00025a34 add R2,PC,##0x18ac 
+  POST 00025a38 immext #0xffffff80 
+  R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a24 instruction=memw R0,(R18+##0xffffffac) 
+
+614_SIGNAL_CALLSITE #4 at=00025a40 instruction=call 0x00025f70 
+  PRE 00025a10 call 0x00025f70 
+  PRE 00025a14 assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a18 immext #0x1880 
+  PRE 00025a1c add R2,PC,##0x18b8 
+  PRE 00025a20 immext #0xffffff80 
+  PRE 00025a24 memw R0,(R18+##0xffffffac) 
+  PRE 00025a28 call 0x00025f70 
+  PRE 00025a2c assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a30 immext #0x1880 
+  PRE 00025a34 add R2,PC,##0x18ac 
+  PRE 00025a38 immext #0xffffff80 
+  PRE 00025a3c memw R0,(R18+##0xffffffb0) 
+  >>> CALL 00025a40 call 0x00025f70 
+  POST 00025a44 assign R1,#0x0 ; assign R3,R16 
+  POST 00025a48 immext #0x1880 
+  POST 00025a4c add R2,PC,##0x18a0 
+  POST 00025a50 immext #0xffffff80 
+  R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a3c instruction=memw R0,(R18+##0xffffffb0) 
+
+614_SIGNAL_CALLSITE #5 at=00025a58 instruction=call 0x00025f70 
+  PRE 00025a28 call 0x00025f70 
+  PRE 00025a2c assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a30 immext #0x1880 
+  PRE 00025a34 add R2,PC,##0x18ac 
+  PRE 00025a38 immext #0xffffff80 
+  PRE 00025a3c memw R0,(R18+##0xffffffb0) 
+  PRE 00025a40 call 0x00025f70 
+  PRE 00025a44 assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a48 immext #0x1880 
+  PRE 00025a4c add R2,PC,##0x18a0 
+  PRE 00025a50 immext #0xffffff80 
+  PRE 00025a54 memw R0,(R18+##0xffffffb4) 
+  >>> CALL 00025a58 call 0x00025f70 
+  POST 00025a5c assign R1,#0x0 ; assign R3,R16 
+  POST 00025a60 immext #0x1880 
+  POST 00025a64 add R2,PC,##0x1894 
+  POST 00025a68 immext #0xffffff80 
+  R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a54 instruction=memw R0,(R18+##0xffffffb4) 
+
+614_SIGNAL_CALLSITE #6 at=00025a70 instruction=call 0x00025f70 
+  PRE 00025a40 call 0x00025f70 
+  PRE 00025a44 assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a48 immext #0x1880 
+  PRE 00025a4c add R2,PC,##0x18a0 
+  PRE 00025a50 immext #0xffffff80 
+  PRE 00025a54 memw R0,(R18+##0xffffffb4) 
+  PRE 00025a58 call 0x00025f70 
+  PRE 00025a5c assign R1,#0x0 ; assign R3,R16 
+  PRE 00025a60 immext #0x1880 
+  PRE 00025a64 add R2,PC,##0x1894 
+  PRE 00025a68 immext #0xffffff80 
+  PRE 00025a6c memw R0,(R18+##0xffffffb8) 
+  >>> CALL 00025a70 call 0x00025f70 
+  POST 00025a74 assign R1,#0x0 ; assign R3,R16 
+  POST 00025a78 assign R0,#0x1 
+  POST 00025a7c jump 0x00024c30 
+  POST 00025a80 immext #0x1800 
+  R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a6c instruction=memw R0,(R18+##0xffffffb8) 
+614_SIGNAL_CALLS_TO_0x25F70_FOUND=6
+614_SIGNAL_CALLSITE_CONTEXTS_PRINTED=6
+614_SIGNAL_CALLER_INSTRUCTIONS_SCANNED=60
 
 ============================================================
 614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP
