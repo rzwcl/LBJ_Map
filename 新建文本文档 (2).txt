@@ -1,4 +1,4 @@
-0xC9199804
+C9199804
         0xC9199784 -> 0xC5082317 <MEM_TARGET>
         0xC9199788 -> 0xC508231E <MEM_TARGET>
         0xC919978C -> 0xC508232A <MEM_TARGET>
@@ -1154,12 +1154,12 @@ SOURCE POINTER MATCHES=3
 INTERPRETATION GUIDE
 ============================================================
 1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.
-2. The 81st pointer hit is examined separately; do not infer call semantics from a data-pointer match.
-3. RF field-name pointer slots are dumped separately and direct references to each slot are enumerated.
-4. D8150ED8 is retained only as a previous-build comparison, not assumed current.
-5. RFTEST msg_const records provide source filename, SSID, line, argc, and format text.
+2. Candidate field-name table at C9199798 is printed with actual strings and reference-schema comparisons.
+3. Exact agreement at anchor indices 12, 21, 22, 25, and 48 would strengthen the table-base hypothesis.
+4. RF field-name pointer slots are also traced to their direct reference sites.
+5. D8150ED8 remains a previous-build comparison only, not assumed current.
 6. All scans are static and read-only; no DIAG packets are emitted.
-7. A field-name string table does not itself prove a command ID; correlate slot use with executable code.
+7. The field table alone does not prove command execution; code use must be verified separately.
 
 DONE
 No program data or structures modified.
