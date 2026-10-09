@@ -1,0 +1,101 @@
+# STRUCTURE-41 交接摘要（2026-10-10）
+
+## 0. 当前最高优先级：修正 Hexagon PC-relative 的基准
+
+当前任务仍是只读静态分析 Qualcomm `614_0_0.mbn`，找到真实 RX 频率调谐调用链。目标 Ghidra Program Image Base 为 `0x10000`。不要混用旧 `qdsp6sw.mbn` 的 C8/C9 地址。
+
+**重要纠正：STRUCTURE-39 的“8 个访问点全部匹配”结论无效。** 该版本错误地把 Hexagon PC-relative 地址计算为 `add_address + instruction_length + immediate`，随后又拿由同一错误公式推导的预期地址进行匹配，形成了循环验证。
+
+Qualcomm Hexagon V73 Programmer's Reference Manual 的 “Add to PC” 章节（印刷页 197）说明：PC-relative immediate 要加到当前 instruction packet 的起始地址上，而非 add 指令结束地址。参考页：
+- https://device.report/m/9617176bfefffcbc1efdcc55512335e567e0d9a1c8a2813a1538de55ed99cf3b.pdf
+- HTML 提取文本中说明 PC 是 packet start：可在 https://device.report/m/9617176bfefffcbc1efdcc55512335e567e0d9a1c8a2813a1538de55ed99cf3b 中查 “The PC value is the address of the start of the packet”。
+
+因此，此前所有以 `ins.getAddress().getOffset() + ins.getLength() + displacement` 推导出的 614_0_0 PC-relative 候选都必须重新核实。这包括 R18 基址、六个 getter pointer slot、RFC anchor、PC-relative data target 和 PLT/GOT slot。**当前不要再把旧日志中 R18=0x254710、旧六个 R18 槽位以及旧 PLT/GOT 槽位当作确认的实际地址。**
+
+## 1. 当前脚本（已提交仓库，尚未在用户 Ghidra 运行）
+
+- 路径：`Ghidra_RFDEBUG_Trace.java`
+- 版本：`DIAG-FTM-STRUCTURE-41`
+- 行数：6744
+- Git Blob SHA：`05c2126d1278b04549f295b830af1c0523a9c176`
+- 链接：https://github.com/rzwcl/LBJ_Map/blob/main/Ghidra_RFDEBUG_Trace.java
+
+STRUCTURE-41 添加：
+- `hexagonPacketOffset()`：读取 Ghidra Hexagon 语言的 `packetOffset` context field；
+- `hexagonPacketStartAddress()`：优先识别紧邻 PC-relative 指令的同包 `immext`，否则按 packetOffset context 计算 packet start；
+- `hexagonPcRelativeTarget()`：统一以 packet start + decoded immediate 推导 PC-relative 目标。
+
+上面这些计算已用于：
+- `scan614PcRelativeDataReferences()`
+- `scan614RfcAnchorContext()`
+- `scan614AnchorEffectiveMemoryAccesses()`
+- `print614SignalR2Argument()`
+- `scan614SignalInfoCallsiteContext()`
+- `scan614PltGotThunkMap()`
+- `scan614RfcGetterEffectiveSlotAudit()`
+
+单例 getter 的候选槽数组已从旧值修正为：
+`0x25467C`、`0x254684`、`0x2546F0`、`0x2546F8`。
+
+对当前源码进行了静态校验：行数 6744；两个 TRACE_BUILD 标记均为 STRUCTURE-41；packet helper 定义各 1 个；调用 PC-relative target helper 共 7 处；未发现先前的 `add + length + displacement` 公式残留；大括号差值 0。**这不是 Java 编译结果，更不是用户 Ghidra 运行结果。**
+
+## 2. 针对四个 getter 的正确候选地址（尚需新日志核对）
+
+四个已知 getter 的 PC-relative `add` 均由前一条 `immext` 扩展，PC packet start 应为 `immext` 地址。以当前 Listing 文本计算：
+
+| Getter | Packet start + immediate | memw displacement | 候选 singleton slot |
+|---|---|---|---|
+| `0x25598` | `0x25598 + 0x22F170 = 0x254708` | `-0x8C` | `0x25467C` |
+| `0x25604` | `0x25604 + 0x22F104 = 0x254708` | `-0x84` | `0x254684` |
+| `0x25694` | `0x25694 + 0x22F074 = 0x254708` | `-0x18` | `0x2546F0` |
+| `0x25700` | `0x25700 + 0x22F008 = 0x254708` | `-0x10` | `0x2546F8` |
+
+这些是按 packet-start 语义重新计算的候选，并非运行时重定位后的最终对象地址。STRUCTURE-41 会读取这些槽位的静态内容并同时打印 Ghidra 保存的引用；下一步必须通过新日志核实。
+
+## 3. 旧日志与历史文件备份（均保留，不要覆盖）
+
+### 原交接基线：STRUCTURE-37 原始日志 + 完整交接摘要
+
+- 文件：https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2)%20-%20PRE%20STRUCTURE38%20BACKUP%202026-10-10.txt
+- Blob SHA：`0bc7b1bda480ebe7d7504b310f9d07a44ec3fa85`
+- 58,187 字符、652 行。
+
+### STRUCTURE-38 运行日志
+
+- 文件：https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2)%20-%20STRUCTURE38%20RUN%20LOG%202026-10-10.txt
+- Blob SHA：`2d1ab29880078f3133ea63f3d999597f726b21fb`
+- 45,001 字符；此日志已单独保留。
+
+### STRUCTURE-39 运行日志（文档 2 被覆盖前保存）
+
+- 文件：https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2)%20-%20STRUCTURE39%20EFFECTIVE%20AUDIT%20LOG%202026-10-10.txt
+- Blob SHA：`e8e88c391bc7d1b76dc6d0016fc642fa8196b155`
+- 45,001 字符；备份经读取后与当时文档 2 完全一致。
+- 此日志包含 `614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES=8`，但该数字来自错误的 PC 基准，现已明确撤回，不能作为证据。
+
+当前文档 2 原链接仍可用于接收新日志，但用户每次覆盖它前都应先另存新文件。本次旧基线、STRUCTURE-38、STRUCTURE-39 均有独立副本。
+
+## 4. 其他已经确认、且不依赖这些 PC-relative 计算的事实
+
+- `get_signals_info` 的函数名和 Listing 入口先前识别为 `0x259A4`，多个 callsite 进入 `0x25F70`，其间接调用指令为 `0x25F7C: callr R0`。调用点自身可以保留为静态 Listing 观察，但它使用什么 getter-pointer slot 需重新计算。
+- 六个看似代码地址 `0x264D4`、`0x26544`、`0x265B4`、`0x26624`、`0x26694`、`0x26708` 已依据原始字节识别为 RFC 错误字符串，不是函数入口。
+- `0x272C0..0x272FC` 处的六条记录以及相应错误字符串字节仍是实际数据观察；但它们与 getter 的关联不要仅靠错误的 R18-slot 计算推导。
+- STRUCTURE-38 输出的 `0x24C80`、`0x24CB0`、`0x24E90`、`0x24EB0` 指令形态为通过 R28 的 `memw` 后 `jumpr R28`。它们是间接跳转桩，而不是已经确认的实际构造函数；槽位内容仍要按 packet-start 修正后重新核验。
+- 不能声称找到 RX tune 入口。目前还没有证据确认具体函数执行频率编程或调用 RF driver。
+
+## 5. 下一步操作
+
+1. 下载 STRUCTURE-41，覆盖本地原脚本 `D:\\X55RE\\ghidra_scripts\\Ghidra_RFDEBUG_Trace.java`。
+2. 在同一个 `614_0_0.mbn` Ghidra Program 中运行，不要切到旧 `qdsp6sw.mbn`。
+3. 运行后先保存新日志为独立文件，再发给助手；不要覆盖任何三个历史备份。
+4. 优先检查：
+   - `614_SIGNAL_R18_PC_BASE`：应出现 packet start 与 packet offset；
+   - `614_SIGNAL_R2_ARGUMENT` 和 `614_SIGNAL_GETTER_SLOT`：确认六个调用点的参数记录和实际 getter-pointer slot；
+   - `614_RFC_SINGLETON_SLOT`：确认修正后的四个 singleton slot 内容；
+   - `614_RFC_EFFECTIVE_AUDIT_ACCESS` 及其汇总；
+   - `614_PLT_GOT_THUNK`、resolver base 与实际静态槽位。
+5. 若 packetOffset context 缺失且找不到前置 `immext`，脚本会跳过该候选；需要查看 warning，而不是回退到 `add + length` 的旧公式。
+
+## 6. 独立工作线隔离
+
+Android 接收器/POCSAG 串车逻辑、发射设备独立 ID 研究与当前 Qualcomm 固件静态分析必须分开。不要把 `1234002` 机车型号/车号当发射器 ID，也不要把 821 MHz POCSAG IQ 当作 866.2375 MHz FFSK 内容。
