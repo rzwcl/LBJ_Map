@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-33
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-34
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -4437,6 +4437,104 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+    private void print614SignalR2Argument(Instruction callIns, Function caller) {
+        Instruction probe = listing().getInstructionBefore(callIns.getAddress());
+        for (int n = 0; n < 10 && probe != null; n++) {
+            Function probeOwner = currentProgram.getFunctionManager()
+                .getFunctionContaining(probe.getAddress());
+            if (probeOwner == null
+                    || !probeOwner.getEntryPoint().equals(caller.getEntryPoint())) return;
+
+            if ("add".equalsIgnoreCase(probe.getMnemonicString())
+                    && probe.getNumOperands() > 0) {
+                boolean writesR2 = false;
+                for (Object object : probe.getOpObjects(0)) {
+                    if (object instanceof ghidra.program.model.lang.Register
+                            && "R2".equalsIgnoreCase(
+                                ((ghidra.program.model.lang.Register)object).getName())) {
+                        writesR2 = true;
+                        break;
+                    }
+                }
+
+                boolean hasPc = false;
+                boolean hasScalar = false;
+                long displacement = 0L;
+                for (int op = 0; op < probe.getNumOperands(); op++) {
+                    for (Object object : probe.getOpObjects(op)) {
+                        if (object instanceof ghidra.program.model.lang.Register
+                                && "PC".equalsIgnoreCase(
+                                    ((ghidra.program.model.lang.Register)object).getName())) {
+                            hasPc = true;
+                        }
+                        else if (object instanceof Scalar) {
+                            displacement = ((Scalar)object).getSignedValue();
+                            hasScalar = true;
+                        }
+                    }
+                }
+
+                if (writesR2 && hasPc && hasScalar) {
+                    long dataAddress = (probe.getAddress().getOffset()
+                        + (long)probe.getLength() + displacement) & 0xffffffffL;
+                    MemoryBlock dataBlock;
+                    try {
+                        dataBlock = memory().getBlock(addr(dataAddress));
+                    }
+                    catch (Exception e) {
+                        dataBlock = null;
+                    }
+
+                    p("  614_SIGNAL_R2_ARGUMENT callsite=" + callIns.getAddress()
+                        + " source_ins=" + probe.getAddress()
+                        + " instruction=" + probe
+                        + " data_address=" + hex(dataAddress)
+                        + " block=" + (dataBlock == null ? "<none>" : dataBlock.getName())
+                        + " initialized=" + (dataBlock != null && dataBlock.isInitialized())
+                        + " executable=" + (dataBlock != null && dataBlock.isExecute()));
+
+                    if (dataBlock != null && dataBlock.isInitialized()) {
+                        StringBuilder bytes = new StringBuilder();
+                        int count = 0;
+                        for (int k = 0; k < 24; k++) {
+                            try {
+                                int value = memory().getByte(addr(dataAddress + k)) & 0xff;
+                                if (bytes.length() > 0) bytes.append(' ');
+                                bytes.append(String.format("%02X", Integer.valueOf(value)));
+                                count++;
+                            }
+                            catch (Exception e) {
+                                break;
+                            }
+                        }
+
+                        StringBuilder words = new StringBuilder();
+                        for (int k = 0; k < 6; k++) {
+                            try {
+                                long value = u32(dataAddress + (long)k * 4L);
+                                if (words.length() > 0) words.append(',');
+                                words.append(hex(value));
+                            }
+                            catch (Exception e) {
+                                break;
+                            }
+                        }
+
+                        p("  614_SIGNAL_R2_ARGUMENT_BYTES callsite=" + callIns.getAddress()
+                            + " count=" + count + " bytes=" + bytes.toString());
+                        p("  614_SIGNAL_R2_ARGUMENT_WORDS callsite=" + callIns.getAddress()
+                            + " words=" + words.toString());
+                    }
+                    return;
+                }
+            }
+            probe = listing().getInstructionBefore(probe.getAddress());
+        }
+        p("  614_SIGNAL_R2_ARGUMENT=not-found-within-10-instructions callsite="
+            + callIns.getAddress());
+    }
+
+
     private void scan614SignalInfoCallsiteContext() {
         p("");
         p("============================================================");
@@ -4528,6 +4626,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 p("614_SIGNAL_CALLSITE #" + callSites
                     + " at=" + ins.getAddress()
                     + " instruction=" + ins);
+                print614SignalR2Argument(ins, caller);
 
                 Instruction back = listing().getInstructionBefore(ins.getAddress());
                 java.util.List<Instruction> before =
@@ -4585,6 +4684,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         }
                     }
                     if (writesR0) {
+                        r0Candidate = true;
                         p("  R0_BACKWARD_CANDIDATE kind=explicit-destination"
                             + " at=" + probe.getAddress() + " instruction=" + probe);
 
@@ -4632,6 +4732,15 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                                 }
                             }
 
+                            MemoryBlock pointerBlock = null;
+                            if (pointerValue >= 0L) {
+                                try {
+                                    pointerBlock = memory().getBlock(addr(pointerValue));
+                                }
+                                catch (Exception e) {
+                                    pointerBlock = null;
+                                }
+                            }
                             Function exactTarget = null;
                             Function containingTarget = null;
                             if (pointerValue >= 0L) {
@@ -4654,6 +4763,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                                 + " slot=" + hex(slot)
                                 + " slot_block=" + (slotBlock == null ? "<none>" : slotBlock.getName())
                                 + " static_word=" + hex(pointerValue)
+                                + " target_block="
+                                + (pointerBlock == null ? "<none>" : pointerBlock.getName())
+                                + " target_executable="
+                                + (pointerBlock != null && pointerBlock.isExecute())
                                 + " exact_function="
                                 + (exactTarget == null ? "<no-exact-entry>"
                                     : exactTarget.getName() + "@" + exactTarget.getEntryPoint())
