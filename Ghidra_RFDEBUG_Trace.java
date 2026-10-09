@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-38
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-39
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-38";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-39";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -5509,6 +5509,172 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+
+    /*
+     * STRUCTURE-39 targeted audit:
+     * Recompute the four singleton accesses from the PC-relative base
+     * actually shown by the Listing and each memw displacement. Compare
+     * those calculated addresses with Ghidra's stored references. This is
+     * intentionally limited to the four known getter bodies in 614_0_0.
+     */
+    private long audit614RfcSigned32(long value) {
+        long v = value & 0xffffffffL;
+        return v >= 0x80000000L ? v - 0x100000000L : v;
+    }
+
+    private Long audit614RfcImmediate(Instruction ins) {
+        if (ins == null) return null;
+        Long found = null;
+        for (int op = 0; op < ins.getNumOperands(); op++) {
+            Object[] objects = ins.getOpObjects(op);
+            for (Object object : objects) {
+                if (object instanceof Scalar) {
+                    found = Long.valueOf(((Scalar)object).getUnsignedValue() & 0xffffffffL);
+                }
+            }
+        }
+        return found;
+    }
+
+    private void scan614RfcGetterEffectiveSlotAudit() {
+        p("");
+        p("============================================================");
+        p("614_0_0 RFC GET_INSTANCE EFFECTIVE SLOT AUDIT");
+        p("Recomputes PC-relative base + memw displacement for four known getter bodies.");
+        p("Compares actual calculated access sites with Ghidra's stored references.");
+        p("READ ONLY; no instructions, references, data, or structures are created or modified.");
+        p("============================================================");
+
+        long[][] sites = new long[][] {
+            {0x00025598L, 0x0002559CL, 0x000255A8L, 0x000255C4L},
+            {0x00025604L, 0x00025608L, 0x00025614L, 0x00025630L},
+            {0x00025694L, 0x00025698L, 0x000256A4L, 0x000256C0L},
+            {0x00025700L, 0x00025704L, 0x00025710L, 0x0002572CL}
+        };
+        long[] expectedSlots = new long[] {
+            0x00254684L, 0x0025468CL, 0x002546F8L, 0x00254700L
+        };
+
+        int gettersInspected = 0;
+        int accessesInspected = 0;
+        int computedSlotMatches = 0;
+        int directReferenceMatches = 0;
+        int missingInstructions = 0;
+
+        for (int i = 0; i < sites.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long getter = sites[i][0];
+            long addAddress = sites[i][1];
+            Instruction addIns = listing().getInstructionAt(addr(addAddress));
+            Instruction firstAccess = listing().getInstructionAt(addr(sites[i][2]));
+            Instruction secondAccess = listing().getInstructionAt(addr(sites[i][3]));
+
+            Function getterFunction = null;
+            try {
+                getterFunction = currentProgram.getFunctionManager().getFunctionAt(addr(getter));
+            }
+            catch (Exception e) {
+                getterFunction = null;
+            }
+
+            p("");
+            p("614_RFC_EFFECTIVE_AUDIT_GETTER #" + (i + 1)
+                + " getter=" + hex(getter)
+                + " name=" + (getterFunction == null ? "<none>" : getterFunction.getName())
+                + " expected_slot=" + hex(expectedSlots[i]));
+            gettersInspected++;
+
+            if (addIns == null) {
+                p("  614_RFC_EFFECTIVE_AUDIT_WARNING missing_pc_add_instruction=" + hex(addAddress));
+                missingInstructions++;
+                continue;
+            }
+
+            Long addImmediateRaw = audit614RfcImmediate(addIns);
+            if (addImmediateRaw == null) {
+                p("  614_RFC_EFFECTIVE_AUDIT_WARNING no_scalar_immediate_at_pc_add=" + addIns.getAddress());
+                missingInstructions++;
+                continue;
+            }
+
+            long addImmediate = audit614RfcSigned32(addImmediateRaw.longValue());
+            long pcAfter = addAddress + (long)addIns.getLength();
+            long computedBase = pcAfter + addImmediate;
+            p("  614_RFC_EFFECTIVE_AUDIT_PC_BASE site=" + addIns.getAddress()
+                + " pc_after=" + hex(pcAfter)
+                + " immediate_raw=" + hex(addImmediateRaw.longValue())
+                + " immediate_signed=" + addImmediate
+                + " computed_base=" + hex(computedBase)
+                + " instruction=" + addIns);
+
+            Instruction[] accessInstructions = new Instruction[] {firstAccess, secondAccess};
+            for (int j = 0; j < accessInstructions.length
+                    && !monitor.isCancelled() && lines < MAX_LINES; j++) {
+                Instruction access = accessInstructions[j];
+                if (access == null) {
+                    p("  614_RFC_EFFECTIVE_AUDIT_WARNING missing_memw_instruction="
+                        + hex(sites[i][j + 2]));
+                    missingInstructions++;
+                    continue;
+                }
+
+                Long dispRaw = audit614RfcImmediate(access);
+                if (dispRaw == null) {
+                    p("  614_RFC_EFFECTIVE_AUDIT_WARNING no_scalar_displacement_at="
+                        + access.getAddress() + " instruction=" + access);
+                    missingInstructions++;
+                    continue;
+                }
+
+                long displacement = audit614RfcSigned32(dispRaw.longValue());
+                long effectiveAddress = (computedBase + displacement) & 0xffffffffL;
+                boolean matchesExpected = effectiveAddress == expectedSlots[i];
+                if (matchesExpected) computedSlotMatches++;
+
+                ReferenceIterator refs = currentProgram.getReferenceManager()
+                    .getReferencesTo(addr(effectiveAddress));
+                int refCount = 0;
+                boolean directFromThisInstruction = false;
+                while (refs.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Reference ref = refs.next();
+                    refCount++;
+                    if (ref.getFromAddress().equals(access.getAddress())) {
+                        directFromThisInstruction = true;
+                    }
+                    if (refCount <= 12) {
+                        p("    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective="
+                            + hex(effectiveAddress)
+                            + " from=" + ref.getFromAddress()
+                            + " type=" + ref.getReferenceType());
+                    }
+                }
+                if (directFromThisInstruction) directReferenceMatches++;
+
+                p("  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=" + hex(getter)
+                    + " access=" + access.getAddress()
+                    + " computed_base=" + hex(computedBase)
+                    + " displacement_raw=" + hex(dispRaw.longValue())
+                    + " displacement_signed=" + displacement
+                    + " effective_address=" + hex(effectiveAddress)
+                    + " expected_slot=" + hex(expectedSlots[i])
+                    + " matches_expected_slot=" + matchesExpected
+                    + " stored_direct_reference_from_this_access=" + directFromThisInstruction
+                    + " total_references_to_effective_address=" + refCount
+                    + " instruction=" + access);
+                accessesInspected++;
+            }
+        }
+
+        p("");
+        p("614_RFC_EFFECTIVE_AUDIT_GETTERS_INSPECTED=" + gettersInspected);
+        p("614_RFC_EFFECTIVE_AUDIT_ACCESS_SITES_INSPECTED=" + accessesInspected);
+        p("614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES=" + computedSlotMatches);
+        p("614_RFC_EFFECTIVE_AUDIT_STORED_DIRECT_REFERENCE_MATCHES=" + directReferenceMatches);
+        p("614_RFC_EFFECTIVE_AUDIT_MISSING_INSTRUCTIONS_OR_IMMEDIATES=" + missingInstructions);
+        p("Interpretation rule: calculated address is based on the Listing's PC-relative add and memw scalar; stored references are reported separately and are not treated as ground truth.");
+    }
+
+
     private void scan614PltGotThunkMap() {
         p("");
         p("============================================================");
@@ -6473,6 +6639,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614UnrecognizedSignalCodeTargets();
             scan614SignalDescriptorStringsAndReferences();
             scan614RfcSingletonStorageAndConstructors();
+            scan614RfcGetterEffectiveSlotAudit();
             scan614PltGotThunkMap();
         }
         else {
