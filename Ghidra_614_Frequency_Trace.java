@@ -44,7 +44,7 @@ public class Ghidra_614_Frequency_Trace extends GhidraScript {
     private static final int MAX_LINES = 5800;
     private static final int CHUNK = 0x4000;
     private static final int MAX_STRING_HITS_PER_LABEL = 32;
-    private static final int MAX_POINTER_HITS_PER_LABEL = 80;
+    private static final int MAX_POINTER_HITS_TOTAL = 24;
     private static final int MAX_EXACT_CODE_HITS = 120;
     private static final int MAX_CONTEXTS = 30;
 
@@ -436,7 +436,7 @@ public class Ghidra_614_Frequency_Trace extends GhidraScript {
                         if (low != 0L) low16TargetNames.put(low,
                             "POINTER_SLOT_" + target.label);
 
-                        if (printed < MAX_POINTER_HITS_PER_LABEL * Math.max(1, targets.size())) {
+                        if (printed < MAX_POINTER_HITS_TOTAL) {
                             p("  POINTER_SLOT_HIT target=" + target.label
                                 + " string=" + hex(value)
                                 + " slot=" + hex(slot)
