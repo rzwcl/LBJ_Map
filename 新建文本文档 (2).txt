@@ -640,3 +640,13 @@ RTL-SDR Driver 或 RTL-TCP -> RtlTcpClient.kt -> IQ -> DSP/FM/AFC/滤波/降采�
 - 不在 Android app 里用全局最近车次/字符串猜测代替 POCSAG message boundary。
 - 不把建议中的 UI/数据库改造说成已经提交或通过 APK 实测。
 - 不把 821 MHz 上的 POCSAG IQ 当成 866 MHz FFSK 的数据。
+
+
+## 8. 最后一次复核补充（当前文件快照，2026-10-10）
+
+- 当前整个 GitHub 文件（原始 STRUCTURE-37 日志 + 本交接摘要合并）的 Blob SHA：8134bf18156d9fe2bf87ea2a3f78c90b60a8e697。
+- 当前 fetch 到的整个文件为 57,142 字符、643 行；与前面记录的“原始日志部分约 45,001 字符、397/439 行返回片段”不是同一统计口径。当前文件是日志与摘要合并体，不应误认为 643 行全是 Ghidra 输出。
+- 当前 Java 脚本最新版本确认为 DIAG-FTM-STRUCTURE-38，6497 行，Blob SHA 417e7fafa9c3e1d0d15dd07ed2173a82abf4b5f5。
+- STRUCTURE-38 新增的方法为 scan614RfcSingletonStorageAndConstructors()。它定向检查四个 get_instance 入口关联的候选单例存储槽 0x254684、0x25468C、0x2546F8、0x254700，以及共享 helper 0x2526C 和二级调用目标 0x24C80、0x24CB0、0x24E90、0x24EB0；当前尚未取得这版方法在用户 Ghidra 中运行后的输出。
+- 本文件中的原始 Ghidra 日志仍然属于 STRUCTURE-37（由 614_SIGNAL_TABLE_ROW、614_SIGNAL_REFERENCE_SCAN_WORDS=570922、614_SIGNAL_REFERENCE_SCAN_MATCHES=14 等输出键确认），不是 STRUCTURE-38 的运行证明。下一步如要继续固件工作，应先下载/覆盖 STRUCTURE-38 并运行，然后检查 614_RFC_SINGLETON_SLOT、614_RFC_SINGLETON_XREF、614_RFC_CONSTRUCTOR_CALL_TARGET、614_RFC_CALL_TARGET_INS、614_RFC_SINGLETON_SLOTS_INSPECTED、614_RFC_CONSTRUCTOR_CALL_TARGETS_INSPECTED。
+- 这次更新只追加快照说明，保留前面的原始日志和此前交接内容。后续如果同路径被再次写入新日志，须重新识别文件当前内容究竟是日志、摘要还是二者合并。
