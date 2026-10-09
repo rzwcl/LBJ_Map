@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-13
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-14
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-13";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-14";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -76,6 +76,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private long summaryStringTargetCodeHits = -1L;
     private int summaryExecutableBlocks = -1;
     private int summaryExecutableBlocksSampled = -1;
+    private long summaryRegionPointerSlots = -1L;
+    private long summaryRegionReadableStrings = -1L;
+    private long summaryRegionNulls = -1L;
+    private long summaryRegionUnreadable = -1L;
+    private int summaryRegionGroups = -1;
 
     private Address addr(long off) {
         return currentProgram.getAddressFactory()
@@ -1178,6 +1183,137 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 p("  ADJ_POOL[" + i + "] ERROR=" + e.getMessage());
             }
         }
+    }
+
+    private static final long RADIO_CONFIG_POINTER_REGION_START = 0xC9199798L;
+    private static final long RADIO_CONFIG_POINTER_REGION_END = 0xC919A600L;
+
+    /*
+     * Dump the aligned pointer region around the RF field-name tables.
+     * NULLs are reported as candidate array boundaries, not assumed semantic
+     * boundaries. Non-NULL pointers are labeled only when they decode as text.
+     */
+    private void dumpRadioConfigPointerRegion() {
+        long start = RADIO_CONFIG_POINTER_REGION_START;
+        long endExclusive = RADIO_CONFIG_POINTER_REGION_END;
+        long slots = 0L;
+        long readable = 0L;
+        long nulls = 0L;
+        long unreadable = 0L;
+        int groups = 0;
+
+        long groupStart = -1L;
+        long groupEnd = -1L;
+        long groupCount = 0L;
+        String groupFirst = null;
+        String groupLast = null;
+
+        p("");
+        p("============================================================");
+        p("RADIO_CONFIG CONTIGUOUS STRING-POINTER REGION");
+        p("Range=" + hex(start) + ".." + hex(endExclusive - 1L));
+        p("Four-byte aligned read-only dump; NULL/unreadable entries split candidate runs.");
+        p("Runs are structural candidates only, not assumed to be enum or parser tables.");
+        p("============================================================");
+
+        MemoryBlock regionBlock = block(start);
+        if (regionBlock == null || !regionBlock.isInitialized()
+                || endExclusive - 1L > regionBlock.getEnd().getOffset()) {
+            p("  REGION_NOT_FULLY_INITIALIZED block="
+                + (regionBlock == null ? "<none>" : regionBlock.getName()));
+            return;
+        }
+
+        for (long slot = start; slot + 3L < endExclusive; slot += 4L) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            slots++;
+            long ptr;
+            try {
+                ptr = u32(slot);
+            }
+            catch (Exception e) {
+                unreadable++;
+                if (groupCount > 0L) {
+                    p("  REGION_RUN[" + groups + "] range=" + hex(groupStart)
+                        + ".." + hex(groupEnd) + " entries=" + groupCount
+                        + " first=\"" + groupFirst + "\" last=\"" + groupLast + "\"");
+                    groups++;
+                    groupStart = -1L;
+                    groupEnd = -1L;
+                    groupCount = 0L;
+                    groupFirst = null;
+                    groupLast = null;
+                }
+                p("  REGION_ENTRY slot=" + hex(slot) + " read_error=\"" + e.getMessage() + "\"");
+                continue;
+            }
+
+            if (ptr == 0L) {
+                nulls++;
+                if (groupCount > 0L) {
+                    p("  REGION_RUN[" + groups + "] range=" + hex(groupStart)
+                        + ".." + hex(groupEnd) + " entries=" + groupCount
+                        + " first=\"" + groupFirst + "\" last=\"" + groupLast + "\"");
+                    groups++;
+                    groupStart = -1L;
+                    groupEnd = -1L;
+                    groupCount = 0L;
+                    groupFirst = null;
+                    groupLast = null;
+                }
+                p("  REGION_NULL slot=" + hex(slot) + " next_run=" + groups);
+                continue;
+            }
+
+            String textValue = readAsciiAt(ptr, 120);
+            if (textValue == null) {
+                unreadable++;
+                if (groupCount > 0L) {
+                    p("  REGION_RUN[" + groups + "] range=" + hex(groupStart)
+                        + ".." + hex(groupEnd) + " entries=" + groupCount
+                        + " first=\"" + groupFirst + "\" last=\"" + groupLast + "\"");
+                    groups++;
+                    groupStart = -1L;
+                    groupEnd = -1L;
+                    groupCount = 0L;
+                    groupFirst = null;
+                    groupLast = null;
+                }
+                p("  REGION_UNREADABLE slot=" + hex(slot) + " ptr=" + hex(ptr));
+                continue;
+            }
+
+            readable++;
+            String name = textValue.trim();
+            if (groupCount == 0L) {
+                groupStart = slot;
+                groupFirst = name;
+            }
+            groupEnd = slot;
+            groupLast = name;
+            groupCount++;
+            p("  REGION_PTR slot=" + hex(slot) + " ptr=" + hex(ptr)
+                + " text=\"" + name + "\"");
+        }
+
+        if (groupCount > 0L) {
+            p("  REGION_RUN[" + groups + "] range=" + hex(groupStart)
+                + ".." + hex(groupEnd) + " entries=" + groupCount
+                + " first=\"" + groupFirst + "\" last=\"" + groupLast + "\"");
+            groups++;
+        }
+
+        p("  REGION_POINTER_SLOTS=" + slots);
+        p("  REGION_READABLE_STRING_POINTERS=" + readable);
+        p("  REGION_NULLS=" + nulls);
+        p("  REGION_UNREADABLE_NONZERO=" + unreadable);
+        p("  REGION_CANDIDATE_RUNS=" + groups);
+
+        summaryRegionPointerSlots = slots;
+        summaryRegionReadableStrings = readable;
+        summaryRegionNulls = nulls;
+        summaryRegionUnreadable = unreadable;
+        summaryRegionGroups = groups;
     }
 
     private static final int MAX_FIELD_TRACE_INSNS = 600000;
@@ -2631,7 +2767,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE13 EXECUTION FOOTER");
+        println("STRUCTURE14 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54");
@@ -2648,6 +2784,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("TABLE_CODE_IMMEDIATE_HITS=" + summaryTableImmediateHits);
         println("TABLE_NEARBY_IMMEDIATE_HITS=" + summaryTableNearbyHits);
         println("STRING_POINTER_CODE_HITS=" + summaryStringTargetCodeHits);
+        println("REGION_POINTER_SLOTS=" + summaryRegionPointerSlots);
+        println("REGION_READABLE_STRING_POINTERS=" + summaryRegionReadableStrings);
+        println("REGION_NULLS=" + summaryRegionNulls);
+        println("REGION_UNREADABLE_NONZERO=" + summaryRegionUnreadable);
+        println("REGION_CANDIDATE_RUNS=" + summaryRegionGroups);
         println("PTRS_D819C208=" + summaryCurrentDispatchPointers);
         println("PTRS_D8150ED8=" + summaryPreviousDispatchPointers);
         println("PTRS_D89B2790=" + summarySharedThunkPointers);
@@ -2662,7 +2803,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p(" TRACE_BUILD=" + TRACE_BUILD);
         p(" DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY");
         p("Bounded static analysis only; no FTM/RF command is generated or transmitted.");
-        p("STRUCTURE-13 audits pointer-table neighborhoods around field-name string references, then samples executable blocks.");
+        p("STRUCTURE-14 maps contiguous string-pointer runs around the candidate RF field table, then audits references.");
         p("============================================================");
 
         p("PROGRAM=" + currentProgram.getName());
@@ -2671,6 +2812,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // Priority 1: validate the primary candidate table, adjacent pool, and string xrefs.
         dumpRadioConfigFieldNameTable();
         dumpAdjacentRadioConfigNamePool();
+        dumpRadioConfigPointerRegion();
         auditRadioConfigStringPointerReferences();
         scanRfFieldPointerTables();
         traceRadioConfigSlotConsumers();
