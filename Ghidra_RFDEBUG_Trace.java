@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-25
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-26
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-25";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-26";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3585,6 +3585,141 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("PC-relative effective-address reconstruction is a static candidate and should be checked against the disassembly.");
     }
 
+
+    private void scan614RfcAnchorContext() {
+        final long anchor = 0x00254710L;
+        p("");
+        p("============================================================");
+        p("614_0_0 FOCUSED RFC ANCHOR ANALYSIS");
+        p("Anchor 0x00254710 is repeatedly computed by PC-relative references.");
+        p("The contiguous function-pointer run begins at 0x00254718; this scan checks the gap and use sites.");
+        p("READ ONLY; no listing, data, or program state is modified.");
+        p("============================================================");
+
+        MemoryBlock anchorBlock;
+        try {
+            anchorBlock = memory().getBlock(addr(anchor));
+        }
+        catch (Exception e) {
+            anchorBlock = null;
+        }
+
+        if (anchorBlock == null || !anchorBlock.isInitialized()
+                || !isDefaultDynamicAddressBlock(anchorBlock)) {
+            p("614_RFC_ANCHOR_NOTE=0x00254710 is not in an initialized default-space block.");
+            return;
+        }
+
+        long dataStart = Math.max(anchorBlock.getStart().getOffset(), anchor - 0x20L);
+        long dataEnd = Math.min(anchorBlock.getEnd().getOffset(), anchor + 0x30L);
+        dataStart = (dataStart + 3L) & ~3L;
+        dataEnd = dataEnd & ~3L;
+        p("614_RFC_ANCHOR_DATA_WINDOW=" + hex(dataStart) + ".." + hex(dataEnd));
+        for (long at = dataStart; at <= dataEnd && lines < MAX_LINES; at += 4L) {
+            try {
+                long value = u32(at);
+                Function valueFunction = null;
+                MemoryBlock valueBlock = block(value);
+                if (valueBlock != null) {
+                    valueFunction = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                }
+                p("614_RFC_ANCHOR_WORD slot=" + hex(at)
+                    + " value=" + hex(value)
+                    + (at == anchor ? " <== PC_RELATIVE_ANCHOR" : "")
+                    + (at == 0x00254718L ? " <== POINTER_RUN_START" : "")
+                    + (valueFunction == null ? "" :
+                        " function=" + valueFunction.getName() + "@" + valueFunction.getEntryPoint()));
+            }
+            catch (Exception e) {
+                p("614_RFC_ANCHOR_WORD_READ_ERROR slot=" + hex(at)
+                    + " error=" + e.getMessage());
+            }
+        }
+
+        java.util.List<Instruction> executableInstructions =
+            new java.util.ArrayList<Instruction>();
+        InstructionIterator allIt = listing().getInstructions(true);
+        while (allIt.hasNext() && !monitor.isCancelled()
+                && lines < MAX_LINES) {
+            Instruction candidate = allIt.next();
+            MemoryBlock codeBlock;
+            try {
+                codeBlock = memory().getBlock(candidate.getAddress());
+            }
+            catch (Exception e) {
+                continue;
+            }
+            if (codeBlock != null && codeBlock.isExecute()
+                    && isDefaultDynamicAddressBlock(codeBlock)) {
+                executableInstructions.add(candidate);
+            }
+        }
+
+        int references = 0;
+        int contextsPrinted = 0;
+        for (int i = 0; i < executableInstructions.size()
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            Instruction ins = executableInstructions.get(i);
+            if (!"add".equalsIgnoreCase(ins.getMnemonicString())) continue;
+
+            boolean hasPcRegister = false;
+            boolean hasScalar = false;
+            long displacement = 0L;
+            for (int op = 0; op < ins.getNumOperands(); op++) {
+                Object[] objects = ins.getOpObjects(op);
+                for (Object object : objects) {
+                    if (object instanceof ghidra.program.model.lang.Register) {
+                        String registerName =
+                            ((ghidra.program.model.lang.Register)object).getName();
+                        if ("PC".equalsIgnoreCase(registerName)) {
+                            hasPcRegister = true;
+                        }
+                    }
+                    else if (object instanceof Scalar) {
+                        displacement = ((Scalar)object).getSignedValue();
+                        hasScalar = true;
+                    }
+                }
+            }
+            if (!hasPcRegister || !hasScalar) continue;
+
+            long target = ins.getAddress().getOffset()
+                + (long)ins.getLength() + displacement;
+            if (target != anchor) continue;
+
+            references++;
+            if (contextsPrinted >= 80 || lines >= MAX_LINES) continue;
+            Function owner = currentProgram.getFunctionManager()
+                .getFunctionContaining(ins.getAddress());
+            p("614_RFC_ANCHOR_REFERENCE #" + references
+                + " ins=" + ins.getAddress()
+                + " function=" + functionInfo(ins.getAddress().getOffset())
+                + " destination=" + ins.getDefaultOperandRepresentation(0)
+                + " target=" + hex(target)
+                + " instruction=" + ins);
+
+            int first = Math.max(0, i - 4);
+            int last = Math.min(executableInstructions.size() - 1, i + 10);
+            for (int j = first; j <= last && lines < MAX_LINES; j++) {
+                Instruction near = executableInstructions.get(j);
+                Function nearOwner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(near.getAddress());
+                if (owner != null && (nearOwner == null
+                        || !nearOwner.getEntryPoint().equals(owner.getEntryPoint()))) {
+                    continue;
+                }
+                if (owner == null && j != i) continue;
+                p((j == i ? "  >>> " : "      ")
+                    + near.getAddress() + " " + near);
+            }
+            contextsPrinted++;
+        }
+
+        p("614_RFC_ANCHOR_PC_RELATIVE_REFERENCES=" + references);
+        p("614_RFC_ANCHOR_INSTRUCTION_CONTEXTS_PRINTED=" + contextsPrinted);
+        p("614_RFC_ANCHOR_NOTE=Repeated references establish a shared address, not by themselves an RX tuning routine.");
+    }
+
     private void scan614CodePointerRuns() {
         dynamic614CodePointerRunRanges.clear();
         p("");
@@ -4267,6 +4402,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614RfConfigFunctionDetails();
             scan614CodePointerRuns();
             scan614PcRelativeDataReferences();
+            scan614RfcAnchorContext();
             scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
         }
