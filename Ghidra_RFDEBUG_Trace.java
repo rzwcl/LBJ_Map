@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-22
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-23
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-22";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-23";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3435,6 +3435,83 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     /**
+     * Dump a small read-only window around a DATA reference to an RFC method.
+     * These windows help distinguish function-pointer/vtable slots from
+     * unrelated data references. Offsets are only used in the default space.
+     */
+    private void scan614ReferenceNeighborhood(
+            Address from, java.util.Set<Long> seenWindows) {
+        if (from == null || seenWindows == null) return;
+
+        try {
+            ghidra.program.model.address.AddressSpace defaultSpace =
+                currentProgram.getAddressFactory().getDefaultAddressSpace();
+            if (!from.getAddressSpace().isMemorySpace()
+                    || !from.getAddressSpace().equals(defaultSpace)) {
+                return;
+            }
+
+            long sourceOffset = from.getOffset();
+            MemoryBlock owner = memory().getBlock(from);
+            if (owner == null || !owner.isInitialized()
+                    || !isDefaultDynamicAddressBlock(owner)) {
+                return;
+            }
+
+            long center = sourceOffset & ~3L;
+            Long key = Long.valueOf(center);
+            if (!seenWindows.add(key)) return;
+
+            long start = Math.max(owner.getStart().getOffset(), center - 0x10L);
+            long end = Math.min(owner.getEnd().getOffset(), center + 0x10L);
+            start = (start + 3L) & ~3L;
+
+            p("  RF_DATA_WINDOW from=" + from
+                + " center=" + hex(center)
+                + " block=" + owner.getName()
+                + " range=" + hex(start) + ".." + hex(end));
+
+            for (long at = start; at + 3L <= end; at += 4L) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                long value;
+                try {
+                    value = u32(at);
+                }
+                catch (Exception e) {
+                    p("    RF_DATA_WORD slot=" + hex(at)
+                        + " READ_ERROR=" + e.getMessage());
+                    continue;
+                }
+
+                String target = "";
+                MemoryBlock targetBlock = block(value);
+                if (targetBlock != null) {
+                    Function exact = currentProgram.getFunctionManager()
+                        .getFunctionAt(addr(value));
+                    Function containing = exact != null ? exact :
+                        currentProgram.getFunctionManager()
+                            .getFunctionContaining(addr(value));
+                    target = " target_block=" + targetBlock.getName();
+                    if (containing != null) {
+                        target += " target_function=" + containing.getName()
+                            + "@" + containing.getEntryPoint()
+                            + (exact == null ? " (interior)" : " (entry)");
+                    }
+                }
+
+                p("    RF_DATA_WORD slot=" + hex(at)
+                    + " value=" + hex(value) + target);
+            }
+        }
+        catch (Exception e) {
+            p("  RF_DATA_WINDOW_ERROR from=" + from
+                + " error=" + e.getClass().getSimpleName()
+                + ": " + e.getMessage());
+        }
+    }
+
+    /**
      * Prints disassembly and incoming references for RF-configuration APIs in
      * 614_0_0.mbn. This is static inspection only; it does not execute firmware
      * code or issue modem/DIAG commands.
@@ -3453,6 +3530,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         long instructionsPrinted = 0L;
         long referencesSeen = 0L;
         int referencesPrinted = 0;
+        java.util.Set<Long> seenDataWindows = new java.util.HashSet<Long>();
 
         try {
             FunctionIterator fit = currentProgram.getFunctionManager().getFunctions(true);
@@ -3516,6 +3594,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         + " caller=" + (caller == null ? "<no-function>"
                             : caller.getName() + "@" + caller.getEntryPoint())
                         + " instruction=" + (sourceIns == null ? "<no-instruction>" : sourceIns));
+                    if ("DATA".equalsIgnoreCase(String.valueOf(ref.getReferenceType()))) {
+                        scan614ReferenceNeighborhood(from, seenDataWindows);
+                    }
                     functionRefsPrinted++;
                     referencesPrinted++;
                 }
