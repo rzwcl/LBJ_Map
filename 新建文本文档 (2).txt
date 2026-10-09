@@ -1,30 +1,4 @@
-  614_PRIORITY_INS 00025ea0 jump.if:t cmp.gtu(R4,R5.new),0x00025ef8 
-  614_PRIORITY_INS 00025eb0 jump.if:t !cmp.eq(R8.new,R7),0x00025ec4 
-  614_PRIORITY_INS 00025eb8 memh R6,(R3+R7<<#0x3) 
-  614_PRIORITY_INS 00025ebc jump.if:t cmp.eq(R6.new,R4),0x00025ed8 
-  614_PRIORITY_INS 00025ec0 jump 0x00025ef8 
-  614_PRIORITY_INS 00025ecc memh R8,(R3+R7<<#0x3) 
-  614_PRIORITY_INS 00025ed0 jump.if:t !cmp.eq(R8.new,R4),0x00025f00 
-  614_PRIORITY_INS 00025ee8 jump.if(P0.new):t 0x00025ef8 
-  614_PRIORITY_INS 00025ef0 memw R3,(R3+#0x4) 
-  614_PRIORITY_INS 00025ef4 memw (R2),R3.new 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=24
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=002547c8 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00027264 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00027264 value=0x00025E44
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x0002725C..0x0002726C
-        614_PRIORITY_SLOT_WORD slot=0x0002725C value=0x002550B0 function=unique_path_table_get@002550b0
-        614_PRIORITY_SLOT_WORD slot=0x00027260 value=0x00025D50 function=path_cfg_data_get@00025d50
-        614_PRIORITY_SLOT_WORD slot=0x00027264 value=0x00025E44 function=fbrx_cfg_data_get@00025e44
-        614_PRIORITY_SLOT_WORD slot=0x00027268 value=0x00255018 function=rfc_cmw_data_get_rfcard_type@00255018
-        614_PRIORITY_SLOT_WORD slot=0x0002726C value=0x00255090 function=get_aggressor_device_associations@00255090
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x002547C8 value=0x00025E44
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x002547C0..0x002547D0
+02547D0
         614_PRIORITY_SLOT_WORD slot=0x002547C0 value=0x00025AD0 function=get_ant_switch_path_info@00025ad0
         614_PRIORITY_SLOT_WORD slot=0x002547C4 value=0x00025D50 function=path_cfg_data_get@00025d50
         614_PRIORITY_SLOT_WORD slot=0x002547C8 value=0x00025E44 function=fbrx_cfg_data_get@00025e44
@@ -233,12 +207,12 @@ READ ONLY; direct call targets are static leads, and indirect call flow needs se
 614_PRIORITY_CALLEE_NOTE=Start with target 0x00025F70; determine whether it dereferences/calls the getter pointers passed by get_signals_info.
 
 ============================================================
-614_0_0 get_signals_info -> indirect getter call-site context
-Prints the six direct call sites to 0x25F70 and their same-function instruction context.
-Also reports the nearest backward R0 write or call-return candidate; this is a heuristic, not full data-flow proof.
-READ ONLY
+614_0_0 get_signals_info -> indirect getter pointer resolution
+Resolves the R18-relative function-pointer slot used before each call to 0x25F70.
+Static words are read-only leads; runtime relocation behavior is not emulated.
 ============================================================
 614_SIGNAL_CALLER=get_signals_info entry=000259a4 target=0x00025F70
+614_SIGNAL_R18_PC_BASE at=000259bc instruction=add R18,PC,##0x22ed50  computed_base=0x00254710
 
 614_SIGNAL_CALLSITE #1 at=000259f8 instruction=call 0x00025f70 
   PRE 000259c8 memw (R1+#0x8),R2.new 
@@ -259,6 +233,8 @@ READ ONLY
   POST 00025a04 add R2,PC,##0x18c4 
   POST 00025a08 immext #0xffffff80 
   R0_BACKWARD_CANDIDATE kind=explicit-destination at=000259f4 instruction=memw R0,(R18+##0xffffffa4) 
+  614_SIGNAL_GETTER_SLOT callsite=000259f8 load=000259f4 base=R18:0x00254710 displacement=0xFFFFFFA4 slot=0x002546B4 slot_block=segment_3 static_word=0x00025598 exact_function=get_instance@00025598 containing_function=get_instance@00025598
+  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions
 
 614_SIGNAL_CALLSITE #2 at=00025a10 instruction=call 0x00025f70 
   PRE 000259e0 call 0x00024cf0 
@@ -279,6 +255,8 @@ READ ONLY
   POST 00025a1c add R2,PC,##0x18b8 
   POST 00025a20 immext #0xffffff80 
   R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a0c instruction=memw R0,(R18+##0xffffffa8) 
+  614_SIGNAL_GETTER_SLOT callsite=00025a10 load=00025a0c base=R18:0x00254710 displacement=0xFFFFFFA8 slot=0x002546B8 slot_block=segment_3 static_word=0x00025604 exact_function=get_instance@00025604 containing_function=get_instance@00025604
+  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions
 
 614_SIGNAL_CALLSITE #3 at=00025a28 instruction=call 0x00025f70 
   PRE 000259f8 call 0x00025f70 
@@ -299,6 +277,8 @@ READ ONLY
   POST 00025a34 add R2,PC,##0x18ac 
   POST 00025a38 immext #0xffffff80 
   R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a24 instruction=memw R0,(R18+##0xffffffac) 
+  614_SIGNAL_GETTER_SLOT callsite=00025a28 load=00025a24 base=R18:0x00254710 displacement=0xFFFFFFAC slot=0x002546BC slot_block=segment_3 static_word=0x00025694 exact_function=get_instance@00025694 containing_function=get_instance@00025694
+  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions
 
 614_SIGNAL_CALLSITE #4 at=00025a40 instruction=call 0x00025f70 
   PRE 00025a10 call 0x00025f70 
@@ -319,6 +299,8 @@ READ ONLY
   POST 00025a4c add R2,PC,##0x18a0 
   POST 00025a50 immext #0xffffff80 
   R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a3c instruction=memw R0,(R18+##0xffffffb0) 
+  614_SIGNAL_GETTER_SLOT callsite=00025a40 load=00025a3c base=R18:0x00254710 displacement=0xFFFFFFB0 slot=0x002546C0 slot_block=segment_3 static_word=0x00025700 exact_function=get_instance@00025700 containing_function=get_instance@00025700
+  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions
 
 614_SIGNAL_CALLSITE #5 at=00025a58 instruction=call 0x00025f70 
   PRE 00025a28 call 0x00025f70 
@@ -339,6 +321,8 @@ READ ONLY
   POST 00025a64 add R2,PC,##0x1894 
   POST 00025a68 immext #0xffffff80 
   R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a54 instruction=memw R0,(R18+##0xffffffb4) 
+  614_SIGNAL_GETTER_SLOT callsite=00025a58 load=00025a54 base=R18:0x00254710 displacement=0xFFFFFFB4 slot=0x002546C4 slot_block=segment_3 static_word=0x00027384 exact_function=<no-exact-entry> containing_function=<none>
+  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions
 
 614_SIGNAL_CALLSITE #6 at=00025a70 instruction=call 0x00025f70 
   PRE 00025a40 call 0x00025f70 
@@ -359,8 +343,12 @@ READ ONLY
   POST 00025a7c jump 0x00024c30 
   POST 00025a80 immext #0x1800 
   R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a6c instruction=memw R0,(R18+##0xffffffb8) 
+  614_SIGNAL_GETTER_SLOT callsite=00025a70 load=00025a6c base=R18:0x00254710 displacement=0xFFFFFFB8 slot=0x002546C8 slot_block=segment_3 static_word=0x00217458 exact_function=<no-exact-entry> containing_function=<none>
+  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions
 614_SIGNAL_CALLS_TO_0x25F70_FOUND=6
 614_SIGNAL_CALLSITE_CONTEXTS_PRINTED=6
+614_SIGNAL_GETTER_SLOTS_RESOLVED=6
+614_SIGNAL_R18_PC_BASE_FINAL=0x00254710
 614_SIGNAL_CALLER_INSTRUCTIONS_SCANNED=60
 
 ============================================================
