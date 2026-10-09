@@ -1,7 +1,7 @@
 Ghidra_RFDEBUG_Trace.java> Running...
 ============================================================
  Ghidra_RFDEBUG_Trace
- TRACE_BUILD=DIAG-FTM-STRUCTURE-18
+ TRACE_BUILD=DIAG-FTM-STRUCTURE-21
  READ-ONLY RF FREQUENCY / RFDEBUG STATIC TRACE
 No FTM/RF command is generated or transmitted.
 ============================================================
@@ -9,6 +9,467 @@ PROGRAM=614_0_0.mbn
 IMAGE_BASE=00010000
 TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY
 Legacy qdsp6sw.mbn addresses are disabled for this program.
+
+============================================================
+614_0_0 FUNCTION INVENTORY
+Enumerates functions already recognized by Ghidra in the current image.
+This is a discovery list, not proof that a function controls RX tuning.
+============================================================
+  614_FUNCTION[0] name=__PLT_HEAD entry=00024b90 block=segment_2 thunk=false body_min=00024b90 body_max=00024bab body_bytes=28
+  614_FUNCTION[1] name=msg_v2_send_1_dll entry=00024bc0 block=segment_2 thunk=true body_min=00024bc0 body_max=00024bcf body_bytes=16
+  614_FUNCTION[2] name=rfc_hwid614_qrm865ab_v3_ag_lte_ag entry=00024bd0 block=segment_2 thunk=true body_min=00024bd0 body_max=00024bdf body_bytes=16
+  614_FUNCTION[3] name=operator.new entry=00024be0 block=segment_2 thunk=true body_min=00024be0 body_max=00024bef body_bytes=16
+  614_FUNCTION[4] name=rfc_lte_data entry=00024bf0 block=segment_2 thunk=true body_min=00024bf0 body_max=00024bff body_bytes=16
+  614_FUNCTION[5] name=__save_r16_through_r19 entry=00024c00 block=segment_2 thunk=true body_min=00024c00 body_max=00024c0f body_bytes=16
+  614_FUNCTION[6] name=rfc_common_get_ag_error_control entry=00024c10 block=segment_2 thunk=true body_min=00024c10 body_max=00024c1f body_bytes=16
+  614_FUNCTION[7] name=msg_v2_send_var_dll entry=00024c20 block=segment_2 thunk=true body_min=00024c20 body_max=00024c2f body_bytes=16
+  614_FUNCTION[8] name=__restore_r16_through_r19_and_deallocframe entry=00024c30 block=segment_2 thunk=true body_min=00024c30 body_max=00024c3f body_bytes=16
+  614_FUNCTION[9] name=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=00024c40 block=segment_2 thunk=true body_min=00024c40 body_max=00024c4f body_bytes=16
+  614_FUNCTION[10] name=rfc_nr5g_data entry=00024c50 block=segment_2 thunk=true body_min=00024c50 body_max=00024c5f body_bytes=16
+  614_FUNCTION[11] name=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=00024c60 block=segment_2 thunk=true body_min=00024c60 body_max=00024c6f body_bytes=16
+  614_FUNCTION[12] name=rfc_wcdma_data entry=00024c70 block=segment_2 thunk=true body_min=00024c70 body_max=00024c7f body_bytes=16
+  614_FUNCTION[13] name=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=00024c80 block=segment_2 thunk=true body_min=00024c80 body_max=00024c8f body_bytes=16
+  614_FUNCTION[14] name=rfc_cdma_data entry=00024c90 block=segment_2 thunk=true body_min=00024c90 body_max=00024c9f body_bytes=16
+  614_FUNCTION[15] name=band_split_cfg_data_get entry=00024ca0 block=segment_2 thunk=true body_min=00024ca0 body_max=00024caf body_bytes=16
+  614_FUNCTION[16] name=rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=00024cb0 block=segment_2 thunk=true body_min=00024cb0 body_max=00024cbf body_bytes=16
+  614_FUNCTION[17] name=rfc_hwid614_qrm865ab_v3_ag_cmn_ag entry=00024cc0 block=segment_2 thunk=true body_min=00024cc0 body_max=00024ccf body_bytes=16
+  614_FUNCTION[18] name=rfc_gsm_data entry=00024cd0 block=segment_2 thunk=true body_min=00024cd0 body_max=00024cdf body_bytes=16
+  614_FUNCTION[19] name=strlcpy entry=00024ce0 block=segment_2 thunk=true body_min=00024ce0 body_max=00024cef body_bytes=16
+  614_FUNCTION[20] name=msg_v2_send_dll entry=00024cf0 block=segment_2 thunk=true body_min=00024cf0 body_max=00024cff body_bytes=16
+  614_FUNCTION[21] name=rfc_common_data entry=00024d00 block=segment_2 thunk=true body_min=00024d00 body_max=00024d0f body_bytes=16
+  614_FUNCTION[22] name=get_instance entry=00024d10 block=segment_2 thunk=true body_min=00024d10 body_max=00024d1f body_bytes=16
+  614_FUNCTION[23] name=memscpy entry=00024d20 block=segment_2 thunk=true body_min=00024d20 body_max=00024d2f body_bytes=16
+  614_FUNCTION[24] name=get_instance entry=00024d30 block=segment_2 thunk=true body_min=00024d30 body_max=00024d3f body_bytes=16
+  614_FUNCTION[25] name=dmm_register_dm entry=00024d40 block=segment_2 thunk=true body_min=00024d40 body_max=00024d4f body_bytes=16
+  614_FUNCTION[26] name=~rfc_common_data entry=00024d50 block=segment_2 thunk=true body_min=00024d50 body_max=00024d5f body_bytes=16
+  614_FUNCTION[27] name=operator.delete entry=00024d60 block=segment_2 thunk=true body_min=00024d60 body_max=00024d6f body_bytes=16
+  614_FUNCTION[28] name=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=00024e90 block=segment_2 thunk=true body_min=00024e90 body_max=00024e9f body_bytes=16
+  614_FUNCTION[29] name=rfc_tdscdma_data entry=00024ea0 block=segment_2 thunk=true body_min=00024ea0 body_max=00024eaf body_bytes=16
+  614_FUNCTION[30] name=rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=00024eb0 block=segment_2 thunk=true body_min=00024eb0 body_max=00024ebf body_bytes=16
+  614_FUNCTION[31] name=rfc_gnss_data entry=00024ec0 block=segment_2 thunk=true body_min=00024ec0 body_max=00024ecf body_bytes=16
+  614_FUNCTION[32] name=~rfc_lte_data entry=00024f50 block=segment_2 thunk=true body_min=00024f50 body_max=00024f5f body_bytes=16
+  614_FUNCTION[33] name=~rfc_nr5g_data entry=00024f60 block=segment_2 thunk=true body_min=00024f60 body_max=00024f6f body_bytes=16
+  614_FUNCTION[34] name=~rfc_wcdma_data entry=00024fb0 block=segment_2 thunk=true body_min=00024fb0 body_max=00024fbf body_bytes=16
+  614_FUNCTION[35] name=~rfc_cdma_data entry=00024fc0 block=segment_2 thunk=true body_min=00024fc0 body_max=00024fcf body_bytes=16
+  614_FUNCTION[36] name=~rfc_gsm_data entry=00024fd0 block=segment_2 thunk=true body_min=00024fd0 body_max=00024fdf body_bytes=16
+  614_FUNCTION[37] name=~rfc_tdscdma_data entry=00024fe0 block=segment_2 thunk=true body_min=00024fe0 body_max=00024fef body_bytes=16
+  614_FUNCTION[38] name=~rfc_gnss_data entry=00024ff0 block=segment_2 thunk=true body_min=00024ff0 body_max=00024fff body_bytes=16
+  614_FUNCTION[39] name=get_res_alloc_tbl entry=00025120 block=segment_2 thunk=false body_min=00025120 body_max=0002513b body_bytes=28
+  614_FUNCTION[40] name=get_nr_bands_bitmask_in_endc entry=0002513c block=segment_2 thunk=false body_min=0002513c body_max=00025157 body_bytes=28
+  614_FUNCTION[41] name=get_ver_size entry=00025158 block=segment_2 thunk=false body_min=00025158 body_max=00025177 body_bytes=32
+  614_FUNCTION[42] name=get_ver_info entry=00025178 block=segment_2 thunk=false body_min=00025178 body_max=000251ef body_bytes=120
+  614_FUNCTION[43] name=get_rrc_ca_table entry=000251f0 block=segment_2 thunk=false body_min=000251f0 body_max=0002521b body_bytes=44
+  614_FUNCTION[44] name=get_rfm_path_info_tbl entry=0002521c block=segment_2 thunk=false body_min=0002521c body_max=0002522f body_bytes=20
+  614_FUNCTION[45] name=get_instance entry=00025230 block=segment_2 thunk=false body_min=00025230 body_max=0002526b body_bytes=60
+  614_FUNCTION[46] name=FUN_0002526c entry=0002526c block=segment_2 thunk=false body_min=0002526c body_max=00025273 body_bytes=8
+  614_FUNCTION[47] name=rfc_hwid614_qrm865ab_v3_ag_lte_ag entry=00025274 block=segment_2 thunk=false body_min=00025274 body_max=0002529f body_bytes=44
+  614_FUNCTION[48] name=timing_cfg_data_get entry=000252a0 block=segment_2 thunk=false body_min=000252a0 body_max=000252a7 body_bytes=8
+  614_FUNCTION[49] name=FUN_000252a8 entry=000252a8 block=segment_2 thunk=false body_min=000252a8 body_max=00025377 body_bytes=208
+  614_FUNCTION[50] name=band_split_cfg_data_get entry=00025378 block=segment_2 thunk=false body_min=00025378 body_max=00025417 body_bytes=160
+  614_FUNCTION[51] name=get_instance entry=00025418 block=segment_2 thunk=false body_min=00025418 body_max=00025453 body_bytes=60
+  614_FUNCTION[52] name=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=00025454 block=segment_2 thunk=false body_min=00025454 body_max=0002547f body_bytes=44
+  614_FUNCTION[53] name=band_split_cfg_data_get entry=00025480 block=segment_2 thunk=false body_min=00025480 body_max=000254f3 body_bytes=116
+  614_FUNCTION[54] name=timing_cfg_data_get entry=000254f4 block=segment_2 thunk=false body_min=000254f4 body_max=000254fb body_bytes=8
+  614_FUNCTION[55] name=get_instance entry=000254fc block=segment_2 thunk=false body_min=000254fc body_max=00025537 body_bytes=60
+  614_FUNCTION[56] name=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=00025538 block=segment_2 thunk=false body_min=00025538 body_max=00025563 body_bytes=44
+  614_FUNCTION[57] name=band_split_cfg_data_get entry=00025564 block=segment_2 thunk=false body_min=00025564 body_max=00025573 body_bytes=16
+  614_FUNCTION[58] name=get_wcdma_properties entry=00025574 block=segment_2 thunk=false body_min=00025574 body_max=00025597 body_bytes=36
+  614_FUNCTION[59] name=get_instance entry=00025598 block=segment_2 thunk=false body_min=00025598 body_max=000255d3 body_bytes=60
+  614_FUNCTION[60] name=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=000255d4 block=segment_2 thunk=false body_min=000255d4 body_max=000255ff body_bytes=44
+  614_FUNCTION[61] name=band_split_cfg_data_get entry=00025600 block=segment_2 thunk=false body_min=00025600 body_max=00025603 body_bytes=4
+  614_FUNCTION[62] name=get_instance entry=00025604 block=segment_2 thunk=false body_min=00025604 body_max=0002563f body_bytes=60
+  614_FUNCTION[63] name=rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=00025640 block=segment_2 thunk=false body_min=00025640 body_max=0002566b body_bytes=44
+  614_FUNCTION[64] name=band_split_cfg_data_get entry=0002566c block=segment_2 thunk=false body_min=0002566c body_max=0002566f body_bytes=4
+  614_FUNCTION[65] name=get_gsm_properties entry=00025670 block=segment_2 thunk=false body_min=00025670 body_max=00025693 body_bytes=36
+  614_FUNCTION[66] name=get_instance entry=00025694 block=segment_2 thunk=false body_min=00025694 body_max=000256cf body_bytes=60
+  614_FUNCTION[67] name=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=000256d0 block=segment_2 thunk=false body_min=000256d0 body_max=000256fb body_bytes=44
+  614_FUNCTION[68] name=band_split_cfg_data_get entry=000256fc block=segment_2 thunk=false body_min=000256fc body_max=000256ff body_bytes=4
+  614_FUNCTION[69] name=get_instance entry=00025700 block=segment_2 thunk=false body_min=00025700 body_max=0002573b body_bytes=60
+  614_FUNCTION[70] name=rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0002573c block=segment_2 thunk=false body_min=0002573c body_max=00025767 body_bytes=44
+  614_FUNCTION[71] name=get_lte_srs_grouping_properties entry=00025768 block=segment_2 thunk=false body_min=00025768 body_max=0002578b body_bytes=36
+  614_FUNCTION[72] name=~rfc_hwid614_qrm865ab_v3_ag_lte_ag entry=0002578c block=segment_2 thunk=false body_min=0002578c body_max=000257a3 body_bytes=24
+  614_FUNCTION[73] name=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=000257a4 block=segment_2 thunk=false body_min=000257a4 body_max=000257bb body_bytes=24
+  614_FUNCTION[74] name=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=000257bc block=segment_2 thunk=false body_min=000257bc body_max=000257d3 body_bytes=24
+  614_FUNCTION[75] name=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=000257d4 block=segment_2 thunk=false body_min=000257d4 body_max=000257eb body_bytes=24
+  614_FUNCTION[76] name=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=000257ec block=segment_2 thunk=false body_min=000257ec body_max=00025803 body_bytes=24
+  614_FUNCTION[77] name=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=00025804 block=segment_2 thunk=false body_min=00025804 body_max=0002581b body_bytes=24
+  614_FUNCTION[78] name=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0002581c block=segment_2 thunk=false body_min=0002581c body_max=00025833 body_bytes=24
+  614_FUNCTION[79] name=rfc_hwid614_qrm865ab_v3_ag_init entry=00025834 block=segment_2 thunk=false body_min=00025834 body_max=00025847 body_bytes=20
+  614_FUNCTION[80] name=rfc_hwid614_qrm865ab_v3_ag_deinit entry=00025848 block=segment_2 thunk=false body_min=00025848 body_max=0002585b body_bytes=20
+  614_FUNCTION[81] name=rfc_hwid614_qrm865ab_v3_ag_resume entry=0002585c block=segment_2 thunk=false body_min=0002585c body_max=0002586f body_bytes=20
+  614_FUNCTION[82] name=rfc_hwid614_qrm865ab_v3_ag_suspend entry=00025870 block=segment_2 thunk=false body_min=00025870 body_max=00025883 body_bytes=20
+  614_FUNCTION[83] name=get_instance entry=00025884 block=segment_2 thunk=false body_min=00025884 body_max=000258c3 body_bytes=64
+  614_FUNCTION[84] name=rfc_hwid614_qrm865ab_v3_ag_cmn_ag entry=000258c4 block=segment_2 thunk=false body_min=000258c4 body_max=000258ef body_bytes=44
+  614_FUNCTION[85] name=sdr_rffe_sig_info_table_get entry=000258f0 block=segment_2 thunk=false body_min=000258f0 body_max=00025937 body_bytes=72
+  614_FUNCTION[86] name=sdr_grfc_sig_info_table_get entry=00025938 block=segment_2 thunk=false body_min=00025938 body_max=0002597f body_bytes=72
+  614_FUNCTION[87] name=blank_grfc_sig_info_table_get entry=00025980 block=segment_2 thunk=false body_min=00025980 body_max=000259a3 body_bytes=36
+  614_FUNCTION[88] name=get_signals_info entry=000259a4 block=segment_2 thunk=false body_min=000259a4 body_max=00025a93 body_bytes=240
+  614_FUNCTION[89] name=FUN_00025a94 entry=00025a94 block=segment_2 thunk=false body_min=00025a94 body_max=00025aa7 body_bytes=20
+  614_FUNCTION[90] name=get_phy_device_cfg entry=00025aa8 block=segment_2 thunk=false body_min=00025aa8 body_max=00025abb body_bytes=20
+  614_FUNCTION[91] name=get_logical_device_cfg entry=00025abc block=segment_2 thunk=false body_min=00025abc body_max=00025acf body_bytes=20
+  614_FUNCTION[92] name=get_ant_switch_path_info entry=00025ad0 block=segment_2 thunk=false body_min=00025ad0 body_max=00025bc3 body_bytes=244
+  614_FUNCTION[93] name=get_antenna_path_table_cfg entry=00025bc4 block=segment_2 thunk=false body_min=00025bc4 body_max=00025bcf body_bytes=12
+  614_FUNCTION[94] name=get_logical_path_config entry=00025bd0 block=segment_2 thunk=false body_min=00025bd0 body_max=00025c13 body_bytes=68
+  614_FUNCTION[95] name=get_ant_path_info_config entry=00025c14 block=segment_2 thunk=false body_min=00025c14 body_max=00025c27 body_bytes=20
+  614_FUNCTION[96] name=get_sig_path_info_config entry=00025c28 block=segment_2 thunk=false body_min=00025c28 body_max=00025c3b body_bytes=20
+  614_FUNCTION[97] name=get_rffe_speeds_info entry=00025c3c block=segment_2 thunk=false body_min=00025c3c body_max=00025d07 body_bytes=204
+  614_FUNCTION[98] name=get_cmn_properties entry=00025d08 block=segment_2 thunk=false body_min=00025d08 body_max=00025d2b body_bytes=36
+  614_FUNCTION[99] name=get_band_info_rrc_table entry=00025d2c block=segment_2 thunk=false body_min=00025d2c body_max=00025d4f body_bytes=36
+  614_FUNCTION[100] name=path_cfg_data_get entry=00025d50 block=segment_2 thunk=false body_min=00025d50 body_max=00025e37 body_bytes=232
+  614_FUNCTION[101] name=get_sig_path_table_cfg entry=00025e38 block=segment_2 thunk=false body_min=00025e38 body_max=00025e43 body_bytes=12
+  614_FUNCTION[102] name=fbrx_cfg_data_get entry=00025e44 block=segment_2 thunk=false body_min=00025e44 body_max=00025f1f body_bytes=220
+  614_FUNCTION[103] name=get_fbrx_path_table_cfg entry=00025f20 block=segment_2 thunk=false body_min=00025f20 body_max=00025f33 body_bytes=20
+  614_FUNCTION[104] name=is_fbrx_override_enabled entry=00025f34 block=segment_2 thunk=false body_min=00025f34 body_max=00025f37 body_bytes=4
+  614_FUNCTION[105] name=rfc_get_remapped_device_info entry=00025f38 block=segment_2 thunk=false body_min=00025f38 body_max=00025f3b body_bytes=4
+  614_FUNCTION[106] name=rfc_card_instance_get entry=00025f3c block=segment_2 thunk=false body_min=00025f3c body_max=00025f3f body_bytes=4
+  614_FUNCTION[107] name=dm_register_so entry=00025f40 block=segment_2 thunk=false body_min=00025f40 body_max=00025f57 body_bytes=24
+  614_FUNCTION[108] name=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag entry=00025f58 block=segment_2 thunk=false body_min=00025f58 body_max=00025f6f body_bytes=24
+  614_FUNCTION[109] name=FUN_00025f70 entry=00025f70 block=segment_2 thunk=false body_min=00025f70 body_max=00025f97 body_bytes=40
+  614_FUNCTION[110] name=get_alt_path_selection_tbl entry=00255000 block=EXTERNAL thunk=true body_min=00255000 body_max=00255000 body_bytes=1
+  614_FUNCTION[111] name=operator.new entry=00255004 block=EXTERNAL thunk=true body_min=00255004 body_max=00255004 body_bytes=1
+  614_FUNCTION[112] name=sig_cfg_data_get entry=00255008 block=EXTERNAL thunk=true body_min=00255008 body_max=00255008 body_bytes=1
+  614_FUNCTION[113] name=get_irat_alt_path_selection_tbl entry=0025500c block=EXTERNAL thunk=true body_min=0025500c body_max=0025500c body_bytes=1
+  614_FUNCTION[114] name=unique_path_table_get entry=00255010 block=EXTERNAL thunk=true body_min=00255010 body_max=00255010 body_bytes=1
+  614_FUNCTION[115] name=unique_path_table_get entry=00255014 block=EXTERNAL thunk=true body_min=00255014 body_max=00255014 body_bytes=1
+  614_FUNCTION[116] name=rfc_cmw_data_get_rfcard_type entry=00255018 block=EXTERNAL thunk=true body_min=00255018 body_max=00255018 body_bytes=1
+  614_FUNCTION[117] name=~rfc_common_data entry=0025501c block=EXTERNAL thunk=true body_min=0025501c body_max=0025501c body_bytes=1
+  614_FUNCTION[118] name=memscpy entry=00255020 block=EXTERNAL thunk=true body_min=00255020 body_max=00255020 body_bytes=1
+  614_FUNCTION[119] name=get_rfcard_data entry=00255024 block=EXTERNAL thunk=true body_min=00255024 body_max=00255024 body_bytes=1
+  614_FUNCTION[120] name=ca_scell_log_path_swap_data_get entry=00255028 block=EXTERNAL thunk=true body_min=00255028 body_max=00255028 body_bytes=1
+  614_FUNCTION[121] name=band_split_cfg_data_get entry=0025502c block=EXTERNAL thunk=true body_min=0025502c body_max=0025502c body_bytes=1
+  614_FUNCTION[122] name=rfc_gsm_data entry=00255030 block=EXTERNAL thunk=true body_min=00255030 body_max=00255030 body_bytes=1
+  614_FUNCTION[123] name=sig_cfg_data_get entry=00255034 block=EXTERNAL thunk=true body_min=00255034 body_max=00255034 body_bytes=1
+  614_FUNCTION[124] name=__restore_r16_through_r19_and_deallocframe entry=00255044 block=EXTERNAL thunk=true body_min=00255044 body_max=00255044 body_bytes=1
+  614_FUNCTION[125] name=path_cfg_data_get entry=00255048 block=EXTERNAL thunk=true body_min=00255048 body_max=00255048 body_bytes=1
+  614_FUNCTION[126] name=msg_v2_send_dll entry=0025504c block=EXTERNAL thunk=true body_min=0025504c body_max=0025504c body_bytes=1
+  614_FUNCTION[127] name=rfc_tdscdma_data entry=00255054 block=EXTERNAL thunk=true body_min=00255054 body_max=00255054 body_bytes=1
+  614_FUNCTION[128] name=operator.delete entry=00255058 block=EXTERNAL thunk=true body_min=00255058 body_max=00255058 body_bytes=1
+  614_FUNCTION[129] name=~rfc_gsm_data entry=0025505c block=EXTERNAL thunk=true body_min=0025505c body_max=0025505c body_bytes=1
+  614_FUNCTION[130] name=get_rfcard_data entry=00255060 block=EXTERNAL thunk=true body_min=00255060 body_max=00255060 body_bytes=1
+  614_FUNCTION[131] name=~rfc_tdscdma_data entry=00255068 block=EXTERNAL thunk=true body_min=00255068 body_max=00255068 body_bytes=1
+  614_FUNCTION[132] name=sig_cfg_data_get entry=00255074 block=EXTERNAL thunk=true body_min=00255074 body_max=00255074 body_bytes=1
+  614_FUNCTION[133] name=sig_cfg_data_get entry=00255078 block=EXTERNAL thunk=true body_min=00255078 body_max=00255078 body_bytes=1
+  614_FUNCTION[134] name=unique_path_table_get entry=0025507c block=EXTERNAL thunk=true body_min=0025507c body_max=0025507c body_bytes=1
+  614_FUNCTION[135] name=unique_path_table_get entry=00255080 block=EXTERNAL thunk=true body_min=00255080 body_max=00255080 body_bytes=1
+  614_FUNCTION[136] name=devices_cfg_data_get entry=00255084 block=EXTERNAL thunk=true body_min=00255084 body_max=00255084 body_bytes=1
+  614_FUNCTION[137] name=sig_cfg_data_get entry=0025508c block=EXTERNAL thunk=true body_min=0025508c body_max=0025508c body_bytes=1
+  614_FUNCTION[138] name=get_aggressor_device_associations entry=00255090 block=EXTERNAL thunk=true body_min=00255090 body_max=00255090 body_bytes=1
+  614_FUNCTION[139] name=get_lte_properties entry=0025509c block=EXTERNAL thunk=true body_min=0025509c body_max=0025509c body_bytes=1
+  614_FUNCTION[140] name=get_rfcard_data entry=002550a0 block=EXTERNAL thunk=true body_min=002550a0 body_max=002550a0 body_bytes=1
+  614_FUNCTION[141] name=strlcpy entry=002550a4 block=EXTERNAL thunk=true body_min=002550a4 body_max=002550a4 body_bytes=1
+  614_FUNCTION[142] name=path_cfg_data_get entry=002550a8 block=EXTERNAL thunk=true body_min=002550a8 body_max=002550a8 body_bytes=1
+  614_FUNCTION[143] name=get_rfcard_data entry=002550ac block=EXTERNAL thunk=true body_min=002550ac body_max=002550ac body_bytes=1
+  614_FUNCTION[144] name=unique_path_table_get entry=002550b0 block=EXTERNAL thunk=true body_min=002550b0 body_max=002550b0 body_bytes=1
+  614_FUNCTION[145] name=rfc_gnss_data entry=002550b4 block=EXTERNAL thunk=true body_min=002550b4 body_max=002550b4 body_bytes=1
+  614_FUNCTION[146] name=devices_cfg_data_get entry=002550bc block=EXTERNAL thunk=true body_min=002550bc body_max=002550bc body_bytes=1
+  614_FUNCTION[147] name=devices_cfg_data_get entry=002550c4 block=EXTERNAL thunk=true body_min=002550c4 body_max=002550c4 body_bytes=1
+  614_FUNCTION[148] name=devices_cfg_data_get entry=002550c8 block=EXTERNAL thunk=true body_min=002550c8 body_max=002550c8 body_bytes=1
+  614_FUNCTION[149] name=rfc_cdma_data entry=002550cc block=EXTERNAL thunk=true body_min=002550cc body_max=002550cc body_bytes=1
+  614_FUNCTION[150] name=~rfc_gnss_data entry=002550d0 block=EXTERNAL thunk=true body_min=002550d0 body_max=002550d0 body_bytes=1
+  614_FUNCTION[151] name=msg_v2_send_1_dll entry=002550dc block=EXTERNAL thunk=true body_min=002550dc body_max=002550dc body_bytes=1
+  614_FUNCTION[152] name=devices_cfg_data_get entry=002550e0 block=EXTERNAL thunk=true body_min=002550e0 body_max=002550e0 body_bytes=1
+  614_FUNCTION[153] name=get_rfcard_data entry=002550e4 block=EXTERNAL thunk=true body_min=002550e4 body_max=002550e4 body_bytes=1
+  614_FUNCTION[154] name=msg_v2_send_var_dll entry=002550ec block=EXTERNAL thunk=true body_min=002550ec body_max=002550ec body_bytes=1
+  614_FUNCTION[155] name=get_asd_device_info entry=002550f0 block=EXTERNAL thunk=true body_min=002550f0 body_max=002550f0 body_bytes=1
+  614_FUNCTION[156] name=~rfc_cdma_data entry=002550f4 block=EXTERNAL thunk=true body_min=002550f4 body_max=002550f4 body_bytes=1
+  614_FUNCTION[157] name=rfc_nr5g_data entry=002550f8 block=EXTERNAL thunk=true body_min=002550f8 body_max=002550f8 body_bytes=1
+  614_FUNCTION[158] name=devices_cfg_data_get entry=00255100 block=EXTERNAL thunk=true body_min=00255100 body_max=00255100 body_bytes=1
+  614_FUNCTION[159] name=sig_cfg_data_get entry=00255108 block=EXTERNAL thunk=true body_min=00255108 body_max=00255108 body_bytes=1
+  614_FUNCTION[160] name=rfc_wcdma_data entry=0025510c block=EXTERNAL thunk=true body_min=0025510c body_max=0025510c body_bytes=1
+  614_FUNCTION[161] name=~rfc_nr5g_data entry=00255110 block=EXTERNAL thunk=true body_min=00255110 body_max=00255110 body_bytes=1
+  614_FUNCTION[162] name=get_rfcard_data entry=00255114 block=EXTERNAL thunk=true body_min=00255114 body_max=00255114 body_bytes=1
+  614_FUNCTION[163] name=rfc_lte_data entry=00255118 block=EXTERNAL thunk=true body_min=00255118 body_max=00255118 body_bytes=1
+  614_FUNCTION[164] name=__save_r16_through_r19 entry=0025511c block=EXTERNAL thunk=true body_min=0025511c body_max=0025511c body_bytes=1
+  614_FUNCTION[165] name=dmm_register_dm entry=00255124 block=EXTERNAL thunk=true body_min=00255124 body_max=00255124 body_bytes=1
+  614_FUNCTION[166] name=get_rfcard_data entry=00255128 block=EXTERNAL thunk=true body_min=00255128 body_max=00255128 body_bytes=1
+  614_FUNCTION[167] name=rfc_common_get_ag_error_control entry=0025512c block=EXTERNAL thunk=true body_min=0025512c body_max=0025512c body_bytes=1
+  614_FUNCTION[168] name=rfc_common_data entry=00255130 block=EXTERNAL thunk=true body_min=00255130 body_max=00255130 body_bytes=1
+  614_FUNCTION[169] name=~rfc_wcdma_data entry=00255134 block=EXTERNAL thunk=true body_min=00255134 body_max=00255134 body_bytes=1
+  614_FUNCTION[170] name=~rfc_lte_data entry=0025513c block=EXTERNAL thunk=true body_min=0025513c body_max=0025513c body_bytes=1
+  614_FUNCTION[171] name=unique_path_table_get entry=00255140 block=EXTERNAL thunk=true body_min=00255140 body_max=00255140 body_bytes=1
+614_FUNCTIONS_TOTAL=172
+614_FUNCTIONS_PRINTED=172
+
+============================================================
+FUNCTION NAME CENSUS: FTM / RFA / RFDEBUG / DIAG
+============================================================
+FUNCTIONS INSPECTED=172
+FUNCTION NAME HITS=0
+
+============================================================
+FTM / RFA / DIAG STRING LOCATOR
+Static string census with code-reference reporting
+READ ONLY
+============================================================
+
+LOCATOR HIT #1
+  address=00011e2f
+  type=string-utf8
+  terms=rfa
+  value=_ZN3rfanwEj
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #2
+  address=00011e6e
+  type=string-utf8
+  terms=ara
+  value=_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag24get_ant_switch_path_infoEP19rfc_cfg_params_typePP29rfc_ant_switch_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #3
+  address=00011ee7
+  type=string-utf8
+  terms=ara
+  value=_ZN13rfc_gnss_data16sig_cfg_data_getEP19rfc_cfg_params_typePP16rfc_sig_cfg_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #4
+  address=00011fbf
+  type=string-utf8
+  terms=ara
+  value=_ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP27rfc_sub_band_info_list_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #5
+  address=0001226f
+  type=string-utf8
+  terms=ara
+  value=_ZN16rfc_tdscdma_data21unique_path_table_getEP19rfc_cfg_params_typePP33rfc_tdscdma_unique_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #6
+  address=0001234f
+  type=string-utf8
+  terms=ara
+  value=_ZN12rfc_lte_data21unique_path_table_getEP19rfc_cfg_params_typePP29rfc_lte_unique_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #7
+  address=000126f4
+  type=string-utf8
+  terms=ara
+  value=_ZN13rfc_gnss_data23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #8
+  address=00012a18
+  type=string-utf8
+  terms=ara
+  value=_ZN12rfc_gsm_data16sig_cfg_data_getEP19rfc_cfg_params_typePP16rfc_sig_cfg_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #9
+  address=00012efb
+  type=string-utf8
+  terms=ara
+  value=_ZN16rfc_tdscdma_data17path_cfg_data_getEP19rfc_cfg_params_typePP18rfc_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #10
+  address=00013236
+  type=string-utf8
+  terms=ara
+  value=_ZN33rfc_hwid614_qrm865ab_v3_ag_gsm_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #11
+  address=000133a0
+  type=string-utf8
+  terms=rfa
+  value=_ZN3rfadlEPv
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #12
+  address=00013427
+  type=string-utf8
+  terms=ara
+  value=_ZN37rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #13
+  address=0001351e
+  type=string-utf8
+  terms=ara
+  value=_ZN34rfc_hwid614_qrm865ab_v3_ag_nr5g_ag19timing_cfg_data_getEP19rfc_cfg_params_typePP25rfc_nr5g_timing_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #14
+  address=0001391e
+  type=string-utf8
+  terms=ara
+  value=_ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag19timing_cfg_data_getEP19rfc_cfg_params_typePP20rfc_timing_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #15
+  address=0001403d
+  type=string-utf8
+  terms=ara
+  value=_ZN12rfc_lte_data16sig_cfg_data_getEP19rfc_cfg_params_typePP16rfc_sig_cfg_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #16
+  address=0001419f
+  type=string-utf8
+  terms=ara
+  value=_ZN14rfc_wcdma_data16sig_cfg_data_getEP19rfc_cfg_params_typePP16rfc_sig_cfg_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #17
+  address=00014480
+  type=string-utf8
+  terms=ara
+  value=_ZN14rfc_wcdma_data21unique_path_table_getEP19rfc_cfg_params_typePP31rfc_wcdma_unique_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #18
+  address=000145b1
+  type=string-utf8
+  terms=ara
+  value=_ZN13rfc_cdma_data21unique_path_table_getEP19rfc_cfg_params_typePP30rfc_cdma_unique_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #19
+  address=0001466b
+  type=string-utf8
+  terms=ara
+  value=_ZN12rfc_lte_data20devices_cfg_data_getEP19rfc_cfg_params_typePP20rfc_device_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #20
+  address=000149f4
+  type=string-utf8
+  terms=ara
+  value=_ZN13rfc_cdma_data16sig_cfg_data_getEP19rfc_cfg_params_typePP16rfc_sig_cfg_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #21
+  address=0001513a
+  type=string-utf8
+  terms=ara
+  value=_ZN35rfc_hwid614_qrm865ab_v3_ag_wcdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #22
+  address=00015534
+  type=string-utf8
+  terms=ara
+  value=_ZN13rfc_gnss_data17path_cfg_data_getEP19rfc_cfg_params_typePP18rfc_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #23
+  address=000158a2
+  type=string-utf8
+  terms=ara
+  value=_ZN33rfc_hwid614_qrm865ab_v3_ag_lte_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #24
+  address=00015d9e
+  type=string-utf8
+  terms=ara
+  value=_ZN14rfc_wcdma_data20devices_cfg_data_getEP19rfc_cfg_params_typePP20rfc_device_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #25
+  address=00015f35
+  type=string-utf8
+  terms=ara
+  value=_ZN16rfc_tdscdma_data20devices_cfg_data_getEP19rfc_cfg_params_typePP20rfc_device_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #26
+  address=00015f90
+  type=string-utf8
+  terms=ara
+  value=_ZN12rfc_gsm_data20devices_cfg_data_getEP19rfc_cfg_params_typePP20rfc_device_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #27
+  address=0001625f
+  type=string-utf8
+  terms=ara
+  value=_ZN34rfc_hwid614_qrm865ab_v3_ag_cdma_ag23band_split_cfg_data_getEP19rfc_cfg_params_typePP24rfc_band_split_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #28
+  address=00016566
+  type=string-utf8
+  terms=ara
+  value=_ZN13rfc_cdma_data20devices_cfg_data_getEP19rfc_cfg_params_typePP20rfc_device_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #29
+  address=00016b8b
+  type=string-utf8
+  terms=ara
+  value=_ZN15rfc_common_data19get_asd_device_infoEP23rfc_asd_cfg_params_typePP26rfc_asdiv_config_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #30
+  address=00016fad
+  type=string-utf8
+  terms=ara
+  value=_ZN13rfc_gnss_data20devices_cfg_data_getEP19rfc_cfg_params_typePP20rfc_device_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #31
+  address=000172fa
+  type=string-utf8
+  terms=ara
+  value=_ZN16rfc_tdscdma_data16sig_cfg_data_getEP19rfc_cfg_params_typePP16rfc_sig_cfg_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #32
+  address=00017b32
+  type=string-utf8
+  terms=ara
+  value=_ZN12rfc_gsm_data21unique_path_table_getEP19rfc_cfg_params_typePP29rfc_gsm_unique_path_info_type
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #33
+  address=00026278
+  type=string
+  terms=ara
+  value=rfc_hwid614_qrm865ab_v3_ag_tech_config_ag.cpp:RFC detected error. Unsupported params combo provided by tech LTE for API timing_cfg_data_get : sig_path %d band %d rxtx %d reqtype %d
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #34
+  address=00026330
+  type=string
+  terms=ara
+  value=rfc_hwid614_qrm865ab_v3_ag_tech_config_ag.cpp:RFC detected error. Unsupported params combo provided by tech NR 5G for API timing_cfg_data_get : sig_path %d band %d rxtx %d reqtype %d
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #35
+  address=000263e8
+  type=string
+  terms=ara
+  value=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:rfc_hwid614_qrm865ab_v3_ag_ag::get_signals_info(): Invalid params. Returning FALSE.
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #36
+  address=00026778
+  type=string
+  terms=ara
+  value=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:get_ant_switch_path_info: NULL cfg parameter
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #37
+  address=00026870
+  type=string
+  terms=ara
+  value=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:get_rffe_speeds_info: NULL clk_settings parameter
+      XREF_COUNT_SHOWN=0
+
+LOCATOR HIT #38
+  address=00026924
+  type=string
+  terms=ara
+  value=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC detected error. Unsupported params combo provided for API path_cfg_data_get : sig_path %d
+      XREF_COUNT_SHOWN=0
+
+STRING DATA ITEMS INSPECTED=1065
+LOCATOR HITS SHOWN=38
 
 ============================================================
 614_0_0 DYNAMIC FREQUENCY-FIELD TRACE
@@ -30,33 +491,6 @@ DYNAMIC_MEMORY_BLOCK_COUNT=6
 614_0_0 RAW STRING DISCOVERY
 Fields are matched as complete C strings, not as substrings.
 ============================================================
-  DYNAMIC_STRING_READ_ERROR label=CENTER_FREQ block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=BWP_CENTER_FREQ block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RX_CARRIER block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=TX_CARRIER block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=FREQUENCY block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RX_TUNE block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RADIO_CONFIG block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_FDD_RX_CONFIG block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_TDD_RX_CONFIG block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=CENTER_FREQ block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=BWP_CENTER_FREQ block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RX_CARRIER block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=TX_CARRIER block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=FREQUENCY block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RX_TUNE block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RADIO_CONFIG block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_FDD_RX_CONFIG block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_TDD_RX_CONFIG block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=CENTER_FREQ block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=BWP_CENTER_FREQ block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RX_CARRIER block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=TX_CARRIER block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=FREQUENCY block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RX_TUNE block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RADIO_CONFIG block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_FDD_RX_CONFIG block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_TDD_RX_CONFIG block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
 DYNAMIC_STRING_LABEL_COUNT=9
 DYNAMIC_STRING_HITS=0
 DYNAMIC_STRING_SCAN_BYTES_APPROX=21390209
@@ -64,11 +498,8 @@ DYNAMIC_STRING_SCAN_BYTES_APPROX=21390209
 ============================================================
 614_0_0 DYNAMIC STRING-POINTER SLOT SCAN
 Targets were discovered in the current program, not copied from another firmware.
-Scans aligned 32-bit words in initialized non-executable blocks.
+Scans aligned 32-bit words in initialized non-executable blocks in the default address space.
 ============================================================
-  DYNAMIC_PTR_READ_ERROR block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_PTR_READ_ERROR block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
-  DYNAMIC_PTR_READ_ERROR block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
 DYNAMIC_POINTER_WORDS_SCANNED=570922
 DYNAMIC_POINTER_SLOTS_FOUND=0
 DYNAMIC_POINTER_SLOTS_PRINTED=0
@@ -76,14 +507,12 @@ DYNAMIC_POINTER_NOTE=No aligned absolute pointers found; relative or register-ba
 
 ============================================================
 614_0_0 DECODED-INSTRUCTION FIELD REFERENCE SCAN
-Walks decoded instructions in all initialized blocks; execute flags are tallied separately.
-Exact full-address hits and low-16-bit immediate candidates are separate.
+Uses the program-wide instruction iterator, not each block's start address.
+This is intentional: Ghidra may return an empty block-local iterator when the start is not an instruction.
+Exact full-address hits and low-16-bit immediate candidates are reported separately.
 ============================================================
   614_DECODED_BLOCK name=segment_2 execute=true instructions=1085
   614_DECODED_BLOCK name=segment_3 execute=false instructions=0
-  614_DECODED_BLOCK name=_elfHeader execute=false instructions=0
-  614_DECODED_BLOCK name=_elfProgramHeaders execute=false instructions=0
-  614_DECODED_BLOCK name=unallocated_0 execute=false instructions=0
 DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=1085
 DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=1085
 DYNAMIC_EXACT_CODE_HITS_TOTAL=0
@@ -94,7 +523,7 @@ DYNAMIC_CONTEXT_WINDOWS_PRINTED=0
 
 ============================================================
 614_0_0 DYNAMIC FREQUENCY TRACE SUMMARY
-TRACE_BUILD=DIAG-FTM-STRUCTURE-18
+TRACE_BUILD=DIAG-FTM-STRUCTURE-21
 PROGRAM=614_0_0.mbn
 DYNAMIC_STRING_HITS=0
 DYNAMIC_POINTER_SLOTS=0
