@@ -1,0 +1,147 @@
+# STRUCTURE-39 交接摘要（2026-10-10）
+
+## 0. 当前状态与安全边界
+
+- 当前主任务：只读静态分析 Qualcomm `614_0_0.mbn`，定位真正 RX 频率调谐入口。
+- 工具环境：用户本地 Ghidra 12.1.4，目标 Image Base = `0x10000`。
+- 禁止把 `qdsp6sw.mbn` 的 C8/C9 地址套到 `614_0_0.mbn`。
+- 不发送、不构造、不执行 DIAG/FTM/RF 控制命令；不改程序内存和 Ghidra 程序结构。
+- 不声称脚本已在用户 Ghidra 编译/运行；只有用户提供的真实日志才能证明运行状态。
+- 一切公开漏洞资料只能提供架构/模块线索，不能把漏洞函数或别的固件的地址直接当成当前 RX tuning 地址。
+
+## 1. 关键文件与备份
+
+### 当前 Ghidra 脚本
+
+- 路径：`Ghidra_RFDEBUG_Trace.java`
+- 最新版本标记：`DIAG-FTM-STRUCTURE-39`
+- 当前行数：6664
+- 当前 Blob SHA：`0aff2d7b0642cec3244459c2a08fc7467916210d`
+- 源码：https://github.com/rzwcl/LBJ_Map/blob/main/Ghidra_RFDEBUG_Trace.java
+- 新增方法：`scan614RfcGetterEffectiveSlotAudit()`，定义 1 处、调用 1 处。
+- 通过源码静态核对：版本标记为新版本，大括号差值为 0。未在这里编译，也未在用户 Ghidra 运行。
+
+### 文档 2 旧基线（原始 STRUCTURE-37 日志 + 完整交接摘要）
+
+- 备份文件：https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2)%20-%20PRE%20STRUCTURE38%20BACKUP%202026-10-10.txt
+- Blob SHA：`0bc7b1bda480ebe7d7504b310f9d07a44ec3fa85`
+- 58,187 字符、652 行。
+
+### STRUCTURE-38 运行日志（从原文档 2 覆盖前复制）
+
+- 备份文件：https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2)%20-%20STRUCTURE38%20RUN%20LOG%202026-10-10.txt
+- Blob SHA：`2d1ab29880078f3133ea63f3d999597f726b21fb`
+- 45,001 字符、372 行。
+- 当前文档 2 与该备份经读取比对逐字相同。
+- 该日志没有开头部分，无法从本日志单独读取 TRACE_BUILD/PROGRAM 头；但独有的 `614_RFC_SINGLETON_*`、`614_RFC_CONSTRUCTOR_CALL_TARGET` 输出说明它包含 STRUCTURE-38 新增方法的输出。
+- 原文档 2 已被 STRUCTURE-38 日志覆盖，旧基线和运行日志均已另存；后续不要把任一备份覆盖。
+
+## 2. STRUCTURE-38 新发现（以日志为准）
+
+四个单例槽方法打印的静态值：
+
+- `0x254684 -> 0x255040`，目标块 EXTERNAL；
+- `0x25468C -> 0x254888`，目标块 segment_3；
+- `0x2546F8 -> 0x255070`，目标块 EXTERNAL；
+- `0x254700 -> 0x21743C`，目标块 segment_3。
+
+这些静态值不说明槽位访问地址计算错误；它们是槽内容，不是 getter 访问地址。还要区分静态值是否为重定位占位值。
+
+日志列出的 Ghidra 引用存在需要验证的不一致：
+
+- 对候选槽 `0x254684`，打印的引用来自 `0x25614` 和 `0x25630`。
+- 对候选槽 `0x25468C`，打印的引用来自 `0x25688`。
+- 对候选槽 `0x2546F8`，打印的引用来自 `0x25710` 和 `0x2572C`。
+- 对候选槽 `0x254700`，打印的引用来自 `0x25780`。
+
+而 listing 的 PC-relative add 与 memw displacement 按公式计算，应当是：
+
+- `0x2559C + 4 + 0x22F170 = 0x254710`；`0x254710 - 0x8C = 0x254684`。Getter `0x25598` 的两个候选访问位置是 `0x255A8` 和 `0x255C4`。
+- `0x25608 + 4 + 0x22F104 = 0x254710`；`0x254710 - 0x84 = 0x25468C`。Getter `0x25604` 的两个候选访问位置是 `0x25614` 和 `0x25630`。
+- `0x25698 + 4 + 0x22F074 = 0x254710`；`0x254710 - 0x18 = 0x2546F8`。Getter `0x25694` 的两个候选访问位置是 `0x256A4` 和 `0x256C0`。
+- `0x25704 + 4 + 0x22F008 = 0x254710`；`0x254710 - 0x10 = 0x254700`。Getter `0x25700` 的两个候选访问位置是 `0x25710` 和 `0x2572C`。
+
+这些计算与源码中此前采用的 PC-relative 基址计算方式一致，但下一版运行输出仍要以 Ghidra 实际 instruction operands 为准。Ghidra reference manager 的既存 xref 不能单独充当运行时有效地址的权威证据。
+
+## 3. STRUCTURE-39 新增审计做什么
+
+新方法 `scan614RfcGetterEffectiveSlotAudit()` 仅针对上述四个 getter：
+
+- 读取 listing 中现有 PC-relative add 指令和两个 memw 访问指令；
+- 从 Scalar 取得实际显示的立即数字段，重新计算 PC-after + displacement 得到基址，再加 memw 位移得到 effective address；
+- 每个计算地址与预期槽位逐条比较；
+- 单独打印 Ghidra 已存储的引用以及它们是否从当前 memw 指令直接指向计算出的地址；
+- 最后汇总 getter 数、访问点数、预期槽位匹配数、存储引用匹配数以及取不到指令/立即数的数量。
+
+新输出标记：
+
+- `614_RFC_EFFECTIVE_AUDIT_GETTER`
+- `614_RFC_EFFECTIVE_AUDIT_PC_BASE`
+- `614_RFC_EFFECTIVE_AUDIT_ACCESS`
+- `614_RFC_EFFECTIVE_AUDIT_EXISTING_REF`
+- `614_RFC_EFFECTIVE_AUDIT_GETTERS_INSPECTED`
+- `614_RFC_EFFECTIVE_AUDIT_ACCESS_SITES_INSPECTED`
+- `614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES`
+- `614_RFC_EFFECTIVE_AUDIT_STORED_DIRECT_REFERENCE_MATCHES`
+- `614_RFC_EFFECTIVE_AUDIT_MISSING_INSTRUCTIONS_OR_IMMEDIATES`
+
+这版未在本地 Ghidra 编译或运行。用户下一步下载最新脚本，覆盖原脚本路径 `D:\\X55RE\\ghidra_scripts\\Ghidra_RFDEBUG_Trace.java`，在同一个 `614_0_0.mbn` Program 中运行，随后将日志另存并读取输出。
+
+## 4. 为什么不能把四个二级调用目标直接当构造函数
+
+STRUCTURE-38 日志中的下列地址均显示为 PLT/GOT 式间接跳转桩：
+
+- `0x24C80` -> 槽 `0x254750`，静态值 `0x25564`；
+- `0x24CB0` -> 槽 `0x25475C`，静态值 `0x255030`；
+- `0x24E90` -> 槽 `0x2547D4`，静态值 `0x2573C`；
+- `0x24EB0` -> 槽 `0x2547DC`，静态值 `0x25F38`。
+
+其指令形态包括从 PC 相对槽读入 R28、再执行 `jumpr R28`。某些静态目标与 Ghidra 显示的标签不一致；必须核对装载/重定位语义，不能因标签是 RFC 类符号就宣布它们是构造函数实现。
+
+共享 helper `0x2526C` 的输出为两条指令，之后跳向 `0x24BE0`，在 PLT/GOT 静态映射里该入口被标记为 `operator.new`。这与分配包装器一致，但因跳转槽静态值存在不确定性，仍须验证真实目标。
+
+## 5. 当前已确认 / 尚未确认
+
+已确认：
+
+- `get_signals_info` 位于 `0x259A4`，六个 callsite 都汇聚到 `0x25F70`，其间接调用指令是 `0x25F7C: callr R0`。
+- `0x254710` 是大量 PC-relative 计算得到的基址候选。
+- 六个所谓“代码指针” `0x264D4`、`0x26544`、`0x265B4`、`0x26624`、`0x26694`、`0x26708` 实际是 RFC 错误字符串，不是函数入口。
+- STRUCTURE-37 静态数据区扫描记录 570,922 个 word、14 个匹配；该结果用于确认数据引用，不是调谐入口证据。
+
+尚未确认：
+
+- 单例槽静态值的真实运行时语义与重定位结果；
+- 四个二级调用目标的最终运行时目标；
+- 当前 RFC 配置查询与真正 RX 频率设置之间的调用链；
+- RX tune 函数入口。
+
+禁止将配置查询符号名、executable block 标志、Ghidra 已有 xref 或静态指针槽值单独当成实际调谐证据。
+
+## 6. 外部 X55 研究线索（仅作模块划分参考）
+
+- 5Ghoul 项目报告了针对 Qualcomm X55/X60 的 5G 协议处理实现漏洞，涉及 MAC/RLC、RRC、NAS 等路径；例如 CVE-2023-33042、CVE-2023-33043、CVE-2023-33044。该研究能证明 X55 基带有多条协议处理路径，但没有提供本目标 `614_0_0.mbn` 的 RX tuning 入口地址。
+  - https://asset-group.github.io/disclosures/5ghoul/disclosure.html
+  - https://github.com/asset-group/5ghoul-5g-nr-attacks
+- 一份 EM919x/EM7690 客户发布说明（公开的 Scribd 文档镜像）标明产品软件基于 Qualcomm SDX55 LE 1.4，并记录了无 SIM 启动场景下 NR5G calibration resource allocation / FTM 的修复，以及 RFC MBN scan 章节。这说明 RF Cal/FTM 与 RFC 配置值得在架构上分开考察；它不是当前二进制的源代码或函数地址证据。
+  - https://www.scribd.com/document/966360028/EM91xx-CRN-4134813-Rev1-25
+- Qualcomm 安全公告可用于核实 CVE 与受影响芯片组，但漏洞说明大多不会映射到目标文件的具体函数地址。
+  - https://docs.qualcomm.com/securitybulletin/may-2024-bulletin.html
+  - https://docs.qualcomm.com/product/publicresources/securitybulletin/june-2023-bulletin.html
+
+## 7. 下一步的唯一优先任务
+
+先运行 STRUCTURE-39 定向有效地址审计。对输出逐项核对：
+
+1. PC-relative base 是否都计算为 `0x254710`；
+2. 每两个 memw 的 effective address 是否各自都指向同一候选 slot；
+3. Ghidra 的 stored direct reference 是否真的从当前访问指令指向 computed address；
+4. 是否有指令/立即数解析失败。
+
+根据这轮输出决定接下来是修正引用解释、检查程序分析状态，还是进一步追踪单例对象的创建路径。没有这些证据之前，不追加无目标的全域扫描，也不称已找到 RX 调谐入口。
+
+## 8. 独立工作线必须保持隔离
+
+- Android 接收器 / POCSAG 串车逻辑与本固件分析是不同工作线，不要把它们的地址、日志或结论混用。
+- 发射设备独立 ID 研究里，`1234002` 是机车型号/车号信息，不是发射器自身 ID；共同出现的 `154250-F3` 不能当成车辆独立设备 ID。
+- 已有 821 MHz POCSAG IQ 扫描未发现额外第三个 RIC 的简单设备 ID 假设；后续独立 ID 研究应转向确认后的 866.2375 MHz FFSK IQ，而非把 821 MHz POCSAG 数据当成 FFSK。
