@@ -405,12 +405,11 @@ class _TrainAPIHandler(BaseHTTPRequestHandler):
         pass  # 静默，不刷屏
 
 def _start_train_api(port=8765):
-    """直接尝试绑定地图接口端口；端口冲突时安全失败，绝不终止占用者。"""
+    """检查端口并启动地图接口；冲突时安全失败，绝不终止占用者。"""
     global _api_server, _api_server_port, _api_start_error, _api_start_port_conflict
     _api_start_error = ""
     _api_start_port_conflict = False
     srv = None
-    port = str(port)
     try:
         port = int(port)
         if not 1 <= port <= 65535:
@@ -420,20 +419,37 @@ def _start_train_api(port=8765):
             if _api_server_port == port:
                 return True
             _api_start_error = (
-                f"地图接口已在端口 {_api_server_port} 运行，不能在同一程序实例内切换到端口 {port}"
+                f"当前程序的地图接口已在端口 {_api_server_port} 运行，无法切换到端口 {port}"
             )
             write_global_log(_api_start_error, "ERROR")
             return False
 
+        # 先检查是否已经有监听者。真实 bind 仍会再检查一次，处理检查与绑定之间的竞争。
+        import socket
+        probe = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        probe.settimeout(0.35)
+        try:
+            probe_result = probe.connect_ex(("127.0.0.1", port))
+        finally:
+            probe.close()
+
+        if probe_result == 0:
+            _api_start_port_conflict = True
+            _api_start_error = f"地图接口端口冲突：127.0.0.1:{port} 已有程序在监听。"
+            write_global_log(_api_start_error, "ERROR")
+            return False
+
+        write_global_log(f"检查地图接口端口：127.0.0.1:{port}，未发现现有监听者，尝试启动。")
+
         from socketserver import ThreadingMixIn
 
         class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
-            # 不复用已被其他实例监听的端口，避免两个程序争抢同一接口。
+            # 不设置 SO_REUSEADDR，避免多个实例复用同一监听端口。
             allow_reuse_address = False
             pass
 
-        # 以创建真实 HTTPServer 的 bind 结果为准，消除“先检查、后绑定”的竞争窗口。
-        srv = ThreadedHTTPServer(('127.0.0.1', port), _TrainAPIHandler)
+        # 以实际创建服务器时的 bind 结果为准；若有程序抢先占用，会在此处失败。
+        srv = ThreadedHTTPServer(("127.0.0.1", port), _TrainAPIHandler)
         thread = threading.Thread(target=srv.serve_forever, daemon=True)
         try:
             thread.start()
@@ -468,7 +484,7 @@ def _start_train_api(port=8765):
         )
         _api_start_port_conflict = is_conflict
         if is_conflict:
-            _api_start_error = f"地图接口端口冲突：端口 {port} 已被占用。详情：{e}"
+            _api_start_error = f"地图接口端口冲突：127.0.0.1:{port} 已被占用。详情：{e}"
         else:
             _api_start_error = f"地图接口启动失败（端口 {port}）：{e}"
         write_global_log(_api_start_error, "ERROR")
@@ -479,7 +495,7 @@ def _start_train_api(port=8765):
                 srv.server_close()
             except Exception:
                 pass
-        _api_start_error = f"地图接口启动失败（端口 {port}）：{type(e).__name__}: {e}"
+        _api_start_error = f"地图接口启动失败（端口 {port if 'port' in locals() else '未知'}）：{type(e).__name__}: {e}"
         write_global_log(_api_start_error, "ERROR")
         return False
 
@@ -1698,12 +1714,19 @@ def start_decoder():
     if running:
         return
 
-    # 地图接口启用时，必须先成功绑定端口；失败则提示并取消整次解码启动
+    # 地图接口启用时，先绑定端口；失败则显示在主输出、写系统日志并取消解码启动
     if _notify_config.get("enable_map_api", True):
         map_port = _notify_config.get("map_api_port", 8765)
+        write_global_log(f"开始前检查地图接口端口：127.0.0.1:{map_port}")
         if not _start_train_api(map_port):
             error_message = _api_start_error or f"地图接口端口 {map_port} 无法启动"
-            write_global_log(f"解码启动取消：{error_message}", "ERROR")
+            full_error = f"解码启动取消：{error_message}"
+            write_global_log(full_error, "ERROR")
+            try:
+                output.insert(tk.END, "\n" + full_error + "\n本次解码未启动。\n")
+                output.see(tk.END)
+            except Exception:
+                pass
             dialog_title = "地图接口端口冲突" if _api_start_port_conflict else "地图接口启动失败"
             if _api_start_port_conflict:
                 dialog_message = (
@@ -2911,69 +2934,29 @@ def _flush_csv_pending():
     if ft > 0: write_global_log(f"缓存刷新成功: {ft}条, 剩余失败={len(failed)}")
     return len(failed) == 0
 
-def _confirm_close_dialog():
-    """显示始终置顶的模态关闭确认窗口，避免被查找/设置窗口遮挡。"""
-    result = {"confirmed": False}
-    dialog = tk.Toplevel(root)
-    dialog.title("是否确认")
-    dialog.transient(root)
-    dialog.resizable(False, False)
-    try:
-        dialog.attributes("-topmost", True)
-    except tk.TclError:
-        pass
-
-    tk.Label(
-        dialog,
-        text="确定要关闭程序吗",
-        font=("Microsoft YaHei", 11),
-        padx=24,
-        pady=22
-    ).pack(fill="both", expand=True)
-
-    buttons = tk.Frame(dialog)
-    buttons.pack(pady=(0, 14))
-
-    def finish(confirmed):
-        result["confirmed"] = confirmed
-        try:
-            dialog.grab_release()
-        except tk.TclError:
-            pass
-        try:
-            dialog.destroy()
-        except tk.TclError:
-            pass
-
-    yes_button = tk.Button(buttons, text="是", width=10, command=lambda: finish(True))
-    yes_button.pack(side=tk.LEFT, padx=8)
-    no_button = tk.Button(buttons, text="否", width=10, command=lambda: finish(False))
-    no_button.pack(side=tk.LEFT, padx=8)
-
-    dialog.protocol("WM_DELETE_WINDOW", lambda: finish(False))
-    dialog.bind("<Escape>", lambda event: finish(False))
-    dialog.bind("<Return>", lambda event: finish(True))
-
-    dialog.update_idletasks()
-    width, height = 340, 140
-    x = root.winfo_rootx() + max(0, (root.winfo_width() - width) // 2)
-    y = root.winfo_rooty() + max(0, (root.winfo_height() - height) // 2)
-    dialog.geometry(f"{width}x{height}+{x}+{y}")
-    try:
-        dialog.attributes("-topmost", True)
-    except tk.TclError:
-        pass
-    dialog.lift()
-    dialog.focus_force()
-    dialog.grab_set()
-    no_button.focus_set()
-    root.wait_window(dialog)
-    return result["confirmed"]
-
-
 def on_closing():
-    # 确认是否关闭
-    if not _confirm_close_dialog():
+    # 保留系统原生确认框样式，只修改标题和提示文字，并临时置顶避免被程序窗口遮挡
+    try:
+        previous_topmost = root.attributes("-topmost")
+    except tk.TclError:
+        previous_topmost = False
+    try:
+        root.attributes("-topmost", True)
+        root.lift()
+        root.focus_force()
+        root.update_idletasks()
+        confirmed = messagebox.askyesno(
+            "是否确认",
+            "确定要关闭程序吗",
+            parent=root,
+            icon="warning"
+        )
+    finally:
+        try:
+            root.attributes("-topmost", previous_topmost)
+        except tk.TclError:
+            pass
+    if not confirmed:
         return
 
     """窗口关闭时彻底清理所有子进程，Windows下防卡死"""
