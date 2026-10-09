@@ -394,3 +394,249 @@ READ ONLY; this does not resolve runtime relocations or execute target functions
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
+
+
+
+# 新会话交接总档（2026-10-10）
+
+> 用途：新会话开始时先完整阅读本节，再动任何脚本。本文把当前 Qualcomm 固件静态分析与两份补充历史记录里的 LBJ Android/POCSAG 工作线分开，避免把不同文件、不同地址、不同目标混为一谈。
+>
+> 本节追加在本文件上一轮 Ghidra 日志之后，以保留原始诊断结果；本文件前半部分是上一轮日志，下面这部分是交接摘要。
+
+## 0. 必须遵守的工作方式
+
+1. 始终使用中文。
+2. Ghidra 主任务每次只修改仓库中的原脚本：Ghidra_RFDEBUG_Trace.java。不要为同一工作另建副本脚本。
+3. 修改后必须重新读取 GitHub 文件确认实际 Blob SHA、TRACE_BUILD、行数、方法定义/调用次数和大括号平衡。不能声称已经在本地编译或运行，除非真的在用户的 Ghidra 环境里执行并取得结果。
+4. 用户发来新日志链接时，先重新读取最新日志和当前脚本；检查版本、输出键、日志尾部，不要假设它一定是最新脚本的运行结果。
+5. 严格区分“静态字节/静态指针”“Ghidra 已识别的指令/函数”“运行时经过重定位后的有效目标”。内存块标记为 executable 不足以证明其中某个地址是机器码或函数入口。
+6. 不要把 qdsp6sw.mbn 的旧地址套用到 614_0_0.mbn。目标不同，地址空间和分析结论不能串用。
+7. 目前这是只读静态分析：不发送、不构造、不执行任何 DIAG/FTM/RF 控制命令，不改程序内存/数据结构，不为验证结论写硬件。
+8. 交付时给完整、可直接覆盖的文件，不只给伪代码/片段；用户要求细致、可验证、不要猜测。
+
+## 1. 当前主任务：614_0_0.mbn 的 RX 频率调谐入口定位
+
+### 1.1 目标与环境
+
+- 目标固件：614_0_0.mbn。
+- 工具：Ghidra 12.1.4。
+- Image base：0x10000。
+- 已知块：
+  - segment_2：可执行块，0x10000..0x26B62。
+  - segment_3：已初始化的数据块，0x27000..0x2548A7。
+  - EXTERNAL：0x255000..0x255143，未初始化。
+- Auto Analyze 当时识别了约 1085 条指令与 172 个函数。
+- 以 CENTER_FREQ、RX_CARRIER、TX_CARRIER、FREQUENCY、RX_TUNE 等名字进行字符串/符号搜索，没有找到匹配；早期动态字符串命中和候选动态指针槽扫描也没有直接定位调谐入口。
+- 不能据目前结果说“已找到 RX tune 函数”。现阶段找到的是 RFC 数据配置/查询路径与若干间接调用机制；它们只是查找入口的线索。
+
+### 1.2 重要地址与已经建立的关系
+
+- get_signals_info：入口 0x259A4。
+- 它在 0x259BC 计算 R18 的 PC 相对基址，静态算出的值是 0x254710。
+- get_signals_info 六次调用同一个包装层 0x25F70，位置为：
+  - 0x259F8
+  - 0x25A10
+  - 0x25A28
+  - 0x25A40
+  - 0x25A58
+  - 0x25A70
+- 包装层 0x25F70 的主要指令包括：
+  - 0x25F70 call 0x24C00
+  - 0x25F74 allocframe
+  - 0x25F78 combine R17R16,R2,R3
+  - 0x25F7C callr R0
+  - 后面比较返回值并在需要时调用 0x24CF0，最后跳转 0x24C30。
+- 因而目前能确认的是：六个调用点复用同一个间接调用包装层，调用前 R0 从表/基址相关位置装入不同的静态值。不能把 0x25F70 本身直接认定为 RF 调谐函数。
+- R18=0x254710 时，六个调用点前读取 R0 的槽位与当前静态值是：
+  - 0x2546B4 -> 0x25598，函数 get_instance，入口已识别。
+  - 0x2546B8 -> 0x25604，函数 get_instance，入口已识别。
+  - 0x2546BC -> 0x25694，函数 get_instance，入口已识别。
+  - 0x2546C0 -> 0x25700，函数 get_instance，入口已识别。
+  - 0x2546C4 -> 0x27384，segment_3 数据区，当前不可执行且没有识别函数。
+  - 0x2546C8 -> 0x217458，segment_3 数据区，当前不可执行且没有识别函数。
+- 后两项与“R0 后面被 callr 调用”的静态形态有矛盾。不要直接断言程序真的会跳入数据；要继续核验表的含义、运行时重定位、Ghidra 对条目的识别，以及关联全局存储/对象初始化路径。
+- 0x254710 很可能是一个 PLT/GOT/解析器相关的基址锚点，因为大量 PC 相对 add 算到这里，PLT 风格 stub 也通过附近槽位间接跳转；仍然不能据此声称已经把所有运行时目标解析成功。脚本明确提示静态值可能是重定位占位值或 thunk 目标。
+
+### 1.3 关键纠错：六个所谓“代码指针”其实是错误字符串
+
+早期 STRUCTURE-35/36 的输出把六个记录字段暂时称为 code_pointer。STRUCTURE-36/37 拿到原始字节后，已经纠正这个解释：
+
+- 0x264D4 的字节以 72 66 63 5F 开头，即可读 ASCII 字符串 rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR NR5G Data Object is NOT Created . Cannot operate...
+- 0x26544 对应同一源文件里的 WCDMA Data Object is NOT Created 错误信息。
+- 0x265B4 对应 CDMA 错误信息。
+- 0x26624 对应 GSM 错误信息。
+- 0x26694 对应 TDSCDMA 错误信息。
+- 0x26708 对应 GNSS 错误信息。
+- 六个地址虽然位于 executable 的 segment_2 内，但 listing 在这些地址均没有指令、没有函数、也没有入向代码交叉引用；原始 48 字节全部是错误字符串文本，不是机器码。
+- 所以这些地址绝不能继续当作函数入口分析，也不能因它们落在 executable block 就反汇编或认作调谐代码。
+- 这些错误信息对应的记录位于 0x272C0..0x272FC，表面结构是每条 12 字节：
+  - 0x272C0：field0=0x264D4（NR5G 错误字符串），field1=0xE06D3，field2=8。
+  - 0x272CC：field0=0x26544（WCDMA 错误字符串），field1=0xE06DD，field2=8。
+  - 0x272D8：field0=0x265B4（CDMA 错误字符串），field1=0xE06E7，field2=8。
+  - 0x272E4：field0=0x26624（GSM 错误字符串），field1=0xE06F1，field2=8。
+  - 0x272F0：field0=0x26694（TDSCDMA 错误字符串），field1=0xE06FC，field2=8。
+  - 0x272FC：field0=0x26708（GNSS 错误字符串），field1=0xE0B7B，field2=8。
+- 应将它们视作“包含错误消息指针、数据指针/字段、长度值的记录”的候选表；具体 C/C++ 结构体语义还没完全证实。
+
+### 1.4 其他有用的静态结果
+
+- 六条 R2 参数记录地址：
+  - call 0x259F8 -> R2=0x272C0，附近字为 0x264D4,0xE06D3,8,0x26544,0xE06DD,8。
+  - call 0x25A10 -> R2=0x272CC，附近字为 0x26544,0xE06DD,8,0x265B4,0xE06E7,8。
+  - call 0x25A28 -> R2=0x272D8。
+  - call 0x25A40 -> R2=0x272E4。
+  - call 0x25A58 -> R2=0x272F0。
+  - call 0x25A70 -> R2=0x272FC。
+- 对初始化的非可执行数据块做静态 32 位值扫描，最新 STRUCTURE-37 日志显示扫描约 570,922 个字，目标值一共 14 个匹配；每个字符串地址与对应 field1 指针都在预期的表槽位里出现一次。这个结果帮助确认记录引用链，但不是调谐入口证据。
+- 0x27384 的静态字节开头为 FA 0D 0E 00 08 00 00 00 04 6B 02 00 91 02 00 00...，表现为数据记录而非代码。
+- 0x217458 的静态字节开头为 23 00 00 00 00 00 00 00 FF 00 00 00 03 00 00 00...，也是数据区内容，尚未识别函数。
+- 四个已确认的 get_instance 函数（0x25598、0x25604、0x25694、0x25700）结构相似：获取/检查全局对象指针，如果为空就调用共享 helper 与相关 thunk/函数创建对象、保存指针，再返回。它们更像延迟初始化的对象访问器，不是已证实的调谐实现。
+- PLT/GOT thunk 扫描有 39 个候选、39 个槽位被打印；register-indirect callr 统计为 1，唯一被直接打印的 callr 是 0x25F7C。这里“1 个”指该静态指令位置，不代表程序只做一次间接调用；get_signals_info 的六次间接调用都汇聚到这个包装层。
+- 优先 RFC/API 候选包括：
+  - timing_cfg_data_get @ 0x252A0
+  - band_split_cfg_data_get @ 0x25378 / 0x25480（以及若干 thunk）
+  - path_cfg_data_get @ 0x25D50
+  - fbrx_cfg_data_get @ 0x25E44
+  - get_fbrx_path_table_cfg @ 0x25F20
+  - get_sig_path_table_cfg @ 0x25E38
+  - get_signals_info @ 0x259A4
+  - get_band_info_rrc_table @ 0x25D2C
+  - get_rfm_path_info_tbl @ 0x2521C
+  - get_res_alloc_tbl @ 0x25120
+  - get_rrc_ca_table @ 0x251F0
+- 这些命名函数从性质上看多是配置、路径、表项查询。没有哪一个已被证实就是实际设置接收频率的执行入口。
+
+## 2. 当前脚本、版本与运行状态
+
+### 2.1 当前仓库最新源文件
+
+- 文件：Ghidra_RFDEBUG_Trace.java
+- GitHub：https://github.com/rzwcl/LBJ_Map/blob/main/Ghidra_RFDEBUG_Trace.java
+- 当前版本标记：DIAG-FTM-STRUCTURE-38
+- 当前行数：6497
+- 当前 Blob SHA：417e7fafa9c3e1d0d15dd07ed2173a82abf4b5f5
+- 下载地址：https://raw.githubusercontent.com/rzwcl/LBJ_Map/main/Ghidra_RFDEBUG_Trace.java
+- 最新脚本已由仓库读取核实；大括号平衡为 0。注意：这是源码静态校验，不是本地 Ghidra 编译/运行结果。
+
+### 2.2 当前脚本的版本递进
+
+- STRUCTURE-30：加入 PLT/GOT thunk 和间接 callr 映射。
+- STRUCTURE-31：修复 scan614PltGotThunkMap 中重复声明 expectedNext 造成的 Java 编译失败；内部变量改名 expectedJumpNext，并对齐 TRACE_BUILD marker。
+- STRUCTURE-32：打印 get_signals_info 六个调用点的上下文，寻找 R0 的来源。
+- STRUCTURE-33：计算 R18 相对槽位，解析六个 callsite 的静态值。
+- STRUCTURE-34：加入 R2 参数数据地址/字节与指针目标内存块分类。
+- STRUCTURE-35：查看六个 R2 描述符与 get_instance 函数体。
+- STRUCTURE-36：打印六个未识别地址的原始字节/字/引用。关键发现是字节实际为错误字符串。
+- STRUCTURE-37：将这六条记录按错误字符串/数据记录重新分类，并扫描数据块中目标值的静态引用。
+- STRUCTURE-38：最新源代码增加 scan614RfcSingletonStorageAndConstructors()，查看四个 get_instance 使用的全局单例存储槽与相关调用目标。此版尚无对应新日志证据。
+
+### 2.3 最新日志状态
+
+- 当前指定日志路径：https://github.com/rzwcl/LBJ_Map/blob/main/新建文本文档%20(2).txt
+- 上一轮原始日志 Blob SHA：bd36bfe3447b302819ed72bea3264cc260935bcc
+- 读取到的内容：约 45,001 字符、397 行，末尾有 DONE、No program data or structures modified. 和 Ghidra script Finished!。
+- 日志头部已从中间位置开始，未显示 TRACE_BUILD 行，但有 STRUCTURE-37 新方法特有的输出键：
+  - 614_SIGNAL_RAW_CODE_BYTES / WORDS / XREF
+  - 614_SIGNAL_TABLE_ROW
+  - 614_SIGNAL_REFERENCE_SCAN_WORDS=570922
+  - 614_SIGNAL_REFERENCE_SCAN_MATCHES=14
+  - 614_SIGNAL_RAW_POINTER_VALUE
+  - 614_SIGNAL_TABLE_ROWS_PARSED=6
+- 因此该次日志按输出键可判断属于 STRUCTURE-37 扫描结果；它没有 STRUCTURE-38 新增的 614_RFC_SINGLETON_SLOT 或 614_RFC_CONSTRUCTOR_CALL_TARGET 结果。
+- 下一步应先把 STRUCTURE-38 下载覆盖到本地原脚本，再针对同一个 614_0_0.mbn 程序运行，查看新增输出：
+  - 614_RFC_SINGLETON_SLOT
+  - 614_RFC_SINGLETON_XREF
+  - 614_RFC_CONSTRUCTOR_CALL_TARGET
+  - 614_RFC_CALL_TARGET_INS
+  - 614_RFC_SINGLETON_SLOTS_INSPECTED
+  - 614_RFC_CONSTRUCTOR_CALL_TARGETS_INSPECTED
+- STRUCTURE-38 当前检查四个对象存储候选槽：0x254684、0x25468C、0x2546F8、0x254700，以及调用目标 0x2526C、0x24C80、0x24CB0、0x24E90、0x24EB0。它还没有被用户在 Ghidra 中运行验证。
+- 不要在新一轮重复加大型全域扫描；先读取这些定向结果，再决定是否有理由增加版本。
+- 本文已追加到原日志文件，因此文件前半是原始日志，本文后半是交接资料。之后如果用户继续用同一文件名覆盖新日志，需要先保存/复制这份交接内容，避免下一次覆盖后丢失上下文。
+
+## 3. 两份补充历史记录：必须分开保留的 LBJ Android/POCSAG 工作线
+
+用户之前补充的两份长对话文件已经检索并阅读：
+- 新建文本文档.txt，约 40,091 bytes、1,771 行。
+- 新建文本文档(1).txt，约 43,636 bytes、1,849 行。
+它们主要是 Android 接收器改造 + 原始 IQ/POCSAG 的发射设备独立 ID 研究。它们不是当前 614_0_0.mbn 的 Ghidra 日志；不要把二者地址或技术结论互相套用。
+
+### 3.1 Android 接收器架构与用户已明确的需求
+
+历史记录所检查的工程为 HurricaneDD/Android_RTL_SDR_LBJ_RECEIVER；当时项目结构是 Kotlin、Jetpack Compose / Material 3、Room、KSP、Gradle Kotlin DSL。历史快照报告的构建组合为 AGP 9.1.1、Kotlin 2.2.10、Gradle 9.3.1、JDK 17，但后续变更必须以当前仓库源码为准。旧记录里的版本号也仅代表当时快照。
+
+主要数据路径：
+RTL-SDR Driver 或 RTL-TCP -> RtlTcpClient.kt -> IQ -> DSP/FM/AFC/滤波/降采样 -> LbjDecoder.kt -> POCSAG/BCH/LBJ 解析 -> TrainTelemetry -> LbjViewModel.kt -> Dashboard/通知/Room 历史。
+
+用户要求的主要 UI/数据项：
+- 仪表盘和列车信息必须是独立页面；不要擅自把二者合并。
+- 连接模式提供 SDR 本机 Driver 连接与 TCP 远程连接选择。TCP 模式填写 host/IP 和 port，重启后记住模式/地址/端口；TCP 模式不应启动 Android SDR Driver。
+- DashboardScreen.kt 负责 UI，MainScreen.kt 负责导航参数与回调，LbjViewModel.kt 负责业务逻辑，LbjPreferences.kt 保存选项，RtlTcpClient.kt 已有 host/port Socket 能力，DriverLauncher.kt 主要处理 Android Driver 启动。原则是只改必要处。
+- 历史记录要支持系统文件选择器导入/导出 CSV，建议 Windows 兼容的 UTF-8 BOM。导出的列应包括时间、车次、方向、速度、车型、车号、线路、公里标、列车类型、经纬度等。
+- 经纬度必须来自 LBJ 报文，不是手机 GPS；不能因此增加手机定位权限。应确认 LbjDecoder/TrainTelemetry 有没有真实解出坐标，再传入 Room 与 CSV。
+- Room schema 变更须谨慎：旧记录中数据库 version=3，并存在 fallbackToDestructiveMigration(dropAllTables = true) 的风险，不能让升级导致旧历史无声丢失。
+- 车型库要支持内置库与外置库（用户 TXT）选择，外置行格式例如 106=东风4C；支持添加/编辑/删除/导入/导出，中文用 UTF-8 BOM。
+- 当用户选择外置库时，车型查询只能使用外置库；不存在就显示未知，不可偷偷回退到内置库。注意用户的输入文件可能在一行里包含多个代号/别名，不要把整行误当一个车型。
+- 历史详情页应像独立页面一样能返回上级，不要点返回直接退出桌面；必要时双击返回退出并给 Toast 提示。历史列表右侧需有可拖动的快速滚动条；地图应限制在固定容器中，不能拖动地图导致整个页面/底图一起移动；CSV 文件命名按当日日期；文本默认居中；列车信息页面在“运行线路”下面、“本站到达估算”上面新增经纬度栏。
+- 代码操作偏好：完整可用文件/命令优先，避免泛泛建议；只做用户明确要求的改动，别重构无关行为。历史记录里的建议方案不代表这些改动已经提交或在 APK 实测。
+
+## 4. 补充历史里的设备独立 ID 研究：不要把车头型号/车号当作发射器 ID
+
+用户明确纠正过：POCSAG 地址 1234002 所携带的是车头型号与机车车号信息，例如 HXD1C-0615 / HXD1C-0605；它不是用户怀疑的 ID。用户要找的是车载综合电台/发射装置本体自己的独立 ID。
+
+历史记录提到的采集：
+- 20866：对应 HXD1C-0615。
+- 40042：对应 HXD1C-0605。
+- 821 MHz IQ 文件包括 train_unknown_821.2367MHz_20261006_004707.iq（历史记录称约 12.3 MB）、train_unknown_821.2371MHz_20261006_010249.iq，以及 20866 的 004724.iq 等；40042 目录曾显示有 5 个 IQ 文件和 JSON。部分早期步骤只是确认网盘上文件存在、可触发下载，不能把“网页端能访问”说成模型已经拿到二进制；后续历史记录则记载两份 821.237x MHz IQ 已被上传并进行过 POCSAG 全地址扫描。后续对话应按实际附件/日志核实文件是否可用。
+- 一份专利 PDF 名称为《发明专利申请（列车综合预警系统及其方法）》。历史对话将其作为待核实的架构线索：821.2375 MHz 一侧是 POCSAG 广播，866.2375 MHz 一侧涉及 FFSK/车载综合电台通信。需要重新打开专利原件核实具体参数，不能只把摘要里的频点当成当前实测事实。
+
+已记载的 821 MHz 全 RIC 扫描结论：
+- 20866 的有效 POCSAG 区间：Sync -> 1234000-F3 -> 1234002-F3 -> Idle；地址码字记录为 4B515A86。
+- 40042 结构相同；其 1234002 地址码字有 1 bit 错误，原始记为 4B51DA86，BCH 纠正后为 4B515A86。
+- 同一段有效 POCSAG（Sync 到 Idle）没有发现额外 RIC 作为第三个“发射器 ID”。
+- 共同出现的 154250-F3 不能被认作每台发射装置的独立 ID，因为两辆不同车都有该值；还要注意原始记录中的 frame-position/地址解释，若要再用需回看相应解码日志。
+- 因此，现有 821 MHz 结果可以排除“在这两份已扫描的 LBJ POCSAG 消息里额外插入第三个 RIC 作为设备 ID”这种简单假设；它不能证明全系统不存在设备 ID。
+- 用户已确认 Function 对方向的解释是 F1=下行、F3=上行。后续车次关联逻辑要把 function 作为强约束，不要主要依靠公里标增减来猜方向，公里标只能作为辅助一致性校验。
+- 接下来最值得做的采集是 866.2375 MHz（或经专利/设备资料确认的相应 FFSK 频道）的原始 IQ。821 MHz IQ 不能用来直接分析另一频点上的通信内容。也可以对同车多份 IQ 按 POCSAG 前导第一个有效符号对齐，比较前导前 100–300 ms 的 RF/IQ 活动：同一设备多次应有稳定共性，不同设备应可重复区分；当前“前导前弱 RF 活动”只是线索，尚非 ID 证据。
+- 要寻找真实的设备独立 ID，应区分：机车/车辆信息（1234002）、LBJ 公共业务地址（如 154250）和车载发射器/综合电台自身身份。三者不是一回事。
+
+## 5. POCSAG 串车问题：已锁定的软件层方向
+
+历史文件分析了 RailwayPagerDemod、SX1276_Receive_LBJ 与 APK 的消息处理。核心问题不是简单的车型字典，而是 demod 端可能丢掉 POCSAG message boundary，业务层再用全局最近车次或字符串判断，导致多车交错时把不同 Address 的内容拼到一起。
+
+记录里指出的现有问题形态：
+- demod.cpp 维护全局 address 与 numeric_msg。
+- 每收到一个 32-bit codeword 就可能输出一次；新 Address 会覆写 address 并清空 numeric_msg。
+- Java/Kotlin 再用字符串包含 1234000 / 1234002 判断消息类别。
+- 这样会丢失同一个 POCSAG batch 的空中顺序、Address、Function、frame position 等关系。
+
+建议的明确改造路线：
+- 保留已工作的 IQ -> FSK 解调 -> POCSAG 同步 -> BCH 纠错。
+- 优先只改 demod.cpp 中 decodeBatch()/processOneSample() 的消息边界处理与 decodeMessage.cpp 的输出/解析接口；别把 SX1276 硬件驱动照搬进 Android。
+- 增加完整消息组装器：按连续 codeword 顺序收集消息，在下一个 Address 或 Idle 等真正边界到来时关闭上一条；使用结构化字段 address、function、framePos、burstId、payload，而不是全局字符串状态。
+- 完整消息交给 LBJ 解析层后，再按同一 burst/message 的上下文配对 1234000（动态列车数据）与 1234002（车型/机车号数据）。不要跨任意相邻消息直接拼接，也不要依靠“最后收到的车次”全局变量。
+- 如果两辆车的同频发射真正同时、互相破坏并只形成无法纠错的一串比特，接收端软件无法凭空恢复每个 bit 属于哪辆车；但对于分时、可完整解码的多车广播，正确保留 POCSAG batch/address/message boundary 可以避免软件层造成的许多串车。
+
+## 6. 本次新会话开始的推荐顺序
+
+1. 先读本文件前半段保留的 STRUCTURE-37 原始日志结果，再读本节中“当前脚本版本”与“关键纠错”部分。
+2. 下载当前 STRUCTURE-38，覆盖本地原文件 D:\X55RE\ghidra_scripts\Ghidra_RFDEBUG_Trace.java。
+3. 在同一个 614_0_0.mbn Ghidra Program 中运行，不要导入旧 qdsp6sw.mbn 地址。
+4. 检查 STRUCTURE-38 新输出的 RFC_SINGLETON_SLOT / CONSTRUCTOR_CALL_TARGET 及函数体；先回答四个 get_instance 单例槽和相关调用目标是什么，再决定是否扩大分析。
+5. 若静态表的 R0 后两项仍指向 data block，要继续验证重定位/槽位语义，不要直接判断程序一定会调用数据地址。
+6. 将配置查询函数与实际修改频率/配置寄存器/调用下层 RF driver 的路径分开验证。只有发现具体调用链和有效数据流后，才能称为 RX tuning 入口。
+7. Android/PocSAG 这条工作线另行处理；设备独立 ID 当前的明确下一步是获取/分析 866.2375 MHz FFSK IQ，而不是继续在已完整扫描的两份 821 MHz POCSAG 载荷里无限搜索额外 RIC。
+8. 每次改脚本之后都汇报 TRACE_BUILD、行数、Blob SHA 和本地运行状态；用户上传新日志时先核对是否匹配版本，不能让两个工作线互相覆盖结论。
+
+## 7. 绝对不要再犯的方向错误
+
+- 不把 614_0_0.mbn 的地址与 qdsp6sw.mbn 的 C8/C9 地址混用。
+- 不把 0x264D4、0x26544、0x265B4、0x26624、0x26694、0x26708 当机器码；它们是 RFC 错误字符串。
+- 不把 1234002 的机车型号/车号当作发射装置自身 ID。
+- 不把共同出现的 154250-F3 当作车辆独立设备 ID。
+- 不因一个地址位于 executable block，就断言它是有效函数入口。
+- 不把静态指针槽值等同于运行时经过重定位的真实目标。
+- 不说代码已经在本地 Ghidra 编译/运行，除非确实执行并看到结果。
+- 不在 Android app 里用全局最近车次/字符串猜测代替 POCSAG message boundary。
+- 不把建议中的 UI/数据库改造说成已经提交或通过 APK 实测。
+- 不把 821 MHz 上的 POCSAG IQ 当成 866 MHz FFSK 的数据。
