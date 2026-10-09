@@ -5526,6 +5526,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             run614DynamicAddressDiscovery();
             scan614PriorityRfcCallGraphSummary();
             scan614PriorityCalleeExpansion();
+            scan614SignalInfoCallsiteContext();
             scan614PltGotThunkMap();
         }
         else {
