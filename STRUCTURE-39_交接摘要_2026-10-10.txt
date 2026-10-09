@@ -145,3 +145,37 @@ STRUCTURE-38 日志中的下列地址均显示为 PLT/GOT 式间接跳转桩：
 - Android 接收器 / POCSAG 串车逻辑与本固件分析是不同工作线，不要把它们的地址、日志或结论混用。
 - 发射设备独立 ID 研究里，`1234002` 是机车型号/车号信息，不是发射器自身 ID；共同出现的 `154250-F3` 不能当成车辆独立设备 ID。
 - 已有 821 MHz POCSAG IQ 扫描未发现额外第三个 RIC 的简单设备 ID 假设；后续独立 ID 研究应转向确认后的 866.2375 MHz FFSK IQ，而非把 821 MHz POCSAG 数据当成 FFSK。
+
+
+---
+
+## 9. 关键纠正：本文件前面的 PC 相对地址公式已被 STRUCTURE-41 取代
+
+**请勿继续照本文件第 3 节原先的“运行 STRUCTURE-39”步骤操作。** 2026-10-10 重新核对 Qualcomm Hexagon Programmer's Reference Manual 后，确认 Hexagon PC-relative 地址使用当前 execute packet 的起始地址，而不是简单使用 `add` 指令地址 + 指令长度。参考手册 Add to PC 章节（印刷页 197）：https://device.report/m/9617176bfefffcbc1efdcc55512335e567e0d9a1c8a2813a1538de55ed99cf3b.pdf
+
+STRUCTURE-39 的审计使用了 `addAddress + addIns.getLength() + immediate`，因此其 `614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES=8` 是建立在错误基准上的结果，**不是正确性证明，应当撤回**。
+
+四个 getter 的 `add` 前均有同包 `immext`。按 packet 起始地址重新计算：
+- `0x25598 + 0x22F170 = 0x254708`，再加访问偏移 `-0x8C`，候选 singleton slot 为 `0x25467C`。
+- `0x25604 + 0x22F104 = 0x254708`，再加 `-0x84`，候选 singleton slot 为 `0x254684`。
+- `0x25694 + 0x22F074 = 0x254708`，再加 `-0x18`，候选 singleton slot 为 `0x2546F0`。
+- `0x25700 + 0x22F008 = 0x254708`，再加 `-0x10`，候选 singleton slot 为 `0x2546F8`。
+
+同理，原先脚本中以 `add + length + immediate` 计算的其它 614_0_0 PC-relative 候选（包括 R18 基址、RFC anchor、PCREL 目标和 PLT/GOT 槽位）也需按 packet start 重新验证。STRUCTURE-40 只修正了局部 getter 审计，不足以用于后续运行；最新完整修正为 STRUCTURE-41。
+
+最新脚本：
+- `DIAG-FTM-STRUCTURE-41`
+- Blob SHA：`05c2126d1278b04549f295b830af1c0523a9c176`
+- 6744 行
+- https://github.com/rzwcl/LBJ_Map/blob/main/Ghidra_RFDEBUG_Trace.java
+
+STRUCTURE-41 加入 `hexagonPacketOffset()`、`hexagonPacketStartAddress()` 与 `hexagonPcRelativeTarget()`，将相关静态扫描改为用 packetOffset context 或同包 immext 推导 packet 起点。源码大括号差值为 0、调用/定义静态检查通过；尚未在用户的 Ghidra 环境中编译或运行。
+
+下一步请覆盖本地原脚本，并在同一个 `614_0_0.mbn` Program 中运行 STRUCTURE-41。重点看新输出的：
+- `614_SIGNAL_R18_PC_BASE`（预计应重新报告 packet_start / packet_offset）
+- `614_SIGNAL_R2_ARGUMENT` 与 `614_SIGNAL_GETTER_SLOT`（其地址和值需要重新采样）
+- `614_RFC_SINGLETON_SLOT` 与 `614_RFC_EFFECTIVE_AUDIT_ACCESS`
+- `614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES` / `614_RFC_EFFECTIVE_AUDIT_STORED_DIRECT_REFERENCE_MATCHES`
+- `614_PLT_GOT_THUNK` 和 resolver base 输出（以新 packet-start 算法为准）
+
+不要将 STRUCTURE-39 的旧审计数字作为基线，也不要把尚未取得运行日志的新候选值当成已验证结果。
