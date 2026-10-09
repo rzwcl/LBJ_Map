@@ -5303,11 +5303,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
         }
 
-        long[] suspiciousTargets = new long[] { 0x00027384L, 0x00217458L };
-        for (int i = 0; i < suspiciousTargets.length; i++) {
-            Long key = Long.valueOf(suspiciousTargets[i]);
+        // These are the corrected targets of R18 slots 0x2546AC / 0x2546B0.
+        long[] correctedGetterTargets = new long[] { 0x00025418L, 0x000254FCL };
+        for (int i = 0; i < correctedGetterTargets.length; i++) {
+            Long key = Long.valueOf(correctedGetterTargets[i]);
             needles.add(key);
-            labels.put(key, i == 0 ? "R0_slot_2546C4_target" : "R0_slot_2546C8_target");
+            labels.put(key, i == 0 ? "R0_slot_2546AC_target" : "R0_slot_2546B0_target");
         }
 
         long[] stringTargets = new long[] {
@@ -5762,9 +5763,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
      * packet-start semantics, reports direct constructor-call sites, and
      * checks references to get_signals_info. No program state is modified.
      */
-    private boolean trace614HasRegister(Instruction ins, String registerName) {
+    private boolean trace614MemoryUsesBase(Instruction ins, String registerName) {
         if (ins == null || registerName == null) return false;
         for (int op = 0; op < ins.getNumOperands(); op++) {
+            String representation = ins.getDefaultOperandRepresentation(op);
+            if (representation == null || representation.indexOf('(') < 0) continue;
             for (Object object : ins.getOpObjects(op)) {
                 if (object instanceof ghidra.program.model.lang.Register
                         && registerName.equalsIgnoreCase(
@@ -5880,7 +5883,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 }
 
                 if (pcBase >= 0L && baseRegister != null
-                        && mnemonic.startsWith("mem") && trace614HasRegister(ins, baseRegister)) {
+                        && mnemonic.startsWith("mem") && trace614MemoryUsesBase(ins, baseRegister)) {
                     Long scalar = null;
                     for (int op = 0; op < ins.getNumOperands() && scalar == null; op++) {
                         for (Object object : ins.getOpObjects(op)) {
