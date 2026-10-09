@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-36
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-37
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -5141,6 +5141,212 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+    private void scan614SignalDescriptorStringsAndReferences() {
+        p("");
+        p("============================================================");
+        p("614_0_0 SIGNAL DESCRIPTOR STRING / POINTER REFERENCE MAP");
+        p("Reclassifies the first field of six apparent descriptors by checking actual target bytes.");
+        p("Also scans initialized non-executable blocks for raw 32-bit references to descriptor and target addresses.");
+        p("READ ONLY; this method does not disassemble, create references, or modify program structures.");
+        p("============================================================");
+
+        long[] records = new long[] {
+            0x000272C0L, 0x000272CCL, 0x000272D8L,
+            0x000272E4L, 0x000272F0L, 0x000272FCL
+        };
+        java.util.Set<Long> needles = new java.util.LinkedHashSet<Long>();
+        java.util.Map<Long, String> labels = new java.util.HashMap<Long, String>();
+        int rowCount = 0;
+
+        for (int i = 0; i < records.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long record = records[i];
+            long field0 = -1L;
+            long field1 = -1L;
+            long field2 = -1L;
+            try {
+                field0 = u32(record);
+                field1 = u32(record + 4L);
+                field2 = u32(record + 8L);
+            }
+            catch (Exception e) {
+                p("614_SIGNAL_TABLE_ROW_ERROR index=" + (i + 1)
+                    + " address=" + hex(record)
+                    + " error=" + e.getClass().getSimpleName());
+                continue;
+            }
+
+            MemoryBlock recordBlock;
+            MemoryBlock field0Block;
+            MemoryBlock field1Block;
+            try { recordBlock = memory().getBlock(addr(record)); }
+            catch (Exception e) { recordBlock = null; }
+            try { field0Block = memory().getBlock(addr(field0)); }
+            catch (Exception e) { field0Block = null; }
+            try { field1Block = memory().getBlock(addr(field1)); }
+            catch (Exception e) { field1Block = null; }
+
+            StringBuilder field0Preview = new StringBuilder();
+            if (field0Block != null && field0Block.isInitialized()) {
+                for (int k = 0; k < 96; k++) {
+                    int value;
+                    try { value = memory().getByte(addr(field0 + (long)k)) & 0xff; }
+                    catch (Exception e) { break; }
+                    if (value == 0) break;
+                    if (value >= 0x20 && value <= 0x7e) {
+                        field0Preview.append((char)value);
+                    }
+                    else {
+                        field0Preview.append('.');
+                    }
+                }
+            }
+
+            StringBuilder field1Bytes = new StringBuilder();
+            if (field1Block != null && field1Block.isInitialized()) {
+                for (int k = 0; k < 24; k++) {
+                    int value;
+                    try { value = memory().getByte(addr(field1 + (long)k)) & 0xff; }
+                    catch (Exception e) { break; }
+                    if (field1Bytes.length() > 0) field1Bytes.append(' ');
+                    field1Bytes.append(String.format("%02X", Integer.valueOf(value)));
+                }
+            }
+
+            p("614_SIGNAL_TABLE_ROW #" + (i + 1)
+                + " record=" + hex(record)
+                + " record_block=" + (recordBlock == null ? "<none>" : recordBlock.getName())
+                + " field0=" + hex(field0)
+                + " field0_block=" + (field0Block == null ? "<none>" : field0Block.getName())
+                + " field0_executable=" + (field0Block != null && field0Block.isExecute())
+                + " field0_ascii_preview=" + field0Preview.toString()
+                + " field1=" + hex(field1)
+                + " field1_block=" + (field1Block == null ? "<none>" : field1Block.getName())
+                + " field1_bytes=" + field1Bytes.toString()
+                + " field2=" + hex(field2));
+            rowCount++;
+
+            long[] vals = new long[] { record, field0, field1 };
+            String[] names = new String[] {
+                "descriptor_row_" + (i + 1),
+                "descriptor_field0_" + (i + 1),
+                "descriptor_field1_" + (i + 1)
+            };
+            for (int j = 0; j < vals.length; j++) {
+                Long key = Long.valueOf(vals[j] & 0xffffffffL);
+                needles.add(key);
+                if (!labels.containsKey(key)) labels.put(key, names[j]);
+            }
+        }
+
+        long[] suspiciousTargets = new long[] { 0x00027384L, 0x00217458L };
+        for (int i = 0; i < suspiciousTargets.length; i++) {
+            Long key = Long.valueOf(suspiciousTargets[i]);
+            needles.add(key);
+            labels.put(key, i == 0 ? "R0_slot_2546C4_target" : "R0_slot_2546C8_target");
+        }
+
+        long[] stringTargets = new long[] {
+            0x000264D4L, 0x00026544L, 0x000265B4L,
+            0x00026624L, 0x00026694L, 0x00026708L
+        };
+        for (int i = 0; i < stringTargets.length; i++) {
+            Long key = Long.valueOf(stringTargets[i]);
+            needles.add(key);
+            labels.put(key, "source_string_target_" + (i + 1));
+        }
+
+        for (int offset = 0; offset < 12; offset++) {
+            long slot = 0x002546A0L + (long)offset * 4L;
+            try {
+                p("614_SIGNAL_R0_SLOT_WINDOW slot=" + hex(slot)
+                    + " value=" + hex(u32(slot)));
+            }
+            catch (Exception e) {
+                p("614_SIGNAL_R0_SLOT_WINDOW slot=" + hex(slot)
+                    + " value=<unreadable>");
+            }
+        }
+
+        java.util.Map<Long, Integer> hitCounts = new java.util.HashMap<Long, Integer>();
+        java.util.Map<Long, java.util.List<String>> hitExamples =
+            new java.util.HashMap<Long, java.util.List<String>>();
+        int scannedWords = 0;
+        int totalHits = 0;
+        int maxExamplesPerValue = 12;
+        MemoryBlock[] blocks = memory().getBlocks();
+
+        for (MemoryBlock block : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            if (!block.isInitialized() || block.isExecute()
+                    || !isDefaultDynamicAddressBlock(block)) continue;
+
+            long pos = (block.getStart().getOffset() + 3L) & ~3L;
+            long end = block.getEnd().getOffset();
+            byte[] buffer = new byte[DYNAMIC_SCAN_CHUNK];
+
+            while (pos + 3L <= end && !monitor.isCancelled() && lines < MAX_LINES) {
+                int want = (int)Math.min((long)DYNAMIC_SCAN_CHUNK, end - pos + 1L);
+                want -= want % 4;
+                if (want < 4) break;
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                }
+                catch (Exception e) {
+                    pos += want;
+                    continue;
+                }
+
+                for (int i = 0; i + 3 < want; i += 4) {
+                    long value;
+                    if (currentProgram.getLanguage().isBigEndian()) {
+                        value = (((long)buffer[i] & 0xffL) << 24)
+                            | (((long)buffer[i + 1] & 0xffL) << 16)
+                            | (((long)buffer[i + 2] & 0xffL) << 8)
+                            | ((long)buffer[i + 3] & 0xffL);
+                    }
+                    else {
+                        value = ((long)buffer[i] & 0xffL)
+                            | (((long)buffer[i + 1] & 0xffL) << 8)
+                            | (((long)buffer[i + 2] & 0xffL) << 16)
+                            | (((long)buffer[i + 3] & 0xffL) << 24);
+                    }
+                    scannedWords++;
+                    Long key = Long.valueOf(value & 0xffffffffL);
+                    if (!needles.contains(key)) continue;
+
+                    totalHits++;
+                    Integer oldCount = hitCounts.get(key);
+                    hitCounts.put(key, Integer.valueOf(oldCount == null ? 1 : oldCount.intValue() + 1));
+                    java.util.List<String> examples = hitExamples.get(key);
+                    if (examples == null) {
+                        examples = new java.util.ArrayList<String>();
+                        hitExamples.put(key, examples);
+                    }
+                    if (examples.size() < maxExamplesPerValue) {
+                        examples.add(block.getName() + ":" + hex(pos + i));
+                    }
+                }
+                pos += want;
+            }
+        }
+
+        p("614_SIGNAL_REFERENCE_SCAN_WORDS=" + scannedWords);
+        p("614_SIGNAL_REFERENCE_SCAN_MATCHES=" + totalHits);
+        for (Long key : needles) {
+            if (lines >= MAX_LINES) break;
+            Integer count = hitCounts.get(key);
+            java.util.List<String> examples = hitExamples.get(key);
+            p("614_SIGNAL_RAW_POINTER_VALUE value=" + hex(key.longValue())
+                + " label=" + labels.get(key)
+                + " match_count=" + (count == null ? 0 : count.intValue())
+                + " slots=" + (examples == null || examples.isEmpty()
+                    ? "<none>" : examples.toString()));
+        }
+        p("614_SIGNAL_TABLE_ROWS_PARSED=" + rowCount);
+    }
+
+
     private void scan614PltGotThunkMap() {
         p("");
         p("============================================================");
@@ -6103,6 +6309,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614SignalInfoCallsiteContext();
             scan614SignalGetterDescriptorsAndBodies();
             scan614UnrecognizedSignalCodeTargets();
+            scan614SignalDescriptorStringsAndReferences();
             scan614PltGotThunkMap();
         }
         else {
