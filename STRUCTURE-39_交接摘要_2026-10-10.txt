@@ -179,3 +179,20 @@ STRUCTURE-41 加入 `hexagonPacketOffset()`、`hexagonPacketStartAddress()` 与 
 - `614_PLT_GOT_THUNK` 和 resolver base 输出（以新 packet-start 算法为准）
 
 不要将 STRUCTURE-39 的旧审计数字作为基线，也不要把尚未取得运行日志的新候选值当成已验证结果。
+
+
+---
+
+## 9. 严重纠正（2026-10-10）：请以 STRUCTURE-41 为准
+
+本文件前文中建议运行 STRUCTURE-39 的步骤及 PC 相对地址计算方式已经过时。**不要把 STRUCTURE-39 的 `614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES=8` 当成正确性证明。** 那次计算使用 `add address + instruction length + immediate`，忽略了 Hexagon 的 PC 指向当前 execute packet 起点的规则。
+
+Qualcomm Hexagon Programmer's Reference Manual 的 “Add to PC” 章节（印刷页 197）说明，PC-relative immediate 加到 packet 起始地址：https://device.report/m/9617176bfefffcbc1efdcc55512335e567e0d9a1c8a2813a1538de55ed99cf3b.pdf
+
+当前最新完整修正版是 **STRUCTURE-41**，它统一修正了 R18 基址、RFC anchor、PCREL 和 PLT/GOT 的相关公式。其完整状态、新候选地址与操作步骤见：
+
+[STRUCTURE-41 交接摘要](https://github.com/rzwcl/LBJ_Map/blob/main/STRUCTURE-41_%E4%BA%A4%E6%8E%A5%E6%91%98%E8%A6%81_2026-10-10.txt)
+
+STRUCTURE-41 脚本 Blob SHA：`05c2126d1278b04549f295b830af1c0523a9c176`（6744 行）。已经完成源码静态校验，**尚未在用户的 Ghidra 环境中编译或运行**。
+
+先前脚本与日志的备份仍保留用于历史比对；今后续分析必须先运行 STRUCTURE-41，并以新日志重新核实所有 PC-relative 关联。不要继续运行 STRUCTURE-39 或 STRUCTURE-40。
