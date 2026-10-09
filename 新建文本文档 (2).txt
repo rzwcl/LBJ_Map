@@ -1,94 +1,4 @@
-NG_REF from=00025a2c type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a40 type=DATA caller=get_signals_info@000259a4 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a44 type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a58 type=DATA caller=get_signals_info@000259a4 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a5c type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
-  614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=10
-
-614_PRIORITY_CALLEE_TARGETS_PRINTED=10
-614_PRIORITY_CALLEE_INSTRUCTIONS_PRINTED=47
-614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=50
-614_PRIORITY_CALLEE_NOTE=Start with target 0x00025F70; determine whether it dereferences/calls the getter pointers passed by get_signals_info.
-
-============================================================
-614_0_0 get_signals_info -> indirect getter pointer resolution
-Resolves the R18-relative function-pointer slot used before each call to 0x25F70.
-Static words are read-only leads; runtime relocation behavior is not emulated.
-============================================================
-614_SIGNAL_CALLER=get_signals_info entry=000259a4 target=0x00025F70
-614_SIGNAL_R18_PC_BASE at=000259bc instruction=add R18,PC,##0x22ed50  computed_base=0x00254710
-
-614_SIGNAL_CALLSITE #1 at=000259f8 instruction=call 0x00025f70 
-  614_SIGNAL_R2_ARGUMENT callsite=000259f8 source_ins=000259ec instruction=add R2,PC,##0x18d0  data_address=0x000272C0 block=segment_3 initialized=true executable=false
-  614_SIGNAL_R2_ARGUMENT_BYTES callsite=000259f8 count=24 bytes=D4 64 02 00 D3 06 0E 00 08 00 00 00 44 65 02 00 DD 06 0E 00 08 00 00 00
-  614_SIGNAL_R2_ARGUMENT_WORDS callsite=000259f8 words=0x000264D4,0x000E06D3,0x00000008,0x00026544,0x000E06DD,0x00000008
-  PRE 000259c8 memw (R1+#0x8),R2.new 
-  PRE 000259cc call 0x00024d10 
-  PRE 000259d0 memb (R1+#0x4),#0x8 
-  PRE 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
-  PRE 000259d8 immext #0x18c0 
-  PRE 000259dc add R0,PC,##0x18d4 
-  PRE 000259e0 call 0x00024cf0 
-  PRE 000259e4 memb (R17+#0x4),#0x0 
-  PRE 000259e8 immext #0x18c0 
-  PRE 000259ec add R2,PC,##0x18d0 
-  PRE 000259f0 immext #0xffffff80 
-  PRE 000259f4 memw R0,(R18+##0xffffffa4) 
-  >>> CALL 000259f8 call 0x00025f70 
-  POST 000259fc assign R1,#0x0 ; assign R3,R16 
-  POST 00025a00 immext #0x18c0 
-  POST 00025a04 add R2,PC,##0x18c4 
-  POST 00025a08 immext #0xffffff80 
-  R0_BACKWARD_CANDIDATE kind=explicit-destination at=000259f4 instruction=memw R0,(R18+##0xffffffa4) 
-  614_SIGNAL_GETTER_SLOT callsite=000259f8 load=000259f4 base=R18:0x00254710 displacement=0xFFFFFFA4 slot=0x002546B4 slot_block=segment_3 static_word=0x00025598 target_block=segment_2 target_executable=true exact_function=get_instance@00025598 containing_function=get_instance@00025598
-
-614_SIGNAL_CALLSITE #2 at=00025a10 instruction=call 0x00025f70 
-  614_SIGNAL_R2_ARGUMENT callsite=00025a10 source_ins=00025a04 instruction=add R2,PC,##0x18c4  data_address=0x000272CC block=segment_3 initialized=true executable=false
-  614_SIGNAL_R2_ARGUMENT_BYTES callsite=00025a10 count=24 bytes=44 65 02 00 DD 06 0E 00 08 00 00 00 B4 65 02 00 E7 06 0E 00 08 00 00 00
-  614_SIGNAL_R2_ARGUMENT_WORDS callsite=00025a10 words=0x00026544,0x000E06DD,0x00000008,0x000265B4,0x000E06E7,0x00000008
-  PRE 000259e0 call 0x00024cf0 
-  PRE 000259e4 memb (R17+#0x4),#0x0 
-  PRE 000259e8 immext #0x18c0 
-  PRE 000259ec add R2,PC,##0x18d0 
-  PRE 000259f0 immext #0xffffff80 
-  PRE 000259f4 memw R0,(R18+##0xffffffa4) 
-  PRE 000259f8 call 0x00025f70 
-  PRE 000259fc assign R1,#0x0 ; assign R3,R16 
-  PRE 00025a00 immext #0x18c0 
-  PRE 00025a04 add R2,PC,##0x18c4 
-  PRE 00025a08 immext #0xffffff80 
-  PRE 00025a0c memw R0,(R18+##0xffffffa8) 
-  >>> CALL 00025a10 call 0x00025f70 
-  POST 00025a14 assign R1,#0x0 ; assign R3,R16 
-  POST 00025a18 immext #0x1880 
-  POST 00025a1c add R2,PC,##0x18b8 
-  POST 00025a20 immext #0xffffff80 
-  R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a0c instruction=memw R0,(R18+##0xffffffa8) 
-  614_SIGNAL_GETTER_SLOT callsite=00025a10 load=00025a0c base=R18:0x00254710 displacement=0xFFFFFFA8 slot=0x002546B8 slot_block=segment_3 static_word=0x00025604 target_block=segment_2 target_executable=true exact_function=get_instance@00025604 containing_function=get_instance@00025604
-
-614_SIGNAL_CALLSITE #3 at=00025a28 instruction=call 0x00025f70 
-  614_SIGNAL_R2_ARGUMENT callsite=00025a28 source_ins=00025a1c instruction=add R2,PC,##0x18b8  data_address=0x000272D8 block=segment_3 initialized=true executable=false
-  614_SIGNAL_R2_ARGUMENT_BYTES callsite=00025a28 count=24 bytes=B4 65 02 00 E7 06 0E 00 08 00 00 00 24 66 02 00 F1 06 0E 00 08 00 00 00
-  614_SIGNAL_R2_ARGUMENT_WORDS callsite=00025a28 words=0x000265B4,0x000E06E7,0x00000008,0x00026624,0x000E06F1,0x00000008
-  PRE 000259f8 call 0x00025f70 
-  PRE 000259fc assign R1,#0x0 ; assign R3,R16 
-  PRE 00025a00 immext #0x18c0 
-  PRE 00025a04 add R2,PC,##0x18c4 
-  PRE 00025a08 immext #0xffffff80 
-  PRE 00025a0c memw R0,(R18+##0xffffffa8) 
-  PRE 00025a10 call 0x00025f70 
-  PRE 00025a14 assign R1,#0x0 ; assign R3,R16 
-  PRE 00025a18 immext #0x1880 
-  PRE 00025a1c add R2,PC,##0x18b8 
-  PRE 00025a20 immext #0xffffff80 
-  PRE 00025a24 memw R0,(R18+##0xffffffac) 
-  >>> CALL 00025a28 call 0x00025f70 
-  POST 00025a2c assign R1,#0x0 ; assign R3,R16 
-  POST 00025a30 immext #0x1880 
-  POST 00025a34 add R2,PC,##0x18ac 
-  POST 00025a38 immext #0xffffff80 
-  R0_BACKWARD_CANDIDATE kind=explicit-destination at=00025a24 instruction=memw R0,(R18+##0xffffffac) 
-  614_SIGNAL_GETTER_SLOT callsite=00025a28 load=00025a24 base=R18:0x00254710 displacement=0xFFFFFFAC slot=0x002546BC slot_block=segment_3 static_word=0x00025694 target_block=segment_2 target_executable=true exact_function=get_instance@00025694 containing_function=get_instance@00025694
+24 base=R18:0x00254710 displacement=0xFFFFFFAC slot=0x002546BC slot_block=segment_3 static_word=0x00025694 target_block=segment_2 target_executable=true exact_function=get_instance@00025694 containing_function=get_instance@00025694
 
 614_SIGNAL_CALLSITE #4 at=00025a40 instruction=call 0x00025f70 
   614_SIGNAL_R2_ARGUMENT callsite=00025a40 source_ins=00025a34 instruction=add R2,PC,##0x18ac  data_address=0x000272E4 block=segment_3 initialized=true executable=false
@@ -322,6 +232,54 @@ This read-only scan prints raw bytes/words and incoming references without disas
 614_SIGNAL_RAW_CODE_TARGETS_INSPECTED=6
 614_SIGNAL_RAW_CODE_TARGETS_WITH_INSTRUCTION=0
 614_SIGNAL_RAW_CODE_AND_DATA_XREFS_PRINTED=0
+
+============================================================
+614_0_0 SIGNAL DESCRIPTOR STRING / POINTER REFERENCE MAP
+Reclassifies the first field of six apparent descriptors by checking actual target bytes.
+Also scans initialized non-executable blocks for raw 32-bit references to descriptor and target addresses.
+READ ONLY; this method does not disassemble, create references, or modify program structures.
+============================================================
+614_SIGNAL_TABLE_ROW #1 record=0x000272C0 record_block=segment_3 field0=0x000264D4 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR NR5G Data Object is NOT Created . Cannot operate field1=0x000E06D3 field1_block=segment_3 field1_bytes=00 00 00 C8 00 23 FF 5A 00 5B 00 FF FF FF FF FF FF FF FF FF FF 84 00 12 field2=0x00000008
+614_SIGNAL_TABLE_ROW #2 record=0x000272CC record_block=segment_3 field0=0x00026544 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR WCDMA Data Object is NOT Created . Cannot operat field1=0x000E06DD field1_block=segment_3 field1_bytes=00 FF FF FF FF FF FF FF FF FF FF 84 00 12 00 00 00 C8 00 01 FF 5A 00 5B field2=0x00000008
+614_SIGNAL_TABLE_ROW #3 record=0x000272D8 record_block=segment_3 field0=0x000265B4 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR CDMA Data Object is NOT Created . Cannot operate field1=0x000E06E7 field1_block=segment_3 field1_bytes=FF 84 00 12 00 00 00 C8 00 01 FF 5A 00 5B 00 FF FF FF FF FF FF FF FF FF field2=0x00000008
+614_SIGNAL_TABLE_ROW #4 record=0x000272E4 record_block=segment_3 field0=0x00026624 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR GSM Data Object is NOT Created . Cannot operate  field1=0x000E06F1 field1_block=segment_3 field1_bytes=FF 5A 00 5B 00 FF FF FF FF FF FF FF FF FF FF 0B 00 57 00 E8 03 E8 03 12 field2=0x00000008
+614_SIGNAL_TABLE_ROW #5 record=0x000272F0 record_block=segment_3 field0=0x00026694 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR TDSCDMA Data Object is NOT Created . Cannot oper field1=0x000E06FC field1_block=segment_3 field1_bytes=FF FF FF FF 0B 00 57 00 E8 03 E8 03 12 FF 73 00 74 00 FF FF FF FF 77 00 field2=0x00000008
+614_SIGNAL_TABLE_ROW #6 record=0x000272FC record_block=segment_3 field0=0x00026708 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR GNSS Data Object is NOT Created . Cannot operate field1=0x000E0B7B field1_block=segment_3 field1_bytes=FF FF FF FF FF 84 00 22 00 00 00 C8 00 48 47 56 00 57 00 6B 00 5F 00 FF field2=0x00000008
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546A0 value=0x002197A0
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546A4 value=0x002197B0
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546A8 value=0x00219550
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546AC value=0x00025418
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546B0 value=0x000254FC
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546B4 value=0x00025598
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546B8 value=0x00025604
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546BC value=0x00025694
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546C0 value=0x00025700
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546C4 value=0x00027384
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546C8 value=0x00217458
+614_SIGNAL_R0_SLOT_WINDOW slot=0x002546CC value=0x00218958
+614_SIGNAL_REFERENCE_SCAN_WORDS=570922
+614_SIGNAL_REFERENCE_SCAN_MATCHES=14
+614_SIGNAL_RAW_POINTER_VALUE value=0x000272C0 label=descriptor_row_1 match_count=0 slots=<none>
+614_SIGNAL_RAW_POINTER_VALUE value=0x000264D4 label=source_string_target_1 match_count=1 slots=[segment_3:0x000272C0]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000E06D3 label=descriptor_field1_1 match_count=1 slots=[segment_3:0x000272C4]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000272CC label=descriptor_row_2 match_count=0 slots=<none>
+614_SIGNAL_RAW_POINTER_VALUE value=0x00026544 label=source_string_target_2 match_count=1 slots=[segment_3:0x000272CC]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000E06DD label=descriptor_field1_2 match_count=1 slots=[segment_3:0x000272D0]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000272D8 label=descriptor_row_3 match_count=0 slots=<none>
+614_SIGNAL_RAW_POINTER_VALUE value=0x000265B4 label=source_string_target_3 match_count=1 slots=[segment_3:0x000272D8]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000E06E7 label=descriptor_field1_3 match_count=1 slots=[segment_3:0x000272DC]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000272E4 label=descriptor_row_4 match_count=0 slots=<none>
+614_SIGNAL_RAW_POINTER_VALUE value=0x00026624 label=source_string_target_4 match_count=1 slots=[segment_3:0x000272E4]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000E06F1 label=descriptor_field1_4 match_count=1 slots=[segment_3:0x000272E8]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000272F0 label=descriptor_row_5 match_count=0 slots=<none>
+614_SIGNAL_RAW_POINTER_VALUE value=0x00026694 label=source_string_target_5 match_count=1 slots=[segment_3:0x000272F0]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000E06FC label=descriptor_field1_5 match_count=1 slots=[segment_3:0x000272F4]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000272FC label=descriptor_row_6 match_count=0 slots=<none>
+614_SIGNAL_RAW_POINTER_VALUE value=0x00026708 label=source_string_target_6 match_count=1 slots=[segment_3:0x000272FC]
+614_SIGNAL_RAW_POINTER_VALUE value=0x000E0B7B label=descriptor_field1_6 match_count=1 slots=[segment_3:0x00027300]
+614_SIGNAL_RAW_POINTER_VALUE value=0x00027384 label=R0_slot_2546C4_target match_count=1 slots=[segment_3:0x002546C4]
+614_SIGNAL_RAW_POINTER_VALUE value=0x00217458 label=R0_slot_2546C8_target match_count=1 slots=[segment_3:0x002546C8]
+614_SIGNAL_TABLE_ROWS_PARSED=6
 
 ============================================================
 614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP
