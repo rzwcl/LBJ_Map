@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-20
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-21
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -116,6 +116,29 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
         catch (Exception e) {
             return null;
+        }
+    }
+
+    /**
+     * The dynamic 614_0_0 scans create addresses through addr(), which always
+     * uses the program's default address space. Exclude auxiliary spaces such
+     * as ELF headers and unallocated blocks before passing their offsets there.
+     */
+    private boolean isDefaultDynamicAddressBlock(MemoryBlock b) {
+        if (b == null) return false;
+        try {
+            Address start = b.getStart();
+            Address end = b.getEnd();
+            if (start == null || end == null) return false;
+
+            ghidra.program.model.address.AddressSpace defaultSpace =
+                currentProgram.getAddressFactory().getDefaultAddressSpace();
+            return start.getAddressSpace().isMemorySpace()
+                && start.getAddressSpace().equals(defaultSpace)
+                && end.getAddressSpace().equals(defaultSpace);
+        }
+        catch (Exception e) {
+            return false;
         }
     }
 
