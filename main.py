@@ -1602,19 +1602,16 @@ def try_bind_pending_loco(prefix, loco_type, loco_num, route_name, lon_str, lat_
         best_diff = float('inf')
         for t in pending_trains:
             time_diff_ms = abs(msg_time - t.get("msg_time", t["time"])) * 1000
-            # 诊断日志：逐个候选及时间差
             if time_diff_ms > SIGNAL_DURATION_MS:
                 continue
             if time_diff_ms < best_diff:
                 best_diff = time_diff_ms
                 best_train = t
 
-        # 诊断日志：最佳候选
 
         if best_train:
             cached = loco_cache_by_train.get(best_train["train_no"], {})
             override = _should_override_cache(best_train["train_no"], nibble_count, best_diff, loco_type, loco_num)
-            # 诊断日志：覆盖判断及旧缓存
             if override == "refresh":
                 # 相同车型：只刷新经纬度/线路/时间戳，不增加bind_count
                 cached = loco_cache_by_train.get(best_train["train_no"])
@@ -1662,7 +1659,6 @@ def try_bind_pending_train(train_no, line=None):
             "time": time.time(),
             "msg_time": msg_time
         })
-        # 诊断日志：1234000入队后的完整队列
 
         # 查缓存
         cached = get_loco_info(train_no)
