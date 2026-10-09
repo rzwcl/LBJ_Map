@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-17";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-18";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3081,7 +3081,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE17 EXECUTION FOOTER");
+        println("STRUCTURE18 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199FB8 entries=38 including NULL terminator");
@@ -3116,32 +3116,555 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("============================================================");
     }
 
+    
+    /*
+     * STRUCTURE-18: dynamic address discovery for 614_0_0.mbn.
+     * Do not reuse C919xxxx/C508xxxx addresses from qdsp6sw.mbn.
+     * Discover field strings, string-pointer slots and decoded-instruction
+     * candidates from the program currently open in Ghidra.
+     *
+     * READ ONLY: no modem interaction, no command generation, no program edits.
+     */
+    private static final int DYNAMIC_STRING_HITS_PER_LABEL = 16;
+    private static final int DYNAMIC_POINTER_PRINT_LIMIT = 48;
+    private static final int DYNAMIC_CODE_HIT_PRINT_LIMIT = 120;
+    private static final int DYNAMIC_CONTEXT_LIMIT = 24;
+    private static final int DYNAMIC_SCAN_CHUNK = 0x4000;
+
+    private static final String[] DYNAMIC_RF_LABELS = {
+        "CENTER_FREQ",
+        "BWP_CENTER_FREQ",
+        "RX_CARRIER",
+        "TX_CARRIER",
+        "FREQUENCY",
+        "RX_TUNE",
+        "RADIO_CONFIG",
+        "RFA_RF_LTE_FDD_RX_CONFIG",
+        "RFA_RF_LTE_TDD_RX_CONFIG"
+    };
+
+    private static class DynamicStringHit {
+        long address;
+        String label;
+        String value;
+        String blockName;
+
+        DynamicStringHit(long address, String label, String value, String blockName) {
+            this.address = address;
+            this.label = label;
+            this.value = value;
+            this.blockName = blockName;
+        }
+    }
+
+    private static class DynamicPointerHit {
+        long slot;
+        long target;
+        String label;
+        String blockName;
+
+        DynamicPointerHit(long slot, long target, String label, String blockName) {
+            this.slot = slot;
+            this.target = target;
+            this.label = label;
+            this.blockName = blockName;
+        }
+    }
+
+    private final List<DynamicStringHit> dynamic614StringHits =
+        new ArrayList<DynamicStringHit>();
+    private final List<DynamicPointerHit> dynamic614PointerHits =
+        new ArrayList<DynamicPointerHit>();
+    private final java.util.Map<Long, String> dynamic614StringAddressLabels =
+        new java.util.HashMap<Long, String>();
+    private final java.util.Map<Long, String> dynamic614ExactCodeTargets =
+        new java.util.HashMap<Long, String>();
+    private final java.util.Map<Long, String> dynamic614Low16Targets =
+        new java.util.HashMap<Long, String>();
+
+    private long dynamic614BytesScanned = 0L;
+    private long dynamic614PointerWordsScanned = 0L;
+    private long dynamic614DecodedInstructionsAllBlocks = 0L;
+    private long dynamic614DecodedInstructionsExecBlocks = 0L;
+    private int dynamic614ExactCodeHits = 0;
+    private int dynamic614Low16CodeHits = 0;
+    private int dynamic614ContextsPrinted = 0;
+
+    private String readDynamicCString(long offset, int maxLength) {
+        try {
+            MemoryBlock b = block(offset);
+            if (b == null || !b.isInitialized()) return null;
+            if (offset < b.getStart().getOffset()
+                    || offset > b.getEnd().getOffset()) return null;
+
+            int want = (int)Math.min((long)maxLength,
+                b.getEnd().getOffset() - offset + 1L);
+            if (want <= 0) return null;
+
+            StringBuilder out = new StringBuilder();
+            for (int i = 0; i < want; i++) {
+                int c = memory().getByte(addr(offset + i)) & 0xff;
+                if (c == 0) return out.length() == 0 ? null : out.toString();
+                if (c < 0x20 || c > 0x7e) return null;
+                out.append((char)c);
+            }
+            return null;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    private boolean dynamicIdentifierBefore(long offset, MemoryBlock b) {
+        if (offset <= b.getStart().getOffset()) return false;
+        try {
+            int c = memory().getByte(addr(offset - 1L)) & 0xff;
+            return (c >= 'A' && c <= 'Z')
+                || (c >= 'a' && c <= 'z')
+                || (c >= '0' && c <= '9')
+                || c == '_';
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void addDynamic614String(long offset, String label, String value, MemoryBlock b) {
+        for (DynamicStringHit old : dynamic614StringHits) {
+            if (old.address == offset && old.label.equals(label)) return;
+        }
+
+        dynamic614StringHits.add(new DynamicStringHit(offset, label, value, b.getName()));
+        String previous = dynamic614StringAddressLabels.get(Long.valueOf(offset));
+        if (previous == null) previous = label;
+        else if (!previous.contains(label)) previous = previous + "|" + label;
+        dynamic614StringAddressLabels.put(Long.valueOf(offset), previous);
+        dynamic614ExactCodeTargets.put(Long.valueOf(offset),
+            "STRING:" + previous + "@" + hex(offset));
+
+        long low = offset & 0xffffL;
+        if (low >= 0x1000L && !dynamic614Low16Targets.containsKey(Long.valueOf(low))) {
+            dynamic614Low16Targets.put(Long.valueOf(low),
+                "LOW16_STRING:" + label + "@" + hex(offset));
+        }
+
+        p("  DYNAMIC_STRING_HIT label=" + label
+            + " address=" + hex(offset)
+            + " block=" + b.getName()
+            + " value=\"" + value + "\"");
+    }
+
+    private void search614StringInBlock(MemoryBlock b, String label) {
+        byte[] pattern = new byte[label.length()];
+        for (int i = 0; i < label.length(); i++) pattern[i] = (byte)label.charAt(i);
+
+        long start = b.getStart().getOffset();
+        long end = b.getEnd().getOffset();
+        long pos = start;
+        int retained = 0;
+        long matchCount = 0L;
+
+        while (pos <= end && !monitor.isCancelled() && lines < MAX_LINES
+                && retained < DYNAMIC_STRING_HITS_PER_LABEL) {
+            int want = (int)Math.min((long)DYNAMIC_SCAN_CHUNK, end - pos + 1L);
+            if (want < pattern.length) break;
+
+            byte[] buf = new byte[want];
+            try {
+                memory().getBytes(addr(pos), buf, 0, want);
+            }
+            catch (Exception e) {
+                p("  DYNAMIC_STRING_READ_ERROR label=" + label
+                    + " block=" + b.getName()
+                    + " at=" + hex(pos)
+                    + " error=" + e.getMessage());
+                break;
+            }
+
+            for (int i = 0; i <= want - pattern.length; i++) {
+                boolean equal = true;
+                for (int j = 0; j < pattern.length; j++) {
+                    if (buf[i + j] != pattern[j]) { equal = false; break; }
+                }
+                if (!equal) continue;
+
+                long at = pos + i;
+                if (dynamicIdentifierBefore(at, b)) continue;
+
+                String actual = readDynamicCString(at, 200);
+                if (actual == null || !actual.equalsIgnoreCase(label)) continue;
+
+                matchCount++;
+                addDynamic614String(at, label, actual, b);
+                retained++;
+                if (retained >= DYNAMIC_STRING_HITS_PER_LABEL) break;
+            }
+
+            long advance = (long)want - pattern.length + 1L;
+            if (advance <= 0L) break;
+            pos += advance;
+            dynamic614BytesScanned += advance;
+        }
+
+        if (matchCount > 0L) {
+            p("  DYNAMIC_STRING_LABEL_SUMMARY label=" + label
+                + " retained=" + retained
+                + " matches_seen_before_cap=" + matchCount);
+        }
+    }
+
+    private void run614DynamicAddressDiscovery() {
+        p("");
+        p("============================================================");
+        p("614_0_0 DYNAMIC FREQUENCY-FIELD TRACE");
+        p("No fixed qdsp6sw.mbn addresses are assumed in this branch.");
+        p("Find strings in the current image, then pointer slots and instruction leads.");
+        p("READ ONLY: no modem commands, no DIAG packets, no program modifications.");
+        p("============================================================");
+
+        MemoryBlock[] blocks = memory().getBlocks();
+        p("DYNAMIC_PROGRAM=" + currentProgram.getName());
+        p("DYNAMIC_IMAGE_BASE=" + currentProgram.getImageBase());
+        p("DYNAMIC_MEMORY_BLOCK_COUNT=" + blocks.length);
+
+        for (int i = 0; i < blocks.length && i < 180; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            MemoryBlock b = blocks[i];
+            long size = b.getEnd().getOffset() - b.getStart().getOffset() + 1L;
+            p("  DYNAMIC_BLOCK name=" + b.getName()
+                + " range=" + b.getStart() + ".." + b.getEnd()
+                + " size=" + size
+                + " initialized=" + b.isInitialized()
+                + " read=" + b.isRead()
+                + " write=" + b.isWrite()
+                + " execute=" + b.isExecute());
+        }
+
+        p("");
+        p("============================================================");
+        p("614_0_0 RAW STRING DISCOVERY");
+        p("Fields are matched as complete C strings, not as substrings.");
+        p("============================================================");
+
+        for (MemoryBlock b : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!b.isInitialized()) continue;
+            for (String label : DYNAMIC_RF_LABELS) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                search614StringInBlock(b, label);
+            }
+        }
+
+        p("DYNAMIC_STRING_LABEL_COUNT=" + DYNAMIC_RF_LABELS.length);
+        p("DYNAMIC_STRING_HITS=" + dynamic614StringHits.size());
+        p("DYNAMIC_STRING_SCAN_BYTES_APPROX=" + dynamic614BytesScanned);
+
+        for (DynamicStringHit hit : dynamic614StringHits) {
+            printReferencesToAddress(hit.address, 16,
+                "614_STRING_" + hit.label + "_" + hex(hit.address));
+        }
+
+        scan614DynamicPointerSlots(blocks);
+        scan614DynamicDecodedInstructions(blocks);
+        print614DynamicSummary();
+    }
+
+    private void scan614DynamicPointerSlots(MemoryBlock[] blocks) {
+        p("");
+        p("============================================================");
+        p("614_0_0 DYNAMIC STRING-POINTER SLOT SCAN");
+        p("Targets were discovered in the current program, not copied from another firmware.");
+        p("Scans aligned 32-bit words in initialized non-executable blocks.");
+        p("============================================================");
+
+        int shown = 0;
+        for (MemoryBlock b : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!b.isInitialized() || b.isExecute()) continue;
+
+            long pos = (b.getStart().getOffset() + 3L) & ~3L;
+            long end = b.getEnd().getOffset();
+            byte[] buf = new byte[DYNAMIC_SCAN_CHUNK];
+
+            while (pos + 3L <= end && !monitor.isCancelled() && lines < MAX_LINES) {
+                int want = (int)Math.min((long)DYNAMIC_SCAN_CHUNK, end - pos + 1L);
+                want -= want % 4;
+                if (want < 4) break;
+
+                try {
+                    memory().getBytes(addr(pos), buf, 0, want);
+                }
+                catch (Exception e) {
+                    p("  DYNAMIC_PTR_READ_ERROR block=" + b.getName()
+                        + " at=" + hex(pos) + " error=" + e.getMessage());
+                    break;
+                }
+
+                for (int i = 0; i + 4 <= want; i += 4) {
+                    dynamic614PointerWordsScanned++;
+                    long value = ((long)(buf[i] & 0xff))
+                        | ((long)(buf[i + 1] & 0xff) << 8)
+                        | ((long)(buf[i + 2] & 0xff) << 16)
+                        | ((long)(buf[i + 3] & 0xff) << 24);
+
+                    String targetLabel = dynamic614StringAddressLabels.get(Long.valueOf(value));
+                    if (targetLabel == null) continue;
+
+                    long slot = pos + i;
+                    dynamic614PointerHits.add(
+                        new DynamicPointerHit(slot, value, targetLabel, b.getName()));
+                    dynamic614ExactCodeTargets.put(Long.valueOf(slot),
+                        "STRING_POINTER_SLOT:" + targetLabel + "@" + hex(slot));
+
+                    long low = slot & 0xffffL;
+                    if (low >= 0x1000L && !dynamic614Low16Targets.containsKey(Long.valueOf(low))) {
+                        dynamic614Low16Targets.put(Long.valueOf(low),
+                            "LOW16_POINTER_SLOT:" + targetLabel + "@" + hex(slot));
+                    }
+
+                    if (shown < DYNAMIC_POINTER_PRINT_LIMIT) {
+                        p("  DYNAMIC_POINTER_SLOT target=" + targetLabel
+                            + " string=" + hex(value)
+                            + " slot=" + hex(slot)
+                            + " block=" + b.getName());
+
+                        long nearStart = Math.max(b.getStart().getOffset(), slot - 0x18L);
+                        long nearEnd = Math.min(b.getEnd().getOffset(), slot + 0x1cL);
+                        long near = (nearStart + 3L) & ~3L;
+                        for (long at = near; at + 3L <= nearEnd && lines < MAX_LINES; at += 4L) {
+                            try {
+                                long word = u32(at);
+                                String decoded = word == 0L ? null : readAsciiAt(word, 100);
+                                p("    WORD slot=" + hex(at) + " value=" + hex(word)
+                                    + (decoded == null ? "" : " text=\"" + decoded + "\""));
+                            }
+                            catch (Exception e) {
+                                p("    WORD slot=" + hex(at) + " error=" + e.getMessage());
+                            }
+                        }
+                        printReferencesToAddress(slot, 10, "614_POINTER_SLOT_" + hex(slot));
+                        shown++;
+                    }
+                }
+                pos += want;
+            }
+        }
+
+        p("DYNAMIC_POINTER_WORDS_SCANNED=" + dynamic614PointerWordsScanned);
+        p("DYNAMIC_POINTER_SLOTS_FOUND=" + dynamic614PointerHits.size());
+        p("DYNAMIC_POINTER_SLOTS_PRINTED=" + shown);
+        if (dynamic614PointerHits.isEmpty()) {
+            p("DYNAMIC_POINTER_NOTE=No aligned absolute pointers found; relative or register-based references may still exist.");
+        }
+    }
+
+    private void print614InstructionWindow(Instruction center, int before, int after) {
+        if (center == null || dynamic614ContextsPrinted >= DYNAMIC_CONTEXT_LIMIT) return;
+        dynamic614ContextsPrinted++;
+
+        Function owner = currentProgram.getFunctionManager()
+            .getFunctionContaining(center.getAddress());
+        Address entry = owner == null ? null : owner.getEntryPoint();
+        List<Instruction> previous = new ArrayList<Instruction>();
+        Address cursor = center.getAddress();
+
+        for (int i = 0; i < before; i++) {
+            Instruction prior = listing().getInstructionBefore(cursor);
+            if (prior == null) break;
+            Function f = currentProgram.getFunctionManager()
+                .getFunctionContaining(prior.getAddress());
+            if (entry != null && (f == null || !entry.equals(f.getEntryPoint()))) break;
+            previous.add(prior);
+            cursor = prior.getAddress();
+        }
+        java.util.Collections.reverse(previous);
+
+        p("    CONTEXT_BEGIN");
+        for (Instruction prior : previous) p("      " + prior.getAddress() + "  " + prior);
+        p("      >>> " + center.getAddress() + "  " + center);
+        cursor = center.getAddress();
+
+        for (int i = 0; i < after; i++) {
+            Instruction next = listing().getInstructionAfter(cursor);
+            if (next == null) break;
+            Function f = currentProgram.getFunctionManager()
+                .getFunctionContaining(next.getAddress());
+            if (entry != null && (f == null || !entry.equals(f.getEntryPoint()))) break;
+            p("      " + next.getAddress() + "  " + next);
+            cursor = next.getAddress();
+        }
+        p("    CONTEXT_END");
+    }
+
+    private void scan614DynamicDecodedInstructions(MemoryBlock[] blocks) {
+        p("");
+        p("============================================================");
+        p("614_0_0 DECODED-INSTRUCTION FIELD REFERENCE SCAN");
+        p("Walks decoded instructions in all initialized blocks; execute flags are tallied separately.");
+        p("Exact full-address hits and low-16-bit immediate candidates are separate.");
+        p("============================================================");
+
+        int exactShown = 0;
+        int lowShown = 0;
+        java.util.Map<Long, Integer> exactCounts =
+            new java.util.HashMap<Long, Integer>();
+        java.util.Map<Long, Integer> lowCounts =
+            new java.util.HashMap<Long, Integer>();
+
+        for (MemoryBlock b : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!b.isInitialized()) continue;
+
+            long end = b.getEnd().getOffset();
+            long blockInstructions = 0L;
+            InstructionIterator it = listing().getInstructions(b.getStart(), true);
+
+            while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                Instruction ins = it.next();
+                if (ins.getAddress().getOffset() > end) break;
+                blockInstructions++;
+                dynamic614DecodedInstructionsAllBlocks++;
+                if (b.isExecute()) dynamic614DecodedInstructionsExecBlocks++;
+
+                for (int op = 0; op < ins.getNumOperands(); op++) {
+                    Object[] objects = ins.getOpObjects(op);
+                    for (Object object : objects) {
+                        boolean isScalar = object instanceof Scalar;
+                        long value;
+                        if (isScalar) {
+                            value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
+                        }
+                        else if (object instanceof Address) {
+                            value = ((Address)object).getOffset() & 0xffffffffL;
+                        }
+                        else continue;
+
+                        String exactLabel = dynamic614ExactCodeTargets.get(Long.valueOf(value));
+                        if (exactLabel != null) {
+                            dynamic614ExactCodeHits++;
+                            Integer old = exactCounts.get(Long.valueOf(value));
+                            exactCounts.put(Long.valueOf(value),
+                                Integer.valueOf(old == null ? 1 : old.intValue() + 1));
+
+                            if (exactShown < DYNAMIC_CODE_HIT_PRINT_LIMIT) {
+                                p("  614_CODE_EXACT_HIT target=" + exactLabel
+                                    + " value=" + hex(value)
+                                    + " at=" + ins.getAddress()
+                                    + " operand=" + op
+                                    + " function=" + functionInfo(ins.getAddress().getOffset())
+                                    + " instruction=" + ins);
+                                print614InstructionWindow(ins, 3, 5);
+                                exactShown++;
+                            }
+                        }
+
+                        if (!isScalar || value > 0xffffL) continue;
+                        long low = value & 0xffffL;
+                        if (low < 0x1000L) continue;
+                        String lowLabel = dynamic614Low16Targets.get(Long.valueOf(low));
+                        if (lowLabel == null) continue;
+
+                        dynamic614Low16CodeHits++;
+                        Integer oldLow = lowCounts.get(Long.valueOf(low));
+                        lowCounts.put(Long.valueOf(low),
+                            Integer.valueOf(oldLow == null ? 1 : oldLow.intValue() + 1));
+                        if (lowShown < 140 && (oldLow == null || oldLow.intValue() < 5)) {
+                            p("  614_CODE_LOW16_CANDIDATE target=" + lowLabel
+                                + " immediate=" + hex(value)
+                                + " at=" + ins.getAddress()
+                                + " operand=" + op
+                                + " function=" + functionInfo(ins.getAddress().getOffset())
+                                + " instruction=" + ins);
+                            lowShown++;
+                        }
+                    }
+                }
+            }
+
+            p("  614_DECODED_BLOCK name=" + b.getName()
+                + " execute=" + b.isExecute()
+                + " instructions=" + blockInstructions);
+        }
+
+        for (java.util.Map.Entry<Long, Integer> entry : exactCounts.entrySet()) {
+            if (lines >= MAX_LINES) break;
+            p("  614_EXACT_TARGET_COUNT target="
+                + dynamic614ExactCodeTargets.get(entry.getKey())
+                + " hits=" + entry.getValue());
+        }
+        for (java.util.Map.Entry<Long, Integer> entry : lowCounts.entrySet()) {
+            if (lines >= MAX_LINES) break;
+            p("  614_LOW16_TARGET_COUNT target="
+                + dynamic614Low16Targets.get(entry.getKey())
+                + " hits=" + entry.getValue());
+        }
+
+        p("DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=" + dynamic614DecodedInstructionsAllBlocks);
+        p("DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=" + dynamic614DecodedInstructionsExecBlocks);
+        p("DYNAMIC_EXACT_CODE_HITS_TOTAL=" + dynamic614ExactCodeHits);
+        p("DYNAMIC_EXACT_CODE_HITS_PRINTED=" + exactShown);
+        p("DYNAMIC_LOW16_CANDIDATES_TOTAL=" + dynamic614Low16CodeHits);
+        p("DYNAMIC_LOW16_CANDIDATES_PRINTED=" + lowShown);
+        p("DYNAMIC_CONTEXT_WINDOWS_PRINTED=" + dynamic614ContextsPrinted);
+        if (dynamic614DecodedInstructionsAllBlocks == 0L) {
+            p("DYNAMIC_CODE_SCAN_WARNING=No decoded instruction in initialized blocks; check import and disassembly state.");
+        }
+    }
+
+    private void print614DynamicSummary() {
+        p("");
+        p("============================================================");
+        p("614_0_0 DYNAMIC FREQUENCY TRACE SUMMARY");
+        p("TRACE_BUILD=" + TRACE_BUILD);
+        p("PROGRAM=" + currentProgram.getName());
+        p("DYNAMIC_STRING_HITS=" + dynamic614StringHits.size());
+        p("DYNAMIC_POINTER_SLOTS=" + dynamic614PointerHits.size());
+        p("DYNAMIC_POINTER_WORDS_SCANNED=" + dynamic614PointerWordsScanned);
+        p("DYNAMIC_STRING_SCAN_BYTES_APPROX=" + dynamic614BytesScanned);
+        p("DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=" + dynamic614DecodedInstructionsAllBlocks);
+        p("DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=" + dynamic614DecodedInstructionsExecBlocks);
+        p("DYNAMIC_EXACT_CODE_HITS_TOTAL=" + dynamic614ExactCodeHits);
+        p("DYNAMIC_LOW16_CANDIDATES_TOTAL=" + dynamic614Low16CodeHits);
+        p("Hits are static leads only; they do not by themselves prove a live RX tuning path.");
+        p("No modem commands were created or transmitted.");
+        p("============================================================");
+    }
+
+
     @Override
     public void run() throws Exception {
         p("============================================================");
         p(" Ghidra_RFDEBUG_Trace");
         p(" TRACE_BUILD=" + TRACE_BUILD);
-        p(" RFDEBUG RADIO_CONFIG / FREQUENCY DISPATCH TRACE / READ ONLY");
-        p("Primary property table is the confirmed C9199FB8 table, not the unrelated C9199798 array.");
-        p("Searches source-line message records and executable immediate candidates for RFDEBUG ID 0x007B.");
+        p(" READ-ONLY RF FREQUENCY / RFDEBUG STATIC TRACE");
         p("No FTM/RF command is generated or transmitted.");
         p("============================================================");
         p("PROGRAM=" + currentProgram.getName());
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
-        dumpRadioConfigFieldNameTable();
-        dumpAdjacentRadioConfigNamePool();
-        scanRfTuneFieldStrings();
-        scanRadioConfigMessageRecords();
-        scanRfDebugSubsysImmediateCandidates();
+        String programLower = currentProgram.getName().toLowerCase();
+        if (programLower.contains("614_0_0")) {
+            p("TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY");
+            p("Legacy qdsp6sw.mbn addresses are disabled for this program.");
+            run614DynamicAddressDiscovery();
+        }
+        else {
+            p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");
+            p("Using the existing C9199FB8 RFDEBUG property-table path for the qdsp6sw-style image.");
+            dumpRadioConfigFieldNameTable();
+            dumpAdjacentRadioConfigNamePool();
+            scanRfTuneFieldStrings();
+            scanRadioConfigMessageRecords();
+            scanRfDebugSubsysImmediateCandidates();
 
-        p("");
-        p("INTERPRETATION:");
-        p("Property IDs 26 and 28 are checked against the confirmed firmware property_names[] table.");
-        p("A 0x007B immediate hit is only a candidate; inspect its comparison/branch context before assigning dispatcher semantics.");
-        printStructure17ExecutionFooter();
+            p("");
+            p("INTERPRETATION:");
+            p("Property IDs 26 and 28 are checked against the confirmed qdsp6sw RFDEBUG property_names[] table.");
+            p("A 0x007B immediate hit is only a candidate; inspect comparison/branch context before assigning dispatcher semantics.");
+            printStructure17ExecutionFooter();
+        }
+
         p("DONE");
         p("No program data or structures modified.");
     }
-
 }
