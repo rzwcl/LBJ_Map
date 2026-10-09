@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-28
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-29
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-28";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-29";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -4196,6 +4196,246 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("614_PRIORITY_NOTE=This summarizes candidate API relationships; indirect dispatch needs instruction-level confirmation.");
     }
 
+
+    private void scan614PriorityCalleeExpansion() {
+        p("");
+        p("============================================================");
+        p("614_0_0 PRIORITY RFC API DIRECT-CALLEE EXPANSION");
+        p("Expands direct calls from signal-info, path, FBRX, band-split and timing APIs.");
+        p("Includes the repeated get_signals_info call target 0x00025F70 even if Ghidra did not name its function.");
+        p("READ ONLY; direct call targets are static leads, and indirect call flow needs separate confirmation.");
+        p("============================================================");
+
+        String[] seedTerms = {
+            "get_signals_info",
+            "path_cfg_data_get",
+            "fbrx_cfg_data_get",
+            "band_split_cfg_data_get",
+            "timing_cfg_data_get",
+            "get_cmn_properties",
+            "get_logical_device_cfg",
+            "get_logical_path_config",
+            "get_ant_path_info_config",
+            "get_sig_path_info_config"
+        };
+        java.util.Map<Long, java.util.List<String>> callSitesByTarget =
+            new java.util.TreeMap<Long, java.util.List<String>>();
+        java.util.Map<Long, String> targetLabels =
+            new java.util.TreeMap<Long, String>();
+        java.util.Set<Long> printedTargets = new java.util.HashSet<Long>();
+        int seedFunctions = 0;
+        int directCallSites = 0;
+
+        try {
+            FunctionIterator fit = currentProgram.getFunctionManager().getFunctions(true);
+            while (fit.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                Function f = fit.next();
+                if (f.isThunk()) continue;
+                String lower = f.getName().toLowerCase();
+                boolean selected = false;
+                for (String term : seedTerms) {
+                    if (lower.contains(term)) {
+                        selected = true;
+                        break;
+                    }
+                }
+                if (!selected) continue;
+
+                MemoryBlock codeBlock;
+                try {
+                    codeBlock = memory().getBlock(f.getEntryPoint());
+                }
+                catch (Exception e) {
+                    continue;
+                }
+                if (codeBlock == null || !codeBlock.isExecute()
+                        || !isDefaultDynamicAddressBlock(codeBlock)) continue;
+
+                seedFunctions++;
+                InstructionIterator iit = listing().getInstructions(f.getBody(), true);
+                while (iit.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Instruction ins = iit.next();
+                    String mnemonic = ins.getMnemonicString().toLowerCase();
+                    if (!mnemonic.startsWith("call")) continue;
+
+                    Address targetAddress = null;
+                    for (int op = 0; op < ins.getNumOperands(); op++) {
+                        Object[] objects = ins.getOpObjects(op);
+                        for (Object object : objects) {
+                            if (object instanceof Address) {
+                                Address possible = (Address)object;
+                                if (possible.getAddressSpace().isMemorySpace()) {
+                                    targetAddress = possible;
+                                    break;
+                                }
+                            }
+                        }
+                        if (targetAddress != null) break;
+                    }
+                    if (targetAddress == null) continue;
+
+                    long target = targetAddress.getOffset() & 0xffffffffL;
+                    MemoryBlock targetBlock;
+                    try {
+                        targetBlock = memory().getBlock(addr(target));
+                    }
+                    catch (Exception e) {
+                        targetBlock = null;
+                    }
+                    if (targetBlock == null || !targetBlock.isExecute()
+                            || !isDefaultDynamicAddressBlock(targetBlock)) continue;
+
+                    Long key = Long.valueOf(target);
+                    java.util.List<String> sites = callSitesByTarget.get(key);
+                    if (sites == null) {
+                        sites = new java.util.ArrayList<String>();
+                        callSitesByTarget.put(key, sites);
+                    }
+                    if (sites.size() < 12) {
+                        sites.add(f.getName() + "@" + f.getEntryPoint()
+                            + " call=" + ins.getAddress() + " instruction=" + ins);
+                    }
+                    targetLabels.put(key, targetBlock.getName());
+                    directCallSites++;
+                }
+            }
+        }
+        catch (Exception e) {
+            p("614_PRIORITY_CALLEE_DISCOVERY_ERROR="
+                + e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
+
+        long[] knownTargets = {
+            0x00025F70L,
+            0x00025A94L,
+            0x00024C00L,
+            0x00024D10L,
+            0x00024CF0L,
+            0x00024C30L,
+            0x00024CA0L
+        };
+        for (long known : knownTargets) {
+            MemoryBlock b;
+            try {
+                b = memory().getBlock(addr(known));
+            }
+            catch (Exception e) {
+                b = null;
+            }
+            if (b != null && b.isExecute()
+                    && isDefaultDynamicAddressBlock(b)) {
+                Long key = Long.valueOf(known);
+                if (!callSitesByTarget.containsKey(key)) {
+                    callSitesByTarget.put(key, new java.util.ArrayList<String>());
+                }
+                targetLabels.put(key, b.getName());
+            }
+        }
+
+        p("614_PRIORITY_CALLEE_SEED_FUNCTIONS=" + seedFunctions);
+        p("614_PRIORITY_CALLEE_DIRECT_CALL_SITES=" + directCallSites);
+        p("614_PRIORITY_CALLEE_UNIQUE_TARGETS=" + callSitesByTarget.size());
+
+        int targetCount = 0;
+        int totalInstructionsPrinted = 0;
+        int incomingRefsPrinted = 0;
+
+        for (java.util.Map.Entry<Long, java.util.List<String>> entry
+                : callSitesByTarget.entrySet()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            if (targetCount >= 20) {
+                p("614_PRIORITY_CALLEE_NOTE=Target detail cap reached at 20 unique direct callees.");
+                break;
+            }
+
+            long target = entry.getKey().longValue();
+            Long key = Long.valueOf(target);
+            if (!printedTargets.add(key)) continue;
+            targetCount++;
+
+            Address targetAddr = addr(target);
+            Function exact = currentProgram.getFunctionManager().getFunctionAt(targetAddr);
+            Function owner = exact != null ? exact :
+                currentProgram.getFunctionManager().getFunctionContaining(targetAddr);
+            p("");
+            p("614_PRIORITY_CALLEE #" + targetCount
+                + " target=" + hex(target)
+                + " block=" + targetLabels.get(key)
+                + " function=" + (owner == null ? "<no-function>" : owner.getName())
+                + " entry=" + (owner == null ? "<none>" : owner.getEntryPoint())
+                + " target_is_entry=" + (exact != null)
+                + " direct_caller_sites=" + entry.getValue().size());
+
+            for (String site : entry.getValue()) {
+                if (lines >= MAX_LINES) break;
+                p("  614_PRIORITY_CALLEE_CALLSITE " + site);
+            }
+
+            Instruction cursor = listing().getInstructionAt(targetAddr);
+            if (cursor == null) {
+                p("  614_PRIORITY_CALLEE_NO_INSTRUCTION_AT_TARGET");
+            }
+            else {
+                int localCount = 0;
+                long maxAddr = target + 0x60L;
+                while (cursor != null && localCount < 24
+                        && cursor.getAddress().getOffset() <= maxAddr
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    if (owner != null) {
+                        Function cursorOwner = currentProgram.getFunctionManager()
+                            .getFunctionContaining(cursor.getAddress());
+                        if (cursorOwner == null
+                                || !cursorOwner.getEntryPoint().equals(owner.getEntryPoint())) break;
+                    }
+                    else if (localCount > 0) {
+                        Function cursorOwner = currentProgram.getFunctionManager()
+                            .getFunctionContaining(cursor.getAddress());
+                        if (cursorOwner != null) break;
+                    }
+
+                    p("  614_PRIORITY_CALLEE_INS "
+                        + cursor.getAddress() + " " + cursor);
+                    localCount++;
+                    totalInstructionsPrinted++;
+                    cursor = listing().getInstructionAfter(cursor.getAddress());
+                }
+                p("  614_PRIORITY_CALLEE_INS_COUNT=" + localCount);
+            }
+
+            ReferenceIterator refs = currentProgram.getReferenceManager()
+                .getReferencesTo(targetAddr);
+            int refsForTarget = 0;
+            while (refs.hasNext() && refsForTarget < 10
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function caller = null;
+                Instruction fromIns = null;
+                try {
+                    caller = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    fromIns = listing().getInstructionAt(from);
+                }
+                catch (Exception e) {
+                    // Keep raw reference output even if disassembly metadata is unavailable.
+                }
+                p("  614_PRIORITY_CALLEE_INCOMING_REF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " caller=" + (caller == null ? "<none>"
+                        : caller.getName() + "@" + caller.getEntryPoint())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns));
+                refsForTarget++;
+                incomingRefsPrinted++;
+            }
+            p("  614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=" + refsForTarget);
+        }
+
+        p("");
+        p("614_PRIORITY_CALLEE_TARGETS_PRINTED=" + targetCount);
+        p("614_PRIORITY_CALLEE_INSTRUCTIONS_PRINTED=" + totalInstructionsPrinted);
+        p("614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=" + incomingRefsPrinted);
+        p("614_PRIORITY_CALLEE_NOTE=Start with target 0x00025F70; determine whether it dereferences/calls the getter pointers passed by get_signals_info.");
+    }
+
     private void scan614CodePointerRuns() {
         dynamic614CodePointerRunRanges.clear();
         p("");
@@ -4883,6 +5123,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
             scan614PriorityRfcCallGraphSummary();
+            scan614PriorityCalleeExpansion();
         }
         else {
             p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");
