@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-26
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-27
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-26";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-27";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3720,6 +3720,244 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("614_RFC_ANCHOR_NOTE=Repeated references establish a shared address, not by themselves an RX tuning routine.");
     }
 
+
+    private void scan614AnchorEffectiveMemoryAccesses() {
+        final long anchor = 0x00254710L;
+        p("");
+        p("============================================================");
+        p("614_0_0 PC-RELATIVE ANCHOR EFFECTIVE MEMORY ACCESS TRACE");
+        p("Tracks short instruction sequences after each add Rd,PC that computes 0x00254710.");
+        p("Calculates addresses from memory operands using the same base register and signed displacement.");
+        p("This is a static candidate analysis; verify each sequence and control-flow path in the listing.");
+        p("READ ONLY; no modem commands, DIAG packets, or program modifications.");
+        p("============================================================");
+
+        java.util.List<Instruction> executableInstructions =
+            new java.util.ArrayList<Instruction>();
+        InstructionIterator allIt = listing().getInstructions(true);
+        while (allIt.hasNext() && !monitor.isCancelled()
+                && lines < MAX_LINES) {
+            Instruction candidate = allIt.next();
+            MemoryBlock codeBlock;
+            try {
+                codeBlock = memory().getBlock(candidate.getAddress());
+            }
+            catch (Exception e) {
+                continue;
+            }
+            if (codeBlock != null && codeBlock.isExecute()
+                    && isDefaultDynamicAddressBlock(codeBlock)) {
+                executableInstructions.add(candidate);
+            }
+        }
+
+        int anchorReferences = 0;
+        int memoryAccesses = 0;
+        int accessesInInitializedBlocks = 0;
+        int windowsPrinted = 0;
+        java.util.Set<Long> dumpedAccessWindows = new java.util.HashSet<Long>();
+
+        for (int i = 0; i < executableInstructions.size()
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            Instruction anchorIns = executableInstructions.get(i);
+            if (!"add".equalsIgnoreCase(anchorIns.getMnemonicString())) continue;
+
+            boolean hasPcRegister = false;
+            boolean hasScalar = false;
+            long displacement = 0L;
+            for (int op = 0; op < anchorIns.getNumOperands(); op++) {
+                Object[] objects = anchorIns.getOpObjects(op);
+                for (Object object : objects) {
+                    if (object instanceof ghidra.program.model.lang.Register) {
+                        String regName =
+                            ((ghidra.program.model.lang.Register)object).getName();
+                        if ("PC".equalsIgnoreCase(regName)) hasPcRegister = true;
+                    }
+                    else if (object instanceof Scalar) {
+                        displacement = ((Scalar)object).getSignedValue();
+                        hasScalar = true;
+                    }
+                }
+            }
+            if (!hasPcRegister || !hasScalar) continue;
+
+            long computedAnchor = anchorIns.getAddress().getOffset()
+                + (long)anchorIns.getLength() + displacement;
+            if (computedAnchor != anchor) continue;
+
+            String baseRegister = null;
+            Object[] destinationObjects = anchorIns.getOpObjects(0);
+            for (Object object : destinationObjects) {
+                if (object instanceof ghidra.program.model.lang.Register) {
+                    baseRegister =
+                        ((ghidra.program.model.lang.Register)object).getName();
+                    break;
+                }
+            }
+            if (baseRegister == null) continue;
+
+            anchorReferences++;
+            Function owner = currentProgram.getFunctionManager()
+                .getFunctionContaining(anchorIns.getAddress());
+            p("614_ANCHOR_USE_SITE #" + anchorReferences
+                + " ins=" + anchorIns.getAddress()
+                + " function=" + functionInfo(anchorIns.getAddress().getOffset())
+                + " base=" + baseRegister
+                + " base_value=" + hex(anchor)
+                + " instruction=" + anchorIns);
+
+            long maxAddress = anchorIns.getAddress().getOffset() + 0x50L;
+            for (int j = i + 1; j < executableInstructions.size()
+                    && lines < MAX_LINES; j++) {
+                Instruction use = executableInstructions.get(j);
+                long useAddress = use.getAddress().getOffset();
+                if (useAddress > maxAddress) break;
+
+                Function useOwner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(use.getAddress());
+                if (owner != null && (useOwner == null
+                        || !useOwner.getEntryPoint().equals(owner.getEntryPoint()))) {
+                    break;
+                }
+
+                String mnemonic = use.getMnemonicString().toLowerCase();
+                boolean isMemoryInstruction = mnemonic.startsWith("mem");
+                boolean baseUsedForAddress = false;
+                boolean hasBaseDisplacement = false;
+                long memoryDisplacement = 0L;
+
+                if (isMemoryInstruction) {
+                    for (int op = 0; op < use.getNumOperands(); op++) {
+                        String operandText = use.getDefaultOperandRepresentation(op);
+                        if (operandText == null || !operandText.contains("(")) continue;
+
+                        Object[] objects = use.getOpObjects(op);
+                        boolean operandHasBase = false;
+                        boolean operandHasScalar = false;
+                        long operandDisplacement = 0L;
+                        for (Object object : objects) {
+                            if (object instanceof ghidra.program.model.lang.Register) {
+                                String regName =
+                                    ((ghidra.program.model.lang.Register)object).getName();
+                                if (baseRegister.equalsIgnoreCase(regName)) {
+                                    operandHasBase = true;
+                                }
+                            }
+                            else if (object instanceof Scalar) {
+                                operandHasScalar = true;
+                                operandDisplacement =
+                                    ((Scalar)object).getSignedValue();
+                            }
+                        }
+                        if (operandHasBase) {
+                            baseUsedForAddress = true;
+                            if (operandHasScalar) {
+                                hasBaseDisplacement = true;
+                                memoryDisplacement = operandDisplacement;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                if (baseUsedForAddress) {
+                    long effectiveAddress = anchor + memoryDisplacement;
+                    memoryAccesses++;
+                    MemoryBlock targetBlock;
+                    try {
+                        targetBlock = memory().getBlock(addr(effectiveAddress));
+                    }
+                    catch (Exception e) {
+                        targetBlock = null;
+                    }
+
+                    p("614_ANCHOR_MEMORY_ACCESS site=" + anchorIns.getAddress()
+                        + " use=" + use.getAddress()
+                        + " function=" + functionInfo(use.getAddress().getOffset())
+                        + " mnemonic=" + use.getMnemonicString()
+                        + " base=" + baseRegister
+                        + " displacement=" + (hasBaseDisplacement
+                            ? "0x" + Long.toHexString(memoryDisplacement)
+                            : "0 (no scalar in address operand)")
+                        + " effective=" + hex(effectiveAddress)
+                        + " target_block="
+                        + (targetBlock == null ? "NONE" : targetBlock.getName())
+                        + " instruction=" + use);
+
+                    if (targetBlock != null && targetBlock.isInitialized()
+                            && isDefaultDynamicAddressBlock(targetBlock)) {
+                        accessesInInitializedBlocks++;
+                        long key = effectiveAddress & ~3L;
+                        if (windowsPrinted < 120 && dumpedAccessWindows.add(key)) {
+                            long windowStart = Math.max(
+                                targetBlock.getStart().getOffset(), key - 8L);
+                            long windowEnd = Math.min(
+                                targetBlock.getEnd().getOffset(), key + 8L);
+                            windowStart = (windowStart + 3L) & ~3L;
+                            p("  614_ANCHOR_ACCESS_WORD_WINDOW target="
+                                + hex(effectiveAddress)
+                                + " range=" + hex(windowStart) + ".." + hex(windowEnd));
+                            for (long at = windowStart;
+                                    at <= windowEnd && lines < MAX_LINES; at += 4L) {
+                                try {
+                                    long value = u32(at);
+                                    Function valueFunction = null;
+                                    MemoryBlock valueBlock = block(value);
+                                    if (valueBlock != null) {
+                                        valueFunction = currentProgram.getFunctionManager()
+                                            .getFunctionAt(addr(value));
+                                    }
+                                    p("    614_ANCHOR_ACCESS_WORD slot=" + hex(at)
+                                        + " value=" + hex(value)
+                                        + (at == key ? " <== EFFECTIVE_ADDRESS_WORD" : "")
+                                        + (valueFunction == null ? "" :
+                                            " function=" + valueFunction.getName()
+                                                + "@" + valueFunction.getEntryPoint()));
+                                }
+                                catch (Exception e) {
+                                    p("    614_ANCHOR_ACCESS_READ_ERROR slot=" + hex(at)
+                                        + " error=" + e.getMessage());
+                                }
+                            }
+                            windowsPrinted++;
+                        }
+                    }
+
+                    String firstOperand = use.getDefaultOperandRepresentation(0);
+                    if (firstOperand != null
+                            && (firstOperand.equalsIgnoreCase(baseRegister)
+                                || firstOperand.equalsIgnoreCase(baseRegister + ".new"))) {
+                        break;
+                    }
+                }
+
+                String firstOperand = use.getDefaultOperandRepresentation(0);
+                if (!isMemoryInstruction && firstOperand != null
+                        && (firstOperand.equalsIgnoreCase(baseRegister)
+                            || firstOperand.equalsIgnoreCase(baseRegister + ".new"))
+                        && !mnemonic.startsWith("cmp")
+                        && !mnemonic.startsWith("jump")
+                        && !mnemonic.startsWith("call")
+                        && !mnemonic.equals("immext")) {
+                    break;
+                }
+
+                if (mnemonic.startsWith("call") || mnemonic.equals("jumpr")
+                        || mnemonic.equals("dealloc_return")
+                        || (mnemonic.equals("jump") && !mnemonic.contains(".if"))) {
+                    break;
+                }
+            }
+        }
+
+        p("614_ANCHOR_USE_SITES=" + anchorReferences);
+        p("614_ANCHOR_MEMORY_ACCESS_INSTRUCTIONS=" + memoryAccesses);
+        p("614_ANCHOR_ACCESS_TARGETS_IN_INITIALIZED_BLOCKS="
+            + accessesInInitializedBlocks);
+        p("614_ANCHOR_ACCESS_WORD_WINDOWS_PRINTED=" + windowsPrinted);
+        p("Interpret negative offsets from 0x00254710 as accesses to earlier data addresses; confirm base-register liveness and branch paths in the disassembly.");
+    }
+
     private void scan614CodePointerRuns() {
         dynamic614CodePointerRunRanges.clear();
         p("");
@@ -4403,6 +4641,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614CodePointerRuns();
             scan614PcRelativeDataReferences();
             scan614RfcAnchorContext();
+            scan614AnchorEffectiveMemoryAccesses();
             scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
         }
