@@ -1154,12 +1154,12 @@ SOURCE POINTER MATCHES=3
 INTERPRETATION GUIDE
 ============================================================
 1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.
-2. The 81st pointer hit must be evaluated from the printed neighboring words; it may be adjacent data, not a call reference.
-3. Targeted RF tune strings are scanned separately so common CHANNEL strings cannot consume the output cap.
+2. The 81st pointer hit is examined separately; do not infer call semantics from a data-pointer match.
+3. RF field-name pointer slots are dumped separately and direct references to each slot are enumerated.
 4. D8150ED8 is retained only as a previous-build comparison, not assumed current.
 5. RFTEST msg_const records provide source filename, SSID, line, argc, and format text.
 6. All scans are static and read-only; no DIAG packets are emitted.
-7. Frequency selection is not inferred from a matching string alone; correlate field IDs and dispatch flow.
+7. A field-name string table does not itself prove a command ID; correlate slot use with executable code.
 
 DONE
 No program data or structures modified.
