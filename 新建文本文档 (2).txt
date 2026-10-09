@@ -1,91 +1,4 @@
-ning_function=<none> data_pointer=0x000E0B7B data_block=segment_3 data_initialized=true length_word=0x00000008
-  614_SIGNAL_DESCRIPTOR_DATA index=6 address=0x000E0B7B requested_bytes=8 bytes=FF FF FF FF FF 84 00 22
-  614_SIGNAL_DESCRIPTOR_CODE_INSNS index=6 count=0
-
-614_SIGNAL_GETTER_TARGET #1 address=0x00025598 block=segment_2 executable=true initialized=true exact_function=get_instance@00025598 containing_function=get_instance@00025598
-  614_SIGNAL_GETTER_BODY #1 00025598 immext #0x22f140 
-  614_SIGNAL_GETTER_BODY #1 0002559c add R17,PC,##0x22f170 
-  614_SIGNAL_GETTER_BODY #1 000255a0 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_SIGNAL_GETTER_BODY #1 000255a4 immext #0xffffff40 
-  614_SIGNAL_GETTER_BODY #1 000255a8 memw R2,(R17+##0xffffff74) 
-  614_SIGNAL_GETTER_BODY #1 000255ac memw R16,(R2) 
-  614_SIGNAL_GETTER_BODY #1 000255b0 jump.if:t !cmp.eq(R16.new,#0x0),0x000255cc 
-  614_SIGNAL_GETTER_BODY #1 000255b4 call 0x0002526c 
-  614_SIGNAL_GETTER_BODY #1 000255b8 call 0x00024c80 
-  614_SIGNAL_GETTER_BODY #1 000255bc assign R16,R0 
-  614_SIGNAL_GETTER_BODY #1 000255c0 immext #0xffffff40 
-  614_SIGNAL_GETTER_BODY #1 000255c4 memw R2,(R17+##0xffffff74) 
-  614_SIGNAL_GETTER_BODY #1 000255c8 memw (R2),R16 
-  614_SIGNAL_GETTER_BODY #1 000255cc assign R0,R16 
-  614_SIGNAL_GETTER_BODY #1 000255d0 memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_SIGNAL_GETTER_BODY_INSNS #1=15
-
-614_SIGNAL_GETTER_TARGET #2 address=0x00025604 block=segment_2 executable=true initialized=true exact_function=get_instance@00025604 containing_function=get_instance@00025604
-  614_SIGNAL_GETTER_BODY #2 00025604 immext #0x22f100 
-  614_SIGNAL_GETTER_BODY #2 00025608 add R17,PC,##0x22f104 
-  614_SIGNAL_GETTER_BODY #2 0002560c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_SIGNAL_GETTER_BODY #2 00025610 immext #0xffffff40 
-  614_SIGNAL_GETTER_BODY #2 00025614 memw R2,(R17+##0xffffff7c) 
-  614_SIGNAL_GETTER_BODY #2 00025618 memw R16,(R2) 
-  614_SIGNAL_GETTER_BODY #2 0002561c jump.if:t !cmp.eq(R16.new,#0x0),0x00025638 
-  614_SIGNAL_GETTER_BODY #2 00025620 call 0x0002526c 
-  614_SIGNAL_GETTER_BODY #2 00025624 call 0x00024cb0 
-  614_SIGNAL_GETTER_BODY #2 00025628 assign R16,R0 
-  614_SIGNAL_GETTER_BODY #2 0002562c immext #0xffffff40 
-  614_SIGNAL_GETTER_BODY #2 00025630 memw R2,(R17+##0xffffff7c) 
-  614_SIGNAL_GETTER_BODY #2 00025634 memw (R2),R16 
-  614_SIGNAL_GETTER_BODY #2 00025638 assign R0,R16 
-  614_SIGNAL_GETTER_BODY #2 0002563c memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_SIGNAL_GETTER_BODY_INSNS #2=15
-
-614_SIGNAL_GETTER_TARGET #3 address=0x00025694 block=segment_2 executable=true initialized=true exact_function=get_instance@00025694 containing_function=get_instance@00025694
-  614_SIGNAL_GETTER_BODY #3 00025694 immext #0x22f040 
-  614_SIGNAL_GETTER_BODY #3 00025698 add R17,PC,##0x22f074 
-  614_SIGNAL_GETTER_BODY #3 0002569c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_SIGNAL_GETTER_BODY #3 000256a0 immext #0xffffffc0 
-  614_SIGNAL_GETTER_BODY #3 000256a4 memw R2,(R17+##0xffffffe8) 
-  614_SIGNAL_GETTER_BODY #3 000256a8 memw R16,(R2) 
-  614_SIGNAL_GETTER_BODY #3 000256ac jump.if:t !cmp.eq(R16.new,#0x0),0x000256c8 
-  614_SIGNAL_GETTER_BODY #3 000256b0 call 0x0002526c 
-  614_SIGNAL_GETTER_BODY #3 000256b4 call 0x00024e90 
-  614_SIGNAL_GETTER_BODY #3 000256b8 assign R16,R0 
-  614_SIGNAL_GETTER_BODY #3 000256bc immext #0xffffffc0 
-  614_SIGNAL_GETTER_BODY #3 000256c0 memw R2,(R17+##0xffffffe8) 
-  614_SIGNAL_GETTER_BODY #3 000256c4 memw (R2),R16 
-  614_SIGNAL_GETTER_BODY #3 000256c8 assign R0,R16 
-  614_SIGNAL_GETTER_BODY #3 000256cc memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_SIGNAL_GETTER_BODY_INSNS #3=15
-
-614_SIGNAL_GETTER_TARGET #4 address=0x00025700 block=segment_2 executable=true initialized=true exact_function=get_instance@00025700 containing_function=get_instance@00025700
-  614_SIGNAL_GETTER_BODY #4 00025700 immext #0x22f000 
-  614_SIGNAL_GETTER_BODY #4 00025704 add R17,PC,##0x22f008 
-  614_SIGNAL_GETTER_BODY #4 00025708 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_SIGNAL_GETTER_BODY #4 0002570c immext #0xffffffc0 
-  614_SIGNAL_GETTER_BODY #4 00025710 memw R2,(R17+##0xfffffff0) 
-  614_SIGNAL_GETTER_BODY #4 00025714 memw R16,(R2) 
-  614_SIGNAL_GETTER_BODY #4 00025718 jump.if:t !cmp.eq(R16.new,#0x0),0x00025734 
-  614_SIGNAL_GETTER_BODY #4 0002571c call 0x0002526c 
-  614_SIGNAL_GETTER_BODY #4 00025720 call 0x00024eb0 
-  614_SIGNAL_GETTER_BODY #4 00025724 assign R16,R0 
-  614_SIGNAL_GETTER_BODY #4 00025728 immext #0xffffffc0 
-  614_SIGNAL_GETTER_BODY #4 0002572c memw R2,(R17+##0xfffffff0) 
-  614_SIGNAL_GETTER_BODY #4 00025730 memw (R2),R16 
-  614_SIGNAL_GETTER_BODY #4 00025734 assign R0,R16 
-  614_SIGNAL_GETTER_BODY #4 00025738 memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_SIGNAL_GETTER_BODY_INSNS #4=15
-
-614_SIGNAL_GETTER_TARGET #5 address=0x00027384 block=segment_3 executable=false initialized=true exact_function=<no-exact-entry> containing_function=<none>
-  614_SIGNAL_GETTER_TARGET_DATA address=0x00027384 bytes=FA 0D 0E 00 08 00 00 00 04 6B 02 00 91 02 00 00 2E 00 00 00 D1 09 00 00
-
-614_SIGNAL_GETTER_TARGET #6 address=0x00217458 block=segment_3 executable=false initialized=true exact_function=<no-exact-entry> containing_function=<none>
-  614_SIGNAL_GETTER_TARGET_DATA address=0x00217458 bytes=23 00 00 00 00 00 00 00 FF 00 00 00 03 00 00 00 00 00 00 00 00 00 00 00
-614_SIGNAL_DESCRIPTOR_COUNT=6
-614_SIGNAL_GETTER_TARGETS_INSPECTED=6
-
-============================================================
-614_0_0 RAW BYTES / REFERENCES FOR UNDECODED SIGNAL CALLBACK TARGETS
-The six descriptor code pointers lie in executable segment_2, but current Listing has no instruction at those addresses.
-This read-only scan prints raw bytes/words and incoming references without disassembling or modifying the program.
+or modifying the program.
 ============================================================
 
 614_SIGNAL_RAW_CODE_TARGET #1 address=0x000264D4 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
@@ -255,6 +168,52 @@ Static-only analysis; does not execute targets, create instructions, or modify m
   614_RFC_CALL_TARGET_XREFS role=getter_25700_secondary_call count=2
 614_RFC_SINGLETON_SLOTS_INSPECTED=4
 614_RFC_CONSTRUCTOR_CALL_TARGETS_INSPECTED=5
+
+============================================================
+614_0_0 RFC GET_INSTANCE EFFECTIVE SLOT AUDIT
+Recomputes PC-relative base + memw displacement for four known getter bodies.
+Compares actual calculated access sites with Ghidra's stored references.
+READ ONLY; no instructions, references, data, or structures are created or modified.
+============================================================
+
+614_RFC_EFFECTIVE_AUDIT_GETTER #1 getter=0x00025598 name=get_instance expected_slot=0x00254684
+  614_RFC_EFFECTIVE_AUDIT_PC_BASE site=0002559c pc_after=0x000255A0 immediate_raw=0x0022F170 immediate_signed=2290032 computed_base=0x00254710 instruction=add R17,PC,##0x22f170 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x00254684 from=00025614 type=READ
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x00254684 from=00025630 type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025598 access=000255a8 computed_base=0x00254710 displacement_raw=0xFFFFFF74 displacement_signed=-140 effective_address=0x00254684 expected_slot=0x00254684 matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=2 instruction=memw R2,(R17+##0xffffff74) 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x00254684 from=00025614 type=READ
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x00254684 from=00025630 type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025598 access=000255c4 computed_base=0x00254710 displacement_raw=0xFFFFFF74 displacement_signed=-140 effective_address=0x00254684 expected_slot=0x00254684 matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=2 instruction=memw R2,(R17+##0xffffff74) 
+
+614_RFC_EFFECTIVE_AUDIT_GETTER #2 getter=0x00025604 name=get_instance expected_slot=0x0025468C
+  614_RFC_EFFECTIVE_AUDIT_PC_BASE site=00025608 pc_after=0x0002560C immediate_raw=0x0022F104 immediate_signed=2289924 computed_base=0x00254710 instruction=add R17,PC,##0x22f104 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x0025468C from=00025688 type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025604 access=00025614 computed_base=0x00254710 displacement_raw=0xFFFFFF7C displacement_signed=-132 effective_address=0x0025468C expected_slot=0x0025468C matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=1 instruction=memw R2,(R17+##0xffffff7c) 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x0025468C from=00025688 type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025604 access=00025630 computed_base=0x00254710 displacement_raw=0xFFFFFF7C displacement_signed=-132 effective_address=0x0025468C expected_slot=0x0025468C matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=1 instruction=memw R2,(R17+##0xffffff7c) 
+
+614_RFC_EFFECTIVE_AUDIT_GETTER #3 getter=0x00025694 name=get_instance expected_slot=0x002546F8
+  614_RFC_EFFECTIVE_AUDIT_PC_BASE site=00025698 pc_after=0x0002569C immediate_raw=0x0022F074 immediate_signed=2289780 computed_base=0x00254710 instruction=add R17,PC,##0x22f074 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x002546F8 from=00025710 type=READ
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x002546F8 from=0002572c type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025694 access=000256a4 computed_base=0x00254710 displacement_raw=0xFFFFFFE8 displacement_signed=-24 effective_address=0x002546F8 expected_slot=0x002546F8 matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=2 instruction=memw R2,(R17+##0xffffffe8) 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x002546F8 from=00025710 type=READ
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x002546F8 from=0002572c type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025694 access=000256c0 computed_base=0x00254710 displacement_raw=0xFFFFFFE8 displacement_signed=-24 effective_address=0x002546F8 expected_slot=0x002546F8 matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=2 instruction=memw R2,(R17+##0xffffffe8) 
+
+614_RFC_EFFECTIVE_AUDIT_GETTER #4 getter=0x00025700 name=get_instance expected_slot=0x00254700
+  614_RFC_EFFECTIVE_AUDIT_PC_BASE site=00025704 pc_after=0x00025708 immediate_raw=0x0022F008 immediate_signed=2289672 computed_base=0x00254710 instruction=add R17,PC,##0x22f008 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x00254700 from=00025780 type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025700 access=00025710 computed_base=0x00254710 displacement_raw=0xFFFFFFF0 displacement_signed=-16 effective_address=0x00254700 expected_slot=0x00254700 matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=1 instruction=memw R2,(R17+##0xfffffff0) 
+    614_RFC_EFFECTIVE_AUDIT_EXISTING_REF effective=0x00254700 from=00025780 type=READ
+  614_RFC_EFFECTIVE_AUDIT_ACCESS getter=0x00025700 access=0002572c computed_base=0x00254710 displacement_raw=0xFFFFFFF0 displacement_signed=-16 effective_address=0x00254700 expected_slot=0x00254700 matches_expected_slot=true stored_direct_reference_from_this_access=false total_references_to_effective_address=1 instruction=memw R2,(R17+##0xfffffff0) 
+
+614_RFC_EFFECTIVE_AUDIT_GETTERS_INSPECTED=4
+614_RFC_EFFECTIVE_AUDIT_ACCESS_SITES_INSPECTED=8
+614_RFC_EFFECTIVE_AUDIT_EXPECTED_SLOT_MATCHES=8
+614_RFC_EFFECTIVE_AUDIT_STORED_DIRECT_REFERENCE_MATCHES=0
+614_RFC_EFFECTIVE_AUDIT_MISSING_INSTRUCTIONS_OR_IMMEDIATES=0
+Interpretation rule: calculated address is based on the Listing's PC-relative add and memw scalar; stored references are reported separately and are not treated as ground truth.
 
 ============================================================
 614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP
