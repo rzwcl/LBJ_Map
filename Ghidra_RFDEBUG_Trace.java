@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-24
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-25
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-24";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-25";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3395,6 +3395,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private final List<long[]> dynamic614CodePointerRunRanges =
+        new ArrayList<long[]>();
+
     private void report614FunctionPointerRun(
             String blockName,
             List<Long> runSlots,
@@ -3402,6 +3405,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             List<String> runTargets,
             int[] stats) {
         if (runSlots.size() >= 4) {
+            dynamic614CodePointerRunRanges.add(new long[] {
+                runSlots.get(0).longValue(),
+                runSlots.get(runSlots.size() - 1).longValue()
+            });
             stats[0]++;
             if (stats[1] < 120 && lines < MAX_LINES) {
                 p("614_CODE_POINTER_RUN #" + stats[0]
@@ -3431,7 +3438,155 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
      * values that exactly match known function entry points. These are candidate
      * function-pointer tables only; their role must be verified from references.
      */
+    private void scan614PcRelativeDataReferences() {
+        p("");
+        p("============================================================");
+        p("614_0_0 PC-RELATIVE DATA REFERENCES NEAR FUNCTION-POINTER RUNS");
+        p("Finds Hexagon-style add Rd,PC,immediate effective targets near discovered pointer runs.");
+        p("Uses instruction address plus instruction length plus signed displacement.");
+        p("READ ONLY; targets are leads, not proof of caller/callee semantics.");
+        p("============================================================");
+
+        if (dynamic614CodePointerRunRanges.isEmpty()) {
+            p("614_PCREL_NOTE=No pointer runs were collected; run the pointer scan first.");
+            return;
+        }
+
+        InstructionIterator it = listing().getInstructions(true);
+        long addPcInstructions = 0L;
+        long effectiveDataTargets = 0L;
+        long nearbyRunTargets = 0L;
+        int printed = 0;
+        int windowsPrinted = 0;
+        java.util.Set<Long> printedTargetWindows = new java.util.HashSet<Long>();
+
+        while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+            Instruction ins = it.next();
+            MemoryBlock codeBlock;
+            try {
+                codeBlock = memory().getBlock(ins.getAddress());
+            }
+            catch (Exception e) {
+                continue;
+            }
+            if (codeBlock == null || !codeBlock.isExecute()
+                    || !isDefaultDynamicAddressBlock(codeBlock)) continue;
+            if (!"add".equalsIgnoreCase(ins.getMnemonicString())) continue;
+
+            boolean hasPcRegister = false;
+            boolean hasScalar = false;
+            long displacement = 0L;
+
+            for (int op = 0; op < ins.getNumOperands(); op++) {
+                Object[] objects = ins.getOpObjects(op);
+                for (Object object : objects) {
+                    if (object instanceof ghidra.program.model.lang.Register) {
+                        String registerName =
+                            ((ghidra.program.model.lang.Register)object).getName();
+                        if ("PC".equalsIgnoreCase(registerName)) {
+                            hasPcRegister = true;
+                        }
+                    }
+                    else if (object instanceof Scalar) {
+                        displacement = ((Scalar)object).getSignedValue();
+                        hasScalar = true;
+                    }
+                }
+            }
+
+            if (!hasPcRegister || !hasScalar) continue;
+            addPcInstructions++;
+
+            long target = ins.getAddress().getOffset()
+                + (long)ins.getLength() + displacement;
+            if (target < 0L || target > 0xffffffffL) continue;
+
+            MemoryBlock targetBlock;
+            try {
+                targetBlock = memory().getBlock(addr(target));
+            }
+            catch (Exception e) {
+                continue;
+            }
+            if (targetBlock == null || !targetBlock.isInitialized()
+                    || !isDefaultDynamicAddressBlock(targetBlock)) continue;
+            effectiveDataTargets++;
+
+            long nearestDistance = Long.MAX_VALUE;
+            long nearestStart = -1L;
+            long nearestEnd = -1L;
+            for (long[] range : dynamic614CodePointerRunRanges) {
+                if (range == null || range.length < 2) continue;
+                long start = range[0];
+                long end = range[1];
+                long distance;
+                if (target < start) distance = start - target;
+                else if (target > end) distance = target - end;
+                else distance = 0L;
+
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestStart = start;
+                    nearestEnd = end;
+                }
+            }
+
+            if (nearestDistance > 0x100L) continue;
+            nearbyRunTargets++;
+            if (printed >= 240 || lines >= MAX_LINES) continue;
+
+            p("614_PCREL_NEAR_RUN hit=" + nearbyRunTargets
+                + " ins=" + ins.getAddress()
+                + " function=" + functionInfo(ins.getAddress().getOffset())
+                + " target=" + hex(target)
+                + " target_block=" + targetBlock.getName()
+                + " nearest_run=" + hex(nearestStart) + ".." + hex(nearestEnd)
+                + " distance=0x" + Long.toHexString(nearestDistance)
+                + " instruction=" + ins);
+            printed++;
+
+            Long targetKey = Long.valueOf(target & ~3L);
+            if (windowsPrinted >= 60 || !printedTargetWindows.add(targetKey)) continue;
+
+            long windowStart = Math.max(targetBlock.getStart().getOffset(), (target & ~3L) - 0x0cL);
+            long windowEnd = Math.min(targetBlock.getEnd().getOffset(), (target & ~3L) + 0x0cL);
+            windowStart = (windowStart + 3L) & ~3L;
+            p("  PCREL_DATA_WINDOW target=" + hex(target)
+                + " range=" + hex(windowStart) + ".." + hex(windowEnd));
+
+            for (long at = windowStart; at + 3L <= windowEnd && lines < MAX_LINES; at += 4L) {
+                try {
+                    long value = u32(at);
+                    Function targetFunction = null;
+                    MemoryBlock valueBlock = block(value);
+                    if (valueBlock != null) {
+                        targetFunction = currentProgram.getFunctionManager()
+                            .getFunctionAt(addr(value));
+                    }
+                    p("    PCREL_DATA_WORD slot=" + hex(at)
+                        + " value=" + hex(value)
+                        + (targetFunction == null ? "" :
+                            " function=" + targetFunction.getName()
+                                + "@" + targetFunction.getEntryPoint()));
+                }
+                catch (Exception e) {
+                    p("    PCREL_DATA_READ_ERROR slot=" + hex(at)
+                        + " error=" + e.getMessage());
+                }
+            }
+            windowsPrinted++;
+        }
+
+        p("614_PCREL_ADD_PC_INSTRUCTIONS=" + addPcInstructions);
+        p("614_PCREL_EFFECTIVE_DATA_TARGETS=" + effectiveDataTargets);
+        p("614_PCREL_TARGETS_NEAR_POINTER_RUNS=" + nearbyRunTargets);
+        p("614_PCREL_TARGETS_PRINTED=" + printed);
+        p("614_PCREL_DATA_WINDOWS_PRINTED=" + windowsPrinted);
+        p("PC-relative effective-address reconstruction is a static candidate and should be checked against the disassembly.");
+    }
+
     private void scan614CodePointerRuns() {
+        dynamic614CodePointerRunRanges.clear();
         p("");
         p("============================================================");
         p("614_0_0 CONTIGUOUS FUNCTION-POINTER RUN SCAN");
@@ -4111,6 +4266,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scanNamedFunctions();
             scan614RfConfigFunctionDetails();
             scan614CodePointerRuns();
+            scan614PcRelativeDataReferences();
             scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
         }
