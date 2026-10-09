@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-40
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-41
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-40";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-41";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -99,6 +99,54 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private Listing listing() {
         return currentProgram.getListing();
+    }
+
+
+    /*
+     * Hexagon PC-relative instructions use the start of the execute packet,
+     * not the address immediately following the add instruction.
+     * packetOffset is Ghidra's Hexagon context field: the instruction's word
+     * offset from the packet start. An immediately preceding immext is a
+     * strong packet-start fallback because extender and consumer share a packet.
+     */
+    private Long hexagonPacketOffset(Instruction ins) {
+        if (ins == null) return null;
+        try {
+            ghidra.program.model.lang.Register packetOffsetReg =
+                currentProgram.getLanguage().getRegister("packetOffset");
+            if (packetOffsetReg == null) return null;
+            java.math.BigInteger value = ins.getValue(packetOffsetReg, false);
+            if (value == null) return null;
+            long offset = value.longValue();
+            if (offset < 0L || offset > 3L) return null;
+            return Long.valueOf(offset);
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Long hexagonPacketStartAddress(Instruction ins) {
+        if (ins == null) return null;
+        long instructionAddress = ins.getAddress().getOffset();
+        if (instructionAddress >= 4L) {
+            Instruction previous = listing().getInstructionAt(addr(instructionAddress - 4L));
+            if (previous != null
+                    && "immext".equalsIgnoreCase(previous.getMnemonicString())
+                    && previous.getAddress().getOffset()
+                        + (long)previous.getLength() == instructionAddress) {
+                return Long.valueOf(previous.getAddress().getOffset());
+            }
+        }
+        Long packetOffset = hexagonPacketOffset(ins);
+        if (packetOffset == null) return null;
+        return Long.valueOf(instructionAddress - packetOffset.longValue() * 4L);
+    }
+
+    private Long hexagonPcRelativeTarget(Instruction ins, long displacement) {
+        Long packetStart = hexagonPacketStartAddress(ins);
+        if (packetStart == null) return null;
+        return Long.valueOf((packetStart.longValue() + displacement) & 0xffffffffL);
     }
 
     private String hex(long v) {
@@ -3443,7 +3491,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
         p("614_0_0 PC-RELATIVE DATA REFERENCES NEAR FUNCTION-POINTER RUNS");
         p("Finds Hexagon-style add Rd,PC,immediate effective targets near discovered pointer runs.");
-        p("Uses instruction address plus instruction length plus signed displacement.");
+        p("Uses Hexagon packet-start PC semantics; packetOffset context or same-packet immext is used.");
         p("READ ONLY; targets are leads, not proof of caller/callee semantics.");
         p("============================================================");
 
@@ -3497,9 +3545,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             if (!hasPcRegister || !hasScalar) continue;
             addPcInstructions++;
 
-            long target = ins.getAddress().getOffset()
-                + (long)ins.getLength() + displacement;
-            if (target < 0L || target > 0xffffffffL) continue;
+            Long computedTarget = hexagonPcRelativeTarget(ins, displacement);
+            if (computedTarget == null) continue;
+            long target = computedTarget.longValue();
 
             MemoryBlock targetBlock;
             try {
@@ -3587,11 +3635,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
 
     private void scan614RfcAnchorContext() {
-        final long anchor = 0x00254710L;
+        final long anchor = 0x00254708L;
         p("");
         p("============================================================");
         p("614_0_0 FOCUSED RFC ANCHOR ANALYSIS");
-        p("Anchor 0x00254710 is repeatedly computed by PC-relative references.");
+        p("Anchor 0x00254708 is the packet-start PC-relative base candidate.");
         p("The contiguous function-pointer run begins at 0x00254718; this scan checks the gap and use sites.");
         p("READ ONLY; no listing, data, or program state is modified.");
         p("============================================================");
@@ -3606,7 +3654,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         if (anchorBlock == null || !anchorBlock.isInitialized()
                 || !isDefaultDynamicAddressBlock(anchorBlock)) {
-            p("614_RFC_ANCHOR_NOTE=0x00254710 is not in an initialized default-space block.");
+            p("614_RFC_ANCHOR_NOTE=0x00254708 is not in an initialized default-space block.");
             return;
         }
 
@@ -3683,9 +3731,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
             if (!hasPcRegister || !hasScalar) continue;
 
-            long target = ins.getAddress().getOffset()
-                + (long)ins.getLength() + displacement;
-            if (target != anchor) continue;
+            Long computedTarget = hexagonPcRelativeTarget(ins, displacement);
+            if (computedTarget == null || computedTarget.longValue() != anchor) continue;
+            long target = computedTarget.longValue();
 
             references++;
             if (contextsPrinted >= 80 || lines >= MAX_LINES) continue;
@@ -3722,11 +3770,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
 
     private void scan614AnchorEffectiveMemoryAccesses() {
-        final long anchor = 0x00254710L;
+        final long anchor = 0x00254708L;
         p("");
         p("============================================================");
         p("614_0_0 PC-RELATIVE ANCHOR EFFECTIVE MEMORY ACCESS TRACE");
-        p("Tracks short instruction sequences after each add Rd,PC that computes 0x00254710.");
+        p("Tracks short instruction sequences after each packet-start add Rd,PC that computes 0x00254708.");
         p("Calculates addresses from memory operands using the same base register and signed displacement.");
         p("This is a static candidate analysis; verify each sequence and control-flow path in the listing.");
         p("READ ONLY; no modem commands, DIAG packets, or program modifications.");
@@ -3781,9 +3829,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
             if (!hasPcRegister || !hasScalar) continue;
 
-            long computedAnchor = anchorIns.getAddress().getOffset()
-                + (long)anchorIns.getLength() + displacement;
-            if (computedAnchor != anchor) continue;
+            Long computedAnchorValue = hexagonPcRelativeTarget(anchorIns, displacement);
+            if (computedAnchorValue == null || computedAnchorValue.longValue() != anchor) continue;
+            long computedAnchor = computedAnchorValue.longValue();
 
             String baseRegister = null;
             Object[] destinationObjects = anchorIns.getOpObjects(0);
@@ -3955,7 +4003,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("614_ANCHOR_ACCESS_TARGETS_IN_INITIALIZED_BLOCKS="
             + accessesInInitializedBlocks);
         p("614_ANCHOR_ACCESS_WORD_WINDOWS_PRINTED=" + windowsPrinted);
-        p("Interpret negative offsets from 0x00254710 as accesses to earlier data addresses; confirm base-register liveness and branch paths in the disassembly.");
+        p("Interpret negative offsets from 0x00254708 as accesses to earlier data addresses; confirm base-register liveness and branch paths in the disassembly.");
     }
 
 
@@ -4475,8 +4523,13 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 }
 
                 if (writesR2 && hasPc && hasScalar) {
-                    long dataAddress = (probe.getAddress().getOffset()
-                        + (long)probe.getLength() + displacement) & 0xffffffffL;
+                    Long dataAddressValue = hexagonPcRelativeTarget(probe, displacement);
+                    if (dataAddressValue == null) {
+                        p("  614_SIGNAL_R2_ARGUMENT_WARNING packet_start_unavailable source_ins="
+                            + probe.getAddress() + " instruction=" + probe);
+                        return;
+                    }
+                    long dataAddress = dataAddressValue.longValue();
                     MemoryBlock dataBlock;
                     try {
                         dataBlock = memory().getBlock(addr(dataAddress));
@@ -4601,11 +4654,21 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         }
                     }
                     if (hasPc && hasScalar) {
-                        r18PcBase = ins.getAddress().getOffset()
-                            + (long)ins.getLength() + displacement;
-                        p("614_SIGNAL_R18_PC_BASE at=" + ins.getAddress()
-                            + " instruction=" + ins
-                            + " computed_base=" + hex(r18PcBase));
+                        Long packetBase = hexagonPcRelativeTarget(ins, displacement);
+                        if (packetBase != null) {
+                            r18PcBase = packetBase.longValue();
+                            Long startAddress = hexagonPacketStartAddress(ins);
+                            Long packetOffset = hexagonPacketOffset(ins);
+                            p("614_SIGNAL_R18_PC_BASE at=" + ins.getAddress()
+                                + " packet_start=" + (startAddress == null ? "<unknown>" : hex(startAddress.longValue()))
+                                + " packet_offset=" + (packetOffset == null ? "<unknown>" : packetOffset.toString())
+                                + " instruction=" + ins
+                                + " computed_base=" + hex(r18PcBase));
+                        }
+                        else {
+                            p("614_SIGNAL_R18_PC_BASE_WARNING packet_start_unavailable at="
+                                + ins.getAddress() + " instruction=" + ins);
+                        }
                     }
                 }
             }
@@ -5598,25 +5661,25 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
 
             long addImmediate = audit614RfcSigned32(addImmediateRaw.longValue());
-            long packetStart = addAddress;
-            Instruction previousPacketInstruction = listing().getInstructionAt(addr(addAddress - 4L));
+            Long packetStartValue = hexagonPacketStartAddress(addIns);
+            Long packetOffsetValue = hexagonPacketOffset(addIns);
+            if (packetStartValue == null) {
+                p("  614_RFC_EFFECTIVE_AUDIT_WARNING packet_start_unavailable add="
+                    + hex(addAddress) + " instruction=" + addIns);
+                missingInstructions++;
+                continue;
+            }
+            long packetStart = packetStartValue.longValue();
+            Instruction previousPacketInstruction = addAddress >= 4L
+                ? listing().getInstructionAt(addr(addAddress - 4L)) : null;
             boolean precedingImmext = previousPacketInstruction != null
                 && "immext".equalsIgnoreCase(previousPacketInstruction.getMnemonicString())
                 && previousPacketInstruction.getAddress().getOffset()
                     + (long)previousPacketInstruction.getLength() == addAddress;
-            if (precedingImmext) {
-                packetStart = previousPacketInstruction.getAddress().getOffset();
-            }
-            else {
-                p("  614_RFC_EFFECTIVE_AUDIT_WARNING preceding_immext_not_confirmed add="
-                    + hex(addAddress)
-                    + " previous_instruction="
-                    + (previousPacketInstruction == null ? "<none>" : previousPacketInstruction.toString())
-                    + "; packet start is not assumed to be add+length.");
-            }
             long computedBase = packetStart + addImmediate;
             p("  614_RFC_EFFECTIVE_AUDIT_PC_BASE site=" + addIns.getAddress()
                 + " packet_start=" + hex(packetStart)
+                + " packet_offset_context=" + (packetOffsetValue == null ? "<unknown>" : packetOffsetValue.toString())
                 + " preceding_immext_confirmed=" + precedingImmext
                 + " immediate_raw=" + hex(addImmediateRaw.longValue())
                 + " immediate_signed=" + addImmediate
@@ -5757,8 +5820,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
             if (baseReg == null) continue;
 
-            long computedBase = addIns.getAddress().getOffset()
-                + (long)addIns.getLength() + displacement;
+            Long packetBaseValue = hexagonPcRelativeTarget(addIns, displacement);
+            if (packetBaseValue == null) continue;
+            long computedBase = packetBaseValue.longValue();
             MemoryBlock baseBlock;
             try {
                 baseBlock = memory().getBlock(addr(computedBase));
@@ -5914,7 +5978,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 break;
             }
 
-            if (!matchedThunk && computedBase == 0x00254710L && lines < MAX_LINES) {
+            if (!matchedThunk && computedBase == 0x00254708L && lines < MAX_LINES) {
                 p("614_PLT_GOT_RESOLVER_BASE add=" + addIns.getAddress()
                     + " function=" + functionInfo(addIns.getAddress().getOffset())
                     + " base_reg=" + baseReg
