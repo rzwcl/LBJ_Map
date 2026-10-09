@@ -37,7 +37,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-4";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-5";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -418,9 +418,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private static final String[] HIGH_VALUE_STRINGS = {
         "ftm_common_dispatch.c:",
         "ftm_rf_test_radio_config.c:",
+        "ftm_rf_test_rx_measure.c:",
         "ftm_rf_test_control.c:",
+        "ftm_rf_test_tx_control.c:",
         "ftm_lte_rf_debug.c:",
         "ftm_lte_common_dispatch.c:",
+        "ftm_lte_rf_test.c:",
         "ftm_nr5g_rf_test.c:",
         "ftm_nr5g_rf_debug",
         "rf_cmd_interface.c:",
@@ -428,6 +431,19 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         "rflte_mc.c:",
         "RFA_RF_LTE_FDD_RX_CONFIG",
         "RFA_RF_LTE_TDD_RX_CONFIG",
+        "CENTER_FREQ",
+        "RX_CARRIER",
+        "TX_CARRIER",
+        "TECH_MODE",
+        "SUB_TECH",
+        "TECHNOLOGY",
+        "RFM_DEVICE",
+        "BANDWIDTH",
+        "CHANNEL",
+        "SIG_PATH",
+        "ANT_PATH",
+        "RX_TUNE",
+        "RADIO_CONFIG",
         "ftm_common_dispatch",
         "FTM_PRI_ORDER"
     };
@@ -993,7 +1009,33 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private static final long CURRENT_RUNTIME_DISPATCH = 0xD819C208L;
     private static final long PREVIOUS_BUILD_DISPATCH = 0xD8150ED8L;
+    private static final long CURRENT_FTM_TABLE = 0xC4951828L;
+    private static final int CURRENT_FTM_TABLE_COUNT = 80;
     private static final long MAX_POINTER_SCAN_BYTES = 0x80000000L;
+
+    private String currentDispatchPointerRole(long hit) {
+        long firstHandler = CURRENT_FTM_TABLE + 4L;
+        long delta = hit - firstHandler;
+
+        if (delta >= 0L && (delta % 8L) == 0L) {
+            long index = delta / 8L;
+            if (index >= 0L && index < CURRENT_FTM_TABLE_COUNT) {
+                try {
+                    long entry = CURRENT_FTM_TABLE + index * 8L;
+                    int lo = u16(entry);
+                    int hi = u16(entry + 2L);
+                    return String.format(
+                        "FTM_TABLE_ENTRY index=%d selector_lo=0x%04X selector_hi=0x%04X",
+                        index, lo, hi);
+                }
+                catch (Exception e) {
+                    return "FTM_TABLE_ENTRY index=" + index + " selector=<read-error>";
+                }
+            }
+        }
+
+        return "EXTERNAL_OR_NON_TABLE_REFERENCE";
+    }
 
     private void scanRuntimeDispatchPointers() {
         p("");
@@ -1001,6 +1043,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("RUNTIME DISPATCH POINTER CENSUS");
         p("Searches aligned 32-bit references throughout initialized blocks");
         p("Targets: current candidate 0xD819C208 and prior-build 0xD8150ED8");
+        p("Current table context: 0xC4951828, 80 entries; non-table hits are called out");
         p("READ ONLY / NO COMMAND GENERATION");
         p("============================================================");
 
@@ -1024,7 +1067,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             long end = b.getEnd().getOffset();
             int[] blockCounts = new int[targets.length];
             int[] storedCounts = new int[targets.length];
-            long[][] storedHits = new long[targets.length][12];
+            long[][] storedHits = new long[targets.length][256];
 
             byte[] buf = new byte[RAW_CHUNK];
             long pos = start;
@@ -1080,6 +1123,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 for (int k = 0; k < storedCounts[t]; k++) {
                     long hit = storedHits[t][k];
                     p("    PTR_HIT[" + k + "] at=" + hex(hit)
+                        + " role=" + currentDispatchPointerRole(hit)
                         + " function=" + functionInfo(hit));
 
                     if (b.isExecute()) {
@@ -1682,12 +1726,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("INTERPRETATION GUIDE");
         p("============================================================");
         p("1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.");
-        p("2. The full selector table and per-handler summary are printed above.");
-        p("3. D819C208 is the current table handler candidate; the pointer census tests all initialized blocks.");
+        p("2. Pointer census classifies every D819C208 hit as table entry or external/non-table reference.");
+        p("3. Expanded string trace now includes frequency/tuning and RADIO_CONFIG field-name candidates.");
         p("4. D8150ED8 is retained only as a previous-build comparison, not assumed current.");
-        p("5. RFTEST msg_const candidates provide source filename, SSID, line, argc, and format text.");
+        p("5. RFTEST msg_const records provide source filename, SSID, line, argc, and format text.");
         p("6. All scans are static and read-only; no DIAG packets are emitted.");
-        p("7. Exact frequency literals were not useful in the previous run; focus remains on dispatch structure.");
+        p("7. Frequency selection is not inferred from a matching string alone; correlate field IDs and dispatch flow.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
