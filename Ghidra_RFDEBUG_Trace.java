@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-43
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-44
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-43";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-44";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -5205,163 +5205,147 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+
     private void scan614SignalDescriptorStringsAndReferences() {
         p("");
         p("============================================================");
-        p("614_0_0 SIGNAL DESCRIPTOR STRING / POINTER REFERENCE MAP");
-        p("Reclassifies the first field of six apparent descriptors by checking actual target bytes.");
-        p("Also scans initialized non-executable blocks for raw 32-bit references to descriptor and target addresses.");
-        p("READ ONLY; this method does not disassemble, create references, or modify program structures.");
+        p("STRUCTURE-44 SIGNAL DESCRIPTOR TABLE / RAW TARGET CLASSIFICATION");
+        p("Correct row layout: {name_pointer, size_or_flags, target_pointer}, stride 0x0C.");
+        p("The previous scan began at 0x272C0, two words into the first row; now inspect rows from 0x272A0.");
+        p("READ ONLY.");
         p("============================================================");
 
-        long[] records = new long[] {
-            0x000272C0L, 0x000272CCL, 0x000272D8L,
-            0x000272E4L, 0x000272F0L, 0x000272FCL
-        };
+        long tableStart = 0x000272A0L;
+        final int rowLimit = 8;
         java.util.Set<Long> needles = new java.util.LinkedHashSet<Long>();
-        java.util.Map<Long, String> labels = new java.util.HashMap<Long, String>();
-        int rowCount = 0;
+        java.util.Map<Long, String> labels = new java.util.LinkedHashMap<Long, String>();
+        int parsed = 0;
+        int targetInstructions = 0;
+        int targetFunctions = 0;
 
-        for (int i = 0; i < records.length && !monitor.isCancelled()
-                && lines < MAX_LINES; i++) {
-            long record = records[i];
-            long field0 = -1L;
-            long field1 = -1L;
-            long field2 = -1L;
+        for (int row = 0; row < rowLimit && !monitor.isCancelled() && lines < MAX_LINES; row++) {
+            long record = tableStart + (long)row * 12L;
+            long namePtr, sizeFlags, target;
             try {
-                field0 = u32(record);
-                field1 = u32(record + 4L);
-                field2 = u32(record + 8L);
-            }
-            catch (Exception e) {
-                p("614_SIGNAL_TABLE_ROW_ERROR index=" + (i + 1)
-                    + " address=" + hex(record)
-                    + " error=" + e.getClass().getSimpleName());
+                namePtr = u32(record);
+                sizeFlags = u32(record + 4L);
+                target = u32(record + 8L);
+            } catch (Exception e) {
+                p("614_SIGNAL_TABLE_ROW_ERROR index=" + (row + 1) + " address=" + hex(record));
                 continue;
             }
 
-            MemoryBlock recordBlock;
-            MemoryBlock field0Block;
-            MemoryBlock field1Block;
-            try { recordBlock = memory().getBlock(addr(record)); }
-            catch (Exception e) { recordBlock = null; }
-            try { field0Block = memory().getBlock(addr(field0)); }
-            catch (Exception e) { field0Block = null; }
-            try { field1Block = memory().getBlock(addr(field1)); }
-            catch (Exception e) { field1Block = null; }
+            MemoryBlock nameBlock = null, targetBlock = null;
+            Function exact = null, owner = null;
+            Instruction atTarget = null;
+            try { nameBlock = memory().getBlock(addr(namePtr)); } catch (Exception e) { nameBlock = null; }
+            try { targetBlock = memory().getBlock(addr(target)); } catch (Exception e) { targetBlock = null; }
+            try {
+                exact = currentProgram.getFunctionManager().getFunctionAt(addr(target));
+                owner = exact != null ? exact : currentProgram.getFunctionManager().getFunctionContaining(addr(target));
+                atTarget = listing().getInstructionAt(addr(target));
+            } catch (Exception e) { owner = null; }
 
-            StringBuilder field0Preview = new StringBuilder();
-            if (field0Block != null && field0Block.isInitialized()) {
-                for (int k = 0; k < 96; k++) {
-                    int value;
-                    try { value = memory().getByte(addr(field0 + (long)k)) & 0xff; }
-                    catch (Exception e) { break; }
-                    if (value == 0) break;
-                    if (value >= 0x20 && value <= 0x7e) {
-                        field0Preview.append((char)value);
-                    }
-                    else {
-                        field0Preview.append('.');
-                    }
+            StringBuilder nameText = new StringBuilder();
+            if (nameBlock != null && nameBlock.isInitialized()) {
+                for (int k = 0; k < 80; k++) {
+                    int v;
+                    try { v = memory().getByte(addr(namePtr + k)) & 0xff; } catch (Exception e) { break; }
+                    if (v == 0) break;
+                    nameText.append(v >= 0x20 && v <= 0x7e ? (char)v : '.');
                 }
             }
 
-            StringBuilder field1Bytes = new StringBuilder();
-            if (field1Block != null && field1Block.isInitialized()) {
-                for (int k = 0; k < 24; k++) {
-                    int value;
-                    try { value = memory().getByte(addr(field1 + (long)k)) & 0xff; }
-                    catch (Exception e) { break; }
-                    if (field1Bytes.length() > 0) field1Bytes.append(' ');
-                    field1Bytes.append(String.format("%02X", Integer.valueOf(value)));
+            StringBuilder ascii = new StringBuilder(), bytes = new StringBuilder(), words = new StringBuilder();
+            if (targetBlock != null && targetBlock.isInitialized()) {
+                for (int k = 0; k < 48; k++) {
+                    int v;
+                    try { v = memory().getByte(addr(target + k)) & 0xff; } catch (Exception e) { break; }
+                    if (bytes.length() > 0) bytes.append(' ');
+                    bytes.append(String.format("%02X", Integer.valueOf(v)));
+                    if (v == 0) break;
+                    ascii.append(v >= 0x20 && v <= 0x7e ? (char)v : '.');
+                }
+                for (int k = 0; k < 8; k++) {
+                    try {
+                        if (words.length() > 0) words.append(' ');
+                        words.append(hex(u32(target + (long)k * 4L)));
+                    } catch (Exception e) { break; }
                 }
             }
 
-            p("614_SIGNAL_TABLE_ROW #" + (i + 1)
+            p("614_SIGNAL_TABLE_ROW #" + (row + 1)
                 + " record=" + hex(record)
-                + " record_block=" + (recordBlock == null ? "<none>" : recordBlock.getName())
-                + " field0=" + hex(field0)
-                + " field0_block=" + (field0Block == null ? "<none>" : field0Block.getName())
-                + " field0_executable=" + (field0Block != null && field0Block.isExecute())
-                + " field0_ascii_preview=" + field0Preview.toString()
-                + " field1=" + hex(field1)
-                + " field1_block=" + (field1Block == null ? "<none>" : field1Block.getName())
-                + " field1_bytes=" + field1Bytes.toString()
-                + " field2=" + hex(field2));
-            rowCount++;
+                + " name_ptr=" + hex(namePtr)
+                + " name_block=" + (nameBlock == null ? "<none>" : nameBlock.getName())
+                + " name_executable=" + (nameBlock != null && nameBlock.isExecute())
+                + " name_ascii=" + nameText.toString()
+                + " size_or_flags=" + hex(sizeFlags)
+                + " target=" + hex(target)
+                + " target_block=" + (targetBlock == null ? "<none>" : targetBlock.getName())
+                + " target_executable=" + (targetBlock != null && targetBlock.isExecute())
+                + " exact_function=" + (exact == null ? "<none>" : exact.getName())
+                + " containing_function=" + (owner == null ? "<none>" : owner.getName())
+                + " instruction_at_target=" + (atTarget == null ? "<none>" : atTarget.toString())
+                + " target_ascii=" + ascii.toString());
+            p("  614_SIGNAL_TABLE_TARGET_BYTES target=" + hex(target) + " bytes=" + bytes.toString());
+            p("  614_SIGNAL_TABLE_TARGET_WORDS target=" + hex(target) + " words=" + words.toString());
+            if (atTarget != null) targetInstructions++;
+            if (exact != null || owner != null) targetFunctions++;
 
-            long[] vals = new long[] { record, field0, field1 };
-            String[] names = new String[] {
-                "descriptor_row_" + (i + 1),
-                "descriptor_field0_" + (i + 1),
-                "descriptor_field1_" + (i + 1)
-            };
+            long[] vals = new long[] { record, namePtr, sizeFlags, target };
+            String[] roles = new String[] { "row_" + (row + 1), "name_" + (row + 1),
+                "size_flags_" + (row + 1), "target_" + (row + 1) };
             for (int j = 0; j < vals.length; j++) {
                 Long key = Long.valueOf(vals[j] & 0xffffffffL);
                 needles.add(key);
-                if (!labels.containsKey(key)) labels.put(key, names[j]);
+                if (!labels.containsKey(key)) labels.put(key, roles[j]);
             }
+
+            ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(addr(target));
+            int shown = 0;
+            while (refs.hasNext() && shown < 8 && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function caller = null;
+                Instruction ins = null;
+                try {
+                    caller = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    ins = listing().getInstructionAt(from);
+                } catch (Exception e) { caller = null; }
+                p("  614_SIGNAL_TABLE_TARGET_XREF target=" + hex(target)
+                    + " from=" + from + " type=" + ref.getReferenceType()
+                    + " caller=" + (caller == null ? "<none>" : caller.getName())
+                    + " instruction=" + (ins == null ? "<no-instruction>" : ins.toString()));
+                shown++;
+            }
+            p("  614_SIGNAL_TABLE_TARGET_XREFS target=" + hex(target) + " count=" + shown);
+            parsed++;
         }
 
-        // These are the corrected targets of R18 slots 0x2546AC / 0x2546B0.
-        long[] correctedGetterTargets = new long[] { 0x00025418L, 0x000254FCL };
-        for (int i = 0; i < correctedGetterTargets.length; i++) {
-            Long key = Long.valueOf(correctedGetterTargets[i]);
+        long[] getterTargets = new long[] { 0x25418L, 0x254FCL, 0x25598L, 0x25604L, 0x25694L, 0x25700L };
+        for (int i = 0; i < getterTargets.length; i++) {
+            Long key = Long.valueOf(getterTargets[i]);
             needles.add(key);
-            labels.put(key, i == 0 ? "R0_slot_2546AC_target" : "R0_slot_2546B0_target");
-        }
-
-        long[] stringTargets = new long[] {
-            0x000264D4L, 0x00026544L, 0x000265B4L,
-            0x00026624L, 0x00026694L, 0x00026708L
-        };
-        for (int i = 0; i < stringTargets.length; i++) {
-            Long key = Long.valueOf(stringTargets[i]);
-            needles.add(key);
-            labels.put(key, "source_string_target_" + (i + 1));
-        }
-
-        for (int offset = 0; offset < 12; offset++) {
-            long slot = 0x002546A0L + (long)offset * 4L;
-            try {
-                p("614_SIGNAL_R0_SLOT_WINDOW slot=" + hex(slot)
-                    + " value=" + hex(u32(slot)));
-            }
-            catch (Exception e) {
-                p("614_SIGNAL_R0_SLOT_WINDOW slot=" + hex(slot)
-                    + " value=<unreadable>");
-            }
+            if (!labels.containsKey(key)) labels.put(key, "corrected_getter_" + (i + 1));
         }
 
         java.util.Map<Long, Integer> hitCounts = new java.util.HashMap<Long, Integer>();
-        java.util.Map<Long, java.util.List<String>> hitExamples =
-            new java.util.HashMap<Long, java.util.List<String>>();
-        int scannedWords = 0;
-        int totalHits = 0;
-        int maxExamplesPerValue = 12;
+        java.util.Map<Long, java.util.List<String>> hitExamples = new java.util.HashMap<Long, java.util.List<String>>();
+        int scannedWords = 0, totalHits = 0;
         MemoryBlock[] blocks = memory().getBlocks();
-
         for (MemoryBlock block : blocks) {
             if (monitor.isCancelled() || lines >= MAX_LINES) break;
-            if (!block.isInitialized() || block.isExecute()
-                    || !isDefaultDynamicAddressBlock(block)) continue;
-
+            if (!block.isInitialized() || block.isExecute() || !isDefaultDynamicAddressBlock(block)) continue;
             long pos = (block.getStart().getOffset() + 3L) & ~3L;
             long end = block.getEnd().getOffset();
             byte[] buffer = new byte[DYNAMIC_SCAN_CHUNK];
-
             while (pos + 3L <= end && !monitor.isCancelled() && lines < MAX_LINES) {
                 int want = (int)Math.min((long)DYNAMIC_SCAN_CHUNK, end - pos + 1L);
                 want -= want % 4;
                 if (want < 4) break;
-                try {
-                    memory().getBytes(addr(pos), buffer, 0, want);
-                }
-                catch (Exception e) {
-                    pos += want;
-                    continue;
-                }
-
+                try { memory().getBytes(addr(pos), buffer, 0, want); }
+                catch (Exception e) { pos += want; continue; }
                 for (int i = 0; i + 3 < want; i += 4) {
                     long value;
                     if (currentProgram.getLanguage().isBigEndian()) {
@@ -5369,8 +5353,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                             | (((long)buffer[i + 1] & 0xffL) << 16)
                             | (((long)buffer[i + 2] & 0xffL) << 8)
                             | ((long)buffer[i + 3] & 0xffL);
-                    }
-                    else {
+                    } else {
                         value = ((long)buffer[i] & 0xffL)
                             | (((long)buffer[i + 1] & 0xffL) << 8)
                             | (((long)buffer[i + 2] & 0xffL) << 16)
@@ -5379,23 +5362,19 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                     scannedWords++;
                     Long key = Long.valueOf(value & 0xffffffffL);
                     if (!needles.contains(key)) continue;
-
                     totalHits++;
-                    Integer oldCount = hitCounts.get(key);
-                    hitCounts.put(key, Integer.valueOf(oldCount == null ? 1 : oldCount.intValue() + 1));
+                    Integer prior = hitCounts.get(key);
+                    hitCounts.put(key, Integer.valueOf(prior == null ? 1 : prior.intValue() + 1));
                     java.util.List<String> examples = hitExamples.get(key);
                     if (examples == null) {
                         examples = new java.util.ArrayList<String>();
                         hitExamples.put(key, examples);
                     }
-                    if (examples.size() < maxExamplesPerValue) {
-                        examples.add(block.getName() + ":" + hex(pos + i));
-                    }
+                    if (examples.size() < 12) examples.add(block.getName() + ":" + hex(pos + i));
                 }
                 pos += want;
             }
         }
-
         p("614_SIGNAL_REFERENCE_SCAN_WORDS=" + scannedWords);
         p("614_SIGNAL_REFERENCE_SCAN_MATCHES=" + totalHits);
         for (Long key : needles) {
@@ -5405,10 +5384,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("614_SIGNAL_RAW_POINTER_VALUE value=" + hex(key.longValue())
                 + " label=" + labels.get(key)
                 + " match_count=" + (count == null ? 0 : count.intValue())
-                + " slots=" + (examples == null || examples.isEmpty()
-                    ? "<none>" : examples.toString()));
+                + " slots=" + (examples == null || examples.isEmpty() ? "<none>" : examples.toString()));
         }
-        p("614_SIGNAL_TABLE_ROWS_PARSED=" + rowCount);
+        p("614_SIGNAL_TABLE_ROWS_PARSED=" + parsed);
+        p("614_SIGNAL_TABLE_TARGETS_WITH_INSTRUCTION=" + targetInstructions);
+        p("614_SIGNAL_TABLE_TARGETS_WITH_FUNCTION_OR_OWNER=" + targetFunctions);
+        p("614_SIGNAL_TABLE_INTERPRETATION=Executable block membership alone is not proof of a function; inspect raw bytes and incoming references.");
     }
 
 
@@ -6184,7 +6165,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private void scan614SignalInfoUpstreamAndRfcImplementations() {
         p("");
         p("============================================================");
-        p("STRUCTURE-43 SIGNAL-INFO DATA REFERENCES / RFC IMPLEMENTATION FOLLOW-UP");
+        p("STRUCTURE-44 SIGNAL-INFO DATA REFERENCES / RFC IMPLEMENTATION FOLLOW-UP");
         p("Inspect inbound data slots plus the six class implementation bodies.");
         p("Add named frequency/carrier/path APIs as leads, not proven tune entry points.");
         p("READ ONLY.");
@@ -6192,7 +6173,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         trace614DumpDataWindow(0x00254798L, 0x30, "get_signals_info_inbound_slot_neighborhood");
         trace614DumpDataWindow(0x00027220L, 0x40, "get_signals_info_data_reference_neighborhood");
-        trace614DumpDataWindow(0x000272C0L, 0x20, "signal_descriptor_table_neighborhood");
+        trace614DumpDataWindow(0x000272A0L, 0x60, "signal_descriptor_table_full_neighborhood");
 
         long[] entries = new long[] {
             0x00025454L, 0x00025538L, 0x000255D4L,
