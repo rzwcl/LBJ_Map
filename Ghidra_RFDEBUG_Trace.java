@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-21
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-22
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-21";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-22";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -685,7 +685,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private void scanNamedFunctions() {
         p("");
         p("============================================================");
-        p("FUNCTION NAME CENSUS: FTM / RFA / RFDEBUG / DIAG");
+        p("FUNCTION NAME CENSUS: FTM / RFA / RFC / RFDEBUG / DIAG");
+        p("Also tracks RF configuration APIs such as path_cfg, band_split, timing_cfg, and FBRX.");
         p("============================================================");
 
         int inspected = 0;
@@ -706,9 +707,17 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 boolean match =
                     low.contains("ftm")
                     || low.contains("rfa")
+                    || low.contains("rfc")
                     || low.contains("rfdebug")
                     || low.contains("radio_config")
-                    || low.contains("diag");
+                    || low.contains("diag")
+                    || low.contains("path_cfg")
+                    || low.contains("band_split")
+                    || low.contains("timing_cfg")
+                    || low.contains("fbrx")
+                    || low.contains("antenna_path")
+                    || low.contains("rffe_speeds")
+                    || low.contains("rfm_path");
 
                 if (!match) continue;
 
@@ -3386,6 +3395,150 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private boolean is614RfConfigFunctionTarget(String functionName) {
+        if (functionName == null) return false;
+        String n = functionName.toLowerCase();
+
+        String[] terms = {
+            "get_rfm_path_info_tbl",
+            "get_signals_info",
+            "get_ant_switch_path_info",
+            "get_phy_device_cfg",
+            "get_logical_device_cfg",
+            "get_antenna_path_table_cfg",
+            "get_logical_path_config",
+            "get_ant_path_info_config",
+            "get_sig_path_info_config",
+            "get_rffe_speeds_info",
+            "path_cfg_data_get",
+            "fbrx_cfg_data_get",
+            "get_fbrx_path_table_cfg",
+            "band_split_cfg_data_get",
+            "timing_cfg_data_get",
+            "get_lte_properties",
+            "get_wcdma_properties",
+            "get_gsm_properties",
+            "get_cmn_properties",
+            "get_nr_bands_bitmask_in_endc",
+            "get_rfcard_data",
+            "rfc_card_instance_get",
+            "rfc_get_remapped_device_info",
+            "get_alt_path_selection_tbl",
+            "get_irat_alt_path_selection_tbl",
+            "rfc_hwid614_qrm865ab_v3_ag_"
+        };
+
+        for (String term : terms) {
+            if (n.contains(term)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Prints disassembly and incoming references for RF-configuration APIs in
+     * 614_0_0.mbn. This is static inspection only; it does not execute firmware
+     * code or issue modem/DIAG commands.
+     */
+    private void scan614RfConfigFunctionDetails() {
+        p("");
+        p("============================================================");
+        p("614_0_0 RF CONFIG FUNCTION DETAIL TRACE");
+        p("Selected RFC path/band/timing/FBRX APIs, function instructions, and incoming references.");
+        p("Only decoded instructions in executable blocks are printed.");
+        p("READ ONLY");
+        p("============================================================");
+
+        int selected = 0;
+        int functionsPrinted = 0;
+        long instructionsPrinted = 0L;
+        long referencesSeen = 0L;
+        int referencesPrinted = 0;
+
+        try {
+            FunctionIterator fit = currentProgram.getFunctionManager().getFunctions(true);
+            while (fit.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                Function f = fit.next();
+                if (f.isThunk()) continue;
+                if (!is614RfConfigFunctionTarget(f.getName())) continue;
+
+                MemoryBlock owner;
+                try {
+                    owner = memory().getBlock(f.getEntryPoint());
+                }
+                catch (Exception e) {
+                    continue;
+                }
+                if (owner == null || !owner.isExecute()
+                        || !isDefaultDynamicAddressBlock(owner)) continue;
+
+                selected++;
+                if (functionsPrinted >= 64) continue;
+                functionsPrinted++;
+
+                p("");
+                p("614_RF_FUNCTION #" + functionsPrinted
+                    + " name=" + f.getName()
+                    + " entry=" + f.getEntryPoint()
+                    + " body_min=" + f.getBody().getMinAddress()
+                    + " body_max=" + f.getBody().getMaxAddress()
+                    + " body_bytes=" + f.getBody().getNumAddresses());
+
+                int insCount = 0;
+                InstructionIterator iit = listing().getInstructions(f.getBody(), true);
+                while (iit.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Instruction ins = iit.next();
+                    if (insCount < 72) {
+                        p("  RF_INS " + ins.getAddress() + "  " + ins);
+                    }
+                    insCount++;
+                }
+                instructionsPrinted += insCount;
+                p("  RF_INSTRUCTIONS_TOTAL=" + insCount
+                    + (insCount > 72 ? " (printed first 72)" : ""));
+
+                ReferenceIterator rit = currentProgram.getReferenceManager()
+                    .getReferencesTo(f.getEntryPoint());
+                int functionRefs = 0;
+                int functionRefsPrinted = 0;
+                while (rit.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Reference ref = rit.next();
+                    functionRefs++;
+                    referencesSeen++;
+
+                    if (functionRefsPrinted >= 24) continue;
+                    Address from = ref.getFromAddress();
+                    Function caller = currentProgram.getFunctionManager()
+                        .getFunctionContaining(from);
+                    Instruction sourceIns = listing().getInstructionAt(from);
+                    p("  RF_INCOMING_REF[" + functionRefsPrinted + "]"
+                        + " from=" + from
+                        + " type=" + ref.getReferenceType()
+                        + " caller=" + (caller == null ? "<no-function>"
+                            : caller.getName() + "@" + caller.getEntryPoint())
+                        + " instruction=" + (sourceIns == null ? "<no-instruction>" : sourceIns));
+                    functionRefsPrinted++;
+                    referencesPrinted++;
+                }
+                p("  RF_INCOMING_REFS_TOTAL=" + functionRefs
+                    + " printed=" + functionRefsPrinted);
+            }
+
+            p("");
+            p("614_RF_TARGET_FUNCTIONS_FOUND=" + selected);
+            p("614_RF_TARGET_FUNCTIONS_PRINTED=" + functionsPrinted);
+            p("614_RF_INSTRUCTIONS_COUNTED=" + instructionsPrinted);
+            p("614_RF_INCOMING_REFERENCES_COUNTED=" + referencesSeen);
+            p("614_RF_INCOMING_REFERENCES_PRINTED=" + referencesPrinted);
+            if (selected == 0) {
+                p("614_RF_DETAIL_NOTE=No selected non-thunk function was mapped to an executable default-space block.");
+            }
+        }
+        catch (Exception e) {
+            p("614_RF_FUNCTION_DETAIL_ERROR=" + e.getClass().getSimpleName()
+                + ": " + e.getMessage());
+        }
+    }
+
     private void run614DynamicAddressDiscovery() {
         p("");
         p("============================================================");
@@ -3735,6 +3888,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("Legacy qdsp6sw.mbn addresses are disabled for this program.");
             scan614FunctionInventory();
             scanNamedFunctions();
+            scan614RfConfigFunctionDetails();
             scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
         }
