@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-41
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-42
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-41";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-42";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -4974,9 +4974,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             }
         }
 
+        // Corrected R18 table targets: these last two entries are code wrappers.
         long[] getterTargets = new long[] {
-            0x00025598L, 0x00025604L, 0x00025694L, 0x00025700L,
-            0x00027384L, 0x00217458L
+            0x00025418L, 0x000254FCL, 0x00025598L, 0x00025604L,
+            0x00025694L, 0x00025700L
         };
         int getterCount = 0;
         for (int i = 0; i < getterTargets.length
@@ -5753,6 +5754,215 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("Interpretation rule: Hexagon PC-relative arithmetic uses the packet start; for these four sites the preceding immext is explicitly checked. Stored references are reported separately, not treated as ground truth.");
     }
 
+
+
+    /*
+     * STRUCTURE-42: focused follow-up for the corrected six callback targets.
+     * Prints each wrapper's body, reconstructs PC-relative memory slots with
+     * packet-start semantics, reports direct constructor-call sites, and
+     * checks references to get_signals_info. No program state is modified.
+     */
+    private boolean trace614HasRegister(Instruction ins, String registerName) {
+        if (ins == null || registerName == null) return false;
+        for (int op = 0; op < ins.getNumOperands(); op++) {
+            for (Object object : ins.getOpObjects(op)) {
+                if (object instanceof ghidra.program.model.lang.Register
+                        && registerName.equalsIgnoreCase(
+                            ((ghidra.program.model.lang.Register)object).getName())) return true;
+            }
+        }
+        return false;
+    }
+
+    private void scan614CorrectedGetterBodies() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-42 CORRECTED SIX-GETTER BODY / SLOT TRACE");
+        p("Corrected R18 callback table targets; packet-start PC arithmetic only.");
+        p("Correlate direct constructor calls with 614_PLT_GOT_THUNK output below.");
+        p("READ ONLY.");
+        p("============================================================");
+
+        long signalInfoEntry = 0x000259A4L;
+        int signalIncomingCount = 0;
+        ReferenceIterator signalRefs = currentProgram.getReferenceManager()
+            .getReferencesTo(addr(signalInfoEntry));
+        while (signalRefs.hasNext() && signalIncomingCount < 32
+                && !monitor.isCancelled() && lines < MAX_LINES) {
+            Reference ref = signalRefs.next();
+            Address from = ref.getFromAddress();
+            Function caller = null;
+            Instruction fromIns = null;
+            try {
+                caller = currentProgram.getFunctionManager().getFunctionContaining(from);
+                fromIns = listing().getInstructionAt(from);
+            }
+            catch (Exception e) { caller = null; }
+            p("614_CORRECTED_SIGNAL_INFO_INCOMING from=" + from
+                + " type=" + ref.getReferenceType()
+                + " caller=" + (caller == null ? "<none>" : caller.getName() + "@" + caller.getEntryPoint())
+                + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+            signalIncomingCount++;
+        }
+        p("614_CORRECTED_SIGNAL_INFO_INCOMING_COUNT=" + signalIncomingCount);
+        if (signalIncomingCount == 0) {
+            p("614_CORRECTED_SIGNAL_INFO_NOTE=No static incoming reference recorded at 0x259A4; inspect exports/tables or cross-image callers.");
+        }
+
+        long[] getters = new long[] {
+            0x00025418L, 0x000254FCL, 0x00025598L,
+            0x00025604L, 0x00025694L, 0x00025700L
+        };
+        int inspected = 0;
+        int slotUses = 0;
+        int directCalls = 0;
+
+        for (int i = 0; i < getters.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long getter = getters[i];
+            Function f = null;
+            try { f = currentProgram.getFunctionManager().getFunctionAt(addr(getter)); }
+            catch (Exception e) { f = null; }
+            if (f == null) {
+                try { f = currentProgram.getFunctionManager().getFunctionContaining(addr(getter)); }
+                catch (Exception e) { f = null; }
+            }
+            p("");
+            p("614_CORRECTED_GETTER #" + (i + 1)
+                + " target=" + hex(getter)
+                + " function=" + (f == null ? "<none>" : f.getName())
+                + " entry=" + (f == null ? "<none>" : hex(f.getEntryPoint().getOffset())));
+            if (f == null) continue;
+            inspected++;
+
+            long pcBase = -1L;
+            String baseRegister = null;
+            int instructionCount = 0;
+            InstructionIterator it = listing().getInstructions(f.getBody(), true);
+            while (it.hasNext() && instructionCount < 40
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Instruction ins = it.next();
+                p("  614_CORRECTED_GETTER_INS " + ins.getAddress() + " " + ins);
+                instructionCount++;
+                String mnemonic = ins.getMnemonicString().toLowerCase();
+
+                if ("add".equals(mnemonic) && ins.getNumOperands() >= 2) {
+                    boolean hasPc = false;
+                    Long imm = null;
+                    for (int op = 0; op < ins.getNumOperands(); op++) {
+                        for (Object object : ins.getOpObjects(op)) {
+                            if (object instanceof ghidra.program.model.lang.Register
+                                    && "PC".equalsIgnoreCase(
+                                        ((ghidra.program.model.lang.Register)object).getName())) hasPc = true;
+                            else if (object instanceof Scalar) imm = Long.valueOf(((Scalar)object).getSignedValue());
+                        }
+                    }
+                    String dst = null;
+                    for (Object object : ins.getOpObjects(0)) {
+                        if (object instanceof ghidra.program.model.lang.Register) {
+                            dst = ((ghidra.program.model.lang.Register)object).getName();
+                            break;
+                        }
+                    }
+                    if (hasPc && imm != null && dst != null) {
+                        Long computed = hexagonPcRelativeTarget(ins, imm.longValue());
+                        Long packetStart = hexagonPacketStartAddress(ins);
+                        if (computed != null) {
+                            pcBase = computed.longValue();
+                            baseRegister = dst;
+                            p("  614_CORRECTED_GETTER_PC_BASE ins=" + ins.getAddress()
+                                + " packet_start=" + (packetStart == null ? "<unknown>" : hex(packetStart.longValue()))
+                                + " packet_offset=" + (hexagonPacketOffset(ins) == null ? "<unknown>" : hexagonPacketOffset(ins).toString())
+                                + " register=" + baseRegister + " immediate=" + hex(imm.longValue())
+                                + " base=" + hex(pcBase));
+                        }
+                    }
+                }
+
+                if (pcBase >= 0L && baseRegister != null
+                        && mnemonic.startsWith("mem") && trace614HasRegister(ins, baseRegister)) {
+                    Long scalar = null;
+                    for (int op = 0; op < ins.getNumOperands() && scalar == null; op++) {
+                        for (Object object : ins.getOpObjects(op)) {
+                            if (object instanceof Scalar) {
+                                scalar = Long.valueOf(((Scalar)object).getSignedValue());
+                                break;
+                            }
+                        }
+                    }
+                    long displacement = scalar == null ? 0L : scalar.longValue();
+                    long slot = (pcBase + displacement) & 0xffffffffL;
+                    long value = -1L;
+                    try { value = u32(slot); } catch (Exception e) { value = -1L; }
+                    MemoryBlock slotBlock = null;
+                    MemoryBlock valueBlock = null;
+                    Function exact = null;
+                    Function owner = null;
+                    try { slotBlock = memory().getBlock(addr(slot)); } catch (Exception e) { slotBlock = null; }
+                    if (value >= 0L) {
+                        try {
+                            valueBlock = memory().getBlock(addr(value));
+                            exact = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                            owner = exact != null ? exact : currentProgram.getFunctionManager().getFunctionContaining(addr(value));
+                        }
+                        catch (Exception e) { owner = null; }
+                    }
+                    p("  614_CORRECTED_GETTER_SLOT_USE ins=" + ins.getAddress()
+                        + " base=" + hex(pcBase) + " disp=" + hex(displacement)
+                        + " slot=" + hex(slot)
+                        + " slot_block=" + (slotBlock == null ? "<none>" : slotBlock.getName())
+                        + " static_word=" + hex(value)
+                        + " value_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                        + " value_executable=" + (valueBlock != null && valueBlock.isExecute())
+                        + " exact_function=" + (exact == null ? "<none>" : exact.getName())
+                        + " containing_function=" + (owner == null ? "<none>" : owner.getName()));
+                    slotUses++;
+                }
+
+                if (mnemonic.startsWith("call") && !mnemonic.startsWith("callr")) {
+                    Address target = null;
+                    for (int op = 0; op < ins.getNumOperands() && target == null; op++) {
+                        for (Object object : ins.getOpObjects(op)) {
+                            if (object instanceof Address
+                                    && ((Address)object).getAddressSpace().isMemorySpace()) {
+                                target = (Address)object;
+                                break;
+                            }
+                        }
+                    }
+                    if (target != null) {
+                        p("  614_CORRECTED_GETTER_DIRECT_CALL from=" + ins.getAddress()
+                            + " target=" + target + " instruction=" + ins);
+                        directCalls++;
+                    }
+                }
+            }
+            p("  614_CORRECTED_GETTER_INSNS_PRINTED=" + instructionCount);
+            ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(addr(getter));
+            int incoming = 0;
+            while (refs.hasNext() && incoming < 12 && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function caller = null;
+                Instruction fromIns = null;
+                try {
+                    caller = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    fromIns = listing().getInstructionAt(from);
+                }
+                catch (Exception e) { caller = null; }
+                p("  614_CORRECTED_GETTER_INCOMING from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " caller=" + (caller == null ? "<none>" : caller.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                incoming++;
+            }
+            p("  614_CORRECTED_GETTER_INCOMING_COUNT=" + incoming);
+        }
+        p("");
+        p("614_CORRECTED_GETTERS_INSPECTED=" + inspected);
+        p("614_CORRECTED_GETTER_SLOT_USES=" + slotUses);
+        p("614_CORRECTED_GETTER_DIRECT_CALLS=" + directCalls);
+    }
 
     private void scan614PltGotThunkMap() {
         p("");
@@ -6720,6 +6930,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614SignalDescriptorStringsAndReferences();
             scan614RfcSingletonStorageAndConstructors();
             scan614RfcGetterEffectiveSlotAudit();
+            scan614CorrectedGetterBodies();
             scan614PltGotThunkMap();
         }
         else {
