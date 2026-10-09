@@ -1,16 +1,18 @@
 Ghidra_RFDEBUG_Trace.java> Running...
 ============================================================
  Ghidra_RFDEBUG_Trace
- TRACE_BUILD=DIAG-FTM-STRUCTURE-10
+ TRACE_BUILD=DIAG-FTM-STRUCTURE-11
  DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY
 Broad high-volume scans are intentionally skipped in this run.
+STRUCTURE-11 treats the index-53 NULL as a candidate table boundary.
 ============================================================
 PROGRAM=qdsp6sw.mbn
 IMAGE_BASE=c1600000
 
 ============================================================
 RADIO_CONFIG FIELD-NAME TABLE CANDIDATE
-Candidate base=0xC9199798; count=60; entry size=4
+Candidate base=0xC9199798; primary count=54 (indices 0..53); entry size=4
+Index 53 is NULL in STRUCTURE-10 output; following pointer entries are treated as a separate pool until proven otherwise.
 The decoded strings in this image are authoritative; reference labels are cross-build comparison only.
 Read-only; checks repeated CENTER_FREQ entries and other index anchors.
 ============================================================
@@ -69,14 +71,8 @@ Read-only; checks repeated CENTER_FREQ entries and other index anchors.
   FIELD[51] slot=0xC9199864 ptr=0xC508253B actual=SUB_CFG_ID reference=SUB_CFG_ID match=true
   FIELD[52] slot=0xC9199868 ptr=0xC5082546 actual=TARGET_SUB_CFG reference=TARGET_SUB_CFG match=true
   FIELD[53] slot=0xC919986C ptr=0x00000000 actual=<unreadable> reference=ANT_NUM match=false
-  FIELD[54] slot=0xC9199870 ptr=0xC49535C6 actual=UNASSIGNED reference=UE_COMBO_POWER_CLASS match=false
-  FIELD[55] slot=0xC9199874 ptr=0xC5082337 actual=RX_CARRIER reference=UL_TX_SWITCH_TYPE match=false
-  FIELD[56] slot=0xC9199878 ptr=0xC49535DB actual=RFM_DEVICE reference=TX_SWITCH_SOURCE_CARRIE match=false
-  FIELD[57] slot=0xC919987C ptr=0xC4953B06 actual=EXPECTED_AGC reference=TUNE_BUILD_SCRIPT_TIME match=false
-  FIELD[58] slot=0xC9199880 ptr=0xC5082555 actual=RX_AGC reference=TX_CELL_ID match=false
-  FIELD[59] slot=0xC9199884 ptr=0xC508255C actual=LNA_GS reference=NS_VAL_TYPE match=false
-  FIELD_ENTRIES=60
-  FIELD_STRINGS_READABLE=59
+  PRIMARY_FIELD_ENTRIES=54
+  FIELD_STRINGS_READABLE=53
   EXACT_REFERENCE_LABEL_MATCHES=53
   ANCHOR_MISMATCHES=0
   ADDRESS_XREFS TABLE_BASE target=0xC9199798
@@ -93,12 +89,30 @@ Read-only; checks repeated CENTER_FREQ entries and other index anchors.
     XREFS_SHOWN=0
 
 ============================================================
+RADIO_CONFIG ADJACENT NAME POOL CANDIDATE
+Start=0xC9199870; entries_checked=12
+Not assumed to share the primary table's enum.
+============================================================
+  ADJ_POOL[0] slot=0xC9199870 ptr=0xC49535C6 actual=UNASSIGNED
+  ADJ_POOL[1] slot=0xC9199874 ptr=0xC5082337 actual=RX_CARRIER
+  ADJ_POOL[2] slot=0xC9199878 ptr=0xC49535DB actual=RFM_DEVICE
+  ADJ_POOL[3] slot=0xC919987C ptr=0xC4953B06 actual=EXPECTED_AGC
+  ADJ_POOL[4] slot=0xC9199880 ptr=0xC5082555 actual=RX_AGC
+  ADJ_POOL[5] slot=0xC9199884 ptr=0xC508255C actual=LNA_GS
+  ADJ_POOL[6] slot=0xC9199888 ptr=0xC4953AF0 actual=SIG_PATH
+  ADJ_POOL[7] slot=0xC919988C ptr=0xC5082563 actual=RX_MODE
+  ADJ_POOL[8] slot=0xC9199890 ptr=0xC508256B actual=RX_SLOT
+  ADJ_POOL[9] slot=0xC9199894 ptr=0xC5082573 actual=NUM_OF_BURST
+  ADJ_POOL[10] slot=0xC9199898 ptr=0xC5082580 actual=SENSITIVITY
+  ADJ_POOL[11] slot=0xC919989C ptr=0xC508258C actual=CTON
+
+============================================================
 RADIO_CONFIG FIELD SLOT XREF AUDIT
 Checks references TO each of the 60 table slots, not merely references to their strings
 Origin is classified by whether the reference address belongs to an instruction in an executable block
 READ ONLY
 ============================================================
-  SLOTS_VISITED=60
+  SLOTS_VISITED=54
   INSTRUCTION_ORIGIN_REFS_TOTAL=0
   INSTRUCTION_ORIGIN_REFS_SHOWN=0
   DATA_ORIGIN_REFS_TOTAL=0
@@ -107,11 +121,15 @@ READ ONLY
 ============================================================
 RADIO_CONFIG TABLE CODE-IMMEDIATE SCAN
 Scans executable instructions only; bounded to 600000 instructions
-Exact hit range=0xC9199798..0xC9199887
-Nearby context range=0xC9199718..0xC9199907
+Exact hit range=0xC9199798..0xC919986F
+Nearby context range=0xC9199718..0xC91998EF
 A hit is an operand value, not by itself proof of an executed call path
 No hit does not rule out a base assembled across instructions or a pointer loaded from another descriptor.
 ============================================================
+  EXECUTABLE_INSTRUCTIONS_SCANNED=600000
+  TABLE_CODE_IMMEDIATE_HITS_SHOWN=0
+  TABLE_NEARBY_IMMEDIATE_HITS_SHOWN=0
+  SCAN_LIMIT_REACHED=true
 
 HANDLER_REFERENCE_SUMMARY CURRENT_HANDLER_D819C208 target=0xD819C208
   mapped=false block=<none> exec=false
@@ -275,18 +293,19 @@ A direct immediate hit is a lead, not proof of an executed call path.
 No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.
 
 ============================================================
-STRUCTURE10 EXECUTION FOOTER
-TRACE_BUILD=DIAG-FTM-STRUCTURE-10
+STRUCTURE11 EXECUTION FOOTER
+TRACE_BUILD=DIAG-FTM-STRUCTURE-11
 PROGRAM=qdsp6sw.mbn
-RADIO_CONFIG_TABLE=0xC9199798 entries=60
-FIELD_STRINGS_READABLE=59
+RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54
+RADIO_CONFIG_ADJACENT_POOL=0xC9199870 entries_checked=12
+FIELD_STRINGS_READABLE=53
 FIELD_REFERENCE_LABEL_MATCHES=53
 FIELD_ANCHOR_MISMATCHES=0
 SLOT_INSTRUCTION_ORIGIN_REFS=0
 SLOT_DATA_ORIGIN_REFS=0
-EXECUTABLE_INSTRUCTIONS_SCANNED=-1
-TABLE_CODE_IMMEDIATE_HITS=-1
-TABLE_NEARBY_IMMEDIATE_HITS=-1
+EXECUTABLE_INSTRUCTIONS_SCANNED=600000
+TABLE_CODE_IMMEDIATE_HITS=0
+TABLE_NEARBY_IMMEDIATE_HITS=0
 PTRS_D819C208=81
 PTRS_D8150ED8=0
 PTRS_D89B2790=0
