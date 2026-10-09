@@ -37,7 +37,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-3";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-4";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -928,6 +928,282 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("RF CONSTANT HITS=" + hits);
     }
 
+
+
+    // Decode little-endian values directly from a chunk buffer.
+    private long bufferU32(byte[] buf, int i) {
+        return ((long)(buf[i] & 0xff))
+            | ((long)(buf[i + 1] & 0xff) << 8)
+            | ((long)(buf[i + 2] & 0xff) << 16)
+            | ((long)(buf[i + 3] & 0xff) << 24);
+    }
+
+    private String readAsciiAt(long off, int maxLen) {
+        try {
+            MemoryBlock b = block(off);
+            if (b == null || !b.isInitialized() || b.isExecute()) return null;
+            if (off < b.getStart().getOffset() || off > b.getEnd().getOffset()) return null;
+
+            int want = (int)Math.min((long)maxLen, b.getEnd().getOffset() - off + 1L);
+            if (want <= 0) return null;
+
+            byte[] buf = new byte[want];
+            memory().getBytes(addr(off), buf, 0, want);
+
+            StringBuilder out = new StringBuilder();
+            for (int i = 0; i < buf.length; i++) {
+                int c = buf[i] & 0xff;
+                if (c == 0) return out.length() == 0 ? null : out.toString();
+                if (c < 0x20 || c > 0x7e) return null;
+                out.append((char)c);
+            }
+
+            return out.length() == 0 ? null : out.toString();
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    private boolean isRelevantRfSourceName(String source) {
+        if (source == null) return false;
+
+        String s = source.toLowerCase();
+        if (!s.endsWith(".c") && !s.endsWith(".cpp")) return false;
+
+        return s.contains("ftm_common_dispatch")
+            || s.contains("ftm_rf_test")
+            || s.contains("ftm_lte")
+            || s.contains("ftm_nr5g_rf")
+            || s.contains("ftm_rfnv")
+            || s.contains("ftm_multi_tech")
+            || s.contains("rflte")
+            || s.contains("rf_cmd_interface");
+    }
+
+    private boolean isScanableStaticBlock(MemoryBlock b) {
+        if (b == null || !b.isInitialized()) return false;
+        if (b.getStart().getOffset() < 0x1000L) return false;
+
+        String name = b.getName();
+        if (name == null) return true;
+
+        return !name.startsWith("_elf") && !name.startsWith("unallocated_");
+    }
+
+    private static final long CURRENT_RUNTIME_DISPATCH = 0xD819C208L;
+    private static final long PREVIOUS_BUILD_DISPATCH = 0xD8150ED8L;
+    private static final long MAX_POINTER_SCAN_BYTES = 0x80000000L;
+
+    private void scanRuntimeDispatchPointers() {
+        p("");
+        p("============================================================");
+        p("RUNTIME DISPATCH POINTER CENSUS");
+        p("Searches aligned 32-bit references throughout initialized blocks");
+        p("Targets: current candidate 0xD819C208 and prior-build 0xD8150ED8");
+        p("READ ONLY / NO COMMAND GENERATION");
+        p("============================================================");
+
+        long[] targets = {
+            CURRENT_RUNTIME_DISPATCH,
+            PREVIOUS_BUILD_DISPATCH
+        };
+        String[] labels = {
+            "CURRENT_FTM_HANDLER",
+            "PREVIOUS_BUILD_HANDLER"
+        };
+
+        long scanned = 0;
+        int[] grandCounts = new int[targets.length];
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!isScanableStaticBlock(b)) continue;
+
+            long start = b.getStart().getOffset();
+            long end = b.getEnd().getOffset();
+            int[] blockCounts = new int[targets.length];
+            int[] storedCounts = new int[targets.length];
+            long[][] storedHits = new long[targets.length][12];
+
+            byte[] buf = new byte[RAW_CHUNK];
+            long pos = start;
+
+            try {
+                while (pos <= end && scanned < MAX_POINTER_SCAN_BYTES) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                    int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
+                    if (want < 4) break;
+
+                    for (int i = 0; i + 4 <= want; i++) {
+                        long at = pos + i;
+                        if ((at & 3L) != 0L) continue;
+
+                        long value = bufferU32(buf, i);
+                        for (int t = 0; t < targets.length; t++) {
+                            if (value != targets[t]) continue;
+
+                            blockCounts[t]++;
+                            grandCounts[t]++;
+
+                            if (storedCounts[t] < storedHits[t].length) {
+                                storedHits[t][storedCounts[t]++] = at;
+                            }
+                        }
+                    }
+
+                    long advance = want - 3L;
+                    if (advance <= 0L) break;
+                    pos += advance;
+                    scanned += advance;
+                }
+            }
+            catch (Exception e) {
+                p("  PTR_SCAN_BLOCK_ERROR block=" + b.getName()
+                    + " range=" + hex(start) + ".." + hex(end)
+                    + " error=" + e.getMessage());
+            }
+
+            boolean found = false;
+            for (int t = 0; t < targets.length; t++) {
+                if (blockCounts[t] == 0) continue;
+                found = true;
+
+                p("  PTR_BLOCK target=" + labels[t]
+                    + " value=" + hex(targets[t])
+                    + " block=" + b.getName()
+                    + " exec=" + b.isExecute()
+                    + " hits_in_block=" + blockCounts[t]);
+
+                for (int k = 0; k < storedCounts[t]; k++) {
+                    long hit = storedHits[t][k];
+                    p("    PTR_HIT[" + k + "] at=" + hex(hit)
+                        + " function=" + functionInfo(hit));
+
+                    if (b.isExecute()) {
+                        p("      instruction=" + instructionInfo(hit));
+                    }
+                }
+
+                if (blockCounts[t] > storedCounts[t]) {
+                    p("    ADDITIONAL_HITS_NOT_LISTED="
+                        + (blockCounts[t] - storedCounts[t]));
+                }
+            }
+        }
+
+        p("POINTER_SCAN_BYTES_APPROX=" + scanned);
+        p("POINTER_TOTAL " + labels[0] + "=" + grandCounts[0]);
+        p("POINTER_TOTAL " + labels[1] + "=" + grandCounts[1]);
+    }
+
+    private void scanRfMsgConstRecords() {
+        p("");
+        p("============================================================");
+        p("RFTEST MSG_CONST RECORD DISCOVERY");
+        p("Looks for {fmt_ptr, fname_ptr, (ssid<<16)|line, argc} records");
+        p("Reports only relevant FTM/RF source files; static read-only");
+        p("============================================================");
+
+        long scanned = 0;
+        int candidates = 0;
+        int reported = 0;
+        final int MAX_REPORTS = 180;
+        final long MAX_MSG_SCAN_BYTES = 0x80000000L;
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!isScanableStaticBlock(b) || b.isExecute()) continue;
+
+            long start = b.getStart().getOffset();
+            long end = b.getEnd().getOffset();
+            byte[] buf = new byte[RAW_CHUNK];
+            long pos = start;
+            long lastProcessedCandidate = start - 4L;
+            int blockReports = 0;
+
+            try {
+                while (pos <= end
+                        && scanned < MAX_MSG_SCAN_BYTES
+                        && reported < MAX_REPORTS) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) return;
+
+                    int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
+                    if (want < 16) break;
+
+                    int firstAligned = (int)((4L - (pos & 3L)) & 3L);
+
+                    for (int i = firstAligned; i + 16 <= want; i += 4) {
+                        long holder = pos + i;
+                        if (holder <= lastProcessedCandidate) continue;
+
+                        long fmtPtr = bufferU32(buf, i);
+                        long filePtr = bufferU32(buf, i + 4);
+                        long packed = bufferU32(buf, i + 8);
+                        long argcValue = bufferU32(buf, i + 12);
+
+                        if (fmtPtr == 0L || filePtr == 0L || argcValue > 16L) continue;
+                        if (!validDataPointer(filePtr) || !validDataPointer(fmtPtr)) continue;
+
+                        int ssid = (int)((packed >>> 16) & 0xffffL);
+                        int line = (int)(packed & 0xffffL);
+                        if (ssid < 1 || ssid > 0x100 || line < 1 || line > 0x7fff) continue;
+
+                        String file = readAsciiAt(filePtr, 160);
+                        if (!isRelevantRfSourceName(file)) continue;
+
+                        String fmt = readAsciiAt(fmtPtr, 320);
+                        if (fmt == null || fmt.length() == 0) continue;
+
+                        candidates++;
+                        if (reported < MAX_REPORTS) {
+                            p("");
+                            p("MSG_CONST_HIT #" + (reported + 1)
+                                + " holder=" + hex(holder)
+                                + " block=" + b.getName());
+                            p("  fmt_ptr=" + hex(fmtPtr));
+                            p("  fname_ptr=" + hex(filePtr));
+                            p("  source=" + file);
+                            p("  packed=" + hex(packed)
+                                + " ssid=" + ssid
+                                + " line=" + line
+                                + " argc=" + argcValue);
+                            p("  format=" + fmt);
+                            reported++;
+                            blockReports++;
+                        }
+                    }
+
+                    long highestCompleteStart = pos + want - 16L;
+                    if (highestCompleteStart > lastProcessedCandidate) {
+                        lastProcessedCandidate = highestCompleteStart;
+                    }
+
+                    long advance = want - 15L;
+                    if (advance <= 0L) break;
+                    pos += advance;
+                    scanned += advance;
+                }
+            }
+            catch (Exception e) {
+                p("  MSG_CONST_SCAN_BLOCK_ERROR block=" + b.getName()
+                    + " range=" + hex(start) + ".." + hex(end)
+                    + " error=" + e.getMessage());
+            }
+
+            if (blockReports > 0) {
+                p("  MSG_CONST_BLOCK_SUMMARY block=" + b.getName()
+                    + " reported=" + blockReports);
+            }
+        }
+
+        p("");
+        p("MSG_CONST_CANDIDATES_FOUND=" + candidates);
+        p("MSG_CONST_RECORDS_REPORTED=" + reported);
+        p("MSG_CONST_SCAN_BYTES_APPROX=" + scanned);
+    }
+
     private static final long DIAG_REC_MAGIC0 = 0x00FF0000L;
     private static final long DIAG_REC_MAGIC2 = 0x000000FFL;
     private static final long DIAG_REC_MAGIC3 = 0xFFFFFFFFL;
@@ -953,7 +1229,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             + " range=" + b.getStart() + ".." + b.getEnd());
 
         int shown = 0;
-        for (int i = 0; i < count && i < 96 && shown < 20; i++) {
+        for (int i = 0; i < count && i < 96 && shown < 96; i++) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
 
             long p0 = table + (long)i * 8L;
@@ -995,7 +1271,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         try {
             for (MemoryBlock b : memory().getBlocks()) {
                 if (monitor.isCancelled() || lines >= MAX_LINES) return;
-                if (!b.isInitialized() || b.isExecute()) continue;
+                if (!isScanableStaticBlock(b) || b.isExecute()) continue;
 
                 long start = b.getStart().getOffset();
                 long end = b.getEnd().getOffset();
@@ -1363,27 +1639,27 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         scanDiagMasterRecordsExact();
 
+        scanRuntimeDispatchPointers();
+
+        scanRfMsgConstRecords();
+
         scanHighValueStrings();
 
         scanSourceAnchorPointers();
 
-        scanExactRfConstants();
+        // Exact-Hz literal scan was already negative; prioritize structural evidence here.
 
         p("");
         p("============================================================");
         p("INTERPRETATION GUIDE");
         p("============================================================");
-        p("1. First determine whether C8DC3B54/C37BD1E8 are real structures.");
-        p("2. Prefer actual XREFs over guessed table layouts.");
-        p("3. If D8150ED8 occurs as a raw pointer in segment_19/21,");
-        p("   record the exact slot and surrounding bytes.");
-        p("4. If it does not, treat the published address as build/image-");
-        p("   dependent until another image is identified.");
-        p("5. A code XREF from a function into C37BD1E8 is the key next step.");
-        p("6. FTM/RFA/DIAG strings with code XREFs are now the primary locator evidence.");
-        p("7. Source-string pointer hits with a plausible msg_const shape are the strongest current-build anchor.");
-        p("8. Exact RF constants are corroborative only; absence does not exclude runtime frequency handling.");
-        p("9. If localNonZeroScan is entirely zero, inspect block metadata/source info.");
+        p("1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.");
+        p("2. The full selector table and per-handler summary are printed above.");
+        p("3. D819C208 is the current table handler candidate; the pointer census tests all initialized blocks.");
+        p("4. D8150ED8 is retained only as a previous-build comparison, not assumed current.");
+        p("5. RFTEST msg_const candidates provide source filename, SSID, line, argc, and format text.");
+        p("6. All scans are static and read-only; no DIAG packets are emitted.");
+        p("7. Exact frequency literals were not useful in the previous run; focus remains on dispatch structure.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
