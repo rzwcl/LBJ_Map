@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-16
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-17
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-16";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-17";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -78,6 +78,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private int summaryExecutableBlocksSampled = -1;
     private long summaryRadioConfigMsgCandidates = -1L;
     private long summaryRadioConfigMsgReported = -1L;
+    private long summaryRfDebugSubsysInstructionsScanned = -1L;
+    private long summaryRfDebugSubsysImmediateHits = -1L;
     private long summaryTuneFieldStringsInspected = -1L;
     private long summaryTuneFieldStringsReported = -1L;
     private long summaryRegionPointerSlots = -1L;
@@ -1040,28 +1042,22 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
 
 
-    private static final long RADIO_CONFIG_FIELD_NAME_TABLE = 0xC9199798L;
-    private static final int RADIO_CONFIG_FIELD_NAME_COUNT = 54;
-    private static final int ADJACENT_NAME_POOL_COUNT = 12;
+    private static final long RADIO_CONFIG_FIELD_NAME_TABLE = 0xC9199FB8L;
+    private static final int RADIO_CONFIG_FIELD_NAME_COUNT = 38;
+    private static final int ADJACENT_NAME_POOL_COUNT = 14;
 
     // Cross-build comparison labels only. Runtime strings read from this image
     // are the primary evidence; these labels are printed as a sanity check.
     private static final String[] RADIO_CONFIG_REFERENCE_LABELS = {
-        "UNASSIGNED", "RX_CARRIER", "TX_CARRIER", "RFM_DEVICE",
-        "DEPRECATED", "BAND", "CHANNEL", "BANDWIDTH", "CONT_MODE",
-        "SIG_PATH", "ANT_PATH", "USER_ADJ", "CENTER_FREQ", "ENABLE_XO",
-        "TOTAL_ADJ", "BURST_PATTERN", "BEAM_ID", "SUB_FRAME_CONFIG",
-        "PLL_ID", "TIME_US", "INTER_FREQ", "CENTER_FREQ", "SUB_TECH",
-        "BWP_START_LOC", "PATH_FILTER_TYPE", "TECH_MODE", "SCS",
-        "LOAD_CODEBOOK", "NDR_STATE", "TECHNOLOGY", "NETWORK_SIGNAL",
-        "RESERVED2", "SELFTEST_TYPE", "UE_POWER_CLASS", "RESERVED3",
-        "NB_ID", "LANE_ID", "TX_GAIN_ADJUSTMENT", "SRS_CS_TYPE",
-        "SRS_SOURCE_CARRIER", "IF_PLL_UNLOCK_STATUS", "RF_PLL_UNLOCK_STATUS",
-        "SUBSCRIPTION_INDEX", "TX_SHARING", "TX_PRORITY", "BWP_ID",
-        "BWP_BW", "TARGET_BWP_ID", "BWP_CENTER_FREQ", "BWP_PRIORITY",
-        "BWP_CUSTOM", "SUB_CFG_ID", "TARGET_SUB_CFG", "ANT_NUM",
-        "UE_COMBO_POWER_CLASS", "UL_TX_SWITCH_TYPE", "TX_SWITCH_SOURCE_CARRIE",
-        "TUNE_BUILD_SCRIPT_TIME", "TX_CELL_ID", "NS_VAL_TYPE"
+        "UNASSIGNED", "IS_TEARDOWN", "RADIO_SETUP_TYPE", "RFM_DEVICE",
+        "SIG_PATH", "ANT_PATH", "RFM_PATH_TYPE", "BAND", "SUBBAND",
+        "RESERVED", "CHANNEL", "WAVEFORM", "BANDWIDTH", "NUM_RB",
+        "START_RB", "CW_OFFSET", "IS_DC", "MOD_TYPE", "LOOPBACK_TYPE",
+        "BEAM_ID", "CC_INDEX", "CC_START_RB", "CC_NUM_RB", "CC_BANDWIDTH",
+        "LOOPBACK_RFM_DEVICE", "PLL_ID", "TUNE_TX_TO_RX_FREQ", "LOAD_CODEBOOK",
+        "FREQUENCY", "VERSION", "SWITCH_TDSCDMA_WAVEFORM", "SET_MOD",
+        "CC_SCS", "WAVEFORM_ORIGIN", "NDR_STATE", "NR5G_MOD_TYPE",
+        "WAVEFORM_IMMEDIATE_TRIGGER", "<NULL_TERMINATOR>"
     };
 
     private void printReferencesToAddress(long target, int limit, String label) {
@@ -1094,10 +1090,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("");
         p("============================================================");
         p("RADIO_CONFIG FIELD-NAME TABLE CANDIDATE");
-        p("Candidate base=0xC9199798; primary count=54 (indices 0..53); entry size=4");
-        p("Index 53 is NULL in STRUCTURE-10 output; following pointer entries are treated as a separate pool until proven otherwise.");
+        p("Candidate base=0xC9199FB8; 37 properties at indices 0..36 plus NULL at index 37; entry size=4");
+        p("Confirmed anchors: property 26 TUNE_TX_TO_RX_FREQ at 0xC919A020; property 28 FREQUENCY at 0xC919A028.");
         p("The decoded strings in this image are authoritative; reference labels are cross-build comparison only.");
-        p("Read-only; checks repeated CENTER_FREQ entries and other index anchors.");
+        p("Read-only; validates property IDs 26 and 28 and the NULL separator before the RX_OVERRIDE candidate table.");
         p("============================================================");
 
         long base = RADIO_CONFIG_FIELD_NAME_TABLE;
@@ -1112,7 +1108,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         int readable = 0;
         int stringMatches = 0;
         int anchorMismatches = 0;
-        int[] anchors = {12, 21, 22, 25, 48};
+        int[] anchors = {26, 28, 34, 36};
         for (int i = 0; i < RADIO_CONFIG_FIELD_NAME_COUNT; i++) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
             long slot = base + (long)i * 4L;
@@ -1154,11 +1150,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         summaryFieldAnchorMismatches = anchorMismatches;
 
         printReferencesToAddress(base, 24, "TABLE_BASE");
-        printReferencesToAddress(base + 12L * 4L, 12, "FIELD_12_CENTER_FREQ_SLOT");
-        printReferencesToAddress(base + 21L * 4L, 12, "FIELD_21_CENTER_FREQ_SLOT");
-        printReferencesToAddress(base + 22L * 4L, 12, "FIELD_22_SUB_TECH_SLOT");
-        printReferencesToAddress(base + 25L * 4L, 12, "FIELD_25_TECH_MODE_SLOT");
-        printReferencesToAddress(base + 48L * 4L, 12, "FIELD_48_BWP_CENTER_FREQ_SLOT");
+        printReferencesToAddress(base + 26L * 4L, 12, "PROPERTY_26_TUNE_TX_TO_RX_FREQ_SLOT");
+        printReferencesToAddress(base + 28L * 4L, 12, "PROPERTY_28_FREQUENCY_SLOT");
+        printReferencesToAddress(base + 34L * 4L, 12, "PROPERTY_34_NDR_STATE_SLOT");
+        printReferencesToAddress(base + 36L * 4L, 12, "PROPERTY_36_WAVEFORM_IMMEDIATE_TRIGGER_SLOT");
     }
 
 
@@ -1169,8 +1164,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("");
         p("============================================================");
         p("RADIO_CONFIG ADJACENT NAME POOL CANDIDATE");
-        p("Start=0xC9199870; entries_checked=" + ADJACENT_NAME_POOL_COUNT);
-        p("Not assumed to share the primary table's enum.");
+        p("Start=0xC919A050; RX_OVERRIDE property-name candidate; entries_checked=" + ADJACENT_NAME_POOL_COUNT);
+        p("Candidate second property_names[] table; initial entries should be compared with RX_OVERRIDE property IDs.");
         p("============================================================");
 
         for (int i = 0; i < ADJACENT_NAME_POOL_COUNT; i++) {
@@ -1189,7 +1184,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
-    private static final long RADIO_CONFIG_POINTER_REGION_START = 0xC9199798L;
+    private static final long RADIO_CONFIG_POINTER_REGION_START = 0xC9199FB8L;
     private static final long RADIO_CONFIG_POINTER_REGION_END = 0xC919A600L;
 
     /*
@@ -2185,6 +2180,108 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         summaryRadioConfigMsgReported = reported;
     }
 
+    /*
+     * Static lead search for the confirmed RFDEBUG subsystem value 0x007B
+     * inside executable instructions. It prints a small instruction window
+     * for each direct immediate hit so likely comparisons/dispatch branches
+     * can be inspected manually in Ghidra. Hits alone do not prove a dispatcher.
+     */
+    private void scanRfDebugSubsysImmediateCandidates() {
+        p("");
+        p("============================================================");
+        p("RFDEBUG SUBSYSTEM 0x007B EXECUTABLE-CODE CANDIDATES");
+        p("Searches executable instruction operands for the exact value 0x007B.");
+        p("For each hit, shows nearby instructions and its containing function.");
+        p("Read-only static leads only; no packet generation or transmission.");
+        p("============================================================");
+
+        long scanned = 0L;
+        long hits = 0L;
+        int shown = 0;
+        final int MAX_SHOWN = 72;
+        final long MAX_INSNS = 1600000L;
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!b.isInitialized() || !b.isExecute()) continue;
+
+            long blockEnd = b.getEnd().getOffset();
+            try {
+                InstructionIterator it = listing().getInstructions(b.getStart(), true);
+                while (it.hasNext() && scanned < MAX_INSNS && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+                    Instruction ins = it.next();
+                    long off = ins.getAddress().getOffset();
+                    if (off > blockEnd) break;
+                    scanned++;
+
+                    boolean match = false;
+                    int matchOperand = -1;
+                    for (int op = 0; op < ins.getNumOperands(); op++) {
+                        Object[] objects = ins.getOpObjects(op);
+                        for (Object object : objects) {
+                            long value;
+                            if (object instanceof Scalar) {
+                                value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
+                            }
+                            else if (object instanceof Address) {
+                                value = ((Address)object).getOffset() & 0xffffffffL;
+                            }
+                            else {
+                                continue;
+                            }
+                            if (value == 0x7BL) {
+                                match = true;
+                                matchOperand = op;
+                                break;
+                            }
+                        }
+                        if (match) break;
+                    }
+
+                    if (!match) continue;
+                    hits++;
+                    if (shown >= MAX_SHOWN) continue;
+
+                    Function f = currentProgram.getFunctionManager()
+                        .getFunctionContaining(ins.getAddress());
+                    p("");
+                    p("  RFDEBUG_7B_CANDIDATE[" + shown + "] at=" + ins.getAddress()
+                        + " block=" + b.getName()
+                        + " operand=" + matchOperand
+                        + " function=" + (f == null ? "<none>" : f.getName() + "@" + f.getEntryPoint())
+                        + " instruction=" + ins);
+
+                    Instruction cursor = ins;
+                    for (int n = 1; n <= 7; n++) {
+                        Instruction next = listing().getInstructionAfter(cursor.getAddress());
+                        if (next == null || next.getAddress().getOffset() > blockEnd) break;
+                        if (f != null) {
+                            Function nextFunction = currentProgram.getFunctionManager()
+                                .getFunctionContaining(next.getAddress());
+                            if (nextFunction == null
+                                    || !nextFunction.getEntryPoint().equals(f.getEntryPoint())) break;
+                        }
+                        p("    +" + n + " " + next.getAddress() + " " + next);
+                        cursor = next;
+                    }
+                    shown++;
+                }
+            }
+            catch (Exception e) {
+                p("  RFDEBUG_7B_SCAN_ERROR block=" + b.getName()
+                    + " error=" + e.getMessage());
+            }
+        }
+
+        p("  EXECUTABLE_INSTRUCTIONS_SCANNED=" + scanned);
+        p("  RFDEBUG_7B_IMMEDIATE_HITS_TOTAL=" + hits);
+        p("  RFDEBUG_7B_CANDIDATES_SHOWN=" + shown);
+        p("  SCAN_LIMIT_REACHED=" + (scanned >= MAX_INSNS));
+        summaryRfDebugSubsysInstructionsScanned = scanned;
+        summaryRfDebugSubsysImmediateHits = hits;
+    }
+
     private void dumpStaticWordNeighborhood(long center, int radius, String label) {
         p("");
         p("============================================================");
@@ -2984,11 +3081,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE16 EXECUTION FOOTER");
+        println("STRUCTURE17 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
-        println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54");
-        println("RADIO_CONFIG_ADJACENT_POOL=0xC9199870 entries_checked=" + ADJACENT_NAME_POOL_COUNT);
+        println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199FB8 entries=38 including NULL terminator");
+        println("RADIO_CONFIG_RX_OVERRIDE_TABLE=0xC919A050 entries_checked=" + ADJACENT_NAME_POOL_COUNT);
         println("FIELD_STRINGS_READABLE=" + summaryFieldStringsReadable);
         println("FIELD_REFERENCE_LABEL_MATCHES=" + summaryFieldReferenceMatches);
         println("FIELD_ANCHOR_MISMATCHES=" + summaryFieldAnchorMismatches);
@@ -3005,6 +3102,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("RF_TUNE_STRINGS_REPORTED=" + summaryTuneFieldStringsReported);
         println("RADIO_CONFIG_MSG_CANDIDATES=" + summaryRadioConfigMsgCandidates);
         println("RADIO_CONFIG_MSG_RECORDS_REPORTED=" + summaryRadioConfigMsgReported);
+        println("RFDEBUG_7B_INSTRUCTIONS_SCANNED=" + summaryRfDebugSubsysInstructionsScanned);
+        println("RFDEBUG_7B_IMMEDIATE_HITS=" + summaryRfDebugSubsysImmediateHits);
         println("REGION_POINTER_SLOTS=" + summaryRegionPointerSlots);
         println("REGION_READABLE_STRING_POINTERS=" + summaryRegionReadableStrings);
         println("REGION_NULLS=" + summaryRegionNulls);
@@ -3022,26 +3121,25 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
         p(" Ghidra_RFDEBUG_Trace");
         p(" TRACE_BUILD=" + TRACE_BUILD);
-        p(" RADIO_CONFIG / FREQUENCY PATH TRACE / READ ONLY");
-        p("Focused on frequency field references and ftm_rf_test_radio_config.c message records.");
+        p(" RFDEBUG RADIO_CONFIG / FREQUENCY DISPATCH TRACE / READ ONLY");
+        p("Primary property table is the confirmed C9199FB8 table, not the unrelated C9199798 array.");
+        p("Searches source-line message records and executable immediate candidates for RFDEBUG ID 0x007B.");
         p("No FTM/RF command is generated or transmitted.");
         p("============================================================");
         p("PROGRAM=" + currentProgram.getName());
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
-        // Keep the already-confirmed table anchors.
         dumpRadioConfigFieldNameTable();
         dumpAdjacentRadioConfigNamePool();
-
-        // Move directly to field strings and source-line records for RADIO_CONFIG.
         scanRfTuneFieldStrings();
         scanRadioConfigMessageRecords();
+        scanRfDebugSubsysImmediateCandidates();
 
         p("");
         p("INTERPRETATION:");
-        p("Field-name strings and MSG_CONST records identify metadata/source lines, not by themselves an executed handler.");
-        p("Use instruction-origin references and function addresses to decide the next static trace.");
-        printStructure16ExecutionFooter();
+        p("Property IDs 26 and 28 are checked against the confirmed firmware property_names[] table.");
+        p("A 0x007B immediate hit is only a candidate; inspect its comparison/branch context before assigning dispatcher semantics.");
+        printStructure17ExecutionFooter();
         p("DONE");
         p("No program data or structures modified.");
     }
