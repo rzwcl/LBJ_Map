@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-35
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-36
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -4988,6 +4988,159 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+    private void scan614UnrecognizedSignalCodeTargets() {
+        p("");
+        p("============================================================");
+        p("614_0_0 RAW BYTES / REFERENCES FOR UNDECODED SIGNAL CALLBACK TARGETS");
+        p("The six descriptor code pointers lie in executable segment_2, but current Listing has no instruction at those addresses.");
+        p("This read-only scan prints raw bytes/words and incoming references without disassembling or modifying the program.");
+        p("============================================================");
+
+        long[] codeTargets = new long[] {
+            0x000264D4L, 0x00026544L, 0x000265B4L,
+            0x00026624L, 0x00026694L, 0x00026708L
+        };
+        long[] dataTargets = new long[] {
+            0x000E06D3L, 0x000E06DDL, 0x000E06E7L,
+            0x000E06F1L, 0x000E06FCL, 0x000E0B7BL
+        };
+
+        int codeTargetsInspected = 0;
+        int codeTargetsWithInstruction = 0;
+        int incomingRefsPrinted = 0;
+
+        for (int i = 0; i < codeTargets.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long target = codeTargets[i];
+            MemoryBlock block;
+            try { block = memory().getBlock(addr(target)); }
+            catch (Exception e) { block = null; }
+
+            Instruction atTarget = listing().getInstructionAt(addr(target));
+            Function exact = null;
+            Function owner = null;
+            try {
+                exact = currentProgram.getFunctionManager().getFunctionAt(addr(target));
+                owner = exact != null ? exact
+                    : currentProgram.getFunctionManager().getFunctionContaining(addr(target));
+            }
+            catch (Exception e) {
+                owner = null;
+            }
+
+            p("");
+            p("614_SIGNAL_RAW_CODE_TARGET #" + (i + 1)
+                + " address=" + hex(target)
+                + " block=" + (block == null ? "<none>" : block.getName())
+                + " executable=" + (block != null && block.isExecute())
+                + " initialized=" + (block != null && block.isInitialized())
+                + " instruction_at_target=" + (atTarget == null ? "<none>" : atTarget.toString())
+                + " exact_function=" + (exact == null ? "<none>" : exact.getName())
+                + " containing_function=" + (owner == null ? "<none>" : owner.getName()));
+
+            if (atTarget != null) codeTargetsWithInstruction++;
+            codeTargetsInspected++;
+
+            if (block != null && block.isInitialized()) {
+                StringBuilder bytes = new StringBuilder();
+                StringBuilder words = new StringBuilder();
+                for (int k = 0; k < 48; k++) {
+                    try {
+                        int value = memory().getByte(addr(target + (long)k)) & 0xff;
+                        if (bytes.length() > 0) bytes.append(' ');
+                        bytes.append(String.format("%02X", Integer.valueOf(value)));
+                    }
+                    catch (Exception e) {
+                        break;
+                    }
+                }
+                for (int k = 0; k < 12; k++) {
+                    try {
+                        long value = u32(target + (long)k * 4L);
+                        if (words.length() > 0) words.append(' ');
+                        words.append(hex(value));
+                    }
+                    catch (Exception e) {
+                        break;
+                    }
+                }
+                p("  614_SIGNAL_RAW_CODE_BYTES target=" + hex(target)
+                    + " count=" + (bytes.length() == 0 ? 0 : bytes.toString().split(" ").length)
+                    + " bytes=" + bytes.toString());
+                p("  614_SIGNAL_RAW_CODE_WORDS target=" + hex(target)
+                    + " words=" + words.toString());
+            }
+
+            ReferenceIterator refs = currentProgram.getReferenceManager()
+                .getReferencesTo(addr(target));
+            int refsForTarget = 0;
+            while (refs.hasNext() && refsForTarget < 12
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Instruction fromIns = null;
+                Function fromFunction = null;
+                try {
+                    fromIns = listing().getInstructionAt(from);
+                    fromFunction = currentProgram.getFunctionManager().getFunctionContaining(from);
+                }
+                catch (Exception e) {
+                    // Preserve the raw reference even if listing metadata is unavailable.
+                }
+                p("  614_SIGNAL_RAW_CODE_XREF target=" + hex(target)
+                    + " from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " function=" + (fromFunction == null ? "<none>" : fromFunction.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                refsForTarget++;
+                incomingRefsPrinted++;
+            }
+            p("  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=" + hex(target)
+                + " count=" + refsForTarget);
+
+            long dataTarget = dataTargets[i];
+            MemoryBlock dataBlock;
+            try { dataBlock = memory().getBlock(addr(dataTarget)); }
+            catch (Exception e) { dataBlock = null; }
+            p("  614_SIGNAL_RAW_DATA_TARGET index=" + (i + 1)
+                + " address=" + hex(dataTarget)
+                + " block=" + (dataBlock == null ? "<none>" : dataBlock.getName())
+                + " initialized=" + (dataBlock != null && dataBlock.isInitialized()));
+
+            ReferenceIterator dataRefs = currentProgram.getReferenceManager()
+                .getReferencesTo(addr(dataTarget));
+            int dataRefsCount = 0;
+            while (dataRefs.hasNext() && dataRefsCount < 12
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = dataRefs.next();
+                Address from = ref.getFromAddress();
+                Instruction fromIns = null;
+                Function fromFunction = null;
+                try {
+                    fromIns = listing().getInstructionAt(from);
+                    fromFunction = currentProgram.getFunctionManager().getFunctionContaining(from);
+                }
+                catch (Exception e) {
+                    // Keep reporting the reference address if no instruction is defined.
+                }
+                p("  614_SIGNAL_RAW_DATA_XREF target=" + hex(dataTarget)
+                    + " from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " function=" + (fromFunction == null ? "<none>" : fromFunction.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                dataRefsCount++;
+                incomingRefsPrinted++;
+            }
+            p("  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=" + hex(dataTarget)
+                + " count=" + dataRefsCount);
+        }
+
+        p("614_SIGNAL_RAW_CODE_TARGETS_INSPECTED=" + codeTargetsInspected);
+        p("614_SIGNAL_RAW_CODE_TARGETS_WITH_INSTRUCTION=" + codeTargetsWithInstruction);
+        p("614_SIGNAL_RAW_CODE_AND_DATA_XREFS_PRINTED=" + incomingRefsPrinted);
+    }
+
+
     private void scan614PltGotThunkMap() {
         p("");
         p("============================================================");
@@ -5949,6 +6102,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614PriorityCalleeExpansion();
             scan614SignalInfoCallsiteContext();
             scan614SignalGetterDescriptorsAndBodies();
+            scan614UnrecognizedSignalCodeTargets();
             scan614PltGotThunkMap();
         }
         else {
