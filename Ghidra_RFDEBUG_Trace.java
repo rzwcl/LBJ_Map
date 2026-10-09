@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-30
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-31
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -4577,10 +4577,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                     Instruction jump = executableInstructions.get(k);
                     if (jump.getAddress().getOffset()
                             - addIns.getAddress().getOffset() > 0x20L) break;
-                    Instruction expectedNext = listing().getInstructionAfter(
+                    Instruction expectedJumpNext = listing().getInstructionAfter(
                         previousBeforeJump.getAddress());
-                    if (expectedNext == null
-                            || !expectedNext.getAddress().equals(jump.getAddress())) break;
+                    if (expectedJumpNext == null
+                            || !expectedJumpNext.getAddress().equals(jump.getAddress())) break;
                     previousBeforeJump = jump;
                     Function jumpOwner = currentProgram.getFunctionManager()
                         .getFunctionContaining(jump.getAddress());
