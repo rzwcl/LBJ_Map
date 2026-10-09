@@ -27,33 +27,118 @@ else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ==================== 自部署到同级文件夹 ====================
+def _is_valid_ico(path):
+    """检查文件是否为非空、具有有效 ICO 头的图标文件。"""
+    try:
+        if not os.path.isfile(path) or os.path.getsize(path) < 6:
+            return False
+        with open(path, "rb") as f:
+            header = f.read(6)
+        return (
+            len(header) == 6
+            and header[:4] == b"\x00\x00\x01\x00"
+            and int.from_bytes(header[4:6], "little") > 0
+        )
+    except Exception:
+        return False
+
+
+def _ensure_deployed_icon(current_dir, deploy_dir):
+    """
+    确保图标位于部署目录的 ico/lbj_icon_final.ico。
+    兼容 PyInstaller 临时目录、exe 同目录以及旧版部署目录中的图标。
+    只有确认目标图标有效后，才删除 exe 同目录的旧图标副本。
+    """
+    try:
+        ico_dir = os.path.join(deploy_dir, "ico")
+        os.makedirs(ico_dir, exist_ok=True)
+        icon_dst = os.path.join(ico_dir, "lbj_icon_final.ico")
+
+        runtime_dir = getattr(sys, "_MEIPASS", None)
+        candidates = []
+        if runtime_dir:
+            candidates.extend([
+                os.path.join(runtime_dir, "ico", "lbj_icon_final.ico"),
+                os.path.join(runtime_dir, "lbj_icon_final.ico"),
+            ])
+        candidates.extend([
+            os.path.join(current_dir, "ico", "lbj_icon_final.ico"),
+            os.path.join(current_dir, "lbj_icon_final.ico"),
+            os.path.join(deploy_dir, "ico", "lbj_icon_final.ico"),
+            os.path.join(deploy_dir, "lbj_icon_final.ico"),
+        ])
+
+        def _same_path(path_a, path_b):
+            try:
+                return os.path.normcase(os.path.abspath(path_a)) == os.path.normcase(os.path.abspath(path_b))
+            except Exception:
+                return False
+
+        # 目标文件不存在或无效时，从现有可用位置复制。
+        if not _is_valid_ico(icon_dst):
+            for icon_src in candidates:
+                if not icon_src or _same_path(icon_src, icon_dst):
+                    continue
+                if not _is_valid_ico(icon_src):
+                    continue
+                temp_dst = icon_dst + ".tmp"
+                try:
+                    shutil.copy2(icon_src, temp_dst)
+                    if _is_valid_ico(temp_dst):
+                        os.replace(temp_dst, icon_dst)
+                        break
+                except Exception:
+                    pass
+                finally:
+                    try:
+                        if os.path.exists(temp_dst):
+                            os.remove(temp_dst)
+                    except Exception:
+                        pass
+
+        # 目标 ICO 确认有效后，清理部署目录根部和旧 exe 同目录的重复文件。
+        if _is_valid_ico(icon_dst):
+            legacy_icons = [
+                os.path.join(deploy_dir, "lbj_icon_final.ico"),
+                os.path.join(current_dir, "lbj_icon_final.ico"),
+            ]
+            for legacy_icon in legacy_icons:
+                if _same_path(legacy_icon, icon_dst):
+                    continue
+                try:
+                    if os.path.isfile(legacy_icon):
+                        os.remove(legacy_icon)
+                except Exception:
+                    pass
+    except Exception:
+        # 图标部署失败不应阻止主程序启动。
+        pass
+
+
 def ensure_deployed():
-    """如果不在目标文件夹内运行，则在 exe 同级目录自动生成文件夹并跳转，并重命名为预警器.exe"""
+    """自动部署到 exe 同级的应用目录，并确保图标位于 ico 子目录。"""
     if not getattr(sys, 'frozen', False):
         return
 
     current_exe = sys.executable
     current_dir = os.path.dirname(current_exe)
-    exe_name = os.path.basename(current_exe)
     deploy_name = "LBJ列车预警系统解析"
     deploy_dir = os.path.join(current_dir, deploy_name)
 
-    # 已经在目标文件夹内，正常运行
+    # 已经位于部署目录时，也必须执行图标迁移与旧文件清理；
+    # 不能像旧代码一样直接 return，导致升级后图标仍留在根目录。
     if os.path.normcase(os.path.basename(current_dir)) == os.path.normcase(deploy_name):
-        # 检查是否需要重命名为预警器.exe
+        _ensure_deployed_icon(current_dir, current_dir)
+
         target_name = "预警器.exe"
-        target_path = os.path.join(deploy_dir, target_name)
+        target_path = os.path.join(current_dir, target_name)
         if os.path.basename(current_exe).lower() != target_name.lower():
-            # 复制并重命名
             shutil.copy2(current_exe, target_path)
-            # 启动新文件
-            subprocess.Popen([target_path], cwd=deploy_dir, creationflags=subprocess.CREATE_NO_WINDOW, close_fds=True)
-            # 删除旧文件
+            subprocess.Popen([target_path], cwd=current_dir, creationflags=subprocess.CREATE_NO_WINDOW, close_fds=True)
             try_delete_old(current_exe)
             sys.exit(0)
         return
 
-    # 创建目标文件夹（如果不存在）
     os.makedirs(deploy_dir, exist_ok=True)
 
     # 复制 exe 自身并重命名为 预警器.exe
@@ -61,45 +146,22 @@ def ensure_deployed():
     shutil.copy2(current_exe, deployed_exe)
 
     # 复制 bin 文件夹（从 PyInstaller 临时目录取，或当前目录）
-    if hasattr(sys, '_MEIPASS'):
-        src_bin = os.path.join(sys._MEIPASS, "bin")
-    else:
-        src_bin = os.path.join(current_dir, "bin")
-
+    runtime_dir = getattr(sys, '_MEIPASS', None)
+    src_bin = os.path.join(runtime_dir, "bin") if runtime_dir else os.path.join(current_dir, "bin")
     dst_bin = os.path.join(deploy_dir, "bin")
-    if os.path.exists(src_bin):
-        if os.path.exists(dst_bin):
-            pass  # bin已存在，不覆盖（避免删除用户自定义配置）
-        else:
-            shutil.copytree(src_bin, dst_bin)
+    if os.path.exists(src_bin) and not os.path.exists(dst_bin):
+        shutil.copytree(src_bin, dst_bin)
 
-    # 复制图标文件
-    # 创建 ico 文件夹并处理图标
-    ico_dir = os.path.join(deploy_dir, "ico")
-    os.makedirs(ico_dir, exist_ok=True)
-    # 如果根目录有旧图标，移到 ico/ 文件夹
-    old_icon = os.path.join(deploy_dir, "lbj_icon_final.ico")
-    if os.path.exists(old_icon):
-        try:
-            shutil.move(old_icon, os.path.join(ico_dir, "lbj_icon_final.ico"))
-        except:
-            pass
-    # 复制图标到 ico/ 文件夹
-    icon_src = os.path.join(sys._MEIPASS if hasattr(sys, '_MEIPASS') else current_dir, "lbj_icon_final.ico")
-    icon_dst = os.path.join(ico_dir, "lbj_icon_final.ico")
-    if os.path.exists(icon_src) and not os.path.exists(icon_dst):
-        shutil.copy2(icon_src, icon_dst)
+    # 创建 ico 文件夹，并从打包资源或 exe 同目录迁移真实 ICO 文件。
+    _ensure_deployed_icon(current_dir, deploy_dir)
 
     # 复制清理脚本
-    cleaner_src = os.path.join(sys._MEIPASS if hasattr(sys, '_MEIPASS') else current_dir, "cleaner.exe")
+    cleaner_src = os.path.join(runtime_dir, "cleaner.exe") if runtime_dir else os.path.join(current_dir, "cleaner.exe")
     cleaner_dst = os.path.join(deploy_dir, "cleaner.exe")
     if os.path.exists(cleaner_src) and not os.path.exists(cleaner_dst):
         shutil.copy2(cleaner_src, cleaner_dst)
 
-    # 从新位置启动
     subprocess.Popen([deployed_exe], cwd=deploy_dir, creationflags=subprocess.CREATE_NO_WINDOW, close_fds=True)
-
-    # 尝试删除旧 exe（用 bat 脚本延迟删除）
     try_delete_old(current_exe)
     sys.exit(0)
 
@@ -117,17 +179,19 @@ def try_delete_old(old_exe_path):
     except:
         pass
 
+
 ensure_deployed()
-# ==================== 自部署结束 ====================
+# ==================== 自部署结束 ====================# ==================== 自部署结束 ====================
 
 
 def get_resource_path(relative_path):
-    """获取资源文件的绝对路径，兼容打包和开发环境"""
+    """获取资源文件路径：优先使用 exe 同目录的部署资源，其次使用 PyInstaller 临时资源目录。"""
+    deployed_path = os.path.join(BASE_DIR, relative_path)
+    if os.path.exists(deployed_path):
+        return deployed_path
     if hasattr(sys, '_MEIPASS'):
-        base_path = sys._MEIPASS
-    else:
-        base_path = BASE_DIR
-    return os.path.join(base_path, relative_path)
+        return os.path.join(sys._MEIPASS, relative_path)
+    return deployed_path
 
 
 running = False
@@ -204,7 +268,7 @@ _notify_config = {
     "km_ranges": "",     # 公里标区间，如: 179.1-179.3, 182.5
     "use_km_range": False,
     "map_api_port": 8765,     # 地图数据接口端口
-    "enable_map_api": True,    # 是否启用地图接口
+    "enable_map_api": False,   # 新配置默认关闭；已有配置保留用户明确保存的设置
     "map_api_ip": "127.0.0.1",  # 地图接口IP
 }
 _notify_state = {}
@@ -213,6 +277,9 @@ _notify_settings_win = None  # 功能设置窗口引用，防止重复打开
 _raw_buffer = []  # 原始流环形缓冲区，最多800条，从解码开始记录
 _train_api_state = {}      # 供地图读取的列车实时状态
 _api_server = None         # 地图接口服务实例
+_api_server_port = None    # 当前程序实际监听的端口
+_api_start_error = ""       # 最近一次接口启动失败原因
+_api_start_port_conflict = False  # 最近一次失败是否为端口冲突
 _log_queue = queue.Queue()  # 异步日志队列
 
 # ==================== 历史车次存储 ====================
@@ -402,59 +469,95 @@ class _TrainAPIHandler(BaseHTTPRequestHandler):
         pass  # 静默，不刷屏
 
 def _start_train_api(port=8765):
-    global _api_server
-    if _api_server is not None:
-        return
+    """启动本实例的地图接口；端口冲突时安全失败，不终止任何占用者。"""
+    global _api_server, _api_server_port, _api_start_error, _api_start_port_conflict
+    _api_start_error = ""
+    _api_start_port_conflict = False
+    srv = None
     try:
-        # 端口被占时强制释放（Windows下）
-        import socket
-        test_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        test_sock.settimeout(1)
-        try:
-            test_sock.bind(('127.0.0.1', port))
-            test_sock.close()
-        except OSError:
-            test_sock.close()
-            write_global_log(f"端口{port}被占，尝试释放...", "WARN")
-            try:
-                subprocess.Popen(
-                    f"""for /f "tokens=5" %a in ('netstat -ano ^| findstr ":{port}" ^| findstr LISTENING') do taskkill /F /PID %a""",
-                    shell=True, creationflags=subprocess.CREATE_NO_WINDOW
-                )
-                time.sleep(0.5)
-            except:
-                pass
+        port = int(port)
+        if not 1 <= port <= 65535:
+            raise ValueError(f"端口号无效: {port}")
+        if _api_server is not None:
+            if _api_server_port == port:
+                return True
+            _api_start_error = f"本程序的地图接口仍在端口 {_api_server_port} 运行，不能直接切换到端口 {port}。"
+            write_global_log(_api_start_error, "ERROR")
+            return False
         from socketserver import ThreadingMixIn
         class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
-            allow_reuse_address = True  # 允许端口复用
-            pass
-        srv = ThreadedHTTPServer(('127.0.0.1', port), _TrainAPIHandler)
+            allow_reuse_address = False
+            daemon_threads = True
+        # 由实际 bind 结果判断冲突；不使用 netstat，不强杀端口占用者。
+        srv = ThreadedHTTPServer(("127.0.0.1", port), _TrainAPIHandler)
+        server_thread = threading.Thread(target=srv.serve_forever, daemon=True)
+        try:
+            server_thread.start()
+        except Exception:
+            srv.server_close()
+            raise
         _api_server = srv
-        threading.Thread(target=srv.serve_forever, daemon=True).start()
-        write_global_log(f"地图SSE接口已启动: http://127.0.0.1:{port}/api/trains (JS连接: http://{_notify_config.get('map_api_ip', '127.0.0.1')}:{port}/api/trains)")
+        _api_server_port = port
+        write_global_log(
+            f"地图SSE接口已启动: http://127.0.0.1:{port}/api/trains "
+            f"(JS连接: http://{_notify_config.get('map_api_ip', '127.0.0.1')}:{port}/api/trains)"
+        )
+        return True
+    except OSError as e:
+        if srv is not None:
+            try: srv.server_close()
+            except Exception: pass
+        error_text = str(e)
+        is_conflict = (
+            getattr(e, "winerror", None) == 10048
+            or getattr(e, "errno", None) in (98, 10048)
+            or "address already in use" in error_text.lower()
+            or "10048" in error_text
+            or "通常每个套接字地址" in error_text
+        )
+        _api_start_port_conflict = is_conflict
+        _api_start_error = (
+            f"地图接口端口冲突：127.0.0.1:{port} 已被其他程序占用。"
+            if is_conflict else f"地图接口启动失败（端口 {port}）：{error_text}"
+        )
+        write_global_log(_api_start_error, "ERROR")
+        return False
     except Exception as e:
-        write_global_log(f"地图接口启动失败: {e}", "WARN")
+        if srv is not None:
+            try: srv.server_close()
+            except Exception: pass
+        _api_start_error = f"地图接口启动失败（端口 {port}）：{type(e).__name__}: {e}"
+        write_global_log(_api_start_error, "ERROR")
+        return False
+
 
 def _stop_train_api():
-    global _api_server
-    if _api_server:
-        srv = _api_server
-        _api_server = None  # 先清引用，防止重复调用
+    """停止并释放本实例持有的地图接口及其 SSE 连接。"""
+    global _api_server, _api_server_port
+    srv = _api_server
+    if srv is None:
+        _api_server_port = None
+        return True
+    _api_server = None
+    _api_server_port = None
+    try:
+        global _sse_clients
+        dead = list(_sse_clients)
+        _sse_clients = []
+        for client in dead:
+            try: client.connection.close()
+            except Exception: pass
         try:
-            # 关闭所有SSE连接，让serve_forever有机会退出
-            global _sse_clients
-            dead = list(_sse_clients)
-            _sse_clients = []
-            for client in dead:
-                try:
-                    client.connection.close()
-                except:
-                    pass
-            # shutdown阻塞等serve_forever退出
             srv.shutdown()
+        finally:
             srv.server_close()
-        except Exception as e:
-            write_global_log(f"地图接口关闭异常: {e}", "WARN")
+        return True
+    except Exception as e:
+        try: srv.server_close()
+        except Exception: pass
+        write_global_log(f"地图接口关闭异常: {e}", "ERROR")
+        return False
+
 
 def _push_map_data(train_no, train_type, line, direction, km, speed, lon, lat, loco_type, loco_num):
     """SSE 主动推送地图数据，有客户端连接才发"""
@@ -480,7 +583,7 @@ def _push_map_data(train_no, train_type, line, direction, km, speed, lon, lat, l
         if len(_map_log_sent) > 50:
             _map_log_sent.clear()
 
-    if not _notify_config.get("enable_map_api", True):
+    if not _notify_config.get("enable_map_api", False):
         return
     dead = []
     for client in list(_sse_clients):  # 复制列表避免遍历时并发修改
@@ -1263,6 +1366,7 @@ def decode_1234002(numeric_str):
         return "", "****", "****", "未知", None, None, None, 0
 direction_cache = {}
 DIRECTION_CACHE_TTL = 3600  # 1小时
+TRAIN_BIND_CACHE_TTL = 3600  # 一小时未收到1234000则清理绑定缓存
 
 def get_direction(train_no, km, func_hint=None):
     """
@@ -1320,6 +1424,7 @@ def reset_direction_cache(train_no):
 # ==================== 双向时间窗口匹配绑定（解决多车错判）====================
 # 结构: {train_no: {"prefix": ..., "type": ..., "num": ..., "route": ..., "lon": ..., "lat": ..., "time": ...}}
 loco_cache_by_train = {}
+train_last_seen_time = {}  # 原始车次号最近一次收到1234000的时间
 
 # 全局最新缓存（仅用于 1234002 自身显示，不再用于 1234000 绑定）
 current_loco = {
@@ -1346,6 +1451,49 @@ last_loco_display_time = {}
 
 # 延迟显示队列：收到1234000后等待1.5秒，期间若1234002到达并绑定，则一起显示
 pending_display = {}  # {train_no: {"after_id": int, "data": dict}}
+
+
+def _direction_cache_keys_for_train(train_no):
+    """返回同一原始车次可能使用的方向及机车缓存键（包括常见字头形式）。"""
+    prefixes = ["", "DJ", "F", "0", "C", "Z", "T", "K", "L", "Y", "X", "D", "G", "N", "S"]
+    singles = ["C", "Z", "T", "K", "L", "Y", "X", "D", "G", "N", "S"]
+    prefixes.extend("F" + p for p in singles)
+    prefixes.extend("0" + p for p in singles)
+    return {prefix + train_no for prefix in prefixes}
+
+
+def _cleanup_expired_train_binding_cache(now=None):
+    """清理超过一小时没有收到1234000的车次绑定缓存及相关方向状态。"""
+    if now is None:
+        now = time.time()
+    for train_no, last_seen in list(train_last_seen_time.items()):
+        if now - last_seen <= TRAIN_BIND_CACHE_TTL:
+            continue
+        train_last_seen_time.pop(train_no, None)
+        possible_keys = _direction_cache_keys_for_train(train_no)
+        removed_binding = False
+        for key in possible_keys:
+            if loco_cache_by_train.pop(key, None) is not None:
+                removed_binding = True
+        removed_direction = False
+        for key in possible_keys:
+            if direction_cache.pop(key, None) is not None:
+                removed_direction = True
+        if removed_binding or removed_direction:
+            write_global_log(f"车次缓存清理：{train_no} 超过一小时未收到1234000，已清除机车绑定及相关方向状态")
+
+
+def _periodic_train_binding_cache_cleanup():
+    """每分钟检查一次长期未出现的车次；收到车次报文时也会立即检查。"""
+    try:
+        _cleanup_expired_train_binding_cache()
+    except Exception as e:
+        write_global_log(f"车次缓存定时清理异常: {e}", "ERROR")
+    try:
+        root.after(60000, _periodic_train_binding_cache_cleanup)
+    except Exception:
+        pass
+
 
 
 def update_loco(prefix, loco_type, loco_num, route_name, lon_str, lat_str, train_no=None, nibble_count=0):
@@ -1448,8 +1596,6 @@ def try_bind_pending_loco(prefix, loco_type, loco_num, route_name, lon_str, lat_
 
         update_loco(prefix, loco_type, loco_num, route_name, lon_str, lat_str, nibble_count=nibble_count)
 
-        # 诊断日志：1234002当前匹配快照
-        _map_log(f"1234002匹配开始: msg_time={msg_time:.3f}, pending={[(t['train_no'], round(t.get('msg_time', t['time']), 3)) for t in pending_trains]}")
 
         # 找时间差最小的车次（不是第一个）
         best_train = None
@@ -1457,7 +1603,6 @@ def try_bind_pending_loco(prefix, loco_type, loco_num, route_name, lon_str, lat_
         for t in pending_trains:
             time_diff_ms = abs(msg_time - t.get("msg_time", t["time"])) * 1000
             # 诊断日志：逐个候选及时间差
-            _map_log(f"1234002候选: train={t['train_no']}, diff={time_diff_ms:.0f}ms")
             if time_diff_ms > SIGNAL_DURATION_MS:
                 continue
             if time_diff_ms < best_diff:
@@ -1465,13 +1610,11 @@ def try_bind_pending_loco(prefix, loco_type, loco_num, route_name, lon_str, lat_
                 best_train = t
 
         # 诊断日志：最佳候选
-        _map_log(f"1234002最佳候选: best={best_train['train_no'] if best_train else 'None'}, best_diff={best_diff:.0f}ms, pending={len(pending_trains)}")
 
         if best_train:
             cached = loco_cache_by_train.get(best_train["train_no"], {})
             override = _should_override_cache(best_train["train_no"], nibble_count, best_diff, loco_type, loco_num)
             # 诊断日志：覆盖判断及旧缓存
-            _map_log(f"1234002覆盖判断: train={best_train['train_no']}, old_type={cached.get('type', '****')}, old_num={cached.get('num', '****')}, old_bind_count={cached.get('bind_count', 0)}, new_type={loco_type}, new_num={loco_num}, override={override}")
             if override == "refresh":
                 # 相同车型：只刷新经纬度/线路/时间戳，不增加bind_count
                 cached = loco_cache_by_train.get(best_train["train_no"])
@@ -1493,10 +1636,7 @@ def try_bind_pending_loco(prefix, loco_type, loco_num, route_name, lon_str, lat_
                 pending_trains.remove(best_train)
             # 这条1234002已被消费，清空pending_loco防止后续车次误绑
             pending_loco = None
-            _map_log(f"1234002绑定: best={best_train['train_no']}, diff={best_diff:.0f}ms, override={override}, clients={len(_sse_clients)}")
             return True
-            _map_log(f"1234002无匹配: pending={len(pending_trains)}, best_diff={best_diff}")
-        _map_log(f"1234002无匹配(实际返回): pending={len(pending_trains)}, best_diff={best_diff:.0f}ms, msg_time={msg_time:.3f}")
         return False
     except Exception as e:
         write_global_log(f"绑定异常[{type(e).__name__}]: {e}", "ERROR")
@@ -1523,7 +1663,6 @@ def try_bind_pending_train(train_no, line=None):
             "msg_time": msg_time
         })
         # 诊断日志：1234000入队后的完整队列
-        _map_log(f"1234000入队: train={train_no}, msg_time={msg_time:.3f}, pending={[t['train_no'] for t in pending_trains]}")
 
         # 查缓存
         cached = get_loco_info(train_no)
@@ -1600,18 +1739,40 @@ selected_device = None
 
 def start_decoder():
     global running, sox_process, sox_vu_process, multimon_process
-    cleanup_history_files()  # 启动时清理旧历史文件
-    load_locomotive_types()  # 重新加载车型库
     if running:
         return
+
+    # 地图接口开关开启时先同步绑定；失败则提示并取消本次解码。
+    if _notify_config.get("enable_map_api", False):
+        map_port = _notify_config.get("map_api_port", 8765)
+        write_global_log(f"开始前启动地图接口：127.0.0.1:{map_port}")
+        if not _start_train_api(map_port):
+            error_message = _api_start_error or f"地图接口端口 {map_port} 无法启动"
+            full_error = f"解码启动取消：{error_message}"
+            write_global_log(full_error, "ERROR")
+            try:
+                output.insert(tk.END, "\n" + full_error + "\n本次解码未启动。\n")
+                output.see(tk.END)
+            except Exception:
+                pass
+            title = "地图接口端口冲突" if _api_start_port_conflict else "地图接口启动失败"
+            messagebox.showerror(
+                title,
+                f"{error_message}\n\n本次解码未启动。请释放端口或修改地图接口端口后重试。",
+                parent=root
+            )
+            return
+    elif _api_server is not None:
+        _stop_train_api()
+
+    cleanup_history_files()
+    load_locomotive_types()
     write_global_log("开始解码")
-    write_global_log("当前版本: 10.22.21")
-    # 开始解码前尝试写入之前缓存的CSV记录（仅当有缓存时）
+    write_global_log("当前版本: 10.22.22")
     if _csv_pending_records:
         _flush_csv_pending()
     running = True
-    if _notify_config.get("enable_map_api", True):
-        threading.Thread(target=lambda: _start_train_api(_notify_config.get("map_api_port", 8765)), daemon=True).start()
+
     device_name = device_var.get()
 
     def run():
@@ -1656,41 +1817,50 @@ def start_decoder():
 
     # GUI 更新（50ms 低频刷新，不卡主界面）
     root.after(50, lambda: update_volume_bar(volume_var, volume_label, root))
+def _terminate_owned_decoder_processes(processes):
+    """只终止当前程序通过 Popen 持有的子进程，不影响其他实例。"""
+    unique = []
+    seen = set()
+    for proc in processes:
+        if proc is not None and id(proc) not in seen:
+            seen.add(id(proc))
+            unique.append(proc)
+    for proc in unique:
+        try:
+            if proc.poll() is None:
+                proc.terminate()
+        except Exception:
+            pass
+    for proc in unique:
+        try:
+            if proc.poll() is None:
+                proc.wait(timeout=0.8)
+        except subprocess.TimeoutExpired:
+            try: proc.kill()
+            except Exception: pass
+            try: proc.wait(timeout=0.3)
+            except Exception: pass
+        except Exception:
+            pass
+
+
 def stop_decoder():
     global running, sox_process, sox_vu_process, multimon_process
-    load_locomotive_types()  # 重新加载车型库
+    load_locomotive_types()
     write_global_log("停止解码")
     running = False
     _train_api_state.clear()
-    threading.Thread(target=_stop_train_api, daemon=True).start()
-
-    # CSV缓存刷新放到后台线程，不阻塞主线程
+    # 同步关闭本实例接口，避免立即重启时与旧服务发生竞态。
+    _stop_train_api()
     if _csv_pending_records:
         threading.Thread(target=_flush_csv_pending, daemon=True).start()
-
-    # 子进程终止放到后台线程，taskkill杀进程树更彻底
-    def _kill_procs():
-        for proc_name in ["sox.exe", "multimon-ng.exe"]:
-            try:
-                subprocess.Popen(
-                    f'taskkill /F /T /IM {proc_name}',
-                    shell=True, creationflags=subprocess.CREATE_NO_WINDOW
-                )
-            except:
-                pass
-        time.sleep(0.3)
-        for proc in [sox_process, sox_vu_process, multimon_process]:
-            if proc and proc.poll() is None:
-                try:
-                    proc.kill()
-                except:
-                    pass
-
-    threading.Thread(target=_kill_procs, daemon=True).start()
-
+    owned = [multimon_process, sox_process, sox_vu_process]
+    threading.Thread(target=_terminate_owned_decoder_processes, args=(owned,), daemon=True).start()
     sox_process = None
     sox_vu_process = None
     multimon_process = None
+
+
 def schedule_train_display(train_no, display_data):
     """延迟1.5秒显示车次信息，等待可能的1234002绑定"""
     # 如果已有该车的定时器，取消旧的（防重复）
@@ -1932,6 +2102,9 @@ def parse_and_display(line):
         if len(train_raw) < 1 or len(train_raw) > 5:
             return
 
+        _cleanup_expired_train_binding_cache()
+        train_last_seen_time[train_raw] = time.time()
+
         # 解析速度（可选）
         speed_val = None
         if len(parts) >= 2:
@@ -2037,24 +2210,37 @@ def parse_and_display(line):
         return
 
 def open_map_window(event=None):
-    """Ctrl+Shift+M 打开地图（浏览器访问本地SSE服务）"""
+    """Ctrl+Shift+M 手动打开地图；未启用或接口启动失败时不打开浏览器。"""
     ip = _notify_config.get("map_api_ip", "127.0.0.1")
     port = _notify_config.get("map_api_port", 8765)
     url = f"http://{ip}:{port}/"
-    # 自动启动SSE服务（如果还没启动）
-    if _api_server is None and _notify_config.get("enable_map_api", True):
-        _start_train_api(port)
-        pass  # time.sleep已移除
-    # 用浏览器打开
+
+    if not _notify_config.get("enable_map_api", False):
+        message = "地图接口当前未启用，请先在功能设置的地图设置中启用后再打开地图。"
+        write_global_log(message, "WARN")
+        messagebox.showwarning("地图接口未启用", message, parent=root)
+        return
+
+    if not _start_train_api(port):
+        err = _api_start_error or f"地图接口端口 {port} 无法启动"
+        write_global_log(f"地图窗口打开取消：{err}", "ERROR")
+        try:
+            output.insert(tk.END, f"\n地图窗口打开取消：{err}\n")
+            output.see(tk.END)
+        except Exception:
+            pass
+        title = "地图接口端口冲突" if _api_start_port_conflict else "地图接口启动失败"
+        messagebox.showerror(title, err, parent=root)
+        return
+
+    # 仅此手动操作打开浏览器；程序启动或开始解码均不会自动打开地图。
     try:
         import webbrowser
         webbrowser.open(url, new=2, autoraise=True)
-    except Exception:
-        try:
-            import subprocess
-            subprocess.Popen(['start', url], shell=True)
-        except Exception:
-            write_global_log(f"地图浏览器打开失败: {url}", "WARN")
+    except Exception as e:
+        write_global_log(f"地图浏览器打开失败: {url}, error={e}", "ERROR")
+        messagebox.showerror("地图打开失败", f"无法打开地图地址：\n{url}", parent=root)
+
 
 def open_notification_settings(event=None):
     """Ctrl+Shift+N 打开通知设置窗口"""
@@ -2093,7 +2279,7 @@ def open_notification_settings(event=None):
     nb.add(map_frame, text="地图设置")
 
     # 启用开关
-    map_enable_var = tk.BooleanVar(value=_notify_config.get("enable_map_api", True))
+    map_enable_var = tk.BooleanVar(value=_notify_config.get("enable_map_api", False))
     tk.Checkbutton(map_frame, text="启用地图接口", variable=map_enable_var, font=("Microsoft YaHei", 10)).pack(anchor="w", padx=20, pady=(15, 5))
 
     # IP输入
@@ -2129,17 +2315,57 @@ def open_notification_settings(event=None):
 
     # 保存按钮
     def _sv_map():
-        _notify_config["enable_map_api"] = map_enable_var.get()
-        _notify_config["map_api_ip"] = map_ip.get().strip() or "127.0.0.1"
-        try: _notify_config["map_api_port"] = int(map_port.get().strip())
-        except: _notify_config["map_api_port"] = 8765
-        _save_notify_config()
+        ip = map_ip.get().strip() or "127.0.0.1"
+        try:
+            port = int(map_port.get().strip())
+            if not 1 <= port <= 65535:
+                raise ValueError
+        except (TypeError, ValueError):
+            messagebox.showwarning("端口无效", "地图接口端口必须是 1 至 65535 之间的整数。", parent=win)
+            return
+
+        requested = bool(map_enable_var.get())
+        old_port = _api_server_port
+        _notify_config["map_api_ip"] = ip
+        _notify_config["map_api_port"] = port
+
+        if not requested:
+            _notify_config["enable_map_api"] = False
+            _stop_train_api()
+            _save_notify_config()
+            write_global_log("地图接口已关闭并释放本实例端口")
+        else:
+            # 改端口时先停止本实例旧端口，再尝试绑定新端口；不影响其他实例。
+            if _api_server is not None and old_port != port:
+                _stop_train_api()
+            if not _start_train_api(port):
+                err = _api_start_error or f"地图接口端口 {port} 无法启动"
+                _notify_config["enable_map_api"] = False
+                map_enable_var.set(False)
+                _save_notify_config()
+                write_global_log(f"启用地图接口失败，已保持关闭：{err}", "ERROR")
+                try:
+                    output.insert(tk.END, f"\n地图接口启用失败：{err}\n接口保持关闭。\n")
+                    output.see(tk.END)
+                except Exception:
+                    pass
+                title = "地图接口端口冲突" if _api_start_port_conflict else "地图接口启动失败"
+                messagebox.showerror(
+                    title,
+                    f"{err}\n\n地图接口已保持关闭。释放端口或修改端口后可以重试。",
+                    parent=win
+                )
+                return
+            _notify_config["enable_map_api"] = True
+            _save_notify_config()
+            write_global_log("地图接口已启用并成功绑定端口")
+
         write_global_log("地图配置已保存")
         saved_lbl = tk.Label(map_frame, text="✓ 保存成功", font=("Microsoft YaHei", 10), fg="#28a745")
         saved_lbl.pack(anchor="w", padx=20, pady=5)
         win.after(2000, saved_lbl.destroy)
-    tk.Button(map_frame, text="保存", command=_sv_map, bg="#28a745", fg="white", font=("Microsoft YaHei", 11), width=10).pack(anchor="w", padx=20, pady=(10, 0))
 
+    tk.Button(map_frame, text="保存", command=_sv_map, bg="#28a745", fg="white", font=("Microsoft YaHei", 11), width=10).pack(anchor="w", padx=20, pady=(10, 0))
     # 实时日志输出框（黑底白字，不保存）
     tk.Label(map_frame, text='接口日志:', font=('Microsoft YaHei', 10)).pack(anchor='w', padx=20, pady=(15, 2))
     map_log = ScrolledText(map_frame, font=('Consolas', 9), wrap=tk.WORD, height=8, width=60,
@@ -2796,45 +3022,39 @@ def _flush_csv_pending():
     return len(failed) == 0
 
 def on_closing():
-    # 确认是否关闭
-    if not messagebox.askyesno('确认关闭', '确定要关闭预警器吗？', icon='warning'):
+    # 保留系统原生确认框样式，只修改标题和提示文字，并临时置顶避免被程序窗口遮挡
+    confirmed = False
+    try:
+        previous_topmost = root.attributes("-topmost")
+    except tk.TclError:
+        previous_topmost = False
+    try:
+        root.attributes("-topmost", True)
+        root.lift()
+        root.focus_force()
+        root.update_idletasks()
+        confirmed = messagebox.askyesno(
+            "是否确认",
+            "确定要关闭程序吗",
+            parent=root,
+            icon="warning"
+        )
+    finally:
+        try: root.attributes("-topmost", previous_topmost)
+        except tk.TclError: pass
+    if not confirmed:
         return
 
-    """窗口关闭时彻底清理所有子进程，Windows下防卡死"""
+    """窗口关闭时清理当前实例的子进程，避免干扰其他目录运行的实例"""
     global running, sox_process, sox_vu_process, multimon_process
-
-    # 立刻停止主循环标志，所有循环线程看到就会退出
     running = False
-
-    # 取消所有tkinter延迟定时器，防止root.quit()后还在跑
     for tn in list(pending_display.keys()):
-        try:
-            root.after_cancel(pending_display[tn]["after_id"])
-        except:
-            pass
+        try: root.after_cancel(pending_display[tn]["after_id"])
+        except Exception: pass
     pending_display.clear()
 
-    # 用taskkill强制杀进程树（/T杀子进程，/F强制），比proc.kill()彻底
-    for proc_name in ["sox.exe", "multimon-ng.exe"]:
-        try:
-            subprocess.Popen(
-                f'taskkill /F /T /IM {proc_name}',
-                shell=True,
-                creationflags=subprocess.CREATE_NO_WINDOW
-            )
-        except:
-            pass
-
-    # 同时杀直接持有的进程句柄（兜底）
-    for proc in [multimon_process, sox_process, sox_vu_process]:
-        if proc and proc.poll() is None:
-            try:
-                proc.kill()
-            except:
-                pass
-
-    # 停止API服务
-    threading.Thread(target=_stop_train_api, daemon=True).start()  # 后台关闭，不阻塞
+    _terminate_owned_decoder_processes([multimon_process, sox_process, sox_vu_process])
+    _stop_train_api()
 
     # 通知日志线程退出
     try:
@@ -2878,10 +3098,12 @@ root.protocol("WM_DELETE_WINDOW", on_closing)
 # 快捷键：Ctrl+Shift+N 打开通知设置
 root.bind("<Control-Shift-N>", open_notification_settings)
 root.bind("<Control-Shift-M>", open_map_window)
+# 车次机车绑定缓存每分钟检查一次；有效车次报文到达时也会立即检查
+root.after(60000, _periodic_train_binding_cache_cleanup)
 # ==================== 窗口关闭清理结束 ====================
 
 
 root.mainloop()
 
-# 注释：当前版本10.22.21
+# 注释：当前版本10.22.22
 # 注释：请智能体在小改动时，如bug修复之类的自动增加当前版本小数点，在大改动时，如添加新功能之类的增加01.0（注意：是修改上一行的版本号，不是修改你输出的文件名）
