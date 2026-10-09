@@ -746,8 +746,8 @@ A direct immediate or string-pointer hit is a lead, not proof of an executed cal
 No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.
 
 ============================================================
-STRUCTURE14 EXECUTION FOOTER
-TRACE_BUILD=DIAG-FTM-STRUCTURE-14
+STRUCTURE15 EXECUTION FOOTER
+TRACE_BUILD=DIAG-FTM-STRUCTURE-15
 PROGRAM=qdsp6sw.mbn
 RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54
 RADIO_CONFIG_ADJACENT_POOL=0xC9199870 entries_checked=12
