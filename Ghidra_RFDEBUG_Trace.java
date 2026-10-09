@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-37
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-38
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -5347,6 +5347,168 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+    private void scan614RfcSingletonStorageAndConstructors() {
+        p("");
+        p("============================================================");
+        p("614_0_0 RFC SINGLETON STORAGE / CONSTRUCTOR CALL PATH");
+        p("Checks global storage slots used by the four get_instance wrappers and dumps direct call targets.");
+        p("Static-only analysis; does not execute targets, create instructions, or modify memory.");
+        p("============================================================");
+
+        long[] getterAddresses = new long[] {
+            0x00025598L, 0x00025604L, 0x00025694L, 0x00025700L
+        };
+        long[] singletonSlots = new long[] {
+            0x00254684L, 0x0025468CL, 0x002546F8L, 0x00254700L
+        };
+
+        int singletonCount = 0;
+        for (int i = 0; i < getterAddresses.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long getter = getterAddresses[i];
+            long slot = singletonSlots[i];
+            long value = -1L;
+            try { value = u32(slot); }
+            catch (Exception e) { value = -1L; }
+
+            MemoryBlock slotBlock;
+            MemoryBlock valueBlock = null;
+            try { slotBlock = memory().getBlock(addr(slot)); }
+            catch (Exception e) { slotBlock = null; }
+            if (value >= 0L) {
+                try { valueBlock = memory().getBlock(addr(value)); }
+                catch (Exception e) { valueBlock = null; }
+            }
+
+            Function getterFunction = null;
+            try { getterFunction = currentProgram.getFunctionManager().getFunctionAt(addr(getter)); }
+            catch (Exception e) { getterFunction = null; }
+
+            p("614_RFC_SINGLETON_SLOT #" + (i + 1)
+                + " getter=" + hex(getter)
+                + " getter_name=" + (getterFunction == null ? "<none>" : getterFunction.getName())
+                + " singleton_slot=" + hex(slot)
+                + " slot_block=" + (slotBlock == null ? "<none>" : slotBlock.getName())
+                + " static_value=" + hex(value)
+                + " value_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                + " value_executable=" + (valueBlock != null && valueBlock.isExecute()));
+            singletonCount++;
+
+            ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+            int shownRefs = 0;
+            while (refs.hasNext() && shownRefs < 8
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Instruction fromIns = null;
+                Function fromFunction = null;
+                try {
+                    fromIns = listing().getInstructionAt(from);
+                    fromFunction = currentProgram.getFunctionManager().getFunctionContaining(from);
+                }
+                catch (Exception e) {
+                    // Report the raw reference even if listing metadata is missing.
+                }
+                p("  614_RFC_SINGLETON_XREF slot=" + hex(slot)
+                    + " from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " function=" + (fromFunction == null ? "<none>" : fromFunction.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                shownRefs++;
+            }
+            p("  614_RFC_SINGLETON_XREFS_PRINTED slot=" + hex(slot)
+                + " count=" + shownRefs);
+        }
+
+        long[] callTargets = new long[] {
+            0x0002526CL, 0x00024C80L, 0x00024CB0L,
+            0x00024E90L, 0x00024EB0L
+        };
+        String[] callRoles = new String[] {
+            "shared_get_instance_helper",
+            "getter_25598_secondary_call",
+            "getter_25604_secondary_call",
+            "getter_25694_secondary_call",
+            "getter_25700_secondary_call"
+        };
+
+        int callTargetCount = 0;
+        for (int i = 0; i < callTargets.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long target = callTargets[i];
+            MemoryBlock block;
+            try { block = memory().getBlock(addr(target)); }
+            catch (Exception e) { block = null; }
+
+            Function exact = null;
+            Function owner = null;
+            try {
+                exact = currentProgram.getFunctionManager().getFunctionAt(addr(target));
+                owner = exact != null ? exact
+                    : currentProgram.getFunctionManager().getFunctionContaining(addr(target));
+            }
+            catch (Exception e) {
+                owner = null;
+            }
+
+            p("");
+            p("614_RFC_CONSTRUCTOR_CALL_TARGET #" + (i + 1)
+                + " role=" + callRoles[i]
+                + " target=" + hex(target)
+                + " block=" + (block == null ? "<none>" : block.getName())
+                + " executable=" + (block != null && block.isExecute())
+                + " exact_function=" + (exact == null ? "<none>" : exact.getName())
+                + " containing_function=" + (owner == null ? "<none>" : owner.getName())
+                + " entry=" + (owner == null ? "<none>" : hex(owner.getEntryPoint().getOffset())));
+            callTargetCount++;
+
+            Instruction cursor = listing().getInstructionAt(addr(target));
+            int shown = 0;
+            long maxAddress = target + 0x38L;
+            while (cursor != null && shown < 12 && lines < MAX_LINES
+                    && cursor.getAddress().getOffset() <= maxAddress) {
+                Function cursorOwner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(cursor.getAddress());
+                if (owner != null && (cursorOwner == null
+                        || !cursorOwner.getEntryPoint().equals(owner.getEntryPoint()))) break;
+                if (owner == null && shown > 0 && cursorOwner != null) break;
+                p("  614_RFC_CALL_TARGET_INS role=" + callRoles[i]
+                    + " " + cursor.getAddress() + " " + cursor);
+                shown++;
+                cursor = listing().getInstructionAfter(cursor.getAddress());
+            }
+            p("  614_RFC_CALL_TARGET_INSNS role=" + callRoles[i] + " count=" + shown);
+
+            ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(addr(target));
+            int refsShown = 0;
+            while (refs.hasNext() && refsShown < 10
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function fromFunction = null;
+                Instruction fromIns = null;
+                try {
+                    fromFunction = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    fromIns = listing().getInstructionAt(from);
+                }
+                catch (Exception e) {
+                    // Leave caller metadata unavailable rather than synthesizing it.
+                }
+                p("  614_RFC_CALL_TARGET_XREF role=" + callRoles[i]
+                    + " from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " caller=" + (fromFunction == null ? "<none>" : fromFunction.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                refsShown++;
+            }
+            p("  614_RFC_CALL_TARGET_XREFS role=" + callRoles[i] + " count=" + refsShown);
+        }
+
+        p("614_RFC_SINGLETON_SLOTS_INSPECTED=" + singletonCount);
+        p("614_RFC_CONSTRUCTOR_CALL_TARGETS_INSPECTED=" + callTargetCount);
+    }
+
+
     private void scan614PltGotThunkMap() {
         p("");
         p("============================================================");
@@ -6310,6 +6472,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614SignalGetterDescriptorsAndBodies();
             scan614UnrecognizedSignalCodeTargets();
             scan614SignalDescriptorStringsAndReferences();
+            scan614RfcSingletonStorageAndConstructors();
             scan614PltGotThunkMap();
         }
         else {
