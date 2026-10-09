@@ -37,7 +37,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-7";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-8";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -1009,6 +1009,124 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
 
 
+
+
+
+    private static final long RADIO_CONFIG_FIELD_NAME_TABLE = 0xC9199798L;
+    private static final int RADIO_CONFIG_FIELD_NAME_COUNT = 60;
+
+    // Cross-build comparison labels only. Runtime strings read from this image
+    // are the primary evidence; these labels are printed as a sanity check.
+    private static final String[] RADIO_CONFIG_REFERENCE_LABELS = {
+        "UNASSIGNED", "RX_CARRIER", "TX_CARRIER", "RFM_DEVICE",
+        "DEPRECATED", "BAND", "CHANNEL", "BANDWIDTH", "CONT_MODE",
+        "SIG_PATH", "ANT_PATH", "USER_ADJ", "CENTER_FREQ", "ENABLE_XO",
+        "TOTAL_ADJ", "BURST_PATTERN", "BEAM_ID", "SUB_FRAME_CONFIG",
+        "PLL_ID", "TIME_US", "INTER_FREQ", "CENTER_FREQ", "SUB_TECH",
+        "BWP_START_LOC", "PATH_FILTER_TYPE", "TECH_MODE", "SCS",
+        "LOAD_CODEBOOK", "NDR_STATE", "TECHNOLOGY", "NETWORK_SIGNAL",
+        "RESERVED2", "SELFTEST_TYPE", "UE_POWER_CLASS", "RESERVED3",
+        "NB_ID", "LANE_ID", "TX_GAIN_ADJUSTMENT", "SRS_CS_TYPE",
+        "SRS_SOURCE_CARRIER", "IF_PLL_UNLOCK_STATUS", "RF_PLL_UNLOCK_STATUS",
+        "SUBSCRIPTION_INDEX", "TX_SHARING", "TX_PRORITY", "BWP_ID",
+        "BWP_BW", "TARGET_BWP_ID", "BWP_CENTER_FREQ", "BWP_PRIORITY",
+        "BWP_CUSTOM", "SUB_CFG_ID", "TARGET_SUB_CFG", "ANT_NUM",
+        "UE_COMBO_POWER_CLASS", "UL_TX_SWITCH_TYPE", "TX_SWITCH_SOURCE_CARRIE",
+        "TUNE_BUILD_SCRIPT_TIME", "TX_CELL_ID", "NS_VAL_TYPE"
+    };
+
+    private void printReferencesToAddress(long target, int limit, String label) {
+        p("  ADDRESS_XREFS " + label + " target=" + hex(target));
+        try {
+            ReferenceIterator it =
+                currentProgram.getReferenceManager().getReferencesTo(addr(target));
+            int n = 0;
+            while (it.hasNext() && n < limit && lines < MAX_LINES) {
+                if (monitor.isCancelled()) return;
+                Reference r = it.next();
+                Address from = r.getFromAddress();
+                Function f = from.getAddressSpace().isMemorySpace()
+                    ? currentProgram.getFunctionManager().getFunctionContaining(from)
+                    : null;
+                p("    XREF[" + n + "] from=" + from
+                    + " type=" + r.getReferenceType()
+                    + " function=" + (f == null ? "<none>" : f.getName() + "@" + f.getEntryPoint()));
+                if (f != null) p("      instruction=" + instructionInfo(from.getOffset()));
+                n++;
+            }
+            p("    XREFS_SHOWN=" + n);
+        }
+        catch (Exception e) {
+            p("    XREF_ERROR: " + e.getMessage());
+        }
+    }
+
+    private void dumpRadioConfigFieldNameTable() {
+        p("");
+        p("============================================================");
+        p("RADIO_CONFIG FIELD-NAME TABLE CANDIDATE");
+        p("Candidate base=0xC9199798; count=60; entry size=4");
+        p("The decoded strings in this image are authoritative; reference labels are cross-build comparison only.");
+        p("Read-only; checks repeated CENTER_FREQ entries and other index anchors.");
+        p("============================================================");
+
+        long base = RADIO_CONFIG_FIELD_NAME_TABLE;
+        MemoryBlock b = block(base);
+        p("  table_block=" + (b == null ? "<none>" : b.getName())
+            + " valid=" + initialized(base, RADIO_CONFIG_FIELD_NAME_COUNT * 4));
+        if (!initialized(base, RADIO_CONFIG_FIELD_NAME_COUNT * 4)) {
+            p("  TABLE_CANDIDATE_NOT_FULLY_INITIALIZED");
+            return;
+        }
+
+        int readable = 0;
+        int stringMatches = 0;
+        int anchorMismatches = 0;
+        int[] anchors = {12, 21, 22, 25, 48};
+        for (int i = 0; i < RADIO_CONFIG_FIELD_NAME_COUNT; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            long slot = base + (long)i * 4L;
+            try {
+                long ptr = u32(slot);
+                String actual = readAsciiAt(ptr, 120);
+                String refLabel = i < RADIO_CONFIG_REFERENCE_LABELS.length
+                    ? RADIO_CONFIG_REFERENCE_LABELS[i] : "<none>";
+
+                if (actual != null) readable++;
+                if (actual != null
+                        && actual.trim().equalsIgnoreCase(refLabel)) stringMatches++;
+
+                boolean isAnchor = false;
+                for (int a : anchors) if (a == i) isAnchor = true;
+                if (isAnchor && (actual == null
+                        || !actual.trim().equalsIgnoreCase(refLabel))) {
+                    anchorMismatches++;
+                }
+
+                p(String.format(
+                    "  FIELD[%02d] slot=%s ptr=%s actual=%s reference=%s match=%s",
+                    i, hex(slot), hex(ptr),
+                    actual == null ? "<unreadable>" : actual,
+                    refLabel,
+                    actual != null && actual.trim().equalsIgnoreCase(refLabel)));
+            }
+            catch (Exception e) {
+                p("  FIELD[" + i + "] ERROR=" + e.getMessage());
+            }
+        }
+
+        p("  FIELD_ENTRIES=" + RADIO_CONFIG_FIELD_NAME_COUNT);
+        p("  FIELD_STRINGS_READABLE=" + readable);
+        p("  EXACT_REFERENCE_LABEL_MATCHES=" + stringMatches);
+        p("  ANCHOR_MISMATCHES=" + anchorMismatches);
+
+        printReferencesToAddress(base, 24, "TABLE_BASE");
+        printReferencesToAddress(base + 12L * 4L, 12, "FIELD_12_CENTER_FREQ_SLOT");
+        printReferencesToAddress(base + 21L * 4L, 12, "FIELD_21_CENTER_FREQ_SLOT");
+        printReferencesToAddress(base + 22L * 4L, 12, "FIELD_22_SUB_TECH_SLOT");
+        printReferencesToAddress(base + 25L * 4L, 12, "FIELD_25_TECH_MODE_SLOT");
+        printReferencesToAddress(base + 48L * 4L, 12, "FIELD_48_BWP_CENTER_FREQ_SLOT");
+    }
 
     private static final String[] RF_FIELD_TABLE_TARGETS = {
         "CENTER_FREQ", "BWP_CENTER_FREQ", "RX_CARRIER", "TX_CARRIER",
@@ -2064,6 +2182,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         scanRfTuneFieldStrings();
 
+        dumpRadioConfigFieldNameTable();
+
         scanRfFieldPointerTables();
 
         scanHighValueStrings();
@@ -2077,12 +2197,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("INTERPRETATION GUIDE");
         p("============================================================");
         p("1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.");
-        p("2. The 81st pointer hit is examined separately; do not infer call semantics from a data-pointer match.");
-        p("3. RF field-name pointer slots are dumped separately and direct references to each slot are enumerated.");
-        p("4. D8150ED8 is retained only as a previous-build comparison, not assumed current.");
-        p("5. RFTEST msg_const records provide source filename, SSID, line, argc, and format text.");
+        p("2. Candidate field-name table at C9199798 is printed with actual strings and reference-schema comparisons.");
+        p("3. Exact agreement at anchor indices 12, 21, 22, 25, and 48 would strengthen the table-base hypothesis.");
+        p("4. RF field-name pointer slots are also traced to their direct reference sites.");
+        p("5. D8150ED8 remains a previous-build comparison only, not assumed current.");
         p("6. All scans are static and read-only; no DIAG packets are emitted.");
-        p("7. A field-name string table does not itself prove a command ID; correlate slot use with executable code.");
+        p("7. The field table alone does not prove command execution; code use must be verified separately.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
