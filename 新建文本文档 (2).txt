@@ -1,24 +1,537 @@
 Ghidra_RFDEBUG_Trace.java> Running...
 ============================================================
  Ghidra_RFDEBUG_Trace
- DIAG 4B -> FTM 0B -> SUBCMD 007B
- READ ONLY / REUSABLE SINGLE SCRIPT
+ TRACE_BUILD=DIAG-FTM-STRUCTURE-4
+ DIAG -> FTM TARGET ADDRESS INSPECTOR / READ ONLY
 ============================================================
+PROGRAM=qdsp6sw.mbn
+IMAGE_BASE=c1600000
+REFERENCE MASTER=0xC8DC3B54
+REFERENCE FTM_TABLE=0xC37BD1E8
+REFERENCE COMMON_DISPATCH=0xD8150ED8
+
+------------------------------------------------------------
+MASTER_REFERENCE_ADDRESS 0xC8DC3B54
+mapped=true block=segment_21 exec=false init=true
+block_range=c8cb0000 .. c922cfff
+  block_type=Default
+  flags=0x6
+  read=true write=true exec=false volatile=false artificial=false
+  loaded=true mapped=false overlay=false initialized=true
+  source_name=Elf Loader
+  source_infos=2
+  block_data_stream=<present>
+function=<no-function>
+instruction=<no-instruction>
+  DATA: c8dc3b54 len=1 type=undefined value=0x0
+
+REFERENCES TO 0xC8DC3B54
+  TOTAL_SHOWN=0 (limit=128)
+
+------------------------------------------------------------
+FTM_TABLE_REFERENCE_ADDRESS 0xC37BD1E8
+mapped=true block=segment_19 exec=false init=true
+block_range=c270d000 .. c470efff
+  block_type=Default
+  flags=0x6
+  read=true write=true exec=false volatile=false artificial=false
+  loaded=true mapped=false overlay=false initialized=true
+  source_name=Elf Loader
+  source_infos=2
+  block_data_stream=<present>
+function=<no-function>
+instruction=<no-instruction>
+  DATA: c37bd1e8 len=1 type=undefined value=0x0
+
+REFERENCES TO 0xC37BD1E8
+  TOTAL_SHOWN=0 (limit=128)
 
 ============================================================
-TARGETED REVIEW OF PROTOCOL-LIKE 0x4B FUNCTIONS
+DIAG MASTER RECORD STRUCTURE SCAN
+Independent Qualcomm FTM report structure:
+[u32 0x00FF0000][u32 count<<16|subsys][u32 0xFF][u32 FFFFFFFF][u32 table]
+Target subsys=0x000B; READ ONLY / HARD LIMITED
 ============================================================
+MASTER_SCAN_BLOCK segment_27 0xA1221000..0xA1221093
+MASTER_SCAN_BLOCK segment_28 0xA1222000..0xA2260FFF
+MASTER_SCAN_BLOCK segment_5 0xC16BC000..0xC16EEFFF
+MASTER_SCAN_BLOCK segment_6 0xC16EF000..0xC16FCFFF
+MASTER_SCAN_BLOCK segment_10 0xC1A90000..0xC1A9EFFF
+MASTER_SCAN_BLOCK segment_13 0xC1D80000..0xC1DCFFFF
+MASTER_SCAN_BLOCK segment_14 0xC1E00000..0xC21D3FFF
+MASTER_SCAN_BLOCK segment_15 0xC21D4000..0xC21D4FFF
+MASTER_SCAN_BLOCK segment_16 0xC21D5000..0xC240AFFF
+MASTER_SCAN_BLOCK segment_17 0xC2440000..0xC24DEFFF
+MASTER_SCAN_BLOCK segment_18 0xC2500000..0xC270CFFF
+MASTER_SCAN_BLOCK segment_19 0xC270D000..0xC470EFFF
+MASTER_SCAN_BLOCK segment_20 0xC470F000..0xC8CAEFFF
+MASTER_SCAN_BLOCK segment_21 0xC8CB0000..0xC922CFFF
+
+MASTER_RECORD_HIT #1 @0xC8EB6EE0
+  packed=0x0050000B subsys=0x0000000B count=80
+  magic2=0x000000FF magic3=0xFFFFFFFF
+  table=0xC4951828 valid=true
+    FTM_TABLE_CANDIDATE=0xC4951828 count=80
+      table_block=segment_20 range=c470f000..c8caefff
+      entry[00] @0xC4951828 lo=0x00000000 hi=0x00000000 handler=0xD819C208 handler_block=<none>
+      entry[01] @0xC4951830 lo=0x00000003 hi=0x00000003 handler=0xD819C208 handler_block=<none>
+      entry[02] @0xC4951838 lo=0x00000020 hi=0x00000020 handler=0xD819C208 handler_block=<none>
+      entry[03] @0xC4951840 lo=0x00000028 hi=0x00000028 handler=0xD819C208 handler_block=<none>
+      entry[04] @0xC4951848 lo=0x00000027 hi=0x00000027 handler=0xD819C208 handler_block=<none>
+      entry[05] @0xC4951850 lo=0x00000069 hi=0x00000069 handler=0xD819C208 handler_block=<none>
+      entry[06] @0xC4951858 lo=0x0000007A hi=0x0000007A handler=0xD819C208 handler_block=<none>
+      entry[07] @0xC4951860 lo=0x0000007B hi=0x0000007B handler=0xD819C208 handler_block=<none>
+      entry[08] @0xC4951868 lo=0x0000007E hi=0x0000007E handler=0xD819C208 handler_block=<none>
+      entry[09] @0xC4951870 lo=0x0000000B hi=0x0000000B handler=0xD819C208 handler_block=<none>
+      entry[10] @0xC4951878 lo=0x00000007 hi=0x00000007 handler=0xD819C208 handler_block=<none>
+      entry[11] @0xC4951880 lo=0x00000008 hi=0x00000008 handler=0xD819C208 handler_block=<none>
+      entry[12] @0xC4951888 lo=0x00000002 hi=0x00000002 handler=0xD819C208 handler_block=<none>
+      entry[13] @0xC4951890 lo=0x0000003A hi=0x0000003A handler=0xD819C208 handler_block=<none>
+      entry[14] @0xC4951898 lo=0x00000031 hi=0x00000031 handler=0xD819C208 handler_block=<none>
+      entry[15] @0xC49518A0 lo=0x0000003D hi=0x0000003D handler=0xD819C208 handler_block=<none>
+      entry[16] @0xC49518A8 lo=0x00000065 hi=0x00000065 handler=0xD819C208 handler_block=<none>
+      entry[17] @0xC49518B0 lo=0x00000066 hi=0x00000066 handler=0xD819C208 handler_block=<none>
+      entry[18] @0xC49518B8 lo=0x00000011 hi=0x00000011 handler=0xD819C208 handler_block=<none>
+      entry[19] @0xC49518C0 lo=0x0000003B hi=0x0000003B handler=0xD819C208 handler_block=<none>
+      entry[20] @0xC49518C8 lo=0x00000032 hi=0x00000032 handler=0xD819C208 handler_block=<none>
+      entry[21] @0xC49518D0 lo=0x0000003E hi=0x0000003E handler=0xD819C208 handler_block=<none>
+      entry[22] @0xC49518D8 lo=0x00000067 hi=0x00000067 handler=0xD819C208 handler_block=<none>
+      entry[23] @0xC49518E0 lo=0x00000068 hi=0x00000068 handler=0xD819C208 handler_block=<none>
+      entry[24] @0xC49518E8 lo=0x00000001 hi=0x00000001 handler=0xD819C208 handler_block=<none>
+      entry[25] @0xC49518F0 lo=0x00000015 hi=0x00000015 handler=0xD819C208 handler_block=<none>
+      entry[26] @0xC49518F8 lo=0x00000038 hi=0x00000038 handler=0xD819C208 handler_block=<none>
+      entry[27] @0xC4951900 lo=0x00000039 hi=0x00000039 handler=0xD819C208 handler_block=<none>
+      entry[28] @0xC4951908 lo=0x00000044 hi=0x00000044 handler=0xD819C208 handler_block=<none>
+      entry[29] @0xC4951910 lo=0x00000045 hi=0x00000045 handler=0xD819C208 handler_block=<none>
+      entry[30] @0xC4951918 lo=0x00000046 hi=0x00000046 handler=0xD819C208 handler_block=<none>
+      entry[31] @0xC4951920 lo=0x00000047 hi=0x00000047 handler=0xD819C208 handler_block=<none>
+      entry[32] @0xC4951928 lo=0x00000009 hi=0x00000009 handler=0xD819C208 handler_block=<none>
+      entry[33] @0xC4951930 lo=0x0000000A hi=0x0000000A handler=0xD819C208 handler_block=<none>
+      entry[34] @0xC4951938 lo=0x0000000D hi=0x0000000D handler=0xD819C208 handler_block=<none>
+      entry[35] @0xC4951940 lo=0x0000003C hi=0x0000003C handler=0xD819C208 handler_block=<none>
+      entry[36] @0xC4951948 lo=0x00000033 hi=0x00000033 handler=0xD819C208 handler_block=<none>
+      entry[37] @0xC4951950 lo=0x0000003F hi=0x0000003F handler=0xD819C208 handler_block=<none>
+      entry[38] @0xC4951958 lo=0x00000010 hi=0x00000010 handler=0xD819C208 handler_block=<none>
+      entry[39] @0xC4951960 lo=0x0000001B hi=0x0000001B handler=0xD819C208 handler_block=<none>
+      entry[40] @0xC4951968 lo=0x00008000 hi=0x00008000 handler=0xD819C208 handler_block=<none>
+      entry[41] @0xC4951970 lo=0x00000012 hi=0x00000012 handler=0xD819C208 handler_block=<none>
+      entry[42] @0xC4951978 lo=0x00000014 hi=0x00000014 handler=0xD819C208 handler_block=<none>
+      entry[43] @0xC4951980 lo=0x0000001D hi=0x0000001D handler=0xD819C208 handler_block=<none>
+      entry[44] @0xC4951988 lo=0x0000001E hi=0x0000001E handler=0xD819C208 handler_block=<none>
+      entry[45] @0xC4951990 lo=0x00000023 hi=0x00000023 handler=0xD819C208 handler_block=<none>
+      entry[46] @0xC4951998 lo=0x0000002F hi=0x0000002F handler=0xD819C208 handler_block=<none>
+      entry[47] @0xC49519A0 lo=0x00000030 hi=0x00000030 handler=0xD819C208 handler_block=<none>
+      entry[48] @0xC49519A8 lo=0x0000004A hi=0x0000004A handler=0xD819C208 handler_block=<none>
+      entry[49] @0xC49519B0 lo=0x0000004B hi=0x0000004B handler=0xD819C208 handler_block=<none>
+      entry[50] @0xC49519B8 lo=0x0000004C hi=0x0000004C handler=0xD819C208 handler_block=<none>
+      entry[51] @0xC49519C0 lo=0x0000004D hi=0x0000004D handler=0xD819C208 handler_block=<none>
+      entry[52] @0xC49519C8 lo=0x00000041 hi=0x00000041 handler=0xD819C208 handler_block=<none>
+      entry[53] @0xC49519D0 lo=0x00000042 hi=0x00000042 handler=0xD819C208 handler_block=<none>
+      entry[54] @0xC49519D8 lo=0x0000004E hi=0x0000004E handler=0xD819C208 handler_block=<none>
+      entry[55] @0xC49519E0 lo=0x0000004F hi=0x0000004F handler=0xD819C208 handler_block=<none>
+      entry[56] @0xC49519E8 lo=0x00000050 hi=0x00000050 handler=0xD819C208 handler_block=<none>
+      entry[57] @0xC49519F0 lo=0x00000051 hi=0x00000051 handler=0xD819C208 handler_block=<none>
+      entry[58] @0xC49519F8 lo=0x00000052 hi=0x00000052 handler=0xD819C208 handler_block=<none>
+      entry[59] @0xC4951A00 lo=0x00000053 hi=0x00000053 handler=0xD819C208 handler_block=<none>
+      entry[60] @0xC4951A08 lo=0x00000054 hi=0x00000054 handler=0xD819C208 handler_block=<none>
+      entry[61] @0xC4951A10 lo=0x00000055 hi=0x00000055 handler=0xD819C208 handler_block=<none>
+      entry[62] @0xC4951A18 lo=0x00000056 hi=0x00000056 handler=0xD819C208 handler_block=<none>
+      entry[63] @0xC4951A20 lo=0x00000057 hi=0x00000057 handler=0xD819C208 handler_block=<none>
+      entry[64] @0xC4951A28 lo=0x00000080 hi=0x00000080 handler=0xD819C208 handler_block=<none>
+      entry[65] @0xC4951A30 lo=0x00000043 hi=0x00000043 handler=0xD819C208 handler_block=<none>
+      entry[66] @0xC4951A38 lo=0x00000022 hi=0x00000022 handler=0xD819C208 handler_block=<none>
+      entry[67] @0xC4951A40 lo=0x00000025 hi=0x00000025 handler=0xD819C208 handler_block=<none>
+      entry[68] @0xC4951A48 lo=0x0000001F hi=0x0000001F handler=0xD819C208 handler_block=<none>
+      entry[69] @0xC4951A50 lo=0x00000021 hi=0x00000021 handler=0xD819C208 handler_block=<none>
+      entry[70] @0xC4951A58 lo=0x0000000A hi=0x0000000A handler=0xD819C208 handler_block=<none>
+      entry[71] @0xC4951A60 lo=0x00000024 hi=0x00000024 handler=0xD819C208 handler_block=<none>
+      entry[72] @0xC4951A68 lo=0x0000002A hi=0x0000002A handler=0xD819C208 handler_block=<none>
+      entry[73] @0xC4951A70 lo=0x0000002B hi=0x0000002B handler=0xD819C208 handler_block=<none>
+      entry[74] @0xC4951A78 lo=0x00000063 hi=0x00000063 handler=0xD819C208 handler_block=<none>
+      entry[75] @0xC4951A80 lo=0x00000064 hi=0x00000064 handler=0xD819C208 handler_block=<none>
+      entry[76] @0xC4951A88 lo=0x0000002C hi=0x0000002C handler=0xD819C208 handler_block=<none>
+      entry[77] @0xC4951A90 lo=0x00000079 hi=0x00000079 handler=0xD819C208 handler_block=<none>
+      entry[78] @0xC4951A98 lo=0x0000007C hi=0x0000007C handler=0xD819C208 handler_block=<none>
+      entry[79] @0xC4951AA0 lo=0x00008001 hi=0x00008001 handler=0xD819C208 handler_block=<none>
+      TABLE_VALID_ENTRIES_SHOWN=80
+      UNIQUE_HANDLER_POINTERS=1
+      HANDLER_SUMMARY[0] ptr=0xD819C208 count=80 block=<none>
+MASTER_SCAN_BLOCK segment_22 0xC9230000..0xCBF0EFFF
+MASTER_SCAN_BLOCK segment_23 0xCBF0F000..0xCBF28FFF
+MASTER_SCAN_BLOCK segment_24 0xCBF30000..0xCE536FFF
+MASTER_SCAN_BLOCK segment_25 0xCE540000..0xCE653FFF
+MASTER_SCAN_BLOCK segment_26 0xCE654000..0xCE6BFFFF
+
+MASTER STRUCTURE BYTES SCANNED=227758228
+MASTER STRUCTURE HITS=1
 
 ============================================================
-GLOBAL EXACT COMPARE SCAN: 0x4B / 0x0B / 0x7B
+RUNTIME DISPATCH POINTER CENSUS
+Searches aligned 32-bit references throughout initialized blocks
+Targets: current candidate 0xD819C208 and prior-build 0xD8150ED8
+READ ONLY / NO COMMAND GENERATION
 ============================================================
-EXECUTABLE INSTRUCTIONS SCANNED: 1415334
-EXACT COMPARE HITS: 4B=21 0B=372 7B=2
-FUNCTIONS ANALYZED: 290
+  PTR_BLOCK target=CURRENT_FTM_HANDLER value=0xD819C208 block=segment_20 exec=false hits_in_block=81
+    PTR_HIT[0] at=0xC495182C function=<no-function>
+    PTR_HIT[1] at=0xC4951834 function=<no-function>
+    PTR_HIT[2] at=0xC495183C function=<no-function>
+    PTR_HIT[3] at=0xC4951844 function=<no-function>
+    PTR_HIT[4] at=0xC495184C function=<no-function>
+    PTR_HIT[5] at=0xC4951854 function=<no-function>
+    PTR_HIT[6] at=0xC495185C function=<no-function>
+    PTR_HIT[7] at=0xC4951864 function=<no-function>
+    PTR_HIT[8] at=0xC495186C function=<no-function>
+    PTR_HIT[9] at=0xC4951874 function=<no-function>
+    PTR_HIT[10] at=0xC495187C function=<no-function>
+    PTR_HIT[11] at=0xC4951884 function=<no-function>
+    ADDITIONAL_HITS_NOT_LISTED=69
+POINTER_SCAN_BYTES_APPROX=234688579
+POINTER_TOTAL CURRENT_FTM_HANDLER=81
+POINTER_TOTAL PREVIOUS_BUILD_HANDLER=0
 
 ============================================================
+RFTEST MSG_CONST RECORD DISCOVERY
+Looks for {fmt_ptr, fname_ptr, (ssid<<16)|line, argc} records
+Reports only relevant FTM/RF source files; static read-only
+============================================================
+
+MSG_CONST_HIT #1 holder=0xC4721D88 block=segment_20
+  fmt_ptr=0xC495271C
+  fname_ptr=0xC4952735
+  source=ftm_common_dispatch.c
+  packed=0x0017018C ssid=23 line=396 argc=4
+  format=ftm_common_print_msg: %s
+
+MSG_CONST_HIT #2 holder=0xC4721FD8 block=segment_20
+  fmt_ptr=0xC495441C
+  fname_ptr=0xC4954453
+  source=ftm_rf_test_rx_measure.c
+  packed=0x001703CC ssid=23 line=972 argc=2
+  format=[FTM.RFTEST][RX_MEASURE][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #3 holder=0xC4721FE8 block=segment_20
+  fmt_ptr=0xC495446C
+  fname_ptr=0xC4954453
+  source=ftm_rf_test_rx_measure.c
+  packed=0x00170111 ssid=23 line=273 argc=4
+  format=[FTM.RFTEST][RX_MEASURE][REPACK]: [%3d][ %12s ][ %4d ][ 0x%8x ]
+
+MSG_CONST_HIT #4 holder=0xC4721FF8 block=segment_20
+  fmt_ptr=0xC49544F8
+  fname_ptr=0xC495452F
+  source=ftm_rf_test_tx_control.c
+  packed=0x00170169 ssid=23 line=361 argc=1
+  format=[FTM.RFTEST][TX_CONTROL][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #5 holder=0xC4722018 block=segment_20
+  fmt_ptr=0xC495511C
+  fname_ptr=0xC4955155
+  source=ftm_rf_test_radio_config.c
+  packed=0x00170592 ssid=23 line=1426 argc=2
+  format=[FTM.RFTEST][RADIO_CONFIG][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #6 holder=0xC4722028 block=segment_20
+  fmt_ptr=0xC4955170
+  fname_ptr=0xC4955155
+  source=ftm_rf_test_radio_config.c
+  packed=0x001700E5 ssid=23 line=229 argc=4
+  format=[FTM.RFTEST][RADIO_CFG][REPACK]: [%3d][ %12s ][ %lld ][ 0x%8x ]
+
+MSG_CONST_HIT #7 holder=0xC4722038 block=segment_20
+  fmt_ptr=0xC49551F4
+  fname_ptr=0xC4955232
+  source=ftm_rf_test_wait_trigger.c
+  packed=0x00170283 ssid=23 line=643 argc=2
+  format=[FTM.RFTEST][WAIT_TRIGGER][UNPACK]:[%2d][%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #8 holder=0xC4722048 block=segment_20
+  fmt_ptr=0xC495524D
+  fname_ptr=0xC4955232
+  source=ftm_rf_test_wait_trigger.c
+  packed=0x0017028B ssid=23 line=651 argc=2
+  format=[FTM.RFTEST][WAIT_TRIGGER][REPACK]: [%2d][%3d][ %12s ][ %4d ][ 0x%8x ]
+
+MSG_CONST_HIT #9 holder=0xC4722058 block=segment_20
+  fmt_ptr=0xC4955294
+  fname_ptr=0xC4955232
+  source=ftm_rf_test_wait_trigger.c
+  packed=0x0017010E ssid=23 line=270 argc=4
+  format=[FTM.RFTEST][WAIT_TRIGGER][REPACK]: [ %12s ] NOT PACKED
+
+MSG_CONST_HIT #10 holder=0xC4722068 block=segment_20
+  fmt_ptr=0xC4955398
+  fname_ptr=0xC49553D4
+  source=ftm_rf_test_iq_capture.c
+  packed=0x0017027E ssid=23 line=638 argc=2
+  format=[FTM.RFTEST][IQ_CAPTURE][UNPACK]:[%2d][%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #11 holder=0xC4722078 block=segment_20
+  fmt_ptr=0xC49553ED
+  fname_ptr=0xC49553D4
+  source=ftm_rf_test_iq_capture.c
+  packed=0x00170286 ssid=23 line=646 argc=2
+  format=[FTM.RFTEST][IQ_CAPTURE][REPACK]: [%2d][%3d][ %12s ][ %4d ][ 0x%8x ]
+
+MSG_CONST_HIT #12 holder=0xC4722088 block=segment_20
+  fmt_ptr=0xC4955432
+  fname_ptr=0xC49553D4
+  source=ftm_rf_test_iq_capture.c
+  packed=0x0017029C ssid=23 line=668 argc=2
+  format=[FTM.RFTEST][IQ_CAPTURE][REPACK]: [ %12s ] NOT PACKED
+
+MSG_CONST_HIT #13 holder=0xC4722098 block=segment_20
+  fmt_ptr=0xC4955468
+  fname_ptr=0xC49553D4
+  source=ftm_rf_test_iq_capture.c
+  packed=0x001700BA ssid=23 line=186 argc=4
+  format=[FTM.RFTEST][IQ_CAPTURE][REPACK]: Swapped location of elements %d and %d
+
+MSG_CONST_HIT #14 holder=0xC47220A8 block=segment_20
+  fmt_ptr=0xC49554CC
+  fname_ptr=0xC495550B
+  source=ftm_rf_test_command_capability.c
+  packed=0x00170134 ssid=23 line=308 argc=4
+  format=[FTM.RFTEST][COMMAND_CAPABILITY][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #15 holder=0xC47220B8 block=segment_20
+  fmt_ptr=0xC495552C
+  fname_ptr=0xC495550B
+  source=ftm_rf_test_command_capability.c
+  packed=0x0017027D ssid=23 line=637 argc=4
+  format=[FTM.RFTEST][COMMAND_CAPABILITY][REPACK]: [%3d][ %12s ][ %lld ][ 0x%8x ]
+
+MSG_CONST_HIT #16 holder=0xC47220C8 block=segment_20
+  fmt_ptr=0xC495591C
+  fname_ptr=0xC4955953
+  source=ftm_rf_test_tx_measure.c
+  packed=0x0017083D ssid=23 line=2109 argc=2
+  format=[FTM.RFTEST][TX_MEASURE][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #17 holder=0xC47220D8 block=segment_20
+  fmt_ptr=0xC495596C
+  fname_ptr=0xC4955953
+  source=ftm_rf_test_tx_measure.c
+  packed=0x00170846 ssid=23 line=2118 argc=2
+  format=[FTM.RFTEST][TX_MEASURE][REPACK]: [%3d][ %12s ][ 0x%04x%04x%04x%04x ]
+
+MSG_CONST_HIT #18 holder=0xC47220E8 block=segment_20
+  fmt_ptr=0xC49559B2
+  fname_ptr=0xC4955953
+  source=ftm_rf_test_tx_measure.c
+  packed=0x001700C6 ssid=23 line=198 argc=4
+  format=[FTM.RFTEST][TX_MEASURE][REPACK]: [%3d][ %12s ][ %4d ][ 0x%8x ]
+
+MSG_CONST_HIT #19 holder=0xC47220F8 block=segment_20
+  fmt_ptr=0xC49559F2
+  fname_ptr=0xC4955A27
+  source=ftm_rf_test_msim_config.c
+  packed=0x000E0550 ssid=14 line=1360 argc=8
+  format=[FTM.RFTEST][MSIM_CFG][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #20 holder=0xC4722238 block=segment_20
+  fmt_ptr=0xC495FAC8
+  fname_ptr=0xC495FAFE
+  source=ftm_lte_rf_test.c
+  packed=0x00170962 ssid=23 line=2402 argc=4
+  format=[FTM.RFTEST][RADIO_CONFIG][LTE]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #21 holder=0xC4722248 block=segment_20
+  fmt_ptr=0xC495FB10
+  fname_ptr=0xC495FAFE
+  source=ftm_lte_rf_test.c
+  packed=0x00170B99 ssid=23 line=2969 argc=2
+  format=[FTM.RFTEST][RX_MEASURE][LTE][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #22 holder=0xC4722258 block=segment_20
+  fmt_ptr=0xC495FB4C
+  fname_ptr=0xC495FAFE
+  source=ftm_lte_rf_test.c
+  packed=0x0017112B ssid=23 line=4395 argc=4
+  format=[FTM.RFTEST][RX_MEASURE][LTE][REPACK]: [%3d][ %12s ][ %4d ][ 0x%8x ]
+
+MSG_CONST_HIT #23 holder=0xC4722268 block=segment_20
+  fmt_ptr=0xC495FB91
+  fname_ptr=0xC495FAFE
+  source=ftm_lte_rf_test.c
+  packed=0x001716FE ssid=23 line=5886 argc=4
+  format=[FTM.LTE.RFTEST][TX_CONTROL][UNPACK]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #24 holder=0xC4722278 block=segment_20
+  fmt_ptr=0xC495FBCC
+  fname_ptr=0xC495FAFE
+  source=ftm_lte_rf_test.c
+  packed=0x0017170A ssid=23 line=5898 argc=4
+  format=Update FreqAdjust: freq error: %ld, DL freq: %ld
+
+MSG_CONST_HIT #25 holder=0xC4722288 block=segment_20
+  fmt_ptr=0xC495FBFD
+  fname_ptr=0xC495FAFE
+  source=ftm_lte_rf_test.c
+  packed=0x0017077B ssid=23 line=1915 argc=2
+  format=Get FreqAdjust: Record freq error: %ld, Record DL freq: %ld, Fetch DL freq: %ld, fetch freq error result: %ld
+
+MSG_CONST_HIT #26 holder=0xC4722298 block=segment_20
+  fmt_ptr=0xC495FC6B
+  fname_ptr=0xC495FAFE
+  source=ftm_lte_rf_test.c
+  packed=0x0017057F ssid=23 line=1407 argc=4
+  format=[FTM.RFTEST][RADIO_CONFIG][LTE][REPACK]: [%3d][ %12s ][ %4d ][ 0x%8x ]
+
+MSG_CONST_HIT #27 holder=0xC47222A8 block=segment_20
+  fmt_ptr=0xC495FCB2
+  fname_ptr=0xC495FCFE
+  source=ftm_lte_helper.c
+  packed=0x001701E9 ssid=23 line=489 argc=4
+  format=rflte_ftm_mc_set_trx_on_off: TX_PLL_SIG_PATH ON (TRUE) or OFF (FALSE) ?  %s
+
+MSG_CONST_HIT #28 holder=0xC4722D38 block=segment_20
+  fmt_ptr=0xC49CAB88
+  fname_ptr=0xC49CABB8
+  source=ftm_rf_test_irat_config.c
+  packed=0x0017009A ssid=23 line=154 argc=4
+  format=[FTM.RFTEST][IRAT_CONFIG]:[%3d][ %12s ][ %12d ]
+
+MSG_CONST_HIT #29 holder=0xC4722D48 block=segment_20
+  fmt_ptr=0xC49CBECC
+  fname_ptr=0xC49CBF0A
+  source=ftm_nr5g_rf_debug_tx_override.c
+  packed=0x000E00BB ssid=14 line=187 argc=4
+  format=[FTM.NR5G.RFDEBUG][TX_OVERRIDE][UNPACK]:[%3d][ %12s ][ %12d ]
+  MSG_CONST_BLOCK_SUMMARY block=segment_20 reported=29
+
+MSG_CONST_CANDIDATES_FOUND=29
+MSG_CONST_RECORDS_REPORTED=29
+MSG_CONST_SCAN_BYTES_APPROX=227757943
+
+============================================================
+HIGH-VALUE FTM / RFA STRING TRACE
+Exact module/function/RFA anchors from public Qualcomm material
+Static only / READ ONLY
+============================================================
+
+HIGH-VALUE HIT #1
+  address=c4736634
+  matched=ftm_common_dispatch
+  value=ftm_common_dispatch.c
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #2
+  address=c4737608
+  matched=ftm_nr5g_rf_debug
+  value=ftm_nr5g_rf_debug_codebook_override.cpp
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #3
+  address=c4737630
+  matched=ftm_nr5g_rf_debug
+  value=ftm_nr5g_rf_debug_mpe_test.cpp
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #4
+  address=c473764f
+  matched=ftm_nr5g_rf_debug
+  value=ftm_nr5g_rf_debug_therm_read.cpp
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #5
+  address=c4745b65
+  matched=FTM_PRI_ORDER
+  value=FTM_PRI_ORDER
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #6
+  address=c4952735
+  matched=ftm_common_dispatch
+  value=ftm_common_dispatch.c
+  XREFS_SHOWN=0
+
+HIGH-VALUE HIT #7
+  address=c49cbf0a
+  matched=ftm_nr5g_rf_debug
+  value=ftm_nr5g_rf_debug_tx_override.c
+  XREFS_SHOWN=0
+
+HIGH-VALUE DATA ITEMS INSPECTED=218857
+HIGH-VALUE HITS SHOWN=7
+
+============================================================
+SOURCE / MSG_CONST POINTER TRACE
+Uses source-file strings as anchors; checks Qualcomm 16-byte msg_const shape
+Expected shape: fmt_ptr, fname_ptr, (ssid<<16)|line, argc
+READ ONLY / HARD LIMITED
+============================================================
+
+TARGET STRING 0xC4736634 ftm_common_dispatch.c
+  block=segment_20 range=c470f000..c8caefff
+  No local-block pointers. Skipping global fallback.
+
+TARGET STRING 0xC4737608 ftm_nr5g_rf_debug_codebook_override.cpp
+  block=segment_20 range=c470f000..c8caefff
+  No local-block pointers. Skipping global fallback.
+
+TARGET STRING 0xC4737630 ftm_nr5g_rf_debug_mpe_test.cpp
+  block=segment_20 range=c470f000..c8caefff
+  No local-block pointers. Skipping global fallback.
+
+TARGET STRING 0xC473764F ftm_nr5g_rf_debug_therm_read.cpp
+  block=segment_20 range=c470f000..c8caefff
+  No local-block pointers. Skipping global fallback.
+
+TARGET STRING 0xC4745B65 FTM_PRI_ORDER
+  block=segment_20 range=c470f000..c8caefff
+  PTR_HIT target=0xC4745B65 (FTM_PRI_ORDER) @ 0xC4749024 aligned4=true
+    around(-4) u32/u32/u32/u32:
+      0xC4749020 = 0x0000003E
+      0xC4749024 = 0xC4745B65
+      0xC4749028 = 0x00004000
+      0xC474902C = 0x00000003
+    MSG_CONST_CANDIDATE holder=0xC4749020
+      fmt_ptr=0x0000003E block=<none>
+      fname_ptr=0xC4745B65 expected=0xC4745B65 match=true
+      packed=0x00004000 ssid=0 (0x0) line=16384 argc=3
+
+TARGET STRING 0xC4952735 ftm_common_dispatch.c (copy)
+  block=segment_20 range=c470f000..c8caefff
+  PTR_HIT target=0xC4952735 (ftm_common_dispatch.c (copy)) @ 0xC4721D8C aligned4=true
+    around(-4) u32/u32/u32/u32:
+      0xC4721D88 = 0xC495271C
+      0xC4721D8C = 0xC4952735
+      0xC4721D90 = 0x0017018C
+      0xC4721D94 = 0x00000004
+    MSG_CONST_CANDIDATE holder=0xC4721D88
+      fmt_ptr=0xC495271C block=segment_20
+      fname_ptr=0xC4952735 expected=0xC4952735 match=true
+      packed=0x0017018C ssid=23 (0x17) line=396 argc=4
+      fmt_data=ftm_common_print_msg: %s
+
+TARGET STRING 0xC49CBF0A ftm_nr5g_rf_debug_tx_override.c
+  block=segment_20 range=c470f000..c8caefff
+  PTR_HIT target=0xC49CBF0A (ftm_nr5g_rf_debug_tx_override.c) @ 0xC4722D4C aligned4=true
+    around(-4) u32/u32/u32/u32:
+      0xC4722D48 = 0xC49CBECC
+      0xC4722D4C = 0xC49CBF0A
+      0xC4722D50 = 0x000E00BB
+      0xC4722D54 = 0x00000004
+    MSG_CONST_CANDIDATE holder=0xC4722D48
+      fmt_ptr=0xC49CBECC block=segment_20
+      fname_ptr=0xC49CBF0A expected=0xC49CBF0A match=true
+      packed=0x000E00BB ssid=14 (0xE) line=187 argc=4
+      fmt_data=[FTM.NR5G.RFDEBUG][TX_OVERRIDE][UNPACK]:[%3d][ %12s ][ %12d ]
+
+SOURCE TARGETS INSPECTED=7
+SOURCE POINTER MATCHES=3
+
+============================================================
+INTERPRETATION GUIDE
+============================================================
+1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.
+2. The full selector table and per-handler summary are printed above.
+3. D819C208 is the current table handler candidate; the pointer census tests all initialized blocks.
+4. D8150ED8 is retained only as a previous-build comparison, not assumed current.
+5. RFTEST msg_const candidates provide source filename, SSID, line, argc, and format text.
+6. All scans are static and read-only; no DIAG packets are emitted.
+7. Exact frequency literals were not useful in the previous run; focus remains on dispatch structure.
+
 DONE
-No memory, symbols, comments, or program structures modified.
-Keep using this same GitHub file: Ghidra_RFDEBUG_Trace.java
-============================================================
+No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
