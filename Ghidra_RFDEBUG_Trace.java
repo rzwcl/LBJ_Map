@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-18
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-19
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-18";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-19";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3081,7 +3081,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE18 EXECUTION FOOTER");
+        println("STRUCTURE19 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199FB8 entries=38 including NULL terminator");
@@ -3118,7 +3118,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     
     /*
-     * STRUCTURE-18: dynamic address discovery for 614_0_0.mbn.
+     * STRUCTURE-19: dynamic address discovery for 614_0_0.mbn.
      * Do not reuse C919xxxx/C508xxxx addresses from qdsp6sw.mbn.
      * Discover field strings, string-pointer slots and decoded-instruction
      * candidates from the program currently open in Ghidra.
@@ -3263,14 +3263,19 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
     private void search614StringInBlock(MemoryBlock b, String label) {
+        // The _elfHeader/_elfProgramHeaders/unallocated blocks use separate
+        // address spaces. addr(offset) creates a default-space address, so do
+        // not feed their offsets into the ordinary memory reader.
+        if (!isDefaultDynamicAddressBlock(b) || !b.isInitialized()) return;
+
         byte[] pattern = new byte[label.length()];
         for (int i = 0; i < label.length(); i++) pattern[i] = (byte)label.charAt(i);
 
         long start = b.getStart().getOffset();
         long end = b.getEnd().getOffset();
         long pos = start;
-        int retained = 0;
         long matchCount = 0L;
+        long examined = 0L;
 
         while (pos <= end && !monitor.isCancelled() && lines < MAX_LINES
                 && countDynamic614LabelHits(label) < DYNAMIC_STRING_HITS_PER_LABEL) {
@@ -3304,20 +3309,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                 matchCount++;
                 addDynamic614String(at, label, actual, b);
-                retained++;
                 if (countDynamic614LabelHits(label) >= DYNAMIC_STRING_HITS_PER_LABEL) break;
             }
 
             long advance = (long)want - pattern.length + 1L;
             if (advance <= 0L) break;
             pos += advance;
-            dynamic614BytesScanned += advance;
+            examined += advance;
         }
 
+        dynamic614BytesScanned += examined;
         if (matchCount > 0L) {
             p("  DYNAMIC_STRING_LABEL_SUMMARY label=" + label
-                + " retained=" + retained
-                + " matches_seen_before_cap=" + matchCount);
+                + " matches_seen=" + matchCount
+                + " retained_for_label=" + countDynamic614LabelHits(label));
         }
     }
 
@@ -3382,13 +3387,14 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
         p("614_0_0 DYNAMIC STRING-POINTER SLOT SCAN");
         p("Targets were discovered in the current program, not copied from another firmware.");
-        p("Scans aligned 32-bit words in initialized non-executable blocks.");
+        p("Scans aligned 32-bit words in initialized non-executable blocks in the default address space.");
         p("============================================================");
 
         int shown = 0;
         for (MemoryBlock b : blocks) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
-            if (!b.isInitialized() || b.isExecute()) continue;
+            if (!b.isInitialized() || b.isExecute()
+                    || !isDefaultDynamicAddressBlock(b)) continue;
 
             long pos = (b.getStart().getOffset() + 3L) & ~3L;
             long end = b.getEnd().getOffset();
@@ -3508,8 +3514,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("");
         p("============================================================");
         p("614_0_0 DECODED-INSTRUCTION FIELD REFERENCE SCAN");
-        p("Walks decoded instructions in all initialized blocks; execute flags are tallied separately.");
-        p("Exact full-address hits and low-16-bit immediate candidates are separate.");
+        p("Uses the program-wide instruction iterator, not each block's start address.");
+        p("This is intentional: Ghidra may return an empty block-local iterator when the start is not an instruction.");
+        p("Exact full-address hits and low-16-bit immediate candidates are reported separately.");
         p("============================================================");
 
         int exactShown = 0;
@@ -3518,80 +3525,92 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             new java.util.HashMap<Long, Integer>();
         java.util.Map<Long, Integer> lowCounts =
             new java.util.HashMap<Long, Integer>();
+        java.util.Map<Long, Long> blockCounts =
+            new java.util.HashMap<Long, Long>();
 
-        for (MemoryBlock b : blocks) {
-            if (monitor.isCancelled() || lines >= MAX_LINES) return;
-            if (!b.isInitialized()) continue;
+        InstructionIterator it = listing().getInstructions(true);
+        while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+            Instruction ins = it.next();
+            Address insAddress = ins.getAddress();
+            MemoryBlock ownerBlock;
+            try {
+                ownerBlock = memory().getBlock(insAddress);
+            }
+            catch (Exception e) {
+                continue;
+            }
+            if (ownerBlock == null || !ownerBlock.isInitialized()
+                    || !isDefaultDynamicAddressBlock(ownerBlock)) continue;
 
-            long end = b.getEnd().getOffset();
-            long blockInstructions = 0L;
-            InstructionIterator it = listing().getInstructions(b.getStart(), true);
+            dynamic614DecodedInstructionsAllBlocks++;
+            if (ownerBlock.isExecute()) dynamic614DecodedInstructionsExecBlocks++;
+            Long blockStart = Long.valueOf(ownerBlock.getStart().getOffset());
+            Long oldBlockCount = blockCounts.get(blockStart);
+            blockCounts.put(blockStart,
+                Long.valueOf(oldBlockCount == null ? 1L : oldBlockCount.longValue() + 1L));
 
-            while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
-                Instruction ins = it.next();
-                if (ins.getAddress().getOffset() > end) break;
-                blockInstructions++;
-                dynamic614DecodedInstructionsAllBlocks++;
-                if (b.isExecute()) dynamic614DecodedInstructionsExecBlocks++;
+            for (int op = 0; op < ins.getNumOperands(); op++) {
+                Object[] objects = ins.getOpObjects(op);
+                for (Object object : objects) {
+                    boolean isScalar = object instanceof Scalar;
+                    long value;
+                    if (isScalar) {
+                        value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
+                    }
+                    else if (object instanceof Address) {
+                        value = ((Address)object).getOffset() & 0xffffffffL;
+                    }
+                    else continue;
 
-                for (int op = 0; op < ins.getNumOperands(); op++) {
-                    Object[] objects = ins.getOpObjects(op);
-                    for (Object object : objects) {
-                        boolean isScalar = object instanceof Scalar;
-                        long value;
-                        if (isScalar) {
-                            value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
-                        }
-                        else if (object instanceof Address) {
-                            value = ((Address)object).getOffset() & 0xffffffffL;
-                        }
-                        else continue;
+                    String exactLabel = dynamic614ExactCodeTargets.get(Long.valueOf(value));
+                    if (exactLabel != null) {
+                        dynamic614ExactCodeHits++;
+                        Integer old = exactCounts.get(Long.valueOf(value));
+                        exactCounts.put(Long.valueOf(value),
+                            Integer.valueOf(old == null ? 1 : old.intValue() + 1));
 
-                        String exactLabel = dynamic614ExactCodeTargets.get(Long.valueOf(value));
-                        if (exactLabel != null) {
-                            dynamic614ExactCodeHits++;
-                            Integer old = exactCounts.get(Long.valueOf(value));
-                            exactCounts.put(Long.valueOf(value),
-                                Integer.valueOf(old == null ? 1 : old.intValue() + 1));
-
-                            if (exactShown < DYNAMIC_CODE_HIT_PRINT_LIMIT) {
-                                p("  614_CODE_EXACT_HIT target=" + exactLabel
-                                    + " value=" + hex(value)
-                                    + " at=" + ins.getAddress()
-                                    + " operand=" + op
-                                    + " function=" + functionInfo(ins.getAddress().getOffset())
-                                    + " instruction=" + ins);
-                                print614InstructionWindow(ins, 3, 5);
-                                exactShown++;
-                            }
-                        }
-
-                        if (!isScalar || value > 0xffffL) continue;
-                        long low = value & 0xffffL;
-                        if (low < 0x1000L) continue;
-                        String lowLabel = dynamic614Low16Targets.get(Long.valueOf(low));
-                        if (lowLabel == null) continue;
-
-                        dynamic614Low16CodeHits++;
-                        Integer oldLow = lowCounts.get(Long.valueOf(low));
-                        lowCounts.put(Long.valueOf(low),
-                            Integer.valueOf(oldLow == null ? 1 : oldLow.intValue() + 1));
-                        if (lowShown < 140 && (oldLow == null || oldLow.intValue() < 5)) {
-                            p("  614_CODE_LOW16_CANDIDATE target=" + lowLabel
-                                + " immediate=" + hex(value)
-                                + " at=" + ins.getAddress()
+                        if (exactShown < DYNAMIC_CODE_HIT_PRINT_LIMIT) {
+                            p("  614_CODE_EXACT_HIT target=" + exactLabel
+                                + " value=" + hex(value)
+                                + " at=" + insAddress
                                 + " operand=" + op
-                                + " function=" + functionInfo(ins.getAddress().getOffset())
+                                + " function=" + functionInfo(insAddress.getOffset())
                                 + " instruction=" + ins);
-                            lowShown++;
+                            print614InstructionWindow(ins, 3, 5);
+                            exactShown++;
                         }
+                    }
+
+                    if (!isScalar || value > 0xffffL) continue;
+                    long low = value & 0xffffL;
+                    if (low < 0x1000L) continue;
+                    String lowLabel = dynamic614Low16Targets.get(Long.valueOf(low));
+                    if (lowLabel == null) continue;
+
+                    dynamic614Low16CodeHits++;
+                    Integer oldLow = lowCounts.get(Long.valueOf(low));
+                    lowCounts.put(Long.valueOf(low),
+                        Integer.valueOf(oldLow == null ? 1 : oldLow.intValue() + 1));
+                    if (lowShown < 140 && (oldLow == null || oldLow.intValue() < 5)) {
+                        p("  614_CODE_LOW16_CANDIDATE target=" + lowLabel
+                            + " immediate=" + hex(value)
+                            + " at=" + insAddress
+                            + " operand=" + op
+                            + " function=" + functionInfo(insAddress.getOffset())
+                            + " instruction=" + ins);
+                        lowShown++;
                     }
                 }
             }
+        }
 
+        for (MemoryBlock b : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!b.isInitialized() || !isDefaultDynamicAddressBlock(b)) continue;
+            Long count = blockCounts.get(Long.valueOf(b.getStart().getOffset()));
             p("  614_DECODED_BLOCK name=" + b.getName()
                 + " execute=" + b.isExecute()
-                + " instructions=" + blockInstructions);
+                + " instructions=" + (count == null ? 0L : count.longValue()));
         }
 
         for (java.util.Map.Entry<Long, Integer> entry : exactCounts.entrySet()) {
@@ -3615,7 +3634,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("DYNAMIC_LOW16_CANDIDATES_PRINTED=" + lowShown);
         p("DYNAMIC_CONTEXT_WINDOWS_PRINTED=" + dynamic614ContextsPrinted);
         if (dynamic614DecodedInstructionsAllBlocks == 0L) {
-            p("DYNAMIC_CODE_SCAN_WARNING=No decoded instruction in initialized blocks; check import and disassembly state.");
+            p("DYNAMIC_CODE_SCAN_WARNING=Program-wide iterator found no decoded instruction in the default address space; check the listing and active program.");
         }
     }
 
