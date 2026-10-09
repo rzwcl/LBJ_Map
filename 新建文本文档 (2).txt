@@ -79,19 +79,18 @@ DYNAMIC_POINTER_NOTE=No aligned absolute pointers found; relative or register-ba
 Walks decoded instructions in all initialized blocks; execute flags are tallied separately.
 Exact full-address hits and low-16-bit immediate candidates are separate.
 ============================================================
-  614_DECODED_BLOCK name=segment_2 execute=true instructions=0
+  614_DECODED_BLOCK name=segment_2 execute=true instructions=1085
   614_DECODED_BLOCK name=segment_3 execute=false instructions=0
   614_DECODED_BLOCK name=_elfHeader execute=false instructions=0
   614_DECODED_BLOCK name=_elfProgramHeaders execute=false instructions=0
   614_DECODED_BLOCK name=unallocated_0 execute=false instructions=0
-DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=0
-DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=0
+DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=1085
+DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=1085
 DYNAMIC_EXACT_CODE_HITS_TOTAL=0
 DYNAMIC_EXACT_CODE_HITS_PRINTED=0
 DYNAMIC_LOW16_CANDIDATES_TOTAL=0
 DYNAMIC_LOW16_CANDIDATES_PRINTED=0
 DYNAMIC_CONTEXT_WINDOWS_PRINTED=0
-DYNAMIC_CODE_SCAN_WARNING=No decoded instruction in initialized blocks; check import and disassembly state.
 
 ============================================================
 614_0_0 DYNAMIC FREQUENCY TRACE SUMMARY
@@ -101,8 +100,8 @@ DYNAMIC_STRING_HITS=0
 DYNAMIC_POINTER_SLOTS=0
 DYNAMIC_POINTER_WORDS_SCANNED=570922
 DYNAMIC_STRING_SCAN_BYTES_APPROX=21390209
-DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=0
-DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=0
+DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=1085
+DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=1085
 DYNAMIC_EXACT_CODE_HITS_TOTAL=0
 DYNAMIC_LOW16_CANDIDATES_TOTAL=0
 Hits are static leads only; they do not by themselves prove a live RX tuning path.
