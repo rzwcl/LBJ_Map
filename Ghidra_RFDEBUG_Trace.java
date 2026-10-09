@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-31
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-32
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-31";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-32";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -4434,6 +4434,136 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("614_PRIORITY_CALLEE_INSTRUCTIONS_PRINTED=" + totalInstructionsPrinted);
         p("614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=" + incomingRefsPrinted);
         p("614_PRIORITY_CALLEE_NOTE=Start with target 0x00025F70; determine whether it dereferences/calls the getter pointers passed by get_signals_info.");
+    }
+
+
+    private void scan614SignalInfoCallsiteContext() {
+        p("");
+        p("============================================================");
+        p("614_0_0 get_signals_info -> indirect getter call-site context");
+        p("Prints the six direct call sites to 0x25F70 and their same-function instruction context.");
+        p("Also reports the nearest backward R0 write or call-return candidate; this is a heuristic, not full data-flow proof.");
+        p("READ ONLY");
+        p("============================================================");
+
+        Address callerEntry = addr(0x000259A4L);
+        Address target = addr(0x00025F70L);
+        Function caller = currentProgram.getFunctionManager().getFunctionAt(callerEntry);
+        if (caller == null) {
+            caller = currentProgram.getFunctionManager().getFunctionContaining(callerEntry);
+        }
+        if (caller == null) {
+            p("614_SIGNAL_CALLSITE_ERROR=no function at or containing 0x000259A4");
+            return;
+        }
+
+        p("614_SIGNAL_CALLER=" + caller.getName()
+            + " entry=" + caller.getEntryPoint()
+            + " target=0x00025F70");
+
+        Instruction ins = listing().getInstructionAt(caller.getEntryPoint());
+        int callSites = 0;
+        int contexts = 0;
+        int scanned = 0;
+        while (ins != null && !monitor.isCancelled()
+                && lines < MAX_LINES && scanned < 400) {
+            Function insOwner = currentProgram.getFunctionManager()
+                .getFunctionContaining(ins.getAddress());
+            if (insOwner == null
+                    || !insOwner.getEntryPoint().equals(caller.getEntryPoint())) break;
+            scanned++;
+
+            boolean targetCall = false;
+            Reference[] refs = currentProgram.getReferenceManager()
+                .getReferencesFrom(ins.getAddress());
+            for (Reference ref : refs) {
+                if (target.equals(ref.getToAddress())) {
+                    targetCall = true;
+                    break;
+                }
+            }
+
+            if (targetCall && ins.getMnemonicString().toLowerCase().startsWith("call")) {
+                callSites++;
+                p("");
+                p("614_SIGNAL_CALLSITE #" + callSites
+                    + " at=" + ins.getAddress()
+                    + " instruction=" + ins);
+
+                Instruction back = listing().getInstructionBefore(ins.getAddress());
+                java.util.List<Instruction> before =
+                    new java.util.ArrayList<Instruction>();
+                for (int n = 0; n < 12 && back != null; n++) {
+                    Function backOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(back.getAddress());
+                    if (backOwner == null
+                            || !backOwner.getEntryPoint().equals(caller.getEntryPoint())) break;
+                    before.add(back);
+                    back = listing().getInstructionBefore(back.getAddress());
+                }
+                for (int n = before.size() - 1; n >= 0 && lines < MAX_LINES; n--) {
+                    p("  PRE " + before.get(n).getAddress() + " " + before.get(n));
+                }
+                p("  >>> CALL " + ins.getAddress() + " " + ins);
+
+                Instruction after = listing().getInstructionAfter(ins.getAddress());
+                for (int n = 0; n < 4 && after != null && lines < MAX_LINES; n++) {
+                    Function afterOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(after.getAddress());
+                    if (afterOwner == null
+                            || !afterOwner.getEntryPoint().equals(caller.getEntryPoint())) break;
+                    p("  POST " + after.getAddress() + " " + after);
+                    after = listing().getInstructionAfter(after.getAddress());
+                }
+
+                Instruction probe = listing().getInstructionBefore(ins.getAddress());
+                boolean r0Candidate = false;
+                for (int n = 0; n < 24 && probe != null; n++) {
+                    Function probeOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(probe.getAddress());
+                    if (probeOwner == null
+                            || !probeOwner.getEntryPoint().equals(caller.getEntryPoint())) break;
+
+                    String mnemonic = probe.getMnemonicString().toLowerCase();
+                    if (mnemonic.startsWith("call")) {
+                        p("  R0_BACKWARD_CANDIDATE kind=call-return"
+                            + " at=" + probe.getAddress() + " instruction=" + probe
+                            + " note=ABI return in R0 is possible; verify against intervening instructions");
+                        r0Candidate = true;
+                        break;
+                    }
+
+                    boolean writesR0 = false;
+                    if (probe.getNumOperands() > 0) {
+                        for (Object object : probe.getOpObjects(0)) {
+                            if (object instanceof ghidra.program.model.lang.Register
+                                    && "R0".equalsIgnoreCase(
+                                        ((ghidra.program.model.lang.Register)object).getName())) {
+                                writesR0 = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (writesR0) {
+                        p("  R0_BACKWARD_CANDIDATE kind=explicit-destination"
+                            + " at=" + probe.getAddress() + " instruction=" + probe);
+                        r0Candidate = true;
+                        break;
+                    }
+                    probe = listing().getInstructionBefore(probe.getAddress());
+                }
+                if (!r0Candidate) {
+                    p("  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions");
+                }
+                contexts++;
+            }
+
+            ins = listing().getInstructionAfter(ins.getAddress());
+        }
+
+        p("614_SIGNAL_CALLS_TO_0x25F70_FOUND=" + callSites);
+        p("614_SIGNAL_CALLSITE_CONTEXTS_PRINTED=" + contexts);
+        p("614_SIGNAL_CALLER_INSTRUCTIONS_SCANNED=" + scanned);
     }
 
 
