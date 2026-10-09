@@ -5967,6 +5967,301 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("614_CORRECTED_GETTER_DIRECT_CALLS=" + directCalls);
     }
 
+
+    /*
+     * STRUCTURE-43 focused follow-up:
+     * Inspect the two data references into get_signals_info, the six
+     * RFC implementation bodies reached through PLT thunks, and function
+     * names suggesting frequency/carrier/path configuration. Static only.
+     */
+    private void trace614DumpDataWindow(long center, int radius, String label) {
+        MemoryBlock ownerBlock = null;
+        try { ownerBlock = memory().getBlock(addr(center)); } catch (Exception e) { ownerBlock = null; }
+        p("");
+        p("614_FOLLOWUP_DATA_WINDOW label=" + label
+            + " center=" + hex(center)
+            + " block=" + (ownerBlock == null ? "<none>" : ownerBlock.getName())
+            + " initialized=" + (ownerBlock != null && ownerBlock.isInitialized()));
+        if (ownerBlock == null || !ownerBlock.isInitialized()) return;
+
+        long start = Math.max(ownerBlock.getStart().getOffset(), (center & ~3L) - (long)radius);
+        long end = Math.min(ownerBlock.getEnd().getOffset(), (center & ~3L) + (long)radius);
+        start = (start + 3L) & ~3L;
+        int shown = 0;
+        for (long slot = start; slot + 3L <= end && shown < 80
+                && !monitor.isCancelled() && lines < MAX_LINES; slot += 4L) {
+            long value;
+            try { value = u32(slot); } catch (Exception e) { continue; }
+            MemoryBlock valueBlock = null;
+            Function exact = null;
+            Function containing = null;
+            try {
+                valueBlock = memory().getBlock(addr(value));
+                exact = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                containing = exact != null ? exact
+                    : currentProgram.getFunctionManager().getFunctionContaining(addr(value));
+            }
+            catch (Exception e) { containing = null; }
+            String preview = "";
+            if (valueBlock != null && valueBlock.isInitialized() && !valueBlock.isExecute()) {
+                String maybe = readDynamicCString(value, 56);
+                if (maybe != null) preview = maybe;
+            }
+            p("  614_FOLLOWUP_DATA_WORD slot=" + hex(slot)
+                + (slot == center ? " <== CENTER" : "")
+                + " value=" + hex(value)
+                + " value_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                + " value_executable=" + (valueBlock != null && valueBlock.isExecute())
+                + " exact_function=" + (exact == null ? "<none>" : exact.getName())
+                + " containing_function=" + (containing == null ? "<none>" : containing.getName())
+                + (preview.length() == 0 ? "" : " ascii=" + preview));
+            ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+            int refCount = 0;
+            while (refs.hasNext() && refCount < 3 && !monitor.isCancelled()
+                    && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function caller = null;
+                Instruction fromIns = null;
+                try {
+                    caller = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    fromIns = listing().getInstructionAt(from);
+                }
+                catch (Exception e) { caller = null; }
+                p("    614_FOLLOWUP_DATA_SLOT_REF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " caller=" + (caller == null ? "<none>" : caller.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                refCount++;
+            }
+            shown++;
+        }
+        p("614_FOLLOWUP_DATA_WINDOW_WORDS_PRINTED label=" + label + " count=" + shown);
+    }
+
+    private void trace614RfcImplementationBody(long entry, String role) {
+        Function f = null;
+        try { f = currentProgram.getFunctionManager().getFunctionAt(addr(entry)); }
+        catch (Exception e) { f = null; }
+        if (f == null) {
+            try { f = currentProgram.getFunctionManager().getFunctionContaining(addr(entry)); }
+            catch (Exception e) { f = null; }
+        }
+        p("");
+        p("614_FOLLOWUP_RFC_BODY role=" + role
+            + " address=" + hex(entry)
+            + " function=" + (f == null ? "<none>" : f.getName())
+            + " entry=" + (f == null ? "<none>" : hex(f.getEntryPoint().getOffset()))
+            + " body=" + (f == null ? "<none>" : f.getBody().getMinAddress() + ".." + f.getBody().getMaxAddress()));
+        if (f == null) return;
+
+        java.util.Map<String, Long> pcBases = new java.util.LinkedHashMap<String, Long>();
+        java.util.Set<Long> directTargets = new java.util.LinkedHashSet<Long>();
+        int instructions = 0;
+        InstructionIterator it = listing().getInstructions(f.getBody(), true);
+        while (it.hasNext() && instructions < 120
+                && !monitor.isCancelled() && lines < MAX_LINES) {
+            Instruction ins = it.next();
+            p("  614_FOLLOWUP_RFC_INS " + ins.getAddress() + " " + ins);
+            instructions++;
+            String mnemonic = ins.getMnemonicString().toLowerCase();
+
+            if ("add".equals(mnemonic)) {
+                boolean hasPc = false;
+                Long imm = null;
+                for (int op = 0; op < ins.getNumOperands(); op++) {
+                    for (Object object : ins.getOpObjects(op)) {
+                        if (object instanceof ghidra.program.model.lang.Register
+                                && "PC".equalsIgnoreCase(
+                                    ((ghidra.program.model.lang.Register)object).getName())) hasPc = true;
+                        else if (object instanceof Scalar) imm = Long.valueOf(((Scalar)object).getSignedValue());
+                    }
+                }
+                String dst = null;
+                for (Object object : ins.getOpObjects(0)) {
+                    if (object instanceof ghidra.program.model.lang.Register) {
+                        dst = ((ghidra.program.model.lang.Register)object).getName();
+                        break;
+                    }
+                }
+                if (hasPc && imm != null && dst != null) {
+                    Long computed = hexagonPcRelativeTarget(ins, imm.longValue());
+                    Long packetStart = hexagonPacketStartAddress(ins);
+                    if (computed != null) {
+                        pcBases.put(dst, computed);
+                        p("  614_FOLLOWUP_RFC_PC_BASE ins=" + ins.getAddress()
+                            + " packet_start=" + (packetStart == null ? "<unknown>" : hex(packetStart.longValue()))
+                            + " reg=" + dst + " imm=" + hex(imm.longValue())
+                            + " base=" + hex(computed.longValue()));
+                    }
+                }
+            }
+
+            if (mnemonic.startsWith("mem")) {
+                for (int op = 0; op < ins.getNumOperands(); op++) {
+                    String rep = ins.getDefaultOperandRepresentation(op);
+                    if (rep == null || rep.indexOf('(') < 0) continue;
+                    String baseReg = null;
+                    Long disp = null;
+                    for (Object object : ins.getOpObjects(op)) {
+                        if (object instanceof ghidra.program.model.lang.Register) {
+                            String name = ((ghidra.program.model.lang.Register)object).getName();
+                            if (pcBases.containsKey(name)) baseReg = name;
+                        }
+                        else if (object instanceof Scalar) disp = Long.valueOf(((Scalar)object).getSignedValue());
+                    }
+                    if (baseReg == null) continue;
+                    long displacement = disp == null ? 0L : disp.longValue();
+                    long slot = (pcBases.get(baseReg).longValue() + displacement) & 0xffffffffL;
+                    long value = -1L;
+                    try { value = u32(slot); } catch (Exception e) { value = -1L; }
+                    MemoryBlock slotBlock = null;
+                    MemoryBlock valueBlock = null;
+                    Function exact = null;
+                    Function containing = null;
+                    try { slotBlock = memory().getBlock(addr(slot)); } catch (Exception e) { slotBlock = null; }
+                    if (value >= 0L) {
+                        try {
+                            valueBlock = memory().getBlock(addr(value));
+                            exact = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                            containing = exact != null ? exact
+                                : currentProgram.getFunctionManager().getFunctionContaining(addr(value));
+                        }
+                        catch (Exception e) { containing = null; }
+                    }
+                    p("  614_FOLLOWUP_RFC_MEMORY_USE ins=" + ins.getAddress()
+                        + " reg=" + baseReg + " base=" + hex(pcBases.get(baseReg).longValue())
+                        + " disp=" + hex(displacement) + " slot=" + hex(slot)
+                        + " slot_block=" + (slotBlock == null ? "<none>" : slotBlock.getName())
+                        + " static_word=" + hex(value)
+                        + " value_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                        + " value_executable=" + (valueBlock != null && valueBlock.isExecute())
+                        + " exact_function=" + (exact == null ? "<none>" : exact.getName())
+                        + " containing_function=" + (containing == null ? "<none>" : containing.getName()));
+                }
+            }
+
+            if (mnemonic.startsWith("call") && !mnemonic.startsWith("callr")) {
+                Address target = null;
+                for (int op = 0; op < ins.getNumOperands() && target == null; op++) {
+                    for (Object object : ins.getOpObjects(op)) {
+                        if (object instanceof Address
+                                && ((Address)object).getAddressSpace().isMemorySpace()) {
+                            target = (Address)object;
+                            break;
+                        }
+                    }
+                }
+                if (target != null && directTargets.add(Long.valueOf(target.getOffset() & 0xffffffffL))) {
+                    p("  614_FOLLOWUP_RFC_DIRECT_TARGET from=" + ins.getAddress()
+                        + " target=" + target + " instruction=" + ins);
+                }
+            }
+        }
+        p("614_FOLLOWUP_RFC_INSNS_PRINTED role=" + role + " count=" + instructions);
+
+        ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(addr(entry));
+        int refCount = 0;
+        while (refs.hasNext() && refCount < 20 && !monitor.isCancelled() && lines < MAX_LINES) {
+            Reference ref = refs.next();
+            Address from = ref.getFromAddress();
+            Function caller = null;
+            Instruction fromIns = null;
+            try {
+                caller = currentProgram.getFunctionManager().getFunctionContaining(from);
+                fromIns = listing().getInstructionAt(from);
+            }
+            catch (Exception e) { caller = null; }
+            p("  614_FOLLOWUP_RFC_INCOMING from=" + from
+                + " type=" + ref.getReferenceType()
+                + " caller=" + (caller == null ? "<none>" : caller.getName() + "@" + caller.getEntryPoint())
+                + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+            refCount++;
+        }
+        p("614_FOLLOWUP_RFC_INCOMING_COUNT role=" + role + " count=" + refCount);
+    }
+
+    private void scan614SignalInfoUpstreamAndRfcImplementations() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-43 SIGNAL-INFO DATA REFERENCES / RFC IMPLEMENTATION FOLLOW-UP");
+        p("Inspect inbound data slots plus the six class implementation bodies.");
+        p("Add named frequency/carrier/path APIs as leads, not proven tune entry points.");
+        p("READ ONLY.");
+        p("============================================================");
+
+        trace614DumpDataWindow(0x00254798L, 0x30, "get_signals_info_inbound_slot_neighborhood");
+        trace614DumpDataWindow(0x00027220L, 0x40, "get_signals_info_data_reference_neighborhood");
+        trace614DumpDataWindow(0x000272C0L, 0x20, "signal_descriptor_table_neighborhood");
+
+        long[] entries = new long[] {
+            0x00025454L, 0x00025538L, 0x000255D4L,
+            0x00025640L, 0x000256D0L, 0x0002573CL
+        };
+        String[] roles = new String[] {
+            "NR5G_impl", "WCDMA_impl", "CDMA_impl", "GSM_impl", "TDSCDMA_impl", "GNSS_impl"
+        };
+        for (int i = 0; i < entries.length && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            trace614RfcImplementationBody(entries[i], roles[i]);
+        }
+
+        p("");
+        p("614_FOLLOWUP_NAMED_FUNCTION_CANDIDATES");
+        int inspected = 0;
+        int matches = 0;
+        FunctionIterator fit = currentProgram.getFunctionManager().getFunctions(true);
+        while (fit.hasNext() && inspected < 200000 && !monitor.isCancelled()
+                && lines < MAX_LINES) {
+            Function f = fit.next();
+            inspected++;
+            if (f.isThunk()) continue;
+            String n = f.getName().toLowerCase();
+            boolean candidate = n.contains("freq") || n.contains("carrier")
+                || n.contains("tune") || n.contains("center_freq")
+                || n.contains("rx_config") || n.contains("rx_path")
+                || n.contains("get_signals_info") || n.contains("get_sig_path_info")
+                || n.contains("get_logical_path") || n.contains("get_ant_path")
+                || n.contains("get_phy_device") || n.contains("get_rffe_speeds")
+                || n.contains("sdr_rffe_sig_info") || n.contains("sdr_grfc_sig_info")
+                || n.contains("blank_grfc_sig_info") || n.contains("rfc_hwid614_qrm865ab_v3_ag_")
+                || n.contains("rfc_") && n.contains("_data");
+            if (!candidate) continue;
+            MemoryBlock b = null;
+            try { b = memory().getBlock(f.getEntryPoint()); } catch (Exception e) { b = null; }
+            p("  614_FOLLOWUP_FUNCTION name=" + f.getName()
+                + " entry=" + f.getEntryPoint()
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " executable=" + (b != null && b.isExecute())
+                + " body=" + f.getBody().getMinAddress() + ".." + f.getBody().getMaxAddress());
+            ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
+            int shownRefs = 0;
+            while (refs.hasNext() && shownRefs < 4 && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function caller = null;
+                Instruction fromIns = null;
+                try {
+                    caller = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    fromIns = listing().getInstructionAt(from);
+                }
+                catch (Exception e) { caller = null; }
+                p("    614_FOLLOWUP_FUNCTION_REF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " caller=" + (caller == null ? "<none>" : caller.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                shownRefs++;
+            }
+            p("    614_FOLLOWUP_FUNCTION_REFS_PRINTED=" + shownRefs);
+            matches++;
+            if (matches >= 96) {
+                p("614_FOLLOWUP_FUNCTION_CANDIDATE_CAP=96");
+                break;
+            }
+        }
+        p("614_FOLLOWUP_FUNCTIONS_INSPECTED=" + inspected);
+        p("614_FOLLOWUP_FUNCTION_CANDIDATES_PRINTED=" + matches);
+    }
+
     private void scan614PltGotThunkMap() {
         p("");
         p("============================================================");
@@ -6934,6 +7229,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614RfcSingletonStorageAndConstructors();
             scan614RfcGetterEffectiveSlotAudit();
             scan614CorrectedGetterBodies();
+            scan614SignalInfoUpstreamAndRfcImplementations();
             scan614PltGotThunkMap();
         }
         else {
