@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-29
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-30
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-29";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-30";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -4436,6 +4436,254 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("614_PRIORITY_CALLEE_NOTE=Start with target 0x00025F70; determine whether it dereferences/calls the getter pointers passed by get_signals_info.");
     }
 
+
+    private void scan614PltGotThunkMap() {
+        p("");
+        p("============================================================");
+        p("614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP");
+        p("Maps PC-relative PLT-style thunks to their data slots and current static pointer values.");
+        p("Also prints contexts around register-indirect callr instructions.");
+        p("READ ONLY; this does not resolve runtime relocations or execute target functions.");
+        p("============================================================");
+
+        java.util.List<Instruction> executableInstructions =
+            new java.util.ArrayList<Instruction>();
+        InstructionIterator it = listing().getInstructions(true);
+        while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+            Instruction ins = it.next();
+            MemoryBlock b;
+            try {
+                b = memory().getBlock(ins.getAddress());
+            }
+            catch (Exception e) {
+                continue;
+            }
+            if (b != null && b.isExecute() && isDefaultDynamicAddressBlock(b)) {
+                executableInstructions.add(ins);
+            }
+        }
+
+        int pltThunks = 0;
+        int pltDetails = 0;
+        int indirectCallSites = 0;
+        int indirectContexts = 0;
+        java.util.Set<Long> printedSlots = new java.util.HashSet<Long>();
+
+        for (int i = 0; i < executableInstructions.size()
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            Instruction addIns = executableInstructions.get(i);
+            if (!"add".equalsIgnoreCase(addIns.getMnemonicString())) continue;
+
+            boolean hasPc = false;
+            boolean hasScalar = false;
+            long displacement = 0L;
+            for (int op = 0; op < addIns.getNumOperands(); op++) {
+                Object[] objects = addIns.getOpObjects(op);
+                for (Object object : objects) {
+                    if (object instanceof ghidra.program.model.lang.Register) {
+                        if ("PC".equalsIgnoreCase(
+                                ((ghidra.program.model.lang.Register)object).getName())) {
+                            hasPc = true;
+                        }
+                    }
+                    else if (object instanceof Scalar) {
+                        displacement = ((Scalar)object).getSignedValue();
+                        hasScalar = true;
+                    }
+                }
+            }
+            if (!hasPc || !hasScalar) continue;
+
+            String baseReg = null;
+            for (Object object : addIns.getOpObjects(0)) {
+                if (object instanceof ghidra.program.model.lang.Register) {
+                    baseReg = ((ghidra.program.model.lang.Register)object).getName();
+                    break;
+                }
+            }
+            if (baseReg == null) continue;
+
+            long computedBase = addIns.getAddress().getOffset()
+                + (long)addIns.getLength() + displacement;
+            MemoryBlock baseBlock;
+            try {
+                baseBlock = memory().getBlock(addr(computedBase));
+            }
+            catch (Exception e) {
+                baseBlock = null;
+            }
+            if (baseBlock == null || !baseBlock.isInitialized()
+                    || !isDefaultDynamicAddressBlock(baseBlock)) continue;
+
+            Function owner = currentProgram.getFunctionManager()
+                .getFunctionContaining(addIns.getAddress());
+            int searchEnd = Math.min(executableInstructions.size() - 1, i + 5);
+            boolean matchedThunk = false;
+            for (int j = i + 1; j <= searchEnd; j++) {
+                Instruction load = executableInstructions.get(j);
+                if (!load.getMnemonicString().toLowerCase().startsWith("mem")) continue;
+
+                boolean baseUsed = false;
+                long memoryDisp = 0L;
+                for (int op = 0; op < load.getNumOperands(); op++) {
+                    String operand = load.getDefaultOperandRepresentation(op);
+                    if (operand == null || !operand.contains("(")) continue;
+                    Object[] objects = load.getOpObjects(op);
+                    boolean thisBase = false;
+                    long thisDisp = 0L;
+                    for (Object object : objects) {
+                        if (object instanceof ghidra.program.model.lang.Register
+                                && baseReg.equalsIgnoreCase(
+                                    ((ghidra.program.model.lang.Register)object).getName())) {
+                            thisBase = true;
+                        }
+                        else if (object instanceof Scalar) {
+                            thisDisp = ((Scalar)object).getSignedValue();
+                        }
+                    }
+                    if (thisBase) {
+                        baseUsed = true;
+                        memoryDisp = thisDisp;
+                        break;
+                    }
+                }
+                if (!baseUsed) continue;
+
+                String loadedReg = null;
+                for (Object object : load.getOpObjects(0)) {
+                    if (object instanceof ghidra.program.model.lang.Register) {
+                        loadedReg = ((ghidra.program.model.lang.Register)object).getName();
+                        break;
+                    }
+                }
+                if (loadedReg == null) continue;
+
+                boolean indirectJumpFollows = false;
+                int jumpIndex = -1;
+                for (int k = j + 1; k <= Math.min(executableInstructions.size() - 1, j + 3); k++) {
+                    Instruction jump = executableInstructions.get(k);
+                    String mnemonic = jump.getMnemonicString().toLowerCase();
+                    if (!mnemonic.startsWith("jumpr") && !mnemonic.startsWith("callr")) continue;
+                    boolean sameRegister = false;
+                    for (int op = 0; op < jump.getNumOperands(); op++) {
+                        for (Object object : jump.getOpObjects(op)) {
+                            if (object instanceof ghidra.program.model.lang.Register
+                                    && loadedReg.equalsIgnoreCase(
+                                        ((ghidra.program.model.lang.Register)object).getName())) {
+                                sameRegister = true;
+                            }
+                        }
+                    }
+                    if (sameRegister) {
+                        indirectJumpFollows = true;
+                        jumpIndex = k;
+                        break;
+                    }
+                }
+                if (!indirectJumpFollows) continue;
+
+                long slot = computedBase + memoryDisp;
+                MemoryBlock slotBlock;
+                try {
+                    slotBlock = memory().getBlock(addr(slot));
+                }
+                catch (Exception e) {
+                    slotBlock = null;
+                }
+                if (slotBlock == null || !slotBlock.isInitialized()
+                        || !isDefaultDynamicAddressBlock(slotBlock)) continue;
+
+                pltThunks++;
+                matchedThunk = true;
+                Long slotKey = Long.valueOf(slot & 0xffffffffL);
+                if (pltDetails < 180 && printedSlots.add(slotKey) && lines < MAX_LINES) {
+                    long pointerValue;
+                    try {
+                        pointerValue = u32(slot);
+                    }
+                    catch (Exception e) {
+                        pointerValue = -1L;
+                    }
+
+                    Function pointedFunction = null;
+                    if (pointerValue >= 0L) {
+                        try {
+                            pointedFunction = currentProgram.getFunctionManager()
+                                .getFunctionAt(addr(pointerValue));
+                        }
+                        catch (Exception e) {
+                            pointedFunction = null;
+                        }
+                    }
+
+                    p("614_PLT_GOT_THUNK add=" + addIns.getAddress()
+                        + " function=" + functionInfo(addIns.getAddress().getOffset())
+                        + " base_reg=" + baseReg
+                        + " computed_base=" + hex(computedBase)
+                        + " load=" + load.getAddress()
+                        + " load_instruction=" + load
+                        + " slot=" + hex(slot)
+                        + " slot_block=" + slotBlock.getName()
+                        + " static_word=" + hex(pointerValue)
+                        + " pointed_function="
+                        + (pointedFunction == null ? "<not-exact-function-entry>"
+                            : pointedFunction.getName() + "@" + pointedFunction.getEntryPoint())
+                        + " indirect_transfer="
+                        + executableInstructions.get(jumpIndex).getAddress()
+                        + " instruction=" + executableInstructions.get(jumpIndex));
+                    pltDetails++;
+                }
+                break;
+            }
+
+            if (!matchedThunk && computedBase == 0x00254710L && lines < MAX_LINES) {
+                p("614_PLT_GOT_RESOLVER_BASE add=" + addIns.getAddress()
+                    + " function=" + functionInfo(addIns.getAddress().getOffset())
+                    + " base_reg=" + baseReg
+                    + " base=" + hex(computedBase)
+                    + " instruction=" + addIns);
+            }
+        }
+
+        for (int i = 0; i < executableInstructions.size()
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            Instruction callr = executableInstructions.get(i);
+            if (!callr.getMnemonicString().toLowerCase().startsWith("callr")) continue;
+            indirectCallSites++;
+            if (indirectContexts >= 40) continue;
+
+            Function owner = currentProgram.getFunctionManager()
+                .getFunctionContaining(callr.getAddress());
+            p("");
+            p("614_INDIRECT_CALLR #" + indirectCallSites
+                + " at=" + callr.getAddress()
+                + " function=" + functionInfo(callr.getAddress().getOffset())
+                + " instruction=" + callr);
+
+            int first = Math.max(0, i - 7);
+            int last = Math.min(executableInstructions.size() - 1, i + 7);
+            for (int j = first; j <= last && lines < MAX_LINES; j++) {
+                Instruction nearby = executableInstructions.get(j);
+                Function nearbyOwner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(nearby.getAddress());
+                if (owner != null && (nearbyOwner == null
+                        || !nearbyOwner.getEntryPoint().equals(owner.getEntryPoint()))) {
+                    continue;
+                }
+                if (owner == null && j != i) continue;
+                p((j == i ? "  >>> " : "      ")
+                    + nearby.getAddress() + " " + nearby);
+            }
+            indirectContexts++;
+        }
+
+        p("614_PLT_GOT_THUNK_CANDIDATES=" + pltThunks);
+        p("614_PLT_GOT_SLOTS_PRINTED=" + pltDetails);
+        p("614_INDIRECT_CALLR_SITES_FOUND=" + indirectCallSites);
+        p("614_INDIRECT_CALLR_CONTEXTS_PRINTED=" + indirectContexts);
+        p("614_PLT_GOT_NOTE=Static pointer values may be relocation placeholders or thunk targets; verify each computed slot and transfer sequence in the listing.");
+    }
+
     private void scan614CodePointerRuns() {
         dynamic614CodePointerRunRanges.clear();
         p("");
@@ -5124,6 +5372,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             run614DynamicAddressDiscovery();
             scan614PriorityRfcCallGraphSummary();
             scan614PriorityCalleeExpansion();
+            scan614PltGotThunkMap();
         }
         else {
             p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");
