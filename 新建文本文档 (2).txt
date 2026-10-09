@@ -1,128 +1,4 @@
-ialized=true
-  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06D3 count=0
-
-614_SIGNAL_RAW_CODE_TARGET #2 address=0x00026544 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
-  614_SIGNAL_RAW_CODE_BYTES target=0x00026544 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
-  614_SIGNAL_RAW_CODE_WORDS target=0x00026544 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
-  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026544 count=0
-  614_SIGNAL_RAW_DATA_TARGET index=2 address=0x000E06DD block=segment_3 initialized=true
-  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06DD count=0
-
-614_SIGNAL_RAW_CODE_TARGET #3 address=0x000265B4 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
-  614_SIGNAL_RAW_CODE_BYTES target=0x000265B4 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
-  614_SIGNAL_RAW_CODE_WORDS target=0x000265B4 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
-  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x000265B4 count=0
-  614_SIGNAL_RAW_DATA_TARGET index=3 address=0x000E06E7 block=segment_3 initialized=true
-  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06E7 count=0
-
-614_SIGNAL_RAW_CODE_TARGET #4 address=0x00026624 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
-  614_SIGNAL_RAW_CODE_BYTES target=0x00026624 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
-  614_SIGNAL_RAW_CODE_WORDS target=0x00026624 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
-  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026624 count=0
-  614_SIGNAL_RAW_DATA_TARGET index=4 address=0x000E06F1 block=segment_3 initialized=true
-  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06F1 count=0
-
-614_SIGNAL_RAW_CODE_TARGET #5 address=0x00026694 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
-  614_SIGNAL_RAW_CODE_BYTES target=0x00026694 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
-  614_SIGNAL_RAW_CODE_WORDS target=0x00026694 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
-  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026694 count=0
-  614_SIGNAL_RAW_DATA_TARGET index=5 address=0x000E06FC block=segment_3 initialized=true
-  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06FC count=0
-
-614_SIGNAL_RAW_CODE_TARGET #6 address=0x00026708 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
-  614_SIGNAL_RAW_CODE_BYTES target=0x00026708 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
-  614_SIGNAL_RAW_CODE_WORDS target=0x00026708 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
-  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026708 count=0
-  614_SIGNAL_RAW_DATA_TARGET index=6 address=0x000E0B7B block=segment_3 initialized=true
-  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E0B7B count=0
-614_SIGNAL_RAW_CODE_TARGETS_INSPECTED=6
-614_SIGNAL_RAW_CODE_TARGETS_WITH_INSTRUCTION=0
-614_SIGNAL_RAW_CODE_AND_DATA_XREFS_PRINTED=0
-
-============================================================
-614_0_0 SIGNAL DESCRIPTOR STRING / POINTER REFERENCE MAP
-Reclassifies the first field of six apparent descriptors by checking actual target bytes.
-Also scans initialized non-executable blocks for raw 32-bit references to descriptor and target addresses.
-READ ONLY; this method does not disassemble, create references, or modify program structures.
-============================================================
-614_SIGNAL_TABLE_ROW #1 record=0x000272C0 record_block=segment_3 field0=0x000264D4 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR NR5G Data Object is NOT Created . Cannot operate field1=0x000E06D3 field1_block=segment_3 field1_bytes=00 00 00 C8 00 23 FF 5A 00 5B 00 FF FF FF FF FF FF FF FF FF FF 84 00 12 field2=0x00000008
-614_SIGNAL_TABLE_ROW #2 record=0x000272CC record_block=segment_3 field0=0x00026544 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR WCDMA Data Object is NOT Created . Cannot operat field1=0x000E06DD field1_block=segment_3 field1_bytes=00 FF FF FF FF FF FF FF FF FF FF 84 00 12 00 00 00 C8 00 01 FF 5A 00 5B field2=0x00000008
-614_SIGNAL_TABLE_ROW #3 record=0x000272D8 record_block=segment_3 field0=0x000265B4 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR CDMA Data Object is NOT Created . Cannot operate field1=0x000E06E7 field1_block=segment_3 field1_bytes=FF 84 00 12 00 00 00 C8 00 01 FF 5A 00 5B 00 FF FF FF FF FF FF FF FF FF field2=0x00000008
-614_SIGNAL_TABLE_ROW #4 record=0x000272E4 record_block=segment_3 field0=0x00026624 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR GSM Data Object is NOT Created . Cannot operate  field1=0x000E06F1 field1_block=segment_3 field1_bytes=FF 5A 00 5B 00 FF FF FF FF FF FF FF FF FF FF 0B 00 57 00 E8 03 E8 03 12 field2=0x00000008
-614_SIGNAL_TABLE_ROW #5 record=0x000272F0 record_block=segment_3 field0=0x00026694 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR TDSCDMA Data Object is NOT Created . Cannot oper field1=0x000E06FC field1_block=segment_3 field1_bytes=FF FF FF FF 0B 00 57 00 E8 03 E8 03 12 FF 73 00 74 00 FF FF FF FF 77 00 field2=0x00000008
-614_SIGNAL_TABLE_ROW #6 record=0x000272FC record_block=segment_3 field0=0x00026708 field0_block=segment_2 field0_executable=true field0_ascii_preview=rfc_hwid614_qrm865ab_v3_ag_cmn_ag.cpp:RFC ERROR GNSS Data Object is NOT Created . Cannot operate field1=0x000E0B7B field1_block=segment_3 field1_bytes=FF FF FF FF FF 84 00 22 00 00 00 C8 00 48 47 56 00 57 00 6B 00 5F 00 FF field2=0x00000008
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546A0 value=0x002197A0
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546A4 value=0x002197B0
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546A8 value=0x00219550
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546AC value=0x00025418
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546B0 value=0x000254FC
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546B4 value=0x00025598
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546B8 value=0x00025604
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546BC value=0x00025694
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546C0 value=0x00025700
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546C4 value=0x00027384
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546C8 value=0x00217458
-614_SIGNAL_R0_SLOT_WINDOW slot=0x002546CC value=0x00218958
-614_SIGNAL_REFERENCE_SCAN_WORDS=570922
-614_SIGNAL_REFERENCE_SCAN_MATCHES=14
-614_SIGNAL_RAW_POINTER_VALUE value=0x000272C0 label=descriptor_row_1 match_count=0 slots=<none>
-614_SIGNAL_RAW_POINTER_VALUE value=0x000264D4 label=source_string_target_1 match_count=1 slots=[segment_3:0x000272C0]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000E06D3 label=descriptor_field1_1 match_count=1 slots=[segment_3:0x000272C4]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000272CC label=descriptor_row_2 match_count=0 slots=<none>
-614_SIGNAL_RAW_POINTER_VALUE value=0x00026544 label=source_string_target_2 match_count=1 slots=[segment_3:0x000272CC]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000E06DD label=descriptor_field1_2 match_count=1 slots=[segment_3:0x000272D0]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000272D8 label=descriptor_row_3 match_count=0 slots=<none>
-614_SIGNAL_RAW_POINTER_VALUE value=0x000265B4 label=source_string_target_3 match_count=1 slots=[segment_3:0x000272D8]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000E06E7 label=descriptor_field1_3 match_count=1 slots=[segment_3:0x000272DC]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000272E4 label=descriptor_row_4 match_count=0 slots=<none>
-614_SIGNAL_RAW_POINTER_VALUE value=0x00026624 label=source_string_target_4 match_count=1 slots=[segment_3:0x000272E4]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000E06F1 label=descriptor_field1_4 match_count=1 slots=[segment_3:0x000272E8]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000272F0 label=descriptor_row_5 match_count=0 slots=<none>
-614_SIGNAL_RAW_POINTER_VALUE value=0x00026694 label=source_string_target_5 match_count=1 slots=[segment_3:0x000272F0]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000E06FC label=descriptor_field1_5 match_count=1 slots=[segment_3:0x000272F4]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000272FC label=descriptor_row_6 match_count=0 slots=<none>
-614_SIGNAL_RAW_POINTER_VALUE value=0x00026708 label=source_string_target_6 match_count=1 slots=[segment_3:0x000272FC]
-614_SIGNAL_RAW_POINTER_VALUE value=0x000E0B7B label=descriptor_field1_6 match_count=1 slots=[segment_3:0x00027300]
-614_SIGNAL_RAW_POINTER_VALUE value=0x00027384 label=R0_slot_2546C4_target match_count=1 slots=[segment_3:0x002546C4]
-614_SIGNAL_RAW_POINTER_VALUE value=0x00217458 label=R0_slot_2546C8_target match_count=1 slots=[segment_3:0x002546C8]
-614_SIGNAL_TABLE_ROWS_PARSED=6
-
-============================================================
-614_0_0 RFC SINGLETON STORAGE / CONSTRUCTOR CALL PATH
-Checks global storage slots used by the four get_instance wrappers and dumps direct call targets.
-Static-only analysis; does not execute targets, create instructions, or modify memory.
-============================================================
-614_RFC_SINGLETON_SLOT #1 getter=0x00025598 getter_name=get_instance singleton_slot=0x0025467C slot_block=segment_3 static_value=0x0025506C value_block=EXTERNAL value_executable=false
-  614_RFC_SINGLETON_XREF slot=0x0025467C from=000255a8 type=READ function=get_instance instruction=memw R2,(R17+##0xffffff74) 
-  614_RFC_SINGLETON_XREF slot=0x0025467C from=000255c4 type=READ function=get_instance instruction=memw R2,(R17+##0xffffff74) 
-  614_RFC_SINGLETON_XREFS_PRINTED slot=0x0025467C count=2
-614_RFC_SINGLETON_SLOT #2 getter=0x00025604 getter_name=get_instance singleton_slot=0x00254684 slot_block=segment_3 static_value=0x00255040 value_block=EXTERNAL value_executable=false
-  614_RFC_SINGLETON_XREF slot=0x00254684 from=00025614 type=READ function=get_instance instruction=memw R2,(R17+##0xffffff7c) 
-  614_RFC_SINGLETON_XREF slot=0x00254684 from=00025630 type=READ function=get_instance instruction=memw R2,(R17+##0xffffff7c) 
-  614_RFC_SINGLETON_XREFS_PRINTED slot=0x00254684 count=2
-614_RFC_SINGLETON_SLOT #3 getter=0x00025694 getter_name=get_instance singleton_slot=0x002546F0 slot_block=segment_3 static_value=0x002550D4 value_block=EXTERNAL value_executable=false
-  614_RFC_SINGLETON_XREF slot=0x002546F0 from=000256a4 type=READ function=get_instance instruction=memw R2,(R17+##0xffffffe8) 
-  614_RFC_SINGLETON_XREF slot=0x002546F0 from=000256c0 type=READ function=get_instance instruction=memw R2,(R17+##0xffffffe8) 
-  614_RFC_SINGLETON_XREFS_PRINTED slot=0x002546F0 count=2
-614_RFC_SINGLETON_SLOT #4 getter=0x00025700 getter_name=get_instance singleton_slot=0x002546F8 slot_block=segment_3 static_value=0x00255070 value_block=EXTERNAL value_executable=false
-  614_RFC_SINGLETON_XREF slot=0x002546F8 from=00025710 type=READ function=get_instance instruction=memw R2,(R17+##0xfffffff0) 
-  614_RFC_SINGLETON_XREF slot=0x002546F8 from=0002572c type=READ function=get_instance instruction=memw R2,(R17+##0xfffffff0) 
-  614_RFC_SINGLETON_XREFS_PRINTED slot=0x002546F8 count=2
-
-614_RFC_CONSTRUCTOR_CALL_TARGET #1 role=shared_get_instance_helper target=0x0002526C block=segment_2 executable=true exact_function=FUN_0002526c containing_function=FUN_0002526c entry=0x0002526C
-  614_RFC_CALL_TARGET_INS role=shared_get_instance_helper 0002526c immext #0xfffff940 
-  614_RFC_CALL_TARGET_INS role=shared_get_instance_helper 00025270 assign R0,#0x4 ; jump 0x00024be0 
-  614_RFC_CALL_TARGET_INSNS role=shared_get_instance_helper count=2
-  614_RFC_CALL_TARGET_XREF role=shared_get_instance_helper from=0002524c type=UNCONDITIONAL_CALL caller=get_instance instruction=call 0x0002526c 
-  614_RFC_CALL_TARGET_XREF role=shared_get_instance_helper from=00025434 type=UNCONDITIONAL_CALL caller=get_instance instruction=call 0x0002526c 
-  614_RFC_CALL_TARGET_XREF role=shared_get_instance_helper from=00025518 type=UNCONDITIONAL_CALL caller=get_instance instruction=call 0x0002526c 
-  614_RFC_CALL_TARGET_XREF role=shared_get_instance_helper from=000255b4 type=UNCONDITIONAL_CALL caller=get_instance instruction=call 0x0002526c 
-  614_RFC_CALL_TARGET_XREF role=shared_get_instance_helper from=00025620 type=UNCONDITIONAL_CALL caller=get_instance instruction=call 0x0002526c 
-  614_RFC_CALL_TARGET_XREF role=shared_get_instance_helper from=000256b0 type=UNCONDITIONAL_CALL caller=get_instance instruction=call 0x0002526c 
-  614_RFC_CALL_TARGET_XREF role=shared_get_instance_helper from=0002571c type=UNCONDITIONAL_CALL caller=get_instance instruction=call 0x0002526c 
-  614_RFC_CALL_TARGET_XREFS role=shared_get_instance_helper count=7
-
-614_RFC_CONSTRUCTOR_CALL_TARGET #2 role=getter_25598_secondary_call target=0x00024C80 block=segment_2 executable=true exact_function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag containing_function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=0x00024C80
+ALL_TARGET #2 role=getter_25598_secondary_call target=0x00024C80 block=segment_2 executable=true exact_function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag containing_function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=0x00024C80
   614_RFC_CALL_TARGET_INS role=getter_25598_secondary_call 00024c80 immext #0x22fac0 
   614_RFC_CALL_TARGET_INS role=getter_25598_secondary_call 00024c84 add R14,PC,##0x22fac8 
   614_RFC_CALL_TARGET_INS role=getter_25598_secondary_call 00024c88 memw R28,(R14) 
@@ -213,6 +89,183 @@ READ ONLY; no instructions, references, data, or structures are created or modif
 614_RFC_EFFECTIVE_AUDIT_STORED_DIRECT_REFERENCE_MATCHES=8
 614_RFC_EFFECTIVE_AUDIT_MISSING_INSTRUCTIONS_OR_IMMEDIATES=0
 Interpretation rule: Hexagon PC-relative arithmetic uses the packet start; for these four sites the preceding immext is explicitly checked. Stored references are reported separately, not treated as ground truth.
+
+============================================================
+STRUCTURE-42 CORRECTED SIX-GETTER BODY / SLOT TRACE
+Corrected R18 callback table targets; packet-start PC arithmetic only.
+Correlate direct constructor calls with 614_PLT_GOT_THUNK output below.
+READ ONLY.
+============================================================
+614_CORRECTED_SIGNAL_INFO_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
+614_CORRECTED_SIGNAL_INFO_INCOMING from=00254798 type=DATA caller=<none> instruction=<no-instruction>
+614_CORRECTED_SIGNAL_INFO_INCOMING from=00027220 type=DATA caller=<none> instruction=<no-instruction>
+614_CORRECTED_SIGNAL_INFO_INCOMING_COUNT=3
+
+614_CORRECTED_GETTER #1 target=0x00025418 function=get_instance entry=0x00025418
+  614_CORRECTED_GETTER_INS 00025418 immext #0x22f2c0 
+  614_CORRECTED_GETTER_INS 0002541c add R17,PC,##0x22f2f0 
+  614_CORRECTED_GETTER_PC_BASE ins=0002541c packet_start=0x00025418 packet_offset=1 register=R17 immediate=0x0022F2F0 base=0x00254708
+  614_CORRECTED_GETTER_INS 00025420 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  614_CORRECTED_GETTER_INS 00025424 immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 00025428 memw R2,(R17+##0xffffff58) 
+  614_CORRECTED_GETTER_SLOT_USE ins=00025428 base=0x00254708 disp=0xFFFFFF58 slot=0x00254660 slot_block=segment_3 static_word=0x00255064 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 0002542c memw R16,(R2) 
+  614_CORRECTED_GETTER_INS 00025430 jump.if:t !cmp.eq(R16.new,#0x0),0x0002544c 
+  614_CORRECTED_GETTER_INS 00025434 call 0x0002526c 
+  614_CORRECTED_GETTER_DIRECT_CALL from=00025434 target=0002526c instruction=call 0x0002526c 
+  614_CORRECTED_GETTER_INS 00025438 call 0x00024c40 
+  614_CORRECTED_GETTER_DIRECT_CALL from=00025438 target=00024c40 instruction=call 0x00024c40 
+  614_CORRECTED_GETTER_INS 0002543c assign R16,R0 
+  614_CORRECTED_GETTER_INS 00025440 immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 00025444 memw R2,(R17+##0xffffff58) 
+  614_CORRECTED_GETTER_SLOT_USE ins=00025444 base=0x00254708 disp=0xFFFFFF58 slot=0x00254660 slot_block=segment_3 static_word=0x00255064 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 00025448 memw (R2),R16 
+  614_CORRECTED_GETTER_INS 0002544c assign R0,R16 
+  614_CORRECTED_GETTER_INS 00025450 memd R17R16,(SP+#0x0) ; dealloc_return 
+  614_CORRECTED_GETTER_INSNS_PRINTED=15
+  614_CORRECTED_GETTER_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING from=000259f4 type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffa4) 
+  614_CORRECTED_GETTER_INCOMING from=002546ac type=DATA caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING_COUNT=3
+
+614_CORRECTED_GETTER #2 target=0x000254FC function=get_instance entry=0x000254FC
+  614_CORRECTED_GETTER_INS 000254fc immext #0x22f200 
+  614_CORRECTED_GETTER_INS 00025500 add R17,PC,##0x22f20c 
+  614_CORRECTED_GETTER_PC_BASE ins=00025500 packet_start=0x000254FC packet_offset=1 register=R17 immediate=0x0022F20C base=0x00254708
+  614_CORRECTED_GETTER_INS 00025504 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  614_CORRECTED_GETTER_INS 00025508 immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 0002550c memw R2,(R17+##0xffffff68) 
+  614_CORRECTED_GETTER_SLOT_USE ins=0002550c base=0x00254708 disp=0xFFFFFF68 slot=0x00254670 slot_block=segment_3 static_word=0x002550C0 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 00025510 memw R16,(R2) 
+  614_CORRECTED_GETTER_INS 00025514 jump.if:t !cmp.eq(R16.new,#0x0),0x00025530 
+  614_CORRECTED_GETTER_INS 00025518 call 0x0002526c 
+  614_CORRECTED_GETTER_DIRECT_CALL from=00025518 target=0002526c instruction=call 0x0002526c 
+  614_CORRECTED_GETTER_INS 0002551c call 0x00024c60 
+  614_CORRECTED_GETTER_DIRECT_CALL from=0002551c target=00024c60 instruction=call 0x00024c60 
+  614_CORRECTED_GETTER_INS 00025520 assign R16,R0 
+  614_CORRECTED_GETTER_INS 00025524 immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 00025528 memw R2,(R17+##0xffffff68) 
+  614_CORRECTED_GETTER_SLOT_USE ins=00025528 base=0x00254708 disp=0xFFFFFF68 slot=0x00254670 slot_block=segment_3 static_word=0x002550C0 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 0002552c memw (R2),R16 
+  614_CORRECTED_GETTER_INS 00025530 assign R0,R16 
+  614_CORRECTED_GETTER_INS 00025534 memd R17R16,(SP+#0x0) ; dealloc_return 
+  614_CORRECTED_GETTER_INSNS_PRINTED=15
+  614_CORRECTED_GETTER_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING from=00025a0c type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffa8) 
+  614_CORRECTED_GETTER_INCOMING from=002546b0 type=DATA caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING_COUNT=3
+
+614_CORRECTED_GETTER #3 target=0x00025598 function=get_instance entry=0x00025598
+  614_CORRECTED_GETTER_INS 00025598 immext #0x22f140 
+  614_CORRECTED_GETTER_INS 0002559c add R17,PC,##0x22f170 
+  614_CORRECTED_GETTER_PC_BASE ins=0002559c packet_start=0x00025598 packet_offset=1 register=R17 immediate=0x0022F170 base=0x00254708
+  614_CORRECTED_GETTER_INS 000255a0 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  614_CORRECTED_GETTER_INS 000255a4 immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 000255a8 memw R2,(R17+##0xffffff74) 
+  614_CORRECTED_GETTER_SLOT_USE ins=000255a8 base=0x00254708 disp=0xFFFFFF74 slot=0x0025467C slot_block=segment_3 static_word=0x0025506C value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 000255ac memw R16,(R2) 
+  614_CORRECTED_GETTER_INS 000255b0 jump.if:t !cmp.eq(R16.new,#0x0),0x000255cc 
+  614_CORRECTED_GETTER_INS 000255b4 call 0x0002526c 
+  614_CORRECTED_GETTER_DIRECT_CALL from=000255b4 target=0002526c instruction=call 0x0002526c 
+  614_CORRECTED_GETTER_INS 000255b8 call 0x00024c80 
+  614_CORRECTED_GETTER_DIRECT_CALL from=000255b8 target=00024c80 instruction=call 0x00024c80 
+  614_CORRECTED_GETTER_INS 000255bc assign R16,R0 
+  614_CORRECTED_GETTER_INS 000255c0 immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 000255c4 memw R2,(R17+##0xffffff74) 
+  614_CORRECTED_GETTER_SLOT_USE ins=000255c4 base=0x00254708 disp=0xFFFFFF74 slot=0x0025467C slot_block=segment_3 static_word=0x0025506C value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 000255c8 memw (R2),R16 
+  614_CORRECTED_GETTER_INS 000255cc assign R0,R16 
+  614_CORRECTED_GETTER_INS 000255d0 memd R17R16,(SP+#0x0) ; dealloc_return 
+  614_CORRECTED_GETTER_INSNS_PRINTED=15
+  614_CORRECTED_GETTER_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING from=00025a24 type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffac) 
+  614_CORRECTED_GETTER_INCOMING from=002546b4 type=DATA caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING_COUNT=3
+
+614_CORRECTED_GETTER #4 target=0x00025604 function=get_instance entry=0x00025604
+  614_CORRECTED_GETTER_INS 00025604 immext #0x22f100 
+  614_CORRECTED_GETTER_INS 00025608 add R17,PC,##0x22f104 
+  614_CORRECTED_GETTER_PC_BASE ins=00025608 packet_start=0x00025604 packet_offset=1 register=R17 immediate=0x0022F104 base=0x00254708
+  614_CORRECTED_GETTER_INS 0002560c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  614_CORRECTED_GETTER_INS 00025610 immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 00025614 memw R2,(R17+##0xffffff7c) 
+  614_CORRECTED_GETTER_SLOT_USE ins=00025614 base=0x00254708 disp=0xFFFFFF7C slot=0x00254684 slot_block=segment_3 static_word=0x00255040 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 00025618 memw R16,(R2) 
+  614_CORRECTED_GETTER_INS 0002561c jump.if:t !cmp.eq(R16.new,#0x0),0x00025638 
+  614_CORRECTED_GETTER_INS 00025620 call 0x0002526c 
+  614_CORRECTED_GETTER_DIRECT_CALL from=00025620 target=0002526c instruction=call 0x0002526c 
+  614_CORRECTED_GETTER_INS 00025624 call 0x00024cb0 
+  614_CORRECTED_GETTER_DIRECT_CALL from=00025624 target=00024cb0 instruction=call 0x00024cb0 
+  614_CORRECTED_GETTER_INS 00025628 assign R16,R0 
+  614_CORRECTED_GETTER_INS 0002562c immext #0xffffff40 
+  614_CORRECTED_GETTER_INS 00025630 memw R2,(R17+##0xffffff7c) 
+  614_CORRECTED_GETTER_SLOT_USE ins=00025630 base=0x00254708 disp=0xFFFFFF7C slot=0x00254684 slot_block=segment_3 static_word=0x00255040 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 00025634 memw (R2),R16 
+  614_CORRECTED_GETTER_INS 00025638 assign R0,R16 
+  614_CORRECTED_GETTER_INS 0002563c memd R17R16,(SP+#0x0) ; dealloc_return 
+  614_CORRECTED_GETTER_INSNS_PRINTED=15
+  614_CORRECTED_GETTER_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING from=00025a3c type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffb0) 
+  614_CORRECTED_GETTER_INCOMING from=002546b8 type=DATA caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING_COUNT=3
+
+614_CORRECTED_GETTER #5 target=0x00025694 function=get_instance entry=0x00025694
+  614_CORRECTED_GETTER_INS 00025694 immext #0x22f040 
+  614_CORRECTED_GETTER_INS 00025698 add R17,PC,##0x22f074 
+  614_CORRECTED_GETTER_PC_BASE ins=00025698 packet_start=0x00025694 packet_offset=1 register=R17 immediate=0x0022F074 base=0x00254708
+  614_CORRECTED_GETTER_INS 0002569c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  614_CORRECTED_GETTER_INS 000256a0 immext #0xffffffc0 
+  614_CORRECTED_GETTER_INS 000256a4 memw R2,(R17+##0xffffffe8) 
+  614_CORRECTED_GETTER_SLOT_USE ins=000256a4 base=0x00254708 disp=0xFFFFFFE8 slot=0x002546F0 slot_block=segment_3 static_word=0x002550D4 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 000256a8 memw R16,(R2) 
+  614_CORRECTED_GETTER_INS 000256ac jump.if:t !cmp.eq(R16.new,#0x0),0x000256c8 
+  614_CORRECTED_GETTER_INS 000256b0 call 0x0002526c 
+  614_CORRECTED_GETTER_DIRECT_CALL from=000256b0 target=0002526c instruction=call 0x0002526c 
+  614_CORRECTED_GETTER_INS 000256b4 call 0x00024e90 
+  614_CORRECTED_GETTER_DIRECT_CALL from=000256b4 target=00024e90 instruction=call 0x00024e90 
+  614_CORRECTED_GETTER_INS 000256b8 assign R16,R0 
+  614_CORRECTED_GETTER_INS 000256bc immext #0xffffffc0 
+  614_CORRECTED_GETTER_INS 000256c0 memw R2,(R17+##0xffffffe8) 
+  614_CORRECTED_GETTER_SLOT_USE ins=000256c0 base=0x00254708 disp=0xFFFFFFE8 slot=0x002546F0 slot_block=segment_3 static_word=0x002550D4 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 000256c4 memw (R2),R16 
+  614_CORRECTED_GETTER_INS 000256c8 assign R0,R16 
+  614_CORRECTED_GETTER_INS 000256cc memd R17R16,(SP+#0x0) ; dealloc_return 
+  614_CORRECTED_GETTER_INSNS_PRINTED=15
+  614_CORRECTED_GETTER_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING from=00025a54 type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffb4) 
+  614_CORRECTED_GETTER_INCOMING from=002546bc type=DATA caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING_COUNT=3
+
+614_CORRECTED_GETTER #6 target=0x00025700 function=get_instance entry=0x00025700
+  614_CORRECTED_GETTER_INS 00025700 immext #0x22f000 
+  614_CORRECTED_GETTER_INS 00025704 add R17,PC,##0x22f008 
+  614_CORRECTED_GETTER_PC_BASE ins=00025704 packet_start=0x00025700 packet_offset=1 register=R17 immediate=0x0022F008 base=0x00254708
+  614_CORRECTED_GETTER_INS 00025708 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  614_CORRECTED_GETTER_INS 0002570c immext #0xffffffc0 
+  614_CORRECTED_GETTER_INS 00025710 memw R2,(R17+##0xfffffff0) 
+  614_CORRECTED_GETTER_SLOT_USE ins=00025710 base=0x00254708 disp=0xFFFFFFF0 slot=0x002546F8 slot_block=segment_3 static_word=0x00255070 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 00025714 memw R16,(R2) 
+  614_CORRECTED_GETTER_INS 00025718 jump.if:t !cmp.eq(R16.new,#0x0),0x00025734 
+  614_CORRECTED_GETTER_INS 0002571c call 0x0002526c 
+  614_CORRECTED_GETTER_DIRECT_CALL from=0002571c target=0002526c instruction=call 0x0002526c 
+  614_CORRECTED_GETTER_INS 00025720 call 0x00024eb0 
+  614_CORRECTED_GETTER_DIRECT_CALL from=00025720 target=00024eb0 instruction=call 0x00024eb0 
+  614_CORRECTED_GETTER_INS 00025724 assign R16,R0 
+  614_CORRECTED_GETTER_INS 00025728 immext #0xffffffc0 
+  614_CORRECTED_GETTER_INS 0002572c memw R2,(R17+##0xfffffff0) 
+  614_CORRECTED_GETTER_SLOT_USE ins=0002572c base=0x00254708 disp=0xFFFFFFF0 slot=0x002546F8 slot_block=segment_3 static_word=0x00255070 value_block=EXTERNAL value_executable=false exact_function=<none> containing_function=<none>
+  614_CORRECTED_GETTER_INS 00025730 memw (R2),R16 
+  614_CORRECTED_GETTER_INS 00025734 assign R0,R16 
+  614_CORRECTED_GETTER_INS 00025738 memd R17R16,(SP+#0x0) ; dealloc_return 
+  614_CORRECTED_GETTER_INSNS_PRINTED=15
+  614_CORRECTED_GETTER_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING from=00025a6c type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffb8) 
+  614_CORRECTED_GETTER_INCOMING from=002546c0 type=DATA caller=<none> instruction=<no-instruction>
+  614_CORRECTED_GETTER_INCOMING_COUNT=3
+
+614_CORRECTED_GETTERS_INSPECTED=6
+614_CORRECTED_GETTER_SLOT_USES=12
+614_CORRECTED_GETTER_DIRECT_CALLS=12
 
 ============================================================
 614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP
