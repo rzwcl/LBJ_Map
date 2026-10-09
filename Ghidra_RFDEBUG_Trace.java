@@ -1035,6 +1035,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                     int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
                     if (want < 4) break;
+                    memory().getBytes(addr(pos), buf, 0, want);
 
                     for (int i = 0; i + 4 <= want; i++) {
                         long at = pos + i;
@@ -1131,6 +1132,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                     int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
                     if (want < 16) break;
+                    memory().getBytes(addr(pos), buf, 0, want);
 
                     int firstAligned = (int)((4L - (pos & 3L)) & 3L);
 
@@ -1229,6 +1231,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             + " range=" + b.getStart() + ".." + b.getEnd());
 
         int shown = 0;
+        long[] handlerValues = new long[Math.min(count, 96)];
+        int[] handlerCounts = new int[Math.min(count, 96)];
+        int uniqueHandlers = 0;
+
         for (int i = 0; i < count && i < 96 && shown < 96; i++) {
             if (monitor.isCancelled() || lines >= MAX_LINES) return;
 
@@ -1248,11 +1254,33 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                     i, hex(p0), hex(lo), hex(hi), hex(handler),
                     hb == null ? "<none>" : hb.getName()));
 
+                int handlerSlot = -1;
+                for (int j = 0; j < uniqueHandlers; j++) {
+                    if (handlerValues[j] == handler) {
+                        handlerSlot = j;
+                        break;
+                    }
+                }
+                if (handlerSlot < 0) {
+                    handlerSlot = uniqueHandlers++;
+                    handlerValues[handlerSlot] = handler;
+                }
+                handlerCounts[handlerSlot]++;
+
                 shown++;
             }
             catch (Exception e) {
                 p("      entry[" + i + "] ERROR=" + e.getMessage());
             }
+        }
+
+        p("      TABLE_VALID_ENTRIES_SHOWN=" + shown);
+        p("      UNIQUE_HANDLER_POINTERS=" + uniqueHandlers);
+        for (int i = 0; i < uniqueHandlers; i++) {
+            MemoryBlock hb = block(handlerValues[i]);
+            p("      HANDLER_SUMMARY[" + i + "] ptr=" + hex(handlerValues[i])
+                + " count=" + handlerCounts[i]
+                + " block=" + (hb == null ? "<none>" : hb.getName()));
         }
     }
 
