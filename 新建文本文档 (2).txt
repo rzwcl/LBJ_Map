@@ -1,69 +1,4 @@
-h_info@00025ad0 instruction=assign R16,#0x0 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a9c type=DATA caller=FUN_00025a94@00025a94 instruction=jump 0x00024cf0 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025c4c type=UNCONDITIONAL_CALL caller=get_rffe_speeds_info@00025c3c instruction=call 0x00024cf0 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025aa4 type=UNCONDITIONAL_CALL caller=FUN_00025a94@00025a94 instruction=memw R0,(R2+##0xffffffbc) 
-  614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=9
-
-614_PRIORITY_CALLEE #7 target=0x00024D10 block=segment_2 function=get_instance entry=00024d10 target_is_entry=true direct_caller_sites=1
-  614_PRIORITY_CALLEE_CALLSITE get_signals_info@000259a4 call=000259cc instruction=call 0x00024d10 
-  614_PRIORITY_CALLEE_INS 00024d10 immext #0x22fa40 
-  614_PRIORITY_CALLEE_INS 00024d14 add R14,PC,##0x22fa5c 
-  614_PRIORITY_CALLEE_INS 00024d18 memw R28,(R14) 
-  614_PRIORITY_CALLEE_INS 00024d1c jumpr R28 
-  614_PRIORITY_CALLEE_INS_COUNT=4
-  614_PRIORITY_CALLEE_INCOMING_REF from=000259cc type=DATA caller=get_signals_info@000259a4 instruction=call 0x00024d10 
-  614_PRIORITY_CALLEE_INCOMING_REF from=000259d0 type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=memb (R1+#0x4),#0x8 
-  614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=2
-
-614_PRIORITY_CALLEE #8 target=0x00024D20 block=segment_2 function=memscpy entry=00024d20 target_is_entry=true direct_caller_sites=1
-  614_PRIORITY_CALLEE_CALLSITE get_logical_path_config@00025bd0 call=00025bfc instruction=call 0x00024d20 
-  614_PRIORITY_CALLEE_INS 00024d20 immext #0x22fa40 
-  614_PRIORITY_CALLEE_INS 00024d24 add R14,PC,##0x22fa50 
-  614_PRIORITY_CALLEE_INS 00024d28 memw R28,(R14) 
-  614_PRIORITY_CALLEE_INS 00024d2c jumpr R28 
-  614_PRIORITY_CALLEE_INS_COUNT=4
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025bfc type=DATA caller=get_logical_path_config@00025bd0 instruction=call 0x00024d20 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025c08 type=UNCONDITIONAL_CALL caller=get_logical_path_config@00025bd0 instruction=memw R2,(R2+##0xffffffc8) 
-  614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=2
-
-614_PRIORITY_CALLEE #9 target=0x00025A94 block=segment_2 function=FUN_00025a94 entry=00025a94 target_is_entry=true direct_caller_sites=2
-  614_PRIORITY_CALLEE_CALLSITE path_cfg_data_get@00025d50 call=00025d88 instruction=call 0x00025a94 
-  614_PRIORITY_CALLEE_CALLSITE fbrx_cfg_data_get@00025e44 call=00025e80 instruction=call 0x00025a94 
-  614_PRIORITY_CALLEE_INS 00025a94 immext #0x22ec40 
-  614_PRIORITY_CALLEE_INS 00025a98 add R2,PC,##0x22ec74 
-  614_PRIORITY_CALLEE_INS 00025a9c jump 0x00024cf0 
-  614_PRIORITY_CALLEE_INS 00025aa0 immext #0xffffff80 
-  614_PRIORITY_CALLEE_INS 00025aa4 memw R0,(R2+##0xffffffbc) 
-  614_PRIORITY_CALLEE_INS_COUNT=5
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025b20 type=UNCONDITIONAL_CALL caller=get_ant_switch_path_info@00025ad0 instruction=call 0x00025a94 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025d88 type=UNCONDITIONAL_CALL caller=path_cfg_data_get@00025d50 instruction=call 0x00025a94 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025e80 type=UNCONDITIONAL_CALL caller=fbrx_cfg_data_get@00025e44 instruction=call 0x00025a94 
-  614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=3
-
-614_PRIORITY_CALLEE #10 target=0x00025F70 block=segment_2 function=FUN_00025f70 entry=00025f70 target_is_entry=true direct_caller_sites=6
-  614_PRIORITY_CALLEE_CALLSITE get_signals_info@000259a4 call=000259f8 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_CALLSITE get_signals_info@000259a4 call=00025a10 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_CALLSITE get_signals_info@000259a4 call=00025a28 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_CALLSITE get_signals_info@000259a4 call=00025a40 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_CALLSITE get_signals_info@000259a4 call=00025a58 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_CALLSITE get_signals_info@000259a4 call=00025a70 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_INS 00025f70 call 0x00024c00 
-  614_PRIORITY_CALLEE_INS 00025f74 allocframe #0x10 
-  614_PRIORITY_CALLEE_INS 00025f78 combine R17R16,R2,R3 
-  614_PRIORITY_CALLEE_INS 00025f7c callr R0 
-  614_PRIORITY_CALLEE_INS 00025f80 assign R18,R1 
-  614_PRIORITY_CALLEE_INS 00025f84 assign.if(P0.new) R0,R17 
-  614_PRIORITY_CALLEE_INS 00025f88 cmp.eq P0,R0,R18 ; jump.if(!P0.new):t 0x00025f94 
-  614_PRIORITY_CALLEE_INS 00025f8c call 0x00024cf0 
-  614_PRIORITY_CALLEE_INS 00025f90 memb (R16),#0x0 
-  614_PRIORITY_CALLEE_INS 00025f94 jump 0x00024c30 
-  614_PRIORITY_CALLEE_INS_COUNT=10
-  614_PRIORITY_CALLEE_INCOMING_REF from=000259f8 type=DATA caller=get_signals_info@000259a4 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_INCOMING_REF from=000259fc type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a10 type=DATA caller=get_signals_info@000259a4 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a14 type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a28 type=DATA caller=get_signals_info@000259a4 instruction=call 0x00025f70 
-  614_PRIORITY_CALLEE_INCOMING_REF from=00025a2c type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+NG_REF from=00025a2c type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
   614_PRIORITY_CALLEE_INCOMING_REF from=00025a40 type=DATA caller=get_signals_info@000259a4 instruction=call 0x00025f70 
   614_PRIORITY_CALLEE_INCOMING_REF from=00025a44 type=UNCONDITIONAL_CALL caller=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
   614_PRIORITY_CALLEE_INCOMING_REF from=00025a58 type=DATA caller=get_signals_info@000259a4 instruction=call 0x00025f70 
@@ -336,6 +271,57 @@ READ ONLY; no program memory or structures are modified.
   614_SIGNAL_GETTER_TARGET_DATA address=0x00217458 bytes=23 00 00 00 00 00 00 00 FF 00 00 00 03 00 00 00 00 00 00 00 00 00 00 00
 614_SIGNAL_DESCRIPTOR_COUNT=6
 614_SIGNAL_GETTER_TARGETS_INSPECTED=6
+
+============================================================
+614_0_0 RAW BYTES / REFERENCES FOR UNDECODED SIGNAL CALLBACK TARGETS
+The six descriptor code pointers lie in executable segment_2, but current Listing has no instruction at those addresses.
+This read-only scan prints raw bytes/words and incoming references without disassembling or modifying the program.
+============================================================
+
+614_SIGNAL_RAW_CODE_TARGET #1 address=0x000264D4 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
+  614_SIGNAL_RAW_CODE_BYTES target=0x000264D4 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
+  614_SIGNAL_RAW_CODE_WORDS target=0x000264D4 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
+  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x000264D4 count=0
+  614_SIGNAL_RAW_DATA_TARGET index=1 address=0x000E06D3 block=segment_3 initialized=true
+  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06D3 count=0
+
+614_SIGNAL_RAW_CODE_TARGET #2 address=0x00026544 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
+  614_SIGNAL_RAW_CODE_BYTES target=0x00026544 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
+  614_SIGNAL_RAW_CODE_WORDS target=0x00026544 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
+  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026544 count=0
+  614_SIGNAL_RAW_DATA_TARGET index=2 address=0x000E06DD block=segment_3 initialized=true
+  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06DD count=0
+
+614_SIGNAL_RAW_CODE_TARGET #3 address=0x000265B4 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
+  614_SIGNAL_RAW_CODE_BYTES target=0x000265B4 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
+  614_SIGNAL_RAW_CODE_WORDS target=0x000265B4 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
+  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x000265B4 count=0
+  614_SIGNAL_RAW_DATA_TARGET index=3 address=0x000E06E7 block=segment_3 initialized=true
+  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06E7 count=0
+
+614_SIGNAL_RAW_CODE_TARGET #4 address=0x00026624 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
+  614_SIGNAL_RAW_CODE_BYTES target=0x00026624 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
+  614_SIGNAL_RAW_CODE_WORDS target=0x00026624 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
+  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026624 count=0
+  614_SIGNAL_RAW_DATA_TARGET index=4 address=0x000E06F1 block=segment_3 initialized=true
+  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06F1 count=0
+
+614_SIGNAL_RAW_CODE_TARGET #5 address=0x00026694 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
+  614_SIGNAL_RAW_CODE_BYTES target=0x00026694 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
+  614_SIGNAL_RAW_CODE_WORDS target=0x00026694 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
+  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026694 count=0
+  614_SIGNAL_RAW_DATA_TARGET index=5 address=0x000E06FC block=segment_3 initialized=true
+  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E06FC count=0
+
+614_SIGNAL_RAW_CODE_TARGET #6 address=0x00026708 block=segment_2 executable=true initialized=true instruction_at_target=<none> exact_function=<none> containing_function=<none>
+  614_SIGNAL_RAW_CODE_BYTES target=0x00026708 count=48 bytes=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61 67 2E 63 70 70 3A 52 46 43 20 45 52 52 4F 52 20
+  614_SIGNAL_RAW_CODE_WORDS target=0x00026708 words=0x5F636672 0x64697768 0x5F343136 0x386D7271 0x62613536 0x5F33765F 0x635F6761 0x615F6E6D 0x70632E67 0x46523A70 0x52452043 0x20524F52
+  614_SIGNAL_RAW_CODE_XREFS_PRINTED target=0x00026708 count=0
+  614_SIGNAL_RAW_DATA_TARGET index=6 address=0x000E0B7B block=segment_3 initialized=true
+  614_SIGNAL_RAW_DATA_XREFS_PRINTED target=0x000E0B7B count=0
+614_SIGNAL_RAW_CODE_TARGETS_INSPECTED=6
+614_SIGNAL_RAW_CODE_TARGETS_WITH_INSTRUCTION=0
+614_SIGNAL_RAW_CODE_AND_DATA_XREFS_PRINTED=0
 
 ============================================================
 614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP
