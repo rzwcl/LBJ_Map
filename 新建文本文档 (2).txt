@@ -1,292 +1,4 @@
-00025600 jump 0x00024ca0 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=1
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00254850 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=0002713c type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x0002713C value=0x00025600
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00027134..0x00027144
-        614_PRIORITY_SLOT_WORD slot=0x00027134 value=0x0025508C function=sig_cfg_data_get@0025508c
-        614_PRIORITY_SLOT_WORD slot=0x00027138 value=0x002550E0 function=devices_cfg_data_get@002550e0
-        614_PRIORITY_SLOT_WORD slot=0x0002713C value=0x00025600 function=band_split_cfg_data_get@00025600
-        614_PRIORITY_SLOT_WORD slot=0x00027140 value=0x002550A0 function=get_rfcard_data@002550a0
-        614_PRIORITY_SLOT_WORD slot=0x00027144 value=0x00255080 function=unique_path_table_get@00255080
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00254850 value=0x00025600
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00254848..0x00254858
-        614_PRIORITY_SLOT_WORD slot=0x00254848 value=0x00025574 function=get_wcdma_properties@00025574
-        614_PRIORITY_SLOT_WORD slot=0x0025484C value=0x000257D4 function=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000257d4
-        614_PRIORITY_SLOT_WORD slot=0x00254850 value=0x00025600 function=band_split_cfg_data_get@00025600
-        614_PRIORITY_SLOT_WORD slot=0x00254854 value=0x000257EC function=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag@000257ec
-        614_PRIORITY_SLOT_WORD slot=0x00254858 value=0x00025F3C function=rfc_card_instance_get@00025f3c
-
-614_PRIORITY_DETAIL name=get_instance entry=00025604
-  614_PRIORITY_INS 0002560c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_PRIORITY_INS 00025614 memw R2,(R17+##0xffffff7c) 
-  614_PRIORITY_INS 00025618 memw R16,(R2) 
-  614_PRIORITY_INS 0002561c jump.if:t !cmp.eq(R16.new,#0x0),0x00025638 
-  614_PRIORITY_INS 00025620 call 0x0002526c 
-  614_PRIORITY_INS 00025624 call 0x00024cb0 
-  614_PRIORITY_INS 00025630 memw R2,(R17+##0xffffff7c) 
-  614_PRIORITY_INS 00025634 memw (R2),R16 
-  614_PRIORITY_INS 0002563c memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=9
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00025a3c type=PARAM caller=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb0) 
-  614_PRIORITY_INCOMING_REF from=002546b8 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=1
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x002546B8 value=0x00025604
-      614_PRIORITY_SLOT_REF from=00025a3c type=READ caller=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb0) 
-      614_PRIORITY_SLOT_REFS_PRINTED=1
-      614_PRIORITY_SLOT_WINDOW=0x002546B0..0x002546C0
-        614_PRIORITY_SLOT_WORD slot=0x002546B0 value=0x000254FC function=get_instance@000254fc
-        614_PRIORITY_SLOT_WORD slot=0x002546B4 value=0x00025598 function=get_instance@00025598
-        614_PRIORITY_SLOT_WORD slot=0x002546B8 value=0x00025604 function=get_instance@00025604
-        614_PRIORITY_SLOT_WORD slot=0x002546BC value=0x00025694 function=get_instance@00025694
-        614_PRIORITY_SLOT_WORD slot=0x002546C0 value=0x00025700 function=get_instance@00025700
-
-614_PRIORITY_DETAIL name=band_split_cfg_data_get entry=0002566c
-  614_PRIORITY_INS 0002566c jump 0x00024ca0 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=1
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=0025485c type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00027160 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00027160 value=0x0002566C
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00027158..0x00027168
-        614_PRIORITY_SLOT_WORD slot=0x00027158 value=0x00255034 function=sig_cfg_data_get@00255034
-        614_PRIORITY_SLOT_WORD slot=0x0002715C value=0x002550C8 function=devices_cfg_data_get@002550c8
-        614_PRIORITY_SLOT_WORD slot=0x00027160 value=0x0002566C function=band_split_cfg_data_get@0002566c
-        614_PRIORITY_SLOT_WORD slot=0x00027164 value=0x00025670 function=get_gsm_properties@00025670
-        614_PRIORITY_SLOT_WORD slot=0x00027168 value=0x00255114 function=get_rfcard_data@00255114
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x0025485C value=0x0002566C
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00254854..0x00254864
-        614_PRIORITY_SLOT_WORD slot=0x00254854 value=0x000257EC function=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag@000257ec
-        614_PRIORITY_SLOT_WORD slot=0x00254858 value=0x00025F3C function=rfc_card_instance_get@00025f3c
-        614_PRIORITY_SLOT_WORD slot=0x0025485C value=0x0002566C function=band_split_cfg_data_get@0002566c
-        614_PRIORITY_SLOT_WORD slot=0x00254860 value=0x00025670 function=get_gsm_properties@00025670
-        614_PRIORITY_SLOT_WORD slot=0x00254864 value=0x00025804 function=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00025804
-
-614_PRIORITY_DETAIL name=get_instance entry=00025694
-  614_PRIORITY_INS 0002569c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_PRIORITY_INS 000256a4 memw R2,(R17+##0xffffffe8) 
-  614_PRIORITY_INS 000256a8 memw R16,(R2) 
-  614_PRIORITY_INS 000256ac jump.if:t !cmp.eq(R16.new,#0x0),0x000256c8 
-  614_PRIORITY_INS 000256b0 call 0x0002526c 
-  614_PRIORITY_INS 000256b4 call 0x00024e90 
-  614_PRIORITY_INS 000256c0 memw R2,(R17+##0xffffffe8) 
-  614_PRIORITY_INS 000256c4 memw (R2),R16 
-  614_PRIORITY_INS 000256cc memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=9
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00025a54 type=PARAM caller=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb4) 
-  614_PRIORITY_INCOMING_REF from=002546bc type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=1
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x002546BC value=0x00025694
-      614_PRIORITY_SLOT_REF from=00025a54 type=READ caller=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb4) 
-      614_PRIORITY_SLOT_REFS_PRINTED=1
-      614_PRIORITY_SLOT_WINDOW=0x002546B4..0x002546C4
-        614_PRIORITY_SLOT_WORD slot=0x002546B4 value=0x00025598 function=get_instance@00025598
-        614_PRIORITY_SLOT_WORD slot=0x002546B8 value=0x00025604 function=get_instance@00025604
-        614_PRIORITY_SLOT_WORD slot=0x002546BC value=0x00025694 function=get_instance@00025694
-        614_PRIORITY_SLOT_WORD slot=0x002546C0 value=0x00025700 function=get_instance@00025700
-        614_PRIORITY_SLOT_WORD slot=0x002546C4 value=0x00027384
-
-614_PRIORITY_DETAIL name=band_split_cfg_data_get entry=000256fc
-  614_PRIORITY_INS 000256fc jump 0x00024ca0 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=1
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00254868 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00027188 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00027188 value=0x000256FC
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00027180..0x00027190
-        614_PRIORITY_SLOT_WORD slot=0x00027180 value=0x00255108 function=sig_cfg_data_get@00255108
-        614_PRIORITY_SLOT_WORD slot=0x00027184 value=0x002550C4 function=devices_cfg_data_get@002550c4
-        614_PRIORITY_SLOT_WORD slot=0x00027188 value=0x000256FC function=band_split_cfg_data_get@000256fc
-        614_PRIORITY_SLOT_WORD slot=0x0002718C value=0x00255048 function=path_cfg_data_get@00255048
-        614_PRIORITY_SLOT_WORD slot=0x00027190 value=0x002550AC function=get_rfcard_data@002550ac
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00254868 value=0x000256FC
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00254860..0x00254870
-        614_PRIORITY_SLOT_WORD slot=0x00254860 value=0x00025670 function=get_gsm_properties@00025670
-        614_PRIORITY_SLOT_WORD slot=0x00254864 value=0x00025804 function=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00025804
-        614_PRIORITY_SLOT_WORD slot=0x00254868 value=0x000256FC function=band_split_cfg_data_get@000256fc
-        614_PRIORITY_SLOT_WORD slot=0x0025486C value=0x0002581C function=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002581c
-        614_PRIORITY_SLOT_WORD slot=0x00254870 value=0x00000000
-
-614_PRIORITY_DETAIL name=get_instance entry=00025700
-  614_PRIORITY_INS 00025708 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_PRIORITY_INS 00025710 memw R2,(R17+##0xfffffff0) 
-  614_PRIORITY_INS 00025714 memw R16,(R2) 
-  614_PRIORITY_INS 00025718 jump.if:t !cmp.eq(R16.new,#0x0),0x00025734 
-  614_PRIORITY_INS 0002571c call 0x0002526c 
-  614_PRIORITY_INS 00025720 call 0x00024eb0 
-  614_PRIORITY_INS 0002572c memw R2,(R17+##0xfffffff0) 
-  614_PRIORITY_INS 00025730 memw (R2),R16 
-  614_PRIORITY_INS 00025738 memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=9
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00025a6c type=PARAM caller=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb8) 
-  614_PRIORITY_INCOMING_REF from=002546c0 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=1
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x002546C0 value=0x00025700
-      614_PRIORITY_SLOT_REF from=00025a6c type=READ caller=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb8) 
-      614_PRIORITY_SLOT_REFS_PRINTED=1
-      614_PRIORITY_SLOT_WINDOW=0x002546B8..0x002546C8
-        614_PRIORITY_SLOT_WORD slot=0x002546B8 value=0x00025604 function=get_instance@00025604
-        614_PRIORITY_SLOT_WORD slot=0x002546BC value=0x00025694 function=get_instance@00025694
-        614_PRIORITY_SLOT_WORD slot=0x002546C0 value=0x00025700 function=get_instance@00025700
-        614_PRIORITY_SLOT_WORD slot=0x002546C4 value=0x00027384
-        614_PRIORITY_SLOT_WORD slot=0x002546C8 value=0x00217458
-
-614_PRIORITY_DETAIL name=get_lte_srs_grouping_properties entry=00025768
-  614_PRIORITY_INS 00025778 jumpr LR 
-  614_PRIORITY_INS 00025780 memw R2,(R2+##0xfffffff8) 
-  614_PRIORITY_INS 00025784 memw (R1),R2.new 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=3
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00254834 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=000270c4 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x000270C4 value=0x00025768
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x000270BC..0x000270CC
-        614_PRIORITY_SLOT_WORD slot=0x000270BC value=0x002550E4 function=get_rfcard_data@002550e4
-        614_PRIORITY_SLOT_WORD slot=0x000270C0 value=0x0025509C function=get_lte_properties@0025509c
-        614_PRIORITY_SLOT_WORD slot=0x000270C4 value=0x00025768 function=get_lte_srs_grouping_properties@00025768
-        614_PRIORITY_SLOT_WORD slot=0x000270C8 value=0x00255014 function=unique_path_table_get@00255014
-        614_PRIORITY_SLOT_WORD slot=0x000270CC value=0x000E0099
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00254834 value=0x00025768
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x0025482C..0x0025483C
-        614_PRIORITY_SLOT_WORD slot=0x0025482C value=0x000252A0 function=timing_cfg_data_get@000252a0
-        614_PRIORITY_SLOT_WORD slot=0x00254830 value=0x00025378 function=band_split_cfg_data_get@00025378
-        614_PRIORITY_SLOT_WORD slot=0x00254834 value=0x00025768 function=get_lte_srs_grouping_properties@00025768
-        614_PRIORITY_SLOT_WORD slot=0x00254838 value=0x000257A4 function=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@000257a4
-        614_PRIORITY_SLOT_WORD slot=0x0025483C value=0x00025480 function=band_split_cfg_data_get@00025480
-
-614_PRIORITY_DETAIL name=get_instance entry=00025884
-  614_PRIORITY_INS 0002588c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_PRIORITY_INS 00025894 memw R2,(R17+##0xffffff38) 
-  614_PRIORITY_INS 00025898 memw R16,(R2) 
-  614_PRIORITY_INS 0002589c jump.if:t !cmp.eq(R16.new,#0x0),0x000258bc 
-  614_PRIORITY_INS 000258a0 call 0x00024be0 
-  614_PRIORITY_INS 000258a8 call 0x00024cc0 
-  614_PRIORITY_INS 000258b4 memw R2,(R17+##0xffffff38) 
-  614_PRIORITY_INS 000258b8 memw (R2),R16 
-  614_PRIORITY_INS 000258c0 memd R17R16,(SP+#0x0) ; dealloc_return 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=9
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00254774 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00024d3c type=COMPUTED_CALL caller=get_instance@00024d30 instruction=jumpr R28 
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=1
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00254774 value=0x00025884
-      614_PRIORITY_SLOT_REF from=00024d38 type=READ caller=get_instance@00024d30 instruction=memw R28,(R14) 
-      614_PRIORITY_SLOT_REFS_PRINTED=1
-      614_PRIORITY_SLOT_WINDOW=0x0025476C..0x0025477C
-        614_PRIORITY_SLOT_WORD slot=0x0025476C value=0x00025230 function=get_instance@00025230
-        614_PRIORITY_SLOT_WORD slot=0x00254770 value=0x00255020 function=memscpy@00255020
-        614_PRIORITY_SLOT_WORD slot=0x00254774 value=0x00025884 function=get_instance@00025884
-        614_PRIORITY_SLOT_WORD slot=0x00254778 value=0x00255124 function=dmm_register_dm@00255124
-        614_PRIORITY_SLOT_WORD slot=0x0025477C value=0x0025501C function=~rfc_common_data@0025501c
-
-614_PRIORITY_DETAIL name=get_signals_info entry=000259a4
-  614_PRIORITY_INS 000259a4 call 0x00024c00 
-  614_PRIORITY_INS 000259b4 jump.if(P0) 0x00025a80 
-  614_PRIORITY_INS 000259c4 memw R2,(R18+##0xffffffa0) 
-  614_PRIORITY_INS 000259c8 memw (R1+#0x8),R2.new 
-  614_PRIORITY_INS 000259cc call 0x00024d10 
-  614_PRIORITY_INS 000259d0 memb (R1+#0x4),#0x8 
-  614_PRIORITY_INS 000259e0 call 0x00024cf0 
-  614_PRIORITY_INS 000259e4 memb (R17+#0x4),#0x0 
-  614_PRIORITY_INS 000259f4 memw R0,(R18+##0xffffffa4) 
-  614_PRIORITY_INS 000259f8 call 0x00025f70 
-  614_PRIORITY_INS 00025a0c memw R0,(R18+##0xffffffa8) 
-  614_PRIORITY_INS 00025a10 call 0x00025f70 
-  614_PRIORITY_INS 00025a24 memw R0,(R18+##0xffffffac) 
-  614_PRIORITY_INS 00025a28 call 0x00025f70 
-  614_PRIORITY_INS 00025a3c memw R0,(R18+##0xffffffb0) 
-  614_PRIORITY_INS 00025a40 call 0x00025f70 
-  614_PRIORITY_INS 00025a54 memw R0,(R18+##0xffffffb4) 
-  614_PRIORITY_INS 00025a58 call 0x00025f70 
-  614_PRIORITY_INS 00025a6c memw R0,(R18+##0xffffffb8) 
-  614_PRIORITY_INS 00025a70 call 0x00025f70 
-  614_PRIORITY_INS 00025a7c jump 0x00024c30 
-  614_PRIORITY_INS 00025a88 call 0x00024cf0 
-  614_PRIORITY_INS 00025a90 jump 0x00024c30 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=23
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00254798 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00027220 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00027220 value=0x000259A4
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00027218..0x00027228
-        614_PRIORITY_SLOT_WORD slot=0x00027218 value=0x0025501C function=~rfc_common_data@0025501c
-        614_PRIORITY_SLOT_WORD slot=0x0002721C value=0x00025F58 function=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag@00025f58
-        614_PRIORITY_SLOT_WORD slot=0x00027220 value=0x000259A4 function=get_signals_info@000259a4
-        614_PRIORITY_SLOT_WORD slot=0x00027224 value=0x000258F0 function=sdr_rffe_sig_info_table_get@000258f0
-        614_PRIORITY_SLOT_WORD slot=0x00027228 value=0x00025938 function=sdr_grfc_sig_info_table_get@00025938
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00254798 value=0x000259A4
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00254790..0x002547A0
-        614_PRIORITY_SLOT_WORD slot=0x00254790 value=0x00025870 function=rfc_hwid614_qrm865ab_v3_ag_suspend@00025870
-        614_PRIORITY_SLOT_WORD slot=0x00254794 value=0x00025F58 function=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag@00025f58
-        614_PRIORITY_SLOT_WORD slot=0x00254798 value=0x000259A4 function=get_signals_info@000259a4
-        614_PRIORITY_SLOT_WORD slot=0x0025479C value=0x000258F0 function=sdr_rffe_sig_info_table_get@000258f0
-        614_PRIORITY_SLOT_WORD slot=0x002547A0 value=0x00025938 function=sdr_grfc_sig_info_table_get@00025938
-
-614_PRIORITY_DETAIL name=get_band_info_rrc_table entry=00025d2c
-  614_PRIORITY_INS 00025d3c memw R3,(R2+##0xffffffd8) 
-  614_PRIORITY_INS 00025d44 memw.if(P0) R0,(R2+##0xffffffdc) 
-  614_PRIORITY_INS 00025d4c jumpr LR 
-  614_PRIORITY_FLOW_OR_MEMORY_INSNS_PRINTED=3
-  614_PRIORITY_INCOMING_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=002547f4 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REF from=00027288 type=DATA caller=<none> instruction=<no-instruction>
-  614_PRIORITY_INCOMING_REFS_PRINTED=3
-  614_PRIORITY_DATA_SLOTS_WITH_THIS_FUNCTION_VALUE=2
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x00027288 value=0x00025D2C
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x00027280..0x00027290
-        614_PRIORITY_SLOT_WORD slot=0x00027280 value=0x00025120 function=get_res_alloc_tbl@00025120
-        614_PRIORITY_SLOT_WORD slot=0x00027284 value=0x000251F0 function=get_rrc_ca_table@000251f0
-        614_PRIORITY_SLOT_WORD slot=0x00027288 value=0x00025D2C function=get_band_info_rrc_table@00025d2c
-        614_PRIORITY_SLOT_WORD slot=0x0002728C value=0x0002521C function=get_rfm_path_info_tbl@0002521c
-        614_PRIORITY_SLOT_WORD slot=0x00027290 value=0x00025F34 function=is_fbrx_override_enabled@00025f34
-    614_PRIORITY_FUNCTION_POINTER_SLOT=0x002547F4 value=0x00025D2C
-      614_PRIORITY_SLOT_REFS_PRINTED=0
-      614_PRIORITY_SLOT_WINDOW=0x002547EC..0x002547FC
-        614_PRIORITY_SLOT_WORD slot=0x002547EC value=0x00025120 function=get_res_alloc_tbl@00025120
-        614_PRIORITY_SLOT_WORD slot=0x002547F0 value=0x000251F0 function=get_rrc_ca_table@000251f0
-        614_PRIORITY_SLOT_WORD slot=0x002547F4 value=0x00025D2C function=get_band_info_rrc_table@00025d2c
-        614_PRIORITY_SLOT_WORD slot=0x002547F8 value=0x0002521C function=get_rfm_path_info_tbl@0002521c
-        614_PRIORITY_SLOT_WORD slot=0x002547FC value=0x0025513C function=~rfc_lte_data@0025513c
-
-614_PRIORITY_DETAIL name=path_cfg_data_get entry=00025d50
-  614_PRIORITY_INS 00025d58 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_PRIORITY_INS 00025d5c jump.if(P0) 0x00025e30 
-  614_PRIORITY_INS 00025d68 memb R3,(R17+#0x11) 
-  614_PRIORITY_INS 00025d6c jump.if:t !cmp.eq(R3.new,#0x9),0x00025e18 
-  614_PRIORITY_INS 00025d78 memw R3,(R4+#0x4) 
-  614_PRIORITY_INS 00025d7c jump.if:nt cmp.eq(R3.new,#0x0),0x00025d88 
-  614_PRIORITY_INS 00025d80 memh R5,(R4) 
-  614_PRIORITY_INS 00025d84 jump.if:t !cmp.eq(R5.new,#0x0),0x00025d90 
-  614_PRIORITY_INS 00025d88 call 0x00025a94 
+ORITY_INS 00025d88 call 0x00025a94 
   614_PRIORITY_INS 00025d8c jump 0x00025e18 
   614_PRIORITY_INS 00025d90 memh R6,(R3) ; memuh R4,(R17+#0x2) 
   614_PRIORITY_INS 00025d98 jump.if:t cmp.gtu(R6,R4.new),0x00025e18 
@@ -598,6 +310,117 @@ READ ONLY; direct call targets are static leads, and indirect call flow needs se
 614_PRIORITY_CALLEE_INSTRUCTIONS_PRINTED=47
 614_PRIORITY_CALLEE_INCOMING_REFS_PRINTED=50
 614_PRIORITY_CALLEE_NOTE=Start with target 0x00025F70; determine whether it dereferences/calls the getter pointers passed by get_signals_info.
+
+============================================================
+614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP
+Maps PC-relative PLT-style thunks to their data slots and current static pointer values.
+Also prints contexts around register-indirect callr instructions.
+READ ONLY; this does not resolve runtime relocations or execute target functions.
+============================================================
+614_PLT_GOT_THUNK add=00024b94 function=__PLT_HEAD @ 00024b90 base_reg=R28 computed_base=0x00254710 load=00024ba0 load_instruction=memw R28,(R28+#0x4)  slot=0x00254714 slot_block=segment_3 static_word=0x00000000 pointed_function=<not-exact-function-entry> indirect_transfer=00024ba8 instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024bc4 function=msg_v2_send_1_dll @ 00024bc0 base_reg=R14 computed_base=0x00254720 load=00024bc8 load_instruction=memw R28,(R14)  slot=0x00254720 slot_block=segment_3 static_word=0x00255004 pointed_function=operator.new@00255004 indirect_transfer=00024bcc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024bd4 function=rfc_hwid614_qrm865ab_v3_ag_lte_ag @ 00024bd0 base_reg=R14 computed_base=0x00254724 load=00024bd8 load_instruction=memw R28,(R14)  slot=0x00254724 slot_block=segment_3 static_word=0x00255118 pointed_function=rfc_lte_data@00255118 indirect_transfer=00024bdc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024be4 function=operator.new @ 00024be0 base_reg=R14 computed_base=0x00254728 load=00024be8 load_instruction=memw R28,(R14)  slot=0x00254728 slot_block=segment_3 static_word=0x0025511C pointed_function=__save_r16_through_r19@0025511c indirect_transfer=00024bec instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024bf4 function=rfc_lte_data @ 00024bf0 base_reg=R14 computed_base=0x0025472C load=00024bf8 load_instruction=memw R28,(R14)  slot=0x0025472C slot_block=segment_3 static_word=0x0025512C pointed_function=rfc_common_get_ag_error_control@0025512c indirect_transfer=00024bfc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c04 function=__save_r16_through_r19 @ 00024c00 base_reg=R14 computed_base=0x00254730 load=00024c08 load_instruction=memw R28,(R14)  slot=0x00254730 slot_block=segment_3 static_word=0x002550EC pointed_function=msg_v2_send_var_dll@002550ec indirect_transfer=00024c0c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c14 function=rfc_common_get_ag_error_control @ 00024c10 base_reg=R14 computed_base=0x00254734 load=00024c18 load_instruction=memw R28,(R14)  slot=0x00254734 slot_block=segment_3 static_word=0x00255044 pointed_function=__restore_r16_through_r19_and_deallocframe@00255044 indirect_transfer=00024c1c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c24 function=msg_v2_send_var_dll @ 00024c20 base_reg=R14 computed_base=0x00254738 load=00024c28 load_instruction=memw R28,(R14)  slot=0x00254738 slot_block=segment_3 static_word=0x00025454 pointed_function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@00025454 indirect_transfer=00024c2c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c34 function=__restore_r16_through_r19_and_deallocframe @ 00024c30 base_reg=R14 computed_base=0x0025473C load=00024c38 load_instruction=memw R28,(R14)  slot=0x0025473C slot_block=segment_3 static_word=0x002550F8 pointed_function=rfc_nr5g_data@002550f8 indirect_transfer=00024c3c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c44 function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag @ 00024c40 base_reg=R14 computed_base=0x00254740 load=00024c48 load_instruction=memw R28,(R14)  slot=0x00254740 slot_block=segment_3 static_word=0x00025538 pointed_function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@00025538 indirect_transfer=00024c4c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c54 function=rfc_nr5g_data @ 00024c50 base_reg=R14 computed_base=0x00254744 load=00024c58 load_instruction=memw R28,(R14)  slot=0x00254744 slot_block=segment_3 static_word=0x0025510C pointed_function=rfc_wcdma_data@0025510c indirect_transfer=00024c5c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c64 function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag @ 00024c60 base_reg=R14 computed_base=0x00254748 load=00024c68 load_instruction=memw R28,(R14)  slot=0x00254748 slot_block=segment_3 static_word=0x000255D4 pointed_function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000255d4 indirect_transfer=00024c6c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c74 function=rfc_wcdma_data @ 00024c70 base_reg=R14 computed_base=0x0025474C load=00024c78 load_instruction=memw R28,(R14)  slot=0x0025474C slot_block=segment_3 static_word=0x002550CC pointed_function=rfc_cdma_data@002550cc indirect_transfer=00024c7c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c84 function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag @ 00024c80 base_reg=R14 computed_base=0x00254750 load=00024c88 load_instruction=memw R28,(R14)  slot=0x00254750 slot_block=segment_3 static_word=0x00025564 pointed_function=band_split_cfg_data_get@00025564 indirect_transfer=00024c8c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024c94 function=rfc_cdma_data @ 00024c90 base_reg=R14 computed_base=0x00254754 load=00024c98 load_instruction=memw R28,(R14)  slot=0x00254754 slot_block=segment_3 static_word=0x00025640 pointed_function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag@00025640 indirect_transfer=00024c9c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024ca4 function=band_split_cfg_data_get @ 00024ca0 base_reg=R14 computed_base=0x00254758 load=00024ca8 load_instruction=memw R28,(R14)  slot=0x00254758 slot_block=segment_3 static_word=0x000258C4 pointed_function=rfc_hwid614_qrm865ab_v3_ag_cmn_ag@000258c4 indirect_transfer=00024cac instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024cb4 function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag @ 00024cb0 base_reg=R14 computed_base=0x0025475C load=00024cb8 load_instruction=memw R28,(R14)  slot=0x0025475C slot_block=segment_3 static_word=0x00255030 pointed_function=rfc_gsm_data@00255030 indirect_transfer=00024cbc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024cc4 function=rfc_hwid614_qrm865ab_v3_ag_cmn_ag @ 00024cc0 base_reg=R14 computed_base=0x00254760 load=00024cc8 load_instruction=memw R28,(R14)  slot=0x00254760 slot_block=segment_3 static_word=0x002550A4 pointed_function=strlcpy@002550a4 indirect_transfer=00024ccc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024cd4 function=rfc_gsm_data @ 00024cd0 base_reg=R14 computed_base=0x00254764 load=00024cd8 load_instruction=memw R28,(R14)  slot=0x00254764 slot_block=segment_3 static_word=0x0025504C pointed_function=msg_v2_send_dll@0025504c indirect_transfer=00024cdc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024ce4 function=strlcpy @ 00024ce0 base_reg=R14 computed_base=0x00254768 load=00024ce8 load_instruction=memw R28,(R14)  slot=0x00254768 slot_block=segment_3 static_word=0x00255130 pointed_function=rfc_common_data@00255130 indirect_transfer=00024cec instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024cf4 function=msg_v2_send_dll @ 00024cf0 base_reg=R14 computed_base=0x0025476C load=00024cf8 load_instruction=memw R28,(R14)  slot=0x0025476C slot_block=segment_3 static_word=0x00025230 pointed_function=get_instance@00025230 indirect_transfer=00024cfc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024d04 function=rfc_common_data @ 00024d00 base_reg=R14 computed_base=0x00254770 load=00024d08 load_instruction=memw R28,(R14)  slot=0x00254770 slot_block=segment_3 static_word=0x00255020 pointed_function=memscpy@00255020 indirect_transfer=00024d0c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024d14 function=get_instance @ 00024d10 base_reg=R14 computed_base=0x00254774 load=00024d18 load_instruction=memw R28,(R14)  slot=0x00254774 slot_block=segment_3 static_word=0x00025884 pointed_function=get_instance@00025884 indirect_transfer=00024d1c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024d24 function=memscpy @ 00024d20 base_reg=R14 computed_base=0x00254778 load=00024d28 load_instruction=memw R28,(R14)  slot=0x00254778 slot_block=segment_3 static_word=0x00255124 pointed_function=dmm_register_dm@00255124 indirect_transfer=00024d2c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024d34 function=get_instance @ 00024d30 base_reg=R14 computed_base=0x0025477C load=00024d38 load_instruction=memw R28,(R14)  slot=0x0025477C slot_block=segment_3 static_word=0x0025501C pointed_function=~rfc_common_data@0025501c indirect_transfer=00024d3c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024d44 function=dmm_register_dm @ 00024d40 base_reg=R14 computed_base=0x00254780 load=00024d48 load_instruction=memw R28,(R14)  slot=0x00254780 slot_block=segment_3 static_word=0x00255058 pointed_function=operator.delete@00255058 indirect_transfer=00024d4c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024d54 function=~rfc_common_data @ 00024d50 base_reg=R14 computed_base=0x00254784 load=00024d58 load_instruction=memw R28,(R14)  slot=0x00254784 slot_block=segment_3 static_word=0x00025834 pointed_function=rfc_hwid614_qrm865ab_v3_ag_init@00025834 indirect_transfer=00024d5c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024d64 function=operator.delete @ 00024d60 base_reg=R14 computed_base=0x00254788 load=00024d68 load_instruction=memw R28,(R14)  slot=0x00254788 slot_block=segment_3 static_word=0x00025848 pointed_function=rfc_hwid614_qrm865ab_v3_ag_deinit@00025848 indirect_transfer=00024d6c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024e94 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag @ 00024e90 base_reg=R14 computed_base=0x002547D4 load=00024e98 load_instruction=memw R28,(R14)  slot=0x002547D4 slot_block=segment_3 static_word=0x0002573C pointed_function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c indirect_transfer=00024e9c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024ea4 function=rfc_tdscdma_data @ 00024ea0 base_reg=R14 computed_base=0x002547D8 load=00024ea8 load_instruction=memw R28,(R14)  slot=0x002547D8 slot_block=segment_3 static_word=0x002550B4 pointed_function=rfc_gnss_data@002550b4 indirect_transfer=00024eac instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024eb4 function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag @ 00024eb0 base_reg=R14 computed_base=0x002547DC load=00024eb8 load_instruction=memw R28,(R14)  slot=0x002547DC slot_block=segment_3 static_word=0x00025F38 pointed_function=rfc_get_remapped_device_info@00025f38 indirect_transfer=00024ebc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024ec4 function=rfc_gnss_data @ 00024ec0 base_reg=R14 computed_base=0x002547E0 load=00024ec8 load_instruction=memw R28,(R14)  slot=0x002547E0 slot_block=segment_3 static_word=0x00025E38 pointed_function=get_sig_path_table_cfg@00025e38 indirect_transfer=00024ecc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024f54 function=~rfc_lte_data @ 00024f50 base_reg=R14 computed_base=0x00254804 load=00024f58 load_instruction=memw R28,(R14)  slot=0x00254804 slot_block=segment_3 static_word=0x00025F34 pointed_function=is_fbrx_override_enabled@00025f34 indirect_transfer=00024f5c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024f64 function=~rfc_nr5g_data @ 00024f60 base_reg=R14 computed_base=0x00254808 load=00024f68 load_instruction=memw R28,(R14)  slot=0x00254808 slot_block=segment_3 static_word=0x0002513C pointed_function=get_nr_bands_bitmask_in_endc@0002513c indirect_transfer=00024f6c instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024fb4 function=~rfc_wcdma_data @ 00024fb0 base_reg=R14 computed_base=0x0025481C load=00024fb8 load_instruction=memw R28,(R14)  slot=0x0025481C slot_block=segment_3 static_word=0x0025505C pointed_function=~rfc_gsm_data@0025505c indirect_transfer=00024fbc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024fc4 function=~rfc_cdma_data @ 00024fc0 base_reg=R14 computed_base=0x00254820 load=00024fc8 load_instruction=memw R28,(R14)  slot=0x00254820 slot_block=segment_3 static_word=0x00255068 pointed_function=~rfc_tdscdma_data@00255068 indirect_transfer=00024fcc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024fd4 function=~rfc_gsm_data @ 00024fd0 base_reg=R14 computed_base=0x00254824 load=00024fd8 load_instruction=memw R28,(R14)  slot=0x00254824 slot_block=segment_3 static_word=0x002550D0 pointed_function=~rfc_gnss_data@002550d0 indirect_transfer=00024fdc instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024fe4 function=~rfc_tdscdma_data @ 00024fe0 base_reg=R14 computed_base=0x00254828 load=00024fe8 load_instruction=memw R28,(R14)  slot=0x00254828 slot_block=segment_3 static_word=0x0002578C pointed_function=~rfc_hwid614_qrm865ab_v3_ag_lte_ag@0002578c indirect_transfer=00024fec instruction=jumpr R28 
+614_PLT_GOT_THUNK add=00024ff4 function=~rfc_gnss_data @ 00024ff0 base_reg=R14 computed_base=0x0025482C load=00024ff8 load_instruction=memw R28,(R14)  slot=0x0025482C slot_block=segment_3 static_word=0x000252A0 pointed_function=timing_cfg_data_get@000252a0 indirect_transfer=00024ffc instruction=jumpr R28 
+614_PLT_GOT_RESOLVER_BASE add=00025124 function=get_res_alloc_tbl @ 00025120 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f5e8 
+614_PLT_GOT_RESOLVER_BASE add=00025140 function=get_nr_bands_bitmask_in_endc @ 0002513c base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f5cc 
+614_PLT_GOT_RESOLVER_BASE add=000251f8 function=get_rrc_ca_table @ 000251f0 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f514 
+614_PLT_GOT_RESOLVER_BASE add=00025220 function=get_rfm_path_info_tbl @ 0002521c base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f4ec 
+614_PLT_GOT_RESOLVER_BASE add=00025234 function=get_instance @ 00025230 base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22f4d8 
+614_PLT_GOT_RESOLVER_BASE add=00025284 function=rfc_hwid614_qrm865ab_v3_ag_lte_ag @ 00025274 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f488 
+614_PLT_GOT_RESOLVER_BASE add=000252f0 function=FUN_000252a8 @ 000252a8 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f41c 
+614_PLT_GOT_RESOLVER_BASE add=00025314 function=FUN_000252a8 @ 000252a8 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f3f8 
+614_PLT_GOT_RESOLVER_BASE add=000253a4 function=band_split_cfg_data_get @ 00025378 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f368 
+614_PLT_GOT_RESOLVER_BASE add=000253d0 function=band_split_cfg_data_get @ 00025378 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f33c 
+614_PLT_GOT_RESOLVER_BASE add=00025400 function=band_split_cfg_data_get @ 00025378 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f30c 
+614_PLT_GOT_RESOLVER_BASE add=0002541c function=get_instance @ 00025418 base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22f2f0 
+614_PLT_GOT_RESOLVER_BASE add=00025464 function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag @ 00025454 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f2a8 
+614_PLT_GOT_RESOLVER_BASE add=000254ac function=band_split_cfg_data_get @ 00025480 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f260 
+614_PLT_GOT_RESOLVER_BASE add=000254d8 function=band_split_cfg_data_get @ 00025480 base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22f234 
+614_PLT_GOT_RESOLVER_BASE add=00025500 function=get_instance @ 000254fc base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22f20c 
+614_PLT_GOT_RESOLVER_BASE add=00025548 function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag @ 00025538 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f1c4 
+614_PLT_GOT_RESOLVER_BASE add=00025580 function=get_wcdma_properties @ 00025574 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f18c 
+614_PLT_GOT_RESOLVER_BASE add=0002559c function=get_instance @ 00025598 base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22f170 
+614_PLT_GOT_RESOLVER_BASE add=000255e4 function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag @ 000255d4 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f128 
+614_PLT_GOT_RESOLVER_BASE add=00025608 function=get_instance @ 00025604 base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22f104 
+614_PLT_GOT_RESOLVER_BASE add=00025650 function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag @ 00025640 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f0bc 
+614_PLT_GOT_RESOLVER_BASE add=0002567c function=get_gsm_properties @ 00025670 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f090 
+614_PLT_GOT_RESOLVER_BASE add=00025698 function=get_instance @ 00025694 base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22f074 
+614_PLT_GOT_RESOLVER_BASE add=000256e0 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag @ 000256d0 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22f02c 
+614_PLT_GOT_RESOLVER_BASE add=00025704 function=get_instance @ 00025700 base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22f008 
+614_PLT_GOT_RESOLVER_BASE add=0002574c function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag @ 0002573c base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22efc0 
+614_PLT_GOT_RESOLVER_BASE add=00025774 function=get_lte_srs_grouping_properties @ 00025768 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22ef98 
+614_PLT_GOT_RESOLVER_BASE add=00025888 function=get_instance @ 00025884 base_reg=R17 base=0x00254710 instruction=add R17,PC,##0x22ee84 
+614_PLT_GOT_RESOLVER_BASE add=000258d4 function=rfc_hwid614_qrm865ab_v3_ag_cmn_ag @ 000258c4 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22ee38 
+614_PLT_GOT_RESOLVER_BASE add=0002590c function=sdr_rffe_sig_info_table_get @ 000258f0 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22ee00 
+614_PLT_GOT_RESOLVER_BASE add=00025920 function=sdr_rffe_sig_info_table_get @ 000258f0 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22edec 
+614_PLT_GOT_RESOLVER_BASE add=00025954 function=sdr_grfc_sig_info_table_get @ 00025938 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22edb8 
+614_PLT_GOT_RESOLVER_BASE add=00025968 function=sdr_grfc_sig_info_table_get @ 00025938 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22eda4 
+614_PLT_GOT_RESOLVER_BASE add=0002598c function=blank_grfc_sig_info_table_get @ 00025980 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22ed80 
+614_PLT_GOT_RESOLVER_BASE add=000259bc function=get_signals_info @ 000259a4 base_reg=R18 base=0x00254710 instruction=add R18,PC,##0x22ed50 
+614_PLT_GOT_RESOLVER_BASE add=00025a98 function=FUN_00025a94 @ 00025a94 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22ec74 
+614_PLT_GOT_RESOLVER_BASE add=00025aac function=get_phy_device_cfg @ 00025aa8 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22ec60 
+614_PLT_GOT_RESOLVER_BASE add=00025ac0 function=get_logical_device_cfg @ 00025abc base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22ec4c 
+614_PLT_GOT_RESOLVER_BASE add=00025bf0 function=get_logical_path_config @ 00025bd0 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22eb1c 
+614_PLT_GOT_RESOLVER_BASE add=00025c18 function=get_ant_path_info_config @ 00025c14 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22eaf4 
+614_PLT_GOT_RESOLVER_BASE add=00025c2c function=get_sig_path_info_config @ 00025c28 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22eae0 
+614_PLT_GOT_RESOLVER_BASE add=00025c58 function=get_rffe_speeds_info @ 00025c3c base_reg=R3 base=0x00254710 instruction=add R3,PC,##0x22eab4 
+614_PLT_GOT_RESOLVER_BASE add=00025d14 function=get_cmn_properties @ 00025d08 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22e9f8 
+614_PLT_GOT_RESOLVER_BASE add=00025d30 function=get_band_info_rrc_table @ 00025d2c base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22e9dc 
+614_PLT_GOT_RESOLVER_BASE add=00025e5c function=fbrx_cfg_data_get @ 00025e44 base_reg=R4 base=0x00254710 instruction=add R4,PC,##0x22e8b0 
+614_PLT_GOT_RESOLVER_BASE add=00025f24 function=get_fbrx_path_table_cfg @ 00025f20 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22e7e8 
+614_PLT_GOT_RESOLVER_BASE add=00025f44 function=dm_register_so @ 00025f40 base_reg=R2 base=0x00254710 instruction=add R2,PC,##0x22e7c8 
+
+614_INDIRECT_CALLR #1 at=00025f7c function=FUN_00025f70 @ 00025f70 instruction=callr R0 
+      00025f70 call 0x00024c00 
+      00025f74 allocframe #0x10 
+      00025f78 combine R17R16,R2,R3 
+  >>> 00025f7c callr R0 
+      00025f80 assign R18,R1 
+      00025f84 assign.if(P0.new) R0,R17 
+      00025f88 cmp.eq P0,R0,R18 ; jump.if(!P0.new):t 0x00025f94 
+      00025f8c call 0x00024cf0 
+      00025f90 memb (R16),#0x0 
+      00025f94 jump 0x00024c30 
+614_PLT_GOT_THUNK_CANDIDATES=39
+614_PLT_GOT_SLOTS_PRINTED=39
+614_INDIRECT_CALLR_SITES_FOUND=1
+614_INDIRECT_CALLR_CONTEXTS_PRINTED=1
+614_PLT_GOT_NOTE=Static pointer values may be relocation placeholders or thunk targets; verify each computed slot and transfer sequence in the listing.
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
