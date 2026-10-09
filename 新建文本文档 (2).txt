@@ -1,15 +1,4 @@
-0xC9199804
-        0xC9199784 -> 0xC5082317 <MEM_TARGET>
-        0xC9199788 -> 0xC508231E <MEM_TARGET>
-        0xC919978C -> 0xC508232A <MEM_TARGET>
-        0xC9199790 -> 0xC49CC70C <MEM_TARGET>
-        0xC9199794 -> 0x00000000
-        0xC9199798 -> 0xC49535C6 <MEM_TARGET>
-        0xC919979C -> 0xC5082337 <MEM_TARGET>
-        0xC91997A0 -> 0xC5082342 <MEM_TARGET>
-        0xC91997A4 -> 0xC49535DB <MEM_TARGET>
-        0xC91997A8 -> 0xC5011968 <MEM_TARGET>
-        0xC91997AC -> 0xC49D5DF4 <MEM_TARGET>
+ -> 0xC49D5DF4 <MEM_TARGET>
         0xC91997B0 -> 0xC508234D <MEM_TARGET>
         0xC91997B4 -> 0xC5082355 <MEM_TARGET>
         0xC91997B8 -> 0xC508235F <MEM_TARGET>
@@ -1161,6 +1150,25 @@ INTERPRETATION GUIDE
 6. All scans are static and read-only; no DIAG packets are emitted.
 7. No relationship between D819C208 and D89B2790 is assumed without cross-reference evidence.
 
+
+============================================================
+STRUCTURE9 EXECUTION FOOTER
+TRACE_BUILD=DIAG-FTM-STRUCTURE-9
+PROGRAM=qdsp6sw.mbn
+RADIO_CONFIG_TABLE=0xC9199798 entries=60
+FIELD_STRINGS_READABLE=59
+FIELD_REFERENCE_LABEL_MATCHES=53
+FIELD_ANCHOR_MISMATCHES=0
+SLOT_INSTRUCTION_ORIGIN_REFS=0
+SLOT_DATA_ORIGIN_REFS=0
+EXECUTABLE_INSTRUCTIONS_SCANNED=-1
+TABLE_CODE_IMMEDIATE_HITS=-1
+TABLE_NEARBY_IMMEDIATE_HITS=-1
+PTRS_D819C208=81
+PTRS_D8150ED8=0
+PTRS_D89B2790=0
+Negative values mean that a phase was not reached or did not finish.
+============================================================
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
