@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-19
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-20
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-19";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-20";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3081,7 +3081,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE19 EXECUTION FOOTER");
+        println("STRUCTURE20 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199FB8 entries=38 including NULL terminator");
@@ -3118,7 +3118,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     
     /*
-     * STRUCTURE-19: dynamic address discovery for 614_0_0.mbn.
+     * STRUCTURE-20: dynamic address discovery for 614_0_0.mbn.
      * Do not reuse C919xxxx/C508xxxx addresses from qdsp6sw.mbn.
      * Discover field strings, string-pointer slots and decoded-instruction
      * candidates from the program currently open in Ghidra.
@@ -3323,6 +3323,43 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("  DYNAMIC_STRING_LABEL_SUMMARY label=" + label
                 + " matches_seen=" + matchCount
                 + " retained_for_label=" + countDynamic614LabelHits(label));
+        }
+    }
+
+    private void scan614FunctionInventory() {
+        p("");
+        p("============================================================");
+        p("614_0_0 FUNCTION INVENTORY");
+        p("Enumerates functions already recognized by Ghidra in the current image.");
+        p("This is a discovery list, not proof that a function controls RX tuning.");
+        p("============================================================");
+
+        int total = 0;
+        int shown = 0;
+        try {
+            FunctionIterator it = currentProgram.getFunctionManager().getFunctions(true);
+            while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                Function f = it.next();
+                total++;
+                if (shown < 500) {
+                    Address entry = f.getEntryPoint();
+                    MemoryBlock b = entry.getAddressSpace().isMemorySpace()
+                        ? block(entry.getOffset()) : null;
+                    p("  614_FUNCTION[" + shown + "] name=" + f.getName()
+                        + " entry=" + entry
+                        + " block=" + (b == null ? "<none>" : b.getName())
+                        + " thunk=" + f.isThunk()
+                        + " body_min=" + f.getBody().getMinAddress()
+                        + " body_max=" + f.getBody().getMaxAddress()
+                        + " body_bytes=" + f.getBody().getNumAddresses());
+                    shown++;
+                }
+            }
+            p("614_FUNCTIONS_TOTAL=" + total);
+            p("614_FUNCTIONS_PRINTED=" + shown);
+        }
+        catch (Exception e) {
+            p("614_FUNCTION_INVENTORY_ERROR=" + e.getMessage());
         }
     }
 
@@ -3673,6 +3710,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         if (programLower.contains("614_0_0")) {
             p("TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY");
             p("Legacy qdsp6sw.mbn addresses are disabled for this program.");
+            scan614FunctionInventory();
+            scanNamedFunctions();
+            scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
         }
         else {
