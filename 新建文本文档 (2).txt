@@ -1,288 +1,4 @@
-_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22fa44 
-  PCREL_DATA_WINDOW target=0x0025477C range=0x00254770..0x00254788
-    PCREL_DATA_WORD slot=0x00254770 value=0x00255020 function=memscpy@00255020
-    PCREL_DATA_WORD slot=0x00254774 value=0x00025884 function=get_instance@00025884
-    PCREL_DATA_WORD slot=0x00254778 value=0x00255124 function=dmm_register_dm@00255124
-    PCREL_DATA_WORD slot=0x0025477C value=0x0025501C function=~rfc_common_data@0025501c
-    PCREL_DATA_WORD slot=0x00254780 value=0x00255058 function=operator.delete@00255058
-    PCREL_DATA_WORD slot=0x00254784 value=0x00025834 function=rfc_hwid614_qrm865ab_v3_ag_init@00025834
-614_PCREL_NEAR_RUN hit=26 ins=00024d44 function=dmm_register_dm @ 00024d40 target=0x00254780 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22fa38 
-  PCREL_DATA_WINDOW target=0x00254780 range=0x00254774..0x0025478C
-    PCREL_DATA_WORD slot=0x00254774 value=0x00025884 function=get_instance@00025884
-    PCREL_DATA_WORD slot=0x00254778 value=0x00255124 function=dmm_register_dm@00255124
-    PCREL_DATA_WORD slot=0x0025477C value=0x0025501C function=~rfc_common_data@0025501c
-    PCREL_DATA_WORD slot=0x00254780 value=0x00255058 function=operator.delete@00255058
-    PCREL_DATA_WORD slot=0x00254784 value=0x00025834 function=rfc_hwid614_qrm865ab_v3_ag_init@00025834
-    PCREL_DATA_WORD slot=0x00254788 value=0x00025848 function=rfc_hwid614_qrm865ab_v3_ag_deinit@00025848
-614_PCREL_NEAR_RUN hit=27 ins=00024d54 function=~rfc_common_data @ 00024d50 target=0x00254784 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22fa2c 
-  PCREL_DATA_WINDOW target=0x00254784 range=0x00254778..0x00254790
-    PCREL_DATA_WORD slot=0x00254778 value=0x00255124 function=dmm_register_dm@00255124
-    PCREL_DATA_WORD slot=0x0025477C value=0x0025501C function=~rfc_common_data@0025501c
-    PCREL_DATA_WORD slot=0x00254780 value=0x00255058 function=operator.delete@00255058
-    PCREL_DATA_WORD slot=0x00254784 value=0x00025834 function=rfc_hwid614_qrm865ab_v3_ag_init@00025834
-    PCREL_DATA_WORD slot=0x00254788 value=0x00025848 function=rfc_hwid614_qrm865ab_v3_ag_deinit@00025848
-    PCREL_DATA_WORD slot=0x0025478C value=0x0002585C function=rfc_hwid614_qrm865ab_v3_ag_resume@0002585c
-614_PCREL_NEAR_RUN hit=28 ins=00024d64 function=operator.delete @ 00024d60 target=0x00254788 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22fa20 
-  PCREL_DATA_WINDOW target=0x00254788 range=0x0025477C..0x00254794
-    PCREL_DATA_WORD slot=0x0025477C value=0x0025501C function=~rfc_common_data@0025501c
-    PCREL_DATA_WORD slot=0x00254780 value=0x00255058 function=operator.delete@00255058
-    PCREL_DATA_WORD slot=0x00254784 value=0x00025834 function=rfc_hwid614_qrm865ab_v3_ag_init@00025834
-    PCREL_DATA_WORD slot=0x00254788 value=0x00025848 function=rfc_hwid614_qrm865ab_v3_ag_deinit@00025848
-    PCREL_DATA_WORD slot=0x0025478C value=0x0002585C function=rfc_hwid614_qrm865ab_v3_ag_resume@0002585c
-    PCREL_DATA_WORD slot=0x00254790 value=0x00025870 function=rfc_hwid614_qrm865ab_v3_ag_suspend@00025870
-614_PCREL_NEAR_RUN hit=29 ins=00024e94 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag @ 00024e90 target=0x002547D4 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f93c 
-  PCREL_DATA_WINDOW target=0x002547D4 range=0x002547C8..0x002547E0
-    PCREL_DATA_WORD slot=0x002547C8 value=0x00025E44 function=fbrx_cfg_data_get@00025e44
-    PCREL_DATA_WORD slot=0x002547CC value=0x000256D0 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@000256d0
-    PCREL_DATA_WORD slot=0x002547D0 value=0x00255054 function=rfc_tdscdma_data@00255054
-    PCREL_DATA_WORD slot=0x002547D4 value=0x0002573C function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c
-    PCREL_DATA_WORD slot=0x002547D8 value=0x002550B4 function=rfc_gnss_data@002550b4
-    PCREL_DATA_WORD slot=0x002547DC value=0x00025F38 function=rfc_get_remapped_device_info@00025f38
-614_PCREL_NEAR_RUN hit=30 ins=00024ea4 function=rfc_tdscdma_data @ 00024ea0 target=0x002547D8 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f930 
-  PCREL_DATA_WINDOW target=0x002547D8 range=0x002547CC..0x002547E4
-    PCREL_DATA_WORD slot=0x002547CC value=0x000256D0 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@000256d0
-    PCREL_DATA_WORD slot=0x002547D0 value=0x00255054 function=rfc_tdscdma_data@00255054
-    PCREL_DATA_WORD slot=0x002547D4 value=0x0002573C function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c
-    PCREL_DATA_WORD slot=0x002547D8 value=0x002550B4 function=rfc_gnss_data@002550b4
-    PCREL_DATA_WORD slot=0x002547DC value=0x00025F38 function=rfc_get_remapped_device_info@00025f38
-    PCREL_DATA_WORD slot=0x002547E0 value=0x00025E38 function=get_sig_path_table_cfg@00025e38
-614_PCREL_NEAR_RUN hit=31 ins=00024eb4 function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag @ 00024eb0 target=0x002547DC target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f924 
-  PCREL_DATA_WINDOW target=0x002547DC range=0x002547D0..0x002547E8
-    PCREL_DATA_WORD slot=0x002547D0 value=0x00255054 function=rfc_tdscdma_data@00255054
-    PCREL_DATA_WORD slot=0x002547D4 value=0x0002573C function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c
-    PCREL_DATA_WORD slot=0x002547D8 value=0x002550B4 function=rfc_gnss_data@002550b4
-    PCREL_DATA_WORD slot=0x002547DC value=0x00025F38 function=rfc_get_remapped_device_info@00025f38
-    PCREL_DATA_WORD slot=0x002547E0 value=0x00025E38 function=get_sig_path_table_cfg@00025e38
-    PCREL_DATA_WORD slot=0x002547E4 value=0x00025F20 function=get_fbrx_path_table_cfg@00025f20
-614_PCREL_NEAR_RUN hit=32 ins=00024ec4 function=rfc_gnss_data @ 00024ec0 target=0x002547E0 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f918 
-  PCREL_DATA_WINDOW target=0x002547E0 range=0x002547D4..0x002547EC
-    PCREL_DATA_WORD slot=0x002547D4 value=0x0002573C function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@0002573c
-    PCREL_DATA_WORD slot=0x002547D8 value=0x002550B4 function=rfc_gnss_data@002550b4
-    PCREL_DATA_WORD slot=0x002547DC value=0x00025F38 function=rfc_get_remapped_device_info@00025f38
-    PCREL_DATA_WORD slot=0x002547E0 value=0x00025E38 function=get_sig_path_table_cfg@00025e38
-    PCREL_DATA_WORD slot=0x002547E4 value=0x00025F20 function=get_fbrx_path_table_cfg@00025f20
-    PCREL_DATA_WORD slot=0x002547E8 value=0x00025BC4 function=get_antenna_path_table_cfg@00025bc4
-614_PCREL_NEAR_RUN hit=33 ins=00024f54 function=~rfc_lte_data @ 00024f50 target=0x00254804 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f8ac 
-  PCREL_DATA_WINDOW target=0x00254804 range=0x002547F8..0x00254810
-    PCREL_DATA_WORD slot=0x002547F8 value=0x0002521C function=get_rfm_path_info_tbl@0002521c
-    PCREL_DATA_WORD slot=0x002547FC value=0x0025513C function=~rfc_lte_data@0025513c
-    PCREL_DATA_WORD slot=0x00254800 value=0x00255110 function=~rfc_nr5g_data@00255110
-    PCREL_DATA_WORD slot=0x00254804 value=0x00025F34 function=is_fbrx_override_enabled@00025f34
-    PCREL_DATA_WORD slot=0x00254808 value=0x0002513C function=get_nr_bands_bitmask_in_endc@0002513c
-    PCREL_DATA_WORD slot=0x0025480C value=0x00025158 function=get_ver_size@00025158
-614_PCREL_NEAR_RUN hit=34 ins=00024f64 function=~rfc_nr5g_data @ 00024f60 target=0x00254808 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f8a0 
-  PCREL_DATA_WINDOW target=0x00254808 range=0x002547FC..0x00254814
-    PCREL_DATA_WORD slot=0x002547FC value=0x0025513C function=~rfc_lte_data@0025513c
-    PCREL_DATA_WORD slot=0x00254800 value=0x00255110 function=~rfc_nr5g_data@00255110
-    PCREL_DATA_WORD slot=0x00254804 value=0x00025F34 function=is_fbrx_override_enabled@00025f34
-    PCREL_DATA_WORD slot=0x00254808 value=0x0002513C function=get_nr_bands_bitmask_in_endc@0002513c
-    PCREL_DATA_WORD slot=0x0025480C value=0x00025158 function=get_ver_size@00025158
-    PCREL_DATA_WORD slot=0x00254810 value=0x00025178 function=get_ver_info@00025178
-614_PCREL_NEAR_RUN hit=35 ins=00024fb4 function=~rfc_wcdma_data @ 00024fb0 target=0x0025481C target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f864 
-  PCREL_DATA_WINDOW target=0x0025481C range=0x00254810..0x00254828
-    PCREL_DATA_WORD slot=0x00254810 value=0x00025178 function=get_ver_info@00025178
-    PCREL_DATA_WORD slot=0x00254814 value=0x00255134 function=~rfc_wcdma_data@00255134
-    PCREL_DATA_WORD slot=0x00254818 value=0x002550F4 function=~rfc_cdma_data@002550f4
-    PCREL_DATA_WORD slot=0x0025481C value=0x0025505C function=~rfc_gsm_data@0025505c
-    PCREL_DATA_WORD slot=0x00254820 value=0x00255068 function=~rfc_tdscdma_data@00255068
-    PCREL_DATA_WORD slot=0x00254824 value=0x002550D0 function=~rfc_gnss_data@002550d0
-614_PCREL_NEAR_RUN hit=36 ins=00024fc4 function=~rfc_cdma_data @ 00024fc0 target=0x00254820 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f858 
-  PCREL_DATA_WINDOW target=0x00254820 range=0x00254814..0x0025482C
-    PCREL_DATA_WORD slot=0x00254814 value=0x00255134 function=~rfc_wcdma_data@00255134
-    PCREL_DATA_WORD slot=0x00254818 value=0x002550F4 function=~rfc_cdma_data@002550f4
-    PCREL_DATA_WORD slot=0x0025481C value=0x0025505C function=~rfc_gsm_data@0025505c
-    PCREL_DATA_WORD slot=0x00254820 value=0x00255068 function=~rfc_tdscdma_data@00255068
-    PCREL_DATA_WORD slot=0x00254824 value=0x002550D0 function=~rfc_gnss_data@002550d0
-    PCREL_DATA_WORD slot=0x00254828 value=0x0002578C function=~rfc_hwid614_qrm865ab_v3_ag_lte_ag@0002578c
-614_PCREL_NEAR_RUN hit=37 ins=00024fd4 function=~rfc_gsm_data @ 00024fd0 target=0x00254824 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f84c 
-  PCREL_DATA_WINDOW target=0x00254824 range=0x00254818..0x00254830
-    PCREL_DATA_WORD slot=0x00254818 value=0x002550F4 function=~rfc_cdma_data@002550f4
-    PCREL_DATA_WORD slot=0x0025481C value=0x0025505C function=~rfc_gsm_data@0025505c
-    PCREL_DATA_WORD slot=0x00254820 value=0x00255068 function=~rfc_tdscdma_data@00255068
-    PCREL_DATA_WORD slot=0x00254824 value=0x002550D0 function=~rfc_gnss_data@002550d0
-    PCREL_DATA_WORD slot=0x00254828 value=0x0002578C function=~rfc_hwid614_qrm865ab_v3_ag_lte_ag@0002578c
-    PCREL_DATA_WORD slot=0x0025482C value=0x000252A0 function=timing_cfg_data_get@000252a0
-614_PCREL_NEAR_RUN hit=38 ins=00024fe4 function=~rfc_tdscdma_data @ 00024fe0 target=0x00254828 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f840 
-  PCREL_DATA_WINDOW target=0x00254828 range=0x0025481C..0x00254834
-    PCREL_DATA_WORD slot=0x0025481C value=0x0025505C function=~rfc_gsm_data@0025505c
-    PCREL_DATA_WORD slot=0x00254820 value=0x00255068 function=~rfc_tdscdma_data@00255068
-    PCREL_DATA_WORD slot=0x00254824 value=0x002550D0 function=~rfc_gnss_data@002550d0
-    PCREL_DATA_WORD slot=0x00254828 value=0x0002578C function=~rfc_hwid614_qrm865ab_v3_ag_lte_ag@0002578c
-    PCREL_DATA_WORD slot=0x0025482C value=0x000252A0 function=timing_cfg_data_get@000252a0
-    PCREL_DATA_WORD slot=0x00254830 value=0x00025378 function=band_split_cfg_data_get@00025378
-614_PCREL_NEAR_RUN hit=39 ins=00024ff4 function=~rfc_gnss_data @ 00024ff0 target=0x0025482C target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22f834 
-  PCREL_DATA_WINDOW target=0x0025482C range=0x00254820..0x00254838
-    PCREL_DATA_WORD slot=0x00254820 value=0x00255068 function=~rfc_tdscdma_data@00255068
-    PCREL_DATA_WORD slot=0x00254824 value=0x002550D0 function=~rfc_gnss_data@002550d0
-    PCREL_DATA_WORD slot=0x00254828 value=0x0002578C function=~rfc_hwid614_qrm865ab_v3_ag_lte_ag@0002578c
-    PCREL_DATA_WORD slot=0x0025482C value=0x000252A0 function=timing_cfg_data_get@000252a0
-    PCREL_DATA_WORD slot=0x00254830 value=0x00025378 function=band_split_cfg_data_get@00025378
-    PCREL_DATA_WORD slot=0x00254834 value=0x00025768 function=get_lte_srs_grouping_properties@00025768
-614_PCREL_NEAR_RUN hit=40 ins=00025124 function=get_res_alloc_tbl @ 00025120 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f5e8 
-614_PCREL_NEAR_RUN hit=41 ins=00025140 function=get_nr_bands_bitmask_in_endc @ 0002513c target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f5cc 
-614_PCREL_NEAR_RUN hit=42 ins=000251d4 function=get_ver_info @ 00025178 target=0x00027088 target_block=segment_3 nearest_run=0x000270A0..0x000270C8 distance=0x18 instruction=add R0,PC,##0x1eb0 
-  PCREL_DATA_WINDOW target=0x00027088 range=0x0002707C..0x00027094
-    PCREL_DATA_WORD slot=0x0002707C value=0x00000000
-    PCREL_DATA_WORD slot=0x00027080 value=0x000E0113
-    PCREL_DATA_WORD slot=0x00027084 value=0x00000008
-    PCREL_DATA_WORD slot=0x00027088 value=0x000261B4
-    PCREL_DATA_WORD slot=0x0002708C value=0x000E0118
-    PCREL_DATA_WORD slot=0x00027090 value=0x00000008
-614_PCREL_NEAR_RUN hit=43 ins=000251e0 function=get_ver_info @ 00025178 target=0x00027094 target_block=segment_3 nearest_run=0x000270A0..0x000270C8 distance=0xc instruction=add R0,PC,##0x1eb0 
-  PCREL_DATA_WINDOW target=0x00027094 range=0x00027088..0x000270A0
-    PCREL_DATA_WORD slot=0x00027088 value=0x000261B4
-    PCREL_DATA_WORD slot=0x0002708C value=0x000E0118
-    PCREL_DATA_WORD slot=0x00027090 value=0x00000008
-    PCREL_DATA_WORD slot=0x00027094 value=0x00026210
-    PCREL_DATA_WORD slot=0x00027098 value=0x00000000
-    PCREL_DATA_WORD slot=0x0002709C value=0x000271BC
-614_PCREL_NEAR_RUN hit=44 ins=000251f8 function=get_rrc_ca_table @ 000251f0 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f514 
-614_PCREL_NEAR_RUN hit=45 ins=00025220 function=get_rfm_path_info_tbl @ 0002521c target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f4ec 
-614_PCREL_NEAR_RUN hit=46 ins=00025234 function=get_instance @ 00025230 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22f4d8 
-614_PCREL_NEAR_RUN hit=47 ins=00025284 function=rfc_hwid614_qrm865ab_v3_ag_lte_ag @ 00025274 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f488 
-614_PCREL_NEAR_RUN hit=48 ins=000252f0 function=FUN_000252a8 @ 000252a8 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f41c 
-614_PCREL_NEAR_RUN hit=49 ins=00025314 function=FUN_000252a8 @ 000252a8 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f3f8 
-614_PCREL_NEAR_RUN hit=50 ins=00025348 function=FUN_000252a8 @ 000252a8 target=0x000270D4 target_block=segment_3 nearest_run=0x000270A0..0x000270C8 distance=0xc instruction=add R0,PC,##0x1d88 
-  PCREL_DATA_WINDOW target=0x000270D4 range=0x000270C8..0x000270E0
-    PCREL_DATA_WORD slot=0x000270C8 value=0x00255014 function=unique_path_table_get@00255014
-    PCREL_DATA_WORD slot=0x000270CC value=0x000E0099
-    PCREL_DATA_WORD slot=0x000270D0 value=0x00000008
-    PCREL_DATA_WORD slot=0x000270D4 value=0x00026278
-    PCREL_DATA_WORD slot=0x000270D8 value=0x00000000
-    PCREL_DATA_WORD slot=0x000270DC value=0x000271C8
-614_PCREL_NEAR_RUN hit=51 ins=00025358 function=FUN_000252a8 @ 000252a8 target=0x000270F8 target_block=segment_3 nearest_run=0x000270E0..0x000270EC distance=0xc instruction=add R0,PC,##0x1d9c 
-  PCREL_DATA_WINDOW target=0x000270F8 range=0x000270EC..0x00027104
-    PCREL_DATA_WORD slot=0x000270EC value=0x000254F4 function=timing_cfg_data_get@000254f4
-    PCREL_DATA_WORD slot=0x000270F0 value=0x000E0132
-    PCREL_DATA_WORD slot=0x000270F4 value=0x00000008
-    PCREL_DATA_WORD slot=0x000270F8 value=0x00026330
-    PCREL_DATA_WORD slot=0x000270FC value=0x00000000
-    PCREL_DATA_WORD slot=0x00027100 value=0x000271D4
-614_PCREL_NEAR_RUN hit=52 ins=000253a4 function=band_split_cfg_data_get @ 00025378 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f368 
-614_PCREL_NEAR_RUN hit=53 ins=000253d0 function=band_split_cfg_data_get @ 00025378 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f33c 
-614_PCREL_NEAR_RUN hit=54 ins=00025400 function=band_split_cfg_data_get @ 00025378 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f30c 
-614_PCREL_NEAR_RUN hit=55 ins=0002541c function=get_instance @ 00025418 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22f2f0 
-614_PCREL_NEAR_RUN hit=56 ins=00025464 function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag @ 00025454 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f2a8 
-614_PCREL_NEAR_RUN hit=57 ins=000254ac function=band_split_cfg_data_get @ 00025480 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f260 
-614_PCREL_NEAR_RUN hit=58 ins=000254d8 function=band_split_cfg_data_get @ 00025480 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R3,PC,##0x22f234 
-614_PCREL_NEAR_RUN hit=59 ins=00025500 function=get_instance @ 000254fc target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22f20c 
-614_PCREL_NEAR_RUN hit=60 ins=00025548 function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag @ 00025538 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f1c4 
-614_PCREL_NEAR_RUN hit=61 ins=00025580 function=get_wcdma_properties @ 00025574 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f18c 
-614_PCREL_NEAR_RUN hit=62 ins=0002559c function=get_instance @ 00025598 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22f170 
-614_PCREL_NEAR_RUN hit=63 ins=000255e4 function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag @ 000255d4 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f128 
-614_PCREL_NEAR_RUN hit=64 ins=00025608 function=get_instance @ 00025604 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22f104 
-614_PCREL_NEAR_RUN hit=65 ins=00025650 function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag @ 00025640 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f0bc 
-614_PCREL_NEAR_RUN hit=66 ins=0002567c function=get_gsm_properties @ 00025670 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f090 
-614_PCREL_NEAR_RUN hit=67 ins=00025698 function=get_instance @ 00025694 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22f074 
-614_PCREL_NEAR_RUN hit=68 ins=000256e0 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag @ 000256d0 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22f02c 
-614_PCREL_NEAR_RUN hit=69 ins=00025704 function=get_instance @ 00025700 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22f008 
-614_PCREL_NEAR_RUN hit=70 ins=0002574c function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag @ 0002573c target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22efc0 
-614_PCREL_NEAR_RUN hit=71 ins=00025774 function=get_lte_srs_grouping_properties @ 00025768 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22ef98 
-614_PCREL_NEAR_RUN hit=72 ins=00025838 function=rfc_hwid614_qrm865ab_v3_ag_init @ 00025834 target=0x00027350 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0xb4 instruction=add R0,PC,##0x1b14 
-  PCREL_DATA_WINDOW target=0x00027350 range=0x00027344..0x0002735C
-    PCREL_DATA_WORD slot=0x00027344 value=0x00026924
-    PCREL_DATA_WORD slot=0x00027348 value=0x000E8EC2
-    PCREL_DATA_WORD slot=0x0002734C value=0x00000004
-    PCREL_DATA_WORD slot=0x00027350 value=0x000269A8
-    PCREL_DATA_WORD slot=0x00027354 value=0x000E8ECC
-    PCREL_DATA_WORD slot=0x00027358 value=0x00000004
-614_PCREL_NEAR_RUN hit=73 ins=0002584c function=rfc_hwid614_qrm865ab_v3_ag_deinit @ 00025848 target=0x0002735C target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0xc0 instruction=add R0,PC,##0x1b0c 
-  PCREL_DATA_WINDOW target=0x0002735C range=0x00027350..0x00027368
-    PCREL_DATA_WORD slot=0x00027350 value=0x000269A8
-    PCREL_DATA_WORD slot=0x00027354 value=0x000E8ECC
-    PCREL_DATA_WORD slot=0x00027358 value=0x00000004
-    PCREL_DATA_WORD slot=0x0002735C value=0x000269FC
-    PCREL_DATA_WORD slot=0x00027360 value=0x000E8ED7
-    PCREL_DATA_WORD slot=0x00027364 value=0x00000004
-614_PCREL_NEAR_RUN hit=74 ins=00025860 function=rfc_hwid614_qrm865ab_v3_ag_resume @ 0002585c target=0x00027374 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0xd8 instruction=add R0,PC,##0x1b10 
-  PCREL_DATA_WINDOW target=0x00027374 range=0x00027368..0x00027380
-    PCREL_DATA_WORD slot=0x00027368 value=0x00026A54
-    PCREL_DATA_WORD slot=0x0002736C value=0x000E8EE2
-    PCREL_DATA_WORD slot=0x00027370 value=0x00000004
-    PCREL_DATA_WORD slot=0x00027374 value=0x00026AAC
-    PCREL_DATA_WORD slot=0x00027378 value=0x0025509C function=get_lte_properties@0025509c
-    PCREL_DATA_WORD slot=0x0002737C value=0x00026190
-614_PCREL_NEAR_RUN hit=75 ins=00025874 function=rfc_hwid614_qrm865ab_v3_ag_suspend @ 00025870 target=0x00027368 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0xcc instruction=add R0,PC,##0x1af0 
-  PCREL_DATA_WINDOW target=0x00027368 range=0x0002735C..0x00027374
-    PCREL_DATA_WORD slot=0x0002735C value=0x000269FC
-    PCREL_DATA_WORD slot=0x00027360 value=0x000E8ED7
-    PCREL_DATA_WORD slot=0x00027364 value=0x00000004
-    PCREL_DATA_WORD slot=0x00027368 value=0x00026A54
-    PCREL_DATA_WORD slot=0x0002736C value=0x000E8EE2
-    PCREL_DATA_WORD slot=0x00027370 value=0x00000004
-614_PCREL_NEAR_RUN hit=76 ins=00025888 function=get_instance @ 00025884 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R17,PC,##0x22ee84 
-614_PCREL_NEAR_RUN hit=77 ins=000258d4 function=rfc_hwid614_qrm865ab_v3_ag_cmn_ag @ 000258c4 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22ee38 
-614_PCREL_NEAR_RUN hit=78 ins=0002590c function=sdr_rffe_sig_info_table_get @ 000258f0 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22ee00 
-614_PCREL_NEAR_RUN hit=79 ins=00025920 function=sdr_rffe_sig_info_table_get @ 000258f0 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22edec 
-614_PCREL_NEAR_RUN hit=80 ins=00025954 function=sdr_grfc_sig_info_table_get @ 00025938 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22edb8 
-614_PCREL_NEAR_RUN hit=81 ins=00025968 function=sdr_grfc_sig_info_table_get @ 00025938 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22eda4 
-614_PCREL_NEAR_RUN hit=82 ins=0002598c function=blank_grfc_sig_info_table_get @ 00025980 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22ed80 
-614_PCREL_NEAR_RUN hit=83 ins=000259bc function=get_signals_info @ 000259a4 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R18,PC,##0x22ed50 
-614_PCREL_NEAR_RUN hit=84 ins=000259dc function=get_signals_info @ 000259a4 target=0x000272B4 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x18 instruction=add R0,PC,##0x18d4 
-  PCREL_DATA_WINDOW target=0x000272B4 range=0x000272A8..0x000272C0
-    PCREL_DATA_WORD slot=0x000272A8 value=0x000263E8
-    PCREL_DATA_WORD slot=0x000272AC value=0x000E06BE
-    PCREL_DATA_WORD slot=0x000272B0 value=0x00000008
-    PCREL_DATA_WORD slot=0x000272B4 value=0x00026464
-    PCREL_DATA_WORD slot=0x000272B8 value=0x000E06C9
-    PCREL_DATA_WORD slot=0x000272BC value=0x00000008
-614_PCREL_NEAR_RUN hit=85 ins=000259ec function=get_signals_info @ 000259a4 target=0x000272C0 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x24 instruction=add R2,PC,##0x18d0 
-  PCREL_DATA_WINDOW target=0x000272C0 range=0x000272B4..0x000272CC
-    PCREL_DATA_WORD slot=0x000272B4 value=0x00026464
-    PCREL_DATA_WORD slot=0x000272B8 value=0x000E06C9
-    PCREL_DATA_WORD slot=0x000272BC value=0x00000008
-    PCREL_DATA_WORD slot=0x000272C0 value=0x000264D4
-    PCREL_DATA_WORD slot=0x000272C4 value=0x000E06D3
-    PCREL_DATA_WORD slot=0x000272C8 value=0x00000008
-614_PCREL_NEAR_RUN hit=86 ins=00025a04 function=get_signals_info @ 000259a4 target=0x000272CC target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x30 instruction=add R2,PC,##0x18c4 
-  PCREL_DATA_WINDOW target=0x000272CC range=0x000272C0..0x000272D8
-    PCREL_DATA_WORD slot=0x000272C0 value=0x000264D4
-    PCREL_DATA_WORD slot=0x000272C4 value=0x000E06D3
-    PCREL_DATA_WORD slot=0x000272C8 value=0x00000008
-    PCREL_DATA_WORD slot=0x000272CC value=0x00026544
-    PCREL_DATA_WORD slot=0x000272D0 value=0x000E06DD
-    PCREL_DATA_WORD slot=0x000272D4 value=0x00000008
-614_PCREL_NEAR_RUN hit=87 ins=00025a1c function=get_signals_info @ 000259a4 target=0x000272D8 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x3c instruction=add R2,PC,##0x18b8 
-  PCREL_DATA_WINDOW target=0x000272D8 range=0x000272CC..0x000272E4
-    PCREL_DATA_WORD slot=0x000272CC value=0x00026544
-    PCREL_DATA_WORD slot=0x000272D0 value=0x000E06DD
-    PCREL_DATA_WORD slot=0x000272D4 value=0x00000008
-    PCREL_DATA_WORD slot=0x000272D8 value=0x000265B4
-    PCREL_DATA_WORD slot=0x000272DC value=0x000E06E7
-    PCREL_DATA_WORD slot=0x000272E0 value=0x00000008
-614_PCREL_NEAR_RUN hit=88 ins=00025a34 function=get_signals_info @ 000259a4 target=0x000272E4 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x48 instruction=add R2,PC,##0x18ac 
-  PCREL_DATA_WINDOW target=0x000272E4 range=0x000272D8..0x000272F0
-    PCREL_DATA_WORD slot=0x000272D8 value=0x000265B4
-    PCREL_DATA_WORD slot=0x000272DC value=0x000E06E7
-    PCREL_DATA_WORD slot=0x000272E0 value=0x00000008
-    PCREL_DATA_WORD slot=0x000272E4 value=0x00026624
-    PCREL_DATA_WORD slot=0x000272E8 value=0x000E06F1
-    PCREL_DATA_WORD slot=0x000272EC value=0x00000008
-614_PCREL_NEAR_RUN hit=89 ins=00025a4c function=get_signals_info @ 000259a4 target=0x000272F0 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x54 instruction=add R2,PC,##0x18a0 
-  PCREL_DATA_WINDOW target=0x000272F0 range=0x000272E4..0x000272FC
-    PCREL_DATA_WORD slot=0x000272E4 value=0x00026624
-    PCREL_DATA_WORD slot=0x000272E8 value=0x000E06F1
-    PCREL_DATA_WORD slot=0x000272EC value=0x00000008
-    PCREL_DATA_WORD slot=0x000272F0 value=0x00026694
-    PCREL_DATA_WORD slot=0x000272F4 value=0x000E06FC
-    PCREL_DATA_WORD slot=0x000272F8 value=0x00000008
-614_PCREL_NEAR_RUN hit=90 ins=00025a64 function=get_signals_info @ 000259a4 target=0x000272FC target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x60 instruction=add R2,PC,##0x1894 
-  PCREL_DATA_WINDOW target=0x000272FC range=0x000272F0..0x00027308
-    PCREL_DATA_WORD slot=0x000272F0 value=0x00026694
-    PCREL_DATA_WORD slot=0x000272F4 value=0x000E06FC
-    PCREL_DATA_WORD slot=0x000272F8 value=0x00000008
-    PCREL_DATA_WORD slot=0x000272FC value=0x00026708
-    PCREL_DATA_WORD slot=0x00027300 value=0x000E0B7B
-    PCREL_DATA_WORD slot=0x00027304 value=0x00000008
-614_PCREL_NEAR_RUN hit=91 ins=00025a84 function=get_signals_info @ 000259a4 target=0x000272A8 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0xc instruction=add R0,PC,##0x1820 
-  PCREL_DATA_WINDOW target=0x000272A8 range=0x0002729C..0x000272B4
-    PCREL_DATA_WORD slot=0x0002729C value=0x00025178 function=get_ver_info@00025178
-    PCREL_DATA_WORD slot=0x000272A0 value=0x000E06B2
-    PCREL_DATA_WORD slot=0x000272A4 value=0x00000008
-    PCREL_DATA_WORD slot=0x000272A8 value=0x000263E8
-    PCREL_DATA_WORD slot=0x000272AC value=0x000E06BE
-    PCREL_DATA_WORD slot=0x000272B0 value=0x00000008
-614_PCREL_NEAR_RUN hit=92 ins=00025a98 function=FUN_00025a94 @ 00025a94 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22ec74 
+,PC,##0x22ec74 
 614_PCREL_NEAR_RUN hit=93 ins=00025aac function=get_phy_device_cfg @ 00025aa8 target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22ec60 
 614_PCREL_NEAR_RUN hit=94 ins=00025ac0 function=get_logical_device_cfg @ 00025abc target=0x00254710 target_block=segment_3 nearest_run=0x00254718..0x0025486C distance=0x8 instruction=add R2,PC,##0x22ec4c 
 614_PCREL_NEAR_RUN hit=95 ins=00025adc function=get_ant_switch_path_info @ 00025ad0 target=0x00027308 target_block=segment_3 nearest_run=0x00027218..0x0002729C distance=0x6c instruction=add R0,PC,##0x1828 
@@ -341,6 +57,602 @@ _3 nearest_run=0x00254718..0x0025486C distance=0x0 instruction=add R14,PC,##0x22
 614_PCREL_TARGETS_PRINTED=109
 614_PCREL_DATA_WINDOWS_PRINTED=60
 PC-relative effective-address reconstruction is a static candidate and should be checked against the disassembly.
+
+============================================================
+614_0_0 FOCUSED RFC ANCHOR ANALYSIS
+Anchor 0x00254710 is repeatedly computed by PC-relative references.
+The contiguous function-pointer run begins at 0x00254718; this scan checks the gap and use sites.
+READ ONLY; no listing, data, or program state is modified.
+============================================================
+614_RFC_ANCHOR_DATA_WINDOW=0x002546F0..0x00254740
+614_RFC_ANCHOR_WORD slot=0x002546F0 value=0x002550D4
+614_RFC_ANCHOR_WORD slot=0x002546F4 value=0x00027170
+614_RFC_ANCHOR_WORD slot=0x002546F8 value=0x00255070
+614_RFC_ANCHOR_WORD slot=0x002546FC value=0x00027198
+614_RFC_ANCHOR_WORD slot=0x00254700 value=0x0021743C
+614_RFC_ANCHOR_WORD slot=0x00254704 value=0x00000000
+614_RFC_ANCHOR_WORD slot=0x00254708 value=0x00000000
+614_RFC_ANCHOR_WORD slot=0x0025470C value=0x00000000
+614_RFC_ANCHOR_WORD slot=0x00254710 value=0x00000000 <== PC_RELATIVE_ANCHOR
+614_RFC_ANCHOR_WORD slot=0x00254714 value=0x00000000
+614_RFC_ANCHOR_WORD slot=0x00254718 value=0x002550DC <== POINTER_RUN_START function=msg_v2_send_1_dll@002550dc
+614_RFC_ANCHOR_WORD slot=0x0025471C value=0x00025274 function=rfc_hwid614_qrm865ab_v3_ag_lte_ag@00025274
+614_RFC_ANCHOR_WORD slot=0x00254720 value=0x00255004 function=operator.new@00255004
+614_RFC_ANCHOR_WORD slot=0x00254724 value=0x00255118 function=rfc_lte_data@00255118
+614_RFC_ANCHOR_WORD slot=0x00254728 value=0x0025511C function=__save_r16_through_r19@0025511c
+614_RFC_ANCHOR_WORD slot=0x0025472C value=0x0025512C function=rfc_common_get_ag_error_control@0025512c
+614_RFC_ANCHOR_WORD slot=0x00254730 value=0x002550EC function=msg_v2_send_var_dll@002550ec
+614_RFC_ANCHOR_WORD slot=0x00254734 value=0x00255044 function=__restore_r16_through_r19_and_deallocframe@00255044
+614_RFC_ANCHOR_WORD slot=0x00254738 value=0x00025454 function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@00025454
+614_RFC_ANCHOR_WORD slot=0x0025473C value=0x002550F8 function=rfc_nr5g_data@002550f8
+614_RFC_ANCHOR_WORD slot=0x00254740 value=0x00025538 function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@00025538
+614_RFC_ANCHOR_REFERENCE #1 ins=00024b94 function=__PLT_HEAD @ 00024b90 destination=R28 target=0x00254710 instruction=add R28,PC,##0x22fb78 
+      00024b90 immext #0x22fb40 
+  >>> 00024b94 add R28,PC,##0x22fb78 
+      00024b98 add-= R14,R28,#0x10 
+      00024b9c memw R15,(R28+#0x8) 
+      00024ba0 memw R28,(R28+#0x4) 
+      00024ba4 asr R14,R14,#0x2 
+      00024ba8 jumpr R28 
+614_RFC_ANCHOR_REFERENCE #2 ins=00025124 function=get_res_alloc_tbl @ 00025120 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f5e8 
+      00025120 immext #0x22f5c0 
+  >>> 00025124 add R2,PC,##0x22f5e8 
+      00025128 cmp.eq P0,R1,#0x0 
+      0002512c assign.if(!P0) R0,#0x0 
+      00025130 jumpr LR 
+      00025134 immext #0xffffff00 
+      00025138 memw.if(P0) R0,(R2+##0xffffff24) 
+614_RFC_ANCHOR_REFERENCE #3 ins=00025140 function=get_nr_bands_bitmask_in_endc @ 0002513c destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f5cc 
+      0002513c immext #0x22f5c0 
+  >>> 00025140 add R2,PC,##0x22f5cc 
+      00025144 cmp.eq P0,R1,#0x0 
+      00025148 assign.if(!P0) R0,#0x0 
+      0002514c jumpr LR 
+      00025150 immext #0xffffff00 
+      00025154 memw.if(P0) R0,(R2+##0xffffff28) 
+614_RFC_ANCHOR_REFERENCE #4 ins=000251f8 function=get_rrc_ca_table @ 000251f0 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f514 
+      000251f0 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):t 0x00025218 
+      000251f4 immext #0x22f500 
+  >>> 000251f8 add R3,PC,##0x22f514 
+      000251fc cmp.eq P0,R2,#0x0 
+      00025200 immext #0xffffff00 
+      00025204 memw R2,(R3+##0xffffff2c) 
+      00025208 immext #0xffffff00 
+      0002520c memw.if(P0) R0,(R3+##0xffffff30) 
+      00025210 assign.if(!P0) R0,R2 
+      00025214 jumpr LR 
+      00025218 assign R0,#0x0 ; jumpr LR 
+614_RFC_ANCHOR_REFERENCE #5 ins=00025220 function=get_rfm_path_info_tbl @ 0002521c destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f4ec 
+      0002521c immext #0x22f4c0 
+  >>> 00025220 add R2,PC,##0x22f4ec 
+      00025224 jumpr LR 
+      00025228 immext #0xffffff00 
+      0002522c memw R0,(R2+##0xffffff34) 
+614_RFC_ANCHOR_REFERENCE #6 ins=00025234 function=get_instance @ 00025230 destination=R17 target=0x00254710 instruction=add R17,PC,##0x22f4d8 
+      00025230 immext #0x22f4c0 
+  >>> 00025234 add R17,PC,##0x22f4d8 
+      00025238 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      0002523c immext #0xffffff00 
+      00025240 memw R2,(R17+##0xffffff3c) 
+      00025244 memw R16,(R2) 
+      00025248 jump.if:t !cmp.eq(R16.new,#0x0),0x00025264 
+      0002524c call 0x0002526c 
+      00025250 call 0x00024bd0 
+      00025254 assign R16,R0 
+      00025258 immext #0xffffff00 
+      0002525c memw R2,(R17+##0xffffff3c) 
+614_RFC_ANCHOR_REFERENCE #7 ins=00025284 function=rfc_hwid614_qrm865ab_v3_ag_lte_ag @ 00025274 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f488 
+      00025274 call 0x00024bf0 
+      00025278 assign R16,R0 
+      0002527c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025280 immext #0x22f480 
+  >>> 00025284 add R2,PC,##0x22f488 
+      00025288 immext #0xffffff40 
+      0002528c memw R2,(R2+##0xffffff40) 
+      00025290 add R2,R2,#0x8 
+      00025294 memd R17R16,(SP) 
+      00025298 memw (R16),R2.new 
+      0002529c dealloc_return 
+614_RFC_ANCHOR_REFERENCE #8 ins=000252f0 function=FUN_000252a8 @ 000252a8 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f41c 
+      000252e0 cmp.gt P0,R3,#0x3f 
+      000252e4 assign.if(!P0.new) R16,#0x1 
+      000252e8 jump.if(P0.new):t 0x00025328 
+      000252ec immext #0x22f400 
+  >>> 000252f0 add R3,PC,##0x22f41c 
+      000252f4 jump 0x00025370 
+      000252f8 immext #0xffffff40 
+      000252fc memw R3,(R3+##0xffffff44) 
+      00025300 memw (R2),R3.new 
+      00025304 cmp.gt P0,R3,#0x29 
+      00025308 assign.if(!P0.new) R16,#0x1 
+      0002530c jump.if(P0.new):t 0x00025328 
+      00025310 immext #0x22f3c0 
+      00025314 add R3,PC,##0x22f3f8 
+      00025318 jump 0x00025370 
+614_RFC_ANCHOR_REFERENCE #9 ins=00025314 function=FUN_000252a8 @ 000252a8 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f3f8 
+      00025304 cmp.gt P0,R3,#0x29 
+      00025308 assign.if(!P0.new) R16,#0x1 
+      0002530c jump.if(P0.new):t 0x00025328 
+      00025310 immext #0x22f3c0 
+  >>> 00025314 add R3,PC,##0x22f3f8 
+      00025318 jump 0x00025370 
+      0002531c immext #0xffffff40 
+      00025320 memw R3,(R3+##0xffffff48) 
+      00025324 memw (R2),R3.new 
+      00025328 call 0x00024c10 
+      0002532c cmp.eq P0,R0,#0x1 ; jump.if(!P0.new):t 0x00025370 
+      00025330 cmp.eq P0,R18,#0x1 
+      00025334 memw R3,(R17+#0x8) 
+      00025338 memuh R2,(R17+#0x16) 
+      0002533c jump.if(P0) 0x00025354 
+614_RFC_ANCHOR_REFERENCE #10 ins=000253a4 function=band_split_cfg_data_get @ 00025378 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f368 
+      00025394 assign R0,#0x0 
+      00025398 memw R3,(R1+#0x8) 
+      0002539c jump.if:t !cmp.eq(R3.new,#0x1b),0x00025414 
+      000253a0 immext #0x22f340 
+  >>> 000253a4 add R3,PC,##0x22f368 
+      000253a8 assign R0,#0x1 
+      000253ac immext #0xffffff40 
+      000253b0 memw R3,(R3+##0xffffff4c) 
+      000253b4 memw (R2),R3.new 
+      000253b8 memub R3,(R1+#0x4) 
+      000253bc and R3,R3,#0xff 
+      000253c0 jump.if:t !cmp.eq(R3.new,#0x1),0x00025414 
+      000253c4 memw R3,(R1+#0x8) 
+      000253c8 jump.if:t !cmp.eq(R3.new,#0x1b),0x000253ec 
+      000253cc immext #0x22f300 
+614_RFC_ANCHOR_REFERENCE #11 ins=000253d0 function=band_split_cfg_data_get @ 00025378 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f33c 
+      000253c0 jump.if:t !cmp.eq(R3.new,#0x1),0x00025414 
+      000253c4 memw R3,(R1+#0x8) 
+      000253c8 jump.if:t !cmp.eq(R3.new,#0x1b),0x000253ec 
+      000253cc immext #0x22f300 
+  >>> 000253d0 add R3,PC,##0x22f33c 
+      000253d4 assign R0,#0x1 
+      000253d8 immext #0xffffff40 
+      000253dc memw R3,(R3+##0xffffff50) 
+      000253e0 memw (R2),R3.new 
+      000253e4 memb R3,(R1+#0x4) 
+      000253e8 jump.if:t !cmp.eq(R3.new,#0x1),0x00025414 
+      000253ec memw R3,(R1+#0x8) 
+      000253f0 cmp.eq P0,R3,#0x28 
+      000253f4 assign.if(P0.new) R0,#0x1 
+      000253f8 jump.if(!P0.new):t 0x00025414 
+614_RFC_ANCHOR_REFERENCE #12 ins=00025400 function=band_split_cfg_data_get @ 00025378 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f30c 
+      000253f0 cmp.eq P0,R3,#0x28 
+      000253f4 assign.if(P0.new) R0,#0x1 
+      000253f8 jump.if(!P0.new):t 0x00025414 
+      000253fc immext #0x22f300 
+  >>> 00025400 add R3,PC,##0x22f30c 
+      00025404 jumpr LR 
+      00025408 immext #0xffffff40 
+      0002540c memw R3,(R3+##0xffffff54) 
+      00025410 memw (R2),R3.new 
+      00025414 jumpr LR 
+614_RFC_ANCHOR_REFERENCE #13 ins=0002541c function=get_instance @ 00025418 destination=R17 target=0x00254710 instruction=add R17,PC,##0x22f2f0 
+      00025418 immext #0x22f2c0 
+  >>> 0002541c add R17,PC,##0x22f2f0 
+      00025420 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025424 immext #0xffffff40 
+      00025428 memw R2,(R17+##0xffffff58) 
+      0002542c memw R16,(R2) 
+      00025430 jump.if:t !cmp.eq(R16.new,#0x0),0x0002544c 
+      00025434 call 0x0002526c 
+      00025438 call 0x00024c40 
+      0002543c assign R16,R0 
+      00025440 immext #0xffffff40 
+      00025444 memw R2,(R17+##0xffffff58) 
+614_RFC_ANCHOR_REFERENCE #14 ins=00025464 function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag @ 00025454 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f2a8 
+      00025454 call 0x00024c50 
+      00025458 assign R16,R0 
+      0002545c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025460 immext #0x22f280 
+  >>> 00025464 add R2,PC,##0x22f2a8 
+      00025468 immext #0xffffff40 
+      0002546c memw R2,(R2+##0xffffff5c) 
+      00025470 add R2,R2,#0x8 
+      00025474 memd R17R16,(SP) 
+      00025478 memw (R16),R2.new 
+      0002547c dealloc_return 
+614_RFC_ANCHOR_REFERENCE #15 ins=000254ac function=band_split_cfg_data_get @ 00025480 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f260 
+      0002549c assign R0,#0x0 
+      000254a0 memw R3,(R1+#0x8) 
+      000254a4 jump.if:t !cmp.eq(R3.new,#0xd),0x000254f0 
+      000254a8 immext #0x22f240 
+  >>> 000254ac add R3,PC,##0x22f260 
+      000254b0 assign R0,#0x1 
+      000254b4 immext #0xffffff40 
+      000254b8 memw R3,(R3+##0xffffff60) 
+      000254bc memw (R2),R3.new 
+      000254c0 memub R3,(R1+#0x4) 
+      000254c4 and R3,R3,#0xff 
+      000254c8 jump.if:t !cmp.eq(R3.new,#0x1),0x000254f0 
+      000254cc memw R3,(R1+#0x8) 
+      000254d0 jump.if:t !cmp.eq(R3.new,#0xd),0x000254f0 
+      000254d4 immext #0x22f200 
+614_RFC_ANCHOR_REFERENCE #16 ins=000254d8 function=band_split_cfg_data_get @ 00025480 destination=R3 target=0x00254710 instruction=add R3,PC,##0x22f234 
+      000254c8 jump.if:t !cmp.eq(R3.new,#0x1),0x000254f0 
+      000254cc memw R3,(R1+#0x8) 
+      000254d0 jump.if:t !cmp.eq(R3.new,#0xd),0x000254f0 
+      000254d4 immext #0x22f200 
+  >>> 000254d8 add R3,PC,##0x22f234 
+      000254dc assign R0,#0x1 
+      000254e0 jumpr LR 
+      000254e4 immext #0xffffff40 
+      000254e8 memw R3,(R3+##0xffffff64) 
+      000254ec memw (R2),R3.new 
+      000254f0 jumpr LR 
+614_RFC_ANCHOR_REFERENCE #17 ins=00025500 function=get_instance @ 000254fc destination=R17 target=0x00254710 instruction=add R17,PC,##0x22f20c 
+      000254fc immext #0x22f200 
+  >>> 00025500 add R17,PC,##0x22f20c 
+      00025504 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025508 immext #0xffffff40 
+      0002550c memw R2,(R17+##0xffffff68) 
+      00025510 memw R16,(R2) 
+      00025514 jump.if:t !cmp.eq(R16.new,#0x0),0x00025530 
+      00025518 call 0x0002526c 
+      0002551c call 0x00024c60 
+      00025520 assign R16,R0 
+      00025524 immext #0xffffff40 
+      00025528 memw R2,(R17+##0xffffff68) 
+614_RFC_ANCHOR_REFERENCE #18 ins=00025548 function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag @ 00025538 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f1c4 
+      00025538 call 0x00024c70 
+      0002553c assign R16,R0 
+      00025540 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025544 immext #0x22f1c0 
+  >>> 00025548 add R2,PC,##0x22f1c4 
+      0002554c immext #0xffffff40 
+      00025550 memw R2,(R2+##0xffffff6c) 
+      00025554 add R2,R2,#0x8 
+      00025558 memd R17R16,(SP) 
+      0002555c memw (R16),R2.new 
+      00025560 dealloc_return 
+614_RFC_ANCHOR_REFERENCE #19 ins=00025580 function=get_wcdma_properties @ 00025574 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f18c 
+      00025574 assign.if(!P0.new) R0,#0x1 
+      00025578 cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025594 
+      0002557c immext #0x22f180 
+  >>> 00025580 add R2,PC,##0x22f18c 
+      00025584 jumpr LR 
+      00025588 immext #0xffffff40 
+      0002558c memw R2,(R2+##0xffffff70) 
+      00025590 memw (R1),R2.new 
+      00025594 assign R0,#0x0 ; jumpr LR 
+614_RFC_ANCHOR_REFERENCE #20 ins=0002559c function=get_instance @ 00025598 destination=R17 target=0x00254710 instruction=add R17,PC,##0x22f170 
+      00025598 immext #0x22f140 
+  >>> 0002559c add R17,PC,##0x22f170 
+      000255a0 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      000255a4 immext #0xffffff40 
+      000255a8 memw R2,(R17+##0xffffff74) 
+      000255ac memw R16,(R2) 
+      000255b0 jump.if:t !cmp.eq(R16.new,#0x0),0x000255cc 
+      000255b4 call 0x0002526c 
+      000255b8 call 0x00024c80 
+      000255bc assign R16,R0 
+      000255c0 immext #0xffffff40 
+      000255c4 memw R2,(R17+##0xffffff74) 
+614_RFC_ANCHOR_REFERENCE #21 ins=000255e4 function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag @ 000255d4 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f128 
+      000255d4 call 0x00024c90 
+      000255d8 assign R16,R0 
+      000255dc memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      000255e0 immext #0x22f100 
+  >>> 000255e4 add R2,PC,##0x22f128 
+      000255e8 immext #0xffffff40 
+      000255ec memw R2,(R2+##0xffffff78) 
+      000255f0 add R2,R2,#0x8 
+      000255f4 memd R17R16,(SP) 
+      000255f8 memw (R16),R2.new 
+      000255fc dealloc_return 
+614_RFC_ANCHOR_REFERENCE #22 ins=00025608 function=get_instance @ 00025604 destination=R17 target=0x00254710 instruction=add R17,PC,##0x22f104 
+      00025604 immext #0x22f100 
+  >>> 00025608 add R17,PC,##0x22f104 
+      0002560c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025610 immext #0xffffff40 
+      00025614 memw R2,(R17+##0xffffff7c) 
+      00025618 memw R16,(R2) 
+      0002561c jump.if:t !cmp.eq(R16.new,#0x0),0x00025638 
+      00025620 call 0x0002526c 
+      00025624 call 0x00024cb0 
+      00025628 assign R16,R0 
+      0002562c immext #0xffffff40 
+      00025630 memw R2,(R17+##0xffffff7c) 
+614_RFC_ANCHOR_REFERENCE #23 ins=00025650 function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag @ 00025640 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f0bc 
+      00025640 call 0x00024cd0 
+      00025644 assign R16,R0 
+      00025648 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      0002564c immext #0x22f080 
+  >>> 00025650 add R2,PC,##0x22f0bc 
+      00025654 immext #0xffffff80 
+      00025658 memw R2,(R2+##0xffffff80) 
+      0002565c add R2,R2,#0x8 
+      00025660 memd R17R16,(SP) 
+      00025664 memw (R16),R2.new 
+      00025668 dealloc_return 
+614_RFC_ANCHOR_REFERENCE #24 ins=0002567c function=get_gsm_properties @ 00025670 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f090 
+      00025670 assign.if(!P0.new) R0,#0x1 
+      00025674 cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025690 
+      00025678 immext #0x22f080 
+  >>> 0002567c add R2,PC,##0x22f090 
+      00025680 jumpr LR 
+      00025684 immext #0xffffff80 
+      00025688 memw R2,(R2+##0xffffff84) 
+      0002568c memw (R1),R2.new 
+      00025690 assign R0,#0x0 ; jumpr LR 
+614_RFC_ANCHOR_REFERENCE #25 ins=00025698 function=get_instance @ 00025694 destination=R17 target=0x00254710 instruction=add R17,PC,##0x22f074 
+      00025694 immext #0x22f040 
+  >>> 00025698 add R17,PC,##0x22f074 
+      0002569c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      000256a0 immext #0xffffffc0 
+      000256a4 memw R2,(R17+##0xffffffe8) 
+      000256a8 memw R16,(R2) 
+      000256ac jump.if:t !cmp.eq(R16.new,#0x0),0x000256c8 
+      000256b0 call 0x0002526c 
+      000256b4 call 0x00024e90 
+      000256b8 assign R16,R0 
+      000256bc immext #0xffffffc0 
+      000256c0 memw R2,(R17+##0xffffffe8) 
+614_RFC_ANCHOR_REFERENCE #26 ins=000256e0 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag @ 000256d0 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22f02c 
+      000256d0 call 0x00024ea0 
+      000256d4 assign R16,R0 
+      000256d8 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      000256dc immext #0x22f000 
+  >>> 000256e0 add R2,PC,##0x22f02c 
+      000256e4 immext #0xffffffc0 
+      000256e8 memw R2,(R2+##0xffffffec) 
+      000256ec add R2,R2,#0x8 
+      000256f0 memd R17R16,(SP) 
+      000256f4 memw (R16),R2.new 
+      000256f8 dealloc_return 
+614_RFC_ANCHOR_REFERENCE #27 ins=00025704 function=get_instance @ 00025700 destination=R17 target=0x00254710 instruction=add R17,PC,##0x22f008 
+      00025700 immext #0x22f000 
+  >>> 00025704 add R17,PC,##0x22f008 
+      00025708 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      0002570c immext #0xffffffc0 
+      00025710 memw R2,(R17+##0xfffffff0) 
+      00025714 memw R16,(R2) 
+      00025718 jump.if:t !cmp.eq(R16.new,#0x0),0x00025734 
+      0002571c call 0x0002526c 
+      00025720 call 0x00024eb0 
+      00025724 assign R16,R0 
+      00025728 immext #0xffffffc0 
+      0002572c memw R2,(R17+##0xfffffff0) 
+614_RFC_ANCHOR_REFERENCE #28 ins=0002574c function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag @ 0002573c destination=R2 target=0x00254710 instruction=add R2,PC,##0x22efc0 
+      0002573c call 0x00024ec0 
+      00025740 assign R16,R0 
+      00025744 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025748 immext #0x22efc0 
+  >>> 0002574c add R2,PC,##0x22efc0 
+      00025750 immext #0xffffffc0 
+      00025754 memw R2,(R2+##0xfffffff4) 
+      00025758 add R2,R2,#0x8 
+      0002575c memd R17R16,(SP) 
+      00025760 memw (R16),R2.new 
+      00025764 dealloc_return 
+614_RFC_ANCHOR_REFERENCE #29 ins=00025774 function=get_lte_srs_grouping_properties @ 00025768 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22ef98 
+      00025768 assign.if(!P0.new) R0,#0x1 
+      0002576c cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025788 
+      00025770 immext #0x22ef80 
+  >>> 00025774 add R2,PC,##0x22ef98 
+      00025778 jumpr LR 
+      0002577c immext #0xffffffc0 
+      00025780 memw R2,(R2+##0xfffffff8) 
+      00025784 memw (R1),R2.new 
+      00025788 assign R0,#0x0 ; jumpr LR 
+614_RFC_ANCHOR_REFERENCE #30 ins=00025888 function=get_instance @ 00025884 destination=R17 target=0x00254710 instruction=add R17,PC,##0x22ee84 
+      00025884 immext #0x22ee80 
+  >>> 00025888 add R17,PC,##0x22ee84 
+      0002588c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025890 immext #0xffffff00 
+      00025894 memw R2,(R17+##0xffffff38) 
+      00025898 memw R16,(R2) 
+      0002589c jump.if:t !cmp.eq(R16.new,#0x0),0x000258bc 
+      000258a0 call 0x00024be0 
+      000258a4 assign R0,#0x8 
+      000258a8 call 0x00024cc0 
+      000258ac assign R16,R0 
+      000258b0 immext #0xffffff00 
+614_RFC_ANCHOR_REFERENCE #31 ins=000258d4 function=rfc_hwid614_qrm865ab_v3_ag_cmn_ag @ 000258c4 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22ee38 
+      000258c4 call 0x00024d00 
+      000258c8 assign R16,R0 
+      000258cc memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      000258d0 immext #0x22ee00 
+  >>> 000258d4 add R2,PC,##0x22ee38 
+      000258d8 immext #0xffffff80 
+      000258dc memw R2,(R2+##0xffffff88) 
+      000258e0 add R2,R2,#0x8 
+      000258e4 memd R17R16,(SP) 
+      000258e8 memw (R16),R2.new 
+      000258ec dealloc_return 
+614_RFC_ANCHOR_REFERENCE #32 ins=0002590c function=sdr_rffe_sig_info_table_get @ 000258f0 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22ee00 
+      000258fc cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0x0002591c 
+      00025900 assign.if(P0.new) R0,#0xf 
+      00025904 cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):nt 0x00025934 
+      00025908 immext #0x22ee00 
+  >>> 0002590c add R2,PC,##0x22ee00 
+      00025910 jump 0x0002592c 
+      00025914 immext #0xffffff80 
+      00025918 memw R2,(R2+##0xffffff8c) 
+      0002591c immext #0x22edc0 
+      00025920 add R2,PC,##0x22edec 
+      00025924 immext #0xffffff80 
+      00025928 memw R2,(R2+##0xffffff90) 
+      0002592c jumpr LR 
+      00025930 memw (R1),R2 
+      00025934 jumpr LR 
+614_RFC_ANCHOR_REFERENCE #33 ins=00025920 function=sdr_rffe_sig_info_table_get @ 000258f0 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22edec 
+      00025910 jump 0x0002592c 
+      00025914 immext #0xffffff80 
+      00025918 memw R2,(R2+##0xffffff8c) 
+      0002591c immext #0x22edc0 
+  >>> 00025920 add R2,PC,##0x22edec 
+      00025924 immext #0xffffff80 
+      00025928 memw R2,(R2+##0xffffff90) 
+      0002592c jumpr LR 
+      00025930 memw (R1),R2 
+      00025934 jumpr LR 
+614_RFC_ANCHOR_REFERENCE #34 ins=00025954 function=sdr_grfc_sig_info_table_get @ 00025938 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22edb8 
+      00025944 cmp.eq P0,R2,#0x2 ; jump.if(P0.new):nt 0x00025964 
+      00025948 assign.if(P0.new) R0,#0xb 
+      0002594c cmp.eq P0,R2,#0x1 ; jump.if(!P0.new):nt 0x0002597c 
+      00025950 immext #0x22ed80 
+  >>> 00025954 add R2,PC,##0x22edb8 
+      00025958 jump 0x00025974 
+      0002595c immext #0xffffff80 
+      00025960 memw R2,(R2+##0xffffff94) 
+      00025964 immext #0x22ed80 
+      00025968 add R2,PC,##0x22eda4 
+      0002596c immext #0xffffff80 
+      00025970 memw R2,(R2+##0xffffff98) 
+      00025974 jumpr LR 
+      00025978 memw (R1),R2 
+      0002597c jumpr LR 
+614_RFC_ANCHOR_REFERENCE #35 ins=00025968 function=sdr_grfc_sig_info_table_get @ 00025938 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22eda4 
+      00025958 jump 0x00025974 
+      0002595c immext #0xffffff80 
+      00025960 memw R2,(R2+##0xffffff94) 
+      00025964 immext #0x22ed80 
+  >>> 00025968 add R2,PC,##0x22eda4 
+      0002596c immext #0xffffff80 
+      00025970 memw R2,(R2+##0xffffff98) 
+      00025974 jumpr LR 
+      00025978 memw (R1),R2 
+      0002597c jumpr LR 
+614_RFC_ANCHOR_REFERENCE #36 ins=0002598c function=blank_grfc_sig_info_table_get @ 00025980 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22ed80 
+      00025980 assign.if(!P0.new) R0,#0x2 
+      00025984 cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x000259a0 
+      00025988 immext #0x22ed80 
+  >>> 0002598c add R2,PC,##0x22ed80 
+      00025990 jumpr LR 
+      00025994 immext #0xffffff80 
+      00025998 memw R2,(R2+##0xffffff9c) 
+      0002599c memw (R1),R2.new 
+      000259a0 assign R0,#0x0 ; jumpr LR 
+614_RFC_ANCHOR_REFERENCE #37 ins=000259bc function=get_signals_info @ 000259a4 destination=R18 target=0x00254710 instruction=add R18,PC,##0x22ed50 
+      000259ac assign.if(!P0) R17,R1 
+      000259b0 add.if(!P0) R16,R1,#0x4 
+      000259b4 jump.if(P0) 0x00025a80 
+      000259b8 immext #0x22ed40 
+  >>> 000259bc add R18,PC,##0x22ed50 
+      000259c0 immext #0xffffff80 
+      000259c4 memw R2,(R18+##0xffffffa0) 
+      000259c8 memw (R1+#0x8),R2.new 
+      000259cc call 0x00024d10 
+      000259d0 memb (R1+#0x4),#0x8 
+      000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
+      000259d8 immext #0x18c0 
+      000259dc add R0,PC,##0x18d4 
+      000259e0 call 0x00024cf0 
+      000259e4 memb (R17+#0x4),#0x0 
+614_RFC_ANCHOR_REFERENCE #38 ins=00025a98 function=FUN_00025a94 @ 00025a94 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22ec74 
+      00025a94 immext #0x22ec40 
+  >>> 00025a98 add R2,PC,##0x22ec74 
+      00025a9c jump 0x00024cf0 
+      00025aa0 immext #0xffffff80 
+      00025aa4 memw R0,(R2+##0xffffffbc) 
+614_RFC_ANCHOR_REFERENCE #39 ins=00025aac function=get_phy_device_cfg @ 00025aa8 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22ec60 
+      00025aa8 immext #0x22ec40 
+  >>> 00025aac add R2,PC,##0x22ec60 
+      00025ab0 jumpr LR 
+      00025ab4 immext #0xffffffc0 
+      00025ab8 memw R0,(R2+##0xffffffc0) 
+614_RFC_ANCHOR_REFERENCE #40 ins=00025ac0 function=get_logical_device_cfg @ 00025abc destination=R2 target=0x00254710 instruction=add R2,PC,##0x22ec4c 
+      00025abc immext #0x22ec40 
+  >>> 00025ac0 add R2,PC,##0x22ec4c 
+      00025ac4 jumpr LR 
+      00025ac8 immext #0xffffffc0 
+      00025acc memw R0,(R2+##0xffffffc4) 
+614_RFC_ANCHOR_REFERENCE #41 ins=00025bf0 function=get_logical_path_config @ 00025bd0 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22eb1c 
+      00025be0 assign R1,#0x0 ; assign R16,#0x0 
+      00025be4 call 0x00024bc0 
+      00025be8 jump 0x00025c0c 
+      00025bec immext #0x22eb00 
+  >>> 00025bf0 add R2,PC,##0x22eb1c 
+      00025bf4 combine R1R0,#0x14,R1 
+      00025bf8 assign R3,#0x14 
+      00025bfc call 0x00024d20 
+      00025c00 assign R16,#0x1 
+      00025c04 immext #0xffffffc0 
+      00025c08 memw R2,(R2+##0xffffffc8) 
+      00025c0c assign R0,R16 
+      00025c10 memd R17R16,(SP+#0x0) ; dealloc_return 
+614_RFC_ANCHOR_REFERENCE #42 ins=00025c18 function=get_ant_path_info_config @ 00025c14 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22eaf4 
+      00025c14 immext #0x22eac0 
+  >>> 00025c18 add R2,PC,##0x22eaf4 
+      00025c1c jumpr LR 
+      00025c20 immext #0xffffffc0 
+      00025c24 memw R0,(R2+##0xffffffcc) 
+614_RFC_ANCHOR_REFERENCE #43 ins=00025c2c function=get_sig_path_info_config @ 00025c28 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22eae0 
+      00025c28 immext #0x22eac0 
+  >>> 00025c2c add R2,PC,##0x22eae0 
+      00025c30 jumpr LR 
+      00025c34 immext #0xffffffc0 
+      00025c38 memw R0,(R2+##0xffffffd0) 
+614_RFC_ANCHOR_REFERENCE #44 ins=00025c58 function=get_rffe_speeds_info @ 00025c3c destination=R3 target=0x00254710 instruction=add R3,PC,##0x22eab4 
+      00025c48 add R0,PC,##0x16e0 
+      00025c4c call 0x00024cf0 
+      00025c50 jump 0x00025cf0 
+      00025c54 immext #0x22ea80 
+  >>> 00025c58 add R3,PC,##0x22eab4 
+      00025c5c immext #0xffffffc0 
+      00025c60 add R3,R3,##-0x2c 
+      00025c64 add R5,R1,#-0x21 
+      00025c68 memw R4,(R3) 
+      00025c6c jump.if:t !cmp.gtu(R5.new,#0x8),0x00025cf4 
+      00025c70 cmp.eq P0,R1,#0x1 ; jump.if(P0.new):nt 0x00025c84 
+      00025c74 add.if(P0.new) R3,R4,#0xe 
+      00025c78 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):nt 0x00025ce4 
+      00025c7c assign R0,#0x1 ; memw (R2),R3 
+      00025c80 dealloc_return 
+614_RFC_ANCHOR_REFERENCE #45 ins=00025d14 function=get_cmn_properties @ 00025d08 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22e9f8 
+      00025d08 assign.if(!P0.new) R0,#0x1 
+      00025d0c cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025d28 
+      00025d10 immext #0x22e9c0 
+  >>> 00025d14 add R2,PC,##0x22e9f8 
+      00025d18 jumpr LR 
+      00025d1c immext #0xffffffc0 
+      00025d20 memw R2,(R2+##0xffffffd4) 
+      00025d24 memw (R1),R2.new 
+      00025d28 assign R0,#0x0 ; jumpr LR 
+614_RFC_ANCHOR_REFERENCE #46 ins=00025d30 function=get_band_info_rrc_table @ 00025d2c destination=R2 target=0x00254710 instruction=add R2,PC,##0x22e9dc 
+      00025d2c immext #0x22e9c0 
+  >>> 00025d30 add R2,PC,##0x22e9dc 
+      00025d34 cmp.eq P0,R1,#0x0 
+      00025d38 immext #0xffffffc0 
+      00025d3c memw R3,(R2+##0xffffffd8) 
+      00025d40 immext #0xffffffc0 
+      00025d44 memw.if(P0) R0,(R2+##0xffffffdc) 
+      00025d48 assign.if(!P0) R0,R3 
+      00025d4c jumpr LR 
+614_RFC_ANCHOR_REFERENCE #47 ins=00025e5c function=fbrx_cfg_data_get @ 00025e44 destination=R4 target=0x00254710 instruction=add R4,PC,##0x22e8b0 
+      00025e4c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+      00025e50 jump.if(P0) 0x00025ef8 
+      00025e54 memw.if(!P0) (R2),#0x0 
+      00025e58 immext #0x22e880 
+  >>> 00025e5c add R4,PC,##0x22e8b0 
+      00025e60 immext #0xffffffc0 
+      00025e64 memw R3,(R4+##0xffffffe0) 
+      00025e68 memw R3,(R3+#0x4) 
+      00025e6c jump.if:nt cmp.eq(R3.new,#0x0),0x00025e80 
+      00025e70 immext #0xffffffc0 
+      00025e74 memw R4,(R4+##0xffffffe0) 
+      00025e78 memh R5,(R4) 
+      00025e7c jump.if:t !cmp.eq(R5.new,#0x0),0x00025e88 
+      00025e80 call 0x00025a94 
+      00025e84 jump 0x00025ef8 
+614_RFC_ANCHOR_REFERENCE #48 ins=00025f24 function=get_fbrx_path_table_cfg @ 00025f20 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22e7e8 
+      00025f20 immext #0x22e7c0 
+  >>> 00025f24 add R2,PC,##0x22e7e8 
+      00025f28 jumpr LR 
+      00025f2c immext #0xffffffc0 
+      00025f30 memw R0,(R2+##0xffffffe0) 
+614_RFC_ANCHOR_REFERENCE #49 ins=00025f44 function=dm_register_so @ 00025f40 destination=R2 target=0x00254710 instruction=add R2,PC,##0x22e7c8 
+      00025f40 immext #0x22e7c0 
+  >>> 00025f44 add R2,PC,##0x22e7c8 
+      00025f48 assign R0,#0x0 
+      00025f4c jump 0x00024d40 
+      00025f50 immext #0xffffffc0 
+      00025f54 memw R1,(R2+##0xffffffe4) 
+614_RFC_ANCHOR_PC_RELATIVE_REFERENCES=49
+614_RFC_ANCHOR_INSTRUCTION_CONTEXTS_PRINTED=49
+614_RFC_ANCHOR_NOTE=Repeated references establish a shared address, not by themselves an RX tuning routine.
 
 ============================================================
 FTM / RFA / DIAG STRING LOCATOR
@@ -669,7 +981,7 @@ DYNAMIC_CONTEXT_WINDOWS_PRINTED=0
 
 ============================================================
 614_0_0 DYNAMIC FREQUENCY TRACE SUMMARY
-TRACE_BUILD=DIAG-FTM-STRUCTURE-25
+TRACE_BUILD=DIAG-FTM-STRUCTURE-26
 PROGRAM=614_0_0.mbn
 DYNAMIC_STRING_HITS=0
 DYNAMIC_POINTER_SLOTS=0
