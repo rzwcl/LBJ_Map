@@ -4,7 +4,9 @@ import ghidra.program.model.listing.Data;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.listing.FunctionIterator;
 import ghidra.program.model.listing.Instruction;
+import ghidra.program.model.listing.InstructionIterator;
 import ghidra.program.model.listing.Listing;
+import ghidra.program.model.scalar.Scalar;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
 import ghidra.program.model.symbol.Reference;
@@ -17,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-TARGET-DUMP-2
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-9
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -37,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-8";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-9";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -1128,6 +1130,185 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         printReferencesToAddress(base + 48L * 4L, 12, "FIELD_48_BWP_CENTER_FREQ_SLOT");
     }
 
+
+    private static final int MAX_FIELD_TRACE_INSNS = 600000;
+    private static final int MAX_FIELD_CODE_HITS = 96;
+
+    private void traceRadioConfigSlotConsumers() {
+        long base = RADIO_CONFIG_FIELD_NAME_TABLE;
+        long totalInstructionOrigins = 0;
+        long totalDataOrigins = 0;
+        int instructionOriginsShown = 0;
+        int dataOriginsShown = 0;
+        int slotsVisited = 0;
+
+        p("");
+        p("============================================================");
+        p("RADIO_CONFIG FIELD SLOT XREF AUDIT");
+        p("Checks references TO each of the 60 table slots, not merely references to their strings");
+        p("Origin is classified by whether the reference address belongs to an instruction in an executable block");
+        p("READ ONLY");
+        p("============================================================");
+
+        for (int i = 0; i < RADIO_CONFIG_FIELD_NAME_COUNT; i++) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            long slot = base + (long)i * 4L;
+            slotsVisited++;
+            try {
+                ReferenceIterator refs =
+                    currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+                while (refs.hasNext() && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+                    Reference r = refs.next();
+                    Address from = r.getFromAddress();
+                    MemoryBlock fb = from.getAddressSpace().isMemorySpace()
+                        ? block(from.getOffset()) : null;
+                    Instruction ins = (fb != null && fb.isExecute())
+                        ? listing().getInstructionAt(from) : null;
+
+                    if (ins != null) {
+                        totalInstructionOrigins++;
+                        if (instructionOriginsShown < MAX_FIELD_CODE_HITS) {
+                            p("  SLOT_CODE_ORIGIN index=" + i
+                                + " slot=" + hex(slot)
+                                + " from=" + from
+                                + " type=" + r.getReferenceType()
+                                + " function=" + functionInfo(from.getOffset())
+                                + " instruction=" + ins);
+                            instructionOriginsShown++;
+                        }
+                    }
+                    else {
+                        totalDataOrigins++;
+                        if (dataOriginsShown < 24) {
+                            p("  SLOT_DATA_ORIGIN index=" + i
+                                + " slot=" + hex(slot)
+                                + " from=" + from
+                                + " type=" + r.getReferenceType()
+                                + " block=" + (fb == null ? "<none>" : fb.getName()));
+                            dataOriginsShown++;
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                p("  SLOT_XREF_AUDIT_ERROR index=" + i
+                    + " slot=" + hex(slot) + " error=" + e.getMessage());
+            }
+        }
+
+        p("  SLOTS_VISITED=" + slotsVisited);
+        p("  INSTRUCTION_ORIGIN_REFS_TOTAL=" + totalInstructionOrigins);
+        p("  INSTRUCTION_ORIGIN_REFS_SHOWN=" + instructionOriginsShown);
+        p("  DATA_ORIGIN_REFS_TOTAL=" + totalDataOrigins);
+        p("  DATA_ORIGIN_REFS_SHOWN=" + dataOriginsShown);
+    }
+
+    private void scanExecutableInstructionsForRadioConfigTable() {
+        long base = RADIO_CONFIG_FIELD_NAME_TABLE;
+        long tableEnd = base + (long)RADIO_CONFIG_FIELD_NAME_COUNT * 4L;
+        long scanStart = base - 0x80L;
+        long scanEnd = tableEnd + 0x80L;
+        long scanned = 0;
+        int exactHits = 0;
+        int nearbyHits = 0;
+
+        p("");
+        p("============================================================");
+        p("RADIO_CONFIG TABLE CODE-IMMEDIATE SCAN");
+        p("Scans executable instructions only; bounded to " + MAX_FIELD_TRACE_INSNS + " instructions");
+        p("Exact hit range=" + hex(base) + ".." + hex(tableEnd - 1L));
+        p("Nearby context range=" + hex(scanStart) + ".." + hex(scanEnd - 1L));
+        p("A hit is an operand value, not by itself proof of an executed call path");
+        p("============================================================");
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES
+                    || scanned >= MAX_FIELD_TRACE_INSNS) return;
+            if (!b.isInitialized() || !b.isExecute()) continue;
+
+            long blockStart = b.getStart().getOffset();
+            long blockEnd = b.getEnd().getOffset();
+
+            try {
+                InstructionIterator it = listing().getInstructions(b.getStart(), true);
+                while (it.hasNext() && scanned < MAX_FIELD_TRACE_INSNS
+                        && lines < MAX_LINES) {
+                    if (monitor.isCancelled()) return;
+                    Instruction ins = it.next();
+                    long insOff = ins.getAddress().getOffset();
+                    if (insOff > blockEnd) break;
+                    if (insOff < blockStart) continue;
+                    scanned++;
+
+                    boolean exact = false;
+                    boolean nearby = false;
+                    long matchedValue = 0L;
+                    int matchedOperand = -1;
+
+                    for (int op = 0; op < ins.getNumOperands(); op++) {
+                        Object[] objects = ins.getOpObjects(op);
+                        for (Object object : objects) {
+                            long value;
+                            boolean numeric = false;
+
+                            if (object instanceof Scalar) {
+                                value = ((Scalar)object).getUnsignedValue() & 0xffffffffL;
+                                numeric = true;
+                            }
+                            else if (object instanceof Address) {
+                                value = ((Address)object).getOffset() & 0xffffffffL;
+                                numeric = true;
+                            }
+                            else {
+                                continue;
+                            }
+
+                            if (value >= base && value < tableEnd) {
+                                exact = true;
+                                matchedValue = value;
+                                matchedOperand = op;
+                            }
+                            else if (value >= scanStart && value < scanEnd) {
+                                nearby = true;
+                                if (!exact) {
+                                    matchedValue = value;
+                                    matchedOperand = op;
+                                }
+                            }
+                        }
+                    }
+
+                    if (exact && exactHits < MAX_FIELD_CODE_HITS) {
+                        p("  TABLE_CODE_IMMEDIATE_HIT value=" + hex(matchedValue)
+                            + " operand=" + matchedOperand
+                            + " at=" + ins.getAddress()
+                            + " function=" + functionInfo(insOff)
+                            + " instruction=" + ins);
+                        exactHits++;
+                    }
+                    else if (!exact && nearby && nearbyHits < MAX_FIELD_CODE_HITS) {
+                        p("  TABLE_NEARBY_IMMEDIATE_HIT value=" + hex(matchedValue)
+                            + " operand=" + matchedOperand
+                            + " at=" + ins.getAddress()
+                            + " function=" + functionInfo(insOff)
+                            + " instruction=" + ins);
+                        nearbyHits++;
+                    }
+                }
+            }
+            catch (Exception e) {
+                p("  EXEC_INSTRUCTION_SCAN_ERROR block=" + b.getName()
+                    + " error=" + e.getMessage());
+            }
+        }
+
+        p("  EXECUTABLE_INSTRUCTIONS_SCANNED=" + scanned);
+        p("  TABLE_CODE_IMMEDIATE_HITS_SHOWN=" + exactHits);
+        p("  TABLE_NEARBY_IMMEDIATE_HITS_SHOWN=" + nearbyHits);
+        p("  SCAN_LIMIT_REACHED=" + (scanned >= MAX_FIELD_TRACE_INSNS));
+    }
+
     private static final String[] RF_FIELD_TABLE_TARGETS = {
         "CENTER_FREQ", "BWP_CENTER_FREQ", "RX_CARRIER", "TX_CARRIER",
         "SUB_TECH", "TECH_MODE", "TECHNOLOGY", "RFM_DEVICE",
@@ -1468,6 +1649,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private static final long CURRENT_RUNTIME_DISPATCH = 0xD819C208L;
     private static final long PREVIOUS_BUILD_DISPATCH = 0xD8150ED8L;
+    private static final long PREVIOUS_SHARED_THUNK = 0xD89B2790L;
     private static final long CURRENT_FTM_TABLE = 0xC4951828L;
     private static final int CURRENT_FTM_TABLE_COUNT = 80;
     private static final long MAX_POINTER_SCAN_BYTES = 0x80000000L;
@@ -1501,18 +1683,20 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
         p("RUNTIME DISPATCH POINTER CENSUS");
         p("Searches aligned 32-bit references throughout initialized blocks");
-        p("Targets: current candidate 0xD819C208 and prior-build 0xD8150ED8");
+        p("Targets: current 0xD819C208, prior-build 0xD8150ED8, historical shared thunk 0xD89B2790");
         p("Current table context: 0xC4951828, 80 entries; non-table hits are called out");
         p("READ ONLY / NO COMMAND GENERATION");
         p("============================================================");
 
         long[] targets = {
             CURRENT_RUNTIME_DISPATCH,
-            PREVIOUS_BUILD_DISPATCH
+            PREVIOUS_BUILD_DISPATCH,
+            PREVIOUS_SHARED_THUNK
         };
         String[] labels = {
             "CURRENT_FTM_HANDLER",
-            "PREVIOUS_BUILD_HANDLER"
+            "PREVIOUS_BUILD_HANDLER",
+            "HISTORICAL_SHARED_THUNK"
         };
 
         long scanned = 0;
@@ -2178,11 +2362,16 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         scanRuntimeDispatchPointers();
 
+        inspectAddress(CURRENT_RUNTIME_DISPATCH, "CURRENT_RUNTIME_HANDLER_VALUE");
+        inspectAddress(PREVIOUS_SHARED_THUNK, "HISTORICAL_SHARED_THUNK_COMPARISON");
+
+        dumpRadioConfigFieldNameTable();
+        traceRadioConfigSlotConsumers();
+        scanExecutableInstructionsForRadioConfigTable();
+
         scanRfMsgConstRecords();
 
         scanRfTuneFieldStrings();
-
-        dumpRadioConfigFieldNameTable();
 
         scanRfFieldPointerTables();
 
@@ -2197,12 +2386,12 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("INTERPRETATION GUIDE");
         p("============================================================");
         p("1. Current-build DIAG master hit: C8EB6EE0; table: C4951828; count: 80.");
-        p("2. Candidate field-name table at C9199798 is printed with actual strings and reference-schema comparisons.");
-        p("3. Exact agreement at anchor indices 12, 21, 22, 25, and 48 would strengthen the table-base hypothesis.");
-        p("4. RF field-name pointer slots are also traced to their direct reference sites.");
-        p("5. D8150ED8 remains a previous-build comparison only, not assumed current.");
+        p("2. Candidate field-name table at C9199798 is decoded before broad string scans.");
+        p("3. Each table slot is checked for direct reference origins, then executable operands are searched under a hard instruction limit.");
+        p("4. Direct operand hits are evidence of address use, not proof of successful runtime command execution.");
+        p("5. D8150ED8 is a previous-build comparison; D89B2790 is tracked separately as a historical shared-thunk candidate.");
         p("6. All scans are static and read-only; no DIAG packets are emitted.");
-        p("7. The field table alone does not prove command execution; code use must be verified separately.");
+        p("7. No relationship between D819C208 and D89B2790 is assumed without cross-reference evidence.");
         p("");
         p("DONE");
         p("No program data or structures modified.");
