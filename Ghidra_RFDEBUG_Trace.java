@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-32
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-33
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -4440,10 +4440,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private void scan614SignalInfoCallsiteContext() {
         p("");
         p("============================================================");
-        p("614_0_0 get_signals_info -> indirect getter call-site context");
-        p("Prints the six direct call sites to 0x25F70 and their same-function instruction context.");
-        p("Also reports the nearest backward R0 write or call-return candidate; this is a heuristic, not full data-flow proof.");
-        p("READ ONLY");
+        p("614_0_0 get_signals_info -> indirect getter pointer resolution");
+        p("Resolves the R18-relative function-pointer slot used before each call to 0x25F70.");
+        p("Static words are read-only leads; runtime relocation behavior is not emulated.");
         p("============================================================");
 
         Address callerEntry = addr(0x000259A4L);
@@ -4465,6 +4464,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         int callSites = 0;
         int contexts = 0;
         int scanned = 0;
+        int resolvedSlots = 0;
+        long r18PcBase = -1L;
         while (ins != null && !monitor.isCancelled()
                 && lines < MAX_LINES && scanned < 400) {
             Function insOwner = currentProgram.getFunctionManager()
@@ -4472,6 +4473,44 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             if (insOwner == null
                     || !insOwner.getEntryPoint().equals(caller.getEntryPoint())) break;
             scanned++;
+
+            String insMnemonic = ins.getMnemonicString().toLowerCase();
+            if (insMnemonic.startsWith("add") && ins.getNumOperands() > 0) {
+                boolean writesR18 = false;
+                for (Object object : ins.getOpObjects(0)) {
+                    if (object instanceof ghidra.program.model.lang.Register
+                            && "R18".equalsIgnoreCase(
+                                ((ghidra.program.model.lang.Register)object).getName())) {
+                        writesR18 = true;
+                        break;
+                    }
+                }
+                if (writesR18) {
+                    boolean hasPc = false;
+                    boolean hasScalar = false;
+                    long displacement = 0L;
+                    for (int op = 0; op < ins.getNumOperands(); op++) {
+                        for (Object object : ins.getOpObjects(op)) {
+                            if (object instanceof ghidra.program.model.lang.Register
+                                    && "PC".equalsIgnoreCase(
+                                        ((ghidra.program.model.lang.Register)object).getName())) {
+                                hasPc = true;
+                            }
+                            else if (object instanceof Scalar) {
+                                displacement = ((Scalar)object).getSignedValue();
+                                hasScalar = true;
+                            }
+                        }
+                    }
+                    if (hasPc && hasScalar) {
+                        r18PcBase = ins.getAddress().getOffset()
+                            + (long)ins.getLength() + displacement;
+                        p("614_SIGNAL_R18_PC_BASE at=" + ins.getAddress()
+                            + " instruction=" + ins
+                            + " computed_base=" + hex(r18PcBase));
+                    }
+                }
+            }
 
             boolean targetCall = false;
             Reference[] refs = currentProgram.getReferenceManager()
@@ -4518,6 +4557,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
                 Instruction probe = listing().getInstructionBefore(ins.getAddress());
                 boolean r0Candidate = false;
+                boolean pointerSlotPrinted = false;
                 for (int n = 0; n < 24 && probe != null; n++) {
                     Function probeOwner = currentProgram.getFunctionManager()
                         .getFunctionContaining(probe.getAddress());
@@ -4528,7 +4568,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                     if (mnemonic.startsWith("call")) {
                         p("  R0_BACKWARD_CANDIDATE kind=call-return"
                             + " at=" + probe.getAddress() + " instruction=" + probe
-                            + " note=ABI return in R0 is possible; verify against intervening instructions");
+                            + " note=ABI return in R0 is possible; verify intervening instructions");
                         r0Candidate = true;
                         break;
                     }
@@ -4547,13 +4587,91 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                     if (writesR0) {
                         p("  R0_BACKWARD_CANDIDATE kind=explicit-destination"
                             + " at=" + probe.getAddress() + " instruction=" + probe);
-                        r0Candidate = true;
+
+                        boolean isR18Load = false;
+                        long memoryDisp = 0L;
+                        for (int op = 0; op < probe.getNumOperands(); op++) {
+                            String operand = probe.getDefaultOperandRepresentation(op);
+                            if (operand == null || !operand.contains("(")) continue;
+                            boolean thisBase = false;
+                            long thisDisp = 0L;
+                            for (Object object : probe.getOpObjects(op)) {
+                                if (object instanceof ghidra.program.model.lang.Register
+                                        && "R18".equalsIgnoreCase(
+                                            ((ghidra.program.model.lang.Register)object).getName())) {
+                                    thisBase = true;
+                                }
+                                else if (object instanceof Scalar) {
+                                    thisDisp = ((Scalar)object).getSignedValue();
+                                }
+                            }
+                            if (thisBase) {
+                                isR18Load = true;
+                                memoryDisp = thisDisp;
+                                break;
+                            }
+                        }
+
+                        if (isR18Load && r18PcBase >= 0L) {
+                            long slot = (r18PcBase + memoryDisp) & 0xffffffffL;
+                            long pointerValue = -1L;
+                            MemoryBlock slotBlock;
+                            try {
+                                slotBlock = memory().getBlock(addr(slot));
+                            }
+                            catch (Exception e) {
+                                slotBlock = null;
+                            }
+                            if (slotBlock != null && slotBlock.isInitialized()
+                                    && isDefaultDynamicAddressBlock(slotBlock)) {
+                                try {
+                                    pointerValue = u32(slot);
+                                }
+                                catch (Exception e) {
+                                    pointerValue = -1L;
+                                }
+                            }
+
+                            Function exactTarget = null;
+                            Function containingTarget = null;
+                            if (pointerValue >= 0L) {
+                                try {
+                                    exactTarget = currentProgram.getFunctionManager()
+                                        .getFunctionAt(addr(pointerValue));
+                                    containingTarget = exactTarget != null ? exactTarget
+                                        : currentProgram.getFunctionManager()
+                                            .getFunctionContaining(addr(pointerValue));
+                                }
+                                catch (Exception e) {
+                                    containingTarget = null;
+                                }
+                            }
+
+                            p("  614_SIGNAL_GETTER_SLOT callsite=" + ins.getAddress()
+                                + " load=" + probe.getAddress()
+                                + " base=R18:" + hex(r18PcBase)
+                                + " displacement=" + hex(memoryDisp)
+                                + " slot=" + hex(slot)
+                                + " slot_block=" + (slotBlock == null ? "<none>" : slotBlock.getName())
+                                + " static_word=" + hex(pointerValue)
+                                + " exact_function="
+                                + (exactTarget == null ? "<no-exact-entry>"
+                                    : exactTarget.getName() + "@" + exactTarget.getEntryPoint())
+                                + " containing_function="
+                                + (containingTarget == null ? "<none>"
+                                    : containingTarget.getName() + "@" + containingTarget.getEntryPoint()));
+                            resolvedSlots++;
+                            pointerSlotPrinted = true;
+                        }
                         break;
                     }
                     probe = listing().getInstructionBefore(probe.getAddress());
                 }
                 if (!r0Candidate) {
                     p("  R0_BACKWARD_CANDIDATE=not-found-within-24-instructions");
+                }
+                if (r0Candidate && !pointerSlotPrinted) {
+                    p("  614_SIGNAL_GETTER_SLOT=not-resolved-from-R18-relative-load");
                 }
                 contexts++;
             }
@@ -4563,6 +4681,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
         p("614_SIGNAL_CALLS_TO_0x25F70_FOUND=" + callSites);
         p("614_SIGNAL_CALLSITE_CONTEXTS_PRINTED=" + contexts);
+        p("614_SIGNAL_GETTER_SLOTS_RESOLVED=" + resolvedSlots);
+        p("614_SIGNAL_R18_PC_BASE_FINAL=" + (r18PcBase < 0L ? "<not-found>" : hex(r18PcBase)));
         p("614_SIGNAL_CALLER_INSTRUCTIONS_SCANNED=" + scanned);
     }
 
