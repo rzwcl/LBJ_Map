@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-23
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-24
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-23";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-24";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -3395,6 +3395,146 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         }
     }
 
+    private void report614FunctionPointerRun(
+            String blockName,
+            List<Long> runSlots,
+            List<Long> runValues,
+            List<String> runTargets,
+            int[] stats) {
+        if (runSlots.size() >= 4) {
+            stats[0]++;
+            if (stats[1] < 120 && lines < MAX_LINES) {
+                p("614_CODE_POINTER_RUN #" + stats[0]
+                    + " block=" + blockName
+                    + " range=" + hex(runSlots.get(0).longValue())
+                    + ".." + hex(runSlots.get(runSlots.size() - 1).longValue())
+                    + " count=" + runSlots.size());
+                stats[1]++;
+
+                for (int i = 0; i < runSlots.size(); i++) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) break;
+                    if (stats[2] >= 600) break;
+                    p("  CODE_PTR slot=" + hex(runSlots.get(i).longValue())
+                        + " value=" + hex(runValues.get(i).longValue())
+                        + " target=" + runTargets.get(i));
+                    stats[2]++;
+                }
+            }
+        }
+        runSlots.clear();
+        runValues.clear();
+        runTargets.clear();
+    }
+
+    /**
+     * Scans initialized non-executable memory for contiguous arrays of 32-bit
+     * values that exactly match known function entry points. These are candidate
+     * function-pointer tables only; their role must be verified from references.
+     */
+    private void scan614CodePointerRuns() {
+        p("");
+        p("============================================================");
+        p("614_0_0 CONTIGUOUS FUNCTION-POINTER RUN SCAN");
+        p("Finds aligned 32-bit words in data blocks that point to known function entries.");
+        p("This scan does not modify the listing or infer vtable semantics automatically.");
+        p("READ ONLY");
+        p("============================================================");
+
+        java.util.Map<Long, String> entryNames =
+            new java.util.HashMap<Long, String>();
+        int functionsIndexed = 0;
+
+        try {
+            Address defaultSpaceAddress =
+                currentProgram.getAddressFactory().getDefaultAddressSpace().getAddress(0);
+            ghidra.program.model.address.AddressSpace defaultSpace =
+                defaultSpaceAddress.getAddressSpace();
+            FunctionIterator fit = currentProgram.getFunctionManager().getFunctions(true);
+
+            while (fit.hasNext() && !monitor.isCancelled()) {
+                Function f = fit.next();
+                Address entry = f.getEntryPoint();
+                if (entry == null || !entry.getAddressSpace().equals(defaultSpace)) continue;
+                long key = entry.getOffset() & 0xffffffffL;
+                Long boxed = Long.valueOf(key);
+                if (!entryNames.containsKey(boxed)) {
+                    entryNames.put(boxed, f.getName() + "@" + entry);
+                    functionsIndexed++;
+                }
+            }
+        }
+        catch (Exception e) {
+            p("614_CODE_POINTER_INDEX_ERROR=" + e.getClass().getSimpleName()
+                + ": " + e.getMessage());
+            return;
+        }
+
+        p("614_CODE_POINTER_FUNCTION_ENTRIES_INDEXED=" + functionsIndexed);
+
+        int[] stats = new int[] { 0, 0, 0 };
+        MemoryBlock[] blocks = memory().getBlocks();
+
+        for (MemoryBlock b : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!b.isInitialized() || b.isExecute()
+                    || !isDefaultDynamicAddressBlock(b)) continue;
+
+            long pos = (b.getStart().getOffset() + 3L) & ~3L;
+            long end = b.getEnd().getOffset();
+            byte[] buf = new byte[DYNAMIC_SCAN_CHUNK];
+            List<Long> runSlots = new ArrayList<Long>();
+            List<Long> runValues = new ArrayList<Long>();
+            List<String> runTargets = new ArrayList<String>();
+
+            while (pos + 3L <= end && !monitor.isCancelled() && lines < MAX_LINES) {
+                int want = (int)Math.min((long)DYNAMIC_SCAN_CHUNK, end - pos + 1L);
+                want -= want % 4;
+                if (want < 4) break;
+
+                try {
+                    memory().getBytes(addr(pos), buf, 0, want);
+                }
+                catch (Exception e) {
+                    p("614_CODE_POINTER_SCAN_READ_ERROR block=" + b.getName()
+                        + " at=" + hex(pos) + " error=" + e.getMessage());
+                    report614FunctionPointerRun(
+                        b.getName(), runSlots, runValues, runTargets, stats);
+                    pos += want;
+                    continue;
+                }
+
+                for (int i = 0; i + 3 < want; i += 4) {
+                    long slot = pos + i;
+                    long value = ((long)(buf[i] & 0xff))
+                        | ((long)(buf[i + 1] & 0xff) << 8)
+                        | ((long)(buf[i + 2] & 0xff) << 16)
+                        | ((long)(buf[i + 3] & 0xff) << 24);
+                    String targetName = entryNames.get(Long.valueOf(value));
+
+                    if (targetName != null) {
+                        runSlots.add(Long.valueOf(slot));
+                        runValues.add(Long.valueOf(value));
+                        runTargets.add(targetName);
+                    }
+                    else {
+                        report614FunctionPointerRun(
+                            b.getName(), runSlots, runValues, runTargets, stats);
+                    }
+                }
+                pos += want;
+            }
+
+            report614FunctionPointerRun(
+                b.getName(), runSlots, runValues, runTargets, stats);
+        }
+
+        p("614_CODE_POINTER_RUNS_FOUND=" + stats[0]);
+        p("614_CODE_POINTER_RUNS_PRINTED=" + stats[1]);
+        p("614_CODE_POINTER_ENTRIES_PRINTED=" + stats[2]);
+        p("614_CODE_POINTER_MIN_RUN_LENGTH=4");
+        p("Pointer runs are candidates; table type/ownership still requires cross-reference validation.");
+    }
+
     private boolean is614RfConfigFunctionTarget(String functionName) {
         if (functionName == null) return false;
         String n = functionName.toLowerCase();
@@ -3970,6 +4110,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614FunctionInventory();
             scanNamedFunctions();
             scan614RfConfigFunctionDetails();
+            scan614CodePointerRuns();
             scanFtmLocatorStrings();
             run614DynamicAddressDiscovery();
         }
