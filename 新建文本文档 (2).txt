@@ -1,114 +1,112 @@
 Ghidra_RFDEBUG_Trace.java> Running...
 ============================================================
  Ghidra_RFDEBUG_Trace
- TRACE_BUILD=DIAG-FTM-STRUCTURE-17
- RFDEBUG RADIO_CONFIG / FREQUENCY DISPATCH TRACE / READ ONLY
-Primary property table is the confirmed C9199FB8 table, not the unrelated C9199798 array.
-Searches source-line message records and executable immediate candidates for RFDEBUG ID 0x007B.
+ TRACE_BUILD=DIAG-FTM-STRUCTURE-18
+ READ-ONLY RF FREQUENCY / RFDEBUG STATIC TRACE
 No FTM/RF command is generated or transmitted.
 ============================================================
 PROGRAM=614_0_0.mbn
 IMAGE_BASE=00010000
+TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY
+Legacy qdsp6sw.mbn addresses are disabled for this program.
 
 ============================================================
-RADIO_CONFIG FIELD-NAME TABLE CANDIDATE
-Candidate base=0xC9199FB8; 37 properties at indices 0..36 plus NULL at index 37; entry size=4
-Confirmed anchors: property 26 TUNE_TX_TO_RX_FREQ at 0xC919A020; property 28 FREQUENCY at 0xC919A028.
-The decoded strings in this image are authoritative; reference labels are cross-build comparison only.
-Read-only; validates property IDs 26 and 28 and the NULL separator before the RX_OVERRIDE candidate table.
+614_0_0 DYNAMIC FREQUENCY-FIELD TRACE
+No fixed qdsp6sw.mbn addresses are assumed in this branch.
+Find strings in the current image, then pointer slots and instruction leads.
+READ ONLY: no modem commands, no DIAG packets, no program modifications.
 ============================================================
-  table_block=<none> valid=false
-  TABLE_CANDIDATE_NOT_FULLY_INITIALIZED
+DYNAMIC_PROGRAM=614_0_0.mbn
+DYNAMIC_IMAGE_BASE=00010000
+DYNAMIC_MEMORY_BLOCK_COUNT=6
+  DYNAMIC_BLOCK name=segment_2 range=00010000..00026b62 size=93027 initialized=true read=true write=false execute=true
+  DYNAMIC_BLOCK name=segment_3 range=00027000..002548a7 size=2283688 initialized=true read=true write=true execute=false
+  DYNAMIC_BLOCK name=EXTERNAL range=00255000..00255143 size=324 initialized=false read=true write=true execute=false
+  DYNAMIC_BLOCK name=_elfHeader range=_elfHeader::00000000.._elfHeader::00000033 size=52 initialized=true read=false write=false execute=false
+  DYNAMIC_BLOCK name=_elfProgramHeaders range=_elfProgramHeaders::00000000.._elfProgramHeaders::0000009f size=160 initialized=true read=false write=false execute=false
+  DYNAMIC_BLOCK name=unallocated_0 range=unallocated_0::00000000..unallocated_0::00002f2b size=12076 initialized=true read=false write=false execute=false
 
 ============================================================
-RADIO_CONFIG ADJACENT NAME POOL CANDIDATE
-Start=0xC919A050; RX_OVERRIDE property-name candidate; entries_checked=14
-Candidate second property_names[] table; initial entries should be compared with RX_OVERRIDE property IDs.
+614_0_0 RAW STRING DISCOVERY
+Fields are matched as complete C strings, not as substrings.
 ============================================================
-  ADJ_POOL[0] ERROR=Unable to read bytes at ram:c919a050
-  ADJ_POOL[1] ERROR=Unable to read bytes at ram:c919a054
-  ADJ_POOL[2] ERROR=Unable to read bytes at ram:c919a058
-  ADJ_POOL[3] ERROR=Unable to read bytes at ram:c919a05c
-  ADJ_POOL[4] ERROR=Unable to read bytes at ram:c919a060
-  ADJ_POOL[5] ERROR=Unable to read bytes at ram:c919a064
-  ADJ_POOL[6] ERROR=Unable to read bytes at ram:c919a068
-  ADJ_POOL[7] ERROR=Unable to read bytes at ram:c919a06c
-  ADJ_POOL[8] ERROR=Unable to read bytes at ram:c919a070
-  ADJ_POOL[9] ERROR=Unable to read bytes at ram:c919a074
-  ADJ_POOL[10] ERROR=Unable to read bytes at ram:c919a078
-  ADJ_POOL[11] ERROR=Unable to read bytes at ram:c919a07c
-  ADJ_POOL[12] ERROR=Unable to read bytes at ram:c919a080
-  ADJ_POOL[13] ERROR=Unable to read bytes at ram:c919a084
+  DYNAMIC_STRING_READ_ERROR label=CENTER_FREQ block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=BWP_CENTER_FREQ block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RX_CARRIER block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=TX_CARRIER block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=FREQUENCY block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RX_TUNE block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RADIO_CONFIG block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_FDD_RX_CONFIG block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_TDD_RX_CONFIG block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=CENTER_FREQ block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=BWP_CENTER_FREQ block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RX_CARRIER block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=TX_CARRIER block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=FREQUENCY block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RX_TUNE block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RADIO_CONFIG block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_FDD_RX_CONFIG block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_TDD_RX_CONFIG block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=CENTER_FREQ block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=BWP_CENTER_FREQ block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RX_CARRIER block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=TX_CARRIER block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=FREQUENCY block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RX_TUNE block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RADIO_CONFIG block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_FDD_RX_CONFIG block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_STRING_READ_ERROR label=RFA_RF_LTE_TDD_RX_CONFIG block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+DYNAMIC_STRING_LABEL_COUNT=9
+DYNAMIC_STRING_HITS=0
+DYNAMIC_STRING_SCAN_BYTES_APPROX=21390209
 
 ============================================================
-TARGETED RF TUNE / FREQUENCY STRING SCAN
-Separate from broad CHANNEL search to avoid generic-string flooding
-Exact field labels plus frequency/tuning context; static read-only
+614_0_0 DYNAMIC STRING-POINTER SLOT SCAN
+Targets were discovered in the current program, not copied from another firmware.
+Scans aligned 32-bit words in initialized non-executable blocks.
 ============================================================
-
-RF_TUNE_DATA_ITEMS_INSPECTED=843
-RF_TUNE_EXACT_FIELD_HITS=0
-RF_TUNE_CONTEXT_HITS=0
-RF_TUNE_TOTAL_REPORTED=0
-
-============================================================
-RADIO_CONFIG SOURCE-LINE MESSAGE RECORDS
-Filter: ftm_rf_test_radio_config.c
-Record hypothesis: {fmt_ptr, fname_ptr, (ssid<<16)|line, argc}
-Shows source lines and registered xrefs; no RF command is constructed.
-============================================================
-  RADIO_CONFIG_MSG_CANDIDATES=0
-  RADIO_CONFIG_MSG_RECORDS_REPORTED=0
-  RADIO_CONFIG_MSG_SCAN_BYTES_APPROX=2283673
+  DYNAMIC_PTR_READ_ERROR block=_elfHeader at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_PTR_READ_ERROR block=_elfProgramHeaders at=0x00000000 error=Unable to read bytes at ram:00000000
+  DYNAMIC_PTR_READ_ERROR block=unallocated_0 at=0x00000000 error=Unable to read bytes at ram:00000000
+DYNAMIC_POINTER_WORDS_SCANNED=570922
+DYNAMIC_POINTER_SLOTS_FOUND=0
+DYNAMIC_POINTER_SLOTS_PRINTED=0
+DYNAMIC_POINTER_NOTE=No aligned absolute pointers found; relative or register-based references may still exist.
 
 ============================================================
-RFDEBUG SUBSYSTEM 0x007B EXECUTABLE-CODE CANDIDATES
-Searches executable instruction operands for the exact value 0x007B.
-For each hit, shows nearby instructions and its containing function.
-Read-only static leads only; no packet generation or transmission.
+614_0_0 DECODED-INSTRUCTION FIELD REFERENCE SCAN
+Walks decoded instructions in all initialized blocks; execute flags are tallied separately.
+Exact full-address hits and low-16-bit immediate candidates are separate.
 ============================================================
-  EXECUTABLE_INSTRUCTIONS_SCANNED=0
-  RFDEBUG_7B_IMMEDIATE_HITS_TOTAL=0
-  RFDEBUG_7B_CANDIDATES_SHOWN=0
-  SCAN_LIMIT_REACHED=false
-
-INTERPRETATION:
-Property IDs 26 and 28 are checked against the confirmed firmware property_names[] table.
-A 0x007B immediate hit is only a candidate; inspect its comparison/branch context before assigning dispatcher semantics.
+  614_DECODED_BLOCK name=segment_2 execute=true instructions=0
+  614_DECODED_BLOCK name=segment_3 execute=false instructions=0
+  614_DECODED_BLOCK name=_elfHeader execute=false instructions=0
+  614_DECODED_BLOCK name=_elfProgramHeaders execute=false instructions=0
+  614_DECODED_BLOCK name=unallocated_0 execute=false instructions=0
+DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=0
+DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=0
+DYNAMIC_EXACT_CODE_HITS_TOTAL=0
+DYNAMIC_EXACT_CODE_HITS_PRINTED=0
+DYNAMIC_LOW16_CANDIDATES_TOTAL=0
+DYNAMIC_LOW16_CANDIDATES_PRINTED=0
+DYNAMIC_CONTEXT_WINDOWS_PRINTED=0
+DYNAMIC_CODE_SCAN_WARNING=No decoded instruction in initialized blocks; check import and disassembly state.
 
 ============================================================
-STRUCTURE17 EXECUTION FOOTER
-TRACE_BUILD=DIAG-FTM-STRUCTURE-17
+614_0_0 DYNAMIC FREQUENCY TRACE SUMMARY
+TRACE_BUILD=DIAG-FTM-STRUCTURE-18
 PROGRAM=614_0_0.mbn
-RADIO_CONFIG_PRIMARY_TABLE=0xC9199FB8 entries=38 including NULL terminator
-RADIO_CONFIG_RX_OVERRIDE_TABLE=0xC919A050 entries_checked=14
-FIELD_STRINGS_READABLE=-1
-FIELD_REFERENCE_LABEL_MATCHES=-1
-FIELD_ANCHOR_MISMATCHES=-1
-SLOT_INSTRUCTION_ORIGIN_REFS=-1
-SLOT_DATA_ORIGIN_REFS=-1
-UNIQUE_STRING_TARGETS=-1
-EXECUTABLE_BLOCKS_TOTAL=-1
-EXECUTABLE_BLOCKS_SAMPLED=-1
-EXECUTABLE_INSTRUCTIONS_SCANNED=-1
-TABLE_CODE_IMMEDIATE_HITS=-1
-TABLE_NEARBY_IMMEDIATE_HITS=-1
-STRING_POINTER_CODE_HITS=-1
-RF_TUNE_DATA_ITEMS_INSPECTED=843
-RF_TUNE_STRINGS_REPORTED=0
-RADIO_CONFIG_MSG_CANDIDATES=0
-RADIO_CONFIG_MSG_RECORDS_REPORTED=0
-RFDEBUG_7B_INSTRUCTIONS_SCANNED=0
-RFDEBUG_7B_IMMEDIATE_HITS=0
-REGION_POINTER_SLOTS=-1
-REGION_READABLE_STRING_POINTERS=-1
-REGION_NULLS=-1
-REGION_UNREADABLE_NONZERO=-1
-REGION_CANDIDATE_RUNS=-1
-PTRS_D819C208=-1
-PTRS_D8150ED8=-1
-PTRS_D89B2790=-1
-Negative values mean that a phase was not reached or did not finish.
+DYNAMIC_STRING_HITS=0
+DYNAMIC_POINTER_SLOTS=0
+DYNAMIC_POINTER_WORDS_SCANNED=570922
+DYNAMIC_STRING_SCAN_BYTES_APPROX=21390209
+DYNAMIC_DECODED_INSTRUCTIONS_ALL_BLOCKS=0
+DYNAMIC_DECODED_INSTRUCTIONS_EXECUTABLE_BLOCKS=0
+DYNAMIC_EXACT_CODE_HITS_TOTAL=0
+DYNAMIC_LOW16_CANDIDATES_TOTAL=0
+Hits are static leads only; they do not by themselves prove a live RX tuning path.
+No modem commands were created or transmitted.
 ============================================================
 DONE
 No program data or structures modified.
