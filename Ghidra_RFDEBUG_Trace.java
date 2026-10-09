@@ -60,6 +60,19 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private int lines = 0;
 
+    // Compact end-of-run metrics make partial console captures diagnosable.
+    private int summaryFieldStringsReadable = -1;
+    private int summaryFieldReferenceMatches = -1;
+    private int summaryFieldAnchorMismatches = -1;
+    private long summarySlotInstructionRefs = -1L;
+    private long summarySlotDataRefs = -1L;
+    private long summaryExecutableInsnsScanned = -1L;
+    private int summaryTableImmediateHits = -1;
+    private int summaryTableNearbyHits = -1;
+    private long summaryCurrentDispatchPointers = -1L;
+    private long summaryPreviousDispatchPointers = -1L;
+    private long summarySharedThunkPointers = -1L;
+
     private Address addr(long off) {
         return currentProgram.getAddressFactory()
             .getDefaultAddressSpace().getAddress(off);
@@ -1121,6 +1134,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  FIELD_STRINGS_READABLE=" + readable);
         p("  EXACT_REFERENCE_LABEL_MATCHES=" + stringMatches);
         p("  ANCHOR_MISMATCHES=" + anchorMismatches);
+        summaryFieldStringsReadable = readable;
+        summaryFieldReferenceMatches = stringMatches;
+        summaryFieldAnchorMismatches = anchorMismatches;
 
         printReferencesToAddress(base, 24, "TABLE_BASE");
         printReferencesToAddress(base + 12L * 4L, 12, "FIELD_12_CENTER_FREQ_SLOT");
@@ -1202,6 +1218,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  INSTRUCTION_ORIGIN_REFS_SHOWN=" + instructionOriginsShown);
         p("  DATA_ORIGIN_REFS_TOTAL=" + totalDataOrigins);
         p("  DATA_ORIGIN_REFS_SHOWN=" + dataOriginsShown);
+        summarySlotInstructionRefs = totalInstructionOrigins;
+        summarySlotDataRefs = totalDataOrigins;
     }
 
     private void scanExecutableInstructionsForRadioConfigTable() {
@@ -1304,6 +1322,9 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  TABLE_CODE_IMMEDIATE_HITS_SHOWN=" + exactHits);
         p("  TABLE_NEARBY_IMMEDIATE_HITS_SHOWN=" + nearbyHits);
         p("  SCAN_LIMIT_REACHED=" + (scanned >= MAX_FIELD_TRACE_INSNS));
+        summaryExecutableInsnsScanned = scanned;
+        summaryTableImmediateHits = exactHits;
+        summaryTableNearbyHits = nearbyHits;
     }
 
     private static final String[] RF_FIELD_TABLE_TARGETS = {
@@ -1787,6 +1808,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("POINTER_SCAN_BYTES_APPROX=" + scanned);
         p("POINTER_TOTAL " + labels[0] + "=" + grandCounts[0]);
         p("POINTER_TOTAL " + labels[1] + "=" + grandCounts[1]);
+        p("POINTER_TOTAL " + labels[2] + "=" + grandCounts[2]);
+        summaryCurrentDispatchPointers = grandCounts[0];
+        summaryPreviousDispatchPointers = grandCounts[1];
+        summarySharedThunkPointers = grandCounts[2];
     }
 
     private void scanRfMsgConstRecords() {
@@ -2338,6 +2363,29 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         printReferences(off, MAX_REFS);
     }
 
+
+    private void printStructure9ExecutionFooter() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE9 EXECUTION FOOTER");
+        p("TRACE_BUILD=" + TRACE_BUILD);
+        p("PROGRAM=" + currentProgram.getName());
+        p("RADIO_CONFIG_TABLE=0xC9199798 entries=60");
+        p("FIELD_STRINGS_READABLE=" + summaryFieldStringsReadable);
+        p("FIELD_REFERENCE_LABEL_MATCHES=" + summaryFieldReferenceMatches);
+        p("FIELD_ANCHOR_MISMATCHES=" + summaryFieldAnchorMismatches);
+        p("SLOT_INSTRUCTION_ORIGIN_REFS=" + summarySlotInstructionRefs);
+        p("SLOT_DATA_ORIGIN_REFS=" + summarySlotDataRefs);
+        p("EXECUTABLE_INSTRUCTIONS_SCANNED=" + summaryExecutableInsnsScanned);
+        p("TABLE_CODE_IMMEDIATE_HITS=" + summaryTableImmediateHits);
+        p("TABLE_NEARBY_IMMEDIATE_HITS=" + summaryTableNearbyHits);
+        p("PTRS_D819C208=" + summaryCurrentDispatchPointers);
+        p("PTRS_D8150ED8=" + summaryPreviousDispatchPointers);
+        p("PTRS_D89B2790=" + summarySharedThunkPointers);
+        p("Negative values mean that a phase was not reached or did not finish.");
+        p("============================================================");
+    }
+
     @Override
     public void run() throws Exception {
         p("============================================================");
@@ -2390,6 +2438,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("6. All scans are static and read-only; no DIAG packets are emitted.");
         p("7. No relationship between D819C208 and D89B2790 is assumed without cross-reference evidence.");
         p("");
+        printStructure9ExecutionFooter();
         p("DONE");
         p("No program data or structures modified.");
     }
