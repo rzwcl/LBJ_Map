@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-12
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-13
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-12";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-13";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -2631,7 +2631,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE12 EXECUTION FOOTER");
+        println("STRUCTURE13 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54");
@@ -2662,16 +2662,17 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p(" TRACE_BUILD=" + TRACE_BUILD);
         p(" DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY");
         p("Bounded static analysis only; no FTM/RF command is generated or transmitted.");
-        p("STRUCTURE-12 samples executable blocks across their address ranges and checks string-pointer targets.");
+        p("STRUCTURE-13 audits pointer-table neighborhoods around field-name string references, then samples executable blocks.");
         p("============================================================");
 
         p("PROGRAM=" + currentProgram.getName());
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
-        // Priority 1: validate the primary candidate table and adjacent pool.
+        // Priority 1: validate the primary candidate table, adjacent pool, and string xrefs.
         dumpRadioConfigFieldNameTable();
         dumpAdjacentRadioConfigNamePool();
         auditRadioConfigStringPointerReferences();
+        scanRfFieldPointerTables();
         traceRadioConfigSlotConsumers();
 
         // Priority 2: inspect xrefs to the actual strings and scan distributed code samples.
