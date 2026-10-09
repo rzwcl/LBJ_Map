@@ -2176,14 +2176,31 @@ def parse_and_display(line):
         return
 
 def open_map_window(event=None):
-    """Ctrl+Shift+M 打开地图（浏览器访问本地SSE服务）"""
+    """Ctrl+Shift+M 打开地图；接口端口不可用时明确提示，不打开其他实例的地图。"""
     ip = _notify_config.get("map_api_ip", "127.0.0.1")
     port = _notify_config.get("map_api_port", 8765)
     url = f"http://{ip}:{port}/"
-    # 自动启动SSE服务（如果还没启动）
-    if _api_server is None and _notify_config.get("enable_map_api", True):
-        _start_train_api(port)
-        pass  # time.sleep已移除
+
+    if not _notify_config.get("enable_map_api", True):
+        message = "地图接口当前未启用，请在功能设置的地图设置中启用后再打开地图。"
+        write_global_log(message, "WARN")
+        messagebox.showwarning("地图接口未启用", message, parent=root)
+        return
+
+    # 自动启动SSE服务（如果还没启动）；启动失败就提示并返回，不能误打开另一实例的地图。
+    if _api_server is None:
+        if not _start_train_api(port):
+            error_message = _api_start_error or f"地图接口端口 {port} 无法启动"
+            write_global_log(f"地图窗口打开取消：{error_message}", "ERROR")
+            try:
+                output.insert(tk.END, f"\n地图窗口打开取消：{error_message}\n")
+                output.see(tk.END)
+            except Exception:
+                pass
+            title = "地图接口端口冲突" if _api_start_port_conflict else "地图接口启动失败"
+            messagebox.showerror(title, error_message, parent=root)
+            return
+
     # 用浏览器打开
     try:
         import webbrowser
