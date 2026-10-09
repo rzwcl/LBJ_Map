@@ -1,776 +1,113 @@
-8 value=0xC50844BF text="IF_TRX_INFO"
-      slot=0xC9199F9C value=0xC50844CB text="RFTRX_ANTMOD_INTF_INFO"
-      slot=0xC9199FA0 value=0xC50844E2 text="ANT_MODULE_INFO"
-      slot=0xC9199FA4 value=0xC50844F2 text="SUBBAND_FREQ_INFO"
-      slot=0xC9199FA8 value=0xC5084504 text="ANT_MODULE_TYPE"
-      slot=0xC9199FAC value=0xC5084514 text="TX_RX_CAL_FEED_INFO"
-      slot=0xC9199FB0 value=0xC5082C87 text="PLATFORM_TYPE"
-      slot=0xC9199FB4 value=0x00000000
-      slot=0xC9199FB8 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC9199FBC value=0xC5084755 text="IS_TEARDOWN"
-      slot=0xC9199FC0 value=0xC5084761 text="RADIO_SETUP_TYPE"
-      slot=0xC9199FC4 value=0xC49535DB text="RFM_DEVICE"
-      slot=0xC9199FC8 value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC9199FCC value=0xC5082369 text="ANT_PATH"
-      slot=0xC9199FD0 value=0xC5084772 text="RFM_PATH_TYPE"
-      slot=0xC9199FD4 value=0xC49D5DF4 text="BAND"
-      slot=0xC9199FD8 value=0xC5084780 text="SUBBAND"
-      slot=0xC9199FDC value=0xC5082A09 text="RESERVED"
-      slot=0xC9199FE0 value=0xC508234D text="CHANNEL"
-      slot=0xC9199FE4 value=0xC5084788 text="WAVEFORM"
-      slot=0xC9199FE8 value=0xC5082355 text="BANDWIDTH"
-      slot=0xC9199FEC value=0xC5084791 text="NUM_RB"
-      slot=0xC9199FF0 value=0xC5084798 text="START_RB"
-  STRING_REF_SLOT=0xC919A05C block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC919A02C..0xC919A08C
-      slot=0xC919A02C value=0xC508481C text="VERSION"
-      slot=0xC919A030 value=0xC5084824 text="SWITCH_TDSCDMA_WAVEFORM"
-      slot=0xC919A034 value=0xC508483C text="SET_MOD"
-      slot=0xC919A038 value=0xC5084844 text="CC_SCS"
-      slot=0xC919A03C value=0xC508484B text="WFM_ORIGIN"
-      slot=0xC919A040 value=0xC508241A text="NDR_STATE"
-      slot=0xC919A044 value=0xC5084856 text="NR5G_MOD_TYPE"
-      slot=0xC919A048 value=0xC5084864 text="WFM_IMMED_TRIG"
-      slot=0xC919A04C value=0x00000000
-      slot=0xC919A050 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A054 value=0xC4953956 text="PATH_INDEX"
-      slot=0xC919A058 value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC919A05C value=0xC49535DB text="RFM_DEVICE"
-      slot=0xC919A060 value=0xC4953AF9 text="ANTENNA_PORT"
-      slot=0xC919A064 value=0xC4953B06 text="EXPECTED_AGC"
-      slot=0xC919A068 value=0xC4953B13 text="LNA_GAIN_STATE"
-      slot=0xC919A06C value=0xC4953B22 text="AGC"
-      slot=0xC919A070 value=0xC4953B26 text="NBEE"
-      slot=0xC919A074 value=0xC4953B2B text="SIGNAL_TYPE"
-      slot=0xC919A078 value=0xC4953B37 text="DATA_TYPE"
-      slot=0xC919A07C value=0xC4953B41 text="MEAS_RSSI"
-      slot=0xC919A080 value=0xC4953B4B text="RX_ENABLE"
-      slot=0xC919A084 value=0xC49CC70C text="PLL_ID"
-      slot=0xC919A088 value=0xC5084873 text="RESERVED_1"
-  STRING_REF_SLOT=0xC919A0BC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC919A08C..0xC919A0EC
-      slot=0xC919A08C value=0xC508487E text="RESERVED_2"
-      slot=0xC919A090 value=0xC5084889 text="RESERVED_3"
-      slot=0xC919A094 value=0xC5084894 text="RESERVED_4"
-      slot=0xC919A098 value=0xC5082A09 text="RESERVED"
-      slot=0xC919A09C value=0xC508489F text="RESERVED_5"
-      slot=0xC919A0A0 value=0xC50848AA text="RESERVED_6"
-      slot=0xC919A0A4 value=0xC50848B5 text="RESERVED_7"
-      slot=0xC919A0A8 value=0xC50848C0 text="RESERVED_8"
-      slot=0xC919A0AC value=0x00000000
-      slot=0xC919A0B0 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A0B4 value=0xC4953956 text="PATH_INDEX"
-      slot=0xC919A0B8 value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC919A0BC value=0xC49535DB text="RFM_DEVICE"
-      slot=0xC919A0C0 value=0xC4953AF9 text="ANTENNA_PORT"
-      slot=0xC919A0C4 value=0xC50848EF text="EXPECTED_PWR"
-      slot=0xC919A0C8 value=0xC50848FC text="FBRX_GAIN_STATE"
-      slot=0xC919A0CC value=0xC508490C text="REF_TXPWR"
-      slot=0xC919A0D0 value=0xC5084916 text="MEASURED_PWR"
-      slot=0xC919A0D4 value=0xC5084923 text="EXPECTED_HW_GAIN"
-      slot=0xC919A0D8 value=0xC5084934 text="HW_GAIN"
-      slot=0xC919A0DC value=0xC508493C text="HW_GAIN_DELTA"
-      slot=0xC919A0E0 value=0xC508494A text="TRUNC_BIT"
-      slot=0xC919A0E4 value=0xC5084954 text="LS_ERROR"
-      slot=0xC919A0E8 value=0xC508495D text="PREDET_INDEX"
-  STRING_REF_SLOT=0xC919A170 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC919A140..0xC919A1A0
-      slot=0xC919A140 value=0xC5084A03 text="DELAY"
-      slot=0xC919A144 value=0xC49CC70C text="PLL_ID"
-      slot=0xC919A148 value=0xC5082EA5 text="EVM"
-      slot=0xC919A14C value=0xC5084A09 text="XPT_MODE"
-      slot=0xC919A150 value=0xC5082F1F text="VSWR_S11_MAG"
-      slot=0xC919A154 value=0xC5084A12 text="CONVERGED_IQ_GAIN"
-      slot=0xC919A158 value=0xC5084A24 text="ET_VMIN"
-      slot=0xC919A15C value=0x00000000
-      slot=0xC919A160 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A164 value=0xC5084A2C text="TX_ENABLE"
-      slot=0xC919A168 value=0xC4953956 text="PATH_INDEX"
-      slot=0xC919A16C value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC919A170 value=0xC49535DB text="RFM_DEVICE"
-      slot=0xC919A174 value=0xC5082369 text="ANT_PATH"
-      slot=0xC919A178 value=0xC5084A09 text="XPT_MODE"
-      slot=0xC919A17C value=0xC5084989 text="IQ_GAIN_ACTION"
-      slot=0xC919A180 value=0xC5084998 text="IQ_GAIN"
-      slot=0xC919A184 value=0xC50849A0 text="TXFE_GAIN_ACTION"
-      slot=0xC919A188 value=0xC50849B1 text="TXFE_GAIN"
-      slot=0xC919A18C value=0xC50849BB text="ENV_SCALE_ACTION"
-      slot=0xC919A190 value=0xC50849CC text="ENV_SCALE"
-      slot=0xC919A194 value=0xC50849D6 text="RGI"
-      slot=0xC919A198 value=0xC50849DA text="PA_BIAS"
-      slot=0xC919A19C value=0xC50849E2 text="PA_STATE"
-  STRING_REF_SLOT=0xC919A20C block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC919A1DC..0xC919A23C
-      slot=0xC919A1DC value=0xC5084A96 text="TX_MOD_TYPE"
-      slot=0xC919A1E0 value=0xC5084AA2 text="MIXER_GAIN"
-      slot=0xC919A1E4 value=0xC5084AAD text="PHASE_SHIFTER"
-      slot=0xC919A1E8 value=0xC5084ABB text="DCOC_I_COMP"
-      slot=0xC919A1EC value=0xC5084AC7 text="DCOC_Q_COMP"
-      slot=0xC919A1F0 value=0xC5084AD3 text="IQ_COMP_GAIN"
-      slot=0xC919A1F4 value=0xC5084AE0 text="IQ_COMP_CROSS"
-      slot=0xC919A1F8 value=0xC5082A09 text="RESERVED"
-      slot=0xC919A1FC value=0xC5084A24 text="ET_VMIN"
-      slot=0xC919A200 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A204 value=0xC4953956 text="PATH_INDEX"
-      slot=0xC919A208 value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC919A20C value=0xC49535DB text="RFM_DEVICE"
-      slot=0xC919A210 value=0xC5084A09 text="XPT_MODE"
-      slot=0xC919A214 value=0xC5084AEE text="SNR"
-      slot=0xC919A218 value=0xC5084AF2 text="EPT_COMPRESSION"
-      slot=0xC919A21C value=0xC5084B02 text="KERNEL_MASK"
-      slot=0xC919A220 value=0xC5084B0E text="QFACTOR"
-      slot=0xC919A224 value=0xC5084B16 text="NUM_KERNEL_WEIGHTS"
-      slot=0xC919A228 value=0xC5084B29 text="KERNEL_WEIGHT_I"
-      slot=0xC919A22C value=0xC5084B39 text="KERNEL_WEIGHT_Q"
-      slot=0xC919A230 value=0xC5082A09 text="RESERVED"
-      slot=0xC919A234 value=0xC5084B49 text="PROC_ONLY"
-      slot=0xC919A238 value=0xC49CC70C text="PLL_ID"
-  STRING_REF_SLOT=0xC919A264 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC919A234..0xC919A294
-      slot=0xC919A234 value=0xC5084B49 text="PROC_ONLY"
-      slot=0xC919A238 value=0xC49CC70C text="PLL_ID"
-      slot=0xC919A23C value=0xC5084B53 text="DBL_PRECISION"
-      slot=0xC919A240 value=0xC5084B61 text="ACLR_RIGHT"
-      slot=0xC919A244 value=0xC5084B6C text="ACLR_LEFT"
-      slot=0xC919A248 value=0xC5084B76 text="ACLR_MET"
-      slot=0xC919A24C value=0xC5084B7F text="SNR_MET"
-      slot=0xC919A250 value=0xC5084B87 text="FBRX_PWR_DBM10"
-      slot=0xC919A254 value=0x00000000
-      slot=0xC919A258 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A25C value=0xC4953956 text="PATH_INDEX"
-      slot=0xC919A260 value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC919A264 value=0xC49535DB text="RFM_DEVICE"
-      slot=0xC919A268 value=0xC5084A09 text="XPT_MODE"
-      slot=0xC919A26C value=0xC5084B96 text="ETVD_MAX"
-      slot=0xC919A270 value=0xC5084B9F text="ETVD_MIN"
-      slot=0xC919A274 value=0xC5084BA8 text="DETROUGH"
-      slot=0xC919A278 value=0xC5084BB1 text="QPOET_VMIN"
-      slot=0xC919A27C value=0xC5084BBC text="QPOET_VMAX"
-      slot=0xC919A280 value=0xC49CC70C text="PLL_ID"
-      slot=0xC919A284 value=0xC5084BC7 text="SCALE_DETROUGH"
-      slot=0xC919A288 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A28C value=0xC5084B02 text="KERNEL_MASK"
-      slot=0xC919A290 value=0xC5084B0E text="QFACTOR"
-  STRING_REF_SLOT=0xC919A2B4 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC919A284..0xC919A2E4
-      slot=0xC919A284 value=0xC5084BC7 text="SCALE_DETROUGH"
-      slot=0xC919A288 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A28C value=0xC5084B02 text="KERNEL_MASK"
-      slot=0xC919A290 value=0xC5084B0E text="QFACTOR"
-      slot=0xC919A294 value=0xC5084B29 text="KERNEL_WEIGHT_I"
-      slot=0xC919A298 value=0xC5084B39 text="KERNEL_WEIGHT_Q"
-      slot=0xC919A29C value=0xC5084BD6 text="NUM_LUT_VALUES"
-      slot=0xC919A2A0 value=0xC5084BE5 text="AMAM"
-      slot=0xC919A2A4 value=0xC5084BEA text="AMPM"
-      slot=0xC919A2A8 value=0xC5084BEF text="GAIN"
-      slot=0xC919A2AC value=0x00000000
-      slot=0xC919A2B0 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC919A2B4 value=0xC49535DB text="RFM_DEVICE"
-      slot=0xC919A2B8 value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC919A2BC value=0xC5084A09 text="XPT_MODE"
-      slot=0xC919A2C0 value=0xC5084B02 text="KERNEL_MASK"
-      slot=0xC919A2C4 value=0xC5084B0E text="QFACTOR"
-      slot=0xC919A2C8 value=0xC5084B29 text="KERNEL_WEIGHT_I"
-      slot=0xC919A2CC value=0xC5084B39 text="KERNEL_WEIGHT_Q"
-      slot=0xC919A2D0 value=0xC49CC70C text="PLL_ID"
-      slot=0xC919A2D4 value=0xC5084B96 text="ETVD_MAX"
-      slot=0xC919A2D8 value=0xC5084BF4 text="ETVD MIN"
-      slot=0xC919A2DC value=0xC5084BA8 text="DETROUGH"
-      slot=0xC919A2E0 value=0xC5084BC7 text="SCALE_DETROUGH"
-  STRING_REF_SLOTS_SHOWN=18
-
-RF_FIELD_STRING value=SIG_PATH address=c4953af0
-  STRING_REF_SLOT=0xC8EB7478 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC8F12130 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC91997BC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199888 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC91999A8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199A50 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199EA8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC9199E78..0xC9199ED8
-      slot=0xC9199E78 value=0xC5082A12 text="RESERVED1"
-      slot=0xC9199E7C value=0xC5082433 text="RESERVED2"
-      slot=0xC9199E80 value=0xC5084242 text="CARRIER_CONTROL"
-      slot=0xC9199E84 value=0xC5082491 text="SRS_SOURCE_CARRIER"
-      slot=0xC9199E88 value=0xC5084252 text="SRS_CS_STYLE"
-      slot=0xC9199E8C value=0xC508425F text="SRS_CS_IMPACTED"
-      slot=0xC9199E90 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC9199E94 value=0xC508426F text="ACTION"
-      slot=0xC9199E98 value=0xC5082D2D text="SUB"
-      slot=0xC9199E9C value=0xC4FFE365 text="TECH"
-      slot=0xC9199EA0 value=0xC5084276 text="CARRIER"
-      slot=0xC9199EA4 value=0xC5082317 text="DEVICE"
-      slot=0xC9199EA8 value=0xC4953AF0 text="SIG_PATH"
-      slot=0xC9199EAC value=0xC5082369 text="ANT_PATH"
-      slot=0xC9199EB0 value=0xC49D5DF4 text="BAND"
-      slot=0xC9199EB4 value=0xC508234D text="CHANNEL"
-      slot=0xC9199EB8 value=0xC5082355 text="BANDWIDTH"
-      slot=0xC9199EBC value=0xC49CC70C text="PLL_ID"
-      slot=0xC9199EC0 value=0xC508427E text="BEAM_CNT"
-      slot=0xC9199EC4 value=0xC49535E6 text="BEAM_ID"
-      slot=0xC9199EC8 value=0xC5084287 text="BEAM_CYCLE"
-      slot=0xC9199ECC value=0xC5084292 text="SRC_SUB"
-      slot=0xC9199ED0 value=0xC508429A text="SRC_TECH"
-      slot=0xC9199ED4 value=0xC50842A3 text="SRC CC"
-  STRING_REF_SLOT=0xC9199F5C block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199FC8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919A058 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919A0B8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919A16C block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919A208 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919A260 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919A2B8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=15
-
-RF_FIELD_STRING value=TECHNOLOGY address=c4953ea5
-  STRING_REF_SLOT=0xC8EB74D4 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919980C block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC91997DC..0xC919983C
-      slot=0xC91997DC value=0xC50823B2 text="SUB_FRAME_CONFIG"
-      slot=0xC91997E0 value=0xC49CC70C text="PLL_ID"
-      slot=0xC91997E4 value=0xC50823C3 text="TIME_US"
-      slot=0xC91997E8 value=0xC50823CB text="INTER_FREQ"
-      slot=0xC91997EC value=0xC508237B text="CENTER_FREQ"
-      slot=0xC91997F0 value=0xC50823D6 text="SUB_TECH"
-      slot=0xC91997F4 value=0xC50823DF text="BWP_START_LOC"
-      slot=0xC91997F8 value=0xC50823ED text="PATH_FILTER_TYPE"
-      slot=0xC91997FC value=0xC50823FE text="TECH_MODE"
-      slot=0xC9199800 value=0xC5082408 text="SCS"
-      slot=0xC9199804 value=0xC508240C text="LOAD_CODEBOOK"
-      slot=0xC9199808 value=0xC508241A text="NDR_STATE"
-      slot=0xC919980C value=0xC4953EA5 text="TECHNOLOGY"
-      slot=0xC9199810 value=0xC5082424 text="NETWORK_SIGNAL"
-      slot=0xC9199814 value=0xC5082433 text="RESERVED2"
-      slot=0xC9199818 value=0xC508243D text="SELFTEST_TYPE"
-      slot=0xC919981C value=0xC508244B text="UE_POWER_CLASS"
-      slot=0xC9199820 value=0xC508245A text="RESERVED3"
-      slot=0xC9199824 value=0xC5082464 text="NB_ID"
-      slot=0xC9199828 value=0xC508246A text="LANE_ID"
-      slot=0xC919982C value=0xC5082472 text="TX_GAIN_ADJUSTMENT"
-      slot=0xC9199830 value=0xC5082485 text="SRS_CS_TYPE"
-      slot=0xC9199834 value=0xC5082491 text="SRS_SOURCE_CARRIER"
-      slot=0xC9199838 value=0xC50824A4 text="IF_PLL_UNLOCK_STATUS"
-  STRING_REF_SLOT=0xC9199A40 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=3
-
-RF_FIELD_STRING value=RX_CARRIER address=c5082337
-  STRING_REF_SLOT=0xC919979C block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199874 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199A48 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199F08 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC9199ED8..0xC9199F38
-      slot=0xC9199ED8 value=0xC50842AA text="SRC_DEVICE"
-      slot=0xC9199EDC value=0xC50842B5 text="SRC_SIG_PATH"
-      slot=0xC9199EE0 value=0xC50842C2 text="SRC_ANT_PATH"
-      slot=0xC9199EE4 value=0xC50842CF text="SRC_PLL_ID"
-      slot=0xC9199EE8 value=0xC5082464 text="NB_ID"
-      slot=0xC9199EEC value=0xC508246A text="LANE_ID"
-      slot=0xC9199EF0 value=0xC50842DA text="SRC_NB_ID"
-      slot=0xC9199EF4 value=0xC50842E4 text="SRC_LANE_ID"
-      slot=0xC9199EF8 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC9199EFC value=0xC5082D2D text="SUB"
-      slot=0xC9199F00 value=0xC4FFE365 text="TECH"
-      slot=0xC9199F04 value=0xC5082342 text="TX_CARRIER"
-      slot=0xC9199F08 value=0xC5082337 text="RX_CARRIER"
-      slot=0xC9199F0C value=0xC5082317 text="DEVICE"
-      slot=0xC9199F10 value=0xC50842F0 text="THRESHOLD"
-      slot=0xC9199F14 value=0xC50842FA text="DIRECTION"
-      slot=0xC9199F18 value=0xC5084304 text="TIMEOUT"
-      slot=0xC9199F1C value=0xC508430C text="RXAGC"
-      slot=0xC9199F20 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC9199F24 value=0xC5084312 text="QUERY_COMMAND"
-      slot=0xC9199F28 value=0xC5084320 text="QUERY_PROPERTY"
-      slot=0xC9199F2C value=0xC508432F text="CMD_MASK"
-      slot=0xC9199F30 value=0xC5084338 text="PROPERTY_MASK_0_63"
-      slot=0xC9199F34 value=0xC508434B text="PROPERTY_MASK_64_127"
-  STRING_REF_SLOTS_SHOWN=4
-
-RF_FIELD_STRING value=TX_CARRIER address=c5082342
-  STRING_REF_SLOT=0xC91997A0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199994 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199A44 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199AB0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC9199A80..0xC9199AE0
-      slot=0xC9199A80 value=0xC5082DCA text="SAMP_OFFSET"
-      slot=0xC9199A84 value=0xC5082DD6 text="NUM_SAMP_BYTES"
-      slot=0xC9199A88 value=0xC5082DE5 text="EST_SENS"
-      slot=0xC9199A8C value=0xC508258C text="CTON"
-      slot=0xC9199A90 value=0xC5082DEE text="PEAK_FREQ"
-      slot=0xC9199A94 value=0xC5082DF8 text="EXPECTED_AGC "
-      slot=0xC9199A98 value=0xC4953B13 text="LNA_GAIN_STATE"
-      slot=0xC9199A9C value=0xC5082E06 text="OVERRIDE_LNA_GAIN_STATE"
-      slot=0xC9199AA0 value=0xC5082E1E text="GAIN_CONTRL"
-      slot=0xC9199AA4 value=0xC50823D6 text="SUB_TECH"
-      slot=0xC9199AA8 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC9199AAC value=0xC508265F text="NUM_AVERAGES"
-      slot=0xC9199AB0 value=0xC5082342 text="TX_CARRIER"
-      slot=0xC9199AB4 value=0xC5082E2A text="TX_DEVICE"
-      slot=0xC9199AB8 value=0xC5082E34 text="ACTION_TX_POWER"
-      slot=0xC9199ABC value=0xC5082E44 text="ACTION_EVM"
-      slot=0xC9199AC0 value=0xC5082E4F text="ACTION_ACLR"
-      slot=0xC9199AC4 value=0xC5082E5B text="ACTION_VSWR"
-      slot=0xC9199AC8 value=0xC5082E67 text="ACTION_DEBUG_DATA"
-      slot=0xC9199ACC value=0xC5082E79 text="ACTION_PHASE_ERROR"
-      slot=0xC9199AD0 value=0xC5082E8C text="ACTION_SPECTRUM_FLATNESS"
-      slot=0xC9199AD4 value=0xC4953961 text="TX_POWER"
-      slot=0xC9199AD8 value=0xC5082EA5 text="EVM"
-      slot=0xC9199ADC value=0xC5082EA9 text="ACLR_UTRA1_POS"
-  STRING_REF_SLOT=0xC9199F04 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=5
-
-RF_FIELD_STRING value=BANDWIDTH address=c5082355
-  STRING_REF_SLOT=0xC91997B4 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199E24 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC9199DF4..0xC9199E54
-      slot=0xC9199DF4 value=0xC5084153 text="RX_GAIN_STATE_OVERRIDE"
-      slot=0xC9199DF8 value=0xC508416A text="ADDITIONAL_ERROR_CODE_SET_1"
-      slot=0xC9199DFC value=0xC5084186 text="ACLR_LEFT_GNB_SUB6"
-      slot=0xC9199E00 value=0xC5084199 text="ACLR_RIGHT_GNB_SUB6"
-      slot=0xC9199E04 value=0xC50841AD text="ACLR_MET_GNB_SUB6"
-      slot=0xC9199E08 value=0xC50841BF text="CARRIER_LEAKAGE_TONE_PWR"
-      slot=0xC9199E0C value=0x00000000
-      slot=0xC9199E10 value=0xC49535C6 text="UNASSIGNED"
-      slot=0xC9199E14 value=0xC50841D8 text="SUB_IDX"
-      slot=0xC9199E18 value=0xC4FFE365 text="TECH"
-      slot=0xC9199E1C value=0xC49D5DF4 text="BAND"
-      slot=0xC9199E20 value=0xC50841E0 text="CHAN"
-      slot=0xC9199E24 value=0xC5082355 text="BANDWIDTH"
-      slot=0xC9199E28 value=0xC508230C text="RXTX"
-      slot=0xC9199E2C value=0xC5082311 text="CHAIN"
-      slot=0xC9199E30 value=0xC5082300 text="CARRIER_IDX"
-      slot=0xC9199E34 value=0xC50841E5 text="RESOURCE"
-      slot=0xC9199E38 value=0xC50841EE text="REASON"
-      slot=0xC9199E3C value=0xC50841F5 text="PATH_FUNCTIONALITY"
-      slot=0xC9199E40 value=0xC5082317 text="DEVICE"
-      slot=0xC9199E44 value=0xC508231E text="SIGNAL_PATH"
-      slot=0xC9199E48 value=0xC508232A text="ANTENNA_PATH"
-      slot=0xC9199E4C value=0xC5084208 text="ANTENNA_NUM"
-      slot=0xC9199E50 value=0xC49CC70C text="PLL_ID"
-  STRING_REF_SLOT=0xC9199EB8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199F84 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199FE8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=5
-
-RF_FIELD_STRING value=ANT_PATH address=c5082369
-  STRING_REF_SLOT=0xC91997C0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199EAC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199FCC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC919A174 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=4
-
-RF_FIELD_STRING value=USER_ADJ address=c5082372
-  STRING_REF_SLOT=0xC91997C4 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=1
-
-RF_FIELD_STRING value=CENTER_FREQ address=c508237b
-  STRING_REF_SLOT=0xC91997C8 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC91997EC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=2
-
-RF_FIELD_STRING value=ENABLE_XO address=c5082387
-  STRING_REF_SLOT=0xC91997CC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=1
-
-RF_FIELD_STRING value=TOTAL_ADJ address=c5082391
-  STRING_REF_SLOT=0xC91997D0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=1
-
-RF_FIELD_STRING value=SUB_TECH address=c50823d6
-  STRING_REF_SLOT=0xC91997F0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199930 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC9199900..0xC9199960
-      slot=0xC9199900 value=0xC50826E1 text="NO_TONE_SENSITIVITY_MIN"
-      slot=0xC9199904 value=0xC50826F9 text="NO_TONE_SENSITIVITY_MAX"
-      slot=0xC9199908 value=0xC5082711 text="NO_TONE_SENSITIVITY_STDDEV"
-      slot=0xC919990C value=0xC508272C text="IQ_CAPTURE_TYPE"
-      slot=0xC9199910 value=0xC508273C text="MEAS_FREQUENCY_ERROR"
-      slot=0xC9199914 value=0xC5082751 text="INPUT_CW_TONE_FREQUENCY"
-      slot=0xC9199918 value=0xC5082769 text="RX_FREQUENCY_ERROR"
-      slot=0xC919991C value=0xC508277C text="APPLY_FREQUENCY_ERROR_TX"
-      slot=0xC9199920 value=0xC5082795 text="NUM_OF_CAPTURES"
-      slot=0xC9199924 value=0xC50827A5 text="IQ_SAMPLE_DEBUG_INFO_0"
-      slot=0xC9199928 value=0xC50827BC text="IQ_SAMPLE_DEBUG_INFO_1"
-      slot=0xC919992C value=0xC50827D3 text="IQ_SAMPLE_DEBUG_INFO_2"
-      slot=0xC9199930 value=0xC50823D6 text="SUB_TECH"
-      slot=0xC9199934 value=0xC50827EA text="RSB_FREQ"
-      slot=0xC9199938 value=0xC50827F3 text="RSB_PWR_DBC"
-      slot=0xC919993C value=0xC50827FF text="RSB_MEAS_INT"
-      slot=0xC9199940 value=0xC508280C text="MEAS_TYPE"
-      slot=0xC9199944 value=0xC5082816 text="NUM_OF_TONES"
-      slot=0xC9199948 value=0xC5082823 text="MULTI_TONES_SENSITIVITY"
-      slot=0xC919994C value=0xC508283B text="MULTI_TONES_PEAK_FREQ"
-      slot=0xC9199950 value=0xC5082851 text="MULTI_TONES_CTON"
-      slot=0xC9199954 value=0xC5082862 text="WAVE_TYPE"
-      slot=0xC9199958 value=0xC508286C text="RB_OFFSET"
-      slot=0xC919995C value=0xC5082876 text="MEAS_BER"
-  STRING_REF_SLOT=0xC91999E0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC91999B0..0xC9199A10
-      slot=0xC91999B0 value=0xC5082950 text="TX_WAVEFORM"
-      slot=0xC91999B4 value=0xC5082424 text="NETWORK_SIGNAL"
-      slot=0xC91999B8 value=0xC508295C text="TX_SLOT"
-      slot=0xC91999BC value=0xC5082964 text="MODULATION_TYPE"
-      slot=0xC91999C0 value=0xC5082974 text="TX_ON_DURATION"
-      slot=0xC91999C4 value=0xC5082983 text="UL_BURST_PATTRN"
-      slot=0xC91999C8 value=0xC49535E6 text="BEAM_ID"
-      slot=0xC91999CC value=0xC508244B text="UE_POWER_CLASS"
-      slot=0xC91999D0 value=0xC50823C3 text="TIME_US"
-      slot=0xC91999D4 value=0xC50823B2 text="SUB_FRAME_CONFIG"
-      slot=0xC91999D8 value=0xC5082993 text="TX_POWER_SWEEP_STOP"
-      slot=0xC91999DC value=0xC50829A7 text="TX_POWER_SWEEP_STEP"
-      slot=0xC91999E0 value=0xC50823D6 text="SUB_TECH"
-      slot=0xC91999E4 value=0xC50829BB text="NUM_POWER_BLOCK_TR"
-      slot=0xC91999E8 value=0xC50829CE text="TX_PWR_PER_PWR_BLK"
-      slot=0xC91999EC value=0xC50829E1 text="START_SYMBOL"
-      slot=0xC91999F0 value=0xC50829EE text="STOP_SYMBOL"
-      slot=0xC91999F4 value=0xC50829FA text="TIMING_ADVANCE"
-      slot=0xC91999F8 value=0xC5082A09 text="RESERVED"
-      slot=0xC91999FC value=0xC5082A09 text="RESERVED"
-      slot=0xC9199A00 value=0xC5082A12 text="RESERVED1"
-      slot=0xC9199A04 value=0xC5082A1C text="WAVEFORM_IMMEDIATE_TRIGGER"
-      slot=0xC9199A08 value=0xC5082A37 text="MIMO_ENABLED"
-      slot=0xC9199A0C value=0xC5082A44 text="IS_RA_TYPE_0"
-  STRING_REF_SLOT=0xC9199AA4 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199DA0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-    TABLE_CLUSTER block=segment_21 range=0xC9199D70..0xC9199DD0
-      slot=0xC9199D70 value=0xC5083F8D text="ACTION_SEM"
-      slot=0xC9199D74 value=0xC5083F98 text="SEM_PASS_FAIL"
-      slot=0xC9199D78 value=0xC5083FA6 text="SEM_OFFSET_NUM"
-      slot=0xC9199D7C value=0xC5083FB5 text="SEM_FREQ_OFFSET"
-      slot=0xC9199D80 value=0xC5083FC5 text="SEM_WORST_CASE_PWR"
-      slot=0xC9199D84 value=0xC5083FD8 text="ACTION_OBW"
-      slot=0xC9199D88 value=0xC5083FE3 text="OBW"
-      slot=0xC9199D8C value=0xC5082795 text="NUM_OF_CAPTURES"
-      slot=0xC9199D90 value=0xC50827A5 text="IQ_SAMPLE_DEBUG_INFO_0"
-      slot=0xC9199D94 value=0xC50827BC text="IQ_SAMPLE_DEBUG_INFO_1"
-      slot=0xC9199D98 value=0xC50827D3 text="IQ_SAMPLE_DEBUG_INFO_2"
-      slot=0xC9199D9C value=0xC5083FE7 text="DEBUG_ERROR_CODE"
-      slot=0xC9199DA0 value=0xC50823D6 text="SUB_TECH"
-      slot=0xC9199DA4 value=0xC5083FF8 text="MUTUAL_COUPLING_BEAM_ID"
-      slot=0xC9199DA8 value=0xC5084010 text="MUTUAL_COUPLING_GAIN_STATE"
-      slot=0xC9199DAC value=0xC508402B text="PVT_UPPER_ABS_0"
-      slot=0xC9199DB0 value=0xC508403B text="PVT_UPPER_ABS_1"
-      slot=0xC9199DB4 value=0xC508404B text="PVT_UPPER_ABS_2"
-      slot=0xC9199DB8 value=0xC508405B text="PVT_UPPER_ABS_3"
-      slot=0xC9199DBC value=0xC508406B text="PVT_UPPER_ABS_4"
-      slot=0xC9199DC0 value=0xC508407B text="PVT_UPPER_ABS_5"
-      slot=0xC9199DC4 value=0xC508408B text="PVT_UPPER_ABS_6"
-      slot=0xC9199DC8 value=0xC508409B text="PVT_UPPER_ABS_7"
-      slot=0xC9199DCC value=0xC50840AB text="PVT_UPPER_ABS_8"
-  STRING_REF_SLOT=0xC9199E58 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=6
-
-RF_FIELD_STRING value=TECH_MODE address=c50823fe
-  STRING_REF_SLOT=0xC91997FC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=1
-
-RF_FIELD_STRING value=BWP_CENTER_FREQ address=c5082513
-  STRING_REF_SLOT=0xC9199858 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=1
-
-RF_FIELD_STRING value=SAMP_FREQ address=c50825c2
-  STRING_REF_SLOT=0xC91998B0 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOT=0xC9199A78 block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=2
-
-RF_FIELD_STRING value=SRC_SIG_PATH address=c50842b5
-  STRING_REF_SLOT=0xC9199EDC block=segment_21 type=DATA primary=true
-      SLOT_XREFS_SHOWN=0
-  STRING_REF_SLOTS_SHOWN=1
-
-RF_FIELD_STRING value=BandWidth address=c50dbbfd
-  STRING_REF_SLOTS_SHOWN=0
-
-RF_FIELD_STRING value=Bandwidth address=c50dbc8f
-  STRING_REF_SLOTS_SHOWN=0
-
-RF_FIELD_STRINGS_INSPECTED=218857
-RF_FIELD_NAMES_MATCHED=19
-RF_FIELD_POINTER_SLOTS_REPORTED=76
-RF_FIELD_POINTER_CLUSTERS_DUMPED=23
+Ghidra_RFDEBUG_Trace.java> Running...
+============================================================
+ Ghidra_RFDEBUG_Trace
+ TRACE_BUILD=DIAG-FTM-STRUCTURE-17
+ RFDEBUG RADIO_CONFIG / FREQUENCY DISPATCH TRACE / READ ONLY
+Primary property table is the confirmed C9199FB8 table, not the unrelated C9199798 array.
+Searches source-line message records and executable immediate candidates for RFDEBUG ID 0x007B.
+No FTM/RF command is generated or transmitted.
+============================================================
+PROGRAM=614_0_0.mbn
+IMAGE_BASE=00010000
 
 ============================================================
-RADIO_CONFIG FIELD SLOT XREF AUDIT
-Checks references TO each of the 54 primary-table slots, not only to their strings
-Origin is classified by whether the reference address belongs to an instruction in an executable block
-READ ONLY
+RADIO_CONFIG FIELD-NAME TABLE CANDIDATE
+Candidate base=0xC9199FB8; 37 properties at indices 0..36 plus NULL at index 37; entry size=4
+Confirmed anchors: property 26 TUNE_TX_TO_RX_FREQ at 0xC919A020; property 28 FREQUENCY at 0xC919A028.
+The decoded strings in this image are authoritative; reference labels are cross-build comparison only.
+Read-only; validates property IDs 26 and 28 and the NULL separator before the RX_OVERRIDE candidate table.
 ============================================================
-  SLOTS_VISITED=54
-  INSTRUCTION_ORIGIN_REFS_TOTAL=0
-  INSTRUCTION_ORIGIN_REFS_SHOWN=0
-  DATA_ORIGIN_REFS_TOTAL=0
-  DATA_ORIGIN_REFS_SHOWN=0
+  table_block=<none> valid=false
+  TABLE_CANDIDATE_NOT_FULLY_INITIALIZED
 
 ============================================================
-RADIO_CONFIG DISTRIBUTED CODE-REFERENCE SCAN
-Bounded to 600000 decoded instructions across executable blocks
-Samples each executable block near its beginning, middle, and end
-Exact table range=0xC9199798..0xC919986F
-Nearby context range=0xC9199718..0xC91998EF
-Also checks operands against unique string addresses in both candidate pools.
-A hit is a static lead, not proof of an executed call path.
+RADIO_CONFIG ADJACENT NAME POOL CANDIDATE
+Start=0xC919A050; RX_OVERRIDE property-name candidate; entries_checked=14
+Candidate second property_names[] table; initial entries should be compared with RX_OVERRIDE property IDs.
 ============================================================
-  EXECUTABLE_BLOCKS_TOTAL=8
-  UNIQUE_STRING_TARGETS=60
-  EXEC_BLOCK_SAMPLE name=segment_2 range=0xC1600000..0xC1602FFF instructions_sampled=1701
-  EXEC_BLOCK_SAMPLE name=segment_3 range=0xC1610000..0xC1647FFF instructions_sampled=10318
-  EXEC_BLOCK_SAMPLE name=segment_4 range=0xC1690000..0xC16BBFFF instructions_sampled=29180
-  EXEC_BLOCK_SAMPLE name=segment_7 range=0xC16FD000..0xC171DFFF instructions_sampled=31589
-  EXEC_BLOCK_SAMPLE name=segment_8 range=0xC171E000..0xC177DFFF instructions_sampled=15458
-  EXEC_BLOCK_SAMPLE name=segment_9 range=0xC1780000..0xC1A85FFF instructions_sampled=75000
-  EXEC_BLOCK_SAMPLE name=segment_11 range=0xC1AA0000..0xC1AA4FFF instructions_sampled=3840
-  EXEC_BLOCK_SAMPLE name=segment_12 range=0xC1AA5000..0xC1D4DFFF instructions_sampled=75000
-  EXECUTABLE_BLOCKS_SAMPLED=8
-  EXECUTABLE_INSTRUCTIONS_SCANNED=242086
-  TABLE_CODE_IMMEDIATE_HITS_SHOWN=0
-  TABLE_NEARBY_IMMEDIATE_HITS_SHOWN=0
-  STRING_POINTER_CODE_HITS_TOTAL=0
-  STRING_POINTER_CODE_HITS_SHOWN=0
+  ADJ_POOL[0] ERROR=Unable to read bytes at ram:c919a050
+  ADJ_POOL[1] ERROR=Unable to read bytes at ram:c919a054
+  ADJ_POOL[2] ERROR=Unable to read bytes at ram:c919a058
+  ADJ_POOL[3] ERROR=Unable to read bytes at ram:c919a05c
+  ADJ_POOL[4] ERROR=Unable to read bytes at ram:c919a060
+  ADJ_POOL[5] ERROR=Unable to read bytes at ram:c919a064
+  ADJ_POOL[6] ERROR=Unable to read bytes at ram:c919a068
+  ADJ_POOL[7] ERROR=Unable to read bytes at ram:c919a06c
+  ADJ_POOL[8] ERROR=Unable to read bytes at ram:c919a070
+  ADJ_POOL[9] ERROR=Unable to read bytes at ram:c919a074
+  ADJ_POOL[10] ERROR=Unable to read bytes at ram:c919a078
+  ADJ_POOL[11] ERROR=Unable to read bytes at ram:c919a07c
+  ADJ_POOL[12] ERROR=Unable to read bytes at ram:c919a080
+  ADJ_POOL[13] ERROR=Unable to read bytes at ram:c919a084
+
+============================================================
+TARGETED RF TUNE / FREQUENCY STRING SCAN
+Separate from broad CHANNEL search to avoid generic-string flooding
+Exact field labels plus frequency/tuning context; static read-only
+============================================================
+
+RF_TUNE_DATA_ITEMS_INSPECTED=843
+RF_TUNE_EXACT_FIELD_HITS=0
+RF_TUNE_CONTEXT_HITS=0
+RF_TUNE_TOTAL_REPORTED=0
+
+============================================================
+RADIO_CONFIG SOURCE-LINE MESSAGE RECORDS
+Filter: ftm_rf_test_radio_config.c
+Record hypothesis: {fmt_ptr, fname_ptr, (ssid<<16)|line, argc}
+Shows source lines and registered xrefs; no RF command is constructed.
+============================================================
+  RADIO_CONFIG_MSG_CANDIDATES=0
+  RADIO_CONFIG_MSG_RECORDS_REPORTED=0
+  RADIO_CONFIG_MSG_SCAN_BYTES_APPROX=2283673
+
+============================================================
+RFDEBUG SUBSYSTEM 0x007B EXECUTABLE-CODE CANDIDATES
+Searches executable instruction operands for the exact value 0x007B.
+For each hit, shows nearby instructions and its containing function.
+Read-only static leads only; no packet generation or transmission.
+============================================================
+  EXECUTABLE_INSTRUCTIONS_SCANNED=0
+  RFDEBUG_7B_IMMEDIATE_HITS_TOTAL=0
+  RFDEBUG_7B_CANDIDATES_SHOWN=0
   SCAN_LIMIT_REACHED=false
 
-HANDLER_REFERENCE_SUMMARY CURRENT_HANDLER_D819C208 target=0xD819C208
-  mapped=false block=<none> exec=false
-  TOTAL_REFERENCES=0
-  INSTRUCTION_SOURCES=0
-  NON_INSTRUCTION_SOURCES=0
-  SAMPLES_SHOWN=0
-
-HANDLER_REFERENCE_SUMMARY PREVIOUS_HANDLER_D8150ED8 target=0xD8150ED8
-  mapped=false block=<none> exec=false
-  TOTAL_REFERENCES=0
-  INSTRUCTION_SOURCES=0
-  NON_INSTRUCTION_SOURCES=0
-  SAMPLES_SHOWN=0
-
-HANDLER_REFERENCE_SUMMARY HISTORICAL_THUNK_D89B2790 target=0xD89B2790
-  mapped=false block=<none> exec=false
-  REF[0] from=c16187e8 type=UNCONDITIONAL_JUMP source_block=segment_3 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c16187e4
-  REF[1] from=c1618c10 type=UNCONDITIONAL_JUMP source_block=segment_3 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c1618c0c
-  REF[2] from=c161abbc type=UNCONDITIONAL_JUMP source_block=segment_3 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c161abb8
-  REF[3] from=c1618868 type=UNCONDITIONAL_JUMP source_block=segment_3 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c1618864
-  REF[4] from=c17a4848 type=UNCONDITIONAL_JUMP source_block=segment_9 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c17a4844
-  REF[5] from=c191b660 type=UNCONDITIONAL_JUMP source_block=segment_9 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c191b65c
-  REF[6] from=c191c0dc type=UNCONDITIONAL_JUMP source_block=segment_9 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c191c0d8
-  REF[7] from=c179e5f0 type=UNCONDITIONAL_JUMP source_block=segment_9 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c179e5ec
-  REF[8] from=c16a4820 type=UNCONDITIONAL_JUMP source_block=segment_4 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c16a481c
-  REF[9] from=c16a47d8 type=UNCONDITIONAL_JUMP source_block=segment_4 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c16a47d4
-  REF[10] from=c1791c30 type=UNCONDITIONAL_JUMP source_block=segment_9 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c1791c2c
-  REF[11] from=c1795c48 type=UNCONDITIONAL_JUMP source_block=segment_9 instruction=jump 0xd89b2790  function=thunk_EXT_FUN_d89b2790 @ c1795c44
-  TOTAL_REFERENCES=98
-  INSTRUCTION_SOURCES=98
-  NON_INSTRUCTION_SOURCES=0
-  SAMPLES_SHOWN=12
-
-============================================================
-RUNTIME DISPATCH POINTER CENSUS
-Searches aligned 32-bit references throughout initialized blocks
-Targets: current 0xD819C208, prior-build 0xD8150ED8, historical shared thunk 0xD89B2790
-Current table context: 0xC4951828, 80 entries; non-table hits are called out
-READ ONLY / NO COMMAND GENERATION
-============================================================
-  PTR_BLOCK target=CURRENT_FTM_HANDLER value=0xD819C208 block=segment_20 exec=false hits_in_block=81
-    PTR_HIT[0] at=0xC495182C role=FTM_TABLE_ENTRY index=0 selector_lo=0x0000 selector_hi=0x0000 function=<no-function>
-    PTR_HIT[1] at=0xC4951834 role=FTM_TABLE_ENTRY index=1 selector_lo=0x0003 selector_hi=0x0003 function=<no-function>
-    PTR_HIT[2] at=0xC495183C role=FTM_TABLE_ENTRY index=2 selector_lo=0x0020 selector_hi=0x0020 function=<no-function>
-    PTR_HIT[3] at=0xC4951844 role=FTM_TABLE_ENTRY index=3 selector_lo=0x0028 selector_hi=0x0028 function=<no-function>
-    PTR_HIT[4] at=0xC495184C role=FTM_TABLE_ENTRY index=4 selector_lo=0x0027 selector_hi=0x0027 function=<no-function>
-    PTR_HIT[5] at=0xC4951854 role=FTM_TABLE_ENTRY index=5 selector_lo=0x0069 selector_hi=0x0069 function=<no-function>
-    PTR_HIT[6] at=0xC495185C role=FTM_TABLE_ENTRY index=6 selector_lo=0x007A selector_hi=0x007A function=<no-function>
-    PTR_HIT[7] at=0xC4951864 role=FTM_TABLE_ENTRY index=7 selector_lo=0x007B selector_hi=0x007B function=<no-function>
-    PTR_HIT[8] at=0xC495186C role=FTM_TABLE_ENTRY index=8 selector_lo=0x007E selector_hi=0x007E function=<no-function>
-    PTR_HIT[9] at=0xC4951874 role=FTM_TABLE_ENTRY index=9 selector_lo=0x000B selector_hi=0x000B function=<no-function>
-    PTR_HIT[10] at=0xC495187C role=FTM_TABLE_ENTRY index=10 selector_lo=0x0007 selector_hi=0x0007 function=<no-function>
-    PTR_HIT[11] at=0xC4951884 role=FTM_TABLE_ENTRY index=11 selector_lo=0x0008 selector_hi=0x0008 function=<no-function>
-    PTR_HIT[12] at=0xC495188C role=FTM_TABLE_ENTRY index=12 selector_lo=0x0002 selector_hi=0x0002 function=<no-function>
-    PTR_HIT[13] at=0xC4951894 role=FTM_TABLE_ENTRY index=13 selector_lo=0x003A selector_hi=0x003A function=<no-function>
-    PTR_HIT[14] at=0xC495189C role=FTM_TABLE_ENTRY index=14 selector_lo=0x0031 selector_hi=0x0031 function=<no-function>
-    PTR_HIT[15] at=0xC49518A4 role=FTM_TABLE_ENTRY index=15 selector_lo=0x003D selector_hi=0x003D function=<no-function>
-    PTR_HIT[16] at=0xC49518AC role=FTM_TABLE_ENTRY index=16 selector_lo=0x0065 selector_hi=0x0065 function=<no-function>
-    PTR_HIT[17] at=0xC49518B4 role=FTM_TABLE_ENTRY index=17 selector_lo=0x0066 selector_hi=0x0066 function=<no-function>
-    PTR_HIT[18] at=0xC49518BC role=FTM_TABLE_ENTRY index=18 selector_lo=0x0011 selector_hi=0x0011 function=<no-function>
-    PTR_HIT[19] at=0xC49518C4 role=FTM_TABLE_ENTRY index=19 selector_lo=0x003B selector_hi=0x003B function=<no-function>
-    PTR_HIT[20] at=0xC49518CC role=FTM_TABLE_ENTRY index=20 selector_lo=0x0032 selector_hi=0x0032 function=<no-function>
-    PTR_HIT[21] at=0xC49518D4 role=FTM_TABLE_ENTRY index=21 selector_lo=0x003E selector_hi=0x003E function=<no-function>
-    PTR_HIT[22] at=0xC49518DC role=FTM_TABLE_ENTRY index=22 selector_lo=0x0067 selector_hi=0x0067 function=<no-function>
-    PTR_HIT[23] at=0xC49518E4 role=FTM_TABLE_ENTRY index=23 selector_lo=0x0068 selector_hi=0x0068 function=<no-function>
-    PTR_HIT[24] at=0xC49518EC role=FTM_TABLE_ENTRY index=24 selector_lo=0x0001 selector_hi=0x0001 function=<no-function>
-    PTR_HIT[25] at=0xC49518F4 role=FTM_TABLE_ENTRY index=25 selector_lo=0x0015 selector_hi=0x0015 function=<no-function>
-    PTR_HIT[26] at=0xC49518FC role=FTM_TABLE_ENTRY index=26 selector_lo=0x0038 selector_hi=0x0038 function=<no-function>
-    PTR_HIT[27] at=0xC4951904 role=FTM_TABLE_ENTRY index=27 selector_lo=0x0039 selector_hi=0x0039 function=<no-function>
-    PTR_HIT[28] at=0xC495190C role=FTM_TABLE_ENTRY index=28 selector_lo=0x0044 selector_hi=0x0044 function=<no-function>
-    PTR_HIT[29] at=0xC4951914 role=FTM_TABLE_ENTRY index=29 selector_lo=0x0045 selector_hi=0x0045 function=<no-function>
-    PTR_HIT[30] at=0xC495191C role=FTM_TABLE_ENTRY index=30 selector_lo=0x0046 selector_hi=0x0046 function=<no-function>
-    PTR_HIT[31] at=0xC4951924 role=FTM_TABLE_ENTRY index=31 selector_lo=0x0047 selector_hi=0x0047 function=<no-function>
-    PTR_HIT[32] at=0xC495192C role=FTM_TABLE_ENTRY index=32 selector_lo=0x0009 selector_hi=0x0009 function=<no-function>
-    PTR_HIT[33] at=0xC4951934 role=FTM_TABLE_ENTRY index=33 selector_lo=0x000A selector_hi=0x000A function=<no-function>
-    PTR_HIT[34] at=0xC495193C role=FTM_TABLE_ENTRY index=34 selector_lo=0x000D selector_hi=0x000D function=<no-function>
-    PTR_HIT[35] at=0xC4951944 role=FTM_TABLE_ENTRY index=35 selector_lo=0x003C selector_hi=0x003C function=<no-function>
-    PTR_HIT[36] at=0xC495194C role=FTM_TABLE_ENTRY index=36 selector_lo=0x0033 selector_hi=0x0033 function=<no-function>
-    PTR_HIT[37] at=0xC4951954 role=FTM_TABLE_ENTRY index=37 selector_lo=0x003F selector_hi=0x003F function=<no-function>
-    PTR_HIT[38] at=0xC495195C role=FTM_TABLE_ENTRY index=38 selector_lo=0x0010 selector_hi=0x0010 function=<no-function>
-    PTR_HIT[39] at=0xC4951964 role=FTM_TABLE_ENTRY index=39 selector_lo=0x001B selector_hi=0x001B function=<no-function>
-    PTR_HIT[40] at=0xC495196C role=FTM_TABLE_ENTRY index=40 selector_lo=0x8000 selector_hi=0x8000 function=<no-function>
-    PTR_HIT[41] at=0xC4951974 role=FTM_TABLE_ENTRY index=41 selector_lo=0x0012 selector_hi=0x0012 function=<no-function>
-    PTR_HIT[42] at=0xC495197C role=FTM_TABLE_ENTRY index=42 selector_lo=0x0014 selector_hi=0x0014 function=<no-function>
-    PTR_HIT[43] at=0xC4951984 role=FTM_TABLE_ENTRY index=43 selector_lo=0x001D selector_hi=0x001D function=<no-function>
-    PTR_HIT[44] at=0xC495198C role=FTM_TABLE_ENTRY index=44 selector_lo=0x001E selector_hi=0x001E function=<no-function>
-    PTR_HIT[45] at=0xC4951994 role=FTM_TABLE_ENTRY index=45 selector_lo=0x0023 selector_hi=0x0023 function=<no-function>
-    PTR_HIT[46] at=0xC495199C role=FTM_TABLE_ENTRY index=46 selector_lo=0x002F selector_hi=0x002F function=<no-function>
-    PTR_HIT[47] at=0xC49519A4 role=FTM_TABLE_ENTRY index=47 selector_lo=0x0030 selector_hi=0x0030 function=<no-function>
-    PTR_HIT[48] at=0xC49519AC role=FTM_TABLE_ENTRY index=48 selector_lo=0x004A selector_hi=0x004A function=<no-function>
-    PTR_HIT[49] at=0xC49519B4 role=FTM_TABLE_ENTRY index=49 selector_lo=0x004B selector_hi=0x004B function=<no-function>
-    PTR_HIT[50] at=0xC49519BC role=FTM_TABLE_ENTRY index=50 selector_lo=0x004C selector_hi=0x004C function=<no-function>
-    PTR_HIT[51] at=0xC49519C4 role=FTM_TABLE_ENTRY index=51 selector_lo=0x004D selector_hi=0x004D function=<no-function>
-    PTR_HIT[52] at=0xC49519CC role=FTM_TABLE_ENTRY index=52 selector_lo=0x0041 selector_hi=0x0041 function=<no-function>
-    PTR_HIT[53] at=0xC49519D4 role=FTM_TABLE_ENTRY index=53 selector_lo=0x0042 selector_hi=0x0042 function=<no-function>
-    PTR_HIT[54] at=0xC49519DC role=FTM_TABLE_ENTRY index=54 selector_lo=0x004E selector_hi=0x004E function=<no-function>
-    PTR_HIT[55] at=0xC49519E4 role=FTM_TABLE_ENTRY index=55 selector_lo=0x004F selector_hi=0x004F function=<no-function>
-    PTR_HIT[56] at=0xC49519EC role=FTM_TABLE_ENTRY index=56 selector_lo=0x0050 selector_hi=0x0050 function=<no-function>
-    PTR_HIT[57] at=0xC49519F4 role=FTM_TABLE_ENTRY index=57 selector_lo=0x0051 selector_hi=0x0051 function=<no-function>
-    PTR_HIT[58] at=0xC49519FC role=FTM_TABLE_ENTRY index=58 selector_lo=0x0052 selector_hi=0x0052 function=<no-function>
-    PTR_HIT[59] at=0xC4951A04 role=FTM_TABLE_ENTRY index=59 selector_lo=0x0053 selector_hi=0x0053 function=<no-function>
-    PTR_HIT[60] at=0xC4951A0C role=FTM_TABLE_ENTRY index=60 selector_lo=0x0054 selector_hi=0x0054 function=<no-function>
-    PTR_HIT[61] at=0xC4951A14 role=FTM_TABLE_ENTRY index=61 selector_lo=0x0055 selector_hi=0x0055 function=<no-function>
-    PTR_HIT[62] at=0xC4951A1C role=FTM_TABLE_ENTRY index=62 selector_lo=0x0056 selector_hi=0x0056 function=<no-function>
-    PTR_HIT[63] at=0xC4951A24 role=FTM_TABLE_ENTRY index=63 selector_lo=0x0057 selector_hi=0x0057 function=<no-function>
-    PTR_HIT[64] at=0xC4951A2C role=FTM_TABLE_ENTRY index=64 selector_lo=0x0080 selector_hi=0x0080 function=<no-function>
-    PTR_HIT[65] at=0xC4951A34 role=FTM_TABLE_ENTRY index=65 selector_lo=0x0043 selector_hi=0x0043 function=<no-function>
-    PTR_HIT[66] at=0xC4951A3C role=FTM_TABLE_ENTRY index=66 selector_lo=0x0022 selector_hi=0x0022 function=<no-function>
-    PTR_HIT[67] at=0xC4951A44 role=FTM_TABLE_ENTRY index=67 selector_lo=0x0025 selector_hi=0x0025 function=<no-function>
-    PTR_HIT[68] at=0xC4951A4C role=FTM_TABLE_ENTRY index=68 selector_lo=0x001F selector_hi=0x001F function=<no-function>
-    PTR_HIT[69] at=0xC4951A54 role=FTM_TABLE_ENTRY index=69 selector_lo=0x0021 selector_hi=0x0021 function=<no-function>
-    PTR_HIT[70] at=0xC4951A5C role=FTM_TABLE_ENTRY index=70 selector_lo=0x000A selector_hi=0x000A function=<no-function>
-    PTR_HIT[71] at=0xC4951A64 role=FTM_TABLE_ENTRY index=71 selector_lo=0x0024 selector_hi=0x0024 function=<no-function>
-    PTR_HIT[72] at=0xC4951A6C role=FTM_TABLE_ENTRY index=72 selector_lo=0x002A selector_hi=0x002A function=<no-function>
-    PTR_HIT[73] at=0xC4951A74 role=FTM_TABLE_ENTRY index=73 selector_lo=0x002B selector_hi=0x002B function=<no-function>
-    PTR_HIT[74] at=0xC4951A7C role=FTM_TABLE_ENTRY index=74 selector_lo=0x0063 selector_hi=0x0063 function=<no-function>
-    PTR_HIT[75] at=0xC4951A84 role=FTM_TABLE_ENTRY index=75 selector_lo=0x0064 selector_hi=0x0064 function=<no-function>
-    PTR_HIT[76] at=0xC4951A8C role=FTM_TABLE_ENTRY index=76 selector_lo=0x002C selector_hi=0x002C function=<no-function>
-    PTR_HIT[77] at=0xC4951A94 role=FTM_TABLE_ENTRY index=77 selector_lo=0x0079 selector_hi=0x0079 function=<no-function>
-    PTR_HIT[78] at=0xC4951A9C role=FTM_TABLE_ENTRY index=78 selector_lo=0x007C selector_hi=0x007C function=<no-function>
-    PTR_HIT[79] at=0xC4951AA4 role=FTM_TABLE_ENTRY index=79 selector_lo=0x8001 selector_hi=0x8001 function=<no-function>
-    PTR_HIT[80] at=0xC4951AAC role=EXTERNAL_OR_NON_TABLE_REFERENCE function=<no-function>
-
-============================================================
-STATIC POINTER NEIGHBORHOOD: CURRENT_FTM_HANDLER_NON_TABLE_HIT_0xC4951AAC @ 0xC4951AAC
-Aligned u32 words around the non-table handler-pointer candidate
-============================================================
-  0xC4951A7C = 0xD819C208 <CURRENT_HANDLER_VALUE>
-  0xC4951A80 = 0x00640064
-  0xC4951A84 = 0xD819C208 <CURRENT_HANDLER_VALUE>
-  0xC4951A88 = 0x002C002C
-  0xC4951A8C = 0xD819C208 <CURRENT_HANDLER_VALUE>
-  0xC4951A90 = 0x00790079
-  0xC4951A94 = 0xD819C208 <CURRENT_HANDLER_VALUE>
-  0xC4951A98 = 0x007C007C
-  0xC4951A9C = 0xD819C208 <CURRENT_HANDLER_VALUE>
-  0xC4951AA0 = 0x80018001
-  0xC4951AA4 = 0xD819C208 <CURRENT_HANDLER_VALUE>
-  0xC4951AA8 = 0xFFFF0000
-  0xC4951AAC = 0xD819C208 <CURRENT_HANDLER_VALUE>
-  0xC4951AB0 = 0x00000003
-  0xC4951AB4 = 0x00000000
-  0xC4951AB8 = 0x00000000
-  0xC4951ABC = 0x00000000
-  0xC4951AC0 = 0x5F6D7466
-  0xC4951AC4 = 0x766E6672
-  0xC4951AC8 = 0x7369645F
-  0xC4951ACC = 0x63746170
-  0xC4951AD0 = 0x00632E68
-  0xC4951AD4 = 0x41204652
-  0xC4951AD8 = 0x72657373
-POINTER_SCAN_BYTES_APPROX=234688579
-POINTER_TOTAL CURRENT_FTM_HANDLER=81
-POINTER_TOTAL PREVIOUS_BUILD_HANDLER=0
-POINTER_TOTAL HISTORICAL_SHARED_THUNK=0
-
 INTERPRETATION:
-Table/string agreement supports the field-table hypothesis; it does not identify the parser by itself.
-A direct immediate or string-pointer hit is a lead, not proof of an executed call path.
-No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.
+Property IDs 26 and 28 are checked against the confirmed firmware property_names[] table.
+A 0x007B immediate hit is only a candidate; inspect its comparison/branch context before assigning dispatcher semantics.
 
 ============================================================
-STRUCTURE15 EXECUTION FOOTER
-TRACE_BUILD=DIAG-FTM-STRUCTURE-15
-PROGRAM=qdsp6sw.mbn
-RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54
-RADIO_CONFIG_ADJACENT_POOL=0xC9199870 entries_checked=12
-FIELD_STRINGS_READABLE=53
-FIELD_REFERENCE_LABEL_MATCHES=53
-FIELD_ANCHOR_MISMATCHES=0
-SLOT_INSTRUCTION_ORIGIN_REFS=0
-SLOT_DATA_ORIGIN_REFS=0
-UNIQUE_STRING_TARGETS=60
-EXECUTABLE_BLOCKS_TOTAL=8
-EXECUTABLE_BLOCKS_SAMPLED=8
-EXECUTABLE_INSTRUCTIONS_SCANNED=242086
-TABLE_CODE_IMMEDIATE_HITS=0
-TABLE_NEARBY_IMMEDIATE_HITS=0
-STRING_POINTER_CODE_HITS=0
-REGION_POINTER_SLOTS=922
-REGION_READABLE_STRING_POINTERS=767
-REGION_NULLS=17
-REGION_UNREADABLE_NONZERO=138
-REGION_CANDIDATE_RUNS=39
-PTRS_D819C208=81
-PTRS_D8150ED8=0
-PTRS_D89B2790=0
+STRUCTURE17 EXECUTION FOOTER
+TRACE_BUILD=DIAG-FTM-STRUCTURE-17
+PROGRAM=614_0_0.mbn
+RADIO_CONFIG_PRIMARY_TABLE=0xC9199FB8 entries=38 including NULL terminator
+RADIO_CONFIG_RX_OVERRIDE_TABLE=0xC919A050 entries_checked=14
+FIELD_STRINGS_READABLE=-1
+FIELD_REFERENCE_LABEL_MATCHES=-1
+FIELD_ANCHOR_MISMATCHES=-1
+SLOT_INSTRUCTION_ORIGIN_REFS=-1
+SLOT_DATA_ORIGIN_REFS=-1
+UNIQUE_STRING_TARGETS=-1
+EXECUTABLE_BLOCKS_TOTAL=-1
+EXECUTABLE_BLOCKS_SAMPLED=-1
+EXECUTABLE_INSTRUCTIONS_SCANNED=-1
+TABLE_CODE_IMMEDIATE_HITS=-1
+TABLE_NEARBY_IMMEDIATE_HITS=-1
+STRING_POINTER_CODE_HITS=-1
+RF_TUNE_DATA_ITEMS_INSPECTED=843
+RF_TUNE_STRINGS_REPORTED=0
+RADIO_CONFIG_MSG_CANDIDATES=0
+RADIO_CONFIG_MSG_RECORDS_REPORTED=0
+RFDEBUG_7B_INSTRUCTIONS_SCANNED=0
+RFDEBUG_7B_IMMEDIATE_HITS=0
+REGION_POINTER_SLOTS=-1
+REGION_READABLE_STRING_POINTERS=-1
+REGION_NULLS=-1
+REGION_UNREADABLE_NONZERO=-1
+REGION_CANDIDATE_RUNS=-1
+PTRS_D819C208=-1
+PTRS_D8150ED8=-1
+PTRS_D89B2790=-1
 Negative values mean that a phase was not reached or did not finish.
 ============================================================
 DONE
