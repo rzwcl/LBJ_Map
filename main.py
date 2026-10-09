@@ -1741,7 +1741,7 @@ def start_decoder():
     cleanup_history_files()  # 只有确认可以启动后才清理历史文件
     load_locomotive_types()  # 重新加载车型库
     write_global_log("开始解码")
-    write_global_log("当前版本: 10.22.22")
+    write_global_log("当前版本: 10.22.23")
     # 开始解码前尝试写入之前缓存的CSV记录（仅当有缓存时）
     if _csv_pending_records:
         _flush_csv_pending()
@@ -3060,5 +3060,5 @@ root.bind("<Control-Shift-M>", open_map_window)
 
 root.mainloop()
 
-# 注释：当前版本10.22.22
+# 注释：当前版本10.22.23
 # 注释：请智能体在小改动时，如bug修复之类的自动增加当前版本小数点，在大改动时，如添加新功能之类的增加01.0（注意：是修改上一行的版本号，不是修改你输出的文件名）
