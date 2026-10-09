@@ -3077,7 +3077,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  SAMPLES_SHOWN=" + shown);
     }
 
-    private void printStructure16ExecutionFooter() {
+    private void printStructure17ExecutionFooter() {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
