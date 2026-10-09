@@ -2365,25 +2365,27 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
 
     private void printStructure9ExecutionFooter() {
-        p("");
-        p("============================================================");
-        p("STRUCTURE9 EXECUTION FOOTER");
-        p("TRACE_BUILD=" + TRACE_BUILD);
-        p("PROGRAM=" + currentProgram.getName());
-        p("RADIO_CONFIG_TABLE=0xC9199798 entries=60");
-        p("FIELD_STRINGS_READABLE=" + summaryFieldStringsReadable);
-        p("FIELD_REFERENCE_LABEL_MATCHES=" + summaryFieldReferenceMatches);
-        p("FIELD_ANCHOR_MISMATCHES=" + summaryFieldAnchorMismatches);
-        p("SLOT_INSTRUCTION_ORIGIN_REFS=" + summarySlotInstructionRefs);
-        p("SLOT_DATA_ORIGIN_REFS=" + summarySlotDataRefs);
-        p("EXECUTABLE_INSTRUCTIONS_SCANNED=" + summaryExecutableInsnsScanned);
-        p("TABLE_CODE_IMMEDIATE_HITS=" + summaryTableImmediateHits);
-        p("TABLE_NEARBY_IMMEDIATE_HITS=" + summaryTableNearbyHits);
-        p("PTRS_D819C208=" + summaryCurrentDispatchPointers);
-        p("PTRS_D8150ED8=" + summaryPreviousDispatchPointers);
-        p("PTRS_D89B2790=" + summarySharedThunkPointers);
-        p("Negative values mean that a phase was not reached or did not finish.");
-        p("============================================================");
+        // Deliberately bypass p()/MAX_LINES for this compact diagnostic footer.
+        // This reserves a small bounded tail even if an earlier scan used the full log budget.
+        println("");
+        println("============================================================");
+        println("STRUCTURE9 EXECUTION FOOTER");
+        println("TRACE_BUILD=" + TRACE_BUILD);
+        println("PROGRAM=" + currentProgram.getName());
+        println("RADIO_CONFIG_TABLE=0xC9199798 entries=60");
+        println("FIELD_STRINGS_READABLE=" + summaryFieldStringsReadable);
+        println("FIELD_REFERENCE_LABEL_MATCHES=" + summaryFieldReferenceMatches);
+        println("FIELD_ANCHOR_MISMATCHES=" + summaryFieldAnchorMismatches);
+        println("SLOT_INSTRUCTION_ORIGIN_REFS=" + summarySlotInstructionRefs);
+        println("SLOT_DATA_ORIGIN_REFS=" + summarySlotDataRefs);
+        println("EXECUTABLE_INSTRUCTIONS_SCANNED=" + summaryExecutableInsnsScanned);
+        println("TABLE_CODE_IMMEDIATE_HITS=" + summaryTableImmediateHits);
+        println("TABLE_NEARBY_IMMEDIATE_HITS=" + summaryTableNearbyHits);
+        println("PTRS_D819C208=" + summaryCurrentDispatchPointers);
+        println("PTRS_D8150ED8=" + summaryPreviousDispatchPointers);
+        println("PTRS_D89B2790=" + summarySharedThunkPointers);
+        println("Negative values mean that a phase was not reached or did not finish.");
+        println("============================================================");
     }
 
     @Override
