@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-15
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-16
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-15";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-16";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -76,6 +76,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private long summaryStringTargetCodeHits = -1L;
     private int summaryExecutableBlocks = -1;
     private int summaryExecutableBlocksSampled = -1;
+    private long summaryRadioConfigMsgCandidates = -1L;
+    private long summaryRadioConfigMsgReported = -1L;
+    private long summaryTuneFieldStringsInspected = -1L;
+    private long summaryTuneFieldStringsReported = -1L;
     private long summaryRegionPointerSlots = -1L;
     private long summaryRegionReadableStrings = -1L;
     private long summaryRegionNulls = -1L;
@@ -2031,10 +2035,154 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("RF_TUNE_EXACT_FIELD_HITS=" + exactHits);
             p("RF_TUNE_CONTEXT_HITS=" + contextHits);
             p("RF_TUNE_TOTAL_REPORTED=" + reported);
+            summaryTuneFieldStringsInspected = inspected;
+            summaryTuneFieldStringsReported = reported;
         }
         catch (Exception e) {
             p("RF_TUNE STRING SCAN ERROR: " + e.getMessage());
         }
+    }
+
+    /*
+     * Narrow pass: locate MSG_CONST records that explicitly name
+     * ftm_rf_test_radio_config.c, print the encoded source line and format,
+     * and inspect registered references to both the record and format string.
+     * This is static analysis only.
+     */
+    private void scanRadioConfigMessageRecords() {
+        p("");
+        p("============================================================");
+        p("RADIO_CONFIG SOURCE-LINE MESSAGE RECORDS");
+        p("Filter: ftm_rf_test_radio_config.c");
+        p("Record hypothesis: {fmt_ptr, fname_ptr, (ssid<<16)|line, argc}");
+        p("Shows source lines and registered xrefs; no RF command is constructed.");
+        p("============================================================");
+
+        long scanned = 0L;
+        long candidates = 0L;
+        long reported = 0L;
+        final int MAX_REPORTS = 100;
+        final long MAX_SCAN_BYTES = 0x80000000L;
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) return;
+            if (!isScanableStaticBlock(b) || b.isExecute()) continue;
+
+            long start = b.getStart().getOffset();
+            long end = b.getEnd().getOffset();
+            byte[] buf = new byte[RAW_CHUNK];
+            long pos = start;
+            long lastProcessedCandidate = start - 4L;
+
+            try {
+                while (pos <= end && scanned < MAX_SCAN_BYTES && reported < MAX_REPORTS) {
+                    if (monitor.isCancelled() || lines >= MAX_LINES) return;
+                    int want = (int)Math.min((long)RAW_CHUNK, end - pos + 1L);
+                    if (want < 16) break;
+                    memory().getBytes(addr(pos), buf, 0, want);
+                    int firstAligned = (int)((4L - (pos & 3L)) & 3L);
+
+                    for (int i = firstAligned; i + 16 <= want; i += 4) {
+                        long holder = pos + i;
+                        if (holder <= lastProcessedCandidate) continue;
+
+                        long fmtPtr = bufferU32(buf, i);
+                        long filePtr = bufferU32(buf, i + 4);
+                        long packed = bufferU32(buf, i + 8);
+                        long argc = bufferU32(buf, i + 12);
+
+                        if (fmtPtr == 0L || filePtr == 0L || argc > 16L) continue;
+                        if (!validDataPointer(filePtr) || !validDataPointer(fmtPtr)) continue;
+
+                        int ssid = (int)((packed >>> 16) & 0xffffL);
+                        int line = (int)(packed & 0xffffL);
+                        if (ssid < 1 || ssid > 0x100 || line < 1 || line > 0x7fff) continue;
+
+                        String file = readAsciiAt(filePtr, 160);
+                        if (file == null || !file.toLowerCase().contains("ftm_rf_test_radio_config.c")) continue;
+
+                        String fmt = readAsciiAt(fmtPtr, 320);
+                        if (fmt == null || fmt.length() == 0) continue;
+                        candidates++;
+
+                        p("");
+                        p("  RADIO_CONFIG_MSG_RECORD[" + reported + "] holder=" + hex(holder)
+                            + " block=" + b.getName());
+                        p("    source=" + file + " ssid=" + ssid
+                            + " line=" + line + " argc=" + argc);
+                        p("    fmt_ptr=" + hex(fmtPtr) + " format=\"" + fmt + "\"");
+
+                        int recordRefs = 0;
+                        try {
+                            ReferenceIterator refs =
+                                currentProgram.getReferenceManager().getReferencesTo(addr(holder));
+                            while (refs.hasNext() && recordRefs < 8 && lines < MAX_LINES) {
+                                if (monitor.isCancelled()) return;
+                                Reference ref = refs.next();
+                                Address from = ref.getFromAddress();
+                                MemoryBlock fromBlock = from.getAddressSpace().isMemorySpace()
+                                    ? block(from.getOffset()) : null;
+                                p("    RECORD_XREF[" + recordRefs + "] from=" + from
+                                    + " type=" + ref.getReferenceType()
+                                    + " block=" + (fromBlock == null ? "<none>" : fromBlock.getName())
+                                    + " instruction=" + instructionInfo(from.getOffset()));
+                                recordRefs++;
+                            }
+                        }
+                        catch (Exception e) {
+                            p("    RECORD_XREF_ERROR=" + e.getMessage());
+                        }
+                        p("    RECORD_XREFS_SHOWN=" + recordRefs);
+
+                        int formatRefs = 0;
+                        try {
+                            ReferenceIterator refs =
+                                currentProgram.getReferenceManager().getReferencesTo(addr(fmtPtr));
+                            while (refs.hasNext() && formatRefs < 8 && lines < MAX_LINES) {
+                                if (monitor.isCancelled()) return;
+                                Reference ref = refs.next();
+                                Address from = ref.getFromAddress();
+                                MemoryBlock fromBlock = from.getAddressSpace().isMemorySpace()
+                                    ? block(from.getOffset()) : null;
+                                Function f = from.getAddressSpace().isMemorySpace()
+                                    ? currentProgram.getFunctionManager().getFunctionContaining(from)
+                                    : null;
+                                p("    FORMAT_XREF[" + formatRefs + "] from=" + from
+                                    + " type=" + ref.getReferenceType()
+                                    + " block=" + (fromBlock == null ? "<none>" : fromBlock.getName())
+                                    + " function=" + (f == null ? "<none>" : f.getName() + "@" + f.getEntryPoint()));
+                                formatRefs++;
+                            }
+                        }
+                        catch (Exception e) {
+                            p("    FORMAT_XREF_ERROR=" + e.getMessage());
+                        }
+                        p("    FORMAT_XREFS_SHOWN=" + formatRefs);
+                        reported++;
+                        if (reported >= MAX_REPORTS) break;
+                    }
+
+                    long highestCompleteStart = pos + want - 16L;
+                    if (highestCompleteStart > lastProcessedCandidate) {
+                        lastProcessedCandidate = highestCompleteStart;
+                    }
+                    long advance = want - 15L;
+                    if (advance <= 0L) break;
+                    pos += advance;
+                    scanned += advance;
+                }
+            }
+            catch (Exception e) {
+                p("  RADIO_CONFIG_MSG_SCAN_BLOCK_ERROR block=" + b.getName()
+                    + " error=" + e.getMessage());
+            }
+        }
+
+        p("  RADIO_CONFIG_MSG_CANDIDATES=" + candidates);
+        p("  RADIO_CONFIG_MSG_RECORDS_REPORTED=" + reported);
+        p("  RADIO_CONFIG_MSG_SCAN_BYTES_APPROX=" + scanned);
+        summaryRadioConfigMsgCandidates = candidates;
+        summaryRadioConfigMsgReported = reported;
     }
 
     private void dumpStaticWordNeighborhood(long center, int radius, String label) {
@@ -2832,11 +2980,11 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  SAMPLES_SHOWN=" + shown);
     }
 
-    private void printStructure12ExecutionFooter() {
+    private void printStructure16ExecutionFooter() {
         // Deliberately bypass p()/MAX_LINES to preserve a compact diagnostic tail.
         println("");
         println("============================================================");
-        println("STRUCTURE15 EXECUTION FOOTER");
+        println("STRUCTURE16 EXECUTION FOOTER");
         println("TRACE_BUILD=" + TRACE_BUILD);
         println("PROGRAM=" + currentProgram.getName());
         println("RADIO_CONFIG_PRIMARY_TABLE=0xC9199798 entries=54");
@@ -2853,6 +3001,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         println("TABLE_CODE_IMMEDIATE_HITS=" + summaryTableImmediateHits);
         println("TABLE_NEARBY_IMMEDIATE_HITS=" + summaryTableNearbyHits);
         println("STRING_POINTER_CODE_HITS=" + summaryStringTargetCodeHits);
+        println("RF_TUNE_DATA_ITEMS_INSPECTED=" + summaryTuneFieldStringsInspected);
+        println("RF_TUNE_STRINGS_REPORTED=" + summaryTuneFieldStringsReported);
+        println("RADIO_CONFIG_MSG_CANDIDATES=" + summaryRadioConfigMsgCandidates);
+        println("RADIO_CONFIG_MSG_RECORDS_REPORTED=" + summaryRadioConfigMsgReported);
         println("REGION_POINTER_SLOTS=" + summaryRegionPointerSlots);
         println("REGION_READABLE_STRING_POINTERS=" + summaryRegionReadableStrings);
         println("REGION_NULLS=" + summaryRegionNulls);
@@ -2870,39 +3022,26 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
         p(" Ghidra_RFDEBUG_Trace");
         p(" TRACE_BUILD=" + TRACE_BUILD);
-        p(" DIAG / RADIO_CONFIG FOCUSED TRACE / READ ONLY");
-        p("Bounded static analysis only; no FTM/RF command is generated or transmitted.");
-        p("STRUCTURE-15 prints compact pointer-run summaries, then audits references and samples code blocks.");
+        p(" RADIO_CONFIG / FREQUENCY PATH TRACE / READ ONLY");
+        p("Focused on frequency field references and ftm_rf_test_radio_config.c message records.");
+        p("No FTM/RF command is generated or transmitted.");
         p("============================================================");
-
         p("PROGRAM=" + currentProgram.getName());
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
-        // Priority 1: validate the primary candidate table, adjacent pool, and string xrefs.
+        // Keep the already-confirmed table anchors.
         dumpRadioConfigFieldNameTable();
         dumpAdjacentRadioConfigNamePool();
-        dumpRadioConfigPointerRegion();
-        auditRadioConfigStringPointerReferences();
-        scanRfFieldPointerTables();
-        traceRadioConfigSlotConsumers();
 
-        // Priority 2: inspect xrefs to the actual strings and scan distributed code samples.
-        scanExecutableInstructionsForRadioConfigTable();
-
-        // Priority 3: compare target address identity and registered ref origins compactly.
-        printCompactReferenceSummary(CURRENT_RUNTIME_DISPATCH, "CURRENT_HANDLER_D819C208", 12);
-        printCompactReferenceSummary(PREVIOUS_BUILD_DISPATCH, "PREVIOUS_HANDLER_D8150ED8", 12);
-        printCompactReferenceSummary(PREVIOUS_SHARED_THUNK, "HISTORICAL_THUNK_D89B2790", 12);
-
-        // Bounded static pointer census: establishes stored pointer copies, not call semantics.
-        scanRuntimeDispatchPointers();
+        // Move directly to field strings and source-line records for RADIO_CONFIG.
+        scanRfTuneFieldStrings();
+        scanRadioConfigMessageRecords();
 
         p("");
         p("INTERPRETATION:");
-        p("Table/string agreement supports the field-table hypothesis; it does not identify the parser by itself.");
-        p("A direct immediate or string-pointer hit is a lead, not proof of an executed call path.");
-        p("No pointer match for a handler does not rule out another image, relocation, or indirect dispatch.");
-        printStructure12ExecutionFooter();
+        p("Field-name strings and MSG_CONST records identify metadata/source lines, not by themselves an executed handler.");
+        p("Use instruction-origin references and function addresses to decide the next static trace.");
+        printStructure16ExecutionFooter();
         p("DONE");
         p("No program data or structures modified.");
     }
