@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-66";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-67";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8779,6 +8779,117 @@ private static final boolean FOCUS_ONLY_614 = true;
     }
 
 
+
+    /*
+     * This compact duplicate is deliberately emitted at the END of the log.
+     * Ghidra console captures can be clipped at the front; keep the critical
+     * shared-constructor evidence visible even when the longer trace is clipped.
+     */
+    private void scan614CommonRfcConstructorEvidenceTail() {
+        p("");
+        p("============================================================");
+        p("614_PRIORITY_RFC_CONSTRUCTOR_EVIDENCE_TAIL");
+        p("The shared 0x24D60 constructor and technology-specific constructor entries are repeated here so this evidence survives a front-clipped console capture.");
+        p("READ ONLY - no RF/FTM commands are generated or transmitted.");
+        p("============================================================");
+
+        long[] targets = {
+            0x24D60L, 0x257A4L, 0x257BCL, 0x257D4L,
+            0x257ECL, 0x25804L, 0x2581CL
+        };
+
+        for (long target : targets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+
+            Address entry = addr(target);
+            MemoryBlock block = null;
+            Function f = null;
+            try {
+                block = memory().getBlock(entry);
+                f = currentProgram.getFunctionManager().getFunctionAt(entry);
+                if (f == null) {
+                    f = currentProgram.getFunctionManager().getFunctionContaining(entry);
+                }
+            } catch (Exception e) {
+                p("RFC_CTOR_TARGET_ERROR address=" + hex(target)
+                    + " error=" + e.getMessage());
+                continue;
+            }
+
+            p("");
+            p("RFC_CTOR_TARGET address=" + hex(target)
+                + " block=" + (block == null ? "<none>" : block.getName())
+                + " executable=" + (block != null && block.isExecute())
+                + " function=" + (f == null ? "<none>" : f.getName())
+                + " function_entry=" + (f == null ? "<none>"
+                    : hex(f.getEntryPoint().getOffset())));
+
+            int limit = target == 0x24D60L ? 64 : 20;
+            int count = 0;
+            Instruction ins = listing().getInstructionAt(entry);
+            while (ins != null && count < limit
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                if (f != null && !f.getBody().contains(ins.getAddress())) break;
+
+                String mnemonic = ins.getMnemonicString();
+                p("  RFC_CTOR_INS " + ins.getAddress() + " " + ins);
+                count++;
+
+                if (mnemonic != null && (mnemonic.toLowerCase().startsWith("call")
+                        || "jump".equalsIgnoreCase(mnemonic)
+                        || mnemonic.toLowerCase().startsWith("jumpr"))) {
+                    Reference[] refs = currentProgram.getReferenceManager()
+                        .getReferencesFrom(ins.getAddress());
+                    int shown = 0;
+                    for (Reference ref : refs) {
+                        if (shown >= 4 || lines >= MAX_LINES) break;
+                        Address to = ref.getToAddress();
+                        if (to == null) continue;
+                        Function tf = currentProgram.getFunctionManager().getFunctionAt(to);
+                        if (tf == null) {
+                            tf = currentProgram.getFunctionManager().getFunctionContaining(to);
+                        }
+                        p("    RFC_CTOR_EDGE to=" + to
+                            + " type=" + ref.getReferenceType()
+                            + " target_function=" + (tf == null ? "<none>" : tf.getName())
+                            + " target_entry=" + (tf == null ? "<none>"
+                                : hex(tf.getEntryPoint().getOffset())));
+                        shown++;
+                    }
+                }
+
+                if (mnemonic != null && ("dealloc_return".equalsIgnoreCase(mnemonic)
+                        || "return".equalsIgnoreCase(mnemonic)
+                        || "jumpr".equalsIgnoreCase(mnemonic)
+                        || "jump".equalsIgnoreCase(mnemonic))) {
+                    break;
+                }
+
+                ins = listing().getInstructionAfter(ins.getAddress());
+            }
+            p("  RFC_CTOR_INSNS_PRINTED=" + count);
+
+            ReferenceIterator incoming =
+                currentProgram.getReferenceManager().getReferencesTo(entry);
+            int shownIncoming = 0;
+            while (incoming.hasNext() && shownIncoming < 12
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = incoming.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(from);
+                Instruction fromIns = listing().getInstructionAt(from);
+                p("  RFC_CTOR_INCOMING from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns));
+                shownIncoming++;
+            }
+            p("  RFC_CTOR_INCOMING_PRINTED=" + shownIncoming);
+        }
+        p("614_PRIORITY_RFC_CONSTRUCTOR_EVIDENCE_TAIL_DONE");
+    }
+
     private void scan614CommonRfcDispatch() {
         p("");
         p("============================================================");
@@ -8978,6 +9089,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             words++;
         }
         p("  CALLBACK_WORDS_PRINTED=" + words);
+        scan614CommonRfcConstructorEvidenceTail();
         p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
