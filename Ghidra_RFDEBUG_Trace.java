@@ -1,4 +1,5 @@
 import ghidra.app.script.GhidraScript;
+import ghidra.app.services.ProgramManager;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.listing.Data;
 import ghidra.program.model.listing.Function;
@@ -19,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-49
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-50
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-49";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-50";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -2032,189 +2033,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
      *
      * Intended for qdsp6sw.mbn. READ ONLY.
      */
-    private static final long[] LEGACY_RFDEBUG_PC_ANCHORS = {
-        0xC9199FB8L, 0xC919A020L, 0xC919A028L,
-        0xC50847FFL, 0xC5084812L,
-        0xC49531FCL, 0xC4953391L, 0xC49533E1L,
-        0xC495342AL, 0xC4953473L, 0xC49534B2L,
-        0xC49534E7L, 0xC4953578L, 0xC49535F5L,
-        0xC4953710L, 0xC495376FL, 0xC49537A7L,
-        0xC4953805L, 0xC495384AL, 0xC495388FL,
-        0xC49538D4L, 0xC495391AL, 0xC4953988L,
-        0xC49539F2L, 0xC4953A44L, 0xC4953B62L,
-        0xC4953BC4L, 0xC4953C50L, 0xC4953CACL,
-        0xC4953CF1L, 0xC4953DA4L, 0xC4953DF8L,
-        0xC49CAAE5L
-    };
-
-    private static final String[] LEGACY_RFDEBUG_PC_ANCHOR_NAMES = {
-        "property_names_table", "TUNE_TX_TO_RX_FREQ_slot", "FREQUENCY_slot",
-        "TUNE_TX_TO_RX_FREQ_string", "FREQUENCY_string",
-        "LOAD_DPD_unpack_log", "VDPD_CAL_unpack_log", "VDPD_CAL_log_2",
-        "VDPD_CAL_log_3", "VDPD_CAL_log_4", "VDPD_CAL_log_5",
-        "SET_DPD_DEBUG_MODE_log", "IDC_CAL_log", "THERM_READ_repack_log",
-        "RX_OVERRIDE_repack_log", "RX_OVERRIDE_not_packed_log", "VDPD_CONVERSION_log",
-        "LOAD_UNITY_DPD_log_1", "LOAD_UNITY_DPD_log_2", "LOAD_UNITY_DPD_log_3",
-        "LOAD_UNITY_DPD_log_4", "LOAD_UNITY_DPD_log_5", "TX_MEASURE_ADV_repack_log",
-        "TX_MEASURE_ADV_not_packed_log", "DEVICE_CAL_unpack_log", "RX_MEASURE_repack_log",
-        "RX_MEASURE_not_packed_log", "LOAD_UNITY_DPD_unpack_log", "LOAD_UNITY_DPD_repack_log",
-        "LOAD_UNITY_DPD_not_packed_log", "TX_OVERRIDE_unpack_log", "TECH_ENTER_EXIT_unpack_log",
-        "tx_measure_unpack_log"
-    };
-
-    private String legacyRfDebugPcAnchorMatch(long target) {
-        final long STRING_RADIUS = 0x18L;
-        final long TABLE_RADIUS = 0x40L;
-        for (int i = 0; i < LEGACY_RFDEBUG_PC_ANCHORS.length; i++) {
-            long anchor = LEGACY_RFDEBUG_PC_ANCHORS[i];
-            long distance = target >= anchor ? target - anchor : anchor - target;
-            long radius = (i <= 2) ? TABLE_RADIUS : STRING_RADIUS;
-            if (distance <= radius) {
-                return LEGACY_RFDEBUG_PC_ANCHOR_NAMES[i]
-                    + " anchor=" + hex(anchor)
-                    + " delta=" + (target - anchor);
-            }
-        }
-        if (target >= 0xC9199F80L && target <= 0xC919A080L) {
-            return "property_table_neighborhood target=" + hex(target);
-        }
-        if (target >= 0xC50847D0L && target <= 0xC5084860L) {
-            return "frequency_string_pool target=" + hex(target);
-        }
-        return null;
-    }
-
-    private void printLegacyRfDebugPcContext(Instruction center, int before, int after) {
-        if (center == null) return;
-        Function owner = currentProgram.getFunctionManager()
-            .getFunctionContaining(center.getAddress());
-        Address ownerEntry = owner == null ? null : owner.getEntryPoint();
-        java.util.List<Instruction> prior = new java.util.ArrayList<Instruction>();
-        Instruction cursor = listing().getInstructionBefore(center.getAddress());
-        for (int i = 0; i < before && cursor != null; i++) {
-            Function cursorOwner = currentProgram.getFunctionManager()
-                .getFunctionContaining(cursor.getAddress());
-            if (ownerEntry != null && (cursorOwner == null
-                    || !ownerEntry.equals(cursorOwner.getEntryPoint()))) break;
-            prior.add(cursor);
-            cursor = listing().getInstructionBefore(cursor.getAddress());
-        }
-        java.util.Collections.reverse(prior);
-        for (Instruction ins : prior) {
-            p("      CONTEXT " + ins.getAddress() + " " + ins);
-        }
-        p("      >>> HIT " + center.getAddress() + " " + center);
-        cursor = center;
-        for (int i = 0; i < after; i++) {
-            Instruction next = listing().getInstructionAfter(cursor.getAddress());
-            if (next == null) break;
-            Function nextOwner = currentProgram.getFunctionManager()
-                .getFunctionContaining(next.getAddress());
-            if (ownerEntry != null && (nextOwner == null
-                    || !ownerEntry.equals(nextOwner.getEntryPoint()))) break;
-            p("      CONTEXT " + next.getAddress() + " " + next);
-            cursor = next;
-        }
-    }
-
-    private void scanLegacyRfDebugPcRelativeAnchors() {
-        p("");
-        p("============================================================");
-        p("STRUCTURE-49 qdsp6sw.mbn RFDEBUG PC-RELATIVE ANCHOR TRACE");
-        p("Reconstructs Hexagon PC-relative targets using packet-start semantics.");
-        p("Anchors are from confirmed property_names[] and RFDEBUG strings in this image.");
-        p("This is not string XREF, raw absolute-pointer, or low-16-bit inference.");
-        p("READ ONLY.");
-        p("============================================================");
-        p("LEGACY_PC_ANCHOR_PROGRAM=" + currentProgram.getName());
-        p("LEGACY_PC_ANCHOR_IMAGE_BASE=" + currentProgram.getImageBase());
-
-        long instructionsSeen = 0L;
-        long executableInstructionsSeen = 0L;
-        long addPcInstructionsSeen = 0L;
-        long anchorMatches = 0L;
-        long unresolvedPcAdds = 0L;
-        int printed = 0;
-        final int MAX_PRINTED = 120;
-        java.util.Set<String> uniqueFunctions = new java.util.LinkedHashSet<String>();
-
-        InstructionIterator it = listing().getInstructions(true);
-        while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
-            Instruction ins = it.next();
-            instructionsSeen++;
-            MemoryBlock b = null;
-            try { b = memory().getBlock(ins.getAddress()); } catch (Exception ignored) {}
-            if (b == null || !b.isExecute()) continue;
-            executableInstructionsSeen++;
-
-            if (!ins.getMnemonicString().toLowerCase(java.util.Locale.ROOT).startsWith("add")) continue;
-            boolean hasPc = false;
-            boolean hasScalar = false;
-            long displacement = 0L;
-            String destination = "<unknown>";
-            for (int op = 0; op < ins.getNumOperands(); op++) {
-                for (Object object : ins.getOpObjects(op)) {
-                    if (object instanceof ghidra.program.model.lang.Register) {
-                        String regName = ((ghidra.program.model.lang.Register)object).getName();
-                        if ("PC".equalsIgnoreCase(regName)) hasPc = true;
-                        if (op == 0) destination = regName;
-                    }
-                    else if (object instanceof Scalar) {
-                        displacement = ((Scalar)object).getSignedValue();
-                        hasScalar = true;
-                    }
-                }
-            }
-            if (!hasPc || !hasScalar) continue;
-            addPcInstructionsSeen++;
-
-            Long computed = hexagonPcRelativeTarget(ins, displacement);
-            if (computed == null) {
-                unresolvedPcAdds++;
-                continue;
-            }
-            String match = legacyRfDebugPcAnchorMatch(computed.longValue());
-            if (match == null) continue;
-
-            anchorMatches++;
-            Function owner = currentProgram.getFunctionManager()
-                .getFunctionContaining(ins.getAddress());
-            String functionLabel = owner == null ? "<no-function>"
-                : owner.getName() + "@" + owner.getEntryPoint();
-            uniqueFunctions.add(functionLabel);
-
-            if (printed < MAX_PRINTED && lines < MAX_LINES) {
-                p("");
-                p("LEGACY_RFDEBUG_PC_ANCHOR_HIT #" + anchorMatches
-                    + " instruction=" + ins.getAddress()
-                    + " function=" + functionLabel
-                    + " destination=" + destination
-                    + " computed_target=" + hex(computed.longValue())
-                    + " match=" + match
-                    + " instruction_text=" + ins);
-                Long packetStart = hexagonPacketStartAddress(ins);
-                Long packetOffset = hexagonPacketOffset(ins);
-                p("  PC_PACKET_START=" + (packetStart == null
-                    ? "<unknown>" : hex(packetStart.longValue()))
-                    + " PC_PACKET_OFFSET=" + (packetOffset == null
-                    ? "<unknown>" : packetOffset.toString()));
-                printLegacyRfDebugPcContext(ins, 5, 8);
-                printed++;
-            }
-        }
-
-        p("");
-        p("LEGACY_RFDEBUG_PC_INSTRUCTIONS_ALL=" + instructionsSeen);
-        p("LEGACY_RFDEBUG_PC_EXECUTABLE_INSTRUCTIONS=" + executableInstructionsSeen);
-        p("LEGACY_RFDEBUG_PC_ADD_PC_INSTRUCTIONS=" + addPcInstructionsSeen);
-        p("LEGACY_RFDEBUG_PC_TARGETS_UNRESOLVED=" + unresolvedPcAdds);
-        p("LEGACY_RFDEBUG_PC_ANCHOR_MATCHES_TOTAL=" + anchorMatches);
-        p("LEGACY_RFDEBUG_PC_ANCHOR_MATCHES_PRINTED=" + printed);
-        p("LEGACY_RFDEBUG_PC_ANCHOR_FUNCTIONS=" + uniqueFunctions.size());
-        p("LEGACY_RFDEBUG_PC_NOTE=Only packet-start-calculated targets close to named anchors are counted; no match does not prove the handler is absent.");
-        p("============================================================");
-    }
-
     private void scanRfTuneFieldStrings() {
         p("");
         p("============================================================");
@@ -7603,10 +7421,198 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("============================================================");
     }
 
+
+    /*
+     * STRUCTURE-50: cross-module consumer lookup by exported API name.
+     * The current 614_0_0 image appears to provide RFC configuration APIs.
+     * Search other Ghidra-open programs for same-named symbols and their
+     * reference sites. Only names are shared across programs; addresses are
+     * never copied between images.
+     *
+     * READ ONLY: does not modify any open program.
+     */
+    private void scan614CrossModuleApiConsumers() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-50 614_0_0 CROSS-MODULE API CONSUMER TRACE");
+        p("Searches open Ghidra programs by API symbol name; does not reuse addresses across images.");
+        p("Goal: determine whether another loaded module consumes these RFC getters.");
+        p("READ ONLY.");
+        p("============================================================");
+        p("CROSS_MODULE_SOURCE_PROGRAM=" + currentProgram.getName());
+
+        final String[] apiNames = {
+            "get_signals_info",
+            "get_phy_device_cfg",
+            "get_logical_device_cfg",
+            "get_logical_path_config",
+            "get_ant_path_info_config",
+            "get_sig_path_info_config",
+            "get_rffe_speeds_info",
+            "get_fbrx_path_table_cfg",
+            "get_cmn_properties",
+            "get_band_info_rrc_table",
+            "get_rfm_path_info_tbl",
+            "sdr_rffe_sig_info_table_get",
+            "sdr_grfc_sig_info_table_get",
+            "blank_grfc_sig_info_table_get",
+            "rfc_hwid614_qrm865ab_v3_ag_lte_ag",
+            "rfc_hwid614_qrm865ab_v3_ag_nr5g_ag",
+            "rfc_hwid614_qrm865ab_v3_ag_cmn_ag"
+        };
+
+        java.util.List<ghidra.program.model.listing.Program> programs =
+            new java.util.ArrayList<ghidra.program.model.listing.Program>();
+        programs.add(currentProgram);
+        try {
+            ProgramManager pm = state == null || state.getTool() == null
+                ? null : state.getTool().getService(ProgramManager.class);
+            if (pm != null) {
+                ghidra.program.model.listing.Program[] openPrograms = pm.getAllOpenPrograms();
+                if (openPrograms != null) {
+                    for (ghidra.program.model.listing.Program openProgram : openPrograms) {
+                        if (openProgram == null || openProgram == currentProgram) continue;
+                        boolean exists = false;
+                        for (ghidra.program.model.listing.Program prior : programs) {
+                            if (prior == openProgram) { exists = true; break; }
+                        }
+                        if (!exists) programs.add(openProgram);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            p("CROSS_MODULE_OPEN_PROGRAM_ENUM_ERROR="
+                + e.getClass().getSimpleName() + ":" + e.getMessage());
+        }
+
+        p("CROSS_MODULE_OPEN_PROGRAM_COUNT=" + programs.size());
+        for (ghidra.program.model.listing.Program openProgram : programs) {
+            p("  CROSS_MODULE_PROGRAM name=" + openProgram.getName()
+                + " is_current=" + (openProgram == currentProgram)
+                + " image_base=" + openProgram.getImageBase());
+        }
+
+        int apiNamesWithSymbols = 0;
+        int symbolMatches = 0;
+        int refMatches = 0;
+        int instructionRefs = 0;
+        int otherProgramMatches = 0;
+
+        for (String apiName : apiNames) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            boolean nameSeen = false;
+            for (ghidra.program.model.listing.Program openProgram : programs) {
+                if (monitor.isCancelled() || lines >= MAX_LINES) break;
+                ghidra.program.model.symbol.SymbolIterator symbols;
+                try {
+                    symbols = openProgram.getSymbolTable().getSymbols(apiName);
+                }
+                catch (Exception e) {
+                    p("  CROSS_MODULE_SYMBOL_LOOKUP_ERROR program=" + openProgram.getName()
+                        + " name=" + apiName + " error=" + e.getMessage());
+                    continue;
+                }
+
+                int perProgramCount = 0;
+                while (symbols.hasNext() && perProgramCount < 12
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    ghidra.program.model.symbol.Symbol symbol = symbols.next();
+                    perProgramCount++;
+                    symbolMatches++;
+                    nameSeen = true;
+                    boolean otherProgram = openProgram != currentProgram;
+                    if (otherProgram) otherProgramMatches++;
+
+                    Function exact = null;
+                    Function containing = null;
+                    MemoryBlock symBlock = null;
+                    try {
+                        if (symbol.getAddress().getAddressSpace().isMemorySpace()) {
+                            exact = openProgram.getFunctionManager().getFunctionAt(symbol.getAddress());
+                            containing = exact != null ? exact
+                                : openProgram.getFunctionManager().getFunctionContaining(symbol.getAddress());
+                            symBlock = openProgram.getMemory().getBlock(symbol.getAddress());
+                        }
+                    }
+                    catch (Exception ignored) {}
+
+                    p("  CROSS_MODULE_API_SYMBOL name=" + apiName
+                        + " program=" + openProgram.getName()
+                        + " address=" + symbol.getAddress()
+                        + " symbol_type=" + symbol.getSymbolType()
+                        + " source=" + symbol.getSource()
+                        + " external=" + symbol.isExternal()
+                        + " other_program=" + otherProgram
+                        + " block=" + (symBlock == null ? "<none>" : symBlock.getName())
+                        + " executable=" + (symBlock != null && symBlock.isExecute())
+                        + " function=" + (containing == null ? "<none>"
+                            : containing.getName() + "@" + containing.getEntryPoint()));
+
+                    int refsShown = 0;
+                    try {
+                        ReferenceIterator refs = openProgram.getReferenceManager()
+                            .getReferencesTo(symbol.getAddress());
+                        while (refs.hasNext() && refsShown < 12 && !monitor.isCancelled()
+                                && lines < MAX_LINES) {
+                            Reference ref = refs.next();
+                            Address from = ref.getFromAddress();
+                            Function caller = null;
+                            Instruction ins = null;
+                            try {
+                                if (from.getAddressSpace().isMemorySpace()) {
+                                    caller = openProgram.getFunctionManager().getFunctionContaining(from);
+                                    ins = openProgram.getListing().getInstructionAt(from);
+                                }
+                            }
+                            catch (Exception ignored) {}
+                            refMatches++;
+                            if (ins != null) instructionRefs++;
+
+                            p("    CROSS_MODULE_API_REF name=" + apiName
+                                + " program=" + openProgram.getName()
+                                + " from=" + from
+                                + " ref_type=" + ref.getReferenceType()
+                                + " caller=" + (caller == null ? "<none>"
+                                    : caller.getName() + "@" + caller.getEntryPoint())
+                                + " instruction=" + (ins == null ? "<no-instruction>" : ins.toString()));
+                            refsShown++;
+                        }
+                    }
+                    catch (Exception e) {
+                        p("    CROSS_MODULE_API_REF_ERROR name=" + apiName
+                            + " program=" + openProgram.getName()
+                            + " error=" + e.getMessage());
+                    }
+                    p("    CROSS_MODULE_API_REFS_SHOWN name=" + apiName
+                        + " program=" + openProgram.getName() + " count=" + refsShown);
+                }
+            }
+            if (nameSeen) apiNamesWithSymbols++;
+        }
+
+        p("CROSS_MODULE_API_NAMES_CHECKED=" + apiNames.length);
+        p("CROSS_MODULE_API_NAMES_WITH_SYMBOLS=" + apiNamesWithSymbols);
+        p("CROSS_MODULE_API_SYMBOLS_MATCHED=" + symbolMatches);
+        p("CROSS_MODULE_API_SYMBOLS_IN_OTHER_PROGRAMS=" + otherProgramMatches);
+        p("CROSS_MODULE_API_REFERENCES_FOUND=" + refMatches);
+        p("CROSS_MODULE_API_INSTRUCTION_REFERENCES=" + instructionRefs);
+        if (programs.size() <= 1) {
+            p("CROSS_MODULE_NEXT_STEP_NOTE=Only the current program is open. This pass can confirm same-image references but cannot reveal callers located in an unloaded module.");
+        }
+        else if (otherProgramMatches == 0) {
+            p("CROSS_MODULE_NEXT_STEP_NOTE=No exact same-named API symbol was found in the other open programs; inspect those programs' external-symbol/import names.");
+        }
+        else {
+            p("CROSS_MODULE_NEXT_STEP_NOTE=Use the reported other-program call sites as the next entry points; addresses belong only to their named program.");
+        }
+        p("============================================================");
+    }
+
     private void scan614RawAsciiKeywordCensus() {
         p("");
         p("============================================================");
-        p("STRUCTURE-49 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS");
+        p("STRUCTURE-50 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS");
         p("Scans bytes directly; does not rely on Ghidra-defined string data.");
         p("Includes executable and non-executable initialized blocks in the default address space.");
         p("READ ONLY: no disassembly, references, data, symbols, or comments are created.");
@@ -7736,6 +7742,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scanRfDebugSubsysImmediateCandidates();
             scan614RawAsciiKeywordCensus();
             scan614FocusedCallrProvenance();
+            scan614CrossModuleApiConsumers();
         }
         else {
             p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");            p("Using the existing C9199FB8 RFDEBUG property-table path for the qdsp6sw-style image.");
@@ -7749,7 +7756,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("INTERPRETATION:");
             p("Property IDs 26 and 28 are checked against the confirmed qdsp6sw RFDEBUG property_names[] table.");
             p("A 0x007B immediate hit is only a candidate; inspect comparison/branch context before assigning dispatcher semantics.");
-            scanLegacyRfDebugPcRelativeAnchors();
             printStructure18ExecutionFooter();
         }
 
