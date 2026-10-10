@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-50
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-51
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -7298,9 +7298,10 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  FOCUS_INCOMING_TRANSFER from=" + transfer.getAddress()
             + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
             + " instruction=" + transfer);
+        p("    FOCUS_R0_BACKTRACE_WINDOW=24 instructions; syntactic scan only, not full data-flow emulation");
         java.util.List<Instruction> previous = new java.util.ArrayList<Instruction>();
         Instruction cursor = listing().getInstructionBefore(transfer.getAddress());
-        for (int i = 0; i < 10 && cursor != null; i++) {
+        for (int i = 0; i < 24 && cursor != null; i++) {
             Function previousOwner = currentProgram.getFunctionManager()
                 .getFunctionContaining(cursor.getAddress());
             if (owner != null && (previousOwner == null
@@ -7309,26 +7310,36 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             cursor = listing().getInstructionBefore(cursor.getAddress());
         }
         java.util.Collections.reverse(previous);
-        boolean r0CandidateShown = false;
+        int r0DestinationCount = 0;
         for (Instruction prior : previous) {
             p("    FOCUS_CALLER_PRE " + prior.getAddress() + " " + prior);
-            if (!r0CandidateShown && prior.getNumOperands() > 0) {
+            String mnemonic = prior.getMnemonicString();
+            if (mnemonic != null && (mnemonic.startsWith("call") || mnemonic.startsWith("CALL"))) {
+                p("    FOCUS_R0_CALL_BOUNDARY at=" + prior.getAddress()
+                    + " instruction=" + prior
+                    + " note=call may replace/clobber R0 return value; trace must not assume earlier R0 survives");
+            }
+            if (prior.getNumOperands() > 0) {
+                boolean writesR0 = false;
                 for (Object object : prior.getOpObjects(0)) {
                     if (object instanceof ghidra.program.model.lang.Register
                             && "R0".equalsIgnoreCase(
                                 ((ghidra.program.model.lang.Register)object).getName())) {
-                        p("    FOCUS_R0_DESTINATION_CANDIDATE at=" + prior.getAddress()
-                            + " instruction=" + prior
-                            + " note=syntactic destination only; data flow is not emulated");
-                        r0CandidateShown = true;
+                        writesR0 = true;
                         break;
                     }
                 }
+                if (writesR0) {
+                    r0DestinationCount++;
+                    p("    FOCUS_R0_DESTINATION_CANDIDATE #" + r0DestinationCount
+                        + " at=" + prior.getAddress()
+                        + " instruction=" + prior
+                        + " note=syntactic destination only; inspect intervening calls and control flow");
+                }
             }
         }
-        if (!r0CandidateShown) {
-            p("    FOCUS_R0_DESTINATION_CANDIDATE=<not-visible-in-10-preceding-instructions>");
-        }
+        p("    FOCUS_R0_DESTINATION_CANDIDATES_SHOWN=" + r0DestinationCount);
+        p("    FOCUS_R0_BACKTRACE_LIMIT=24");
     }
 
     private void scan614FocusedCallrProvenance() {
