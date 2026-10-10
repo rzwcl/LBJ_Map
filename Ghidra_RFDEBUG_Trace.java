@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-80
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-81
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-80";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-81";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -10111,8 +10111,9 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("Important pointer words and table consumers are repeated here to survive console truncation.");
         p("============================================================");
         dumpQdspIqPointerWordRange(0xC919987CL, 0xC919994CL, "IQ_FIELD_NAME_POOL_A");
-        dumpQdspIqPointerWordRange(0xC9199F98L, 0xC919A058L, "RFDEBUG_PROPERTY_NAMES_INDEX_0_TO_40");
-        dumpQdspIqPointerWordRange(0xC919A2E8L, 0xC919A328L, "RFDEBUG_PROPERTY_NAMES_INDEX_200_TO_218");
+        dumpQdspIqPointerWordRange(0xC9199F98L, 0xC9199FB4L, "RFDEBUG_PROPERTY_NAMES_PRELUDE_INDEX_MINUS_8_TO_MINUS_1");
+        dumpQdspIqPointerWordRange(0xC9199FB8L, 0xC919A058L, "RFDEBUG_PROPERTY_NAMES_INDEX_0_TO_40");
+        dumpQdspIqPointerWordRange(0xC919A2D8L, 0xC919A320L, "RFDEBUG_PROPERTY_NAMES_INDEX_200_TO_218");
         scanQdspIqTableRootPointers();
         dumpQdspTableConsumerFunction(0xC1CB6C30L, "TABLE_SETUP_C1CB6C30", 18);
         dumpQdspTableConsumerFunction(0xC1CBADFCL, "TABLE_WALKER_C1CBADFC", 28);
