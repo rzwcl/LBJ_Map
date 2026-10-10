@@ -1,140 +1,4 @@
-Ghidra_RFDEBUG_Trace.java> Running...
-============================================================
- Ghidra_RFDEBUG_Trace
- TRACE_BUILD=DIAG-FTM-STRUCTURE-57
- READ-ONLY RF FREQUENCY / RFDEBUG STATIC TRACE
-No FTM/RF command is generated or transmitted.
-============================================================
-PROGRAM=614_0_0.mbn
-IMAGE_BASE=00010000
-TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY
-Legacy qdsp6sw.mbn addresses are disabled for this program.
-PRIORITY_PASS=run focused 0x25F70 wrapper/callsite trace before broad scans can consume MAX_LINES.
-
-============================================================
-STRUCTURE-48 614_0_0 FOCUSED CALLR / FUNCTION-POINTER PROVENANCE
-No broad keyword search here: show the two concrete functions, inbound edges, and static pointer words.
-Static memory cannot prove runtime register contents or relocation state.
-READ ONLY.
-============================================================
-FOCUS_PROGRAM=614_0_0.mbn
-FOCUS_IMAGE_BASE=00010000
-
-FOCUS_FUNCTION label=get_signals_info requested=0x000259A4 function=get_signals_info entry=000259a4 body=000259a4..00025a93
-  FOCUS_BLOCK=segment_2 executable=true
-  FOCUS_INSN 000259a4 call 0x00024c00 
-    FOCUS_CALL_EDGE from=000259a4 type=DATA target=00024c00 target_block=segment_2 target_exec=true target_function=__save_r16_through_r19@00024c00
-  FOCUS_INSN 000259a8 cmp.eq P0,R1,#0x0 ; allocframe #0x10 
-  FOCUS_INSN 000259ac assign.if(!P0) R17,R1 
-  FOCUS_INSN 000259b0 add.if(!P0) R16,R1,#0x4 
-  FOCUS_INSN 000259b4 jump.if(P0) 0x00025a80 
-  FOCUS_INSN 000259b8 immext #0x22ed40 
-  FOCUS_INSN 000259bc add R18,PC,##0x22ed50 
-  FOCUS_INSN 000259c0 immext #0xffffff80 
-  FOCUS_INSN 000259c4 memw R2,(R18+##0xffffffa0) 
-  FOCUS_INSN 000259c8 memw (R1+#0x8),R2.new 
-  FOCUS_INSN 000259cc call 0x00024d10 
-    FOCUS_CALL_EDGE from=000259cc type=DATA target=00024d10 target_block=segment_2 target_exec=true target_function=get_instance@00024d10
-  FOCUS_INSN 000259d0 memb (R1+#0x4),#0x8 
-  FOCUS_INSN 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
-  FOCUS_INSN 000259d8 immext #0x18c0 
-  FOCUS_INSN 000259dc add R0,PC,##0x18d4 
-  FOCUS_INSN 000259e0 call 0x00024cf0 
-    FOCUS_CALL_EDGE from=000259e0 type=UNCONDITIONAL_CALL target=00024cf0 target_block=segment_2 target_exec=true target_function=msg_v2_send_dll@00024cf0
-    FOCUS_CALL_EDGE from=000259e0 type=PARAM target=000272ac target_block=segment_3 target_exec=false target_function=<none>
-  FOCUS_INSN 000259e4 memb (R17+#0x4),#0x0 
-  FOCUS_INSN 000259e8 immext #0x18c0 
-  FOCUS_INSN 000259ec add R2,PC,##0x18d0 
-  FOCUS_INSN 000259f0 immext #0xffffff80 
-  FOCUS_INSN 000259f4 memw R0,(R18+##0xffffffa4) 
-  FOCUS_INSN 000259f8 call 0x00025f70 
-    FOCUS_CALL_EDGE from=000259f8 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
-  FOCUS_INSN 000259fc assign R1,#0x0 ; assign R3,R16 
-  FOCUS_INSN 00025a00 immext #0x18c0 
-  FOCUS_INSN 00025a04 add R2,PC,##0x18c4 
-  FOCUS_INSN 00025a08 immext #0xffffff80 
-  FOCUS_INSN 00025a0c memw R0,(R18+##0xffffffa8) 
-  FOCUS_INSN 00025a10 call 0x00025f70 
-    FOCUS_CALL_EDGE from=00025a10 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
-  FOCUS_INSN 00025a14 assign R1,#0x0 ; assign R3,R16 
-  FOCUS_INSN 00025a18 immext #0x1880 
-  FOCUS_INSN 00025a1c add R2,PC,##0x18b8 
-  FOCUS_INSN 00025a20 immext #0xffffff80 
-  FOCUS_INSN 00025a24 memw R0,(R18+##0xffffffac) 
-  FOCUS_INSN 00025a28 call 0x00025f70 
-    FOCUS_CALL_EDGE from=00025a28 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
-  FOCUS_INSN 00025a2c assign R1,#0x0 ; assign R3,R16 
-  FOCUS_INSN 00025a30 immext #0x1880 
-  FOCUS_INSN 00025a34 add R2,PC,##0x18ac 
-  FOCUS_INSN 00025a38 immext #0xffffff80 
-  FOCUS_INSN 00025a3c memw R0,(R18+##0xffffffb0) 
-  FOCUS_INSN 00025a40 call 0x00025f70 
-    FOCUS_CALL_EDGE from=00025a40 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
-  FOCUS_INSN 00025a44 assign R1,#0x0 ; assign R3,R16 
-  FOCUS_INSN 00025a48 immext #0x1880 
-  FOCUS_INSN 00025a4c add R2,PC,##0x18a0 
-  FOCUS_INSN 00025a50 immext #0xffffff80 
-  FOCUS_INSN 00025a54 memw R0,(R18+##0xffffffb4) 
-  FOCUS_INSN 00025a58 call 0x00025f70 
-    FOCUS_CALL_EDGE from=00025a58 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
-  FOCUS_INSN 00025a5c assign R1,#0x0 ; assign R3,R16 
-  FOCUS_INSN 00025a60 immext #0x1880 
-  FOCUS_INSN 00025a64 add R2,PC,##0x1894 
-  FOCUS_INSN 00025a68 immext #0xffffff80 
-  FOCUS_INSN 00025a6c memw R0,(R18+##0xffffffb8) 
-  FOCUS_INSN 00025a70 call 0x00025f70 
-    FOCUS_CALL_EDGE from=00025a70 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
-  FOCUS_INSN 00025a74 assign R1,#0x0 ; assign R3,R16 
-  FOCUS_INSN 00025a78 assign R0,#0x1 
-  FOCUS_INSN 00025a7c jump 0x00024c30 
-  FOCUS_INSN 00025a80 immext #0x1800 
-  FOCUS_INSN 00025a84 add R0,PC,##0x1820 
-  FOCUS_INSN 00025a88 call 0x00024cf0 
-    FOCUS_CALL_EDGE from=00025a88 type=UNCONDITIONAL_CALL target=00024cf0 target_block=segment_2 target_exec=true target_function=msg_v2_send_dll@00024cf0
-    FOCUS_CALL_EDGE from=00025a88 type=PARAM target=000272a0 target_block=segment_3 target_exec=false target_function=<none>
-  FOCUS_INSN 00025a8c assign R0,#0x0 
-  FOCUS_INSN 00025a90 jump 0x00024c30 
-  FOCUS_INSTRUCTIONS_PRINTED=60 cap=96
-
-FOCUS_FUNCTION label=indirect_call_wrapper_at_0x25F70 requested=0x00025F70 function=FUN_00025f70 entry=00025f70 body=00025f70..00025f97
-  FOCUS_BLOCK=segment_2 executable=true
-  FOCUS_INSN 00025f70 call 0x00024c00 
-    FOCUS_CALL_EDGE from=00025f70 type=DATA target=00024c00 target_block=segment_2 target_exec=true target_function=__save_r16_through_r19@00024c00
-  FOCUS_INSN 00025f74 allocframe #0x10 
-  FOCUS_INSN 00025f78 combine R17R16,R2,R3 
-  FOCUS_INSN 00025f7c callr R0 
-    FOCUS_CALL_EDGE=unresolved-in-reference-manager from=00025f7c
-  FOCUS_INSN 00025f80 assign R18,R1 
-  FOCUS_INSN 00025f84 assign.if(P0.new) R0,R17 
-  FOCUS_INSN 00025f88 cmp.eq P0,R0,R18 ; jump.if(!P0.new):t 0x00025f94 
-  FOCUS_INSN 00025f8c call 0x00024cf0 
-    FOCUS_CALL_EDGE from=00025f8c type=UNCONDITIONAL_CALL target=00024cf0 target_block=segment_2 target_exec=true target_function=msg_v2_send_dll@00024cf0
-  FOCUS_INSN 00025f90 memb (R16),#0x0 
-  FOCUS_INSN 00025f94 jump 0x00024c30 
-  FOCUS_INSTRUCTIONS_PRINTED=10 cap=48
-
-FOCUS_INCOMING_CALLS_ONLY target=00025f70
-Normalizes call references whose source address is the next instruction/packet.
-  FOCUS_INCOMING_CALLSITE #1 ref_from=000259fc actual_callsite=000259f8 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=call 0x00025f70 
-  FOCUS_INCOMING_TRANSFER from=000259f8 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
-    FOCUS_R0_BACKTRACE_WINDOW=10 instructions; syntactic scan only, not full data-flow emulation
-    FOCUS_CALLER_PRE 000259d0 memb (R1+#0x4),#0x8 
-    FOCUS_CALLER_PRE 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
-    FOCUS_CALLER_PRE 000259d8 immext #0x18c0 
-    FOCUS_CALLER_PRE 000259dc add R0,PC,##0x18d4 
-    FOCUS_R0_DESTINATION_CANDIDATE #1 at=000259dc instruction=add R0,PC,##0x18d4  note=syntactic destination only; inspect intervening calls and control flow
-    FOCUS_CALLER_PRE 000259e0 call 0x00024cf0 
-    FOCUS_R0_CALL_BOUNDARY at=000259e0 instruction=call 0x00024cf0  note=call may replace/clobber R0 return value; trace must not assume earlier R0 survives
-    FOCUS_CALLER_PRE 000259e4 memb (R17+#0x4),#0x0 
-    FOCUS_CALLER_PRE 000259e8 immext #0x18c0 
-    FOCUS_CALLER_PRE 000259ec add R2,PC,##0x18d0 
-    FOCUS_CALLER_PRE 000259f0 immext #0xffffff80 
-    FOCUS_CALLER_PRE 000259f4 memw R0,(R18+##0xffffffa4) 
-    FOCUS_R0_DESTINATION_CANDIDATE #2 at=000259f4 instruction=memw R0,(R18+##0xffffffa4)  note=syntactic destination only; inspect intervening calls and control flow
-    FOCUS_R0_DESTINATION_CANDIDATES_SHOWN=2
-    FOCUS_R0_BACKTRACE_LIMIT=10
-  FOCUS_INCOMING_CALLSITE #2 ref_from=00025a14 actual_callsite=00025a10 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=call 0x00025f70 
-  FOCUS_INCOMING_TRANSFER from=00025a10 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+FOCUS_INCOMING_TRANSFER from=00025a10 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
     FOCUS_R0_BACKTRACE_WINDOW=10 instructions; syntactic scan only, not full data-flow emulation
     FOCUS_CALLER_PRE 000259e8 immext #0x18c0 
     FOCUS_CALLER_PRE 000259ec add R2,PC,##0x18d0 
@@ -559,6 +423,139 @@ Static-only analysis; does not execute targets, create instructions, or modify m
   614_RFC_CALL_TARGET_XREFS role=getter_25700_secondary_call count=2
 614_RFC_SINGLETON_SLOTS_INSPECTED=4
 614_RFC_CONSTRUCTOR_CALL_TARGETS_INSPECTED=5
+
+============================================================
+614 NEXT TRACE - TARGETS / HELPER / RFC INITIALIZATION
+READ ONLY - NO MEMORY OR PROGRAM MODIFICATIONS
+============================================================
+PROGRAM=614_0_0.mbn
+IMAGE_BASE=00010000
+
+TARGET address=0x000264D4 block=segment_2 executable=true initialized=true function=<none> entry=<none>
+  RAW_BYTES=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61
+  XREFS_PRINTED=0
+
+TARGET address=0x00026544 block=segment_2 executable=true initialized=true function=<none> entry=<none>
+  RAW_BYTES=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61
+  XREFS_PRINTED=0
+
+TARGET address=0x000265B4 block=segment_2 executable=true initialized=true function=<none> entry=<none>
+  RAW_BYTES=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61
+  XREFS_PRINTED=0
+
+TARGET address=0x00026624 block=segment_2 executable=true initialized=true function=<none> entry=<none>
+  RAW_BYTES=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61
+  XREFS_PRINTED=0
+
+TARGET address=0x00026694 block=segment_2 executable=true initialized=true function=<none> entry=<none>
+  RAW_BYTES=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61
+  XREFS_PRINTED=0
+
+TARGET address=0x00026708 block=segment_2 executable=true initialized=true function=<none> entry=<none>
+  RAW_BYTES=72 66 63 5F 68 77 69 64 36 31 34 5F 71 72 6D 38 36 35 61 62 5F 76 33 5F 61 67 5F 63 6D 6E 5F 61
+  XREFS_PRINTED=0
+
+TARGET address=0x0002526C block=segment_2 executable=true initialized=true function=FUN_0002526c entry=0x0002526C
+  INS 0002526c immext #0xfffff940 
+  INS 00025270 assign R0,#0x4 ; jump 0x00024be0 
+  INSTRUCTIONS_PRINTED=2
+  XREF from=0002524c type=UNCONDITIONAL_CALL owner=get_instance@00025230 instruction=call 0x0002526c 
+  XREF from=00025434 type=UNCONDITIONAL_CALL owner=get_instance@00025418 instruction=call 0x0002526c 
+  XREF from=00025518 type=UNCONDITIONAL_CALL owner=get_instance@000254fc instruction=call 0x0002526c 
+  XREF from=000255b4 type=UNCONDITIONAL_CALL owner=get_instance@00025598 instruction=call 0x0002526c 
+  XREF from=00025620 type=UNCONDITIONAL_CALL owner=get_instance@00025604 instruction=call 0x0002526c 
+  XREF from=000256b0 type=UNCONDITIONAL_CALL owner=get_instance@00025694 instruction=call 0x0002526c 
+  XREF from=0002571c type=UNCONDITIONAL_CALL owner=get_instance@00025700 instruction=call 0x0002526c 
+  XREFS_PRINTED=7
+
+TARGET address=0x00024C40 block=segment_2 executable=true initialized=true function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=0x00024C40
+  INS 00024c40 immext #0x22fac0 
+  INS 00024c44 add R14,PC,##0x22faf8 
+  INS 00024c48 memw R28,(R14) 
+  INS 00024c4c jumpr R28 
+  INSTRUCTIONS_PRINTED=4
+  XREF from=00025438 type=DATA owner=get_instance@00025418 instruction=call 0x00024c40 
+  XREF from=0002543c type=UNCONDITIONAL_CALL owner=get_instance@00025418 instruction=assign R16,R0 
+  XREFS_PRINTED=2
+
+TARGET address=0x00024C60 block=segment_2 executable=true initialized=true function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=0x00024C60
+  INS 00024c60 immext #0x22fac0 
+  INS 00024c64 add R14,PC,##0x22fae0 
+  INS 00024c68 memw R28,(R14) 
+  INS 00024c6c jumpr R28 
+  INSTRUCTIONS_PRINTED=4
+  XREF from=0002551c type=DATA owner=get_instance@000254fc instruction=call 0x00024c60 
+  XREF from=00025520 type=UNCONDITIONAL_CALL owner=get_instance@000254fc instruction=assign R16,R0 
+  XREFS_PRINTED=2
+
+TARGET address=0x00024C80 block=segment_2 executable=true initialized=true function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=0x00024C80
+  INS 00024c80 immext #0x22fac0 
+  INS 00024c84 add R14,PC,##0x22fac8 
+  INS 00024c88 memw R28,(R14) 
+  INS 00024c8c jumpr R28 
+  INSTRUCTIONS_PRINTED=4
+  XREF from=000255b8 type=DATA owner=get_instance@00025598 instruction=call 0x00024c80 
+  XREF from=000255bc type=UNCONDITIONAL_CALL owner=get_instance@00025598 instruction=assign R16,R0 
+  XREFS_PRINTED=2
+
+TARGET address=0x00024CB0 block=segment_2 executable=true initialized=true function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=0x00024CB0
+  INS 00024cb0 immext #0x22fa80 
+  INS 00024cb4 add R14,PC,##0x22faa4 
+  INS 00024cb8 memw R28,(R14) 
+  INS 00024cbc jumpr R28 
+  INSTRUCTIONS_PRINTED=4
+  XREF from=00025624 type=DATA owner=get_instance@00025604 instruction=call 0x00024cb0 
+  XREF from=00025628 type=UNCONDITIONAL_CALL owner=get_instance@00025604 instruction=assign R16,R0 
+  XREFS_PRINTED=2
+
+TARGET address=0x00024E90 block=segment_2 executable=true initialized=true function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=0x00024E90
+  INS 00024e90 immext #0x22f900 
+  INS 00024e94 add R14,PC,##0x22f93c 
+  INS 00024e98 memw R28,(R14) 
+  INS 00024e9c jumpr R28 
+  INSTRUCTIONS_PRINTED=4
+  XREF from=000256b4 type=DATA owner=get_instance@00025694 instruction=call 0x00024e90 
+  XREF from=000256b8 type=UNCONDITIONAL_CALL owner=get_instance@00025694 instruction=assign R16,R0 
+  XREFS_PRINTED=2
+
+TARGET address=0x00024EB0 block=segment_2 executable=true initialized=true function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0x00024EB0
+  INS 00024eb0 immext #0x22f900 
+  INS 00024eb4 add R14,PC,##0x22f924 
+  INS 00024eb8 memw R28,(R14) 
+  INS 00024ebc jumpr R28 
+  INSTRUCTIONS_PRINTED=4
+  XREF from=00025720 type=DATA owner=get_instance@00025700 instruction=call 0x00024eb0 
+  XREF from=00025724 type=UNCONDITIONAL_CALL owner=get_instance@00025700 instruction=assign R16,R0 
+  XREFS_PRINTED=2
+
+TARGET address=0x00025F70 block=segment_2 executable=true initialized=true function=FUN_00025f70 entry=0x00025F70
+  INS 00025f70 call 0x00024c00 
+  INS 00025f74 allocframe #0x10 
+  INS 00025f78 combine R17R16,R2,R3 
+  INS 00025f7c callr R0 
+  INS 00025f80 assign R18,R1 
+  INS 00025f84 assign.if(P0.new) R0,R17 
+  INS 00025f88 cmp.eq P0,R0,R18 ; jump.if(!P0.new):t 0x00025f94 
+  INS 00025f8c call 0x00024cf0 
+  INS 00025f90 memb (R16),#0x0 
+  INS 00025f94 jump 0x00024c30 
+  INSTRUCTIONS_PRINTED=10
+  XREF from=000259f8 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  XREF from=000259fc type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  XREF from=00025a10 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  XREF from=00025a14 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  XREF from=00025a28 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  XREF from=00025a2c type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  XREF from=00025a40 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  XREF from=00025a44 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  XREF from=00025a58 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  XREF from=00025a5c type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  XREF from=00025a70 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  XREF from=00025a74 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  XREFS_PRINTED=12
+
+614_NEXT_TRACE_DONE
+No program data or structures modified.
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
