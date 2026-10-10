@@ -1,4 +1,100 @@
-A1BC instruction=memb R2,(GP+#0x18c8) 
+ddress=c169e51c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169e390@0xC169E390 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c169e51c op=(unique, 0x1801c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c169e548 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169e390@0xC169E390 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c169e548 op=(unique, 0x1804800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c169e738 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169e6d0@0xC169E6D0 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c169e738 op=(unique, 0x1803800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c169e858 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169e6d0@0xC169E6D0 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c169e858 op=(unique, 0x1805800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c169ed80 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169ed60@0xC169ED60 instruction=memd R5R4,(GP+#0x12e98) 
+  QDSP_GP_PCODE address=c169ed80 op=(unique, 0x1808000, 4) INT_ADD (register, 0x22c, 4) , (const, 0x12e98, 4)
+QDSP_GP_INSN address=c169f9a4 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169f7b0@0xC169F7B0 instruction=memw R2,(GP+#0x11cc4) 
+  QDSP_GP_PCODE address=c169f9a4 op=(unique, 0x180a400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x11cc4, 4)
+QDSP_GP_INSN address=c169fb64 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169fa90@0xC169FA90 instruction=memw R2,(GP+#0x11cc4) 
+  QDSP_GP_PCODE address=c169fb64 op=(unique, 0x1806400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x11cc4, 4)
+QDSP_GP_INSN address=c169fc48 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169fbd8@0xC169FBD8 instruction=memw R3,(GP+#0x11cc4) 
+  QDSP_GP_PCODE address=c169fc48 op=(unique, 0x1804800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x11cc4, 4)
+QDSP_GP_INSN address=c169fca8 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c169fbd8@0xC169FBD8 instruction=memw R3,(GP+#0x11cc4) 
+  QDSP_GP_PCODE address=c169fca8 op=(unique, 0x180a800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x11cc4, 4)
+QDSP_GP_INSN address=c16a0eb0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a0e88@0xC16A0E88 instruction=memw R0,(GP+#0x11c20) 
+  QDSP_GP_PCODE address=c16a0eb0 op=(unique, 0x180b000, 4) INT_ADD (register, 0x22c, 4) , (const, 0x11c20, 4)
+QDSP_GP_INSN address=c16a1040 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a100c@0xC16A100C instruction=memw R0,(GP+#0x11c20) 
+  QDSP_GP_PCODE address=c16a1040 op=(unique, 0x1804000, 4) INT_ADD (register, 0x22c, 4) , (const, 0x11c20, 4)
+QDSP_GP_INSN address=c16a12c4 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a12b4@0xC16A12B4 instruction=memw R2,(GP+#0xc500) 
+  QDSP_GP_PCODE address=c16a12c4 op=(unique, 0x180c400, 4) INT_ADD (register, 0x22c, 4) , (const, 0xc500, 4)
+QDSP_GP_INSN address=c16a12f0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a12e0@0xC16A12E0 instruction=memw R2,(GP+#0xc500) 
+  QDSP_GP_PCODE address=c16a12f0 op=(unique, 0x180f000, 4) INT_ADD (register, 0x22c, 4) , (const, 0xc500, 4)
+QDSP_GP_INSN address=c16a1458 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a130c@0xC16A130C instruction=memw R2,(GP+#0xc574) 
+  QDSP_GP_PCODE address=c16a1458 op=(unique, 0x1805800, 4) INT_ADD (register, 0x22c, 4) , (const, 0xc574, 4)
+QDSP_GP_INSN address=c16a2408 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a2334@0xC16A2334 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c16a2408 op=(unique, 0x1800800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c16a2548 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a2334@0xC16A2334 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c16a2548 op=(unique, 0x1804800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c16a2654 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a2640@0xC16A2640 instruction=memw R0,(GP+#0x11c20) 
+  QDSP_GP_PCODE address=c16a2654 op=(unique, 0x1805400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x11c20, 4)
+QDSP_GP_INSN address=c16a2bbc explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a2748@0xC16A2748 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c16a2bbc op=(unique, 0x180bc00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c16a2be4 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a2748@0xC16A2748 instruction=memw R0,(GP+#0x6c7c) 
+  QDSP_GP_PCODE address=c16a2be4 op=(unique, 0x180e400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x6c7c, 4)
+QDSP_GP_INSN address=c16a7198 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a6fac@0xC16A6FAC instruction=memb R3,(GP+#0x1790) 
+  QDSP_GP_PCODE address=c16a7198 op=(unique, 0x1809800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x1790, 4)
+QDSP_GP_INSN address=c16a8988 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a88a0@0xC16A88A0 instruction=memd R11R10,(GP+#0x13820) 
+  QDSP_GP_PCODE address=c16a8988 op=(unique, 0x1808800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x13820, 4)
+QDSP_GP_INSN address=c16a89ec explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a88a0@0xC16A88A0 instruction=memd R3R2,(GP+#0x13448) 
+  QDSP_GP_PCODE address=c16a89ec op=(unique, 0x180ec00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x13448, 4)
+QDSP_GP_INSN address=c16a8a0c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a88a0@0xC16A88A0 instruction=memd R1R0,(GP+#0x124d0) 
+  QDSP_GP_PCODE address=c16a8a0c op=(unique, 0x1800c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x124d0, 4)
+QDSP_GP_INSN address=c16a8a2c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a88a0@0xC16A88A0 instruction=memd R1R0,(GP+#0x121d0) 
+  QDSP_GP_PCODE address=c16a8a2c op=(unique, 0x1802c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x121d0, 4)
+QDSP_GP_INSN address=c16a8db4 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a8d18@0xC16A8D18 instruction=memw (GP+#0x726c),R7 
+  QDSP_GP_PCODE address=c16a8db4 op=(unique, 0x187b400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x726c, 4)
+QDSP_GP_INSN address=c16a8e38 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a8e10@0xC16A8E10 instruction=memw R20,(GP+#0x72c8) 
+  QDSP_GP_PCODE address=c16a8e38 op=(unique, 0x1803800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x72c8, 4)
+QDSP_GP_INSN address=c16a8ea8 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a8e10@0xC16A8E10 instruction=memb R0,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a8ea8 op=(unique, 0x180a800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a8f50 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a8e10@0xC16A8E10 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a8f50 op=(unique, 0x1805000, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a8fec explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a8e10@0xC16A8E10 instruction=memw R20,(GP+#0x72c8) 
+  QDSP_GP_PCODE address=c16a8fec op=(unique, 0x180ec00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x72c8, 4)
+QDSP_GP_INSN address=c16a8ffc explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a8e10@0xC16A8E10 instruction=memw R2,(GP+#0x72d4) 
+  QDSP_GP_PCODE address=c16a8ffc op=(unique, 0x180fc00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x72d4, 4)
+QDSP_GP_INSN address=c16a905c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a9010@0xC16A9010 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a905c op=(unique, 0x1805c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a9144 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a9010@0xC16A9010 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a9144 op=(unique, 0x1804400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a925c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a9010@0xC16A9010 instruction=memw R3,(GP+#0x72d4) 
+  QDSP_GP_PCODE address=c16a925c op=(unique, 0x1805c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x72d4, 4)
+QDSP_GP_INSN address=c16a928c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a9010@0xC16A9010 instruction=memb R3,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a928c op=(unique, 0x1808c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a93a4 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a9010@0xC16A9010 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a93a4 op=(unique, 0x180a400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a941c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a9010@0xC16A9010 instruction=memw R4,(GP+#0x7300) 
+  QDSP_GP_PCODE address=c16a941c op=(unique, 0x1801c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x7300, 4)
+QDSP_GP_INSN address=c16a9624 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a9624 op=(unique, 0x1802400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a96dc explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memw R0,(GP+#0x72d4) 
+  QDSP_GP_PCODE address=c16a96dc op=(unique, 0x180dc00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x72d4, 4)
+QDSP_GP_INSN address=c16a970c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memb R4,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a970c op=(unique, 0x1800c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a984c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a984c op=(unique, 0x1804c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a9894 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a9894 op=(unique, 0x1809400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a99b0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memw R4,(GP+#0x7300) 
+  QDSP_GP_PCODE address=c16a99b0 op=(unique, 0x180b000, 4) INT_ADD (register, 0x22c, 4) , (const, 0x7300, 4)
+QDSP_GP_INSN address=c16a9b88 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a9b88 op=(unique, 0x1808800, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16a9c04 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memw R4,(GP+#0x7300) 
+  QDSP_GP_PCODE address=c16a9c04 op=(unique, 0x1800400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x7300, 4)
+QDSP_GP_INSN address=c16a9e74 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16a95d4@0xC16A95D4 instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16a9e74 op=(unique, 0x1807400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16aa084 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16aa01c@0xC16AA01C instruction=memb R2,(GP+#0x18c8) 
+  QDSP_GP_PCODE address=c16aa084 op=(unique, 0x1808400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
+QDSP_GP_INSN address=c16aa0e4 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16aa01c@0xC16AA01C instruction=memw R2,(GP+#0x72d4) 
+  QDSP_GP_PCODE address=c16aa0e4 op=(unique, 0x180e400, 4) INT_ADD (register, 0x22c, 4) , (const, 0x72d4, 4)
+QDSP_GP_INSN address=c16aa10c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16aa01c@0xC16AA01C instruction=memw R2,(GP+#0x72d4) 
+  QDSP_GP_PCODE address=c16aa10c op=(unique, 0x1800c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x72d4, 4)
+QDSP_GP_INSN address=c16aa250 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16aa1bc@0xC16AA1BC instruction=memb R2,(GP+#0x18c8) 
   QDSP_GP_PCODE address=c16aa250 op=(unique, 0x1805000, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
 QDSP_GP_INSN address=c16aa64c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c16aa4c4@0xC16AA4C4 instruction=memb R2,(GP+#0x18c8) 
   QDSP_GP_PCODE address=c16aa64c op=(unique, 0x1804c00, 4) INT_ADD (register, 0x22c, 4) , (const, 0x18c8, 4)
@@ -114,18 +210,7 @@ QDSP_GP_INSN address=c18ece7c explicit_register=true pcode_gp_register=true dest
 QDSP_GP_INSN address=c18ece80 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18eccdc@0xC18ECCDC instruction=memw R3,(GP+#0x71c8) 
 QDSP_GP_INSN address=c18ed3d8 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18eced8@0xC18ECED8 instruction=memd R3R2,(GP+#0x12a70) 
 QDSP_GP_INSN address=c18ee8d0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18ee7f0@0xC18EE7F0 instruction=memw R2,(GP+#0x71c4) 
-QDSP_GP_INSN address=c18ee8e0 explicit_register=true pcode_gp_register=true destination_candidate=true function=FUN_c18ee7f0@0xC18EE7F0 instruction=memw (GP+#0x71c4),R2.new 
-  QDSP_GP_WRITE_CONTEXT begin=c18ee8e0
-    PREV c18ee8dc add R2,R2,#0x1 
-    PREV c18ee8d8 asl R3,R2,#0x4 
-    PREV c18ee8d4 and R2,R2,#0x1f 
-    PREV c18ee8d0 memw R2,(GP+#0x71c4) 
-    WRITE c18ee8e0 memw (GP+#0x71c4),R2.new 
-    NEXT c18ee8e4 immext #0xcb98bac0 
-    NEXT c18ee8e8 add R1,R3,##-0x34674520 
-    NEXT c18ee8ec memw (R1),R16 
-    NEXT c18ee8f0 memd (R1+#0x8),R19R18 
-    NEXT c18ee8f4 memw (R1+#0x4),R0 
+QDSP_GP_INSN address=c18ee8e0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18ee7f0@0xC18EE7F0 instruction=memw (GP+#0x71c4),R2.new 
 QDSP_GP_INSN address=c18ef0e4 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18ef058@0xC18EF058 instruction=memuh R2,(GP+#0x6462) 
 QDSP_GP_INSN address=c18ef0ec explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18ef058@0xC18EF058 instruction=memb R2,(GP+#0x1c0f) 
 QDSP_GP_INSN address=c18ef110 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18ef058@0xC18EF058 instruction=memb R2,(GP+#0x1c10) 
@@ -141,47 +226,15 @@ QDSP_GP_INSN address=c18f0514 explicit_register=true pcode_gp_register=true dest
 QDSP_GP_INSN address=c18f0530 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c18f037c@0xC18F037C instruction=memd R1R0,(GP+#0x121d0) 
 QDSP_GP_INSN address=c196084c explicit_register=true pcode_gp_register=true destination_candidate=false function=<none> instruction=memw R2,(GP+#0x7040) 
 QDSP_GP_INSN address=c1960dc0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1960dc0@0xC1960DC0 instruction=memub R2,(GP+#0x18c0) 
-QDSP_GP_INSN address=c1960dcc explicit_register=true pcode_gp_register=true destination_candidate=true function=FUN_c1960dc0@0xC1960DC0 instruction=memb (GP+#0x18c0),R2.new 
-  QDSP_GP_WRITE_CONTEXT begin=c1960dcc
-    PREV c1960dc8 add R2,R2,#0x1 
-    PREV c1960dc4 and R3,R2,#0xf 
-    PREV c1960dc0 memub R2,(GP+#0x18c0) 
-    WRITE c1960dcc memb (GP+#0x18c0),R2.new 
-    NEXT c1960dd0 assign R2,UTIMERLO 
-    NEXT c1960dd4 lsl R1,#0x1,R0 
-    NEXT c1960dd8 immext #0xca746a00 
-    NEXT c1960ddc memw (R3<<#0x3+##0xca746a2c),R1.new 
-    NEXT c1960de0 immext #0xca746a00 
+QDSP_GP_INSN address=c1960dcc explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1960dc0@0xC1960DC0 instruction=memb (GP+#0x18c0),R2.new 
 QDSP_GP_INSN address=c1961510 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1961510@0xC1961510 instruction=memw R2,(GP+#0x7910) 
 QDSP_GP_INSN address=c1961828 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1961820@0xC1961820 instruction=memw R3,(GP+#0x7250) 
 QDSP_GP_INSN address=c196183c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1961820@0xC1961820 instruction=memub R4,(GP+#0x18bf) 
-QDSP_GP_INSN address=c196184c explicit_register=true pcode_gp_register=true destination_candidate=true function=FUN_c1961820@0xC1961820 instruction=memb (GP+#0x18bf),R3 
-  QDSP_GP_WRITE_CONTEXT begin=c196184c
-    PREV c1961848 and R16,R4,#0xf 
-    PREV c1961844 call 0xc161f0a8 
-    PREV c1961840 add R3,R4,#0x1 ; memd (SP+#0x0),R17R16 
-    PREV c196183c memub R4,(GP+#0x18bf) 
-    WRITE c196184c memb (GP+#0x18bf),R3 
-    NEXT c1961850 assign R2,UTIMERLO 
-    NEXT c1961854 immext #0xca746a80 
-    NEXT c1961858 memw (R16<<#0x3+##0xca746aa8),R2 
-    NEXT c196185c immext #0xca746a80 
-    NEXT c1961860 memw (R16<<#0x3+##0xca746aac),R0 
+QDSP_GP_INSN address=c196184c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1961820@0xC1961820 instruction=memb (GP+#0x18bf),R3 
 QDSP_GP_INSN address=c1961900 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c19618f8@0xC19618F8 instruction=memw R2,(GP+#0x7254) 
 QDSP_GP_INSN address=c1961ed0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1961eb4@0xC1961EB4 instruction=memw R1,(GP+#0x7254) 
 QDSP_GP_INSN address=c1961ee0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1961eb4@0xC1961EB4 instruction=memw R2,(GP+#0x743c) 
-QDSP_GP_INSN address=c1961eec explicit_register=true pcode_gp_register=true destination_candidate=true function=FUN_c1961eb4@0xC1961EB4 instruction=memw (GP+#0x743c),R2.new 
-  QDSP_GP_WRITE_CONTEXT begin=c1961eec
-    PREV c1961ee8 add R2,R2,#0x1 
-    PREV c1961ee4 and R20,R2,#0xf 
-    PREV c1961ee0 memw R2,(GP+#0x743c) 
-    PREV c1961edc assign.if(P0.new) R22,#0x10 
-    WRITE c1961eec memw (GP+#0x743c),R2.new 
-    NEXT c1961ef0 immext #0xc2f30400 
-    NEXT c1961ef4 add R20,##0xc2f30400,asl(R20,#0x7) 
-    NEXT c1961ef8 jump.if(!P0) 0xc1961f74 
-    NEXT c1961efc memw (SP+#0xc),R20.new 
-    NEXT c1961f00 add R21,R20,#0x4 
+QDSP_GP_INSN address=c1961eec explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1961eb4@0xC1961EB4 instruction=memw (GP+#0x743c),R2.new 
 QDSP_GP_INSN address=c19620c8 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c19620c8@0xC19620C8 instruction=memw R2,(GP+#0x11c50) 
 QDSP_GP_INSN address=c1963614 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1963538@0xC1963538 instruction=memw R2,(GP+#0x7040) 
 QDSP_GP_INSN address=c1963638 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1963538@0xC1963538 instruction=memw R4,(GP+#0x7040) 
@@ -213,48 +266,6 @@ QDSP_GP_INSN address=c196924c explicit_register=true pcode_gp_register=true dest
 QDSP_GP_INSN address=c19692c0 explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1968fb8@0xC1968FB8 instruction=memub R2,(GP+#0xc841) 
 QDSP_GP_INSN address=c19692fc explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1968fb8@0xC1968FB8 instruction=memub R2,(GP+#0xc842) 
 QDSP_GP_INSN address=c196933c explicit_register=true pcode_gp_register=true destination_candidate=false function=FUN_c1968fb8@0xC1968FB8 instruction=memub R2,(GP+#0xc842) 
-  QDSP_GP_WRITE_CONTEXT begin=c197dbd0
-    PREV c197dbcc jumpr R7 
-    PREV c197dbc8 assign.if(!P0) R7,##0xc197f968 
-    PREV c197dbc4 immext #0xc197f940 
-    PREV c197dbc0 assign.if(P0.new) R7,##0xd848e34c 
-    WRITE c197dbd0 memw (GP+#0x727c),R7 
-    NEXT c197dc18 call 0xc161fda8 
-    NEXT c197dc1c allocframe #0x30 
-    NEXT c197dc20 cmp.eq P0,R1,#0x0 
-    NEXT c197dc24 immext #0xf9875a40 
-    NEXT c197dc28 assign R0,##0xf9875a42 ; assign R18,R0 
-  QDSP_GP_WRITE_CONTEXT begin=c1984908
-    PREV c1984904 memb (R17),#0x9 
-    PREV c1984900 cmp.eq P1,R17,#0x0 ; jump.if(P1.new):nt 0xc1984920 
-    PREV c19848fc add.if(!P1.new) R2,R17,#0x1 
-    PREV c19848f8 assign R1,R0 ; memw R17,(SP+#0x1c) 
-    WRITE c1984908 memw (GP+#0x7274),R2 
-    NEXT c198490c memb (R17+#0x1),#0x0 
-    NEXT c1984910 memh (R17+#0x2),#0x0 
-    NEXT c1984914 memw R2,(SP+#0x1c) 
-    NEXT c1984918 add R17,R2,#0x4 
-    NEXT c198491c memw (SP+#0x1c),R17.new 
-  QDSP_GP_WRITE_CONTEXT begin=c1984e00
-    PREV c1984dfc add R3,R3,#0x1 
-    PREV c1984df8 memub R3,(GP+#0x7278) 
-    WRITE c1984e00 memb (GP+#0x7278),R3.new 
-    NEXT c1984e04 and R4,R3,#0xff 
-    NEXT c1984e08 jump 0xc1984d94 
-    NEXT c1984e0c memw R2,(R5+#0xbc) 
-    NEXT c1984e10 memw (R17+#0x44),R2.new 
-    NEXT c1984e14 memuh R2,(R5+#0xc6) 
-  QDSP_GP_WRITE_CONTEXT begin=c1996764
-    PREV c1996760 memb R2,(R26) 
-    PREV c199675c memw (R23+#0x6a8),R2.new 
-    PREV c1996758 sub R2,R2,R4 
-    PREV c1996754 mux R4,P0,#0x1e,#0x0 
-    WRITE c1996764 memw (GP+#0x79b8),R20 
-    NEXT c1996768 cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0xc19967ac 
-    NEXT c199676c memw.if(P0.new) R2,(R23+#0x30) 
-    NEXT c1996770 immext #0x1d0f0b00 
-    NEXT c1996774 cmp.gt P0,R2,##0x1d0f0b12 
-    NEXT c1996778 jump.if(P0.new):t 0xc1996794 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c19b0ea0 to=c91a86f8 ref_type=READ function=FUN_c19b0e64@0xC19B0E64 instruction=memh R1,(##0xc91a86f8) 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c19ca7e8 to=c91a8248 ref_type=READ function=FUN_c19ca4e8@0xC19CA4E8 instruction=memw R6,(R4=##0xc91a8248) 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c19ca808 to=c91a8248 ref_type=WRITE function=FUN_c19ca4e8@0xC19CA4E8 instruction=memw.if(!P0) (R5),R2 
@@ -262,354 +273,11 @@ QDSP_IQ_TABLE_CODE_REFERENCE from=c19ca808 to=c91a824c ref_type=WRITE function=F
 QDSP_IQ_TABLE_CODE_REFERENCE from=c19ca80c to=c91a824c ref_type=READ function=FUN_c19ca4e8@0xC19CA4E8 instruction=memw R6,(R5) 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c19ca824 to=c91a824c ref_type=WRITE function=FUN_c19ca4e8@0xC19CA4E8 instruction=memw (R5),R2 ; memw (R4),R3 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c19ca824 to=c91a8248 ref_type=WRITE function=FUN_c19ca4e8@0xC19CA4E8 instruction=memw (R5),R2 ; memw (R4),R3 
-  QDSP_GP_WRITE_CONTEXT begin=c19ed8dc
-    PREV c19ed8d8 memw R2,(R25) 
-    PREV c19ed8d4 cmp.eq P0,R2,#0x0 ; jump.if(P0.new):nt 0xc19edc1c 
-    PREV c19ed8d0 memb R2,(R25+#0x4) 
-    PREV c19ed8cc assign R0,R21 ; assign R19,R5 
-    WRITE c19ed8dc memw (GP+#0xc838),R2.new 
-    NEXT c19ed8e0 add R20,R25,#0xc 
-    NEXT c19ed8e4 add R18,R23,#0x90 
-    NEXT c19ed8e8 assign R26,#0x5 
-    NEXT c19ed8ec memw (SP+#0x38),R20.new 
-    NEXT c19ed8f0 asl R2,R27,#0x1 
-  QDSP_GP_WRITE_CONTEXT begin=c19ef068
-    PREV c19ef064 memb (R20+#0x10),#0x1 
-    PREV c19ef060 jump 0xc19eefac 
-    PREV c19ef05c memw R0,(R16) 
-    PREV c19ef058 combine R3R2,#0x1,R18 
-    WRITE c19ef068 memb (GP+#0x1cf),R18 
-  QDSP_GP_WRITE_CONTEXT begin=c19efff0
-    PREV c19effec add R2,R2,#0x1 
-    PREV c19effe8 memb R3,(R21+#0x8c) 
-    PREV c19effe4 memub R2,(GP+#0x187b) 
-    PREV c19effe0 cmp.gt P0,R2,R3 ; jump.if(!P0.new):t 0xc19f0030 
-    WRITE c19efff0 memb (GP+#0x187b),R2.new 
-    NEXT c19efff4 sxtb R4,R2 
-    NEXT c19efff8 jump.if:t !cmp.eq(R4.new,R3),0xc19f0030 
-    NEXT c19efffc immext #0xcbf10840 
-    NEXT c19f0000 assign R4,##0xcbf1087a 
-    NEXT c19f0004 immext #0xd601ba00 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1a1b324 to=c91a7fdc ref_type=READ function=FUN_c1a213a0@0xC1A213A0 instruction=memw R16,(R2<<#0x3+##0xc91a7fdc) 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1a213ac to=c91a7fd8 ref_type=READ function=FUN_c1a213a0@0xC1A213A0 instruction=memw R4,(##0xc91a7fd8) 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1a213c8 to=c91a7fe0 ref_type=READ function=FUN_c1a213a0@0xC1A213A0 instruction=memw R4,(##0xc91a7fe0) 
-  QDSP_GP_WRITE_CONTEXT begin=c1a2694c
-    PREV c1a26948 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):nt 0xc1a26954 
-    PREV c1a26944 and R0,R0,#0xff ; allocframe #0x0 
-    PREV c1a26940 call 0xc16a2334 
-    WRITE c1a2694c memb (GP+#0x15e8),R0 
-    NEXT c1a26950 dealloc_return 
-    NEXT c1a26954 call 0xc1a26c9c 
-    NEXT c1a26958 call 0xc1a26ca4 
-    NEXT c1a2695c assign R1,#0x0 
-    NEXT c1a26960 immext #0xc48b8740 
-  QDSP_GP_WRITE_CONTEXT begin=c1a324bc
-    PREV c1a324b8 cmp.eq P0,R0,#0x0 ; jump.if(P0.new):t 0xc1a32528 
-    PREV c1a324b4 combine R1R0,R20,R19 
-    PREV c1a324b0 call 0xc19cd870 
-    PREV c1a324ac add+= R2,R22,R0 
-    WRITE c1a324bc memb (GP+#0x15e8),R0 
-    NEXT c1a324c0 cmp.eq P0,R0,#0x5 
-    NEXT c1a324c4 immext #0xccccccc0 
-    NEXT c1a324c8 combine R5R4,#0x5,##0xcccccccd 
-    NEXT c1a324cc memw R2,(R21+#0xad8) 
-    NEXT c1a324d0 immext #0x100 
-  QDSP_GP_WRITE_CONTEXT begin=c1a32714
-    PREV c1a32710 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):nt 0xc1a32858 
-    PREV c1a3270c memuh R2,(R18+#0x2) 
-    PREV c1a32708 call 0xc16a2334 
-    PREV c1a32704 memw R1,(R18+#0xd4) 
-    WRITE c1a32714 memb (GP+#0x15e8),R0 
-    NEXT c1a32718 assign R0,#0x0 
-    NEXT c1a3271c immext #0xc9f48440 
-    NEXT c1a32720 memw R2,(##0xc9f48474) 
-    NEXT c1a32724 memw R1,(SP+#0x24) 
-    NEXT c1a32728 add R20,R20,#-0x1 
-  QDSP_GP_WRITE_CONTEXT begin=c1a3655c
-    PREV c1a36558 assign R1,R16 
-    PREV c1a36554 assign R2,#0x5a 
-    PREV c1a36550 cmp.eq P0,R0,#0x0 ; jump.if(P0.new):nt 0xc1a36588 
-    PREV c1a3654c assign R0,#0x4778 
-    WRITE c1a3655c memw (GP+#0xc8e4),R18 
-    NEXT c1a36560 memb (R18+#0x3),#0x47 
-    NEXT c1a36564 immext #0x140 
-    NEXT c1a36568 add R2,##0x144,mpyi(R17,R2) 
-    NEXT c1a3656c memb (R18+#0x2),#0x78 
-    NEXT c1a36570 memw R3,(GP+#0xc8e4) 
-  QDSP_GP_WRITE_CONTEXT begin=c1a3ba6c
-    PREV c1a3ba68 jump.if(P0) 0xc1a3bae0 
-    PREV c1a3ba64 add+= R18,R8,R6 
-    PREV c1a3ba60 asr R9R8,R9R8,#0x28 
-    PREV c1a3ba5c lsr R7R6,R9R8,#0x3f 
-    WRITE c1a3ba6c memw (GP+#0xc8dc),R18.new 
-    NEXT c1a3ba70 mpyi R3,R4,R3 
-    NEXT c1a3ba74 mpyu R7R6,R3,R26 
-    NEXT c1a3ba78 asr R4,R3,#0x1f 
-    NEXT c1a3ba7c mpyi+= R7,R26,R4 
-    NEXT c1a3ba80 lsr R5R4,R7R6,#0x3f 
-  QDSP_GP_WRITE_CONTEXT begin=c1a3ba90
-    PREV c1a3ba8c jump 0xc1a3bae0 
-    PREV c1a3ba88 add+= R0,R6,R4 
-    PREV c1a3ba84 asr R7R6,R7R6,#0x28 
-    PREV c1a3ba80 lsr R5R4,R7R6,#0x3f 
-    WRITE c1a3ba90 memw (GP+#0xc8e0),R0.new 
-    NEXT c1a3ba94 mpyu R7R6,R5,R26 
-    NEXT c1a3ba98 asr R5,R5,#0x1f 
-    NEXT c1a3ba9c cmp.eq P0,R0,#0x0 
-    NEXT c1a3baa0 sub.if(!P0.new) R4,R4,R0 
-    NEXT c1a3baa4 mpyi+= R7,R26,R5 
-  QDSP_GP_WRITE_CONTEXT begin=c1a3babc
-    PREV c1a3bab8 jump.if(P0) 0xc1a3bae0 
-    PREV c1a3bab4 mpyi+= R18,R5,R3 
-    PREV c1a3bab0 add R5,R6,R8 
-    PREV c1a3baac asr R7R6,R7R6,#0x28 
-    WRITE c1a3babc memw (GP+#0xc8dc),R18.new 
-    NEXT c1a3bac0 mpyu R7R6,R4,R26 
-    NEXT c1a3bac4 asr R4,R4,#0x1f 
-    NEXT c1a3bac8 mpyi+= R7,R26,R4 
-    NEXT c1a3bacc lsr R5R4,R7R6,#0x3f 
-    NEXT c1a3bad0 asr R7R6,R7R6,#0x28 
-  QDSP_GP_WRITE_CONTEXT begin=c1a3badc
-    PREV c1a3bad8 mpyi+= R0,R4,R3 
-    PREV c1a3bad4 add R4,R6,R4 
-    PREV c1a3bad0 asr R7R6,R7R6,#0x28 
-    PREV c1a3bacc lsr R5R4,R7R6,#0x3f 
-    WRITE c1a3badc memw (GP+#0xc8e0),R0.new 
-    NEXT c1a3bae0 memw R3,(GP+#0xc8e0) 
-    NEXT c1a3bae4 immext #0xcaeeb8c0 
-    NEXT c1a3bae8 memw (##0xcaeeb8c8),R3.new 
-    NEXT c1a3baec memw (R16),R18 
-    NEXT c1a3baf0 add R25,R25,#0x2 
-  QDSP_GP_WRITE_CONTEXT begin=c1a3bb30
-    PREV c1a3bb2c lsr R1R0,R1R0,#0x1 
-    PREV c1a3bb28 add R1R0,R19R18,R1R0 
-    PREV c1a3bb24 memw R18,(R16) ; memw (R16),R0 
-    PREV c1a3bb20 assign R1,R19 
-    WRITE c1a3bb30 memw (GP+#0xc8dc),R0 
-    NEXT c1a3bb34 memw (GP+#0xc8e0),R0 
-    NEXT c1a3bb38 memd R17R16,(SP+#0x40) ; memd R19R18,(SP+#0x38) 
-    NEXT c1a3bb3c memd R21R20,(SP+#0x30) ; memd R23R22,(SP+#0x28) 
-    NEXT c1a3bb40 memd R25R24,(SP+#0x20) 
-    NEXT c1a3bb44 memd R27R26,(SP+#0x18) 
-  QDSP_GP_WRITE_CONTEXT begin=c1a3bb34
-    PREV c1a3bb30 memw (GP+#0xc8dc),R0 
-    PREV c1a3bb2c lsr R1R0,R1R0,#0x1 
-    PREV c1a3bb28 add R1R0,R19R18,R1R0 
-    PREV c1a3bb24 memw R18,(R16) ; memw (R16),R0 
-    WRITE c1a3bb34 memw (GP+#0xc8e0),R0 
-    NEXT c1a3bb38 memd R17R16,(SP+#0x40) ; memd R19R18,(SP+#0x38) 
-    NEXT c1a3bb3c memd R21R20,(SP+#0x30) ; memd R23R22,(SP+#0x28) 
-    NEXT c1a3bb40 memd R25R24,(SP+#0x20) 
-    NEXT c1a3bb44 memd R27R26,(SP+#0x18) 
-    NEXT c1a3bb48 dealloc_return 
-  QDSP_GP_WRITE_CONTEXT begin=c1a48ef8
-    PREV c1a48ef4 jump.if(!P0) 0xc1a48f18 
-    PREV c1a48ef0 add R2,R5,#0x1 
-    PREV c1a48eec memw+= (R3),#0x1 
-    PREV c1a48ee8 memw R5,(GP+#0xc8b8) 
-    WRITE c1a48ef8 memw (GP+#0xc8b8),R2.new 
-    NEXT c1a48efc add R5,R5,#0x2 
-    NEXT c1a48f00 assign R17,#0x0 
-    NEXT c1a48f04 memw R4,(R19+#0x14) 
-    NEXT c1a48f08 memw (GP+#0xc8b8),R5.new 
-    NEXT c1a48f0c memw (R4+R2<<#0x2),R17 
-  QDSP_GP_WRITE_CONTEXT begin=c1a48f08
-    PREV c1a48f04 memw R4,(R19+#0x14) 
-    PREV c1a48f00 assign R17,#0x0 
-    PREV c1a48efc add R5,R5,#0x2 
-    PREV c1a48ef8 memw (GP+#0xc8b8),R2.new 
-    WRITE c1a48f08 memw (GP+#0xc8b8),R5.new 
-    NEXT c1a48f0c memw (R4+R2<<#0x2),R17 
-    NEXT c1a48f10 jump 0xc1a490d8 
-    NEXT c1a48f14 memw+= (R3),#0x1 
-    NEXT c1a48f18 memb R3,(R1+#0x16) 
-    NEXT c1a48f1c jump.if:nt cmp.eq(R3.new,#0x0),0xc1a48f98 
-  QDSP_GP_WRITE_CONTEXT begin=c1a48fc4
-    PREV c1a48fc0 add R4,R2,#0x1 
-    PREV c1a48fbc memw R3,(R19+#0x14) 
-    PREV c1a48fb8 memw R2,(GP+#0xc8b8) 
-    PREV c1a48fb4 add R23,R19,#-0x18 
-    WRITE c1a48fc4 memw (GP+#0xc8b8),R4.new 
-    NEXT c1a48fc8 assign.if(P0) R0,R18 
-    NEXT c1a48fcc memw (R3+R2<<#0x2),R0 
-    NEXT c1a48fd0 jump.if(!P0) 0xc1a48ff8 
-    NEXT c1a48fd4 memw+= (R23),#0x1 
-    NEXT c1a48fd8 call 0xc1a49104 
-  QDSP_GP_WRITE_CONTEXT begin=c1a48fec
-    PREV c1a48fe8 add R4,R2,#0x1 
-    PREV c1a48fe4 memw R3,(R19+#0x14) 
-    PREV c1a48fe0 memw R2,(GP+#0xc8b8) 
-    PREV c1a48fdc and R0,R0,#0xff 
-    WRITE c1a48fec memw (GP+#0xc8b8),R4.new 
-    NEXT c1a48ff0 memw (R3+R2<<#0x2),R0 
-    NEXT c1a48ff4 memw+= (R23),#0x1 
-    NEXT c1a48ff8 sub R17,R17,R22 
-    NEXT c1a48ffc immext #0xcbf284c0 
-    NEXT c1a49000 assign R18,##0xcbf284e8 
-  QDSP_GP_WRITE_CONTEXT begin=c1a49040
-    PREV c1a4903c add R4,R2,#0x1 
-    PREV c1a49038 memw R3,(R19+#0x14) 
-    PREV c1a49034 memw R2,(GP+#0xc8b8) 
-    PREV c1a49030 add R0,R2,R3 
-    WRITE c1a49040 memw (GP+#0xc8b8),R4.new 
-    NEXT c1a49044 add R0,R21.L,R24.L 
-    NEXT c1a49048 memw (R3+R2<<#0x2),R0 
-    NEXT c1a4904c memh R3,(R20+#0x22) 
-    NEXT c1a49050 jump.if:t !cmp.gtu(R3.new,R0),0xc1a49090 
-    NEXT c1a49054 add R21,R21,#0x4 
-  QDSP_GP_WRITE_CONTEXT begin=c1a490cc
-    PREV c1a490c8 add R5,R2,#0x1 
-    PREV c1a490c4 memw R3,(R19+#0x14) 
-    PREV c1a490c0 memw R2,(GP+#0xc8b8) 
-    PREV c1a490bc add R4,R19,#-0x18 
-    WRITE c1a490cc memw (GP+#0xc8b8),R5.new 
-    NEXT c1a490d0 memw (R3+R2<<#0x2),R0 
-    NEXT c1a490d4 memw+= (R4),#0x1 
-    NEXT c1a490d8 assign R0,R17 
-    NEXT c1a490dc memd R17R16,(SP+#0x20) ; memd R19R18,(SP+#0x18) 
-    NEXT c1a490e0 memd R21R20,(SP+#0x10) ; memd R23R22,(SP+#0x8) 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1a4ae70 to=c91a8920 ref_type=PARAM function=FUN_c1a4ae24@0xC1A4AE24 instruction=assign R4,##0xc91a8920 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1a4afbc to=c91a8968 ref_type=PARAM function=FUN_c1a4ae24@0xC1A4AE24 instruction=assign R4,##0xc91a8968 
-  QDSP_GP_WRITE_CONTEXT begin=c1a4fd84
-    PREV c1a4fd80 memub R2,(GP+#0x1c79) 
-    WRITE c1a4fd84 memb (GP+#0x1c7f),R0 
-    NEXT c1a4fd88 !tstbit P0,R2,#0x3 
-    NEXT c1a4fd8c assign.if(!P0.new) R2,R0 
-    NEXT c1a4fd90 jump.if(!P0.new):t 0xc1a4fd98 
-    NEXT c1a4fd94 jumpr LR 
-    NEXT c1a4fd98 immext #0xf825cd40 
-  QDSP_GP_WRITE_CONTEXT begin=c1a52610
-    PREV c1a5260c memw R5,(R2) 
-    PREV c1a52608 add R4,R4,#-0x1 
-    PREV c1a52604 assign R1,#0x0 
-    PREV c1a52600 cmp.gtu P1,R5,R3 ; jump.if(P1.new):nt 0xc1a525d8 
-    WRITE c1a52610 memb (GP+#0x1c3c),R4.new 
-    NEXT c1a52614 immext #0x15555540 
-    NEXT c1a52618 and R0,R5,##0x15555555 
-    NEXT c1a5261c assign R6,#0xff 
-    NEXT c1a52620 assign R5,#0xf 
-    NEXT c1a52624 popcount R0,R1R0 
-  QDSP_GP_WRITE_CONTEXT begin=c1a52e6c
-    PREV c1a52e68 add R2,R2,#-0x1 
-    PREV c1a52e64 memw R2,(GP+#0xc89c) 
-    PREV c1a52e60 assign R3,#0x0 ; assign R4,#0x0 
-    PREV c1a52e5c call 0xc1ad1280 
-    WRITE c1a52e6c memw (GP+#0xc89c),R2.new 
-    NEXT c1a52e70 immext #0xcbf1b880 
-    NEXT c1a52e74 memw R2,(##0xcbf1b8a4) 
-    NEXT c1a52e78 jump.if:t !cmp.eq(R2.new,#0x0),0xc1a52e88 
-    NEXT c1a52e7c immext #0xcf84eb40 
-    NEXT c1a52e80 assign R0,##0xcf84eb62 
-  QDSP_GP_WRITE_CONTEXT begin=c1a53a80
-    PREV c1a53a7c memuh R2,(R16+#0x6) 
-    PREV c1a53a78 memub R4,(R16+#0x2) 
-    PREV c1a53a74 call 0xc1ad1280 
-    PREV c1a53a70 memub R3,(R16+#0x1) ; memuh R2,(R16+#0x6) 
-    WRITE c1a53a80 memh (GP+#0x1c6e),R2.new 
-    NEXT c1a53a84 memub R2,(R16+#0x1) 
-    NEXT c1a53a88 memb (GP+#0x1c69),R2.new 
-    NEXT c1a53a8c memub R1,(R16+#0x2) 
-    NEXT c1a53a90 memb (GP+#0x1c6a),R1.new 
-    NEXT c1a53a94 jump 0xc1a53b50 
-  QDSP_GP_WRITE_CONTEXT begin=c1a53a88
-    PREV c1a53a84 memub R2,(R16+#0x1) 
-    PREV c1a53a80 memh (GP+#0x1c6e),R2.new 
-    PREV c1a53a7c memuh R2,(R16+#0x6) 
-    PREV c1a53a78 memub R4,(R16+#0x2) 
-    WRITE c1a53a88 memb (GP+#0x1c69),R2.new 
-    NEXT c1a53a8c memub R1,(R16+#0x2) 
-    NEXT c1a53a90 memb (GP+#0x1c6a),R1.new 
-    NEXT c1a53a94 jump 0xc1a53b50 
-    NEXT c1a53a98 memub R0,(R16+#0x4) 
-    NEXT c1a53a9c memb (GP+#0x1c6c),R0.new 
-  QDSP_GP_WRITE_CONTEXT begin=c1a53a90
-    PREV c1a53a8c memub R1,(R16+#0x2) 
-    PREV c1a53a88 memb (GP+#0x1c69),R2.new 
-    PREV c1a53a84 memub R2,(R16+#0x1) 
-    PREV c1a53a80 memh (GP+#0x1c6e),R2.new 
-    WRITE c1a53a90 memb (GP+#0x1c6a),R1.new 
-    NEXT c1a53a94 jump 0xc1a53b50 
-    NEXT c1a53a98 memub R0,(R16+#0x4) 
-    NEXT c1a53a9c memb (GP+#0x1c6c),R0.new 
-    NEXT c1a53aa0 call 0xc1a52990 
-    NEXT c1a53aa4 add R1,SP,#0x10 
-  QDSP_GP_WRITE_CONTEXT begin=c1a53a9c
-    PREV c1a53a98 memub R0,(R16+#0x4) 
-    PREV c1a53a94 jump 0xc1a53b50 
-    PREV c1a53a90 memb (GP+#0x1c6a),R1.new 
-    PREV c1a53a8c memub R1,(R16+#0x2) 
-    WRITE c1a53a9c memb (GP+#0x1c6c),R0.new 
-    NEXT c1a53aa0 call 0xc1a52990 
-    NEXT c1a53aa4 add R1,SP,#0x10 
-    NEXT c1a53aa8 add R0,SP,#0x18 ; assign R2,R17 
-    NEXT c1a53aac assign R6,#0x4 
-    NEXT c1a53ab0 memw R3,(SP+#0x1c) 
-  QDSP_GP_WRITE_CONTEXT begin=c1a5e854
-    PREV c1a5e850 jump.if(P0) 0xc1a5e880 
-    PREV c1a5e84c minu R5R4,R1R0,R5R4 
-    PREV c1a5e848 memb.if(!P0) R3,(##0xcbf109a7) 
-    PREV c1a5e844 immext #0xcbf10980 
-    WRITE c1a5e854 memh (GP+#0x6472),R4.L 
-    NEXT c1a5e858 cmp.eq P0,R3,#0x0 
-    NEXT c1a5e85c assign R19,R18 ; memh (R2),R4 
-    NEXT c1a5e860 immext #0xcba93cc0 
-    NEXT c1a5e864 add R19,##0xcba93cd8,asl(R19,#0x1) 
-    NEXT c1a5e868 jump.if(!P0):t 0xc1a5e88c 
-  QDSP_GP_WRITE_CONTEXT begin=c1a61a1c
-    PREV c1a61a18 add R2,R2,#-0x1 
-    PREV c1a61a14 memub R2,(GP+#0x19ab) 
-    PREV c1a61a10 memb (R3),#0x11 
-    PREV c1a61a0c call 0xc1ad08d0 
-    WRITE c1a61a1c memb (GP+#0x19ab),R2.new 
-    NEXT c1a61a20 memb R5,(R19+#0x1) 
-    NEXT c1a61a24 memb R3,(GP+#0x19ab) 
-    NEXT c1a61a28 cmp.eq P0,R5,#0x0 
-    NEXT c1a61a2c cmp.eq P1,R3,#0x0 
-    NEXT c1a61a30 memub R2,(GP+#0x19ac) 
-  QDSP_GP_WRITE_CONTEXT begin=c1a65b30
-    PREV c1a65b2c add R4,R2,#0x1 
-    PREV c1a65b28 memb R3,(GP+#0x1c87) 
-    PREV c1a65b24 memub R2,(GP+#0x19b7) 
-    PREV c1a65b20 assign R0,##0xf82611c0 
-    WRITE c1a65b30 memb (GP+#0x19b7),R4.new 
-    NEXT c1a65b34 sxtb R2,R4 
-    NEXT c1a65b38 cmp.eq P0,R2,R3 
-    NEXT c1a65b3c and R2,R2,#0xff 
-    NEXT c1a65b40 immext #0xcbf10980 
-    NEXT c1a65b44 assign.if(P0.new) R3,##0xcbf109b8 
-  QDSP_GP_WRITE_CONTEXT begin=c1aa75dc
-    PREV c1aa75d8 add R2,R2,#0x1 
-    PREV c1aa75d4 jump.if(P0.new):t 0xc1aa9e20 
-    PREV c1aa75d0 immext #0x2840 
-    PREV c1aa75cc cmp.gtu P0,R2,#0x1fc 
-    WRITE c1aa75dc memh (GP+#0x5ea4),R2.new 
-    NEXT c1aa75e0 zxth R17,R2 
-    NEXT c1aa75e4 jump 0xc1aa75f0 
-    NEXT c1aa75e8 memw R17,(R18) 
-    NEXT c1aa75ec jump.if:nt cmp.eq(R17.new,#0x0),0xc1aa75c4 
-    NEXT c1aa75f0 assign R2,P1 
-  QDSP_GP_WRITE_CONTEXT begin=c1aab598
-    PREV c1aab594 assign R22,R5 
-    PREV c1aab590 jump.if(!P0.new):nt 0xc1aa6f90 
-    PREV c1aab58c immext #0xffffba00 
-    PREV c1aab588 cmp.eq P0,R7,##0xfedcba9 
-    WRITE c1aab598 memw (GP+#0x66a4),R19 
-    NEXT c1aab59c memw (R6+#0x4),R5 
-    NEXT c1aab5a0 addasl R18,R20,R22,#0x6 
-    NEXT c1aab5a4 asl R24,R22,#0x6 
-    NEXT c1aab5a8 add R0,R5,#0x1 ; zxth R1,R4 
-    NEXT c1aab5ac call 0xc16a4520 
-  QDSP_GP_WRITE_CONTEXT begin=c1aadfe8
-    PREV c1aadfe4 sub R21R20,R1R0,R21R20 
-    PREV c1aadfe0 extractu R2,R3,#0xa,#0x0 
-    PREV c1aadfdc jump.if(!P0) 0xc1aadfd0 
-    PREV c1aadfd8 memw_locked (R2,P0),R3 
-    WRITE c1aadfe8 memw (GP+#0x6524),R2.new 
-    NEXT c1aadfec +mpyi R2,R2,#0xc 
-    NEXT c1aadff0 immext #0xcb8a6280 
-    NEXT c1aadff4 add R17,R2,##-0x34759d68 
-    NEXT c1aadff8 call 0xc1695ca0 
-    NEXT c1aadffc memw (R17+#0x4),R18 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1cb6c40 to=c9199678 ref_type=PARAM function=FUN_c1cb6c30@0xC1CB6C30 instruction=assign R2,##0xc9199678 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1cb6c48 to=c9199668 ref_type=PARAM function=FUN_c1cb6c30@0xC1CB6C30 instruction=assign R0,##0xc9199668 
 QDSP_IQ_TABLE_CODE_REFERENCE from=c1cb6c50 to=c9199678 ref_type=WRITE function=FUN_c1cb6c30@0xC1CB6C30 instruction=memw (R2),##0xc5061990 
@@ -643,11 +311,29 @@ QDSP_IQ_TABLE_CODE_REFERENCE from=c1cc5bd8 to=c91a7834 ref_type=READ function=FU
 QDSP_GP_INSTRUCTIONS_SCANNED=1415334
 QDSP_GP_EXPLICIT_REGISTER_HITS=19324
 QDSP_GP_PCODE_REGISTER_HITS=19327
-QDSP_GP_WRITE_CANDIDATES=1657
+QDSP_GP_ACTUAL_DESTINATION_WRITE_CANDIDATES=5
 QDSP_GP_INSN_ROWS_SHOWN=240
 QDSP_GP_PCODE_ROWS_SHOWN=160
 QDSP_IQ_TABLE_CODE_REFERENCES=44
 QDSP6SW_GP_RELATIVE_IQ_TABLE_AUDIT_DONE
+
+============================================================
+QDSP_IQ_GP_FOCUSED_TAIL_SUMMARY
+This tail repeats target-slot values and exact incoming references; it does not set GP.
+============================================================
+QDSP_IQ_FINAL_SLOT label=FETCH_IQ_STRING_POINTER_SLOT slot=0xC91998A4 block=segment_21 initialized=true value=0xC508259B value_ascii=FETCH_IQ
+  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
+QDSP_IQ_FINAL_SLOT label=IQ_CAPTURE_TYPE_STRING_POINTER_SLOT slot=0xC919990C block=segment_21 initialized=true value=0xC508272C value_ascii=IQ_CAPTURE_TYPE
+  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
+QDSP_IQ_FINAL_SLOT label=IQ_CAPTURE_STRING_POINTER_SLOT slot=0xC919A308 block=segment_21 initialized=true value=0xC5084C11 value_ascii=IQ_CAPTURE
+  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
+QDSP_IQ_FINAL_SLOT label=HISTORIC_PROPERTY_NAMES_TABLE_HINT slot=0xC9199FB8 block=segment_21 initialized=true value=0xC49535C6 value_ascii=UNASSIGNED
+  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
+QDSP_IQ_FINAL_SLOT label=HISTORIC_FREQUENCY_PROPERTY_HINT slot=0xC919A020 block=segment_21 initialized=true value=0xC50847FF value_ascii=TUNE_TX_TO_RX_FREQ
+  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
+QDSP_IQ_FINAL_SLOT label=DS_UNVERIFIED_MARKER_TABLE_HINT slot=0xC919A892 block=segment_21 initialized=true value=0x01010100 value_ascii=<not-a-cstring>
+  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
+QDSP_IQ_GP_FOCUSED_TAIL_SUMMARY_DONE
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
