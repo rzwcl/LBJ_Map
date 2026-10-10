@@ -1,368 +1,3 @@
-ock=segment_20 value_ascii=PLATFORM_TYPE
-  QDSP_IQ_TABLE_WORD slot=0xC9199FB4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC9199FB8 ***TARGET_SLOT*** value=0xC49535C6 value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_TABLE_WORD slot=0xC9199FBC value=0xC5084755 value_block=segment_20 value_ascii=IS_TEARDOWN
-  QDSP_IQ_TABLE_WORD slot=0xC9199FC0 value=0xC5084761 value_block=segment_20 value_ascii=RADIO_SETUP_TYPE
-  QDSP_IQ_TABLE_WORD slot=0xC9199FC4 value=0xC49535DB value_block=segment_20 value_ascii=RFM_DEVICE
-  QDSP_IQ_TABLE_WORD slot=0xC9199FC8 value=0xC4953AF0 value_block=segment_20 value_ascii=SIG_PATH
-  QDSP_IQ_TABLE_WORD slot=0xC9199FCC value=0xC5082369 value_block=segment_20 value_ascii=ANT_PATH
-  QDSP_IQ_TABLE_WORD slot=0xC9199FD0 value=0xC5084772 value_block=segment_20 value_ascii=RFM_PATH_TYPE
-  QDSP_IQ_TABLE_WORD slot=0xC9199FD4 value=0xC49D5DF4 value_block=segment_20 value_ascii=BAND
-  QDSP_IQ_TABLE_WORD slot=0xC9199FD8 value=0xC5084780 value_block=segment_20 value_ascii=SUBBAND
-  QDSP_IQ_TABLE_WORD slot=0xC9199FDC value=0xC5082A09 value_block=segment_20 value_ascii=RESERVED
-  QDSP_IQ_TABLE_WORD slot=0xC9199FE0 value=0xC508234D value_block=segment_20 value_ascii=CHANNEL
-  QDSP_IQ_TABLE_WORD slot=0xC9199FE4 value=0xC5084788 value_block=segment_20 value_ascii=WAVEFORM
-  QDSP_IQ_TABLE_WORD slot=0xC9199FE8 value=0xC5082355 value_block=segment_20 value_ascii=BANDWIDTH
-  QDSP_IQ_TABLE_WORD slot=0xC9199FEC value=0xC5084791 value_block=segment_20 value_ascii=NUM_RB
-  QDSP_IQ_TABLE_WORD slot=0xC9199FF0 value=0xC5084798 value_block=segment_20 value_ascii=START_RB
-  QDSP_IQ_TABLE_WORD slot=0xC9199FF4 value=0xC50847A1 value_block=segment_20 value_ascii=CW_OFFSET
-  QDSP_IQ_TABLE_SLOT_XREFS_SHOWN=0
-QDSP_IQ_TABLE_CONTEXT label=HISTORIC_FREQUENCY_PROPERTY_HINT target=0xC919A020 block=segment_21 initialized=true
-  QDSP_IQ_TABLE_WORD slot=0xC919A000 value=0xC50847B1 value_block=segment_20 value_ascii=LOOPBACK_TYPE
-  QDSP_IQ_TABLE_WORD slot=0xC919A004 value=0xC49535E6 value_block=segment_20 value_ascii=BEAM_ID
-  QDSP_IQ_TABLE_WORD slot=0xC919A008 value=0xC50847BF value_block=segment_20 value_ascii=CC_INDEX
-  QDSP_IQ_TABLE_WORD slot=0xC919A00C value=0xC50847C8 value_block=segment_20 value_ascii=CC_START_RB
-  QDSP_IQ_TABLE_WORD slot=0xC919A010 value=0xC50847D4 value_block=segment_20 value_ascii=CC_NUM_RB
-  QDSP_IQ_TABLE_WORD slot=0xC919A014 value=0xC50847DE value_block=segment_20 value_ascii=CC_BANDWIDTH
-  QDSP_IQ_TABLE_WORD slot=0xC919A018 value=0xC50847EB value_block=segment_20 value_ascii=LOOPBACK_RFM_DEVICE
-  QDSP_IQ_TABLE_WORD slot=0xC919A01C value=0xC49CC70C value_block=segment_20 value_ascii=PLL_ID
-  QDSP_IQ_TABLE_WORD slot=0xC919A020 ***TARGET_SLOT*** value=0xC50847FF value_block=segment_20 value_ascii=TUNE_TX_TO_RX_FREQ
-  QDSP_IQ_TABLE_WORD slot=0xC919A024 value=0xC508240C value_block=segment_20 value_ascii=LOAD_CODEBOOK
-  QDSP_IQ_TABLE_WORD slot=0xC919A028 value=0xC5084812 value_block=segment_20 value_ascii=FREQUENCY
-  QDSP_IQ_TABLE_WORD slot=0xC919A02C value=0xC508481C value_block=segment_20 value_ascii=VERSION
-  QDSP_IQ_TABLE_WORD slot=0xC919A030 value=0xC5084824 value_block=segment_20 value_ascii=SWITCH_TDSCDMA_WAVEFORM
-  QDSP_IQ_TABLE_WORD slot=0xC919A034 value=0xC508483C value_block=segment_20 value_ascii=SET_MOD
-  QDSP_IQ_TABLE_WORD slot=0xC919A038 value=0xC5084844 value_block=segment_20 value_ascii=CC_SCS
-  QDSP_IQ_TABLE_WORD slot=0xC919A03C value=0xC508484B value_block=segment_20 value_ascii=WFM_ORIGIN
-  QDSP_IQ_TABLE_WORD slot=0xC919A040 value=0xC508241A value_block=segment_20 value_ascii=NDR_STATE
-  QDSP_IQ_TABLE_WORD slot=0xC919A044 value=0xC5084856 value_block=segment_20 value_ascii=NR5G_MOD_TYPE
-  QDSP_IQ_TABLE_WORD slot=0xC919A048 value=0xC5084864 value_block=segment_20 value_ascii=WFM_IMMED_TRIG
-  QDSP_IQ_TABLE_WORD slot=0xC919A04C value=0x00000000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A050 value=0xC49535C6 value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_TABLE_WORD slot=0xC919A054 value=0xC4953956 value_block=segment_20 value_ascii=PATH_INDEX
-  QDSP_IQ_TABLE_WORD slot=0xC919A058 value=0xC4953AF0 value_block=segment_20 value_ascii=SIG_PATH
-  QDSP_IQ_TABLE_WORD slot=0xC919A05C value=0xC49535DB value_block=segment_20 value_ascii=RFM_DEVICE
-  QDSP_IQ_TABLE_SLOT_XREFS_SHOWN=0
-QDSP_IQ_TABLE_CONTEXT label=DS_UNVERIFIED_MARKER_TABLE_HINT target=0xC919A892 block=segment_21 initialized=true
-  QDSP_IQ_TABLE_WORD slot=0xC919A874 value=0x437E0000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A878 value=0x437F0000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A87C value=0x43800000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A880 value=0x01010101 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A884 value=0x01010101 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A888 value=0x00010101 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A88C value=0x01010101 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A890 value=0x01000101 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A894 value=0x01010101 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A898 value=0x01010101 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A89C value=0x00000000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A8A0 value=0x0000000F value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A8A4 value=0x0000000F value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A8A8 value=0xC49535C6 value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_TABLE_WORD slot=0xC919A8AC value=0xC50AD4D8 value_block=segment_20 value_ascii=INDEX
-  QDSP_IQ_TABLE_WORD slot=0xC919A8B0 value=0xC50AD4DE value_block=segment_20 value_ascii=QLINK ID
-  QDSP_IQ_TABLE_WORD slot=0xC919A8B4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A8B8 value=0xC49535C6 value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_TABLE_WORD slot=0xC919A8BC value=0xC50AD4D8 value_block=segment_20 value_ascii=INDEX
-  QDSP_IQ_TABLE_WORD slot=0xC919A8C0 value=0xC50AD4DE value_block=segment_20 value_ascii=QLINK ID
-  QDSP_IQ_TABLE_WORD slot=0xC919A8C4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_TABLE_WORD slot=0xC919A8C8 value=0xC49535C6 value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_TABLE_WORD slot=0xC919A8CC value=0xC50AD4D8 value_block=segment_20 value_ascii=INDEX
-  QDSP_IQ_TABLE_SLOT_XREFS_SHOWN=0
-
-QDSP_GP_INSTRUCTION_AND_PCODE_SCAN
-QDSP_GP_INSTRUCTIONS_SCANNED=1415334
-QDSP_GP_EXPLICIT_REGISTER_HITS=19324
-QDSP_GP_PCODE_REGISTER_HITS=19327
-QDSP_GP_ACTUAL_DESTINATION_WRITE_CANDIDATES=5
-QDSP_GP_INSN_ROWS_SHOWN=0
-QDSP_GP_PCODE_ROWS_SHOWN=0
-QDSP_IQ_TABLE_CODE_REFERENCES=44
-QDSP6SW_GP_RELATIVE_IQ_TABLE_AUDIT_DONE
-
-============================================================
-QDSP_IQ_GP_FOCUSED_TAIL_SUMMARY
-This tail repeats target-slot values and exact incoming references; it does not set GP.
-============================================================
-QDSP_IQ_FINAL_SLOT label=FETCH_IQ_STRING_POINTER_SLOT slot=0xC91998A4 block=segment_21 initialized=true value=0xC508259B value_ascii=FETCH_IQ
-  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
-QDSP_IQ_FINAL_SLOT label=IQ_CAPTURE_TYPE_STRING_POINTER_SLOT slot=0xC919990C block=segment_21 initialized=true value=0xC508272C value_ascii=IQ_CAPTURE_TYPE
-  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
-QDSP_IQ_FINAL_SLOT label=IQ_CAPTURE_STRING_POINTER_SLOT slot=0xC919A308 block=segment_21 initialized=true value=0xC5084C11 value_ascii=IQ_CAPTURE
-  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
-QDSP_IQ_FINAL_SLOT label=HISTORIC_PROPERTY_NAMES_TABLE_HINT slot=0xC9199FB8 block=segment_21 initialized=true value=0xC49535C6 value_ascii=UNASSIGNED
-  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
-QDSP_IQ_FINAL_SLOT label=HISTORIC_FREQUENCY_PROPERTY_HINT slot=0xC919A020 block=segment_21 initialized=true value=0xC50847FF value_ascii=TUNE_TX_TO_RX_FREQ
-  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
-QDSP_IQ_FINAL_SLOT label=DS_UNVERIFIED_MARKER_TABLE_HINT slot=0xC919A892 block=segment_21 initialized=true value=0x01010100 value_ascii=<not-a-cstring>
-  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=0 shown=0
-QDSP_IQ_GP_FOCUSED_TAIL_SUMMARY_DONE
-
-============================================================
-QDSP_GP_ACTUAL_WRITER_FOCUSED_TAIL
-Only instructions whose first operand is exactly GP/C11 are candidates; GP-relative memory operands are excluded.
-============================================================
-QDSP_GP_ACTUAL_WRITER address=c16012e0 destination=GP function=FUN_c1600cc4@0xC1600CC4 instruction=assign GP,R1 
-  QDSP_GP_ACTUAL_WRITER_PCODE c16012e0 (register, 0x313, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16012e0 (register, 0x312, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16012e0 (register, 0x311, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16012e0 (register, 0x310, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16012e0 (register, 0x32c, 4) COPY (register, 0x4, 4)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16012e0 (register, 0x22c, 4) COPY (register, 0x32c, 4)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16012e0 (register, 0x1004, 4) COPY (const, 0xc16012e4, 4)
-  QDSP_GP_ACTUAL_WRITER_PREV c16012dc assign EVB,R0 
-  QDSP_GP_ACTUAL_WRITER_PREV c16012d8 assign R1,##0xcbf0f000 
-  QDSP_GP_ACTUAL_WRITER_PREV c16012d4 immext #0xcbf0f000 
-  QDSP_GP_ACTUAL_WRITER_PREV c16012d0 assign R0,##0xc1617500 
-  QDSP_GP_ACTUAL_WRITER_PREV c16012cc immext #0xc1617500 
-  QDSP_GP_ACTUAL_WRITER_PREV c16012c8 ciad R0 
-  QDSP_GP_ACTUAL_WRITER_PREV c16012c4 cswi R0 
-  QDSP_GP_ACTUAL_WRITER_PREV c16012c0 assign R0,#-0x1 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16012e4 assign SGP0,SP 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16012e8 call 0xc16016b0 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16012ec assign R0,#0x15 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16012f0 call 0xc1723240 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16012f4 immext #0x11e280 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16012f8 call 0xc171f590 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16012fc jump 0xc16012fc 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1601300 assign R1,CFGBASE 
-QDSP_GP_ACTUAL_WRITER address=c1615d28 destination=GP function=FUN_c1615cdc@0xC1615CDC instruction=assign GP,R12 
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615d28 (register, 0x313, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615d28 (register, 0x312, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615d28 (register, 0x311, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615d28 (register, 0x310, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615d28 (register, 0x32c, 4) COPY (register, 0x30, 4)
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d24 memd R19R18,(FP+#0x48) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d20 memd R1R0,(FP+#0x90) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d1c memd R27R26,(FP+#0xc0) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d18 memd R25R24,(FP+#0xc8) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d14 assign UGP,R13 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d10 memd R29R28,(FP+#0x28) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d0c memd R13R12,(FP+#0x30) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d08 memd R17R16,(FP+#0x50) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d2c memd R21R20,(FP+#0x40) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d30 memd R9R8,(FP+#0x18) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d34 memd R23R22,(FP+#0x140) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d38 assign PKTCOUNT,R23R22 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d3c assign SSR,R9 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d40 assign ELR,R8 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d44 memub R8,(FP+#0x14) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615d48 memd R23R22,(FP+#0xf8) 
-QDSP_GP_ACTUAL_WRITER address=c1615db4 destination=GP function=<none> instruction=assign GP,R12 
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615db4 (register, 0x313, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615db4 (register, 0x312, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615db4 (register, 0x311, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615db4 (register, 0x310, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1615db4 (register, 0x32c, 4) COPY (register, 0x30, 4)
-  QDSP_GP_ACTUAL_WRITER_PREV c1615db0 memd R3R2,(FP+#0x88) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615dac memd R1R0,(FP+#0x90) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615da8 assign UGP,R13 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615da4 memd R13R12,(R0+#0x30) 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615da0 assign FP,R0 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d9c memw (R1+R2<<#0x2),R12.new 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d98 assign R12,#0x0 
-  QDSP_GP_ACTUAL_WRITER_PREV c1615d94 diag R3 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615db8 memd R9R8,(FP+#0x18) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615dbc memd R23R22,(FP+#0x140) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615dc0 assign PKTCOUNT,R23R22 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615dc4 assign SSR,R9 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615dc8 assign ELR,R8 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615dcc memub R8,(FP+#0x14) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615dd0 memd R23R22,(FP+#0xf8) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1615dd4 assign C17C16,R23R22 
-QDSP_GP_ACTUAL_WRITER address=c1617a04 destination=GP function=FUN_c16179b8@0xC16179B8 instruction=assign GP,R2 
-  QDSP_GP_ACTUAL_WRITER_PCODE c1617a04 (register, 0x313, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1617a04 (register, 0x312, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1617a04 (register, 0x311, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1617a04 (register, 0x310, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c1617a04 (register, 0x32c, 4) COPY (register, 0x8, 4)
-  QDSP_GP_ACTUAL_WRITER_PREV c1617a00 dcfetch (R14) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16179fc memd R31R30,(R15+#0x20) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16179f8 add R14,R14,#-0x20 
-  QDSP_GP_ACTUAL_WRITER_PREV c16179f4 assign UGP,R3 
-  QDSP_GP_ACTUAL_WRITER_PREV c16179f0 memd R3R2,(FP+#0x30) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16179ec memd R1R0,(FP+#0x18) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16179e8 add R14,FP,#0xb0 
-  QDSP_GP_ACTUAL_WRITER_PREV c16179e4 add R15,FP,#0x0 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a08 add R14,R14,#-0x20 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a0c memd R29R28,(R15+#0x28) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a10 dcfetch (R14) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a14 assign SSR,R1 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a18 assign ELR,R0 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a1c memub R13,(R15+#0x14) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a20 memd R23R22,(R15+#0xf8) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c1617a24 memd R25R24,(R15+#0x140) 
-QDSP_GP_ACTUAL_WRITER address=c16b0388 destination=GP function=FUN_c16b0304@0xC16B0304 instruction=assign GP,R12 
-  QDSP_GP_ACTUAL_WRITER_PCODE c16b0388 (register, 0x313, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16b0388 (register, 0x312, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16b0388 (register, 0x311, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16b0388 (register, 0x310, 1) COPY (const, 0xff, 1)
-  QDSP_GP_ACTUAL_WRITER_PCODE c16b0388 (register, 0x32c, 4) COPY (register, 0x30, 4)
-  QDSP_GP_ACTUAL_WRITER_PREV c16b0384 memd R27R26,(R0+#0xc0) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16b0380 memd R25R24,(R0+#0xc8) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16b037c assign UGP,R13 
-  QDSP_GP_ACTUAL_WRITER_PREV c16b0378 memd R29R28,(R0+#0x28) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16b0374 memd R13R12,(R0+#0x30) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16b0370 memd R19R18,(R0+#0x48) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16b036c memd R17R16,(R0+#0x50) 
-  QDSP_GP_ACTUAL_WRITER_PREV c16b0368 memb (R0+#0x15),R1 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b038c memd R21R20,(R0+#0x40) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b0390 memd R9R8,(R0+#0x18) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b0394 memd R23R22,(R0+#0x38) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b0398 memd R7R6,(R0+#0xb0) 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b039c assign SSR,R9 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b03a0 assign ELR,R8 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b03a4 assign USR,R7 
-  QDSP_GP_ACTUAL_WRITER_NEXT c16b03a8 memw R6,(R0+#0xdc) 
-QDSP_GP_ACTUAL_WRITER_INSTRUCTIONS_SCANNED=1415334
-QDSP_GP_ACTUAL_WRITER_CANDIDATES=5
-QDSP_GP_ACTUAL_WRITERS_SHOWN=5
-QDSP_GP_ACTUAL_WRITER_FOCUSED_TAIL_DONE
-
-============================================================
-QDSP_IQ_ARRAY_AND_CONSUMER_FOCUSED_TAIL
-Important pointer words and table consumers are repeated here to survive console truncation.
-============================================================
-
-QDSP_IQ_POINTER_ARRAY_RANGE label=IQ_FIELD_NAME_POOL_A start=0xC919987C end=0xC919994C
-  block=segment_21 initialized=true
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919987C value=0xC4953B06 string_pointer=true value_block=segment_20 value_ascii=EXPECTED_AGC
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199880 value=0xC5082555 string_pointer=true value_block=segment_20 value_ascii=RX_AGC
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199884 value=0xC508255C string_pointer=true value_block=segment_20 value_ascii=LNA_GS
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199888 value=0xC4953AF0 string_pointer=true value_block=segment_20 value_ascii=SIG_PATH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919988C value=0xC5082563 string_pointer=true value_block=segment_20 value_ascii=RX_MODE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199890 value=0xC508256B string_pointer=true value_block=segment_20 value_ascii=RX_SLOT
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199894 value=0xC5082573 string_pointer=true value_block=segment_20 value_ascii=NUM_OF_BURST
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199898 value=0xC5082580 string_pointer=true value_block=segment_20 value_ascii=SENSITIVITY
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919989C value=0xC508258C string_pointer=true value_block=segment_20 value_ascii=CTON
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998A0 value=0xC5082591 string_pointer=true value_block=segment_20 value_ascii=PEAK FREQ
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998A4 value=0xC508259B string_pointer=true value_block=segment_20 value_ascii=FETCH_IQ
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998A8 value=0xC50825A4 string_pointer=true value_block=segment_20 value_ascii=NUM_OF_SAMPLES
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998AC value=0xC50825B3 string_pointer=true value_block=segment_20 value_ascii=IQ_DATA_FORMAT
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998B0 value=0xC50825C2 string_pointer=true value_block=segment_20 value_ascii=SAMP_FREQ
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998B4 value=0xC50825CC string_pointer=true value_block=segment_20 value_ascii=OVERRIDE_LNA
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998B8 value=0xC50825D9 string_pointer=true value_block=segment_20 value_ascii=RX_GAIN_CTL_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998BC value=0xC50825EA string_pointer=true value_block=segment_20 value_ascii=NO_TONE_SENSITIVITY
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998C0 value=0xC50825FE string_pointer=true value_block=segment_20 value_ascii=NO_TONE_SENSITIVITY_SPUR_NUM
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998C4 value=0xC508261B string_pointer=true value_block=segment_20 value_ascii=NO_TONE_SENSITIVITY_SPUR_FERQ_OFFSET
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998C8 value=0xC5082640 string_pointer=true value_block=segment_20 value_ascii=NO_TONE_SENSITIVITY_SPUR_LEVEL
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998CC value=0xC49535E6 string_pointer=true value_block=segment_20 value_ascii=BEAM_ID
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998D0 value=0xC50823C3 string_pointer=true value_block=segment_20 value_ascii=TIME_US
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998D4 value=0xC50823B2 string_pointer=true value_block=segment_20 value_ascii=SUB_FRAME_CONFIG
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998D8 value=0xC508265F string_pointer=true value_block=segment_20 value_ascii=NUM_AVERAGES
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998DC value=0xC508266C string_pointer=true value_block=segment_20 value_ascii=RX_AGC_MIN
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998E0 value=0xC5082677 string_pointer=true value_block=segment_20 value_ascii=RX_AGC_MAX
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998E4 value=0xC5082682 string_pointer=true value_block=segment_20 value_ascii=RX_AGC_STDDEV
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998E8 value=0xC5082690 string_pointer=true value_block=segment_20 value_ascii=CTON_MIN
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998EC value=0xC5082699 string_pointer=true value_block=segment_20 value_ascii=CTON_MAX
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998F0 value=0xC50826A2 string_pointer=true value_block=segment_20 value_ascii=CTON_STDDEV
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998F4 value=0xC50826AE string_pointer=true value_block=segment_20 value_ascii=SENSITIVITY_MIN
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998F8 value=0xC50826BE string_pointer=true value_block=segment_20 value_ascii=SENSITIVITY_MAX
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC91998FC value=0xC50826CE string_pointer=true value_block=segment_20 value_ascii=SENSITIVITY_STDDEV
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199900 value=0xC50826E1 string_pointer=true value_block=segment_20 value_ascii=NO_TONE_SENSITIVITY_MIN
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199904 value=0xC50826F9 string_pointer=true value_block=segment_20 value_ascii=NO_TONE_SENSITIVITY_MAX
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199908 value=0xC5082711 string_pointer=true value_block=segment_20 value_ascii=NO_TONE_SENSITIVITY_STDDEV
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919990C value=0xC508272C string_pointer=true value_block=segment_20 value_ascii=IQ_CAPTURE_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199910 value=0xC508273C string_pointer=true value_block=segment_20 value_ascii=MEAS_FREQUENCY_ERROR
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199914 value=0xC5082751 string_pointer=true value_block=segment_20 value_ascii=INPUT_CW_TONE_FREQUENCY
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199918 value=0xC5082769 string_pointer=true value_block=segment_20 value_ascii=RX_FREQUENCY_ERROR
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919991C value=0xC508277C string_pointer=true value_block=segment_20 value_ascii=APPLY_FREQUENCY_ERROR_TX
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199920 value=0xC5082795 string_pointer=true value_block=segment_20 value_ascii=NUM_OF_CAPTURES
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199924 value=0xC50827A5 string_pointer=true value_block=segment_20 value_ascii=IQ_SAMPLE_DEBUG_INFO_0
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199928 value=0xC50827BC string_pointer=true value_block=segment_20 value_ascii=IQ_SAMPLE_DEBUG_INFO_1
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919992C value=0xC50827D3 string_pointer=true value_block=segment_20 value_ascii=IQ_SAMPLE_DEBUG_INFO_2
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199930 value=0xC50823D6 string_pointer=true value_block=segment_20 value_ascii=SUB_TECH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199934 value=0xC50827EA string_pointer=true value_block=segment_20 value_ascii=RSB_FREQ
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199938 value=0xC50827F3 string_pointer=true value_block=segment_20 value_ascii=RSB_PWR_DBC
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919993C value=0xC50827FF string_pointer=true value_block=segment_20 value_ascii=RSB_MEAS_INT
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199940 value=0xC508280C string_pointer=true value_block=segment_20 value_ascii=MEAS_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199944 value=0xC5082816 string_pointer=true value_block=segment_20 value_ascii=NUM_OF_TONES
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199948 value=0xC5082823 string_pointer=true value_block=segment_20 value_ascii=MULTI_TONES_SENSITIVITY
-  QDSP_IQ_POINTER_ARRAY_WORDS=52
-  QDSP_IQ_POINTER_ARRAY_STRING_POINTERS=52
-
-QDSP_IQ_POINTER_ARRAY_RANGE label=RFDEBUG_PROPERTY_NAMES_PRELUDE_INDEX_MINUS_8_TO_MINUS_1 start=0xC9199F98 end=0xC9199FB4
-  block=segment_21 initialized=true
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199F98 value=0xC50844BF string_pointer=true value_block=segment_20 value_ascii=IF_TRX_INFO
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199F9C value=0xC50844CB string_pointer=true value_block=segment_20 value_ascii=RFTRX_ANTMOD_INTF_INFO
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FA0 value=0xC50844E2 string_pointer=true value_block=segment_20 value_ascii=ANT_MODULE_INFO
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FA4 value=0xC50844F2 string_pointer=true value_block=segment_20 value_ascii=SUBBAND_FREQ_INFO
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FA8 value=0xC5084504 string_pointer=true value_block=segment_20 value_ascii=ANT_MODULE_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FAC value=0xC5084514 string_pointer=true value_block=segment_20 value_ascii=TX_RX_CAL_FEED_INFO
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FB0 value=0xC5082C87 string_pointer=true value_block=segment_20 value_ascii=PLATFORM_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORDS=7
-  QDSP_IQ_POINTER_ARRAY_STRING_POINTERS=7
-
-QDSP_IQ_POINTER_ARRAY_RANGE label=RFDEBUG_PROPERTY_NAMES_INDEX_0_TO_40 start=0xC9199FB8 end=0xC919A058
-  block=segment_21 initialized=true
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FB8 property_word_index=0 value=0xC49535C6 string_pointer=true value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FBC property_word_index=1 value=0xC5084755 string_pointer=true value_block=segment_20 value_ascii=IS_TEARDOWN
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FC0 property_word_index=2 value=0xC5084761 string_pointer=true value_block=segment_20 value_ascii=RADIO_SETUP_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FC4 property_word_index=3 value=0xC49535DB string_pointer=true value_block=segment_20 value_ascii=RFM_DEVICE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FC8 property_word_index=4 value=0xC4953AF0 string_pointer=true value_block=segment_20 value_ascii=SIG_PATH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FCC property_word_index=5 value=0xC5082369 string_pointer=true value_block=segment_20 value_ascii=ANT_PATH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FD0 property_word_index=6 value=0xC5084772 string_pointer=true value_block=segment_20 value_ascii=RFM_PATH_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FD4 property_word_index=7 value=0xC49D5DF4 string_pointer=true value_block=segment_20 value_ascii=BAND
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FD8 property_word_index=8 value=0xC5084780 string_pointer=true value_block=segment_20 value_ascii=SUBBAND
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FDC property_word_index=9 value=0xC5082A09 string_pointer=true value_block=segment_20 value_ascii=RESERVED
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FE0 property_word_index=10 value=0xC508234D string_pointer=true value_block=segment_20 value_ascii=CHANNEL
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FE4 property_word_index=11 value=0xC5084788 string_pointer=true value_block=segment_20 value_ascii=WAVEFORM
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FE8 property_word_index=12 value=0xC5082355 string_pointer=true value_block=segment_20 value_ascii=BANDWIDTH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FEC property_word_index=13 value=0xC5084791 string_pointer=true value_block=segment_20 value_ascii=NUM_RB
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FF0 property_word_index=14 value=0xC5084798 string_pointer=true value_block=segment_20 value_ascii=START_RB
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FF4 property_word_index=15 value=0xC50847A1 string_pointer=true value_block=segment_20 value_ascii=CW_OFFSET
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FF8 property_word_index=16 value=0xC50847AB string_pointer=true value_block=segment_20 value_ascii=IS_DC
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC9199FFC property_word_index=17 value=0xC495397F string_pointer=true value_block=segment_20 value_ascii=MOD_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A000 property_word_index=18 value=0xC50847B1 string_pointer=true value_block=segment_20 value_ascii=LOOPBACK_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A004 property_word_index=19 value=0xC49535E6 string_pointer=true value_block=segment_20 value_ascii=BEAM_ID
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A008 property_word_index=20 value=0xC50847BF string_pointer=true value_block=segment_20 value_ascii=CC_INDEX
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A00C property_word_index=21 value=0xC50847C8 string_pointer=true value_block=segment_20 value_ascii=CC_START_RB
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A010 property_word_index=22 value=0xC50847D4 string_pointer=true value_block=segment_20 value_ascii=CC_NUM_RB
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A014 property_word_index=23 value=0xC50847DE string_pointer=true value_block=segment_20 value_ascii=CC_BANDWIDTH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A018 property_word_index=24 value=0xC50847EB string_pointer=true value_block=segment_20 value_ascii=LOOPBACK_RFM_DEVICE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A01C property_word_index=25 value=0xC49CC70C string_pointer=true value_block=segment_20 value_ascii=PLL_ID
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A020 property_word_index=26 value=0xC50847FF string_pointer=true value_block=segment_20 value_ascii=TUNE_TX_TO_RX_FREQ
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A024 property_word_index=27 value=0xC508240C string_pointer=true value_block=segment_20 value_ascii=LOAD_CODEBOOK
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A028 property_word_index=28 value=0xC5084812 string_pointer=true value_block=segment_20 value_ascii=FREQUENCY
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A02C property_word_index=29 value=0xC508481C string_pointer=true value_block=segment_20 value_ascii=VERSION
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A030 property_word_index=30 value=0xC5084824 string_pointer=true value_block=segment_20 value_ascii=SWITCH_TDSCDMA_WAVEFORM
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A034 property_word_index=31 value=0xC508483C string_pointer=true value_block=segment_20 value_ascii=SET_MOD
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A038 property_word_index=32 value=0xC5084844 string_pointer=true value_block=segment_20 value_ascii=CC_SCS
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A03C property_word_index=33 value=0xC508484B string_pointer=true value_block=segment_20 value_ascii=WFM_ORIGIN
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A040 property_word_index=34 value=0xC508241A string_pointer=true value_block=segment_20 value_ascii=NDR_STATE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A044 property_word_index=35 value=0xC5084856 string_pointer=true value_block=segment_20 value_ascii=NR5G_MOD_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A048 property_word_index=36 value=0xC5084864 string_pointer=true value_block=segment_20 value_ascii=WFM_IMMED_TRIG
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A04C property_word_index=37 value=0x00000000 string_pointer=false value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A050 property_word_index=38 value=0xC49535C6 string_pointer=true value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A054 property_word_index=39 value=0xC4953956 string_pointer=true value_block=segment_20 value_ascii=PATH_INDEX
-  QDSP_IQ_POINTER_ARRAY_WORDS=40
-  QDSP_IQ_POINTER_ARRAY_STRING_POINTERS=39
-
-QDSP_IQ_POINTER_ARRAY_RANGE label=RFDEBUG_PROPERTY_NAMES_INDEX_200_TO_218 start=0xC919A2D8 end=0xC919A320
-  block=segment_21 initialized=true
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2D8 property_word_index=200 value=0xC5084BF4 string_pointer=true value_block=segment_20 value_ascii=ETVD MIN
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2DC property_word_index=201 value=0xC5084BA8 string_pointer=true value_block=segment_20 value_ascii=DETROUGH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2E0 property_word_index=202 value=0xC5084BC7 string_pointer=true value_block=segment_20 value_ascii=SCALE_DETROUGH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2E4 property_word_index=203 value=0x00000000 string_pointer=false value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2E8 property_word_index=204 value=0xC49535C6 string_pointer=true value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2EC property_word_index=205 value=0xC4953AF0 string_pointer=true value_block=segment_20 value_ascii=SIG_PATH
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2F0 property_word_index=206 value=0xC49535DB string_pointer=true value_block=segment_20 value_ascii=RFM_DEVICE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2F4 property_word_index=207 value=0xC5084BFD string_pointer=true value_block=segment_20 value_ascii=DEBUG_MODE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2F8 property_word_index=208 value=0xC49CC70C string_pointer=true value_block=segment_20 value_ascii=PLL_ID
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A2FC property_word_index=209 value=0x00000000 string_pointer=false value_block=<none> value_ascii=<not-a-cstring>
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A300 property_word_index=210 value=0xC49535C6 string_pointer=true value_block=segment_20 value_ascii=UNASSIGNED
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A304 property_word_index=211 value=0xC5084C08 string_pointer=true value_block=segment_20 value_ascii=CAL_TYPE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A308 property_word_index=212 value=0xC5084C11 string_pointer=true value_block=segment_20 value_ascii=IQ_CAPTURE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A30C property_word_index=213 value=0xC5084C1C string_pointer=true value_block=segment_20 value_ascii=DIS_TX_LOOPBACK
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A310 property_word_index=214 value=0xC5084C2C string_pointer=true value_block=segment_20 value_ascii=IIP2_TX_OFFSET
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A314 property_word_index=215 value=0xC5084C3B string_pointer=true value_block=segment_20 value_ascii=IIP2_I_CODE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A318 property_word_index=216 value=0xC5084C47 string_pointer=true value_block=segment_20 value_ascii=IIP2_Q_CODE
-  QDSP_IQ_POINTER_ARRAY_WORD slot=0xC919A31C property_word_index=217 value=0xC5084C53 string_pointer=true value_block=segment_20 value_ascii=IIP2_IM2_POWER_REF_CODE
-  QDSP_IQ_POINTER_ARRAY_WORDS=18
-  QDSP_IQ_POINTER_ARRAY_STRING_POINTERS=16
-
-QDSP_IQ_TABLE_ROOT_POINTER_SCAN
-Scan initialized segment_20/segment_21 data for pointer copies to known table addresses.
-QDSP_IQ_TABLE_ROOT_POINTER_WORDS_SCANNED=19690496
 QDSP_IQ_TABLE_ROOT_POINTER_HITS=0
 QDSP_IQ_TABLE_ROOT_POINTER_HITS_SHOWN=0
 QDSP_IQ_TABLE_ROOT_POINTER_SCAN_DONE
@@ -438,8 +73,348 @@ QDSP_IQ_TABLE_CONSUMER_FUNCTION label=TABLE_SETUP_C1CBF250 requested_entry=0xC1C
 QDSP_IQ_ARRAY_AND_CONSUMER_FOCUSED_TAIL_DONE
 
 ============================================================
+QDSP_IQ_TABLE_HIT_FOLLOWUP
+TRACE_BUILD=DIAG-FTM-STRUCTURE-83-TABLE-FOLLOWUP-1
+PROGRAM=qdsp6sw.mbn
+Purpose: decode words around the 0xC919ABxx/ACxx and 0xC919B0xx hits, then print nearby code.
+READ ONLY - no RF/DIAG commands and no program modifications.
+============================================================
+
+QDSP_IQ_TABLE_WORD_RANGE label=TABLE_WORDS_AA80_TO_AD00 start=0xC919AA80 end_exclusive=0xC919AD00
+QDSP_IQ_TABLE_WORD slot=0xC919AA80 value=0xFFFFFFEC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AA84 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AA88 value=0x3A92A305 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AA8C value=0x40239D01 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AA90 value=0x00000383 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AA94 value=0x00000001 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AA98 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AA9C value=0xDCCE8448 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAA0 value=0xDCCE846C value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAA4 value=0x00000382 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAA8 value=0x00000001 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAAC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAB0 value=0xDCCE84D0 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAB4 value=0xDCCE84F4 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAB8 value=0x00000381 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AABC value=0x00000001 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAC0 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAC4 value=0xDCCE85B8 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAC8 value=0xDCCE85D8 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AACC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAD0 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AAD0 count=2 shown=c1cbf3a0:DATA;c1cbf390:PARAM
+QDSP_IQ_TABLE_WORD slot=0xC919AAD4 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAD8 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AADC value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAE0 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAE4 value=0x00330725 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAE8 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AAE8 count=3 shown=c1cbf3a0:DATA;c1cbf390:PARAM;c1cbf3e8:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919AAEC value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAF0 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAF4 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAF8 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AAFC value=0x00330725 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB00 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB04 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB08 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB0C value=0x003300BF value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB10 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB14 value=0x00330392 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB18 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB1C value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB20 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB24 value=0x003300BF value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB28 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB2C value=0x00330392 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB30 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AB30 count=1 shown=c1cbf57c:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919AB34 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB38 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB3C value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB40 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB44 value=0x00330725 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB48 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AB48 count=1 shown=c1cbf584:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919AB4C value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB50 value=0x003302FA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB54 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB58 value=0x0033017D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB5C value=0x00330725 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB60 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB64 value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB68 value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB6C value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB70 value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB74 value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB78 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AB78 count=2 shown=c1cbf3a0:DATA;c1cbf374:PARAM
+QDSP_IQ_TABLE_WORD slot=0xC919AB7C value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB80 value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB84 value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB88 value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB8C value=0x00330724 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB90 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AB90 count=1 shown=c1cbf34c:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919AB94 value=0x00330477 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB98 value=0x003305F4 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AB9C value=0x0033023B value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABA0 value=0x0033023B value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABA4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABA8 value=0x0033023B value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABAC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABB0 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABB4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABB8 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919ABB8 count=1 shown=c1cbf364:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919ABBC value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABC0 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABC4 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABC8 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABCC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABD0 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABD4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABD8 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABDC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABE0 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919ABE0 count=1 shown=c1cbf358:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919ABE4 value=0x00078D98 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABE8 value=0x000B71B0 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABEC value=0x0005DA0C value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABF0 value=0x0005D818 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABF4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABF8 value=0x0005D9A8 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ABFC value=0x0005D8E0 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC00 value=0x0005DA70 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC04 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC08 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AC08 count=1 shown=c1cbf358:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919AC0C value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC10 value=0x000F423E value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC14 value=0x000F423D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC18 value=0x000F423C value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC1C value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC20 value=0x000F423B value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC24 value=0x000F423A value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC28 value=0x000F4239 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC2C value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC30 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919AC30 count=1 shown=c1cbf33c:DATA
+QDSP_IQ_TABLE_WORD slot=0xC919AC34 value=0x070800D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC38 value=0x070800D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC3C value=0x07080046 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC40 value=0x07D00046 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC44 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC48 value=0x076C00B4 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC4C value=0x07D100C9 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC50 value=0x070600B3 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC54 value=0x07030034 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC58 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC5C value=0x070800D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC60 value=0x070800D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC64 value=0x070800D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC68 value=0x07D000D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC6C value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC70 value=0x076C00D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC74 value=0x07D100D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC78 value=0x070600D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC7C value=0x070300D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC80 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC84 value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC88 value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC8C value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC90 value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC94 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC98 value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919AC9C value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACA0 value=0x000F423F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACA4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACA8 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACAC value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACB0 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACB4 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACB8 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACBC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACC0 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACC4 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACC8 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACCC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACD0 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACD4 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACD8 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACDC value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACE0 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACE4 value=0x003311DC value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACE8 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919ACE8 count=1 shown=c170b028:PARAM
+QDSP_IQ_TABLE_WORD slot=0xC919ACEC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACF0 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACF4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACF8 value=0x6866289F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919ACFC value=0x0DDF5F20 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_RANGE_WORDS_READ=160
+QDSP_IQ_TABLE_WORD_RANGE_DONE label=TABLE_WORDS_AA80_TO_AD00
+
+QDSP_IQ_TABLE_WORD_RANGE label=TABLE_WORDS_B0A0_TO_B110 start=0xC919B0A0 end_exclusive=0xC919B110
+QDSP_IQ_TABLE_WORD slot=0xC919B0A0 value=0x7E9E6989 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0A4 value=0x4AEAA8D2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0A8 value=0x8A570242 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0AC value=0x89419F55 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0B0 value=0x6717B200 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0B4 value=0x18A57024 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0B8 value=0x5B09ECAF value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0BC value=0x3735A604 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0C0 value=0x150E2850 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0C4 value=0x65B09ECA value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0C8 value=0x742E11C8 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0CC value=0x29F27A1D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0D0 value=0x0541DC99 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0D4 value=0xE742E11C value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0D8 value=0x2876CF2F value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0DC value=0x71299289 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0E0 value=0x86A61688 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0E4 value=0xA2876CF2 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0E8 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_XREF slot=0xC919B0E8 count=1 shown=c170af34:PARAM
+QDSP_IQ_TABLE_WORD slot=0xC919B0EC value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0F0 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0F4 value=0x00000000 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0F8 value=0x83F6F69D value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B0FC value=0x8F6E1541 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B100 value=0x1FB8C9B1 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B104 value=0xC83F6F69 value_block=segment_20 value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B108 value=0x66558BD3 value_block=<none> value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD slot=0xC919B10C value=0xCE0C7792 value_block=segment_24 value_ascii=<not-a-cstring> value_function=<none>
+QDSP_IQ_TABLE_WORD_RANGE_WORDS_READ=28
+QDSP_IQ_TABLE_WORD_RANGE_DONE label=TABLE_WORDS_B0A0_TO_B110
+
+QDSP_IQ_INSTRUCTION_WINDOW label=FUN_C170AAA4_HIT_WINDOW_1 start=0xC170AF18 end_exclusive=0xC170AF50
+QDSP_IQ_INSN address=0xC170AF18 function=FUN_c170aaa4@0xC170AAA4 instruction=memb R2,(R17+#0xb0) 
+QDSP_IQ_INSN address=0xC170AF1C function=FUN_c170aaa4@0xC170AAA4 instruction=jump.if:nt cmp.eq(R2.new,#0x0),0xc170af4c 
+QDSP_IQ_INSN address=0xC170AF20 function=FUN_c170aaa4@0xC170AAA4 instruction=call 0xc1705a74 
+QDSP_IQ_INSN address=0xC170AF24 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R23,R12 
+QDSP_IQ_INSN address=0xC170AF28 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R12,R23 
+QDSP_IQ_INSN address=0xC170AF2C function=FUN_c170aaa4@0xC170AAA4 instruction=cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc170af4c 
+QDSP_IQ_INSN address=0xC170AF30 function=FUN_c170aaa4@0xC170AAA4 instruction=immext #0xc919b0c0 
+QDSP_IQ_INSN address=0xC170AF34 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R0,##0xc919b0e8 
+QDSP_IQ_INSN address=0xC170AF38 function=FUN_c170aaa4@0xC170AAA4 instruction=memub R1,(R18+#0x1) 
+QDSP_IQ_INSN address=0xC170AF3C function=FUN_c170aaa4@0xC170AAA4 instruction=memb R2,(R17+#0xb1) 
+QDSP_IQ_INSN address=0xC170AF40 function=FUN_c170aaa4@0xC170AAA4 instruction=call 0xc170b204 
+QDSP_IQ_INSN address=0xC170AF44 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R12,#0x0 
+QDSP_IQ_INSN address=0xC170AF48 function=FUN_c170aaa4@0xC170AAA4 instruction=asl|= R12,R0,#0xb 
+QDSP_IQ_INSN address=0xC170AF4C function=FUN_c170aaa4@0xC170AAA4 instruction=assign R3,#0xb0 
+QDSP_IQ_INSTRUCTION_WINDOW_INSTRUCTIONS_SHOWN=14
+QDSP_IQ_INSTRUCTION_WINDOW_DONE label=FUN_C170AAA4_HIT_WINDOW_1
+
+QDSP_IQ_INSTRUCTION_WINDOW label=FUN_C170AAA4_HIT_WINDOW_2 start=0xC170B008 end_exclusive=0xC170B048
+QDSP_IQ_INSN address=0xC170B008 function=FUN_c170aaa4@0xC170AAA4 instruction=memb (R17+#0x9d),R2 
+QDSP_IQ_INSN address=0xC170B00C function=FUN_c170aaa4@0xC170AAA4 instruction=memb R2,(R17+#0x9c) 
+QDSP_IQ_INSN address=0xC170B010 function=FUN_c170aaa4@0xC170AAA4 instruction=jump.if:nt cmp.eq(R2.new,#0x0),0xc170b040 
+QDSP_IQ_INSN address=0xC170B014 function=FUN_c170aaa4@0xC170AAA4 instruction=call 0xc1705a74 
+QDSP_IQ_INSN address=0xC170B018 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R23,R12 
+QDSP_IQ_INSN address=0xC170B01C function=FUN_c170aaa4@0xC170AAA4 instruction=assign R12,R23 
+QDSP_IQ_INSN address=0xC170B020 function=FUN_c170aaa4@0xC170AAA4 instruction=cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc170b040 
+QDSP_IQ_INSN address=0xC170B024 function=FUN_c170aaa4@0xC170AAA4 instruction=immext #0xc919acc0 
+QDSP_IQ_INSN address=0xC170B028 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R0,##0xc919ace8 
+QDSP_IQ_INSN address=0xC170B02C function=FUN_c170aaa4@0xC170AAA4 instruction=memub R1,(R18+#0x1) 
+QDSP_IQ_INSN address=0xC170B030 function=FUN_c170aaa4@0xC170AAA4 instruction=memb R2,(R17+#0x9d) 
+QDSP_IQ_INSN address=0xC170B034 function=FUN_c170aaa4@0xC170AAA4 instruction=call 0xc170b204 
+QDSP_IQ_INSN address=0xC170B038 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R12,#0x0 
+QDSP_IQ_INSN address=0xC170B03C function=FUN_c170aaa4@0xC170AAA4 instruction=asl|= R12,R0,#0xb 
+QDSP_IQ_INSN address=0xC170B040 function=FUN_c170aaa4@0xC170AAA4 instruction=assign R3,#0xb0 
+QDSP_IQ_INSN address=0xC170B044 function=FUN_c170aaa4@0xC170AAA4 instruction=memub R2,(R17+#0x9d) 
+QDSP_IQ_INSTRUCTION_WINDOW_INSTRUCTIONS_SHOWN=16
+QDSP_IQ_INSTRUCTION_WINDOW_DONE label=FUN_C170AAA4_HIT_WINDOW_2
+
+QDSP_IQ_INSTRUCTION_WINDOW label=FUN_C1CBF250_CALLR_CONTEXT start=0xC1CBF280 end_exclusive=0xC1CBF2C4
+QDSP_IQ_INSN address=0xC1CBF280 function=FUN_c1cbf250@0xC1CBF250 instruction=combine R1R0,##0x200006f,#0x0 
+QDSP_IQ_INSN address=0xC1CBF284 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0x10000 
+QDSP_IQ_INSN address=0xC1CBF288 function=FUN_c1cbf250@0xC1CBF250 instruction=assign R2,##0x10000 
+QDSP_IQ_INSN address=0xC1CBF28C function=FUN_c1cbf250@0xC1CBF250 instruction=call 0xc1bc6e34 
+QDSP_IQ_INSN address=0xC1CBF290 function=FUN_c1cbf250@0xC1CBF250 instruction=assign R22,#0x0 ; add R3,SP,#0x0 
+QDSP_IQ_INSN address=0xC1CBF294 function=FUN_c1cbf250@0xC1CBF250 instruction=cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0xc1cbf2bc 
+QDSP_IQ_INSN address=0xC1CBF298 function=FUN_c1cbf250@0xC1CBF250 instruction=assign R0,#0x3 ; memw R1,(SP+#0x0) 
+QDSP_IQ_INSN address=0xC1CBF29C function=FUN_c1cbf250@0xC1CBF250 instruction=memw R2,(R1+#0x4) 
+QDSP_IQ_INSN address=0xC1CBF2A0 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xcb6cb3c0 
+QDSP_IQ_INSN address=0xC1CBF2A4 function=FUN_c1cbf250@0xC1CBF250 instruction=assign R2,##0xcb6cb3d4 ; memw R3,(R2+#0x24) 
+QDSP_IQ_INSN address=0xC1CBF2A8 function=FUN_c1cbf250@0xC1CBF250 instruction=callr R3 
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8 (register, 0x313, 1) COPY (const, 0xff, 1)
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8 (register, 0x312, 1) COPY (const, 0xff, 1)
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8 (register, 0x311, 1) COPY (const, 0xff, 1)
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8 (register, 0x310, 1) COPY (const, 0xff, 1)
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8 (unique, 0x5d1a800, 4) COPY (register, 0xc, 4)
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8 (register, 0x1004, 4) COPY (const, 0xc1cbf2ac, 4)
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8 (register, 0x7c, 4) COPY (register, 0x1004, 4)
+QDSP_IQ_INSN_CALLR_PCODE 0xC1CBF2A8  ---  CALLIND (unique, 0x5d1a800, 4)
+QDSP_IQ_INSN address=0xC1CBF2AC function=FUN_c1cbf250@0xC1CBF250 instruction=call 0xc1d3f1c4 
+QDSP_IQ_INSN address=0xC1CBF2B0 function=FUN_c1cbf250@0xC1CBF250 instruction=memw R0,(SP) 
+QDSP_IQ_INSN address=0xC1CBF2B4 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xcb6cb3c0 
+QDSP_IQ_INSN address=0xC1CBF2B8 function=FUN_c1cbf250@0xC1CBF250 instruction=memw R22,(##0xcb6cb3d4) 
+QDSP_IQ_INSN address=0xC1CBF2BC function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xcb6cb3c0 
+QDSP_IQ_INSN address=0xC1CBF2C0 function=FUN_c1cbf250@0xC1CBF250 instruction=memw R21,(##0xcb6cb3d8) 
+QDSP_IQ_INSTRUCTION_WINDOW_INSTRUCTIONS_SHOWN=17
+QDSP_IQ_INSTRUCTION_WINDOW_DONE label=FUN_C1CBF250_CALLR_CONTEXT
+
+QDSP_IQ_INSTRUCTION_WINDOW label=FUN_C1CBF250_TABLE_ACCESS_CONTEXT start=0xC1CBF310 end_exclusive=0xC1CBF3A0
+QDSP_IQ_INSN address=0xC1CBF310 function=FUN_c1cbf250@0xC1CBF250 instruction=tstbit P0,R17,#0x0 
+QDSP_IQ_INSN address=0xC1CBF314 function=FUN_c1cbf250@0xC1CBF250 instruction=or R2,R17,R18 
+QDSP_IQ_INSN address=0xC1CBF318 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xcb6ca980 
+QDSP_IQ_INSN address=0xC1CBF31C function=FUN_c1cbf250@0xC1CBF250 instruction=assign R20,##0xcb6ca988 
+QDSP_IQ_INSN address=0xC1CBF320 function=FUN_c1cbf250@0xC1CBF250 instruction=tstbit P1,R2,#0x0 
+QDSP_IQ_INSN address=0xC1CBF324 function=FUN_c1cbf250@0xC1CBF250 instruction=add R2,R20,#0xc 
+QDSP_IQ_INSN address=0xC1CBF328 function=FUN_c1cbf250@0xC1CBF250 instruction=add.if(!P0) R4,R20,#0x4 
+QDSP_IQ_INSN address=0xC1CBF32C function=FUN_c1cbf250@0xC1CBF250 instruction=memw (R19+#0x8),R21 
+QDSP_IQ_INSN address=0xC1CBF330 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919ac00 
+QDSP_IQ_INSN address=0xC1CBF334 function=FUN_c1cbf250@0xC1CBF250 instruction=assign.if(P1) R3,##0xc919ac08 
+QDSP_IQ_INSN address=0xC1CBF338 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919ac00 
+QDSP_IQ_INSN address=0xC1CBF33C function=FUN_c1cbf250@0xC1CBF250 instruction=memw (R2),##0xc919ac30 
+QDSP_IQ_INSN address=0xC1CBF340 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919abc0 
+QDSP_IQ_INSN address=0xC1CBF344 function=FUN_c1cbf250@0xC1CBF250 instruction=assign.if(!P1) R3,##0xc919abe0 
+QDSP_IQ_INSN address=0xC1CBF348 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919ab80 
+QDSP_IQ_INSN address=0xC1CBF34C function=FUN_c1cbf250@0xC1CBF250 instruction=memw.if(!P0) (R4),##0xc919ab90 
+QDSP_IQ_INSN address=0xC1CBF350 function=FUN_c1cbf250@0xC1CBF250 instruction=add.if(P0) R3,R20,#0x4 
+QDSP_IQ_INSN address=0xC1CBF354 function=FUN_c1cbf250@0xC1CBF250 instruction=jump.if(!P0) 0xc1cbf378 
+QDSP_IQ_INSN address=0xC1CBF358 function=FUN_c1cbf250@0xC1CBF250 instruction=memw (R20),R3 
+QDSP_IQ_INSN address=0xC1CBF35C function=FUN_c1cbf250@0xC1CBF250 instruction=cmp.eq P0,R16,#0x3 
+QDSP_IQ_INSN address=0xC1CBF360 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919ab80 
+QDSP_IQ_INSN address=0xC1CBF364 function=FUN_c1cbf250@0xC1CBF250 instruction=memw (R3),##0xc919abb8 
+QDSP_IQ_INSN address=0xC1CBF368 function=FUN_c1cbf250@0xC1CBF250 instruction=mux R2,P0,#0x0,#0x18 
+QDSP_IQ_INSN address=0xC1CBF36C function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919ab40 
+QDSP_IQ_INSN address=0xC1CBF370 function=FUN_c1cbf250@0xC1CBF250 instruction=add R2,R2,##-0x36e654a0 
+QDSP_IQ_INSN address=0xC1CBF374 function=FUN_c1cbf250@0xC1CBF250 instruction=jump 0xc1cbf394 
+QDSP_IQ_INSN address=0xC1CBF378 function=FUN_c1cbf250@0xC1CBF250 instruction=cmp.eq P0,R16,#0x3 ; memw R2,(R19) 
+QDSP_IQ_INSN address=0xC1CBF37C function=FUN_c1cbf250@0xC1CBF250 instruction=cmp.eq P1,R2,#0x65 
+QDSP_IQ_INSN address=0xC1CBF380 function=FUN_c1cbf250@0xC1CBF250 instruction=mux R3,P0,#0x0,#0x18 
+QDSP_IQ_INSN address=0xC1CBF384 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919ab00 
+QDSP_IQ_INSN address=0xC1CBF388 function=FUN_c1cbf250@0xC1CBF250 instruction=add.if(P1) R2,R3,##0xc919ab00 
+QDSP_IQ_INSN address=0xC1CBF38C function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919aac0 
+QDSP_IQ_INSN address=0xC1CBF390 function=FUN_c1cbf250@0xC1CBF250 instruction=add.if(!P1) R2,R3,##0xc919aad0 
+QDSP_IQ_INSN address=0xC1CBF394 function=FUN_c1cbf250@0xC1CBF250 instruction=call 0xc1cbf5d8 
+QDSP_IQ_INSN address=0xC1CBF398 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xcb6ca980 
+QDSP_IQ_INSN address=0xC1CBF39C function=FUN_c1cbf250@0xC1CBF250 instruction=combine R1R0,#0x2,##0xcb6ca9b0 
+QDSP_IQ_INSTRUCTION_WINDOW_INSTRUCTIONS_SHOWN=36
+QDSP_IQ_INSTRUCTION_WINDOW_DONE label=FUN_C1CBF250_TABLE_ACCESS_CONTEXT
+
+QDSP_IQ_INSTRUCTION_WINDOW label=FUN_C1CBF250_LATER_CONTEXT start=0xC1CBF560 end_exclusive=0xC1CBF590
+QDSP_IQ_INSN address=0xC1CBF560 function=FUN_c1cbf250@0xC1CBF250 instruction=assign R3,#0x191 
+QDSP_IQ_INSN address=0xC1CBF564 function=FUN_c1cbf250@0xC1CBF250 instruction=tstbit P0,R3,R2 
+QDSP_IQ_INSN address=0xC1CBF568 function=FUN_c1cbf250@0xC1CBF250 instruction=jump.if(P0.new):t 0xc1cbf5a4 
+QDSP_IQ_INSN address=0xC1CBF56C function=FUN_c1cbf250@0xC1CBF250 instruction=cmp.eq P0,R2,#0x2 ; jump.if(!P0.new):nt 0xc1cbf5c0 
+QDSP_IQ_INSN address=0xC1CBF570 function=FUN_c1cbf250@0xC1CBF250 instruction=cmp.eq P0,R16,#0x3 
+QDSP_IQ_INSN address=0xC1CBF574 function=FUN_c1cbf250@0xC1CBF250 instruction=mux R2,P0,#0x0,#0x18 
+QDSP_IQ_INSN address=0xC1CBF578 function=FUN_c1cbf250@0xC1CBF250 instruction=immext #0xc919ab00 
+QDSP_IQ_INSN address=0xC1CBF57C function=FUN_c1cbf250@0xC1CBF250 instruction=add R2,R2,##-0x36e654d0 
+QDSP_IQ_INSN address=0xC1CBF580 function=FUN_c1cbf250@0xC1CBF250 instruction=jump 0xc1cbf5a4 
+QDSP_IQ_INSN address=0xC1CBF584 function=FUN_c1cbf250@0xC1CBF250 instruction=memw (R20+#0x8),R2.new 
+QDSP_IQ_INSN address=0xC1CBF588 function=FUN_c1cbf250@0xC1CBF250 instruction=assign R4,#0x505 
+QDSP_IQ_INSN address=0xC1CBF58C function=FUN_c1cbf250@0xC1CBF250 instruction=tstbit P0,R4,R3 
+QDSP_IQ_INSTRUCTION_WINDOW_INSTRUCTIONS_SHOWN=12
+QDSP_IQ_INSTRUCTION_WINDOW_DONE label=FUN_C1CBF250_LATER_CONTEXT
+QDSP_IQ_TABLE_HIT_FOLLOWUP_DONE
+
+============================================================
 QDSP_IQ_TABLE_IMMEDIATE_FINAL_TAIL
-FINAL_TRACE_BUILD=DIAG-FTM-STRUCTURE-83
+FINAL_TRACE_BUILD=DIAG-FTM-STRUCTURE-83-TABLE-FOLLOWUP-1
 FINAL_PROGRAM_NAME=qdsp6sw.mbn
 FINAL_IMAGE_BASE=c1600000
 FINAL_PROGRAM_DOMAIN_PATH=/qdsp6sw.mbn
