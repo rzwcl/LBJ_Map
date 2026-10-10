@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-45
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-46
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-45";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-46";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -7178,6 +7178,16 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614SignalInfoUpstreamAndRfcImplementations();
             scan614PltGotThunkMap();
             scan614SignalDescriptorStringsAndReferences();
+
+            p("");
+            p("============================================================");
+            p("STRUCTURE-46 614_0_0 RFDEBUG / RX TUNING DISPATCH PIVOT");
+            p("Current-image scans only: frequency-field strings, radio-config source records, and RFDEBUG 0x007B instruction candidates.");
+            p("These scans do not reuse qdsp6sw.mbn fixed addresses and do not transmit or modify anything.");
+            p("============================================================");
+            scanRfTuneFieldStrings();
+            scanRadioConfigMessageRecords();
+            scanRfDebugSubsysImmediateCandidates();
         }
         else {
             p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");            p("Using the existing C9199FB8 RFDEBUG property-table path for the qdsp6sw-style image.");
