@@ -203,7 +203,7 @@ Read-only static leads only; no packet generation or transmission.
   SCAN_LIMIT_REACHED=false
 
 ============================================================
-STRUCTURE-48 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS
+STRUCTURE-49 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS
 Scans bytes directly; does not rely on Ghidra-defined string data.
 Includes executable and non-executable initialized blocks in the default address space.
 READ ONLY: no disassembly, references, data, symbols, or comments are created.
