@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-68";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-69";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8897,6 +8897,175 @@ private static final boolean FOCUS_ONLY_614 = true;
      * and jumps through a pointer slot; the surrounding ~rfc_*_ag routines
      * are teardown/destructor paths, not evidence of a tuning constructor.
      */
+
+    /*
+     * Narrowed project goal: expose complex I/Q samples, not decode protocols.
+     * Search strings for evidence of an existing capture/buffer/export path.
+     * This is only a clue pass: missing strings do not prove the capability
+     * is absent, and a string hit is not proof that a usable API exists.
+     */
+    private void scan614IqCaptureKeywordTail() {
+        p("");
+        p("============================================================");
+        p("614_PRIORITY_IQ_CAPTURE_PATH_STRINGS");
+        p("Goal: find existing raw-IQ/sample capture, buffer, and export clues; no demodulator work.");
+        p("READ ONLY - no runtime calls, DIAG requests, RF commands, or firmware writes.");
+        p("============================================================");
+
+        final String[] phrases = {
+            "iq capture", "capture iq", "raw iq", "rx_iq", "rx iq",
+            "iq sample", "sample iq", "iq buffer", "iqdata", "iq_data",
+            "i/q", "ftm_iq", "ftm iq", "iq dump", "iq stream",
+            "sample capture", "capture sample", "sample buffer",
+            "raw sample", "rx sample", "receive sample", "baseband sample",
+            "sample stream", "capture data", "rf capture", "fft capture",
+            "adc sample", "adc data", "rx dump", "rf dump",
+            "dsp capture", "modem capture", "rf_test_iq"
+        };
+        final int CHUNK = 0x4000;
+        final int MAX_STRING_LENGTH = 512;
+        final int MAX_HITS = 48;
+        final java.util.regex.Pattern standaloneIq =
+            java.util.regex.Pattern.compile("(^|[^a-z0-9])iq([^a-z0-9]|$)");
+
+        java.util.Set<Long> seen = new java.util.LinkedHashSet<Long>();
+        long bytesScanned = 0L;
+        int candidates = 0;
+        int hits = 0;
+        MemoryBlock[] blocks = memory().getBlocks();
+
+        for (MemoryBlock block : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES || hits >= MAX_HITS) break;
+            if (!block.isInitialized() || !isDefaultDynamicAddressBlock(block)) continue;
+
+            long pos = block.getStart().getOffset();
+            long end = block.getEnd().getOffset();
+            StringBuilder candidate = new StringBuilder();
+            long candidateStart = -1L;
+            boolean tooLong = false;
+            byte[] buffer = new byte[CHUNK];
+
+            while (pos <= end && !monitor.isCancelled()
+                    && lines < MAX_LINES && hits < MAX_HITS) {
+                int want = (int)Math.min((long)CHUNK, end - pos + 1L);
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                } catch (Exception e) {
+                    p("IQ_STRING_READ_ERROR block=" + block.getName()
+                        + " address=" + hex(pos) + " error=" + e.getMessage());
+                    break;
+                }
+
+                for (int i = 0; i < want && lines < MAX_LINES && hits < MAX_HITS; i++) {
+                    int value = buffer[i] & 0xff;
+                    long here = pos + i;
+                    if (value >= 0x20 && value <= 0x7e) {
+                        if (candidate.length() == 0 && !tooLong) candidateStart = here;
+                        if (!tooLong) {
+                            if (candidate.length() < MAX_STRING_LENGTH) {
+                                candidate.append((char)value);
+                            } else {
+                                tooLong = true;
+                            }
+                        }
+                    } else {
+                        if (candidate.length() >= 4 && !tooLong) {
+                            String valueText = candidate.toString();
+                            String lower = valueText.toLowerCase(java.util.Locale.ROOT);
+                            boolean matched = standaloneIq.matcher(lower).find();
+                            for (String phrase : phrases) {
+                                if (lower.contains(phrase)) {
+                                    matched = true;
+                                    break;
+                                }
+                            }
+                            if (matched && seen.add(Long.valueOf(candidateStart))) {
+                                candidates++;
+                                p("");
+                                p("IQ_STRING_HIT #" + candidates
+                                    + " address=" + hex(candidateStart)
+                                    + " block=" + block.getName()
+                                    + " length=" + valueText.length());
+                                p("  text=" + valueText);
+                                ReferenceIterator refs = currentProgram.getReferenceManager()
+                                    .getReferencesTo(addr(candidateStart));
+                                int refCount = 0;
+                                while (refs.hasNext() && refCount < 3
+                                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                                    Reference ref = refs.next();
+                                    Address from = ref.getFromAddress();
+                                    Function owner = currentProgram.getFunctionManager()
+                                        .getFunctionContaining(from);
+                                    p("  IQ_STRING_XREF from=" + from
+                                        + " type=" + ref.getReferenceType()
+                                        + " function=" + (owner == null ? "<none>"
+                                            : owner.getName() + "@" + owner.getEntryPoint())
+                                        + " instruction=" + instructionInfo(from.getOffset()));
+                                    refCount++;
+                                }
+                                p("  IQ_STRING_XREFS_PRINTED=" + refCount);
+                                hits++;
+                            }
+                        }
+                        candidate.setLength(0);
+                        tooLong = false;
+                        candidateStart = -1L;
+                    }
+                }
+                pos += want;
+                bytesScanned += want;
+            }
+
+            if (candidate.length() >= 4 && !tooLong && hits < MAX_HITS
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                String valueText = candidate.toString();
+                String lower = valueText.toLowerCase(java.util.Locale.ROOT);
+                boolean matched = standaloneIq.matcher(lower).find();
+                for (String phrase : phrases) {
+                    if (lower.contains(phrase)) {
+                        matched = true;
+                        break;
+                    }
+                }
+                if (matched && seen.add(Long.valueOf(candidateStart))) {
+                    candidates++;
+                    p("");
+                    p("IQ_STRING_HIT #" + candidates
+                        + " address=" + hex(candidateStart)
+                        + " block=" + block.getName()
+                        + " length=" + valueText.length());
+                    p("  text=" + valueText);
+                    ReferenceIterator refs = currentProgram.getReferenceManager()
+                        .getReferencesTo(addr(candidateStart));
+                    int refCount = 0;
+                    while (refs.hasNext() && refCount < 3
+                            && !monitor.isCancelled() && lines < MAX_LINES) {
+                        Reference ref = refs.next();
+                        Address from = ref.getFromAddress();
+                        Function owner = currentProgram.getFunctionManager()
+                            .getFunctionContaining(from);
+                        p("  IQ_STRING_XREF from=" + from
+                            + " type=" + ref.getReferenceType()
+                            + " function=" + (owner == null ? "<none>"
+                                : owner.getName() + "@" + owner.getEntryPoint())
+                            + " instruction=" + instructionInfo(from.getOffset()));
+                        refCount++;
+                    }
+                    p("  IQ_STRING_XREFS_PRINTED=" + refCount);
+                    hits++;
+                }
+            }
+        }
+
+        p("");
+        p("IQ_STRING_BLOCKS_SCANNED=" + blocks.length);
+        p("IQ_STRING_BYTES_SCANNED=" + bytesScanned);
+        p("IQ_STRING_HITS=" + hits);
+        p("IQ_STRING_RESULT_LIMIT=" + MAX_HITS);
+        p("IQ_STRING_NOTE=No hits means only that these ASCII clues were not found; examine code/data flow if the firmware exposes samples without strings.");
+        p("614_PRIORITY_IQ_CAPTURE_KEYWORD_TAIL_DONE");
+    }
+
     private void scan614PriorityActualRfPathTail() {
         p("");
         p("============================================================");
@@ -9262,6 +9431,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("  CALLBACK_WORDS_PRINTED=" + words);
         scan614CommonRfcConstructorEvidenceTail();
         scan614PriorityActualRfPathTail();
+        scan614IqCaptureKeywordTail();
         p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
