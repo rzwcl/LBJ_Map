@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-83";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-83-TABLE-FOLLOWUP-1";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -10313,6 +10313,150 @@ private static final boolean FOCUS_ONLY_614 = true;
         println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_TAIL_DONE");
     }
 
+    /*
+     * STRUCTURE-83 follow-up: resolve the table words referenced by the latest
+     * direct-Scalar scan and show the exact instruction windows around those hits.
+     * Read-only: no references, labels, data types, or program bytes are changed.
+     */
+    private void scanQdspIqTableHitFollowup() {
+        println("");
+        println("============================================================");
+        println("QDSP_IQ_TABLE_HIT_FOLLOWUP");
+        println("TRACE_BUILD=" + TRACE_BUILD);
+        println("PROGRAM=" + currentProgram.getName());
+        println("Purpose: decode words around the 0xC919ABxx/ACxx and 0xC919B0xx hits, then print nearby code.");
+        println("READ ONLY - no RF/DIAG commands and no program modifications.");
+        println("============================================================");
+
+        dumpQdspTableWordRange("TABLE_WORDS_AA80_TO_AD00", 0xC919AA80L, 0xC919AD00L);
+        dumpQdspTableWordRange("TABLE_WORDS_B0A0_TO_B110", 0xC919B0A0L, 0xC919B110L);
+
+        dumpQdspInstructionWindow("FUN_C170AAA4_HIT_WINDOW_1", 0xC170AF18L, 0xC170AF50L);
+        dumpQdspInstructionWindow("FUN_C170AAA4_HIT_WINDOW_2", 0xC170B008L, 0xC170B048L);
+        dumpQdspInstructionWindow("FUN_C1CBF250_CALLR_CONTEXT", 0xC1CBF280L, 0xC1CBF2C4L);
+        dumpQdspInstructionWindow("FUN_C1CBF250_TABLE_ACCESS_CONTEXT", 0xC1CBF310L, 0xC1CBF3A0L);
+        dumpQdspInstructionWindow("FUN_C1CBF250_LATER_CONTEXT", 0xC1CBF560L, 0xC1CBF590L);
+
+        println("QDSP_IQ_TABLE_HIT_FOLLOWUP_DONE");
+    }
+
+    private void dumpQdspTableWordRange(String label, long start, long endExclusive) {
+        println("");
+        println("QDSP_IQ_TABLE_WORD_RANGE label=" + label
+            + " start=" + hex(start) + " end_exclusive=" + hex(endExclusive));
+
+        MemoryBlock startBlock = block(start);
+        MemoryBlock endBlock = block(endExclusive - 4L);
+        if (startBlock == null || endBlock == null
+                || !startBlock.isInitialized() || !endBlock.isInitialized()
+                || startBlock.isExecute() || endBlock.isExecute()
+                || !startBlock.equals(endBlock)) {
+            println("QDSP_IQ_TABLE_WORD_RANGE_UNAVAILABLE start_block="
+                + (startBlock == null ? "<none>" : startBlock.getName())
+                + " end_block=" + (endBlock == null ? "<none>" : endBlock.getName()));
+            return;
+        }
+
+        int wordCount = 0;
+        for (long slot = start; slot + 3L < endExclusive && !monitor.isCancelled(); slot += 4L) {
+            try {
+                byte[] raw = new byte[4];
+                memory().getBytes(addr(slot), raw, 0, 4);
+                long value = bufferU32(raw, 0);
+                MemoryBlock valueBlock = block(value);
+                String valueAscii = readAsciiAt(value, 96);
+                String valueBlockName = valueBlock == null ? "<none>" : valueBlock.getName();
+                String valueFunction = "<none>";
+                if (valueBlock != null && valueBlock.isExecute()) {
+                    valueFunction = functionInfo(value);
+                }
+
+                println("QDSP_IQ_TABLE_WORD slot=" + hex(slot)
+                    + " value=" + hex(value)
+                    + " value_block=" + valueBlockName
+                    + " value_ascii=" + (valueAscii == null ? "<not-a-cstring>" : valueAscii)
+                    + " value_function=" + valueFunction);
+                wordCount++;
+
+                try {
+                    ReferenceIterator refs = currentProgram.getReferenceManager()
+                        .getReferencesTo(addr(slot));
+                    int refCount = 0;
+                    StringBuilder shownRefs = new StringBuilder();
+                    while (refs.hasNext()) {
+                        Reference ref = refs.next();
+                        refCount++;
+                        if (refCount <= 3) {
+                            if (shownRefs.length() > 0) shownRefs.append(";");
+                            shownRefs.append(ref.getFromAddress())
+                                .append(":").append(ref.getReferenceType());
+                        }
+                    }
+                    if (refCount > 0) {
+                        println("QDSP_IQ_TABLE_WORD_XREF slot=" + hex(slot)
+                            + " count=" + refCount + " shown=" + shownRefs.toString());
+                    }
+                }
+                catch (Exception refError) {
+                    println("QDSP_IQ_TABLE_WORD_XREF_ERROR slot=" + hex(slot)
+                        + " error=" + refError.getClass().getSimpleName());
+                }
+            }
+            catch (Exception e) {
+                println("QDSP_IQ_TABLE_WORD_READ_ERROR slot=" + hex(slot)
+                    + " error=" + e.getClass().getSimpleName());
+            }
+        }
+        println("QDSP_IQ_TABLE_WORD_RANGE_WORDS_READ=" + wordCount);
+        println("QDSP_IQ_TABLE_WORD_RANGE_DONE label=" + label);
+    }
+
+    private void dumpQdspInstructionWindow(String label, long start, long endExclusive) {
+        println("");
+        println("QDSP_IQ_INSTRUCTION_WINDOW label=" + label
+            + " start=" + hex(start) + " end_exclusive=" + hex(endExclusive));
+        int shown = 0;
+        try {
+            InstructionIterator it = listing().getInstructions(addr(start), true);
+            while (it.hasNext() && !monitor.isCancelled()) {
+                Instruction ins = it.next();
+                long pc = ins.getAddress().getOffset();
+                if (pc >= endExclusive) break;
+                if (pc < start) continue;
+
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(ins.getAddress());
+                println("QDSP_IQ_INSN address=" + hex(pc)
+                    + " function=" + (owner == null ? "<none>" : owner.getName()
+                        + "@" + hex(owner.getEntryPoint().getOffset()))
+                    + " instruction=" + ins.toString());
+                shown++;
+
+                if ("callr".equalsIgnoreCase(ins.getMnemonicString())) {
+                    try {
+                        ghidra.program.model.pcode.PcodeOp[] ops = ins.getPcode();
+                        if (ops != null) {
+                            for (ghidra.program.model.pcode.PcodeOp op : ops) {
+                                if (op != null) println("QDSP_IQ_INSN_CALLR_PCODE "
+                                    + hex(pc) + " " + op.toString());
+                            }
+                        }
+                    }
+                    catch (Exception pcodeError) {
+                        println("QDSP_IQ_INSN_CALLR_PCODE_ERROR address=" + hex(pc)
+                            + " error=" + pcodeError.getClass().getSimpleName());
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            println("QDSP_IQ_INSTRUCTION_WINDOW_ERROR label=" + label
+                + " error=" + e.getClass().getSimpleName());
+        }
+        println("QDSP_IQ_INSTRUCTION_WINDOW_INSTRUCTIONS_SHOWN=" + shown);
+        println("QDSP_IQ_INSTRUCTION_WINDOW_DONE label=" + label);
+    }
+
     private void scanQdspIqCaptureDataPath() {
         final long POOL_START = 0xC414B500L;
         final long POOL_END = 0xC414C100L;
@@ -11057,6 +11201,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             scanQdspIqTableImmediateOperands();
             scanQdspIqCaptureDataPath();
             scanQdspIqGpAudit();
+            scanQdspIqTableHitFollowup();
             dumpQdspIqImmediateOperandFinalTail();
             p("DONE");
             p("No program data or structures modified.");
