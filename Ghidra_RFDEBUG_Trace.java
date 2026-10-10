@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-71";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-72";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9073,6 +9073,43 @@ private static final boolean FOCUS_ONLY_614 = true;
      * us on the actual function targets rather than mistaking the wrapper at
      * 0x25F70 or the destructor thunk at 0x24D60 for a tuning routine.
      */
+
+    /*
+     * STRUCTURE-72: the six singleton getters only instantiate per-technology
+     * RFC objects. Inspect the implementations and the signal-control tables
+     * those objects expose; keep this compact evidence at the end of the log.
+     */
+    private void scan614PriorityRfcSignalTablesTail() {
+        p("");
+        p("============================================================");
+        p("614_PRIORITY_RFC_IMPLEMENTATION_AND_SIGNAL_TABLES");
+        p("Trace the six concrete per-technology RFC implementations and nearby SDR RFFE/GRFC signal tables.");
+        p("READ ONLY - no runtime invocation, DIAG command, RF operation, or firmware write.");
+        p("============================================================");
+
+        long[] entries = {
+            0x25454L, 0x25538L, 0x255D4L,
+            0x25640L, 0x256D0L, 0x2573CL
+        };
+        String[] roles = {
+            "NR5G_impl", "WCDMA_impl", "CDMA_impl",
+            "GSM_impl", "TDSCDMA_impl", "GNSS_impl"
+        };
+        for (int i = 0; i < entries.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            trace614RfcImplementationBody(entries[i], roles[i]);
+        }
+
+        p("");
+        p("614_PRIORITY_SIGNAL_TABLE_WINDOWS");
+        trace614DumpDataWindow(0x219670L, 0x20, "sdr_rffe_sig_info_table");
+        trace614DumpDataWindow(0x2196F0L, 0x20, "sdr_grfc_sig_info_table");
+        trace614DumpDataWindow(0x2197B0L, 0x20, "blank_grfc_sig_info_table");
+        trace614DumpDataWindow(0x220E88L, 0x20, "rrc_band_info_table");
+        trace614DumpDataWindow(0x2210B0L, 0x20, "fbrx_path_table");
+        p("614_PRIORITY_RFC_IMPLEMENTATION_AND_SIGNAL_TABLES_DONE");
+    }
+
     private void scan614PrioritySingletonGetterTail() {
         p("");
         p("============================================================");
@@ -9607,6 +9644,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         scan614GetSignalsInfoCallbackSlots();
         p("614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL_DONE");
         scan614PrioritySingletonGetterTail();
+        scan614PriorityRfcSignalTablesTail();
         p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
