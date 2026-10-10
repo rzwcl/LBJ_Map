@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-83-TABLE-FOLLOWUP-1";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-83-STRING-ROOTS-2";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -10318,6 +10318,145 @@ private static final boolean FOCUS_ONLY_614 = true;
      * direct-Scalar scan and show the exact instruction windows around those hits.
      * Read-only: no references, labels, data types, or program bytes are changed.
      */
+    /*
+     * Trace pointer copies of the exact property-name strings, not nearby numeric
+     * tables. This tests whether the RFDEBUG name pointers have additional static
+     * data roots or instruction/data references in the main DSP image.
+     */
+    private void scanQdspCriticalStringPointerCopies() {
+        final long[] targets = {
+            0xC50847FFL, // TUNE_TX_TO_RX_FREQ
+            0xC5084812L, // FREQUENCY
+            0xC5084C11L, // IQ_CAPTURE
+            0xC508259BL, // FETCH_IQ
+            0xC508272CL  // IQ_CAPTURE_TYPE
+        };
+        final String[] labels = {
+            "TUNE_TX_TO_RX_FREQ",
+            "FREQUENCY",
+            "IQ_CAPTURE",
+            "FETCH_IQ",
+            "IQ_CAPTURE_TYPE"
+        };
+        long[] pointerCopies = new long[targets.length];
+
+        println("");
+        println("============================================================");
+        println("QDSP_CRITICAL_STRING_POINTER_COPY_SCAN");
+        println("TRACE_BUILD=" + TRACE_BUILD);
+        println("PROGRAM=" + currentProgram.getName());
+        println("Scans initialized segment_20/segment_21 data for exact pointers to five known property strings.");
+        println("Also reports Ghidra references to the string and to each pointer-copy slot.");
+        println("============================================================");
+
+        for (int t = 0; t < targets.length; t++) {
+            String actual = readAsciiAt(targets[t], 96);
+            println("QDSP_CRITICAL_STRING_TARGET name=" + labels[t]
+                + " address=" + hex(targets[t])
+                + " actual_ascii=" + (actual == null ? "<unreadable>" : actual));
+            int refs = 0;
+            StringBuilder shown = new StringBuilder();
+            try {
+                ReferenceIterator it = currentProgram.getReferenceManager()
+                    .getReferencesTo(addr(targets[t]));
+                while (it.hasNext()) {
+                    Reference ref = it.next();
+                    refs++;
+                    if (refs <= 8) {
+                        Address from = ref.getFromAddress();
+                        Instruction ins = listing().getInstructionAt(from);
+                        if (ins == null) ins = listing().getInstructionContaining(from);
+                        if (shown.length() > 0) shown.append(";");
+                        shown.append(from).append(":").append(ref.getReferenceType())
+                            .append(":").append(ins == null ? "<no-instruction>" : ins.toString());
+                    }
+                }
+            }
+            catch (Exception e) {
+                println("QDSP_CRITICAL_STRING_XREF_ERROR name=" + labels[t]
+                    + " error=" + e.getClass().getSimpleName());
+            }
+            println("QDSP_CRITICAL_STRING_XREF name=" + labels[t]
+                + " total=" + refs + " shown=" + shown.toString());
+        }
+
+        long wordsScanned = 0L;
+        final int CHUNK = 0x4000;
+        byte[] buffer = new byte[CHUNK];
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled()) break;
+            String name = b.getName();
+            if (!b.isInitialized() || b.isExecute() || !isDefaultDynamicAddressBlock(b)
+                    || !("segment_20".equals(name) || "segment_21".equals(name))) continue;
+
+            long pos = (b.getStart().getOffset() + 3L) & ~3L;
+            long end = b.getEnd().getOffset();
+            while (pos + 3L <= end && !monitor.isCancelled()) {
+                int want = (int)Math.min((long)CHUNK, end - pos + 1L);
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                }
+                catch (Exception e) {
+                    println("QDSP_CRITICAL_STRING_SCAN_READ_ERROR block=" + name
+                        + " address=" + hex(pos)
+                        + " error=" + e.getClass().getSimpleName());
+                    break;
+                }
+
+                int alignedWant = want & ~3;
+                for (int i = 0; i + 3 < alignedWant; i += 4) {
+                    long value = bufferU32(buffer, i);
+                    wordsScanned++;
+                    for (int t = 0; t < targets.length; t++) {
+                        if (value != targets[t]) continue;
+                        long slot = pos + i;
+                        pointerCopies[t]++;
+                        println("QDSP_CRITICAL_STRING_POINTER_COPY name=" + labels[t]
+                            + " slot=" + hex(slot)
+                            + " source_block=" + name
+                            + " target=" + hex(value));
+
+                        int slotRefs = 0;
+                        StringBuilder slotShown = new StringBuilder();
+                        try {
+                            ReferenceIterator refs = currentProgram.getReferenceManager()
+                                .getReferencesTo(addr(slot));
+                            while (refs.hasNext()) {
+                                Reference ref = refs.next();
+                                slotRefs++;
+                                if (slotRefs <= 6) {
+                                    Address from = ref.getFromAddress();
+                                    Instruction ins = listing().getInstructionAt(from);
+                                    if (ins == null) ins = listing().getInstructionContaining(from);
+                                    if (slotShown.length() > 0) slotShown.append(";");
+                                    slotShown.append(from).append(":").append(ref.getReferenceType())
+                                        .append(":").append(ins == null ? "<no-instruction>" : ins.toString());
+                                }
+                            }
+                        }
+                        catch (Exception e) {
+                            slotShown.append("<xref-error:")
+                                .append(e.getClass().getSimpleName()).append(">");
+                        }
+                        println("QDSP_CRITICAL_STRING_POINTER_SLOT_XREF name=" + labels[t]
+                            + " slot=" + hex(slot)
+                            + " total=" + slotRefs
+                            + " shown=" + slotShown.toString());
+                    }
+                }
+                pos += (long)alignedWant;
+                if (alignedWant <= 0) break;
+            }
+        }
+
+        println("QDSP_CRITICAL_STRING_DATA_WORDS_SCANNED=" + wordsScanned);
+        for (int t = 0; t < targets.length; t++) {
+            println("QDSP_CRITICAL_STRING_POINTER_COPY_COUNT name=" + labels[t]
+                + " count=" + pointerCopies[t]);
+        }
+        println("QDSP_CRITICAL_STRING_POINTER_COPY_SCAN_DONE");
+    }
+
     private void scanQdspIqTableHitFollowup() {
         println("");
         println("============================================================");
@@ -11202,6 +11341,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             scanQdspIqCaptureDataPath();
             scanQdspIqGpAudit();
             scanQdspIqTableHitFollowup();
+            scanQdspCriticalStringPointerCopies();
             dumpQdspIqImmediateOperandFinalTail();
             p("DONE");
             p("No program data or structures modified.");
