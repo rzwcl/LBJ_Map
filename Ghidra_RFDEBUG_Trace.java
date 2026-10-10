@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-65
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-66
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-65";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-66";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8409,6 +8409,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         scan614DescriptorMethodTargets();
         scan614RfcGlobalSlotBank();
         scan614ConfigConsumersAndTables();
+        scan614CommonRfcDispatch();
 
         p("");
         p("614_NEXT_TRACE_DONE");
@@ -8775,6 +8776,209 @@ private static final boolean FOCUS_ONLY_614 = true;
         } catch (Exception e) {
             return "<block-error>";
         }
+    }
+
+
+    private void scan614CommonRfcDispatch() {
+        p("");
+        p("============================================================");
+        p("614 COMMON RFC OBJECT / DISPATCH / CALLBACK TABLE TRACE");
+        p("Inspect shared RFC helpers, callback consumers, and the 0x27210 record bank.");
+        p("READ ONLY - no RF/FTM commands are generated or transmitted.");
+        p("============================================================");
+
+        long[] targetAddresses = {
+            0x24D20L, 0x24D40L, 0x24D60L,
+            0x258C4L, 0x258F0L, 0x25938L, 0x25980L,
+            0x259A4L, 0x25A94L, 0x25AE0L,
+            0x25BD0L, 0x25C3CL, 0x25E44L, 0x25F20L, 0x25F40L
+        };
+
+        for (long target : targetAddresses) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+
+            Address entry = addr(target);
+            MemoryBlock b = null;
+            Function f = null;
+            try {
+                b = memory().getBlock(entry);
+                f = currentProgram.getFunctionManager().getFunctionAt(entry);
+                if (f == null) {
+                    f = currentProgram.getFunctionManager().getFunctionContaining(entry);
+                }
+            } catch (Exception e) {
+                p("COMMON_TARGET_ERROR address=" + hex(target)
+                    + " error=" + e.getMessage());
+                continue;
+            }
+
+            p("");
+            p("COMMON_TARGET address=" + hex(target)
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " executable=" + (b != null && b.isExecute())
+                + " name=" + (f == null ? "<none>" : f.getName())
+                + " entry=" + (f == null ? "<none>"
+                    : hex(f.getEntryPoint().getOffset())));
+
+            if (f != null) {
+                InstructionIterator it = listing().getInstructions(f.getBody(), true);
+                int n = 0;
+                while (it.hasNext() && n < 48
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Instruction ins = it.next();
+                    p("  COMMON_INS " + ins.getAddress() + " " + ins);
+                    n++;
+
+                    Reference[] refs = currentProgram.getReferenceManager()
+                        .getReferencesFrom(ins.getAddress());
+                    int refShown = 0;
+                    for (Reference ref : refs) {
+                        if (refShown >= 4 || lines >= MAX_LINES) break;
+                        Address to = ref.getToAddress();
+                        if (to == null) continue;
+                        Function tf = currentProgram.getFunctionManager().getFunctionAt(to);
+                        if (tf == null) {
+                            tf = currentProgram.getFunctionManager().getFunctionContaining(to);
+                        }
+                        p("    COMMON_FLOW to=" + to
+                            + " type=" + ref.getReferenceType()
+                            + " target_function=" + (tf == null ? "<none>" : tf.getName())
+                            + " target_entry=" + (tf == null ? "<none>"
+                                : hex(tf.getEntryPoint().getOffset())));
+                        refShown++;
+                    }
+
+                    if ("add".equalsIgnoreCase(ins.getMnemonicString())) {
+                        boolean hasPc = false;
+                        Long displacement = null;
+                        for (int op = 0; op < ins.getNumOperands(); op++) {
+                            Object[] objects = ins.getOpObjects(op);
+                            for (Object object : objects) {
+                                if (object instanceof ghidra.program.model.lang.Register) {
+                                    if ("PC".equalsIgnoreCase(
+                                            ((ghidra.program.model.lang.Register)object).getName())) {
+                                        hasPc = true;
+                                    }
+                                } else if (object instanceof Scalar) {
+                                    displacement = Long.valueOf(((Scalar)object).getSignedValue());
+                                }
+                            }
+                        }
+                        if (hasPc && displacement != null) {
+                            Long computed = hexagonPcRelativeTarget(ins, displacement.longValue());
+                            if (computed != null) {
+                                p("    COMMON_PC_TARGET=" + hex(computed.longValue())
+                                    + " ascii=" + scan614AsciiAt(computed.longValue(), 80));
+                            }
+                        }
+                    }
+                }
+                p("  COMMON_INSNS_PRINTED=" + n);
+
+                ReferenceIterator incoming =
+                    currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
+                int incomingShown = 0;
+                while (incoming.hasNext() && incomingShown < 16
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Reference ref = incoming.next();
+                    Address from = ref.getFromAddress();
+                    Function owner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(from);
+                    p("  COMMON_INCOMING from=" + from
+                        + " type=" + ref.getReferenceType()
+                        + " owner=" + (owner == null ? "<none>"
+                            : owner.getName() + "@" + owner.getEntryPoint())
+                        + " instruction=" + instructionInfo(from.getOffset()));
+                    incomingShown++;
+                }
+                p("  COMMON_INCOMING_PRINTED=" + incomingShown);
+            } else if (b != null && b.isInitialized()) {
+                try {
+                    byte[] raw = new byte[64];
+                    long remain = b.getEnd().getOffset() - target + 1L;
+                    int count = (int)Math.min(64L, Math.max(0L, remain));
+                    if (count > 0) {
+                        memory().getBytes(entry, raw, 0, count);
+                        byte[] actual = new byte[count];
+                        System.arraycopy(raw, 0, actual, 0, count);
+                        p("  COMMON_RAW=" + byteString(actual));
+                        p("  COMMON_ASCII=" + asciiPreview(actual));
+                    }
+                } catch (Exception e) {
+                    p("  COMMON_RAW_ERROR=" + e.getMessage());
+                }
+            }
+        }
+
+        p("");
+        p("614_COMMON_ERROR_MESSAGE_STRINGS");
+        long[] messageAddresses = { 0x27300L, 0x2730CL, 0x27318L, 0x27324L };
+        for (long value : messageAddresses) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            p("  MESSAGE address=" + hex(value)
+                + " text=" + scan614AsciiAt(value, 144));
+        }
+
+        p("");
+        p("614_COMMON_CALLBACK_RECORD_BANK");
+        long tableStart = 0x27210L;
+        long tableEnd = 0x272B8L;
+        int words = 0;
+        for (long slot = tableStart; slot < tableEnd
+                && !monitor.isCancelled() && lines < MAX_LINES; slot += 4L) {
+            long value;
+            try {
+                value = u32(slot);
+            } catch (Exception e) {
+                p("  CALLBACK_WORD slot=" + hex(slot)
+                    + " ERROR=" + e.getMessage());
+                continue;
+            }
+
+            MemoryBlock vb = null;
+            Function vf = null;
+            try {
+                vb = memory().getBlock(addr(value));
+                vf = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                if (vf == null) {
+                    vf = currentProgram.getFunctionManager().getFunctionContaining(addr(value));
+                }
+            } catch (Exception ignored) {
+                vb = null;
+                vf = null;
+            }
+
+            p("  CALLBACK_WORD index=" + words
+                + " slot=" + hex(slot)
+                + " value=" + hex(value)
+                + " value_block=" + (vb == null ? "<none>" : vb.getName())
+                + " value_exec=" + (vb != null && vb.isExecute())
+                + " function=" + (vf == null ? "<none>" : vf.getName())
+                + " function_entry=" + (vf == null ? "<none>"
+                    : hex(vf.getEntryPoint().getOffset()))
+                + " ascii=" + scan614AsciiAt(value, 64));
+
+            if (vf != null && lines < MAX_LINES) {
+                ReferenceIterator incoming = currentProgram.getReferenceManager()
+                    .getReferencesTo(vf.getEntryPoint());
+                int refsShown = 0;
+                while (incoming.hasNext() && refsShown < 3
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Reference ref = incoming.next();
+                    Address from = ref.getFromAddress();
+                    Function owner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(from);
+                    p("    CALLBACK_TARGET_XREF from=" + from
+                        + " type=" + ref.getReferenceType()
+                        + " owner=" + (owner == null ? "<none>" : owner.getName())
+                        + " instruction=" + instructionInfo(from.getOffset()));
+                    refsShown++;
+                }
+            }
+            words++;
+        }
+        p("  CALLBACK_WORDS_PRINTED=" + words);
+        p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
     @Override
