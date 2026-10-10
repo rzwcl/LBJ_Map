@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-53
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-54
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-53";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-54";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -7302,10 +7302,10 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("  FOCUS_INCOMING_TRANSFER from=" + transfer.getAddress()
             + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
             + " instruction=" + transfer);
-        p("    FOCUS_R0_BACKTRACE_WINDOW=24 instructions; syntactic scan only, not full data-flow emulation");
+        p("    FOCUS_R0_BACKTRACE_WINDOW=10 instructions; syntactic scan only, not full data-flow emulation");
         java.util.List<Instruction> previous = new java.util.ArrayList<Instruction>();
         Instruction cursor = listing().getInstructionBefore(transfer.getAddress());
-        for (int i = 0; i < 24 && cursor != null; i++) {
+        for (int i = 0; i < 10 && cursor != null; i++) {
             Function previousOwner = currentProgram.getFunctionManager()
                 .getFunctionContaining(cursor.getAddress());
             if (owner != null && (previousOwner == null
@@ -7343,7 +7343,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             }
         }
         p("    FOCUS_R0_DESTINATION_CANDIDATES_SHOWN=" + r0DestinationCount);
-        p("    FOCUS_R0_BACKTRACE_LIMIT=24");
+        p("    FOCUS_R0_BACKTRACE_LIMIT=10");
     }
 
     private void scan614FocusedCallrProvenance() {
@@ -7365,13 +7365,24 @@ private static final boolean FOCUS_ONLY_614 = true;
 
         Address target = addr(0x00025F70L);
         ReferenceIterator incoming = currentProgram.getReferenceManager().getReferencesTo(target);
-        int incomingCount = 0;
-        int instructionRefs = 0;
+        int refsScanned = 0;
+        int nonCallRefsSkipped = 0;
+        int callRefsSeen = 0;
+        int uniqueCallsitesPrinted = 0;
+        int duplicateCallsitesSkipped = 0;
+        java.util.Set<String> seenCallsites = new java.util.HashSet<String>();
         p("");
-        p("FOCUS_INCOMING_REFERENCES target=" + target);
+        p("FOCUS_INCOMING_CALLS_ONLY target=" + target);
+        p("Non-call/data references are counted but not expanded; each real call instruction is traced once.");
         while (incoming.hasNext() && !monitor.isCancelled() && lines < MAX_LINES
-                && incomingCount < 80) {
+                && refsScanned < 160 && uniqueCallsitesPrinted < 12) {
             Reference ref = incoming.next();
+            refsScanned++;
+            if (ref.getReferenceType() == null || !ref.getReferenceType().isCall()) {
+                nonCallRefsSkipped++;
+                continue;
+            }
+            callRefsSeen++;
             Address from = ref.getFromAddress();
             Function owner = null;
             Instruction fromInstruction = null;
@@ -7381,19 +7392,38 @@ private static final boolean FOCUS_ONLY_614 = true;
                     fromInstruction = listing().getInstructionAt(from);
                 }
             } catch (Exception ignored) {}
-            p("  FOCUS_INCOMING_REF #" + (incomingCount + 1)
-                + " from=" + from
+            if (fromInstruction == null) {
+                p("  FOCUS_CALL_REF_NO_INSTRUCTION from=" + from
+                    + " type=" + ref.getReferenceType());
+                continue;
+            }
+            String mnemonic = fromInstruction.getMnemonicString();
+            if (mnemonic == null || !mnemonic.toLowerCase().startsWith("call")) {
+                p("  FOCUS_CALL_REF_NOT_CALL_INSTRUCTION from=" + from
+                    + " instruction_address=" + fromInstruction.getAddress()
+                    + " type=" + ref.getReferenceType()
+                    + " instruction=" + fromInstruction);
+                continue;
+            }
+            String siteKey = fromInstruction.getAddress().toString();
+            if (!seenCallsites.add(siteKey)) {
+                duplicateCallsitesSkipped++;
+                continue;
+            }
+            p("  FOCUS_INCOMING_CALLSITE #" + (uniqueCallsitesPrinted + 1)
+                + " ref_from=" + from
+                + " instruction_address=" + fromInstruction.getAddress()
                 + " type=" + ref.getReferenceType()
                 + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
-                + " instruction=" + (fromInstruction == null ? "<no-instruction>" : fromInstruction.toString()));
-            incomingCount++;
-            if (fromInstruction != null) {
-                instructionRefs++;
-                print614FocusedIncomingCallContext(fromInstruction, owner);
-            }
+                + " instruction=" + fromInstruction);
+            uniqueCallsitesPrinted++;
+            print614FocusedIncomingCallContext(fromInstruction, owner);
         }
-        p("FOCUS_INCOMING_REF_COUNT=" + incomingCount);
-        p("FOCUS_INCOMING_REFS_WITH_INSTRUCTION=" + instructionRefs);
+        p("FOCUS_INCOMING_REF_RECORDS_SCANNED=" + refsScanned);
+        p("FOCUS_NON_CALL_REFS_SKIPPED=" + nonCallRefsSkipped);
+        p("FOCUS_CALL_REF_RECORDS_SEEN=" + callRefsSeen);
+        p("FOCUS_UNIQUE_CALLSITES_PRINTED=" + uniqueCallsitesPrinted);
+        p("FOCUS_DUPLICATE_CALLSITES_SKIPPED=" + duplicateCallsitesSkipped);
 
         // Also scan aligned 32-bit words in non-executable initialized blocks.
         // This catches plain static pointer slots even when Ghidra has no DATA xref.
