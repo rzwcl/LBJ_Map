@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-61
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-62
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-61";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-62";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8304,8 +8304,101 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
 
         p("");
+        p("614_OBJECT_DESCRIPTOR_TABLE_WORDS");
+        p("For each descriptor address, dump raw DWORDs and resolve pointer-like values against the current image.");
+        p("This does not assume every DWORD is a vtable entry.");
+
+        long[] descriptorValues = {
+            0x270D8L, 0x270FCL, 0x27124L,
+            0x27148L, 0x27170L, 0x27198L
+        };
+        String[] descriptorNames = {
+            "NR5G", "WCDMA", "CDMA", "GSM", "TDSCDMA", "GNSS"
+        };
+
+        for (int i = 0; i < descriptorValues.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long base = descriptorValues[i];
+            MemoryBlock baseBlock = memory().getBlock(addr(base));
+            p("");
+            p("  DESCRIPTOR_TABLE name=" + descriptorNames[i]
+                + " base=" + hex(base)
+                + " block=" + (baseBlock == null ? "<none>" : baseBlock.getName())
+                + " initialized=" + (baseBlock != null && baseBlock.isInitialized()));
+
+            if (baseBlock == null || !baseBlock.isInitialized()) {
+                p("    DESCRIPTOR_TABLE_SKIP=unreadable");
+                continue;
+            }
+
+            for (int j = 0; j < 24 && !monitor.isCancelled()
+                    && lines < MAX_LINES; j++) {
+                long slot = base + 4L * j;
+                if (!baseBlock.contains(addr(slot))) break;
+
+                long value;
+                try {
+                    value = u32(slot);
+                } catch (Exception e) {
+                    p("    DWORD index=" + j + " slot=" + hex(slot)
+                        + " ERROR=" + e.getMessage());
+                    continue;
+                }
+
+                MemoryBlock vb = null;
+                Function vf = null;
+                try {
+                    vb = memory().getBlock(addr(value));
+                    vf = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                    if (vf == null) {
+                        vf = currentProgram.getFunctionManager()
+                            .getFunctionContaining(addr(value));
+                    }
+                } catch (Exception ignored) {
+                    vb = null;
+                    vf = null;
+                }
+
+                p("    DWORD index=" + j
+                    + " slot=" + hex(slot)
+                    + " value=" + hex(value)
+                    + " value_block=" + (vb == null ? "<none>" : vb.getName())
+                    + " value_exec=" + (vb != null && vb.isExecute())
+                    + " function=" + (vf == null ? "<none>" : vf.getName())
+                    + " function_entry=" + (vf == null ? "<none>"
+                        : hex(vf.getEntryPoint().getOffset())));
+
+                if (vf != null && lines < MAX_LINES) {
+                    Instruction first = listing().getInstructionAt(vf.getEntryPoint());
+                    p("      FIRST_INS=" + (first == null ? "<none>" : first.toString()));
+                } else if (vb != null && vb.isInitialized() && vb.isExecute()
+                        && lines < MAX_LINES) {
+                    Instruction at = listing().getInstructionAt(addr(value));
+                    p("      INSTRUCTION_AT_VALUE=" + (at == null ? "<none>" : at.toString()));
+                }
+
+                ReferenceIterator valueRefs =
+                    currentProgram.getReferenceManager().getReferencesTo(addr(value));
+                int refsShown = 0;
+                while (valueRefs.hasNext() && refsShown < 3
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Reference ref = valueRefs.next();
+                    Address from = ref.getFromAddress();
+                    Function owner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(from);
+                    p("      VALUE_XREF from=" + from
+                        + " type=" + ref.getReferenceType()
+                        + " owner=" + (owner == null ? "<none>" : owner.getName())
+                        + " instruction=" + instructionInfo(from.getOffset()));
+                    refsShown++;
+                }
+                if (refsShown > 0) p("      VALUE_XREFS_PRINTED=" + refsShown);
+            }
+        }
+
+        p("");
         p("614_NEXT_TRACE_DONE");
-        p("Interpretation limit: computed GOT targets and object descriptor slots are static-image evidence, not proof of runtime tuning behavior.");
+        p("Interpretation limit: table words are static-image evidence; pointer-looking values require call/use-site confirmation.");
         p("No program data or structures modified.");
     }
 
