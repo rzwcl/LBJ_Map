@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-82
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-83
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-82";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-83";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -10167,6 +10167,92 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("QDSP_PROGRAM_IDENTITY_TAIL_DONE");
     }
 
+
+    /*
+     * STRUCTURE-83: the prior PC-relative scan only inspected Ghidra references,
+     * which may be absent even when an instruction carries an immediate address.
+     * Inspect Scalar operands directly for references to the qdsp6sw data/string
+     * regions. This does not create references or modify the program.
+     */
+    private void scanQdspIqTableImmediateOperands() {
+        p("");
+        p("============================================================");
+        p("QDSP_IQ_TABLE_IMMEDIATE_OPERAND_SCAN");
+        p("Scans decoded instruction Scalar operands for addresses in the table/string ranges.");
+        p("This is not a GP guess and does not modify Ghidra references.");
+        p("============================================================");
+
+        long instructionsScanned = 0L;
+        long scalarOperandsScanned = 0L;
+        long hits = 0L;
+        int shown = 0;
+        final long MAX_INSNS = 1800000L;
+        final int MAX_SHOW = 220;
+        final long TABLE_LO = 0xC9199000L;
+        final long TABLE_HI = 0xC919C000L;
+        final long STRING_LO = 0xC5080000L;
+        final long STRING_HI = 0xC5090000L;
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES
+                    || instructionsScanned >= MAX_INSNS) break;
+            if (!b.isInitialized() || !b.isExecute()
+                    || !isDefaultDynamicAddressBlock(b)) continue;
+
+            long blockEnd = b.getEnd().getOffset();
+            InstructionIterator it = listing().getInstructions(b.getStart(), true);
+            while (it.hasNext() && !monitor.isCancelled()
+                    && lines < MAX_LINES && instructionsScanned < MAX_INSNS) {
+                Instruction ins = it.next();
+                if (ins.getAddress().getOffset() > blockEnd) break;
+                instructionsScanned++;
+
+                for (int operandIndex = 0; operandIndex < ins.getNumOperands(); operandIndex++) {
+                    Object[] objects = ins.getOpObjects(operandIndex);
+                    for (Object object : objects) {
+                        if (!(object instanceof Scalar)) continue;
+                        Scalar scalar = (Scalar)object;
+                        scalarOperandsScanned++;
+                        long value = scalar.getUnsignedValue();
+                        boolean tableHit = value >= TABLE_LO && value < TABLE_HI;
+                        boolean stringHit = value >= STRING_LO && value < STRING_HI;
+                        if (!tableHit && !stringHit) continue;
+                        hits++;
+                        if (shown >= MAX_SHOW || lines >= MAX_LINES) continue;
+
+                        Function owner = currentProgram.getFunctionManager()
+                            .getFunctionContaining(ins.getAddress());
+                        p("QDSP_IQ_TABLE_IMMEDIATE_HIT address=" + ins.getAddress()
+                            + " operand_index=" + operandIndex
+                            + " scalar=" + hex(value)
+                            + " region=" + (tableHit ? "TABLE" : "STRING")
+                            + " function=" + (owner == null ? "<none>"
+                                : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                            + " instruction=" + ins.toString());
+                        try {
+                            ghidra.program.model.pcode.PcodeOp[] ops = ins.getPcode();
+                            if (ops != null) {
+                                for (ghidra.program.model.pcode.PcodeOp op : ops) {
+                                    if (op != null && lines < MAX_LINES)
+                                        p("  QDSP_IQ_TABLE_IMMEDIATE_PCODE "
+                                            + ins.getAddress() + " " + op.toString());
+                                }
+                            }
+                        } catch (Exception e) {
+                            p("  QDSP_IQ_TABLE_IMMEDIATE_PCODE_ERROR " + e.getMessage());
+                        }
+                        shown++;
+                    }
+                }
+            }
+        }
+        p("QDSP_IQ_TABLE_IMMEDIATE_INSTRUCTIONS_SCANNED=" + instructionsScanned);
+        p("QDSP_IQ_TABLE_IMMEDIATE_SCALAR_OPERANDS_SCANNED=" + scalarOperandsScanned);
+        p("QDSP_IQ_TABLE_IMMEDIATE_HITS=" + hits);
+        p("QDSP_IQ_TABLE_IMMEDIATE_HITS_SHOWN=" + shown);
+        p("QDSP_IQ_TABLE_IMMEDIATE_OPERAND_SCAN_DONE");
+    }
+
     private void scanQdspIqCaptureDataPath() {
         final long POOL_START = 0xC414B500L;
         final long POOL_END = 0xC414C100L;
@@ -10899,6 +10985,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             p("No 614_0_0 RFC addresses or legacy RFDEBUG property-table assumptions are reused.");
             scanQdspIqCaptureDataPath();
             scanQdspIqGpAudit();
+            scanQdspIqTableImmediateOperands();
             dumpQdspProgramIdentityTail();
             p("DONE");
             p("No program data or structures modified.");
