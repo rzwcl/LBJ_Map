@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-52
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-53
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
