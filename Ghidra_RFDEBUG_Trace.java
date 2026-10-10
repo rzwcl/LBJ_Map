@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-56
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-57
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-56";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-57";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -7470,6 +7470,99 @@ private static final boolean FOCUS_ONLY_614 = true;
     }
 
 
+    /*
+     * STRUCTURE-57: decode the six PC-relative R2 arguments passed by
+     * get_signals_info to the six get_instance functions.
+     */
+    private void scan614GetSignalsInfoArgumentRecords() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-57 get_signals_info R2 ARGUMENT / RAW RECORD TRACE");
+        p("Prints effective R2 addresses and the three raw words at each record.");
+        p("Pointer-to-string previews are descriptive only; row semantics remain unassumed.");
+        p("READ ONLY.");
+        p("============================================================");
+
+        long[][] sites = new long[][] {
+            {0x000259ECL, 0x000259F8L},
+            {0x00025A04L, 0x00025A10L},
+            {0x00025A1CL, 0x00025A28L},
+            {0x00025A34L, 0x00025A40L},
+            {0x00025A4CL, 0x00025A58L},
+            {0x00025A64L, 0x00025A70L}
+        };
+
+        int resolved = 0;
+        int readableRecords = 0;
+        for (int i = 0; i < sites.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long addAddress = sites[i][0];
+            long callAddress = sites[i][1];
+            Instruction addIns = listing().getInstructionAt(addr(addAddress));
+            Long rawImmediate = audit614RfcImmediate(addIns);
+            Long target = rawImmediate == null || addIns == null
+                ? null : hexagonPcRelativeTarget(addIns,
+                    audit614RfcSigned32(rawImmediate.longValue()));
+
+            p("R2_ARGUMENT #" + (i + 1)
+                + " add_instruction=" + (addIns == null ? "<missing>" : addIns.toString())
+                + " following_callsite=" + hex(callAddress)
+                + " effective_address=" + (target == null ? "<unresolved>" : hex(target.longValue())));
+            if (target == null) continue;
+            resolved++;
+
+            long row = target.longValue() & 0xffffffffL;
+            boolean readable = initialized(row, 12);
+            if (!readable) {
+                p("  R2_ARGUMENT_RECORD readable=false record_block="
+                    + (block(row) == null ? "<none>" : block(row).getName()));
+                continue;
+            }
+            readableRecords++;
+            long word0 = u32(row);
+            long word1 = u32(row + 4L);
+            long word2 = u32(row + 8L);
+            String word0Text = word0 == 0L ? null : readAsciiAt(word0, 100);
+            String word2Text = word2 == 0L ? null : readAsciiAt(word2, 120);
+
+            p("  R2_ARGUMENT_RECORD address=" + hex(row)
+                + " stride_next=" + hex(row + 12L)
+                + " block=" + (block(row) == null ? "<none>" : block(row).getName())
+                + " readable=true"
+                + " word0=" + hex(word0)
+                + " word0_ascii=" + (word0Text == null ? "<not-ascii-or-not-readable>" : word0Text)
+                + " word1=" + hex(word1)
+                + " word2=" + hex(word2)
+                + " word2_ascii=" + (word2Text == null ? "<not-ascii-or-not-readable>" : word2Text));
+
+            ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(addr(row));
+            int refsShown = 0;
+            while (refs.hasNext() && refsShown < 8 && !monitor.isCancelled()
+                    && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function owner = null;
+                Instruction fromIns = null;
+                try {
+                    owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    fromIns = listing().getInstructionAt(from);
+                    if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                } catch (Exception ignored) {}
+                p("    R2_ARGUMENT_RECORD_REF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                refsShown++;
+            }
+            p("    R2_ARGUMENT_RECORD_REFS_SHOWN=" + refsShown);
+        }
+
+        p("R2_ARGUMENT_ADDRESSES_RESOLVED=" + resolved);
+        p("R2_ARGUMENT_RECORDS_READABLE=" + readableRecords);
+        p("R2_ARGUMENT_TRACE_LIMIT=Raw words are reported without assigning a semantic record type.");
+    }
+
+
     private void scan614FocusedCallrProvenance() {
         p("");
         p("============================================================");
@@ -7892,6 +7985,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             p("PRIORITY_PASS=run focused 0x25F70 wrapper/callsite trace before broad scans can consume MAX_LINES.");
             scan614FocusedCallrProvenance();
             scan614GetSignalsInfoCallbackSlots();
+            scan614GetSignalsInfoArgumentRecords();
             if (FOCUS_ONLY_614) {
                 p("");
                 p("FOCUS_ONLY_MODE=enabled; resolving the six get_instance bodies and their singleton storage.");
