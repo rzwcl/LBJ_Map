@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-62
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-63
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-62";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-63";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8396,10 +8396,125 @@ private static final boolean FOCUS_ONLY_614 = true;
             }
         }
 
+        scan614DescriptorMethodTargets();
+
         p("");
         p("614_NEXT_TRACE_DONE");
         p("Interpretation limit: table words are static-image evidence; pointer-looking values require call/use-site confirmation.");
         p("No program data or structures modified.");
+    }
+
+
+    private void scan614DescriptorMethodTargets() {
+        p("");
+        p("============================================================");
+        p("614 DESCRIPTOR METHOD TARGETS / CODE WINDOWS");
+        p("Trace getter methods, technology-specific derived methods, and adjacent helper entries.");
+        p("READ ONLY - does not create instructions or modify the program.");
+        p("============================================================");
+
+        long[] targets = {
+            0x24FB0L, 0x24FC0L, 0x24FD0L,
+            0x25564L, 0x25574L, 0x25600L,
+            0x2566CL, 0x25670L, 0x256FCL,
+            0x257BCL, 0x257D4L, 0x257ECL,
+            0x25804L, 0x2581CL,
+            0x25FD0L, 0x26000L, 0x26030L,
+            0x26060L, 0x26090L
+        };
+
+        for (long target : targets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+
+            Address a = addr(target);
+            MemoryBlock b = null;
+            Function f = null;
+            try {
+                b = memory().getBlock(a);
+                f = currentProgram.getFunctionManager().getFunctionAt(a);
+                if (f == null) {
+                    f = currentProgram.getFunctionManager().getFunctionContaining(a);
+                }
+            } catch (Exception e) {
+                p("METHOD_TARGET_ERROR address=" + hex(target)
+                    + " error=" + e.getMessage());
+                continue;
+            }
+
+            p("");
+            p("METHOD_TARGET address=" + hex(target)
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " initialized=" + (b != null && b.isInitialized())
+                + " executable=" + (b != null && b.isExecute())
+                + " function=" + (f == null ? "<none>" : f.getName())
+                + " function_entry=" + (f == null ? "<none>"
+                    : hex(f.getEntryPoint().getOffset())));
+
+            if (b != null && b.isInitialized()) {
+                try {
+                    byte[] raw = new byte[48];
+                    long endOff = b.getEnd().getOffset();
+                    int count = (int)Math.min(48L,
+                        Math.max(0L, endOff - target + 1L));
+                    if (count > 0) {
+                        memory().getBytes(a, raw, 0, count);
+                        byte[] actual = new byte[count];
+                        System.arraycopy(raw, 0, actual, 0, count);
+                        p("  RAW48=" + byteString(actual));
+                    }
+                } catch (Exception e) {
+                    p("  RAW48_ERROR=" + e.getMessage());
+                }
+            }
+
+            if (f != null) {
+                InstructionIterator it = listing().getInstructions(f.getBody(), true);
+                int n = 0;
+                while (it.hasNext() && n < 36
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Instruction ins = it.next();
+                    p("  BODY_INS " + ins.getAddress() + " " + ins);
+                    n++;
+                }
+                p("  BODY_INSTRUCTIONS_PRINTED=" + n);
+            } else if (b != null && b.isExecute()) {
+                long windowEnd = Math.min(b.getEnd().getOffset(), target + 0x60L);
+                Address windowStartAddress = addr(target);
+                Address windowEndAddress = addr(windowEnd);
+                InstructionIterator it =
+                    listing().getInstructions(windowStartAddress, true);
+                int n = 0;
+                while (it.hasNext() && n < 40
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Instruction ins = it.next();
+                    long at = ins.getAddress().getOffset();
+                    if (at > windowEnd) break;
+                    p("  WINDOW_INS " + ins.getAddress() + " " + ins);
+                    n++;
+                }
+                p("  WINDOW_INSTRUCTIONS_PRINTED=" + n);
+            }
+
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+            int shown = 0;
+            while (refs.hasNext() && shown < 12
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(from);
+                p("  METHOD_XREF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>"
+                        : owner.getName() + "@" + owner.getEntryPoint())
+                    + " instruction=" + instructionInfo(from.getOffset()));
+                shown++;
+            }
+            p("  METHOD_XREFS_PRINTED=" + shown);
+        }
+
+        p("614_DESCRIPTOR_METHOD_TARGETS_DONE");
     }
 
     @Override
