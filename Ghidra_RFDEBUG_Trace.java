@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-47
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-48
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-47";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-48";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -7209,10 +7209,211 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         p("  614_RAW_ASCII_XREFS_SHOWN target=" + hex(start) + " count=" + shown);
     }
 
+
+    /*
+     * STRUCTURE-48 focused provenance pass.
+     * This intentionally runs last so the useful result is not buried under
+     * broad inventories. It follows only the current 614_0_0 image:
+     * get_signals_info (0x259A4), the indirect-call wrapper (0x25F70),
+     * incoming references, and aligned static pointer words to that wrapper.
+     *
+     * READ ONLY: no data, disassembly, references, symbols, or comments are created.
+     */
+    private void print614FocusedFunctionBody(long entryOffset, String label, int maxInstructions) {
+        Address entry = addr(entryOffset);
+        Function f = currentProgram.getFunctionManager().getFunctionAt(entry);
+        if (f == null) f = currentProgram.getFunctionManager().getFunctionContaining(entry);
+        p("");
+        p("FOCUS_FUNCTION label=" + label + " requested=" + hex(entryOffset)
+            + " function=" + (f == null ? "<none>" : f.getName())
+            + " entry=" + (f == null ? "<none>" : f.getEntryPoint())
+            + " body=" + (f == null ? "<none>" : f.getBody().getMinAddress() + ".." + f.getBody().getMaxAddress()));
+        if (f == null) return;
+
+        MemoryBlock fb = null;
+        try { fb = memory().getBlock(f.getEntryPoint()); } catch (Exception ignored) {}
+        p("  FOCUS_BLOCK=" + (fb == null ? "<none>" : fb.getName())
+            + " executable=" + (fb != null && fb.isExecute()));
+
+        InstructionIterator it = listing().getInstructions(f.getBody(), true);
+        int shown = 0;
+        while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES
+                && shown < maxInstructions) {
+            Instruction ins = it.next();
+            Function owner = currentProgram.getFunctionManager()
+                .getFunctionContaining(ins.getAddress());
+            if (owner == null || !owner.getEntryPoint().equals(f.getEntryPoint())) continue;
+            String mnemonic = ins.getMnemonicString().toLowerCase(java.util.Locale.ROOT);
+            p("  FOCUS_INSN " + ins.getAddress() + " " + ins);
+            shown++;
+
+            if (mnemonic.startsWith("call")) {
+                Reference[] refs = currentProgram.getReferenceManager()
+                    .getReferencesFrom(ins.getAddress());
+                int edgeCount = 0;
+                for (Reference ref : refs) {
+                    if (edgeCount >= 6 || lines >= MAX_LINES) break;
+                    Address to = ref.getToAddress();
+                    Function targetFunction = null;
+                    MemoryBlock targetBlock = null;
+                    try {
+                        if (to.getAddressSpace().isMemorySpace()) {
+                            targetFunction = currentProgram.getFunctionManager().getFunctionAt(to);
+                            if (targetFunction == null) {
+                                targetFunction = currentProgram.getFunctionManager().getFunctionContaining(to);
+                            }
+                            targetBlock = memory().getBlock(to);
+                        }
+                    } catch (Exception ignored) {}
+                    p("    FOCUS_CALL_EDGE from=" + ins.getAddress()
+                        + " type=" + ref.getReferenceType()
+                        + " target=" + to
+                        + " target_block=" + (targetBlock == null ? "<none>" : targetBlock.getName())
+                        + " target_exec=" + (targetBlock != null && targetBlock.isExecute())
+                        + " target_function=" + (targetFunction == null ? "<none>"
+                            : targetFunction.getName() + "@" + targetFunction.getEntryPoint()));
+                    edgeCount++;
+                }
+                if (edgeCount == 0) {
+                    p("    FOCUS_CALL_EDGE=unresolved-in-reference-manager from=" + ins.getAddress());
+                }
+            }
+        }
+        p("  FOCUS_INSTRUCTIONS_PRINTED=" + shown + " cap=" + maxInstructions);
+    }
+
+    private void print614FocusedIncomingCallContext(Instruction transfer, Function owner) {
+        if (transfer == null) return;
+        p("  FOCUS_INCOMING_TRANSFER from=" + transfer.getAddress()
+            + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
+            + " instruction=" + transfer);
+        java.util.List<Instruction> previous = new java.util.ArrayList<Instruction>();
+        Instruction cursor = listing().getInstructionBefore(transfer.getAddress());
+        for (int i = 0; i < 10 && cursor != null; i++) {
+            Function previousOwner = currentProgram.getFunctionManager()
+                .getFunctionContaining(cursor.getAddress());
+            if (owner != null && (previousOwner == null
+                    || !previousOwner.getEntryPoint().equals(owner.getEntryPoint()))) break;
+            previous.add(cursor);
+            cursor = listing().getInstructionBefore(cursor.getAddress());
+        }
+        java.util.Collections.reverse(previous);
+        boolean r0CandidateShown = false;
+        for (Instruction prior : previous) {
+            p("    FOCUS_CALLER_PRE " + prior.getAddress() + " " + prior);
+            if (!r0CandidateShown && prior.getNumOperands() > 0) {
+                for (Object object : prior.getOpObjects(0)) {
+                    if (object instanceof ghidra.program.model.lang.Register
+                            && "R0".equalsIgnoreCase(
+                                ((ghidra.program.model.lang.Register)object).getName())) {
+                        p("    FOCUS_R0_DESTINATION_CANDIDATE at=" + prior.getAddress()
+                            + " instruction=" + prior
+                            + " note=syntactic destination only; data flow is not emulated");
+                        r0CandidateShown = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!r0CandidateShown) {
+            p("    FOCUS_R0_DESTINATION_CANDIDATE=<not-visible-in-10-preceding-instructions>");
+        }
+    }
+
+    private void scan614FocusedCallrProvenance() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-48 614_0_0 FOCUSED CALLR / FUNCTION-POINTER PROVENANCE");
+        p("No broad keyword search here: show the two concrete functions, inbound edges, and static pointer words.");
+        p("Static memory cannot prove runtime register contents or relocation state.");
+        p("READ ONLY.");
+        p("============================================================");
+        p("FOCUS_PROGRAM=" + currentProgram.getName());
+        p("FOCUS_IMAGE_BASE=" + currentProgram.getImageBase());
+
+        // First establish what get_signals_info actually calls in this image.
+        print614FocusedFunctionBody(0x000259A4L, "get_signals_info", 96);
+
+        // Then show the complete small body surrounding callr R0.
+        print614FocusedFunctionBody(0x00025F70L, "indirect_call_wrapper_at_0x25F70", 48);
+
+        Address target = addr(0x00025F70L);
+        ReferenceIterator incoming = currentProgram.getReferenceManager().getReferencesTo(target);
+        int incomingCount = 0;
+        int instructionRefs = 0;
+        p("");
+        p("FOCUS_INCOMING_REFERENCES target=" + target);
+        while (incoming.hasNext() && !monitor.isCancelled() && lines < MAX_LINES
+                && incomingCount < 80) {
+            Reference ref = incoming.next();
+            Address from = ref.getFromAddress();
+            Function owner = null;
+            Instruction fromInstruction = null;
+            try {
+                if (from.getAddressSpace().isMemorySpace()) {
+                    owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    fromInstruction = listing().getInstructionAt(from);
+                }
+            } catch (Exception ignored) {}
+            p("  FOCUS_INCOMING_REF #" + (incomingCount + 1)
+                + " from=" + from
+                + " type=" + ref.getReferenceType()
+                + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
+                + " instruction=" + (fromInstruction == null ? "<no-instruction>" : fromInstruction.toString()));
+            incomingCount++;
+            if (fromInstruction != null) {
+                instructionRefs++;
+                print614FocusedIncomingCallContext(fromInstruction, owner);
+            }
+        }
+        p("FOCUS_INCOMING_REF_COUNT=" + incomingCount);
+        p("FOCUS_INCOMING_REFS_WITH_INSTRUCTION=" + instructionRefs);
+
+        // Also scan aligned 32-bit words in non-executable initialized blocks.
+        // This catches plain static pointer slots even when Ghidra has no DATA xref.
+        long rawWordsScanned = 0L;
+        int pointerHits = 0;
+        MemoryBlock[] blocks = memory().getBlocks();
+        p("");
+        p("FOCUS_RAW_STATIC_POINTER_WORDS target=" + target
+            + " scan=aligned-u32-in-non-executable-initialized-default-space");
+        for (MemoryBlock b : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            if (!b.isInitialized() || b.isExecute() || !isDefaultDynamicAddressBlock(b)) continue;
+            long pos = b.getStart().getOffset();
+            long end = b.getEnd().getOffset();
+            pos += (4L - (pos & 3L)) & 3L;
+            while (pos <= end - 3L && !monitor.isCancelled() && lines < MAX_LINES) {
+                try {
+                    long value = u32(pos);
+                    rawWordsScanned++;
+                    if (value == 0x00025F70L) {
+                        pointerHits++;
+                        if (pointerHits <= 32) {
+                            Data data = null;
+                            try { data = listing().getDataContaining(addr(pos)); } catch (Exception ignored) {}
+                            p("  FOCUS_RAW_POINTER_HIT #" + pointerHits
+                                + " slot=" + hex(pos)
+                                + " block=" + b.getName()
+                                + " data=" + (data == null ? "<undefined>" : data.getDataType().toString())
+                                + " word=" + hex(value));
+                        }
+                    }
+                } catch (Exception ignored) {}
+                pos += 4L;
+            }
+        }
+        p("FOCUS_RAW_POINTER_WORDS_SCANNED=" + rawWordsScanned);
+        p("FOCUS_RAW_POINTER_HITS=" + pointerHits);
+        p("FOCUS_RAW_POINTER_HITS_SHOWN=" + Math.min(pointerHits, 32));
+        p("FOCUS_INTERPRETATION_LIMIT=No static pointer hit does not rule out a runtime-supplied callback; inspect inbound code edges and caller contexts above.");
+        p("============================================================");
+    }
+
     private void scan614RawAsciiKeywordCensus() {
         p("");
         p("============================================================");
-        p("STRUCTURE-47 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS");
+        p("STRUCTURE-48 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS");
         p("Scans bytes directly; does not rely on Ghidra-defined string data.");
         p("Includes executable and non-executable initialized blocks in the default address space.");
         p("READ ONLY: no disassembly, references, data, symbols, or comments are created.");
@@ -7341,6 +7542,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scanRadioConfigMessageRecords();
             scanRfDebugSubsysImmediateCandidates();
             scan614RawAsciiKeywordCensus();
+            scan614FocusedCallrProvenance();
         }
         else {
             p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");            p("Using the existing C9199FB8 RFDEBUG property-table path for the qdsp6sw-style image.");
