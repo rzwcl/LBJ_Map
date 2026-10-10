@@ -93,6 +93,14 @@ private static final boolean FOCUS_ONLY_614 = true;
     private long summaryRegionUnreadable = -1L;
     private int summaryRegionGroups = -1;
 
+    // STRUCTURE-83: preserve the direct Scalar-operand scan result for a compact end-of-run tail.
+    private boolean summaryQdspIqOperandScanRan = false;
+    private long summaryQdspIqOperandInstructionsScanned = -1L;
+    private long summaryQdspIqOperandScalarsScanned = -1L;
+    private long summaryQdspIqOperandHits = -1L;
+    private int summaryQdspIqOperandHitRowsSaved = 0;
+    private final List<String> summaryQdspIqOperandHitRows = new ArrayList<>();
+
     private Address addr(long off) {
         return currentProgram.getAddressFactory()
             .getDefaultAddressSpace().getAddress(off);
@@ -10175,6 +10183,13 @@ private static final boolean FOCUS_ONLY_614 = true;
      * regions. This does not create references or modify the program.
      */
     private void scanQdspIqTableImmediateOperands() {
+        summaryQdspIqOperandScanRan = true;
+        summaryQdspIqOperandInstructionsScanned = 0L;
+        summaryQdspIqOperandScalarsScanned = 0L;
+        summaryQdspIqOperandHits = 0L;
+        summaryQdspIqOperandHitRowsSaved = 0;
+        summaryQdspIqOperandHitRows.clear();
+
         p("");
         p("============================================================");
         p("QDSP_IQ_TABLE_IMMEDIATE_OPERAND_SCAN");
@@ -10222,13 +10237,16 @@ private static final boolean FOCUS_ONLY_614 = true;
 
                         Function owner = currentProgram.getFunctionManager()
                             .getFunctionContaining(ins.getAddress());
-                        p("QDSP_IQ_TABLE_IMMEDIATE_HIT address=" + ins.getAddress()
+                        String hitRow = "address=" + ins.getAddress()
                             + " operand_index=" + operandIndex
                             + " scalar=" + hex(value)
                             + " region=" + (tableHit ? "TABLE" : "STRING")
                             + " function=" + (owner == null ? "<none>"
                                 : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
-                            + " instruction=" + ins.toString());
+                            + " instruction=" + ins.toString();
+                        summaryQdspIqOperandHitRows.add(hitRow);
+                        summaryQdspIqOperandHitRowsSaved = summaryQdspIqOperandHitRows.size();
+                        p("QDSP_IQ_TABLE_IMMEDIATE_HIT " + hitRow);
                         try {
                             ghidra.program.model.pcode.PcodeOp[] ops = ins.getPcode();
                             if (ops != null) {
@@ -10246,11 +10264,48 @@ private static final boolean FOCUS_ONLY_614 = true;
                 }
             }
         }
+        summaryQdspIqOperandInstructionsScanned = instructionsScanned;
+        summaryQdspIqOperandScalarsScanned = scalarOperandsScanned;
+        summaryQdspIqOperandHits = hits;
+        summaryQdspIqOperandHitRowsSaved = summaryQdspIqOperandHitRows.size();
+
         p("QDSP_IQ_TABLE_IMMEDIATE_INSTRUCTIONS_SCANNED=" + instructionsScanned);
         p("QDSP_IQ_TABLE_IMMEDIATE_SCALAR_OPERANDS_SCANNED=" + scalarOperandsScanned);
         p("QDSP_IQ_TABLE_IMMEDIATE_HITS=" + hits);
         p("QDSP_IQ_TABLE_IMMEDIATE_HITS_SHOWN=" + shown);
         p("QDSP_IQ_TABLE_IMMEDIATE_OPERAND_SCAN_DONE");
+    }
+
+    /*
+     * Repeat the priority scan's compact result after all verbose diagnostics.
+     * Use println rather than p so this tail remains available even if MAX_LINES
+     * was reached, and so a clipped Ghidra console capture retains the key scan evidence.
+     */
+    private void dumpQdspIqImmediateOperandFinalTail() {
+        println("");
+        println("============================================================");
+        println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_TAIL");
+        println("FINAL_TRACE_BUILD=" + TRACE_BUILD);
+        println("FINAL_PROGRAM_NAME=" + currentProgram.getName());
+        println("FINAL_IMAGE_BASE=" + currentProgram.getImageBase());
+        try {
+            println("FINAL_PROGRAM_DOMAIN_PATH=" + currentProgram.getDomainFile().getPathname());
+        } catch (Exception e) {
+            println("FINAL_PROGRAM_DOMAIN_PATH=<unavailable:" + e.getClass().getSimpleName() + ">");
+        }
+        println("QDSP_IQ_TABLE_IMMEDIATE_SCAN_RAN=" + summaryQdspIqOperandScanRan);
+        println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_INSTRUCTIONS_SCANNED="
+            + summaryQdspIqOperandInstructionsScanned);
+        println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_SCALAR_OPERANDS_SCANNED="
+            + summaryQdspIqOperandScalarsScanned);
+        println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_HITS=" + summaryQdspIqOperandHits);
+        println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_HIT_ROWS_SAVED="
+            + summaryQdspIqOperandHitRowsSaved);
+        for (int i = 0; i < summaryQdspIqOperandHitRows.size(); i++) {
+            println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_HIT index=" + i
+                + " " + summaryQdspIqOperandHitRows.get(i));
+        }
+        println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_TAIL_DONE");
     }
 
     private void scanQdspIqCaptureDataPath() {
@@ -10997,6 +11052,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             scanQdspIqTableImmediateOperands();
             scanQdspIqCaptureDataPath();
             scanQdspIqGpAudit();
+            dumpQdspIqImmediateOperandFinalTail();
             p("DONE");
             p("No program data or structures modified.");
             return;
