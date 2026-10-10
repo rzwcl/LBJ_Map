@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-63
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-64
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-63";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-64";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8397,6 +8397,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
 
         scan614DescriptorMethodTargets();
+        scan614RfcGlobalSlotBank();
 
         p("");
         p("614_NEXT_TRACE_DONE");
@@ -8515,6 +8516,74 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
 
         p("614_DESCRIPTOR_METHOD_TARGETS_DONE");
+    }
+
+    private void scan614RfcGlobalSlotBank() {
+        p("");
+        p("============================================================");
+        p("614 RFC GLOBAL SLOT BANK / WRITERS / PROPERTY ACCESSORS");
+        p("Audits words from 0x254660 through 0x254708 and resolves xrefs.");
+        p("READ ONLY; static values do not prove runtime relocation.");
+        p("============================================================");
+
+        long start = 0x254660L;
+        long end = 0x254708L;
+
+        for (long slot = start; slot <= end
+                && !monitor.isCancelled() && lines < MAX_LINES; slot += 4L) {
+            long value = 0L;
+            boolean readable = false;
+            try {
+                value = u32(slot);
+                readable = true;
+            } catch (Exception ignored) {
+                readable = false;
+            }
+
+            MemoryBlock sb = null;
+            MemoryBlock vb = null;
+            Function vf = null;
+            if (readable) {
+                try { sb = memory().getBlock(addr(slot)); } catch (Exception ignored) {}
+                try { vb = memory().getBlock(addr(value)); } catch (Exception ignored) {}
+                try {
+                    vf = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                    if (vf == null) {
+                        vf = currentProgram.getFunctionManager().getFunctionContaining(addr(value));
+                    }
+                } catch (Exception ignored) {}
+            }
+
+            p("GLOBAL_SLOT address=" + hex(slot)
+                + " readable=" + readable
+                + " block=" + (sb == null ? "<none>" : sb.getName())
+                + " value=" + (readable ? hex(value) : "<unreadable>")
+                + " value_block=" + (vb == null ? "<none>" : vb.getName())
+                + " value_exec=" + (vb != null && vb.isExecute())
+                + " function=" + (vf == null ? "<none>" : vf.getName())
+                + " function_entry=" + (vf == null ? "<none>"
+                    : hex(vf.getEntryPoint().getOffset())));
+
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+            int shown = 0;
+            while (refs.hasNext() && shown < 6
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                Instruction ins = listing().getInstructionAt(from);
+                p("  GLOBAL_SLOT_XREF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>"
+                        : owner.getName() + "@" + owner.getEntryPoint())
+                    + " instruction=" + (ins == null ? "<none>" : ins.toString()));
+                shown++;
+            }
+            p("  GLOBAL_SLOT_XREFS_PRINTED=" + shown);
+        }
+
+        p("614_RFC_GLOBAL_SLOT_BANK_DONE");
     }
 
     @Override
