@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-73";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-74";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9111,6 +9111,182 @@ private static final boolean FOCUS_ONLY_614 = true;
     }
 
     /*
+     * STRUCTURE-74: the IQ-specific target is qdsp6sw.mbn, not the RFC
+     * configuration image 614_0_0.mbn. Historical static notes identify
+     * these candidate strings in qdsp6sw; revalidate the addresses against
+     * the currently loaded program before treating them as evidence.
+     */
+    private void scanQdspIqCaptureDataPath() {
+        final long POOL_START = 0xC414B500L;
+        final long POOL_END = 0xC414C100L;
+        final long[] anchors = {
+            0xC414B5AEL, 0xC414B959L, 0xC414BAEAL
+        };
+        final String[] names = {
+            "IQ_CAPTURE", "FETCH_IQ", "IQ_CAPTURE_TYPE"
+        };
+
+        p("");
+        p("============================================================");
+        p("QDSP6SW_IQ_CAPTURE_DATA_PATH");
+        p("Target is modem DSP firmware. This is a separate path from RFC tuning/configuration in 614_0_0.mbn.");
+        p("Known historical string anchors are hypotheses until mapped and re-read in this program.");
+        p("READ ONLY - no modem commands, RF operations, or firmware writes.");
+        p("============================================================");
+        p("QDSP_IQ_POOL_RANGE=" + hex(POOL_START) + ".." + hex(POOL_END));
+
+        for (int i = 0; i < anchors.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long target = anchors[i];
+            MemoryBlock b = block(target);
+            String actual = readAsciiAt(target, 128);
+            p("");
+            p("QDSP_IQ_ANCHOR name=" + names[i]
+                + " address=" + hex(target)
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " initialized=" + (b != null && b.isInitialized())
+                + " executable=" + (b != null && b.isExecute())
+                + " actual_ascii=" + (actual == null ? "<not-a-cstring>" : actual)
+                + " expected_name_match=" + (actual != null
+                    && actual.equals(names[i])));
+            ReferenceIterator refs = currentProgram.getReferenceManager()
+                .getReferencesTo(addr(target));
+            int shown = 0;
+            int total = 0;
+            while (refs.hasNext() && !monitor.isCancelled()
+                    && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                total++;
+                if (shown >= 24) continue;
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(from);
+                Instruction fromIns = listing().getInstructionAt(from);
+                if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                p("  QDSP_IQ_ANCHOR_XREF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>"
+                        : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                    + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                shown++;
+            }
+            p("  QDSP_IQ_ANCHOR_XREF_COUNT name=" + names[i]
+                + " total=" + total + " shown=" + shown);
+        }
+
+        p("");
+        p("QDSP_IQ_POOL_RAW_POINTER_SCAN");
+        p("Scan aligned 32-bit words for pointers into the historical IQ TLV/name pool.");
+        long pointerWordsScanned = 0L;
+        long pointerHits = 0L;
+        int pointerHitsShown = 0;
+        final int CHUNK = 0x4000;
+        byte[] buffer = new byte[CHUNK];
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            if (!b.isInitialized() || !isDefaultDynamicAddressBlock(b)) continue;
+            long blockStart = b.getStart().getOffset();
+            long blockEnd = b.getEnd().getOffset();
+            long pos = (blockStart + 3L) & ~3L;
+            while (pos <= blockEnd && !monitor.isCancelled()
+                    && lines < MAX_LINES) {
+                int want = (int)Math.min((long)CHUNK, blockEnd - pos + 1L);
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                } catch (Exception e) {
+                    p("QDSP_IQ_POINTER_SCAN_READ_ERROR block=" + b.getName()
+                        + " address=" + hex(pos) + " error=" + e.getMessage());
+                    break;
+                }
+                for (int i = 0; i + 3 < want; i += 4) {
+                    long value = ((long)buffer[i] & 0xffL)
+                        | (((long)buffer[i + 1] & 0xffL) << 8)
+                        | (((long)buffer[i + 2] & 0xffL) << 16)
+                        | (((long)buffer[i + 3] & 0xffL) << 24);
+                    pointerWordsScanned++;
+                    if (value < POOL_START || value >= POOL_END) continue;
+                    pointerHits++;
+                    if (pointerHitsShown >= 100 || lines >= MAX_LINES) continue;
+                    String textAt = readAsciiAt(value, 96);
+                    p("  QDSP_IQ_POOL_POINTER slot=" + hex(pos + i)
+                        + " slot_block=" + b.getName()
+                        + " value=" + hex(value)
+                        + " target_ascii=" + (textAt == null ? "<not-a-cstring>" : textAt)
+                        + " target_block=" + (block(value) == null ? "<none>" : block(value).getName()));
+                    pointerHitsShown++;
+                }
+                pos += want;
+            }
+        }
+        p("QDSP_IQ_POINTER_WORDS_SCANNED=" + pointerWordsScanned);
+        p("QDSP_IQ_POOL_POINTER_HITS=" + pointerHits);
+        p("QDSP_IQ_POOL_POINTER_HITS_SHOWN=" + pointerHitsShown);
+
+        p("");
+        p("QDSP_IQ_PC_RELATIVE_POOL_USE_SCAN");
+        p("Scan Hexagon PC-relative add instructions that resolve into the candidate string/descriptor pool.");
+        long instructionsScanned = 0L;
+        long pcPoolHits = 0L;
+        int pcPoolHitsShown = 0;
+        final long MAX_INSNS = 1800000L;
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES
+                    || instructionsScanned >= MAX_INSNS) break;
+            if (!b.isInitialized() || !b.isExecute()
+                    || !isDefaultDynamicAddressBlock(b)) continue;
+            long blockEnd = b.getEnd().getOffset();
+            InstructionIterator it = listing().getInstructions(b.getStart(), true);
+            while (it.hasNext() && !monitor.isCancelled()
+                    && lines < MAX_LINES && instructionsScanned < MAX_INSNS) {
+                Instruction ins = it.next();
+                long instructionAddress = ins.getAddress().getOffset();
+                if (instructionAddress > blockEnd) break;
+                instructionsScanned++;
+                if (!"add".equalsIgnoreCase(ins.getMnemonicString())) continue;
+
+                boolean hasPc = false;
+                Long displacement = null;
+                for (int op = 0; op < ins.getNumOperands(); op++) {
+                    for (Object object : ins.getOpObjects(op)) {
+                        if (object instanceof ghidra.program.model.lang.Register
+                                && "PC".equalsIgnoreCase(
+                                    ((ghidra.program.model.lang.Register)object).getName())) {
+                            hasPc = true;
+                        } else if (object instanceof Scalar) {
+                            displacement = Long.valueOf(
+                                ((Scalar)object).getSignedValue());
+                        }
+                    }
+                }
+                if (!hasPc || displacement == null) continue;
+                Long computed = hexagonPcRelativeTarget(ins, displacement.longValue());
+                if (computed == null) continue;
+                long target = computed.longValue() & 0xffffffffL;
+                if (target < POOL_START || target >= POOL_END) continue;
+                pcPoolHits++;
+                if (pcPoolHitsShown >= 160 || lines >= MAX_LINES) continue;
+
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(ins.getAddress());
+                String textAt = readAsciiAt(target, 96);
+                p("  QDSP_IQ_PC_POOL_HIT ins=" + ins.getAddress()
+                    + " target=" + hex(target)
+                    + " packet_start=" + (hexagonPacketStartAddress(ins) == null
+                        ? "<unknown>" : hex(hexagonPacketStartAddress(ins).longValue()))
+                    + " function=" + (owner == null ? "<none>"
+                        : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                    + " target_ascii=" + (textAt == null ? "<not-a-cstring>" : textAt)
+                    + " instruction=" + ins.toString());
+                pcPoolHitsShown++;
+            }
+        }
+        p("QDSP_IQ_INSTRUCTIONS_SCANNED=" + instructionsScanned);
+        p("QDSP_IQ_PC_POOL_HITS=" + pcPoolHits);
+        p("QDSP_IQ_PC_POOL_HITS_SHOWN=" + pcPoolHitsShown);
+        p("QDSP6SW_IQ_CAPTURE_DATA_PATH_DONE");
+    }
+
+    /*
      * STRUCTURE-73: resolve the function-pointer slots of the six RFC vtables.
      * STRUCTURE-72 found each object constructor loading a static pointer and
      * storing pointer + 8 into the object. The first two words are therefore
@@ -9764,6 +9940,15 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
         String programLower = currentProgram.getName().toLowerCase();
+        if (programLower.contains("qdsp6sw")) {
+            p("TARGET_PROFILE=QDSP6SW_IQ_CAPTURE_PATH");
+            p("The following scan targets historical IQ_CAPTURE/FETCH_IQ anchors in the main modem DSP image only.");
+            p("No 614_0_0 RFC addresses or legacy RFDEBUG property-table assumptions are reused.");
+            scanQdspIqCaptureDataPath();
+            p("DONE");
+            p("No program data or structures modified.");
+            return;
+        }
         if (programLower.contains("614_0_0")) {
             p("TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY");
             p("Legacy qdsp6sw.mbn addresses are disabled for this program.");
