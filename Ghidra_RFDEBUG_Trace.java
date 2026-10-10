@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-67";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-68";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8788,8 +8788,8 @@ private static final boolean FOCUS_ONLY_614 = true;
     private void scan614CommonRfcConstructorEvidenceTail() {
         p("");
         p("============================================================");
-        p("614_PRIORITY_RFC_CONSTRUCTOR_EVIDENCE_TAIL");
-        p("The shared 0x24D60 constructor and technology-specific constructor entries are repeated here so this evidence survives a front-clipped console capture.");
+        p("614_PRIORITY_RFC_TEARDOWN_EVIDENCE_TAIL");
+        p("The 0x24D60 operator.delete thunk and technology-specific teardown entries are repeated here so this evidence survives a front-clipped console capture.");
         p("READ ONLY - no RF/FTM commands are generated or transmitted.");
         p("============================================================");
 
@@ -8811,13 +8811,13 @@ private static final boolean FOCUS_ONLY_614 = true;
                     f = currentProgram.getFunctionManager().getFunctionContaining(entry);
                 }
             } catch (Exception e) {
-                p("RFC_CTOR_TARGET_ERROR address=" + hex(target)
+                p("RFC_TEARDOWN_TARGET_ERROR address=" + hex(target)
                     + " error=" + e.getMessage());
                 continue;
             }
 
             p("");
-            p("RFC_CTOR_TARGET address=" + hex(target)
+            p("RFC_TEARDOWN_TARGET address=" + hex(target)
                 + " block=" + (block == null ? "<none>" : block.getName())
                 + " executable=" + (block != null && block.isExecute())
                 + " function=" + (f == null ? "<none>" : f.getName())
@@ -8832,7 +8832,7 @@ private static final boolean FOCUS_ONLY_614 = true;
                 if (f != null && !f.getBody().contains(ins.getAddress())) break;
 
                 String mnemonic = ins.getMnemonicString();
-                p("  RFC_CTOR_INS " + ins.getAddress() + " " + ins);
+                p("  RFC_TEARDOWN_INS " + ins.getAddress() + " " + ins);
                 count++;
 
                 if (mnemonic != null && (mnemonic.toLowerCase().startsWith("call")
@@ -8849,7 +8849,7 @@ private static final boolean FOCUS_ONLY_614 = true;
                         if (tf == null) {
                             tf = currentProgram.getFunctionManager().getFunctionContaining(to);
                         }
-                        p("    RFC_CTOR_EDGE to=" + to
+                        p("    RFC_TEARDOWN_EDGE to=" + to
                             + " type=" + ref.getReferenceType()
                             + " target_function=" + (tf == null ? "<none>" : tf.getName())
                             + " target_entry=" + (tf == null ? "<none>"
@@ -8867,7 +8867,7 @@ private static final boolean FOCUS_ONLY_614 = true;
 
                 ins = listing().getInstructionAfter(ins.getAddress());
             }
-            p("  RFC_CTOR_INSNS_PRINTED=" + count);
+            p("  RFC_TEARDOWN_INSNS_PRINTED=" + count);
 
             ReferenceIterator incoming =
                 currentProgram.getReferenceManager().getReferencesTo(entry);
@@ -8879,15 +8879,186 @@ private static final boolean FOCUS_ONLY_614 = true;
                 Function owner = currentProgram.getFunctionManager()
                     .getFunctionContaining(from);
                 Instruction fromIns = listing().getInstructionAt(from);
-                p("  RFC_CTOR_INCOMING from=" + from
+                p("  RFC_TEARDOWN_INCOMING from=" + from
                     + " type=" + ref.getReferenceType()
                     + " owner=" + (owner == null ? "<none>" : owner.getName())
                     + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns));
                 shownIncoming++;
             }
-            p("  RFC_CTOR_INCOMING_PRINTED=" + shownIncoming);
+            p("  RFC_TEARDOWN_INCOMING_PRINTED=" + shownIncoming);
         }
         p("614_PRIORITY_RFC_CONSTRUCTOR_EVIDENCE_TAIL_DONE");
+    }
+
+
+    /*
+     * Recheck the actual get_signals_info -> indirect-call path at the END
+     * of the log. STRUCTURE-67 showed that 0x24D60 is named operator.delete
+     * and jumps through a pointer slot; the surrounding ~rfc_*_ag routines
+     * are teardown/destructor paths, not evidence of a tuning constructor.
+     */
+    private void scan614PriorityActualRfPathTail() {
+        p("");
+        p("============================================================");
+        p("614_PRIORITY_ACTUAL_RF_PATH_TAIL");
+        p("Trace 0x25F70 / 0x24C00 indirect dispatch and classify the 0x24D60 -> 0x255058 thunk without assuming tuning semantics.");
+        p("READ ONLY - static listing and references only; no calls are executed.");
+        p("============================================================");
+
+        long[] targets = {
+            0x25F70L, 0x24C00L, 0x255058L, 0x25F58L,
+            0x259A4L, 0x25F20L, 0x25F40L, 0x24D60L
+        };
+
+        for (long target : targets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+
+            Address entry = addr(target);
+            MemoryBlock block = null;
+            Function f = null;
+            try {
+                block = memory().getBlock(entry);
+                f = currentProgram.getFunctionManager().getFunctionAt(entry);
+                if (f == null) {
+                    f = currentProgram.getFunctionManager().getFunctionContaining(entry);
+                }
+            } catch (Exception e) {
+                p("ACTUAL_RF_TARGET_ERROR address=" + hex(target)
+                    + " error=" + e.getMessage());
+                continue;
+            }
+
+            p("");
+            p("ACTUAL_RF_TARGET address=" + hex(target)
+                + " block=" + (block == null ? "<none>" : block.getName())
+                + " executable=" + (block != null && block.isExecute())
+                + " function=" + (f == null ? "<none>" : f.getName())
+                + " function_entry=" + (f == null ? "<none>"
+                    : hex(f.getEntryPoint().getOffset())));
+
+            int limit = target == 0x25F70L ? 48
+                : (target == 0x24C00L ? 32
+                : (target == 0x255058L ? 28 : 20));
+            int shown = 0;
+            java.util.List<Instruction> recent =
+                new java.util.ArrayList<Instruction>();
+            Instruction ins = listing().getInstructionAt(entry);
+
+            while (ins != null && shown < limit
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                if (f != null && !f.getBody().contains(ins.getAddress())) break;
+                Function instructionOwner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(ins.getAddress());
+                if (f != null && instructionOwner != null
+                        && !instructionOwner.getEntryPoint().equals(f.getEntryPoint())) break;
+
+                String mnemonic = ins.getMnemonicString();
+                p("  ACTUAL_RF_INS " + ins.getAddress() + " " + ins);
+                shown++;
+
+                Reference[] outgoing = currentProgram.getReferenceManager()
+                    .getReferencesFrom(ins.getAddress());
+                int edgeCount = 0;
+                for (Reference ref : outgoing) {
+                    if (edgeCount >= 4 || lines >= MAX_LINES) break;
+                    Address to = ref.getToAddress();
+                    if (to == null) continue;
+                    Function tf = currentProgram.getFunctionManager().getFunctionAt(to);
+                    if (tf == null) {
+                        tf = currentProgram.getFunctionManager().getFunctionContaining(to);
+                    }
+                    p("    ACTUAL_RF_EDGE type=" + ref.getReferenceType()
+                        + " target=" + to
+                        + " target_function=" + (tf == null ? "<none>" : tf.getName())
+                        + " target_entry=" + (tf == null ? "<none>"
+                            : hex(tf.getEntryPoint().getOffset())));
+                    edgeCount++;
+                }
+
+                if ("add".equalsIgnoreCase(mnemonic)) {
+                    boolean hasPc = false;
+                    Long displacement = null;
+                    for (int op = 0; op < ins.getNumOperands(); op++) {
+                        for (Object object : ins.getOpObjects(op)) {
+                            if (object instanceof ghidra.program.model.lang.Register
+                                    && "PC".equalsIgnoreCase(
+                                        ((ghidra.program.model.lang.Register)object).getName())) {
+                                hasPc = true;
+                            } else if (object instanceof Scalar) {
+                                displacement = Long.valueOf(
+                                    ((Scalar)object).getSignedValue());
+                            }
+                        }
+                    }
+                    if (hasPc && displacement != null) {
+                        Long computed = hexagonPcRelativeTarget(
+                            ins, displacement.longValue());
+                        if (computed != null) {
+                            long pcTarget = computed.longValue();
+                            MemoryBlock targetBlock = memory().getBlock(addr(pcTarget));
+                            String word = "<unreadable>";
+                            String targetFunction = "<none>";
+                            try {
+                                if (initialized(pcTarget, 4)) word = hex(u32(pcTarget));
+                                Function tf = currentProgram.getFunctionManager()
+                                    .getFunctionAt(addr(pcTarget));
+                                if (tf == null) {
+                                    tf = currentProgram.getFunctionManager()
+                                        .getFunctionContaining(addr(pcTarget));
+                                }
+                                if (tf != null) targetFunction =
+                                    tf.getName() + "@" + hex(tf.getEntryPoint().getOffset());
+                            } catch (Exception ignored) {}
+                            p("    ACTUAL_RF_PC_TARGET=" + hex(pcTarget)
+                                + " block=" + (targetBlock == null ? "<none>"
+                                    : targetBlock.getName())
+                                + " word0=" + word
+                                + " pointed_function=" + targetFunction);
+                        }
+                    }
+                }
+
+                if (mnemonic != null && mnemonic.toLowerCase(
+                        java.util.Locale.ROOT).contains("callr")) {
+                    p("    ACTUAL_RF_INDIRECT_TRANSFER address=" + ins.getAddress()
+                        + " instruction=" + ins
+                        + " note=register target requires local data-flow validation");
+                    for (Instruction prior : recent) {
+                        p("      ACTUAL_RF_PREVIOUS " + prior.getAddress() + " " + prior);
+                    }
+                }
+
+                if (recent.size() >= 6) recent.remove(0);
+                recent.add(ins);
+
+                if (mnemonic != null && ("dealloc_return".equalsIgnoreCase(mnemonic)
+                        || "return".equalsIgnoreCase(mnemonic)
+                        || "jumpr".equalsIgnoreCase(mnemonic)
+                        || "jump".equalsIgnoreCase(mnemonic))) break;
+
+                ins = listing().getInstructionAfter(ins.getAddress());
+            }
+            p("  ACTUAL_RF_INSNS_PRINTED=" + shown);
+
+            ReferenceIterator incoming =
+                currentProgram.getReferenceManager().getReferencesTo(entry);
+            int incomingShown = 0;
+            while (incoming.hasNext() && incomingShown < 10
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = incoming.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(from);
+                Instruction fromIns = listing().getInstructionAt(from);
+                p("  ACTUAL_RF_INCOMING from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName())
+                    + " instruction=" + (fromIns == null ? "<none>" : fromIns));
+                incomingShown++;
+            }
+            p("  ACTUAL_RF_INCOMING_PRINTED=" + incomingShown);
+        }
+        p("614_PRIORITY_ACTUAL_RF_PATH_TAIL_DONE");
     }
 
     private void scan614CommonRfcDispatch() {
@@ -9090,6 +9261,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
         p("  CALLBACK_WORDS_PRINTED=" + words);
         scan614CommonRfcConstructorEvidenceTail();
+        scan614PriorityActualRfPathTail();
         p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
