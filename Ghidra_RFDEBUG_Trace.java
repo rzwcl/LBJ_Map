@@ -10979,6 +10979,13 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
         String programLower = currentProgram.getName().toLowerCase();
+        if (programLower.contains("qdsp6sw2")) {
+            p("TARGET_PROFILE=REJECTED_QDSP6SW2_IMAGE");
+            p("This STRUCTURE-83 IQ anchor scan is scoped to qdsp6sw.mbn, not qdsp6sw2.mbn.");
+            p("No QDSP IQ anchors or instruction scans were run. Open the main qdsp6sw.mbn program instead.");
+            p("No program data or structures modified.");
+            return;
+        }
         if (programLower.contains("qdsp6sw")) {
             p("TARGET_PROFILE=QDSP6SW_IQ_CAPTURE_PATH");
             p("The following scan targets historical IQ_CAPTURE/FETCH_IQ anchors in the main modem DSP image only.");
