@@ -1,276 +1,3 @@
-SCDMA base=0x00027170 block=segment_3 initialized=true
-    DWORD index=0 slot=0x00027170 value=0x00000000 value_block=<none> value_exec=false function=<none> function_entry=<none>
-    DWORD index=1 slot=0x00027174 value=0x000271F8 value_block=segment_3 value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=00027174 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=2 slot=0x00027178 value=0x00255068 value_block=EXTERNAL value_exec=false function=~rfc_tdscdma_data function_entry=0x00255068
-      FIRST_INS=<none>
-      VALUE_XREF from=00254820 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=00024fec type=COMPUTED_CALL owner=~rfc_tdscdma_data instruction=jumpr R28 
-      VALUE_XREF from=00027178 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=3
-    DWORD index=3 slot=0x0002717C value=0x00025804 value_block=segment_2 value_exec=true function=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag function_entry=0x00025804
-      FIRST_INS=call 0x00024fe0 
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=00254864 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=0002717c type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=3
-    DWORD index=4 slot=0x00027180 value=0x00255108 value_block=EXTERNAL value_exec=false function=sig_cfg_data_get function_entry=0x00255108
-      FIRST_INS=<none>
-      VALUE_XREF from=00027180 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=5 slot=0x00027184 value=0x002550C4 value_block=EXTERNAL value_exec=false function=devices_cfg_data_get function_entry=0x002550C4
-      FIRST_INS=<none>
-      VALUE_XREF from=00027184 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=6 slot=0x00027188 value=0x000256FC value_block=segment_2 value_exec=true function=band_split_cfg_data_get function_entry=0x000256FC
-      FIRST_INS=jump 0x00024ca0 
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=00254868 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=00027188 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=3
-    DWORD index=7 slot=0x0002718C value=0x00255048 value_block=EXTERNAL value_exec=false function=path_cfg_data_get function_entry=0x00255048
-      FIRST_INS=<none>
-      VALUE_XREF from=0002718c type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=8 slot=0x00027190 value=0x002550AC value_block=EXTERNAL value_exec=false function=get_rfcard_data function_entry=0x002550AC
-      FIRST_INS=<none>
-      VALUE_XREF from=00027190 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=9 slot=0x00027194 value=0x00255010 value_block=EXTERNAL value_exec=false function=unique_path_table_get function_entry=0x00255010
-      FIRST_INS=<none>
-      VALUE_XREF from=00027194 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=10 slot=0x00027198 value=0x00000000 value_block=<none> value_exec=false function=<none> function_entry=<none>
-    DWORD index=11 slot=0x0002719C value=0x00027204 value_block=segment_3 value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=0002719c type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=12 slot=0x000271A0 value=0x002550D0 value_block=EXTERNAL value_exec=false function=~rfc_gnss_data function_entry=0x002550D0
-      FIRST_INS=<none>
-      VALUE_XREF from=00254824 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=00024ffc type=COMPUTED_CALL owner=~rfc_gnss_data instruction=jumpr R28 
-      VALUE_XREF from=000271a0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=3
-    DWORD index=13 slot=0x000271A4 value=0x0002581C value_block=segment_2 value_exec=true function=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag function_entry=0x0002581C
-      FIRST_INS=call 0x00024ff0 
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271a4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=0025486c type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=3
-    DWORD index=14 slot=0x000271A8 value=0x00255008 value_block=EXTERNAL value_exec=false function=sig_cfg_data_get function_entry=0x00255008
-      FIRST_INS=<none>
-      VALUE_XREF from=000271a8 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=15 slot=0x000271AC value=0x00255100 value_block=EXTERNAL value_exec=false function=devices_cfg_data_get function_entry=0x00255100
-      FIRST_INS=<none>
-      VALUE_XREF from=000271ac type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=16 slot=0x000271B0 value=0x0025502C value_block=EXTERNAL value_exec=false function=band_split_cfg_data_get function_entry=0x0025502C
-      FIRST_INS=<none>
-      VALUE_XREF from=000271b0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=17 slot=0x000271B4 value=0x00255060 value_block=EXTERNAL value_exec=false function=get_rfcard_data function_entry=0x00255060
-      FIRST_INS=<none>
-      VALUE_XREF from=000271b4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=18 slot=0x000271B8 value=0x002550A8 value_block=EXTERNAL value_exec=false function=path_cfg_data_get function_entry=0x002550A8
-      FIRST_INS=<none>
-      VALUE_XREF from=000271b8 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=19 slot=0x000271BC value=0x0025509C value_block=EXTERNAL value_exec=false function=get_lte_properties function_entry=0x0025509C
-      FIRST_INS=<none>
-      VALUE_XREF from=000270c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=20 slot=0x000271C0 value=0x00025FD0 value_block=segment_2 value_exec=true function=<none> function_entry=<none>
-      INSTRUCTION_AT_VALUE=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=21 slot=0x000271C4 value=0x00255104 value_block=EXTERNAL value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=000271c4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=22 slot=0x000271C8 value=0x0025509C value_block=EXTERNAL value_exec=false function=get_lte_properties function_entry=0x0025509C
-      FIRST_INS=<none>
-      VALUE_XREF from=000270c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=23 slot=0x000271CC value=0x00026000 value_block=segment_2 value_exec=true function=<none> function_entry=<none>
-      INSTRUCTION_AT_VALUE=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271cc type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-
-  DESCRIPTOR_TABLE name=GNSS base=0x00027198 block=segment_3 initialized=true
-    DWORD index=0 slot=0x00027198 value=0x00000000 value_block=<none> value_exec=false function=<none> function_entry=<none>
-    DWORD index=1 slot=0x0002719C value=0x00027204 value_block=segment_3 value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=0002719c type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=2 slot=0x000271A0 value=0x002550D0 value_block=EXTERNAL value_exec=false function=~rfc_gnss_data function_entry=0x002550D0
-      FIRST_INS=<none>
-      VALUE_XREF from=00254824 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=00024ffc type=COMPUTED_CALL owner=~rfc_gnss_data instruction=jumpr R28 
-      VALUE_XREF from=000271a0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=3
-    DWORD index=3 slot=0x000271A4 value=0x0002581C value_block=segment_2 value_exec=true function=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag function_entry=0x0002581C
-      FIRST_INS=call 0x00024ff0 
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271a4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=0025486c type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=3
-    DWORD index=4 slot=0x000271A8 value=0x00255008 value_block=EXTERNAL value_exec=false function=sig_cfg_data_get function_entry=0x00255008
-      FIRST_INS=<none>
-      VALUE_XREF from=000271a8 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=5 slot=0x000271AC value=0x00255100 value_block=EXTERNAL value_exec=false function=devices_cfg_data_get function_entry=0x00255100
-      FIRST_INS=<none>
-      VALUE_XREF from=000271ac type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=6 slot=0x000271B0 value=0x0025502C value_block=EXTERNAL value_exec=false function=band_split_cfg_data_get function_entry=0x0025502C
-      FIRST_INS=<none>
-      VALUE_XREF from=000271b0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=7 slot=0x000271B4 value=0x00255060 value_block=EXTERNAL value_exec=false function=get_rfcard_data function_entry=0x00255060
-      FIRST_INS=<none>
-      VALUE_XREF from=000271b4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=8 slot=0x000271B8 value=0x002550A8 value_block=EXTERNAL value_exec=false function=path_cfg_data_get function_entry=0x002550A8
-      FIRST_INS=<none>
-      VALUE_XREF from=000271b8 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=9 slot=0x000271BC value=0x0025509C value_block=EXTERNAL value_exec=false function=get_lte_properties function_entry=0x0025509C
-      FIRST_INS=<none>
-      VALUE_XREF from=000270c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=10 slot=0x000271C0 value=0x00025FD0 value_block=segment_2 value_exec=true function=<none> function_entry=<none>
-      INSTRUCTION_AT_VALUE=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=11 slot=0x000271C4 value=0x00255104 value_block=EXTERNAL value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=000271c4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=12 slot=0x000271C8 value=0x0025509C value_block=EXTERNAL value_exec=false function=get_lte_properties function_entry=0x0025509C
-      FIRST_INS=<none>
-      VALUE_XREF from=000270c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=13 slot=0x000271CC value=0x00026000 value_block=segment_2 value_exec=true function=<none> function_entry=<none>
-      INSTRUCTION_AT_VALUE=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271cc type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=14 slot=0x000271D0 value=0x00255050 value_block=EXTERNAL value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=000271d0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=15 slot=0x000271D4 value=0x0025509C value_block=EXTERNAL value_exec=false function=get_lte_properties function_entry=0x0025509C
-      FIRST_INS=<none>
-      VALUE_XREF from=000270c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=16 slot=0x000271D8 value=0x00026030 value_block=segment_2 value_exec=true function=<none> function_entry=<none>
-      INSTRUCTION_AT_VALUE=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271d8 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=17 slot=0x000271DC value=0x002550B8 value_block=EXTERNAL value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=000271dc type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=18 slot=0x000271E0 value=0x0025509C value_block=EXTERNAL value_exec=false function=get_lte_properties function_entry=0x0025509C
-      FIRST_INS=<none>
-      VALUE_XREF from=000270c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=19 slot=0x000271E4 value=0x00026060 value_block=segment_2 value_exec=true function=<none> function_entry=<none>
-      INSTRUCTION_AT_VALUE=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271e4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=20 slot=0x000271E8 value=0x00255138 value_block=EXTERNAL value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=000271e8 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=21 slot=0x000271EC value=0x0025509C value_block=EXTERNAL value_exec=false function=get_lte_properties function_entry=0x0025509C
-      FIRST_INS=<none>
-      VALUE_XREF from=000270c0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-    DWORD index=22 slot=0x000271F0 value=0x00026090 value_block=segment_2 value_exec=true function=<none> function_entry=<none>
-      INSTRUCTION_AT_VALUE=<none>
-      VALUE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-      VALUE_XREF from=000271f0 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=2
-    DWORD index=23 slot=0x000271F4 value=0x002550FC value_block=EXTERNAL value_exec=false function=<none> function_entry=<none>
-      VALUE_XREF from=000271f4 type=DATA owner=<none> instruction=<no-instruction>
-      VALUE_XREFS_PRINTED=1
-
-============================================================
-614 DESCRIPTOR METHOD TARGETS / CODE WINDOWS
-Trace getter methods, technology-specific derived methods, and adjacent helper entries.
-READ ONLY - does not create instructions or modify the program.
-============================================================
-
-METHOD_TARGET address=0x00024FB0 block=segment_2 initialized=true executable=true function=~rfc_wcdma_data function_entry=0x00024FB0
-  RAW48=E1 4B 02 00 0E D2 49 6A 1C C0 8E 91 00 C0 9C 52 E1 4B 02 00 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 E1 4B 02 00 0E C6 49 6A 1C C0 8E 91 00 C0 9C 52
-  BODY_INS 00024fb0 immext #0x22f840 
-  BODY_INS 00024fb4 add R14,PC,##0x22f864 
-  BODY_INS 00024fb8 memw R28,(R14) 
-  BODY_INS 00024fbc jumpr R28 
-  BODY_INSTRUCTIONS_PRINTED=4
-  METHOD_XREF from=000257bc type=DATA owner=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@000257bc instruction=call 0x00024fb0 
-  METHOD_XREF from=000257c4 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@000257bc instruction=memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  METHOD_XREFS_PRINTED=2
-
-METHOD_TARGET address=0x00024FC0 block=segment_2 initialized=true executable=true function=~rfc_cdma_data function_entry=0x00024FC0
-  RAW48=E1 4B 02 00 0E CC 49 6A 1C C0 8E 91 00 C0 9C 52 E1 4B 02 00 0E C6 49 6A 1C C0 8E 91 00 C0 9C 52 E1 4B 02 00 0E C0 49 6A 1C C0 8E 91 00 C0 9C 52
-  BODY_INS 00024fc0 immext #0x22f840 
-  BODY_INS 00024fc4 add R14,PC,##0x22f858 
-  BODY_INS 00024fc8 memw R28,(R14) 
-  BODY_INS 00024fcc jumpr R28 
-  BODY_INSTRUCTIONS_PRINTED=4
-  METHOD_XREF from=000257d4 type=DATA owner=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000257d4 instruction=call 0x00024fc0 
-  METHOD_XREF from=000257dc type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000257d4 instruction=memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  METHOD_XREFS_PRINTED=2
-
-METHOD_TARGET address=0x00024FD0 block=segment_2 initialized=true executable=true function=~rfc_gsm_data function_entry=0x00024FD0
-  RAW48=E1 4B 02 00 0E C6 49 6A 1C C0 8E 91 00 C0 9C 52 E1 4B 02 00 0E C0 49 6A 1C C0 8E 91 00 C0 9C 52 E0 4B 02 00 0E DA 49 6A 1C C0 8E 91 00 C0 9C 52
-  BODY_INS 00024fd0 immext #0x22f840 
-  BODY_INS 00024fd4 add R14,PC,##0x22f84c 
-  BODY_INS 00024fd8 memw R28,(R14) 
-  BODY_INS 00024fdc jumpr R28 
-  BODY_INSTRUCTIONS_PRINTED=4
-  METHOD_XREF from=000257ec type=DATA owner=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag@000257ec instruction=call 0x00024fd0 
-  METHOD_XREF from=000257f4 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag@000257ec instruction=memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  METHOD_XREFS_PRINTED=2
-
-METHOD_TARGET address=0x00025564 block=segment_2 initialized=true executable=true function=band_split_cfg_data_get function_entry=0x00025564
-  RAW48=00 40 02 75 00 40 9F 52 00 40 00 78 00 C0 C2 39 20 60 80 7E 10 C0 01 10 C6 4B 02 00 02 C6 49 6A 00 40 9F 52 FD 7F FF 0F 02 46 82 91 00 D2 A1 A1
-  BODY_INS 00025564 cmp.eq P0,R2,#0x0 
-  BODY_INS 00025568 jumpr LR 
-  BODY_INS 0002556c assign R0,#0x0 
-  BODY_INS 00025570 memw.if(!P0.new) (R2),#0x0 
-  BODY_INSTRUCTIONS_PRINTED=4
-  METHOD_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  METHOD_XREF from=00254750 type=DATA owner=<none> instruction=<no-instruction>
-  METHOD_XREF from=00024cac type=COMPUTED_CALL owner=band_split_cfg_data_get@00024ca0 instruction=jumpr R28 
-  METHOD_XREF from=00027114 type=DATA owner=<none> instruction=<no-instruction>
-  METHOD_XREFS_PRINTED=4
-
-METHOD_TARGET address=0x00025574 block=segment_2 initialized=true executable=true function=get_wcdma_properties function_entry=0x00025574
-  RAW48=20 60 80 7E 10 C0 01 10 C6 4B 02 00 02 C6 49 6A 00 40 9F 52 FD 7F FF 0F 02 46 82 91 00 D2 A1 A1 C0 3F 00 48 C5 4B 02 00 11 58 49 6A 10 1C F4 EB
-  BODY_INS 00025574 assign.if(!P0.new) R0,#0x1 
-  BODY_INS 00025578 cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025594 
-  BODY_INS 0002557c immext #0x22f180 
-  BODY_INS 00025580 add R2,PC,##0x22f18c 
-  BODY_INS 00025584 jumpr LR 
-  BODY_INS 00025588 immext #0xffffff40 
-  BODY_INS 0002558c memw R2,(R2+##0xffffff70) 
-  BODY_INS 00025590 memw (R1),R2.new 
-  BODY_INS 00025594 assign R0,#0x0 ; jumpr LR 
-  BODY_INSTRUCTIONS_PRINTED=9
-  METHOD_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  METHOD_XREF from=00254848 type=DATA owner=<none> instruction=<no-instruction>
-  METHOD_XREF from=00027118 type=DATA owner=<none> instruction=<no-instruction>
-  METHOD_XREFS_PRINTED=3
-
-METHOD_TARGET address=0x00025600 block=segment_2 initialized=true executable=true function=band_split_cfg_data_get function_entry=0x00025600
-  RAW48=50 FB FF 59 C4 4B 02 00 11 42 49 6A 10 1C F4 EB FD 7F FF 0F 82 C7 91 91 10 40 82 91 10 E0 42 24 26 FE FF 5B 46 7B FF 5B 10 C0 60 70 FD 7F FF 0F
   BODY_INS 00025600 jump 0x00024ca0 
   BODY_INSTRUCTIONS_PRINTED=1
   METHOD_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
@@ -569,6 +296,381 @@ GLOBAL_SLOT address=0x00254708 readable=true block=segment_3 value=0x00000000 va
   GLOBAL_SLOT_XREF from=00025a98 type=PARAM owner=FUN_00025a94@00025a94 instruction=add R2,PC,##0x22ec74 
   GLOBAL_SLOT_XREFS_PRINTED=4
 614_RFC_GLOBAL_SLOT_BANK_DONE
+
+============================================================
+614 CONFIG CONSUMERS / TABLE CONTENTS / CALLEE TARGETS
+Follow configuration getters identified by the global-slot audit.
+Static read-only analysis; no RF/FTM command is sent.
+============================================================
+
+CONFIG_FUNCTION address=0x00025A94 name=FUN_00025a94 entry=0x00025A94
+  CFG_INS 00025a94 immext #0x22ec40 
+  CFG_INS 00025a98 add R2,PC,##0x22ec74 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025a9c jump 0x00024cf0 
+    FLOW_REF to=00024cf0 type=DATA function=msg_v2_send_dll instruction=immext #0x22fa40 
+  CFG_INS 00025aa0 immext #0xffffff80 
+  CFG_INS 00025aa4 memw R0,(R2+##0xffffffbc) 
+  CONFIG_INSNS_PRINTED=5
+  CONFIG_INCOMING from=00025b20 type=UNCONDITIONAL_CALL owner=get_ant_switch_path_info instruction=call 0x00025a94 
+  CONFIG_INCOMING from=00025d88 type=UNCONDITIONAL_CALL owner=path_cfg_data_get instruction=call 0x00025a94 
+  CONFIG_INCOMING from=00025e80 type=UNCONDITIONAL_CALL owner=fbrx_cfg_data_get instruction=call 0x00025a94 
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025AA8 name=get_phy_device_cfg entry=0x00025AA8
+  CFG_INS 00025aa8 immext #0x22ec40 
+  CFG_INS 00025aac add R2,PC,##0x22ec60 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025ab0 jumpr LR 
+  CFG_INS 00025ab4 immext #0xffffffc0 
+  CFG_INS 00025ab8 memw R0,(R2+##0xffffffc0) 
+  CONFIG_INSNS_PRINTED=5
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547ac type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027234 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025ABC name=get_logical_device_cfg entry=0x00025ABC
+  CFG_INS 00025abc immext #0x22ec40 
+  CFG_INS 00025ac0 add R2,PC,##0x22ec4c 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025ac4 jumpr LR 
+  CFG_INS 00025ac8 immext #0xffffffc0 
+  CFG_INS 00025acc memw R0,(R2+##0xffffffc4) 
+  CONFIG_INSNS_PRINTED=5
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547a8 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027230 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025AD0 name=get_ant_switch_path_info entry=0x00025AD0
+  CFG_INS 00025ad0 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):t 0x00025aec 
+  CFG_INS 00025ad4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  CFG_INS 00025ad8 immext #0x1800 
+  CFG_INS 00025adc add R0,PC,##0x1828 
+    PC_REL_TARGET=0x00027300 block=segment_3 ascii={..
+  CFG_INS 00025ae0 call 0x00024cf0 
+    FLOW_REF to=00024cf0 type=DATA function=msg_v2_send_dll instruction=immext #0x22fa40 
+  CFG_INS 00025ae4 assign R16,#0x0 
+  CFG_INS 00025ae8 jump 0x00025b9c 
+    FLOW_REF to=00025b9c type=UNCONDITIONAL_JUMP function=get_ant_switch_path_info instruction=assign R0,R16 
+  CFG_INS 00025aec cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0x00025afc 
+  CFG_INS 00025af0 immext #0x1800 
+  CFG_INS 00025af4 add R0,PC,##0x181c 
+    PC_REL_TARGET=0x0002730C block=segment_3 ascii=...
+  CFG_INS 00025af8 jump 0x00025ae0 
+    FLOW_REF to=00025ae0 type=UNCONDITIONAL_JUMP function=get_ant_switch_path_info instruction=call 0x00024cf0 
+    FLOW_REF to=0002730c type=PARAM function=<none> instruction=<no-instruction>
+  CFG_INS 00025afc assign R16,#0x0 ; memw (R2),#0x0 
+  CFG_INS 00025b00 memb R3,(R1+#0xc) 
+  CFG_INS 00025b04 jump.if:t !cmp.eq(R3.new,#0x9),0x00025b9c 
+    FLOW_REF to=00025b9c type=CONDITIONAL_JUMP function=get_ant_switch_path_info instruction=assign R0,R16 
+  CFG_INS 00025b08 immext #0x1f3d00 
+  CFG_INS 00025b0c add R4,PC,##0x1f3d3c 
+    PC_REL_TARGET=0x00219844 block=segment_3 ascii=>
+  CFG_INS 00025b10 memw R3,(R4+#0x4) 
+  CFG_INS 00025b14 jump.if:nt cmp.eq(R3.new,#0x0),0x00025b20 
+    FLOW_REF to=00025b20 type=CONDITIONAL_JUMP function=get_ant_switch_path_info instruction=call 0x00025a94 
+    FLOW_REF to=002210d0 type=PARAM function=<none> instruction=<no-instruction>
+  CONFIG_INSNS_PRINTED=18
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547c0 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027258 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025BD0 name=get_logical_path_config entry=0x00025BD0
+  CFG_INS 00025bd0 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):t 0x00025bec 
+  CFG_INS 00025bd4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  CFG_INS 00025bd8 immext #0x1740 
+  CFG_INS 00025bdc add R0,PC,##0x1740 
+    PC_REL_TARGET=0x00027318 block=segment_3 ascii=...
+  CFG_INS 00025be0 assign R1,#0x0 ; assign R16,#0x0 
+  CFG_INS 00025be4 call 0x00024bc0 
+    FLOW_REF to=00024bc0 type=UNCONDITIONAL_CALL function=msg_v2_send_1_dll instruction=immext #0x22fb40 
+  CFG_INS 00025be8 jump 0x00025c0c 
+    FLOW_REF to=00025c0c type=UNCONDITIONAL_JUMP function=get_logical_path_config instruction=assign R0,R16 
+  CFG_INS 00025bec immext #0x22eb00 
+  CFG_INS 00025bf0 add R2,PC,##0x22eb1c 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025bf4 combine R1R0,#0x14,R1 
+  CFG_INS 00025bf8 assign R3,#0x14 
+  CFG_INS 00025bfc call 0x00024d20 
+    FLOW_REF to=00024d20 type=DATA function=memscpy instruction=immext #0x22fa40 
+  CFG_INS 00025c00 assign R16,#0x1 
+  CFG_INS 00025c04 immext #0xffffffc0 
+  CFG_INS 00025c08 memw R2,(R2+##0xffffffc8) 
+  CFG_INS 00025c0c assign R0,R16 
+  CFG_INS 00025c10 memd R17R16,(SP+#0x0) ; dealloc_return 
+  CONFIG_INSNS_PRINTED=17
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547b8 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027244 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025C14 name=get_ant_path_info_config entry=0x00025C14
+  CFG_INS 00025c14 immext #0x22eac0 
+  CFG_INS 00025c18 add R2,PC,##0x22eaf4 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025c1c jumpr LR 
+  CFG_INS 00025c20 immext #0xffffffc0 
+  CFG_INS 00025c24 memw R0,(R2+##0xffffffcc) 
+  CONFIG_INSNS_PRINTED=5
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547b4 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=0002723c type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025C28 name=get_sig_path_info_config entry=0x00025C28
+  CFG_INS 00025c28 immext #0x22eac0 
+  CFG_INS 00025c2c add R2,PC,##0x22eae0 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025c30 jumpr LR 
+  CFG_INS 00025c34 immext #0xffffffc0 
+  CFG_INS 00025c38 memw R0,(R2+##0xffffffd0) 
+  CONFIG_INSNS_PRINTED=5
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547b0 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027238 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025C3C name=get_rffe_speeds_info entry=0x00025C3C
+  CFG_INS 00025c3c cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0x00025c54 
+  CFG_INS 00025c40 allocframe #0x0 
+  CFG_INS 00025c44 immext #0x16c0 
+  CFG_INS 00025c48 add R0,PC,##0x16e0 
+    PC_REL_TARGET=0x00027324 block=segment_3 ascii=...
+  CFG_INS 00025c4c call 0x00024cf0 
+    FLOW_REF to=00024cf0 type=UNCONDITIONAL_CALL function=msg_v2_send_dll instruction=immext #0x22fa40 
+    FLOW_REF to=00027324 type=PARAM function=<none> instruction=<no-instruction>
+  CFG_INS 00025c50 jump 0x00025cf0 
+    FLOW_REF to=00025cf0 type=UNCONDITIONAL_JUMP function=get_rffe_speeds_info instruction=assign R0,#0x0 ; dealloc_return 
+  CFG_INS 00025c54 immext #0x22ea80 
+  CFG_INS 00025c58 add R3,PC,##0x22eab4 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025c5c immext #0xffffffc0 
+  CFG_INS 00025c60 add R3,R3,##-0x2c 
+  CFG_INS 00025c64 add R5,R1,#-0x21 
+  CFG_INS 00025c68 memw R4,(R3) 
+  CFG_INS 00025c6c jump.if:t !cmp.gtu(R5.new,#0x8),0x00025cf4 
+    FLOW_REF to=00025cf4 type=CONDITIONAL_JUMP function=get_rffe_speeds_info instruction=immext #0x400 
+    FLOW_REF to=00220c60 type=PARAM function=<none> instruction=<no-instruction>
+  CFG_INS 00025c70 cmp.eq P0,R1,#0x1 ; jump.if(P0.new):nt 0x00025c84 
+  CFG_INS 00025c74 add.if(P0.new) R3,R4,#0xe 
+  CFG_INS 00025c78 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):nt 0x00025ce4 
+  CFG_INS 00025c7c assign R0,#0x1 ; memw (R2),R3 
+  CFG_INS 00025c80 dealloc_return 
+  CONFIG_INSNS_PRINTED=18
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=1
+
+CONFIG_FUNCTION address=0x00025D08 name=get_cmn_properties entry=0x00025D08
+  CFG_INS 00025d08 assign.if(!P0.new) R0,#0x1 
+  CFG_INS 00025d0c cmp.eq P0,R1,#0x0 ; jump.if(P0.new):nt 0x00025d28 
+  CFG_INS 00025d10 immext #0x22e9c0 
+  CFG_INS 00025d14 add R2,PC,##0x22e9f8 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025d18 jumpr LR 
+  CFG_INS 00025d1c immext #0xffffffc0 
+  CFG_INS 00025d20 memw R2,(R2+##0xffffffd4) 
+  CFG_INS 00025d24 memw (R1),R2.new 
+  CFG_INS 00025d28 assign R0,#0x0 ; jumpr LR 
+  CONFIG_INSNS_PRINTED=9
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547bc type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027248 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025D2C name=get_band_info_rrc_table entry=0x00025D2C
+  CFG_INS 00025d2c immext #0x22e9c0 
+  CFG_INS 00025d30 add R2,PC,##0x22e9dc 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025d34 cmp.eq P0,R1,#0x0 
+  CFG_INS 00025d38 immext #0xffffffc0 
+  CFG_INS 00025d3c memw R3,(R2+##0xffffffd8) 
+  CFG_INS 00025d40 immext #0xffffffc0 
+  CFG_INS 00025d44 memw.if(P0) R0,(R2+##0xffffffdc) 
+  CFG_INS 00025d48 assign.if(!P0) R0,R3 
+  CFG_INS 00025d4c jumpr LR 
+    FLOW_REF to=00220e88 type=DATA function=<none> instruction=<no-instruction>
+  CONFIG_INSNS_PRINTED=9
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547f4 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027288 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025E44 name=fbrx_cfg_data_get entry=0x00025E44
+  CFG_INS 00025e44 cmp.eq P0,R2,#0x0 
+  CFG_INS 00025e48 assign R16,#0x0 
+  CFG_INS 00025e4c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  CFG_INS 00025e50 jump.if(P0) 0x00025ef8 
+    FLOW_REF to=00025ef8 type=DATA function=fbrx_cfg_data_get instruction=assign R0,R16 
+  CFG_INS 00025e54 memw.if(!P0) (R2),#0x0 
+  CFG_INS 00025e58 immext #0x22e880 
+  CFG_INS 00025e5c add R4,PC,##0x22e8b0 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025e60 immext #0xffffffc0 
+  CFG_INS 00025e64 memw R3,(R4+##0xffffffe0) 
+  CFG_INS 00025e68 memw R3,(R3+#0x4) 
+  CFG_INS 00025e6c jump.if:nt cmp.eq(R3.new,#0x0),0x00025e80 
+    FLOW_REF to=00025e80 type=CONDITIONAL_JUMP function=fbrx_cfg_data_get instruction=call 0x00025a94 
+    FLOW_REF to=00220fa0 type=PARAM function=<none> instruction=<no-instruction>
+  CFG_INS 00025e70 immext #0xffffffc0 
+  CFG_INS 00025e74 memw R4,(R4+##0xffffffe0) 
+  CFG_INS 00025e78 memh R5,(R4) 
+  CFG_INS 00025e7c jump.if:t !cmp.eq(R5.new,#0x0),0x00025e88 
+    FLOW_REF to=00025e88 type=CONDITIONAL_JUMP function=fbrx_cfg_data_get instruction=sxth R4,R1 
+  CFG_INS 00025e80 call 0x00025a94 
+    FLOW_REF to=00025a94 type=UNCONDITIONAL_CALL function=FUN_00025a94 instruction=immext #0x22ec40 
+  CFG_INS 00025e84 jump 0x00025ef8 
+    FLOW_REF to=00025ef8 type=UNCONDITIONAL_JUMP function=fbrx_cfg_data_get instruction=assign R0,R16 
+  CFG_INS 00025e88 sxth R4,R1 
+  CONFIG_INSNS_PRINTED=18
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547c8 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027264 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025F20 name=get_fbrx_path_table_cfg entry=0x00025F20
+  CFG_INS 00025f20 immext #0x22e7c0 
+  CFG_INS 00025f24 add R2,PC,##0x22e7e8 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025f28 jumpr LR 
+  CFG_INS 00025f2c immext #0xffffffc0 
+  CFG_INS 00025f30 memw R0,(R2+##0xffffffe0) 
+  CONFIG_INSNS_PRINTED=5
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=002547e4 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING from=00027278 type=DATA owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=3
+
+CONFIG_FUNCTION address=0x00025F40 name=dm_register_so entry=0x00025F40
+  CFG_INS 00025f40 immext #0x22e7c0 
+  CFG_INS 00025f44 add R2,PC,##0x22e7c8 
+    PC_REL_TARGET=0x00254708 block=segment_3 ascii=
+  CFG_INS 00025f48 assign R0,#0x0 
+  CFG_INS 00025f4c jump 0x00024d40 
+    FLOW_REF to=00024d40 type=DATA function=dmm_register_dm instruction=immext #0x22fa00 
+  CFG_INS 00025f50 immext #0xffffffc0 
+  CFG_INS 00025f54 memw R1,(R2+##0xffffffe4) 
+  CONFIG_INSNS_PRINTED=6
+  CONFIG_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  CONFIG_INCOMING_PRINTED=1
+
+614_CONFIG_TABLE_DATA_SAMPLES
+TABLE_SAMPLE address=0x00217410 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000002 0x002173F8 0x00000000 0x000ABA18 0x000B1BC0 0x00000001 0x000B1BC0 0x000B69E0
+  TABLE_ASCII=.....s!......................i.......t!.........
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=000254bc type=DATA owner=band_split_cfg_data_get instruction=memw (R2),R3.new 
+  TABLE_XREF from=00254668 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x00217430 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000002 0x00217418 0x03020100 0x00000002 0x00217438 0x00025834 0x00025848 0x0002585C
+  TABLE_ASCII=.....t!.........8t!.4X..HX..\X..pX......#.......
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=000254ec type=DATA owner=band_split_cfg_data_get instruction=memw (R2),R3.new 
+  TABLE_XREF from=0025466c type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x00219670 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000002 0x00000002 0x00000003 0x00000002 0x00000004 0x00000002 0x00000005 0x00000002
+  TABLE_ASCII=................................................
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025930 type=DATA owner=sdr_rffe_sig_info_table_get instruction=memw (R1),R2 
+  TABLE_XREF from=00254694 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x002196E8 block=segment_3 initialized=true
+  TABLE_WORDS=0x0000FFFF 0xFFFFFFFF 0x00000000 0x00000000 0x00000001 0x00000001 0x00000001 0x00000000
+  TABLE_ASCII=................................................
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025930 type=DATA owner=sdr_rffe_sig_info_table_get instruction=memw (R1),R2 
+  TABLE_XREF from=00254698 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x002196F0 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000000 0x00000000 0x00000001 0x00000001 0x00000001 0x00000000 0x00000001 0x00000001
+  TABLE_ASCII=................................................
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025978 type=DATA owner=sdr_grfc_sig_info_table_get instruction=memw (R1),R2 
+  TABLE_XREF from=0025469c type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x002197A0 block=segment_3 initialized=true
+  TABLE_WORDS=0x0000FFFF 0x52465357 0x00000000 0xFFFFFFFF 0x00000003 0x00000082 0x00000001 0x00000000
+  TABLE_ASCII=....WSFR........................O...............
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025978 type=DATA owner=sdr_grfc_sig_info_table_get instruction=memw (R1),R2 
+  TABLE_XREF from=002546a0 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x002197B0 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000003 0x00000082 0x00000001 0x00000000 0x0000004F 0x00000000 0x00000000 0x00000000
+  TABLE_ASCII=................O...............................
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=0002599c type=DATA owner=blank_grfc_sig_info_table_get instruction=memw (R1),R2.new 
+  TABLE_XREF from=002546a4 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x00220C38 block=segment_3 initialized=true
+  TABLE_WORDS=0x00254890 0x00219874 0x0017D7D0 0x0017D7F8 0x0021BD58 0x0021CE60 0x0021FB70 0x00220C30
+  TABLE_ASCII=.H%.t.!.........X.!.`.!.p.!.0."..H%.........f...
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025c24 type=DATA owner=get_ant_path_info_config instruction=memw R0,(R2+##0xffffffcc) 
+  TABLE_XREF from=002546d4 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x00220C48 block=segment_3 initialized=true
+  TABLE_WORDS=0x0021BD58 0x0021CE60 0x0021FB70 0x00220C30 0x00254898 0x00000000 0x00000000 0x00000266
+  TABLE_ASCII=X.!.`.!.p.!.0."..H%.........f....0........!.".#.
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025c38 type=DATA owner=get_sig_path_info_config instruction=memw R0,(R2+##0xffffffd0) 
+  TABLE_XREF from=002546d8 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x00220C60 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000000 0x00000266 0x00003018 0x02000902 0x06210201 0x06230622 0x06270625 0x03290628
+  TABLE_ASCII=....f....0........!.".#.%.'.(.).................
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025d24 type=DATA owner=get_cmn_properties instruction=memw (R1),R2.new 
+  TABLE_XREF from=00025c6c type=PARAM owner=get_rffe_speeds_info instruction=jump.if:t !cmp.gtu(R5.new,#0x8),0x00025cf4 
+  TABLE_XREF from=002546dc type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=4
+TABLE_SAMPLE address=0x00220E84 block=segment_3 initialized=true
+  TABLE_WORDS=0x00220E7C 0x002548A0 0x00000008 0x00221DF0 0x00000008 0x00221F30 0x00000008 0x00222070
+  TABLE_ASCII=|."..H%.......".....0.".....p "......!".....P"".
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025d44 type=DATA owner=get_band_info_rrc_table instruction=memw.if(P0) R0,(R2+##0xffffffdc) 
+  TABLE_XREF from=002546e4 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x00220E88 block=segment_3 initialized=true
+  TABLE_WORDS=0x002548A0 0x00000008 0x00221DF0 0x00000008 0x00221F30 0x00000008 0x00222070 0x00000004
+  TABLE_ASCII=.H%.......".....0.".....p "......!".....P"".....
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025d4c type=DATA owner=get_band_info_rrc_table instruction=jumpr LR 
+  TABLE_XREF from=002546e0 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x002210B0 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000022 0x00220FA0 0x00000218 0x00224280 0x00025F3C 0x00217444 0x002210C0 0x00000000
+  TABLE_ASCII="....."......B".<_..Dt!..."...........".......".
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025f30 type=DATA owner=get_fbrx_path_table_cfg instruction=memw R0,(R2+##0xffffffe0) 
+  TABLE_XREF from=00025e78 type=READ owner=fbrx_cfg_data_get instruction=memh R5,(R4) 
+  TABLE_XREF from=00025e74 type=PARAM owner=fbrx_cfg_data_get instruction=memw R4,(R4+##0xffffffe0) 
+  TABLE_XREFS_PRINTED=4
+TABLE_SAMPLE address=0x002210C4 block=segment_3 initialized=true
+  TABLE_WORDS=0x00217444 0x002210C0 0x00000000 0x00000000 0x002212C0 0x00000001 0x002212CC 0x00000002
+  TABLE_ASCII=Dt!..."...........".......".......".......".....
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00025f54 type=PARAM owner=dm_register_so instruction=memw R1,(R2+##0xffffffe4) 
+  TABLE_XREF from=002546ec type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+TABLE_SAMPLE address=0x00027210 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000000 0x00027378 0x0025501C 0x00025F58 0x000259A4 0x000258F0 0x00025938 0x00025980
+  TABLE_ASCII=....xs...P%.X_...Y...X..8Y...Y...Z...Z..(\...\..
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=00254690 type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=2
+TABLE_SAMPLE address=0x00254888 block=segment_3 initialized=true
+  TABLE_WORDS=0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000 0x00000000
+  TABLE_ASCII=................................
+  TABLE_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  TABLE_XREF from=0002568c type=DATA owner=get_gsm_properties instruction=memw (R1),R2.new 
+  TABLE_XREF from=0025468c type=DATA owner=<none> instruction=<no-instruction>
+  TABLE_XREFS_PRINTED=3
+614_CONFIG_CONSUMERS_AND_TABLES_DONE
 
 614_NEXT_TRACE_DONE
 Interpretation limit: table words are static-image evidence; pointer-looking values require call/use-site confirmation.
