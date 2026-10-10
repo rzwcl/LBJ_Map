@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-57
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-58
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-57";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-58";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -7977,6 +7977,132 @@ private static final boolean FOCUS_ONLY_614 = true;
     }
 
 
+
+    private void scan614NextTrace() {
+        p("");
+        p("============================================================");
+        p("614 NEXT TRACE - TARGETS / HELPER / RFC INITIALIZATION");
+        p("READ ONLY - NO MEMORY OR PROGRAM MODIFICATIONS");
+        p("============================================================");
+        p("PROGRAM=" + currentProgram.getName());
+        p("IMAGE_BASE=" + currentProgram.getImageBase());
+
+        long[] targets = {
+            0x264D4L, 0x26544L, 0x265B4L,
+            0x26624L, 0x26694L, 0x26708L,
+            0x2526CL, 0x24C40L, 0x24C60L,
+            0x24C80L, 0x24CB0L, 0x24E90L,
+            0x24EB0L, 0x25F70L
+        };
+
+        for (long value : targets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) {
+                break;
+            }
+
+            Address a = addr(value);
+            MemoryBlock b = null;
+            Function f = null;
+
+            try {
+                b = memory().getBlock(a);
+                f = currentProgram.getFunctionManager().getFunctionAt(a);
+                if (f == null) {
+                    f = currentProgram.getFunctionManager()
+                        .getFunctionContaining(a);
+                }
+            } catch (Exception e) {
+                p("TARGET_ERROR address=" + hex(value)
+                    + " error=" + e.getMessage());
+                continue;
+            }
+
+            p("");
+            p("TARGET address=" + hex(value)
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " executable=" + (b != null && b.isExecute())
+                + " initialized=" + (b != null && b.isInitialized())
+                + " function=" + (f == null ? "<none>" : f.getName())
+                + " entry=" + (f == null ? "<none>"
+                    : hex(f.getEntryPoint().getOffset())));
+
+            if (f != null) {
+                int n = 0;
+                InstructionIterator it =
+                    listing().getInstructions(f.getBody(), true);
+
+                while (it.hasNext() && n < 48
+                        && !monitor.isCancelled()
+                        && lines < MAX_LINES) {
+                    Instruction ins = it.next();
+                    p("  INS " + ins.getAddress() + " " + ins);
+                    n++;
+                }
+
+                p("  INSTRUCTIONS_PRINTED=" + n);
+            } else {
+                Instruction ins = listing().getInstructionAt(a);
+                if (ins != null) {
+                    p("  INSTRUCTION_AT_TARGET " + ins);
+                }
+
+                if (b != null && b.isInitialized()) {
+                    try {
+                        long available = b.getEnd().subtract(a) + 1L;
+                        int count = (int)Math.min(32L,
+                            Math.max(0L, available));
+
+                        if (count > 0) {
+                            byte[] raw = new byte[count];
+                            memory().getBytes(a, raw);
+
+                            StringBuilder sb = new StringBuilder();
+                            for (byte v : raw) {
+                                sb.append(String.format("%02X ",
+                                    v & 0xff));
+                            }
+                            p("  RAW_BYTES=" + sb.toString().trim());
+                        }
+                    } catch (Exception e) {
+                        p("  RAW_BYTES_ERROR=" + e.getMessage());
+                    }
+                }
+            }
+
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager().getReferencesTo(a);
+
+            int shown = 0;
+            while (refs.hasNext() && shown < 20
+                    && !monitor.isCancelled()
+                    && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+
+                Instruction ins = listing().getInstructionAt(from);
+                Function owner =
+                    currentProgram.getFunctionManager()
+                        .getFunctionContaining(from);
+
+                p("  XREF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>"
+                        : owner.getName() + "@"
+                            + owner.getEntryPoint())
+                    + " instruction="
+                    + (ins == null ? "<none>" : ins.toString()));
+
+                shown++;
+            }
+
+            p("  XREFS_PRINTED=" + shown);
+        }
+
+        p("");
+        p("614_NEXT_TRACE_DONE");
+        p("No program data or structures modified.");
+    }
+
     @Override
     public void run() throws Exception {
         p("============================================================");
@@ -8002,6 +8128,7 @@ private static final boolean FOCUS_ONLY_614 = true;
                 p("Previously confirmed PLT/GOT thunk map is skipped in this pass to preserve focused output.");
                 scan614CorrectedGetterBodies();
                 scan614RfcSingletonStorageAndConstructors();
+                scan614NextTrace();
                 p("DONE");
                 p("No program data or structures modified.");
                 return;
@@ -8021,6 +8148,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             scan614UnrecognizedSignalCodeTargets();
 
             scan614RfcSingletonStorageAndConstructors();
+            scan614NextTrace();
             scan614RfcGetterEffectiveSlotAudit();
             scan614CorrectedGetterBodies();
             scan614SignalInfoUpstreamAndRfcImplementations();
