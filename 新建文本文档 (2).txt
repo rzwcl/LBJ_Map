@@ -1,72 +1,4 @@
-0xffffff80) 
-  614_FOLLOWUP_RFC_MEMORY_USE ins=00025658 reg=R2 base=0x00254708 disp=0xFFFFFF80 slot=0x00254688 slot_block=segment_3 static_word=0x00027148 value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_RFC_INS 0002565c add R2,R2,#0x8 
-  614_FOLLOWUP_RFC_INS 00025660 memd R17R16,(SP) 
-  614_FOLLOWUP_RFC_INS 00025664 memw (R16),R2.new 
-  614_FOLLOWUP_RFC_INS 00025668 dealloc_return 
-614_FOLLOWUP_RFC_INSNS_PRINTED role=GSM_impl count=11
-  614_FOLLOWUP_RFC_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_FOLLOWUP_RFC_INCOMING from=00254754 type=DATA caller=<none> instruction=<no-instruction>
-  614_FOLLOWUP_RFC_INCOMING from=00024cbc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_gsm_ag@00024cb0 instruction=jumpr R28 
-614_FOLLOWUP_RFC_INCOMING_COUNT role=GSM_impl count=3
-
-614_FOLLOWUP_RFC_BODY role=TDSCDMA_impl address=0x000256D0 function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=0x000256D0 body=000256d0..000256fb
-  614_FOLLOWUP_RFC_INS 000256d0 call 0x00024ea0 
-  614_FOLLOWUP_RFC_DIRECT_TARGET from=000256d0 target=00024ea0 instruction=call 0x00024ea0 
-  614_FOLLOWUP_RFC_INS 000256d4 assign R16,R0 
-  614_FOLLOWUP_RFC_INS 000256d8 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_FOLLOWUP_RFC_INS 000256dc immext #0x22f000 
-  614_FOLLOWUP_RFC_INS 000256e0 add R2,PC,##0x22f02c 
-  614_FOLLOWUP_RFC_PC_BASE ins=000256e0 packet_start=0x000256DC reg=R2 imm=0x0022F02C base=0x00254708
-  614_FOLLOWUP_RFC_INS 000256e4 immext #0xffffffc0 
-  614_FOLLOWUP_RFC_INS 000256e8 memw R2,(R2+##0xffffffec) 
-  614_FOLLOWUP_RFC_MEMORY_USE ins=000256e8 reg=R2 base=0x00254708 disp=0xFFFFFFEC slot=0x002546F4 slot_block=segment_3 static_word=0x00027170 value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_RFC_INS 000256ec add R2,R2,#0x8 
-  614_FOLLOWUP_RFC_INS 000256f0 memd R17R16,(SP) 
-  614_FOLLOWUP_RFC_INS 000256f4 memw (R16),R2.new 
-  614_FOLLOWUP_RFC_INS 000256f8 dealloc_return 
-614_FOLLOWUP_RFC_INSNS_PRINTED role=TDSCDMA_impl count=11
-  614_FOLLOWUP_RFC_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_FOLLOWUP_RFC_INCOMING from=002547cc type=DATA caller=<none> instruction=<no-instruction>
-  614_FOLLOWUP_RFC_INCOMING from=00024e9c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00024e90 instruction=jumpr R28 
-614_FOLLOWUP_RFC_INCOMING_COUNT role=TDSCDMA_impl count=3
-
-614_FOLLOWUP_RFC_BODY role=GNSS_impl address=0x0002573C function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0x0002573C body=0002573c..00025767
-  614_FOLLOWUP_RFC_INS 0002573c call 0x00024ec0 
-  614_FOLLOWUP_RFC_DIRECT_TARGET from=0002573c target=00024ec0 instruction=call 0x00024ec0 
-  614_FOLLOWUP_RFC_INS 00025740 assign R16,R0 
-  614_FOLLOWUP_RFC_INS 00025744 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  614_FOLLOWUP_RFC_INS 00025748 immext #0x22efc0 
-  614_FOLLOWUP_RFC_INS 0002574c add R2,PC,##0x22efc0 
-  614_FOLLOWUP_RFC_PC_BASE ins=0002574c packet_start=0x00025748 reg=R2 imm=0x0022EFC0 base=0x00254708
-  614_FOLLOWUP_RFC_INS 00025750 immext #0xffffffc0 
-  614_FOLLOWUP_RFC_INS 00025754 memw R2,(R2+##0xfffffff4) 
-  614_FOLLOWUP_RFC_MEMORY_USE ins=00025754 reg=R2 base=0x00254708 disp=0xFFFFFFF4 slot=0x002546FC slot_block=segment_3 static_word=0x00027198 value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_RFC_INS 00025758 add R2,R2,#0x8 
-  614_FOLLOWUP_RFC_INS 0002575c memd R17R16,(SP) 
-  614_FOLLOWUP_RFC_INS 00025760 memw (R16),R2.new 
-  614_FOLLOWUP_RFC_INS 00025764 dealloc_return 
-614_FOLLOWUP_RFC_INSNS_PRINTED role=GNSS_impl count=11
-  614_FOLLOWUP_RFC_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-  614_FOLLOWUP_RFC_INCOMING from=002547d4 type=DATA caller=<none> instruction=<no-instruction>
-  614_FOLLOWUP_RFC_INCOMING from=00024ebc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@00024eb0 instruction=jumpr R28 
-614_FOLLOWUP_RFC_INCOMING_COUNT role=GNSS_impl count=3
-
-614_FOLLOWUP_NAMED_FUNCTION_CANDIDATES
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_lte_ag entry=00025274 block=segment_2 executable=true body=00025274..0002529f
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0025471c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024bdc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_lte_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=00025454 block=segment_2 executable=true body=00025454..0002547f
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254738 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024c4c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=00025538 block=segment_2 executable=true body=00025538..00025563
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254740 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024c6c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag instruction=jumpr R28 
+_qrm865ab_v3_ag_wcdma_ag instruction=jumpr R28 
     614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
   614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=000255d4 block=segment_2 executable=true body=000255d4..000255ff
     614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
@@ -386,6 +318,44 @@ READ ONLY.
 614_SIGNAL_TABLE_TARGETS_WITH_INSTRUCTION=0
 614_SIGNAL_TABLE_TARGETS_WITH_FUNCTION_OR_OWNER=0
 614_SIGNAL_TABLE_INTERPRETATION=Executable block membership alone is not proof of a function; inspect raw bytes and incoming references.
+
+============================================================
+STRUCTURE-46 614_0_0 RFDEBUG / RX TUNING DISPATCH PIVOT
+Current-image scans only: frequency-field strings, radio-config source records, and RFDEBUG 0x007B instruction candidates.
+These scans do not reuse qdsp6sw.mbn fixed addresses and do not transmit or modify anything.
+============================================================
+
+============================================================
+TARGETED RF TUNE / FREQUENCY STRING SCAN
+Separate from broad CHANNEL search to avoid generic-string flooding
+Exact field labels plus frequency/tuning context; static read-only
+============================================================
+
+RF_TUNE_DATA_ITEMS_INSPECTED=1065
+RF_TUNE_EXACT_FIELD_HITS=0
+RF_TUNE_CONTEXT_HITS=0
+RF_TUNE_TOTAL_REPORTED=0
+
+============================================================
+RADIO_CONFIG SOURCE-LINE MESSAGE RECORDS
+Filter: ftm_rf_test_radio_config.c
+Record hypothesis: {fmt_ptr, fname_ptr, (ssid<<16)|line, argc}
+Shows source lines and registered xrefs; no RF command is constructed.
+============================================================
+  RADIO_CONFIG_MSG_CANDIDATES=0
+  RADIO_CONFIG_MSG_RECORDS_REPORTED=0
+  RADIO_CONFIG_MSG_SCAN_BYTES_APPROX=2283673
+
+============================================================
+RFDEBUG SUBSYSTEM 0x007B EXECUTABLE-CODE CANDIDATES
+Searches executable instruction operands for the exact value 0x007B.
+For each hit, shows nearby instructions and its containing function.
+Read-only static leads only; no packet generation or transmission.
+============================================================
+  EXECUTABLE_INSTRUCTIONS_SCANNED=1085
+  RFDEBUG_7B_IMMEDIATE_HITS_TOTAL=0
+  RFDEBUG_7B_CANDIDATES_SHOWN=0
+  SCAN_LIMIT_REACHED=false
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
