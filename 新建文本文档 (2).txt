@@ -1,70 +1,4 @@
-025cd0 add R3,R3,#0x1c 
-  COMMON_INS 00025cd4 jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025cd8 memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025cdc add R3,R3,#0x1e 
-  COMMON_INS 00025ce0 jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025ce4 immext #0x1640 
-  COMMON_INS 00025ce8 add R0,PC,##0x164c 
-    COMMON_PC_TARGET=0x00027330 ascii==..
-  COMMON_INS 00025cec call 0x00024bc0 
-    COMMON_FLOW to=00024bc0 type=UNCONDITIONAL_CALL target_function=msg_v2_send_1_dll target_entry=0x00024BC0
-    COMMON_FLOW to=00027330 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025cf0 assign R0,#0x0 ; dealloc_return 
-  COMMON_INS 00025cf4 immext #0x400 
-  COMMON_INS 00025cf8 add R4,PC,##0x424 
-    COMMON_PC_TARGET=0x00026118 ascii=x...................................rffe0_clk
-  COMMON_INSNS_PRINTED=48
-  COMMON_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING_PRINTED=1
-
-COMMON_TARGET address=0x00025E44 block=segment_2 executable=true name=fbrx_cfg_data_get entry=0x00025E44
-  COMMON_INS 00025e44 cmp.eq P0,R2,#0x0 
-  COMMON_INS 00025e48 assign R16,#0x0 
-  COMMON_INS 00025e4c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-    COMMON_FLOW to=Stack[-0x10] type=WRITE target_function=<none> target_entry=<none>
-  COMMON_INS 00025e50 jump.if(P0) 0x00025ef8 
-    COMMON_FLOW to=00025ef8 type=DATA target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025e54 memw.if(!P0) (R2),#0x0 
-    COMMON_FLOW to=00025ef8 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025e58 immext #0x22e880 
-  COMMON_INS 00025e5c add R4,PC,##0x22e8b0 
-    COMMON_FLOW to=00254708 type=PARAM target_function=<none> target_entry=<none>
-    COMMON_PC_TARGET=0x00254708 ascii=
-  COMMON_INS 00025e60 immext #0xffffffc0 
-  COMMON_INS 00025e64 memw R3,(R4+##0xffffffe0) 
-    COMMON_FLOW to=002546e8 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025e68 memw R3,(R3+#0x4) 
-    COMMON_FLOW to=002210b4 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025e6c jump.if:nt cmp.eq(R3.new,#0x0),0x00025e80 
-    COMMON_FLOW to=00025e80 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-    COMMON_FLOW to=00220fa0 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025e70 immext #0xffffffc0 
-  COMMON_INS 00025e74 memw R4,(R4+##0xffffffe0) 
-    COMMON_FLOW to=002546e8 type=READ target_function=<none> target_entry=<none>
-    COMMON_FLOW to=002210b0 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025e78 memh R5,(R4) 
-    COMMON_FLOW to=002210b0 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025e7c jump.if:t !cmp.eq(R5.new,#0x0),0x00025e88 
-    COMMON_FLOW to=00025e88 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025e80 call 0x00025a94 
-    COMMON_FLOW to=00025a94 type=UNCONDITIONAL_CALL target_function=FUN_00025a94 target_entry=0x00025A94
-  COMMON_INS 00025e84 jump 0x00025ef8 
-    COMMON_FLOW to=00025ef8 type=UNCONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025e88 sxth R4,R1 
-  COMMON_INS 00025e8c memh R6,(R3) 
-    COMMON_FLOW to=00220fa0 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025e90 jump.if:t cmp.gtu(R6.new,R4),0x00025ef8 
-    COMMON_FLOW to=00025ef8 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025e94 add R6,R5,#-0x1 
-  COMMON_INS 00025e98 zxth R5,R6 
-  COMMON_INS 00025e9c memh R5,(R3+R5<<#0x3) 
-    COMMON_FLOW to=002210a8 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025ea0 jump.if:t cmp.gtu(R4,R5.new),0x00025ef8 
-    COMMON_FLOW to=00025ef8 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025ea4 assign R5,#0x0 
+0x0 
   COMMON_INS 00025ea8 zxth R7,R5 
   COMMON_INS 00025eac zxth R8,R6 
   COMMON_INS 00025eb0 jump.if:t !cmp.eq(R8.new,R7),0x00025ec4 
@@ -565,6 +499,44 @@ IQ_STRING_HITS=0
 IQ_STRING_RESULT_LIMIT=48
 IQ_STRING_NOTE=No hits means only that these ASCII clues were not found; examine code/data flow if the firmware exposes samples without strings.
 614_PRIORITY_IQ_CAPTURE_KEYWORD_TAIL_DONE
+
+============================================================
+614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL
+Repeat the six direct R0 source slots and their references at the end so their concrete targets are not lost in clipped logs.
+
+============================================================
+STRUCTURE-55 get_signals_info R0 INPUT / EFFECTIVE SLOT TRACE
+Reconstructs R18 from the PC-relative add, then reads the six memw source slots.
+Static slot values do not by themselves prove runtime relocation state.
+READ ONLY.
+============================================================
+CALLBACK_BASE_INSTRUCTION=add R18,PC,##0x22ed50 
+CALLBACK_BASE_RAW_IMMEDIATE=0x0022ED50
+CALLBACK_BASE_COMPUTED=0x00254708
+CALLBACK_SLOT #1 load_ins=000259f4 instruction=memw R0,(R18+##0xffffffa4)  base=0x00254708 displacement=-92 effective_slot=0x002546AC slot_block=segment_3 readable=true static_word=0x00025418 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025418 containing_target_function=get_instance@00025418
+  CALLBACK_SLOT_REF slot=0x002546AC from=000259f4 type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffa4) 
+  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546AC count=1 shown=1
+CALLBACK_SLOT #2 load_ins=00025a0c instruction=memw R0,(R18+##0xffffffa8)  base=0x00254708 displacement=-88 effective_slot=0x002546B0 slot_block=segment_3 readable=true static_word=0x000254FC value_block=segment_2 value_executable=true exact_target_function=get_instance@000254fc containing_target_function=get_instance@000254fc
+  CALLBACK_SLOT_REF slot=0x002546B0 from=00025a0c type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffa8) 
+  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546B0 count=1 shown=1
+CALLBACK_SLOT #3 load_ins=00025a24 instruction=memw R0,(R18+##0xffffffac)  base=0x00254708 displacement=-84 effective_slot=0x002546B4 slot_block=segment_3 readable=true static_word=0x00025598 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025598 containing_target_function=get_instance@00025598
+  CALLBACK_SLOT_REF slot=0x002546B4 from=00025a24 type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffac) 
+  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546B4 count=1 shown=1
+CALLBACK_SLOT #4 load_ins=00025a3c instruction=memw R0,(R18+##0xffffffb0)  base=0x00254708 displacement=-80 effective_slot=0x002546B8 slot_block=segment_3 readable=true static_word=0x00025604 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025604 containing_target_function=get_instance@00025604
+  CALLBACK_SLOT_REF slot=0x002546B8 from=00025a3c type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb0) 
+  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546B8 count=1 shown=1
+CALLBACK_SLOT #5 load_ins=00025a54 instruction=memw R0,(R18+##0xffffffb4)  base=0x00254708 displacement=-76 effective_slot=0x002546BC slot_block=segment_3 readable=true static_word=0x00025694 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025694 containing_target_function=get_instance@00025694
+  CALLBACK_SLOT_REF slot=0x002546BC from=00025a54 type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb4) 
+  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546BC count=1 shown=1
+CALLBACK_SLOT #6 load_ins=00025a6c instruction=memw R0,(R18+##0xffffffb8)  base=0x00254708 displacement=-72 effective_slot=0x002546C0 slot_block=segment_3 readable=true static_word=0x00025700 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025700 containing_target_function=get_instance@00025700
+  CALLBACK_SLOT_REF slot=0x002546C0 from=00025a6c type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb8) 
+  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546C0 count=1 shown=1
+CALLBACK_SLOT_ACCESSES_RESOLVED=6
+CALLBACK_SLOT_VALUES_MAPPED=6
+CALLBACK_SLOT_EXACT_FUNCTION_VALUES=6
+CALLBACK_SLOT_REFERENCES_SHOWN=6
+CALLBACK_SLOT_LIMIT=These six slots are the direct R0 sources before the six call 0x25F70 sites; next trace any initialization/writes to them.
+614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL_DONE
 614_COMMON_RFC_DISPATCH_DONE
 
 614_NEXT_TRACE_DONE
