@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-69";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-70";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9432,6 +9432,12 @@ private static final boolean FOCUS_ONLY_614 = true;
         scan614CommonRfcConstructorEvidenceTail();
         scan614PriorityActualRfPathTail();
         scan614IqCaptureKeywordTail();
+        p("");
+        p("============================================================");
+        p("614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL");
+        p("Repeat the six direct R0 source slots and their references at the end so their concrete targets are not lost in clipped logs.");
+        scan614GetSignalsInfoCallbackSlots();
+        p("614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL_DONE");
         p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
