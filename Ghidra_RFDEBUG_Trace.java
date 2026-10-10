@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-77
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-78
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-77";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-78";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9623,12 +9623,20 @@ private static final boolean FOCUS_ONLY_614 = true;
                                 && qdspIsGpRegisterName(
                                     ((ghidra.program.model.lang.Register)object).getName())) {
                             explicitGp = true;
-                            if (op == 0) gpDestination = true;
                         }
                     }
                 }
 
                 String rendered = ins.toString();
+                /*
+                 * An address operand such as (GP+#0x18c8) contains GP at operand
+                 * zero but does not write GP. Only count a destination when the
+                 * entire rendered first operand is the register itself.
+                 */
+                if (ins.getNumOperands() > 0) {
+                    String destText = ins.getDefaultOperandRepresentation(0).trim();
+                    gpDestination = qdspIsGpRegisterName(destText);
+                }
                 boolean memoryMnemonic =
                     rendered.toLowerCase(java.util.Locale.ROOT).contains("mem");
                 ghidra.program.model.pcode.PcodeOp[] pcode = null;
@@ -9743,11 +9751,85 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("QDSP_GP_INSTRUCTIONS_SCANNED=" + instructionsScanned);
         p("QDSP_GP_EXPLICIT_REGISTER_HITS=" + explicitGpHits);
         p("QDSP_GP_PCODE_REGISTER_HITS=" + pcodeGpHits);
-        p("QDSP_GP_WRITE_CANDIDATES=" + gpWriteCandidates);
+        p("QDSP_GP_ACTUAL_DESTINATION_WRITE_CANDIDATES=" + gpWriteCandidates);
         p("QDSP_GP_INSN_ROWS_SHOWN=" + gpRowsShown);
         p("QDSP_GP_PCODE_ROWS_SHOWN=" + pcodeRowsShown);
         p("QDSP_IQ_TABLE_CODE_REFERENCES=" + directIqTableCodeRefs);
         p("QDSP6SW_GP_RELATIVE_IQ_TABLE_AUDIT_DONE");
+        dumpQdspIqFocusedTail();
+    }
+
+
+    /*
+     * STRUCTURE-78: repeat the six critical table-slot values and the most
+     * frequent GP-relative displacements at the end of the run so they remain
+     * visible in a clipped Ghidra console capture.
+     */
+    private void dumpQdspIqFocusedTail() {
+        p("");
+        p("============================================================");
+        p("QDSP_IQ_GP_FOCUSED_TAIL_SUMMARY");
+        p("This tail repeats target-slot values and exact incoming references; it does not set GP.");
+        p("============================================================");
+
+        final long[] targets = {
+            0xC91998A4L, 0xC919990CL, 0xC919A308L,
+            0xC9199FB8L, 0xC919A020L, 0xC919A892L
+        };
+        final String[] labels = {
+            "FETCH_IQ_STRING_POINTER_SLOT",
+            "IQ_CAPTURE_TYPE_STRING_POINTER_SLOT",
+            "IQ_CAPTURE_STRING_POINTER_SLOT",
+            "HISTORIC_PROPERTY_NAMES_TABLE_HINT",
+            "HISTORIC_FREQUENCY_PROPERTY_HINT",
+            "DS_UNVERIFIED_MARKER_TABLE_HINT"
+        };
+
+        for (int i = 0; i < targets.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long target = targets[i];
+            MemoryBlock b = block(target);
+            String valueText = "<unreadable>";
+            long value = -1L;
+            boolean haveValue = false;
+            try {
+                value = u32(target);
+                haveValue = true;
+                String textValue = readAsciiAt(value, 80);
+                valueText = textValue == null ? "<not-a-cstring>" : textValue;
+            } catch (Exception e) {
+                valueText = "<read-error:" + e.getMessage() + ">";
+            }
+
+            p("QDSP_IQ_FINAL_SLOT label=" + labels[i]
+                + " slot=" + hex(target)
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " initialized=" + (b != null && b.isInitialized())
+                + " value=" + (haveValue ? hex(value) : "<unreadable>")
+                + " value_ascii=" + valueText);
+
+            ReferenceIterator incoming =
+                currentProgram.getReferenceManager().getReferencesTo(addr(target));
+            int shown = 0;
+            int total = 0;
+            while (incoming.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = incoming.next();
+                total++;
+                if (shown >= 8) continue;
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                Instruction fromIns = listing().getInstructionAt(from);
+                if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                p("  QDSP_IQ_FINAL_SLOT_XREF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>"
+                        : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                    + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                shown++;
+            }
+            p("  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=" + total + " shown=" + shown);
+        }
+        p("QDSP_IQ_GP_FOCUSED_TAIL_SUMMARY_DONE");
     }
 
     private void scanQdspIqCaptureDataPath() {
