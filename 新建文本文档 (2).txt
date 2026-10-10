@@ -1,161 +1,4 @@
-aller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254740 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024c6c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=000255d4 block=segment_2 executable=true body=000255d4..000255ff
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254748 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024c8c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_cdma_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=00025640 block=segment_2 executable=true body=00025640..0002566b
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254754 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024cbc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_gsm_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=000256d0 block=segment_2 executable=true body=000256d0..000256fb
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547cc type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024e9c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0002573c block=segment_2 executable=true body=0002573c..00025767
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547d4 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024ebc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_gnss_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_lte_ag entry=0002578c block=segment_2 executable=true body=0002578c..000257a3
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254828 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=000270a4 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=000257a4 block=segment_2 executable=true body=000257a4..000257bb
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254838 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=000270e4 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=000257bc block=segment_2 executable=true body=000257bc..000257d3
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254844 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027108 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=000257d4 block=segment_2 executable=true body=000257d4..000257eb
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0025484c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027130 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=000257ec block=segment_2 executable=true body=000257ec..00025803
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254854 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027154 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=00025804 block=segment_2 executable=true body=00025804..0002581b
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254864 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0002717c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0002581c block=segment_2 executable=true body=0002581c..00025833
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=000271a4 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0025486c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_init entry=00025834 block=segment_2 executable=true body=00025834..00025847
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254784 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=2
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_deinit entry=00025848 block=segment_2 executable=true body=00025848..0002585b
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254788 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=2
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_resume entry=0002585c block=segment_2 executable=true body=0002585c..0002586f
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0025478c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=2
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_suspend entry=00025870 block=segment_2 executable=true body=00025870..00025883
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254790 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=2
-  614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_cmn_ag entry=000258c4 block=segment_2 executable=true body=000258c4..000258ef
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254758 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00024ccc type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_cmn_ag instruction=jumpr R28 
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=sdr_rffe_sig_info_table_get entry=000258f0 block=segment_2 executable=true body=000258f0..00025937
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0025479c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027224 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=sdr_grfc_sig_info_table_get entry=00025938 block=segment_2 executable=true body=00025938..0002597f
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547a0 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027228 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=blank_grfc_sig_info_table_get entry=00025980 block=segment_2 executable=true body=00025980..000259a3
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547a4 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0002722c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=get_signals_info entry=000259a4 block=segment_2 executable=true body=000259a4..00025a93
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254798 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027220 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=get_phy_device_cfg entry=00025aa8 block=segment_2 executable=true body=00025aa8..00025abb
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547ac type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027234 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=get_logical_path_config entry=00025bd0 block=segment_2 executable=true body=00025bd0..00025c13
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547b8 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027244 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=get_ant_path_info_config entry=00025c14 block=segment_2 executable=true body=00025c14..00025c27
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547b4 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0002723c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=get_sig_path_info_config entry=00025c28 block=segment_2 executable=true body=00025c28..00025c3b
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547b0 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027238 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=get_rffe_speeds_info entry=00025c3c block=segment_2 executable=true body=00025c3c..00025d07
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=1
-  614_FOLLOWUP_FUNCTION name=get_fbrx_path_table_cfg entry=00025f20 block=segment_2 executable=true body=00025f20..00025f33
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=002547e4 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00027278 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-  614_FOLLOWUP_FUNCTION name=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag entry=00025f58 block=segment_2 executable=true body=00025f58..00025f6f
-    614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=00254794 type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REF from=0002721c type=DATA caller=<none> instruction=<no-instruction>
-    614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
-614_FOLLOWUP_FUNCTIONS_INSPECTED=172
-614_FOLLOWUP_FUNCTION_CANDIDATES_PRINTED=30
-
-============================================================
-614_0_0 PLT/GOT INDIRECT-THUNK AND CALLR MAP
-Maps PC-relative PLT-style thunks to their data slots and current static pointer values.
-Also prints contexts around register-indirect callr instructions.
-READ ONLY; this does not resolve runtime relocations or execute target functions.
-============================================================
-614_PLT_GOT_THUNK add=00024b94 function=__PLT_HEAD @ 00024b90 base_reg=R28 computed_base=0x00254708 load=00024ba0 load_instruction=memw R28,(R28+#0x4)  slot=0x0025470C slot_block=segment_3 static_word=0x00000000 pointed_function=<not-exact-function-entry> indirect_transfer=00024ba8 instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024bc4 function=msg_v2_send_1_dll @ 00024bc0 base_reg=R14 computed_base=0x00254718 load=00024bc8 load_instruction=memw R28,(R14)  slot=0x00254718 slot_block=segment_3 static_word=0x002550DC pointed_function=msg_v2_send_1_dll@002550dc indirect_transfer=00024bcc instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024bd4 function=rfc_hwid614_qrm865ab_v3_ag_lte_ag @ 00024bd0 base_reg=R14 computed_base=0x0025471C load=00024bd8 load_instruction=memw R28,(R14)  slot=0x0025471C slot_block=segment_3 static_word=0x00025274 pointed_function=rfc_hwid614_qrm865ab_v3_ag_lte_ag@00025274 indirect_transfer=00024bdc instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024be4 function=operator.new @ 00024be0 base_reg=R14 computed_base=0x00254720 load=00024be8 load_instruction=memw R28,(R14)  slot=0x00254720 slot_block=segment_3 static_word=0x00255004 pointed_function=operator.new@00255004 indirect_transfer=00024bec instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024bf4 function=rfc_lte_data @ 00024bf0 base_reg=R14 computed_base=0x00254724 load=00024bf8 load_instruction=memw R28,(R14)  slot=0x00254724 slot_block=segment_3 static_word=0x00255118 pointed_function=rfc_lte_data@00255118 indirect_transfer=00024bfc instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c04 function=__save_r16_through_r19 @ 00024c00 base_reg=R14 computed_base=0x00254728 load=00024c08 load_instruction=memw R28,(R14)  slot=0x00254728 slot_block=segment_3 static_word=0x0025511C pointed_function=__save_r16_through_r19@0025511c indirect_transfer=00024c0c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c14 function=rfc_common_get_ag_error_control @ 00024c10 base_reg=R14 computed_base=0x0025472C load=00024c18 load_instruction=memw R28,(R14)  slot=0x0025472C slot_block=segment_3 static_word=0x0025512C pointed_function=rfc_common_get_ag_error_control@0025512c indirect_transfer=00024c1c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c24 function=msg_v2_send_var_dll @ 00024c20 base_reg=R14 computed_base=0x00254730 load=00024c28 load_instruction=memw R28,(R14)  slot=0x00254730 slot_block=segment_3 static_word=0x002550EC pointed_function=msg_v2_send_var_dll@002550ec indirect_transfer=00024c2c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c34 function=__restore_r16_through_r19_and_deallocframe @ 00024c30 base_reg=R14 computed_base=0x00254734 load=00024c38 load_instruction=memw R28,(R14)  slot=0x00254734 slot_block=segment_3 static_word=0x00255044 pointed_function=__restore_r16_through_r19_and_deallocframe@00255044 indirect_transfer=00024c3c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c44 function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag @ 00024c40 base_reg=R14 computed_base=0x00254738 load=00024c48 load_instruction=memw R28,(R14)  slot=0x00254738 slot_block=segment_3 static_word=0x00025454 pointed_function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@00025454 indirect_transfer=00024c4c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c54 function=rfc_nr5g_data @ 00024c50 base_reg=R14 computed_base=0x0025473C load=00024c58 load_instruction=memw R28,(R14)  slot=0x0025473C slot_block=segment_3 static_word=0x002550F8 pointed_function=rfc_nr5g_data@002550f8 indirect_transfer=00024c5c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c64 function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag @ 00024c60 base_reg=R14 computed_base=0x00254740 load=00024c68 load_instruction=memw R28,(R14)  slot=0x00254740 slot_block=segment_3 static_word=0x00025538 pointed_function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@00025538 indirect_transfer=00024c6c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c74 function=rfc_wcdma_data @ 00024c70 base_reg=R14 computed_base=0x00254744 load=00024c78 load_instruction=memw R28,(R14)  slot=0x00254744 slot_block=segment_3 static_word=0x0025510C pointed_function=rfc_wcdma_data@0025510c indirect_transfer=00024c7c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c84 function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag @ 00024c80 base_reg=R14 computed_base=0x00254748 load=00024c88 load_instruction=memw R28,(R14)  slot=0x00254748 slot_block=segment_3 static_word=0x000255D4 pointed_function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag@000255d4 indirect_transfer=00024c8c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024c94 function=rfc_cdma_data @ 00024c90 base_reg=R14 computed_base=0x0025474C load=00024c98 load_instruction=memw R28,(R14)  slot=0x0025474C slot_block=segment_3 static_word=0x002550CC pointed_function=rfc_cdma_data@002550cc indirect_transfer=00024c9c instruction=jumpr R28 
-614_PLT_GOT_THUNK add=00024ca4 function=band_split_cfg_data_get @ 00024ca0 base_reg=R14 computed_base=0x00254750 load=00024ca8 load_instruction=memw R28,(R14)  slot=0x00254750 slot_block=segment_3 static_word=0x00025564 pointed_function=band_split_cfg_data_get@00025564 indirect_transfer=00024cac instruction=jumpr R28 
+er=00024cac instruction=jumpr R28 
 614_PLT_GOT_THUNK add=00024cb4 function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag @ 00024cb0 base_reg=R14 computed_base=0x00254754 load=00024cb8 load_instruction=memw R28,(R14)  slot=0x00254754 slot_block=segment_3 static_word=0x00025640 pointed_function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag@00025640 indirect_transfer=00024cbc instruction=jumpr R28 
 614_PLT_GOT_THUNK add=00024cc4 function=rfc_hwid614_qrm865ab_v3_ag_cmn_ag @ 00024cc0 base_reg=R14 computed_base=0x00254758 load=00024cc8 load_instruction=memw R28,(R14)  slot=0x00254758 slot_block=segment_3 static_word=0x000258C4 pointed_function=rfc_hwid614_qrm865ab_v3_ag_cmn_ag@000258c4 indirect_transfer=00024ccc instruction=jumpr R28 
 614_PLT_GOT_THUNK add=00024cd4 function=rfc_gsm_data @ 00024cd0 base_reg=R14 computed_base=0x0025475C load=00024cd8 load_instruction=memw R28,(R14)  slot=0x0025475C slot_block=segment_3 static_word=0x00255030 pointed_function=rfc_gsm_data@00255030 indirect_transfer=00024cdc instruction=jumpr R28 
@@ -360,7 +203,7 @@ Read-only static leads only; no packet generation or transmission.
   SCAN_LIMIT_REACHED=false
 
 ============================================================
-STRUCTURE-47 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS
+STRUCTURE-48 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS
 Scans bytes directly; does not rely on Ghidra-defined string data.
 Includes executable and non-executable initialized blocks in the default address space.
 READ ONLY: no disassembly, references, data, symbols, or comments are created.
@@ -372,6 +215,275 @@ READ ONLY: no disassembly, references, data, symbols, or comments are created.
 614_RAW_ASCII_KEYWORD_HITS=1
 614_RAW_ASCII_KEYWORDS_CHECKED=19
 614_RAW_ASCII_NOTE=Zero hits would mean these ASCII terms were not present in readable initialized blocks; it would not prove the dispatcher is absent.
+
+============================================================
+STRUCTURE-48 614_0_0 FOCUSED CALLR / FUNCTION-POINTER PROVENANCE
+No broad keyword search here: show the two concrete functions, inbound edges, and static pointer words.
+Static memory cannot prove runtime register contents or relocation state.
+READ ONLY.
+============================================================
+FOCUS_PROGRAM=614_0_0.mbn
+FOCUS_IMAGE_BASE=00010000
+
+FOCUS_FUNCTION label=get_signals_info requested=0x000259A4 function=get_signals_info entry=000259a4 body=000259a4..00025a93
+  FOCUS_BLOCK=segment_2 executable=true
+  FOCUS_INSN 000259a4 call 0x00024c00 
+    FOCUS_CALL_EDGE from=000259a4 type=DATA target=00024c00 target_block=segment_2 target_exec=true target_function=__save_r16_through_r19@00024c00
+  FOCUS_INSN 000259a8 cmp.eq P0,R1,#0x0 ; allocframe #0x10 
+  FOCUS_INSN 000259ac assign.if(!P0) R17,R1 
+  FOCUS_INSN 000259b0 add.if(!P0) R16,R1,#0x4 
+  FOCUS_INSN 000259b4 jump.if(P0) 0x00025a80 
+  FOCUS_INSN 000259b8 immext #0x22ed40 
+  FOCUS_INSN 000259bc add R18,PC,##0x22ed50 
+  FOCUS_INSN 000259c0 immext #0xffffff80 
+  FOCUS_INSN 000259c4 memw R2,(R18+##0xffffffa0) 
+  FOCUS_INSN 000259c8 memw (R1+#0x8),R2.new 
+  FOCUS_INSN 000259cc call 0x00024d10 
+    FOCUS_CALL_EDGE from=000259cc type=DATA target=00024d10 target_block=segment_2 target_exec=true target_function=get_instance@00024d10
+  FOCUS_INSN 000259d0 memb (R1+#0x4),#0x8 
+  FOCUS_INSN 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
+  FOCUS_INSN 000259d8 immext #0x18c0 
+  FOCUS_INSN 000259dc add R0,PC,##0x18d4 
+  FOCUS_INSN 000259e0 call 0x00024cf0 
+    FOCUS_CALL_EDGE from=000259e0 type=UNCONDITIONAL_CALL target=00024cf0 target_block=segment_2 target_exec=true target_function=msg_v2_send_dll@00024cf0
+    FOCUS_CALL_EDGE from=000259e0 type=PARAM target=000272ac target_block=segment_3 target_exec=false target_function=<none>
+  FOCUS_INSN 000259e4 memb (R17+#0x4),#0x0 
+  FOCUS_INSN 000259e8 immext #0x18c0 
+  FOCUS_INSN 000259ec add R2,PC,##0x18d0 
+  FOCUS_INSN 000259f0 immext #0xffffff80 
+  FOCUS_INSN 000259f4 memw R0,(R18+##0xffffffa4) 
+  FOCUS_INSN 000259f8 call 0x00025f70 
+    FOCUS_CALL_EDGE from=000259f8 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
+  FOCUS_INSN 000259fc assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INSN 00025a00 immext #0x18c0 
+  FOCUS_INSN 00025a04 add R2,PC,##0x18c4 
+  FOCUS_INSN 00025a08 immext #0xffffff80 
+  FOCUS_INSN 00025a0c memw R0,(R18+##0xffffffa8) 
+  FOCUS_INSN 00025a10 call 0x00025f70 
+    FOCUS_CALL_EDGE from=00025a10 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
+  FOCUS_INSN 00025a14 assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INSN 00025a18 immext #0x1880 
+  FOCUS_INSN 00025a1c add R2,PC,##0x18b8 
+  FOCUS_INSN 00025a20 immext #0xffffff80 
+  FOCUS_INSN 00025a24 memw R0,(R18+##0xffffffac) 
+  FOCUS_INSN 00025a28 call 0x00025f70 
+    FOCUS_CALL_EDGE from=00025a28 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
+  FOCUS_INSN 00025a2c assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INSN 00025a30 immext #0x1880 
+  FOCUS_INSN 00025a34 add R2,PC,##0x18ac 
+  FOCUS_INSN 00025a38 immext #0xffffff80 
+  FOCUS_INSN 00025a3c memw R0,(R18+##0xffffffb0) 
+  FOCUS_INSN 00025a40 call 0x00025f70 
+    FOCUS_CALL_EDGE from=00025a40 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
+  FOCUS_INSN 00025a44 assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INSN 00025a48 immext #0x1880 
+  FOCUS_INSN 00025a4c add R2,PC,##0x18a0 
+  FOCUS_INSN 00025a50 immext #0xffffff80 
+  FOCUS_INSN 00025a54 memw R0,(R18+##0xffffffb4) 
+  FOCUS_INSN 00025a58 call 0x00025f70 
+    FOCUS_CALL_EDGE from=00025a58 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
+  FOCUS_INSN 00025a5c assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INSN 00025a60 immext #0x1880 
+  FOCUS_INSN 00025a64 add R2,PC,##0x1894 
+  FOCUS_INSN 00025a68 immext #0xffffff80 
+  FOCUS_INSN 00025a6c memw R0,(R18+##0xffffffb8) 
+  FOCUS_INSN 00025a70 call 0x00025f70 
+    FOCUS_CALL_EDGE from=00025a70 type=DATA target=00025f70 target_block=segment_2 target_exec=true target_function=FUN_00025f70@00025f70
+  FOCUS_INSN 00025a74 assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INSN 00025a78 assign R0,#0x1 
+  FOCUS_INSN 00025a7c jump 0x00024c30 
+  FOCUS_INSN 00025a80 immext #0x1800 
+  FOCUS_INSN 00025a84 add R0,PC,##0x1820 
+  FOCUS_INSN 00025a88 call 0x00024cf0 
+    FOCUS_CALL_EDGE from=00025a88 type=UNCONDITIONAL_CALL target=00024cf0 target_block=segment_2 target_exec=true target_function=msg_v2_send_dll@00024cf0
+    FOCUS_CALL_EDGE from=00025a88 type=PARAM target=000272a0 target_block=segment_3 target_exec=false target_function=<none>
+  FOCUS_INSN 00025a8c assign R0,#0x0 
+  FOCUS_INSN 00025a90 jump 0x00024c30 
+  FOCUS_INSTRUCTIONS_PRINTED=60 cap=96
+
+FOCUS_FUNCTION label=indirect_call_wrapper_at_0x25F70 requested=0x00025F70 function=FUN_00025f70 entry=00025f70 body=00025f70..00025f97
+  FOCUS_BLOCK=segment_2 executable=true
+  FOCUS_INSN 00025f70 call 0x00024c00 
+    FOCUS_CALL_EDGE from=00025f70 type=DATA target=00024c00 target_block=segment_2 target_exec=true target_function=__save_r16_through_r19@00024c00
+  FOCUS_INSN 00025f74 allocframe #0x10 
+  FOCUS_INSN 00025f78 combine R17R16,R2,R3 
+  FOCUS_INSN 00025f7c callr R0 
+    FOCUS_CALL_EDGE=unresolved-in-reference-manager from=00025f7c
+  FOCUS_INSN 00025f80 assign R18,R1 
+  FOCUS_INSN 00025f84 assign.if(P0.new) R0,R17 
+  FOCUS_INSN 00025f88 cmp.eq P0,R0,R18 ; jump.if(!P0.new):t 0x00025f94 
+  FOCUS_INSN 00025f8c call 0x00024cf0 
+    FOCUS_CALL_EDGE from=00025f8c type=UNCONDITIONAL_CALL target=00024cf0 target_block=segment_2 target_exec=true target_function=msg_v2_send_dll@00024cf0
+  FOCUS_INSN 00025f90 memb (R16),#0x0 
+  FOCUS_INSN 00025f94 jump 0x00024c30 
+  FOCUS_INSTRUCTIONS_PRINTED=10 cap=48
+
+FOCUS_INCOMING_REFERENCES target=00025f70
+  FOCUS_INCOMING_REF #1 from=000259f8 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  FOCUS_INCOMING_TRANSFER from=000259f8 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+    FOCUS_CALLER_PRE 000259d0 memb (R1+#0x4),#0x8 
+    FOCUS_CALLER_PRE 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
+    FOCUS_CALLER_PRE 000259d8 immext #0x18c0 
+    FOCUS_CALLER_PRE 000259dc add R0,PC,##0x18d4 
+    FOCUS_R0_DESTINATION_CANDIDATE at=000259dc instruction=add R0,PC,##0x18d4  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 000259e0 call 0x00024cf0 
+    FOCUS_CALLER_PRE 000259e4 memb (R17+#0x4),#0x0 
+    FOCUS_CALLER_PRE 000259e8 immext #0x18c0 
+    FOCUS_CALLER_PRE 000259ec add R2,PC,##0x18d0 
+    FOCUS_CALLER_PRE 000259f0 immext #0xffffff80 
+    FOCUS_CALLER_PRE 000259f4 memw R0,(R18+##0xffffffa4) 
+  FOCUS_INCOMING_REF #2 from=000259fc type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INCOMING_TRANSFER from=000259fc owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
+    FOCUS_CALLER_PRE 000259d8 immext #0x18c0 
+    FOCUS_CALLER_PRE 000259dc add R0,PC,##0x18d4 
+    FOCUS_R0_DESTINATION_CANDIDATE at=000259dc instruction=add R0,PC,##0x18d4  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 000259e0 call 0x00024cf0 
+    FOCUS_CALLER_PRE 000259e4 memb (R17+#0x4),#0x0 
+    FOCUS_CALLER_PRE 000259e8 immext #0x18c0 
+    FOCUS_CALLER_PRE 000259ec add R2,PC,##0x18d0 
+    FOCUS_CALLER_PRE 000259f0 immext #0xffffff80 
+    FOCUS_CALLER_PRE 000259f4 memw R0,(R18+##0xffffffa4) 
+    FOCUS_CALLER_PRE 000259f8 call 0x00025f70 
+  FOCUS_INCOMING_REF #3 from=00025a10 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  FOCUS_INCOMING_TRANSFER from=00025a10 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+    FOCUS_CALLER_PRE 000259e8 immext #0x18c0 
+    FOCUS_CALLER_PRE 000259ec add R2,PC,##0x18d0 
+    FOCUS_CALLER_PRE 000259f0 immext #0xffffff80 
+    FOCUS_CALLER_PRE 000259f4 memw R0,(R18+##0xffffffa4) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=000259f4 instruction=memw R0,(R18+##0xffffffa4)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 000259f8 call 0x00025f70 
+    FOCUS_CALLER_PRE 000259fc assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a00 immext #0x18c0 
+    FOCUS_CALLER_PRE 00025a04 add R2,PC,##0x18c4 
+    FOCUS_CALLER_PRE 00025a08 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a0c memw R0,(R18+##0xffffffa8) 
+  FOCUS_INCOMING_REF #4 from=00025a14 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INCOMING_TRANSFER from=00025a14 owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 000259ec add R2,PC,##0x18d0 
+    FOCUS_CALLER_PRE 000259f0 immext #0xffffff80 
+    FOCUS_CALLER_PRE 000259f4 memw R0,(R18+##0xffffffa4) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=000259f4 instruction=memw R0,(R18+##0xffffffa4)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 000259f8 call 0x00025f70 
+    FOCUS_CALLER_PRE 000259fc assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a00 immext #0x18c0 
+    FOCUS_CALLER_PRE 00025a04 add R2,PC,##0x18c4 
+    FOCUS_CALLER_PRE 00025a08 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a0c memw R0,(R18+##0xffffffa8) 
+    FOCUS_CALLER_PRE 00025a10 call 0x00025f70 
+  FOCUS_INCOMING_REF #5 from=00025a28 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  FOCUS_INCOMING_TRANSFER from=00025a28 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a00 immext #0x18c0 
+    FOCUS_CALLER_PRE 00025a04 add R2,PC,##0x18c4 
+    FOCUS_CALLER_PRE 00025a08 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a0c memw R0,(R18+##0xffffffa8) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a0c instruction=memw R0,(R18+##0xffffffa8)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a10 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a14 assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a18 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a1c add R2,PC,##0x18b8 
+    FOCUS_CALLER_PRE 00025a20 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a24 memw R0,(R18+##0xffffffac) 
+  FOCUS_INCOMING_REF #6 from=00025a2c type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INCOMING_TRANSFER from=00025a2c owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a04 add R2,PC,##0x18c4 
+    FOCUS_CALLER_PRE 00025a08 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a0c memw R0,(R18+##0xffffffa8) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a0c instruction=memw R0,(R18+##0xffffffa8)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a10 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a14 assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a18 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a1c add R2,PC,##0x18b8 
+    FOCUS_CALLER_PRE 00025a20 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a24 memw R0,(R18+##0xffffffac) 
+    FOCUS_CALLER_PRE 00025a28 call 0x00025f70 
+  FOCUS_INCOMING_REF #7 from=00025a40 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  FOCUS_INCOMING_TRANSFER from=00025a40 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a18 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a1c add R2,PC,##0x18b8 
+    FOCUS_CALLER_PRE 00025a20 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a24 memw R0,(R18+##0xffffffac) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a24 instruction=memw R0,(R18+##0xffffffac)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a28 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a2c assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a30 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a34 add R2,PC,##0x18ac 
+    FOCUS_CALLER_PRE 00025a38 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a3c memw R0,(R18+##0xffffffb0) 
+  FOCUS_INCOMING_REF #8 from=00025a44 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INCOMING_TRANSFER from=00025a44 owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a1c add R2,PC,##0x18b8 
+    FOCUS_CALLER_PRE 00025a20 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a24 memw R0,(R18+##0xffffffac) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a24 instruction=memw R0,(R18+##0xffffffac)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a28 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a2c assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a30 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a34 add R2,PC,##0x18ac 
+    FOCUS_CALLER_PRE 00025a38 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a3c memw R0,(R18+##0xffffffb0) 
+    FOCUS_CALLER_PRE 00025a40 call 0x00025f70 
+  FOCUS_INCOMING_REF #9 from=00025a58 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  FOCUS_INCOMING_TRANSFER from=00025a58 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a30 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a34 add R2,PC,##0x18ac 
+    FOCUS_CALLER_PRE 00025a38 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a3c memw R0,(R18+##0xffffffb0) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a3c instruction=memw R0,(R18+##0xffffffb0)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a40 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a44 assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a48 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a4c add R2,PC,##0x18a0 
+    FOCUS_CALLER_PRE 00025a50 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a54 memw R0,(R18+##0xffffffb4) 
+  FOCUS_INCOMING_REF #10 from=00025a5c type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INCOMING_TRANSFER from=00025a5c owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a34 add R2,PC,##0x18ac 
+    FOCUS_CALLER_PRE 00025a38 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a3c memw R0,(R18+##0xffffffb0) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a3c instruction=memw R0,(R18+##0xffffffb0)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a40 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a44 assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a48 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a4c add R2,PC,##0x18a0 
+    FOCUS_CALLER_PRE 00025a50 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a54 memw R0,(R18+##0xffffffb4) 
+    FOCUS_CALLER_PRE 00025a58 call 0x00025f70 
+  FOCUS_INCOMING_REF #11 from=00025a70 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+  FOCUS_INCOMING_TRANSFER from=00025a70 owner=get_signals_info@000259a4 instruction=call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a48 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a4c add R2,PC,##0x18a0 
+    FOCUS_CALLER_PRE 00025a50 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a54 memw R0,(R18+##0xffffffb4) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a54 instruction=memw R0,(R18+##0xffffffb4)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a58 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a5c assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a60 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a64 add R2,PC,##0x1894 
+    FOCUS_CALLER_PRE 00025a68 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a6c memw R0,(R18+##0xffffffb8) 
+  FOCUS_INCOMING_REF #12 from=00025a74 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+  FOCUS_INCOMING_TRANSFER from=00025a74 owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a4c add R2,PC,##0x18a0 
+    FOCUS_CALLER_PRE 00025a50 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a54 memw R0,(R18+##0xffffffb4) 
+    FOCUS_R0_DESTINATION_CANDIDATE at=00025a54 instruction=memw R0,(R18+##0xffffffb4)  note=syntactic destination only; data flow is not emulated
+    FOCUS_CALLER_PRE 00025a58 call 0x00025f70 
+    FOCUS_CALLER_PRE 00025a5c assign R1,#0x0 ; assign R3,R16 
+    FOCUS_CALLER_PRE 00025a60 immext #0x1880 
+    FOCUS_CALLER_PRE 00025a64 add R2,PC,##0x1894 
+    FOCUS_CALLER_PRE 00025a68 immext #0xffffff80 
+    FOCUS_CALLER_PRE 00025a6c memw R0,(R18+##0xffffffb8) 
+    FOCUS_CALLER_PRE 00025a70 call 0x00025f70 
+FOCUS_INCOMING_REF_COUNT=12
+FOCUS_INCOMING_REFS_WITH_INSTRUCTION=12
+
+FOCUS_RAW_STATIC_POINTER_WORDS target=00025f70 scan=aligned-u32-in-non-executable-initialized-default-space
+FOCUS_RAW_POINTER_WORDS_SCANNED=570922
+FOCUS_RAW_POINTER_HITS=0
+FOCUS_RAW_POINTER_HITS_SHOWN=0
+FOCUS_INTERPRETATION_LIMIT=No static pointer hit does not rule out a runtime-supplied callback; inspect inbound code edges and caller contexts above.
+============================================================
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
