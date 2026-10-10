@@ -10983,10 +10983,13 @@ private static final boolean FOCUS_ONLY_614 = true;
             p("TARGET_PROFILE=QDSP6SW_IQ_CAPTURE_PATH");
             p("The following scan targets historical IQ_CAPTURE/FETCH_IQ anchors in the main modem DSP image only.");
             p("No 614_0_0 RFC addresses or legacy RFDEBUG property-table assumptions are reused.");
+            p("PRIORITY_PASS=print program identity and run the direct Scalar-operand scan before verbose diagnostics.");
+            // Preserve the identity of the loaded Ghidra program before any scan can exhaust MAX_LINES.
+            dumpQdspProgramIdentityTail();
+            // STRUCTURE-83: run the new scan first; the historical dumps below can otherwise consume all 8000 output lines.
+            scanQdspIqTableImmediateOperands();
             scanQdspIqCaptureDataPath();
             scanQdspIqGpAudit();
-            scanQdspIqTableImmediateOperands();
-            dumpQdspProgramIdentityTail();
             p("DONE");
             p("No program data or structures modified.");
             return;
