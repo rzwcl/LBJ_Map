@@ -1,54 +1,4 @@
-FOCUS_RAW_POINTER_HITS=0
-FOCUS_RAW_POINTER_HITS_SHOWN=0
-FOCUS_INTERPRETATION_LIMIT=No static pointer hit does not rule out a runtime-supplied callback; inspect inbound code edges and caller contexts above.
-============================================================
-
-============================================================
-STRUCTURE-55 get_signals_info R0 INPUT / EFFECTIVE SLOT TRACE
-Reconstructs R18 from the PC-relative add, then reads the six memw source slots.
-Static slot values do not by themselves prove runtime relocation state.
-READ ONLY.
-============================================================
-CALLBACK_BASE_INSTRUCTION=add R18,PC,##0x22ed50 
-CALLBACK_BASE_RAW_IMMEDIATE=0x0022ED50
-CALLBACK_BASE_COMPUTED=0x00254708
-CALLBACK_SLOT #1 load_ins=000259f4 instruction=memw R0,(R18+##0xffffffa4)  base=0x00254708 displacement=-92 effective_slot=0x002546AC slot_block=segment_3 readable=true static_word=0x00025418 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025418 containing_target_function=get_instance@00025418
-  CALLBACK_SLOT_REF slot=0x002546AC from=000259f4 type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffa4) 
-  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546AC count=1 shown=1
-CALLBACK_SLOT #2 load_ins=00025a0c instruction=memw R0,(R18+##0xffffffa8)  base=0x00254708 displacement=-88 effective_slot=0x002546B0 slot_block=segment_3 readable=true static_word=0x000254FC value_block=segment_2 value_executable=true exact_target_function=get_instance@000254fc containing_target_function=get_instance@000254fc
-  CALLBACK_SLOT_REF slot=0x002546B0 from=00025a0c type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffa8) 
-  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546B0 count=1 shown=1
-CALLBACK_SLOT #3 load_ins=00025a24 instruction=memw R0,(R18+##0xffffffac)  base=0x00254708 displacement=-84 effective_slot=0x002546B4 slot_block=segment_3 readable=true static_word=0x00025598 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025598 containing_target_function=get_instance@00025598
-  CALLBACK_SLOT_REF slot=0x002546B4 from=00025a24 type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffac) 
-  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546B4 count=1 shown=1
-CALLBACK_SLOT #4 load_ins=00025a3c instruction=memw R0,(R18+##0xffffffb0)  base=0x00254708 displacement=-80 effective_slot=0x002546B8 slot_block=segment_3 readable=true static_word=0x00025604 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025604 containing_target_function=get_instance@00025604
-  CALLBACK_SLOT_REF slot=0x002546B8 from=00025a3c type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb0) 
-  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546B8 count=1 shown=1
-CALLBACK_SLOT #5 load_ins=00025a54 instruction=memw R0,(R18+##0xffffffb4)  base=0x00254708 displacement=-76 effective_slot=0x002546BC slot_block=segment_3 readable=true static_word=0x00025694 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025694 containing_target_function=get_instance@00025694
-  CALLBACK_SLOT_REF slot=0x002546BC from=00025a54 type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb4) 
-  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546BC count=1 shown=1
-CALLBACK_SLOT #6 load_ins=00025a6c instruction=memw R0,(R18+##0xffffffb8)  base=0x00254708 displacement=-72 effective_slot=0x002546C0 slot_block=segment_3 readable=true static_word=0x00025700 value_block=segment_2 value_executable=true exact_target_function=get_instance@00025700 containing_target_function=get_instance@00025700
-  CALLBACK_SLOT_REF slot=0x002546C0 from=00025a6c type=READ owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffb8) 
-  CALLBACK_SLOT_REFERENCE_COUNT slot=0x002546C0 count=1 shown=1
-CALLBACK_SLOT_ACCESSES_RESOLVED=6
-CALLBACK_SLOT_VALUES_MAPPED=6
-CALLBACK_SLOT_EXACT_FUNCTION_VALUES=6
-CALLBACK_SLOT_REFERENCES_SHOWN=6
-CALLBACK_SLOT_LIMIT=These six slots are the direct R0 sources before the six call 0x25F70 sites; next trace any initialization/writes to them.
-
-============================================================
-STRUCTURE-57 get_signals_info R2 ARGUMENT / RAW RECORD TRACE
-Prints effective R2 addresses and the three raw words at each record.
-Pointer-to-string previews are descriptive only; row semantics remain unassumed.
-READ ONLY.
-============================================================
-R2_ARGUMENT #1 add_instruction=add R2,PC,##0x18d0  following_callsite=0x000259F8 effective_address=0x000272B8
-  R2_ARGUMENT_RECORD address=0x000272B8 stride_next=0x000272C4 block=segment_3 readable=true word0=0x000E06C9 word0_ascii=<not-ascii-or-not-readable> word1=0x00000008 word2=0x000264D4 word2_ascii=<not-ascii-or-not-readable>
-    R2_ARGUMENT_RECORD_REF from=000259f4 type=PARAM owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffa4) 
-    R2_ARGUMENT_RECORD_REFS_SHOWN=1
-R2_ARGUMENT #2 add_instruction=add R2,PC,##0x18c4  following_callsite=0x00025A10 effective_address=0x000272C4
-  R2_ARGUMENT_RECORD address=0x000272C4 stride_next=0x000272D0 block=segment_3 readable=true word0=0x000E06D3 word0_ascii=<not-ascii-or-not-readable> word1=0x00000008 word2=0x00026544 word2_ascii=<not-ascii-or-not-readable>
-    R2_ARGUMENT_RECORD_REF from=00025a0c type=PARAM owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffa8) 
+25a0c type=PARAM owner=get_signals_info@000259a4 instruction=memw R0,(R18+##0xffffffa8) 
     R2_ARGUMENT_RECORD_REFS_SHOWN=1
 R2_ARGUMENT #3 add_instruction=add R2,PC,##0x18b8  following_callsite=0x00025A28 effective_address=0x000272D0
   R2_ARGUMENT_RECORD address=0x000272D0 stride_next=0x000272DC block=segment_3 readable=true word0=0x000E06DD word0_ascii=<not-ascii-or-not-readable> word1=0x00000008 word2=0x000265B4 word2_ascii=<not-ascii-or-not-readable>
@@ -496,6 +446,114 @@ IMAGE_BASE=00010000
     XREF from=00025a70 type=DATA owner=get_signals_info@000259a4 instruction=call 0x00025f70 
     XREF from=00025a74 type=UNCONDITIONAL_CALL owner=get_signals_info@000259a4 instruction=assign R1,#0x0 ; assign R3,R16 
     XREFS_PRINTED=12
+
+  TARGET address=0x00025454 block=segment_2 executable=true function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=0x00025454
+    INS 00025454 call 0x00024c50 
+    INS 00025458 assign R16,R0 
+    INS 0002545c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    INS 00025460 immext #0x22f280 
+    INS 00025464 add R2,PC,##0x22f2a8 
+    INS 00025468 immext #0xffffff40 
+    INS 0002546c memw R2,(R2+##0xffffff5c) 
+    INS 00025470 add R2,R2,#0x8 
+    INS 00025474 memd R17R16,(SP) 
+    INS 00025478 memw (R16),R2.new 
+    INS 0002547c dealloc_return 
+    INSTRUCTIONS_PRINTED=11
+    XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+    XREF from=00254738 type=DATA owner=<none> instruction=<none>
+    XREF from=00024c4c type=COMPUTED_CALL owner=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag@00024c40 instruction=jumpr R28 
+    XREFS_PRINTED=3
+
+  TARGET address=0x00025538 block=segment_2 executable=true function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag entry=0x00025538
+    INS 00025538 call 0x00024c70 
+    INS 0002553c assign R16,R0 
+    INS 00025540 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    INS 00025544 immext #0x22f1c0 
+    INS 00025548 add R2,PC,##0x22f1c4 
+    INS 0002554c immext #0xffffff40 
+    INS 00025550 memw R2,(R2+##0xffffff6c) 
+    INS 00025554 add R2,R2,#0x8 
+    INS 00025558 memd R17R16,(SP) 
+    INS 0002555c memw (R16),R2.new 
+    INS 00025560 dealloc_return 
+    INSTRUCTIONS_PRINTED=11
+    XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+    XREF from=00254740 type=DATA owner=<none> instruction=<none>
+    XREF from=00024c6c type=COMPUTED_CALL owner=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag@00024c60 instruction=jumpr R28 
+    XREFS_PRINTED=3
+
+  TARGET address=0x000255D4 block=segment_2 executable=true function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=0x000255D4
+    INS 000255d4 call 0x00024c90 
+    INS 000255d8 assign R16,R0 
+    INS 000255dc memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    INS 000255e0 immext #0x22f100 
+    INS 000255e4 add R2,PC,##0x22f128 
+    INS 000255e8 immext #0xffffff40 
+    INS 000255ec memw R2,(R2+##0xffffff78) 
+    INS 000255f0 add R2,R2,#0x8 
+    INS 000255f4 memd R17R16,(SP) 
+    INS 000255f8 memw (R16),R2.new 
+    INS 000255fc dealloc_return 
+    INSTRUCTIONS_PRINTED=11
+    XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+    XREF from=00254748 type=DATA owner=<none> instruction=<none>
+    XREF from=00024c8c type=COMPUTED_CALL owner=rfc_hwid614_qrm865ab_v3_ag_cdma_ag@00024c80 instruction=jumpr R28 
+    XREFS_PRINTED=3
+
+  TARGET address=0x00025640 block=segment_2 executable=true function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag entry=0x00025640
+    INS 00025640 call 0x00024cd0 
+    INS 00025644 assign R16,R0 
+    INS 00025648 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    INS 0002564c immext #0x22f080 
+    INS 00025650 add R2,PC,##0x22f0bc 
+    INS 00025654 immext #0xffffff80 
+    INS 00025658 memw R2,(R2+##0xffffff80) 
+    INS 0002565c add R2,R2,#0x8 
+    INS 00025660 memd R17R16,(SP) 
+    INS 00025664 memw (R16),R2.new 
+    INS 00025668 dealloc_return 
+    INSTRUCTIONS_PRINTED=11
+    XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+    XREF from=00254754 type=DATA owner=<none> instruction=<none>
+    XREF from=00024cbc type=COMPUTED_CALL owner=rfc_hwid614_qrm865ab_v3_ag_gsm_ag@00024cb0 instruction=jumpr R28 
+    XREFS_PRINTED=3
+
+  TARGET address=0x000256D0 block=segment_2 executable=true function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag entry=0x000256D0
+    INS 000256d0 call 0x00024ea0 
+    INS 000256d4 assign R16,R0 
+    INS 000256d8 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    INS 000256dc immext #0x22f000 
+    INS 000256e0 add R2,PC,##0x22f02c 
+    INS 000256e4 immext #0xffffffc0 
+    INS 000256e8 memw R2,(R2+##0xffffffec) 
+    INS 000256ec add R2,R2,#0x8 
+    INS 000256f0 memd R17R16,(SP) 
+    INS 000256f4 memw (R16),R2.new 
+    INS 000256f8 dealloc_return 
+    INSTRUCTIONS_PRINTED=11
+    XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+    XREF from=002547cc type=DATA owner=<none> instruction=<none>
+    XREF from=00024e9c type=COMPUTED_CALL owner=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag@00024e90 instruction=jumpr R28 
+    XREFS_PRINTED=3
+
+  TARGET address=0x0002573C block=segment_2 executable=true function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag entry=0x0002573C
+    INS 0002573c call 0x00024ec0 
+    INS 00025740 assign R16,R0 
+    INS 00025744 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    INS 00025748 immext #0x22efc0 
+    INS 0002574c add R2,PC,##0x22efc0 
+    INS 00025750 immext #0xffffffc0 
+    INS 00025754 memw R2,(R2+##0xfffffff4) 
+    INS 00025758 add R2,R2,#0x8 
+    INS 0002575c memd R17R16,(SP) 
+    INS 00025760 memw (R16),R2.new 
+    INS 00025764 dealloc_return 
+    INSTRUCTIONS_PRINTED=11
+    XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+    XREF from=002547d4 type=DATA owner=<none> instruction=<none>
+    XREF from=00024ebc type=COMPUTED_CALL owner=rfc_hwid614_qrm865ab_v3_ag_gnss_ag@00024eb0 instruction=jumpr R28 
+    XREFS_PRINTED=3
 
 614_GOT_AND_SINGLETON_SLOT_VALUES
   SLOT label=singleton_25418 address=0x00254660 slot_block=segment_3 value=0x00255064 value_block=EXTERNAL value_executable=false value_ascii=<unreadable>
