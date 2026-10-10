@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-64
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-65
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-64";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-65";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8312,6 +8312,12 @@ private static final boolean FOCUS_ONLY_614 = true;
             0x270D8L, 0x270FCL, 0x27124L,
             0x27148L, 0x27170L, 0x27198L
         };
+        // End boundaries are the next observed record starts. The last one
+        // stops before the separate LTE/technology-name mapping region.
+        long[] descriptorEnds = {
+            0x270FCL, 0x27124L, 0x27148L,
+            0x27170L, 0x27198L, 0x271C0L
+        };
         String[] descriptorNames = {
             "NR5G", "WCDMA", "CDMA", "GSM", "TDSCDMA", "GNSS"
         };
@@ -8331,7 +8337,11 @@ private static final boolean FOCUS_ONLY_614 = true;
                 continue;
             }
 
-            for (int j = 0; j < 24 && !monitor.isCancelled()
+            int descriptorWords = (int)Math.max(0L,
+                (descriptorEnds[i] - base) / 4L);
+            p("    DESCRIPTOR_WORDS=" + descriptorWords
+                + " next_boundary=" + hex(descriptorEnds[i]));
+            for (int j = 0; j < descriptorWords && !monitor.isCancelled()
                     && lines < MAX_LINES; j++) {
                 long slot = base + 4L * j;
                 if (!baseBlock.contains(addr(slot))) break;
@@ -8398,6 +8408,7 @@ private static final boolean FOCUS_ONLY_614 = true;
 
         scan614DescriptorMethodTargets();
         scan614RfcGlobalSlotBank();
+        scan614ConfigConsumersAndTables();
 
         p("");
         p("614_NEXT_TRACE_DONE");
@@ -8584,6 +8595,186 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
 
         p("614_RFC_GLOBAL_SLOT_BANK_DONE");
+    }
+
+
+    private void scan614ConfigConsumersAndTables() {
+        p("");
+        p("============================================================");
+        p("614 CONFIG CONSUMERS / TABLE CONTENTS / CALLEE TARGETS");
+        p("Follow configuration getters identified by the global-slot audit.");
+        p("Static read-only analysis; no RF/FTM command is sent.");
+        p("============================================================");
+
+        long[] functionTargets = {
+            0x25A94L, 0x25AA8L, 0x25ABCL, 0x25AD0L,
+            0x25BD0L, 0x25C14L, 0x25C28L, 0x25C3CL,
+            0x25D08L, 0x25D2CL, 0x25E44L, 0x25F20L,
+            0x25F40L
+        };
+
+        for (long target : functionTargets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            Address entry = addr(target);
+            Function f = currentProgram.getFunctionManager().getFunctionAt(entry);
+            if (f == null) {
+                f = currentProgram.getFunctionManager().getFunctionContaining(entry);
+            }
+            p("");
+            p("CONFIG_FUNCTION address=" + hex(target)
+                + " name=" + (f == null ? "<none>" : f.getName())
+                + " entry=" + (f == null ? "<none>"
+                    : hex(f.getEntryPoint().getOffset())));
+
+            if (f == null) {
+                Instruction near = listing().getInstructionAt(entry);
+                p("  NO_FUNCTION instruction_at="
+                    + (near == null ? "<none>" : near.toString()));
+                continue;
+            }
+
+            InstructionIterator it = listing().getInstructions(f.getBody(), true);
+            int n = 0;
+            while (it.hasNext() && n < 18
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Instruction ins = it.next();
+                p("  CFG_INS " + ins.getAddress() + " " + ins);
+                n++;
+
+                String mnemonic = ins.getMnemonicString().toLowerCase();
+                if (mnemonic.startsWith("call") || mnemonic.startsWith("jump")) {
+                    Reference[] refs = currentProgram.getReferenceManager()
+                        .getReferencesFrom(ins.getAddress());
+                    int shown = 0;
+                    for (Reference ref : refs) {
+                        if (shown >= 3 || lines >= MAX_LINES) break;
+                        Address to = ref.getToAddress();
+                        if (to == null) continue;
+                        Function callee = currentProgram.getFunctionManager().getFunctionAt(to);
+                        if (callee == null) {
+                            callee = currentProgram.getFunctionManager().getFunctionContaining(to);
+                        }
+                        p("    FLOW_REF to=" + to
+                            + " type=" + ref.getReferenceType()
+                            + " function=" + (callee == null ? "<none>" : callee.getName())
+                            + " instruction=" + instructionInfo(to.getOffset()));
+                        shown++;
+                    }
+                }
+
+                if ("add".equalsIgnoreCase(ins.getMnemonicString())) {
+                    boolean hasPc = false;
+                    Long displacement = null;
+                    for (int op = 0; op < ins.getNumOperands(); op++) {
+                        Object[] objects = ins.getOpObjects(op);
+                        for (Object object : objects) {
+                            if (object instanceof ghidra.program.model.lang.Register) {
+                                if ("PC".equalsIgnoreCase(
+                                        ((ghidra.program.model.lang.Register)object).getName())) {
+                                    hasPc = true;
+                                }
+                            } else if (object instanceof Scalar) {
+                                displacement = Long.valueOf(((Scalar)object).getSignedValue());
+                            }
+                        }
+                    }
+                    if (hasPc && displacement != null) {
+                        Long computed = hexagonPcRelativeTarget(ins, displacement.longValue());
+                        if (computed != null) {
+                            p("    PC_REL_TARGET=" + hex(computed.longValue())
+                                + " block=" + blockName(computed.longValue())
+                                + " ascii=" + scan614AsciiAt(computed.longValue(), 48));
+                        }
+                    }
+                }
+            }
+            p("  CONFIG_INSNS_PRINTED=" + n);
+
+            ReferenceIterator incoming = currentProgram.getReferenceManager()
+                .getReferencesTo(f.getEntryPoint());
+            int incomingShown = 0;
+            while (incoming.hasNext() && incomingShown < 6
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = incoming.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                p("  CONFIG_INCOMING from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName())
+                    + " instruction=" + instructionInfo(from.getOffset()));
+                incomingShown++;
+            }
+            p("  CONFIG_INCOMING_PRINTED=" + incomingShown);
+        }
+
+        long[] dataTargets = {
+            0x217410L, 0x217430L, 0x219670L, 0x2196E8L,
+            0x2196F0L, 0x2197A0L, 0x2197B0L,
+            0x220C38L, 0x220C48L, 0x220C60L,
+            0x220E84L, 0x220E88L, 0x2210B0L, 0x2210C4L,
+            0x27210L, 0x254888L
+        };
+
+        p("");
+        p("614_CONFIG_TABLE_DATA_SAMPLES");
+        for (long target : dataTargets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            Address at = addr(target);
+            MemoryBlock b = memory().getBlock(at);
+            p("TABLE_SAMPLE address=" + hex(target)
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " initialized=" + (b != null && b.isInitialized()));
+
+            if (b != null && b.isInitialized()) {
+                try {
+                    int count = 0;
+                    long endOffset = b.getEnd().getOffset();
+                    while (count < 8 && target + count * 4L + 3L <= endOffset) {
+                        count++;
+                    }
+                    StringBuilder words = new StringBuilder();
+                    for (int j = 0; j < count; j++) {
+                        if (j > 0) words.append(' ');
+                        words.append(hex(u32(target + j * 4L)));
+                    }
+                    p("  TABLE_WORDS=" + words.toString());
+                    byte[] raw = new byte[(int)Math.min(48L, endOffset - target + 1L)];
+                    if (raw.length > 0) {
+                        memory().getBytes(at, raw);
+                        p("  TABLE_ASCII=" + asciiPreview(raw));
+                    }
+                } catch (Exception e) {
+                    p("  TABLE_READ_ERROR=" + e.getMessage());
+                }
+            }
+
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager().getReferencesTo(at);
+            int shown = 0;
+            while (refs.hasNext() && shown < 4
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                p("  TABLE_XREF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName())
+                    + " instruction=" + instructionInfo(from.getOffset()));
+                shown++;
+            }
+            p("  TABLE_XREFS_PRINTED=" + shown);
+        }
+
+        p("614_CONFIG_CONSUMERS_AND_TABLES_DONE");
+    }
+
+    private String blockName(long off) {
+        try {
+            MemoryBlock b = memory().getBlock(addr(off));
+            return b == null ? "<none>" : b.getName();
+        } catch (Exception e) {
+            return "<block-error>";
+        }
     }
 
     @Override
