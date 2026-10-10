@@ -95,6 +95,7 @@ private static final boolean FOCUS_ONLY_614 = true;
 
     // STRUCTURE-83: preserve the direct Scalar-operand scan result for a compact end-of-run tail.
     private boolean summaryQdspIqOperandScanRan = false;
+    private boolean summaryQdspIqOperandScanCompleted = false;
     private long summaryQdspIqOperandInstructionsScanned = -1L;
     private long summaryQdspIqOperandScalarsScanned = -1L;
     private long summaryQdspIqOperandHits = -1L;
@@ -10184,6 +10185,7 @@ private static final boolean FOCUS_ONLY_614 = true;
      */
     private void scanQdspIqTableImmediateOperands() {
         summaryQdspIqOperandScanRan = true;
+        summaryQdspIqOperandScanCompleted = false;
         summaryQdspIqOperandInstructionsScanned = 0L;
         summaryQdspIqOperandScalarsScanned = 0L;
         summaryQdspIqOperandHits = 0L;
@@ -10264,6 +10266,8 @@ private static final boolean FOCUS_ONLY_614 = true;
                 }
             }
         }
+        summaryQdspIqOperandScanCompleted = !monitor.isCancelled()
+            && lines < MAX_LINES && instructionsScanned < MAX_INSNS;
         summaryQdspIqOperandInstructionsScanned = instructionsScanned;
         summaryQdspIqOperandScalarsScanned = scalarOperandsScanned;
         summaryQdspIqOperandHits = hits;
@@ -10294,6 +10298,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             println("FINAL_PROGRAM_DOMAIN_PATH=<unavailable:" + e.getClass().getSimpleName() + ">");
         }
         println("QDSP_IQ_TABLE_IMMEDIATE_SCAN_RAN=" + summaryQdspIqOperandScanRan);
+        println("QDSP_IQ_TABLE_IMMEDIATE_SCAN_COMPLETED=" + summaryQdspIqOperandScanCompleted);
         println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_INSTRUCTIONS_SCANNED="
             + summaryQdspIqOperandInstructionsScanned);
         println("QDSP_IQ_TABLE_IMMEDIATE_FINAL_SCALAR_OPERANDS_SCANNED="
