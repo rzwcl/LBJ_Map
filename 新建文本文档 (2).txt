@@ -1,4 +1,6 @@
-_qrm865ab_v3_ag_wcdma_ag instruction=jumpr R28 
+aller=<none> instruction=<no-instruction>
+    614_FOLLOWUP_FUNCTION_REF from=00254740 type=DATA caller=<none> instruction=<no-instruction>
+    614_FOLLOWUP_FUNCTION_REF from=00024c6c type=COMPUTED_CALL caller=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag instruction=jumpr R28 
     614_FOLLOWUP_FUNCTION_REFS_PRINTED=3
   614_FOLLOWUP_FUNCTION name=rfc_hwid614_qrm865ab_v3_ag_cdma_ag entry=000255d4 block=segment_2 executable=true body=000255d4..000255ff
     614_FOLLOWUP_FUNCTION_REF from=Entry Point type=EXTERNAL caller=<none> instruction=<no-instruction>
@@ -356,6 +358,20 @@ Read-only static leads only; no packet generation or transmission.
   RFDEBUG_7B_IMMEDIATE_HITS_TOTAL=0
   RFDEBUG_7B_CANDIDATES_SHOWN=0
   SCAN_LIMIT_REACHED=false
+
+============================================================
+STRUCTURE-47 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS
+Scans bytes directly; does not rely on Ghidra-defined string data.
+Includes executable and non-executable initialized blocks in the default address space.
+READ ONLY: no disassembly, references, data, symbols, or comments are created.
+============================================================
+614_RAW_ASCII_KEYWORD_HIT #1 address=0x00015AAA block=segment_2 length=97 terms=rfm_device value="_ZN33rfc_hwid614_qrm865ab_v3_ag_cmn_ag23get_logical_path_configEP30rfm_devices_configuration_type"
+  614_RAW_ASCII_XREFS_SHOWN target=0x00015AAA count=0
+614_RAW_ASCII_BLOCKS_SCANNED=6
+614_RAW_ASCII_BYTES_SCANNED=2376715
+614_RAW_ASCII_KEYWORD_HITS=1
+614_RAW_ASCII_KEYWORDS_CHECKED=19
+614_RAW_ASCII_NOTE=Zero hits would mean these ASCII terms were not present in readable initialized blocks; it would not prove the dispatcher is absent.
 DONE
 No program data or structures modified.
 Ghidra_RFDEBUG_Trace.java> Finished!
