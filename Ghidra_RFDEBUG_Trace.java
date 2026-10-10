@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-74";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-75";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9116,6 +9116,134 @@ private static final boolean FOCUS_ONLY_614 = true;
      * these candidate strings in qdsp6sw; revalidate the addresses against
      * the currently loaded program before treating them as evidence.
      */
+    private void dumpQdspRawByteContext(long target, int before, int after, String label) {
+        MemoryBlock b = block(target);
+        p("QDSP_RAW_CONTEXT label=" + label
+            + " target=" + hex(target)
+            + " block=" + (b == null ? "<none>" : b.getName())
+            + " initialized=" + (b != null && b.isInitialized()));
+        if (b == null || !b.isInitialized()) return;
+        long start = Math.max(b.getStart().getOffset(), target - (long)before);
+        long end = Math.min(b.getEnd().getOffset(), target + (long)after);
+        if (end < start) return;
+        int len = (int)Math.min((long)Integer.MAX_VALUE, end - start + 1L);
+        byte[] data = new byte[len];
+        try {
+            memory().getBytes(addr(start), data, 0, len);
+            p("  range=" + hex(start) + ".." + hex(end)
+                + " bytes=" + byteString(data));
+            p("  ascii=" + asciiPreview(data));
+        } catch (Exception e) {
+            p("  read_error=" + e.getMessage());
+        }
+    }
+
+    /*
+     * STRUCTURE-75: revalidate historical IQ string candidates by bytes rather
+     * than by presumed address. This searches every initialized default-space
+     * block in qdsp6sw.mbn, including executable blocks, and traces actual hits.
+     */
+    private void scanQdspIqRawStringPatterns() {
+        final String[] phrases = {
+            "IQ_CAPTURE", "FETCH_IQ", "IQ_CAPTURE_TYPE",
+            "IQ_SAMPLE", "IQ_BUFFER", "RAW_IQ", "GET_IQ",
+            "SAMPLE_CAPTURE", "CAPTURE_IQ"
+        };
+        final int CHUNK = 0x4000;
+        final int MAX_HITS = 120;
+        final int OVERLAP = 32;
+        byte[][] patterns = new byte[phrases.length][];
+        for (int i = 0; i < phrases.length; i++) {
+            patterns[i] = phrases[i].getBytes(java.nio.charset.StandardCharsets.US_ASCII);
+        }
+        byte[] buffer = new byte[CHUNK + OVERLAP];
+        java.util.Set<String> seen = new java.util.LinkedHashSet<String>();
+        long bytesScanned = 0L;
+        long blocksScanned = 0L;
+        int hits = 0;
+
+        p("");
+        p("QDSP_IQ_RAW_STRING_SEARCH");
+        p("Search literal ASCII bytes across all initialized blocks; do not trust historic absolute addresses.");
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES || hits >= MAX_HITS) break;
+            if (!b.isInitialized() || !isDefaultDynamicAddressBlock(b)) continue;
+            blocksScanned++;
+            long pos = b.getStart().getOffset();
+            long end = b.getEnd().getOffset();
+            while (pos <= end && !monitor.isCancelled()
+                    && lines < MAX_LINES && hits < MAX_HITS) {
+                int want = (int)Math.min((long)buffer.length, end - pos + 1L);
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                } catch (Exception e) {
+                    p("QDSP_IQ_RAW_SEARCH_READ_ERROR block=" + b.getName()
+                        + " address=" + hex(pos) + " error=" + e.getMessage());
+                    break;
+                }
+                bytesScanned += want;
+                int startsToCheck = (int)Math.min((long)CHUNK, end - pos + 1L);
+                for (int i = 0; i < startsToCheck && i < want
+                        && !monitor.isCancelled() && lines < MAX_LINES
+                        && hits < MAX_HITS; i++) {
+                    for (int k = 0; k < patterns.length; k++) {
+                        byte[] pattern = patterns[k];
+                        if (i + pattern.length > want) continue;
+                        boolean match = true;
+                        for (int j = 0; j < pattern.length; j++) {
+                            int actual = buffer[i + j] & 0xff;
+                            int expected = pattern[j] & 0xff;
+                            if (actual >= 'a' && actual <= 'z') actual -= ('a' - 'A');
+                            if (actual != expected) { match = false; break; }
+                        }
+                        if (!match) continue;
+                        long address = pos + i;
+                        String key = phrases[k] + "@" + hex(address);
+                        if (!seen.add(key)) continue;
+                        hits++;
+                        p("QDSP_IQ_RAW_STRING_HIT name=" + phrases[k]
+                            + " address=" + hex(address)
+                            + " block=" + b.getName()
+                            + " executable_block=" + b.isExecute());
+                        int contextLength = Math.min(96, want - i);
+                        byte[] context = new byte[contextLength];
+                        System.arraycopy(buffer, i, context, 0, contextLength);
+                        p("  hit_bytes=" + byteString(context));
+                        p("  hit_ascii=" + asciiPreview(context));
+                        ReferenceIterator refs = currentProgram.getReferenceManager()
+                            .getReferencesTo(addr(address));
+                        int shown = 0;
+                        int total = 0;
+                        while (refs.hasNext() && !monitor.isCancelled()
+                                && lines < MAX_LINES) {
+                            Reference ref = refs.next();
+                            total++;
+                            if (shown >= 8) continue;
+                            Address from = ref.getFromAddress();
+                            Function owner = currentProgram.getFunctionManager()
+                                .getFunctionContaining(from);
+                            Instruction fromIns = listing().getInstructionAt(from);
+                            if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                            p("  QDSP_IQ_RAW_STRING_XREF from=" + from
+                                + " type=" + ref.getReferenceType()
+                                + " owner=" + (owner == null ? "<none>"
+                                    : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                                + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                            shown++;
+                        }
+                        p("  QDSP_IQ_RAW_STRING_XREFS total=" + total + " shown=" + shown);
+                    }
+                }
+                if (want <= CHUNK) break;
+                pos += CHUNK;
+            }
+        }
+        p("QDSP_IQ_RAW_SEARCH_BLOCKS=" + blocksScanned);
+        p("QDSP_IQ_RAW_SEARCH_BYTES=" + bytesScanned);
+        p("QDSP_IQ_RAW_SEARCH_HITS=" + hits);
+        p("QDSP_IQ_RAW_SEARCH_DONE");
+    }
+
     private void scanQdspIqCaptureDataPath() {
         final long POOL_START = 0xC414B500L;
         final long POOL_END = 0xC414C100L;
@@ -9175,6 +9303,14 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
 
         p("");
+        p("QDSP_IQ_HISTORIC_ADDRESS_BYTE_CONTEXT");
+        for (int i = 0; i < anchors.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            dumpQdspRawByteContext(anchors[i], 0x20, 0x40, names[i]);
+        }
+        scanQdspIqRawStringPatterns();
+
+        p("");
         p("QDSP_IQ_POOL_RAW_POINTER_SCAN");
         p("Scan aligned 32-bit words for pointers into the historical IQ TLV/name pool.");
         long pointerWordsScanned = 0L;
@@ -9208,11 +9344,34 @@ private static final boolean FOCUS_ONLY_614 = true;
                     pointerHits++;
                     if (pointerHitsShown >= 100 || lines >= MAX_LINES) continue;
                     String textAt = readAsciiAt(value, 96);
+                    MemoryBlock targetBlock = block(value);
                     p("  QDSP_IQ_POOL_POINTER slot=" + hex(pos + i)
                         + " slot_block=" + b.getName()
+                        + " slot_executable=" + b.isExecute()
                         + " value=" + hex(value)
                         + " target_ascii=" + (textAt == null ? "<not-a-cstring>" : textAt)
-                        + " target_block=" + (block(value) == null ? "<none>" : block(value).getName()));
+                        + " target_block=" + (targetBlock == null ? "<none>" : targetBlock.getName()));
+                    ReferenceIterator slotRefs = currentProgram.getReferenceManager()
+                        .getReferencesTo(addr(pos + i));
+                    int slotRefTotal = 0;
+                    int slotRefShown = 0;
+                    while (slotRefs.hasNext() && slotRefShown < 4
+                            && !monitor.isCancelled() && lines < MAX_LINES) {
+                        Reference ref = slotRefs.next();
+                        slotRefTotal++;
+                        Address from = ref.getFromAddress();
+                        Function owner = currentProgram.getFunctionManager()
+                            .getFunctionContaining(from);
+                        Instruction fromIns = listing().getInstructionAt(from);
+                        if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                        p("    QDSP_IQ_POINTER_SLOT_XREF from=" + from
+                            + " type=" + ref.getReferenceType()
+                            + " owner=" + (owner == null ? "<none>"
+                                : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                            + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                        slotRefShown++;
+                    }
+                    p("    QDSP_IQ_POINTER_SLOT_XREFS_SHOWN=" + slotRefShown);
                     pointerHitsShown++;
                 }
                 pos += want;
