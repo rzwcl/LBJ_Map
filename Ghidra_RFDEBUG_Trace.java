@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-59
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-60
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-59";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-60";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8031,10 +8031,16 @@ private static final boolean FOCUS_ONLY_614 = true;
             }
         }
 
+        // Values read from the six technology-specific indirect-dispatch slots:
+        // NR5G, WCDMA, CDMA, GSM, TDSCDMA, and GNSS respectively.
+        // These are code-pointer candidates; inspect their bodies and XREFs
+        // without assuming they are frequency-tuning functions.
         long[] codeTargets = {
             0x24BE0L, 0x24C00L, 0x24C30L, 0x24CF0L,
             0x2526CL, 0x24C40L, 0x24C60L, 0x24C80L,
-            0x24CB0L, 0x24E90L, 0x24EB0L, 0x25F70L
+            0x24CB0L, 0x24E90L, 0x24EB0L, 0x25F70L,
+            0x25454L, 0x25538L, 0x255D4L,
+            0x25640L, 0x256D0L, 0x2573CL
         };
 
         p("");
