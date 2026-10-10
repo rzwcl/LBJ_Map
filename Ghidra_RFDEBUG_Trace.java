@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-72";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-73";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9110,6 +9110,109 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("614_PRIORITY_RFC_IMPLEMENTATION_AND_SIGNAL_TABLES_DONE");
     }
 
+    /*
+     * STRUCTURE-73: resolve the function-pointer slots of the six RFC vtables.
+     * STRUCTURE-72 found each object constructor loading a static pointer and
+     * storing pointer + 8 into the object. The first two words are therefore
+     * treated as ABI/header words; slots +8 through +0x20 are the seven
+     * candidate virtual methods. This remains static/read-only.
+     */
+    private void trace614RfcVtable(long tableBase, String role) {
+        p("");
+        p("614_RFC_VTABLE role=" + role
+            + " table_base=" + hex(tableBase)
+            + " expected_object_vptr=" + hex(tableBase + 8L)
+            + " words=9 method_slots=7");
+        for (int i = 0; i < 9 && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long slot = (tableBase + ((long)i * 4L)) & 0xffffffffL;
+            long value = -1L;
+            try { value = u32(slot); } catch (Exception e) { value = -1L; }
+            MemoryBlock slotBlock = null;
+            MemoryBlock valueBlock = null;
+            Function exact = null;
+            Function containing = null;
+            Instruction targetIns = null;
+            try { slotBlock = memory().getBlock(addr(slot)); }
+            catch (Exception e) { slotBlock = null; }
+            if (value >= 0L && value <= 0xffffffffL) {
+                try {
+                    Address target = addr(value);
+                    valueBlock = memory().getBlock(target);
+                    exact = currentProgram.getFunctionManager().getFunctionAt(target);
+                    containing = exact != null ? exact
+                        : currentProgram.getFunctionManager().getFunctionContaining(target);
+                    targetIns = listing().getInstructionAt(target);
+                }
+                catch (Exception e) {
+                    valueBlock = null;
+                    exact = null;
+                    containing = null;
+                    targetIns = null;
+                }
+            }
+            p("  RFC_VTABLE_WORD role=" + role
+                + " index=" + i
+                + " kind=" + (i < 2 ? "ABI_HEADER_CANDIDATE" : "VIRTUAL_METHOD_CANDIDATE")
+                + " slot=" + hex(slot)
+                + " readable=" + (slotBlock != null)
+                + " value=" + hex(value)
+                + " target_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                + " target_executable=" + (valueBlock != null && valueBlock.isExecute())
+                + " exact_function=" + (exact == null ? "<none>" : exact.getName())
+                + " containing_function=" + (containing == null ? "<none>" : containing.getName())
+                + " target_ins=" + (targetIns == null ? "<none>" : targetIns.toString()));
+
+            if (i >= 2 && value >= 0L && value <= 0xffffffffL
+                    && valueBlock != null && valueBlock.isExecute()) {
+                ReferenceIterator refs = currentProgram.getReferenceManager()
+                    .getReferencesTo(addr(value));
+                int shown = 0;
+                while (refs.hasNext() && shown < 4 && !monitor.isCancelled()
+                        && lines < MAX_LINES) {
+                    Reference ref = refs.next();
+                    Address from = ref.getFromAddress();
+                    Function owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    Instruction fromIns = listing().getInstructionAt(from);
+                    if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                    p("    RFC_VTABLE_TARGET_REF role=" + role
+                        + " index=" + i
+                        + " target=" + hex(value)
+                        + " from=" + from
+                        + " ref_type=" + ref.getReferenceType()
+                        + " owner=" + (owner == null ? "<none>" : owner.getName()
+                            + "@" + hex(owner.getEntryPoint().getOffset()))
+                        + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                    shown++;
+                }
+                p("    RFC_VTABLE_TARGET_REFS_SHOWN role=" + role
+                    + " index=" + i + " count=" + shown);
+            }
+        }
+    }
+
+    private void scan614PriorityRfcVtableTargetsTail() {
+        p("");
+        p("============================================================");
+        p("614_PRIORITY_RFC_VTABLE_TARGETS");
+        p("Resolve the seven method slots for each vptr established by STRUCTURE-72.");
+        p("Function pointers are static-image candidates; caller/use-site evidence is still required.");
+        p("READ ONLY - no firmware/device changes and no RF/DIAG operations.");
+        p("============================================================");
+        long[] tables = {
+            0x270D8L, 0x270FCL, 0x27124L,
+            0x27148L, 0x27170L, 0x27198L
+        };
+        String[] roles = {
+            "NR5G", "WCDMA", "CDMA", "GSM", "TDSCDMA", "GNSS"
+        };
+        for (int i = 0; i < tables.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            trace614RfcVtable(tables[i], roles[i]);
+        }
+        p("614_PRIORITY_RFC_VTABLE_TARGETS_DONE");
+    }
+
     private void scan614PrioritySingletonGetterTail() {
         p("");
         p("============================================================");
@@ -9645,6 +9748,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL_DONE");
         scan614PrioritySingletonGetterTail();
         scan614PriorityRfcSignalTablesTail();
+        scan614PriorityRfcVtableTargetsTail();
         p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
