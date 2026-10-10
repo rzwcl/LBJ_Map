@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-75
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-76
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-75";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-76";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9143,7 +9143,7 @@ private static final boolean FOCUS_ONLY_614 = true;
      * than by presumed address. This searches every initialized default-space
      * block in qdsp6sw.mbn, including executable blocks, and traces actual hits.
      */
-    private void scanQdspIqRawStringPatterns() {
+    private java.util.Map<Long, String> scanQdspIqRawStringPatterns() {
         final String[] phrases = {
             "IQ_CAPTURE", "FETCH_IQ", "IQ_CAPTURE_TYPE",
             "IQ_SAMPLE", "IQ_BUFFER", "RAW_IQ", "GET_IQ",
@@ -9158,6 +9158,8 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
         byte[] buffer = new byte[CHUNK + OVERLAP];
         java.util.Set<String> seen = new java.util.LinkedHashSet<String>();
+        java.util.Map<Long, String> stringAddresses =
+            new java.util.LinkedHashMap<Long, String>();
         long bytesScanned = 0L;
         long blocksScanned = 0L;
         int hits = 0;
@@ -9200,6 +9202,10 @@ private static final boolean FOCUS_ONLY_614 = true;
                         long address = pos + i;
                         String key = phrases[k] + "@" + hex(address);
                         if (!seen.add(key)) continue;
+                        String previousLabel = stringAddresses.get(Long.valueOf(address));
+                        if (previousLabel == null || phrases[k].length() > previousLabel.length()) {
+                            stringAddresses.put(Long.valueOf(address), phrases[k]);
+                        }
                         hits++;
                         p("QDSP_IQ_RAW_STRING_HIT name=" + phrases[k]
                             + " address=" + hex(address)
@@ -9241,7 +9247,229 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("QDSP_IQ_RAW_SEARCH_BLOCKS=" + blocksScanned);
         p("QDSP_IQ_RAW_SEARCH_BYTES=" + bytesScanned);
         p("QDSP_IQ_RAW_SEARCH_HITS=" + hits);
+        p("QDSP_IQ_RAW_SEARCH_UNIQUE_ADDRESSES=" + stringAddresses.size());
         p("QDSP_IQ_RAW_SEARCH_DONE");
+        return stringAddresses;
+    }
+
+    private long nearestQdspIqStringAddress(java.util.Map<Long, String> strings,
+            long target, long maxDistance) {
+        long bestAddress = -1L;
+        long bestDistance = Long.MAX_VALUE;
+        for (Long key : strings.keySet()) {
+            long candidate = key.longValue();
+            long distance = Math.abs(target - candidate);
+            if (distance < bestDistance) {
+                bestDistance = distance;
+                bestAddress = candidate;
+            }
+        }
+        return bestDistance <= maxDistance ? bestAddress : -1L;
+    }
+
+    /*
+     * STRUCTURE-76: find initialized data words that point to strings discovered
+     * in this exact qdsp6sw image. This deliberately replaces pointer hunting in
+     * the disproven historical 0xC414B500..0xC414C100 range.
+     */
+    private java.util.Map<Long, String> scanQdspIqStringPointerSlots(
+            java.util.Map<Long, String> stringAddresses) {
+        p("");
+        p("QDSP_IQ_DISCOVERED_STRING_POINTER_SCAN");
+        p("Search aligned little-endian words for pointers to byte-verified IQ strings in this image.");
+        long wordsScanned = 0L;
+        long hits = 0L;
+        int shown = 0;
+        final int CHUNK = 0x4000;
+        final int MAX_HITS_SHOWN = 160;
+        byte[] buffer = new byte[CHUNK];
+        java.util.Map<Long, String> pointerSlots =
+            new java.util.LinkedHashMap<Long, String>();
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            if (!b.isInitialized() || !isDefaultDynamicAddressBlock(b)) continue;
+            long blockStart = b.getStart().getOffset();
+            long blockEnd = b.getEnd().getOffset();
+            long pos = (blockStart + 3L) & ~3L;
+            while (pos <= blockEnd && !monitor.isCancelled() && lines < MAX_LINES) {
+                int want = (int)Math.min((long)CHUNK, blockEnd - pos + 1L);
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                } catch (Exception e) {
+                    p("QDSP_IQ_STRING_POINTER_READ_ERROR block=" + b.getName()
+                        + " address=" + hex(pos) + " error=" + e.getMessage());
+                    break;
+                }
+                for (int i = 0; i + 3 < want; i += 4) {
+                    long value = ((long)buffer[i] & 0xffL)
+                        | (((long)buffer[i + 1] & 0xffL) << 8)
+                        | (((long)buffer[i + 2] & 0xffL) << 16)
+                        | (((long)buffer[i + 3] & 0xffL) << 24);
+                    wordsScanned++;
+                    String targetLabel = stringAddresses.get(Long.valueOf(value));
+                    if (targetLabel == null) continue;
+                    long slot = pos + i;
+                    pointerSlots.put(Long.valueOf(slot), targetLabel);
+                    hits++;
+                    if (shown >= MAX_HITS_SHOWN || lines >= MAX_LINES) continue;
+
+                    p("QDSP_IQ_STRING_POINTER_HIT slot=" + hex(slot)
+                        + " slot_block=" + b.getName()
+                        + " slot_executable=" + b.isExecute()
+                        + " target=" + hex(value)
+                        + " target_label=" + targetLabel);
+                    ReferenceIterator refs = currentProgram.getReferenceManager()
+                        .getReferencesTo(addr(slot));
+                    int refsShown = 0;
+                    while (refs.hasNext() && refsShown < 4
+                            && !monitor.isCancelled() && lines < MAX_LINES) {
+                        Reference ref = refs.next();
+                        Address from = ref.getFromAddress();
+                        Function owner = currentProgram.getFunctionManager()
+                            .getFunctionContaining(from);
+                        Instruction fromIns = listing().getInstructionAt(from);
+                        if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                        p("  QDSP_IQ_STRING_POINTER_XREF from=" + from
+                            + " type=" + ref.getReferenceType()
+                            + " owner=" + (owner == null ? "<none>"
+                                : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                            + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                        refsShown++;
+                    }
+                    p("  QDSP_IQ_STRING_POINTER_XREFS_SHOWN=" + refsShown);
+                    shown++;
+                }
+                pos += want;
+            }
+        }
+        p("QDSP_IQ_STRING_POINTER_WORDS_SCANNED=" + wordsScanned);
+        p("QDSP_IQ_STRING_POINTER_HITS=" + hits);
+        p("QDSP_IQ_STRING_POINTER_HITS_SHOWN=" + shown);
+        p("QDSP_IQ_DISCOVERED_STRING_POINTER_SCAN_DONE");
+        return pointerSlots;
+    }
+
+    /*
+     * STRUCTURE-76: reconstruct string and literal-pool use sites from Hexagon
+     * PC-relative ADD instructions. No instructions, references, or data are
+     * modified; calculated targets are reported as hypotheses for inspection.
+     */
+    private void scanQdspIqPcRelativeStringUses(
+            java.util.Map<Long, String> stringAddresses,
+            java.util.Map<Long, String> pointerSlots) {
+        p("");
+        p("QDSP_IQ_PC_RELATIVE_STRING_USE_SCAN");
+        long instructionsScanned = 0L;
+        long targetHits = 0L;
+        int shown = 0;
+        final long MAX_INSNS = 1800000L;
+        final int MAX_HITS_SHOWN = 120;
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES
+                    || instructionsScanned >= MAX_INSNS) break;
+            if (!b.isInitialized() || !b.isExecute()
+                    || !isDefaultDynamicAddressBlock(b)) continue;
+            long blockEnd = b.getEnd().getOffset();
+            InstructionIterator it = listing().getInstructions(b.getStart(), true);
+            while (it.hasNext() && !monitor.isCancelled()
+                    && lines < MAX_LINES && instructionsScanned < MAX_INSNS) {
+                Instruction ins = it.next();
+                if (ins.getAddress().getOffset() > blockEnd) break;
+                instructionsScanned++;
+                if (!"add".equalsIgnoreCase(ins.getMnemonicString())) continue;
+
+                boolean hasPc = false;
+                Long displacement = null;
+                for (int op = 0; op < ins.getNumOperands(); op++) {
+                    for (Object object : ins.getOpObjects(op)) {
+                        if (object instanceof ghidra.program.model.lang.Register
+                                && "PC".equalsIgnoreCase(
+                                    ((ghidra.program.model.lang.Register)object).getName())) {
+                            hasPc = true;
+                        } else if (object instanceof Scalar) {
+                            displacement = Long.valueOf(((Scalar)object).getSignedValue());
+                        }
+                    }
+                }
+                if (!hasPc || displacement == null) continue;
+                Long computed = hexagonPcRelativeTarget(ins, displacement.longValue());
+                if (computed == null) continue;
+                long target = computed.longValue() & 0xffffffffL;
+
+                String targetKind = null;
+                String resolvedLabel = null;
+                long resolvedAddress = -1L;
+                String slotLabel = pointerSlots.get(Long.valueOf(target));
+                String exactStringLabel = stringAddresses.get(Long.valueOf(target));
+                if (slotLabel != null) {
+                    targetKind = "STRING_POINTER_SLOT";
+                    resolvedLabel = slotLabel;
+                    resolvedAddress = target;
+                } else if (exactStringLabel != null) {
+                    targetKind = "STRING_START";
+                    resolvedLabel = exactStringLabel;
+                    resolvedAddress = target;
+                } else {
+                    long nearest = nearestQdspIqStringAddress(stringAddresses, target, 0x80L);
+                    if (nearest >= 0L) {
+                        targetKind = "STRING_REGION_NEAR";
+                        resolvedLabel = stringAddresses.get(Long.valueOf(nearest));
+                        resolvedAddress = nearest;
+                    }
+                }
+                if (targetKind == null) continue;
+                targetHits++;
+                if (shown >= MAX_HITS_SHOWN || lines >= MAX_LINES) continue;
+
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(ins.getAddress());
+                MemoryBlock targetBlock = block(target);
+                long distance = Math.abs(target - resolvedAddress);
+                Long packetStart = hexagonPacketStartAddress(ins);
+                p("QDSP_IQ_PC_RELATIVE_IQ_USE ins=" + ins.getAddress()
+                    + " kind=" + targetKind
+                    + " target=" + hex(target)
+                    + " target_block=" + (targetBlock == null ? "<none>" : targetBlock.getName())
+                    + " resolved=" + hex(resolvedAddress)
+                    + " resolved_label=" + resolvedLabel
+                    + " distance=" + distance
+                    + " packet_start=" + (packetStart == null ? "<unknown>"
+                        : hex(packetStart.longValue()))
+                    + " function=" + (owner == null ? "<none>"
+                        : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                    + " instruction=" + ins.toString());
+
+                Instruction previous = listing().getInstructionBefore(ins.getAddress());
+                int previousShown = 0;
+                while (previous != null && previousShown < 2 && lines < MAX_LINES) {
+                    Function previousOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(previous.getAddress());
+                    if (owner != null && (previousOwner == null
+                            || !owner.getEntryPoint().equals(previousOwner.getEntryPoint()))) break;
+                    p("  QDSP_IQ_PC_CONTEXT_PREV " + previous.getAddress() + " " + previous);
+                    previous = listing().getInstructionBefore(previous.getAddress());
+                    previousShown++;
+                }
+                Instruction next = listing().getInstructionAfter(ins.getAddress());
+                int nextShown = 0;
+                while (next != null && nextShown < 2 && lines < MAX_LINES) {
+                    Function nextOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(next.getAddress());
+                    if (owner != null && (nextOwner == null
+                            || !owner.getEntryPoint().equals(nextOwner.getEntryPoint()))) break;
+                    p("  QDSP_IQ_PC_CONTEXT_NEXT " + next.getAddress() + " " + next);
+                    next = listing().getInstructionAfter(next.getAddress());
+                    nextShown++;
+                }
+                shown++;
+            }
+        }
+        p("QDSP_IQ_PC_RELATIVE_INSTRUCTIONS_SCANNED=" + instructionsScanned);
+        p("QDSP_IQ_PC_RELATIVE_IQ_TARGET_HITS=" + targetHits);
+        p("QDSP_IQ_PC_RELATIVE_IQ_TARGET_HITS_SHOWN=" + shown);
+        p("QDSP_IQ_PC_RELATIVE_STRING_USE_SCAN_DONE");
     }
 
     private void scanQdspIqCaptureDataPath() {
@@ -9308,140 +9536,11 @@ private static final boolean FOCUS_ONLY_614 = true;
                 && lines < MAX_LINES; i++) {
             dumpQdspRawByteContext(anchors[i], 0x20, 0x40, names[i]);
         }
-        scanQdspIqRawStringPatterns();
+        java.util.Map<Long, String> discoveredStringAddresses = scanQdspIqRawStringPatterns();
+        java.util.Map<Long, String> discoveredStringPointerSlots =
+            scanQdspIqStringPointerSlots(discoveredStringAddresses);
+        scanQdspIqPcRelativeStringUses(discoveredStringAddresses, discoveredStringPointerSlots);
 
-        p("");
-        p("QDSP_IQ_POOL_RAW_POINTER_SCAN");
-        p("Scan aligned 32-bit words for pointers into the historical IQ TLV/name pool.");
-        long pointerWordsScanned = 0L;
-        long pointerHits = 0L;
-        int pointerHitsShown = 0;
-        final int CHUNK = 0x4000;
-        byte[] buffer = new byte[CHUNK];
-        for (MemoryBlock b : memory().getBlocks()) {
-            if (monitor.isCancelled() || lines >= MAX_LINES) break;
-            if (!b.isInitialized() || !isDefaultDynamicAddressBlock(b)) continue;
-            long blockStart = b.getStart().getOffset();
-            long blockEnd = b.getEnd().getOffset();
-            long pos = (blockStart + 3L) & ~3L;
-            while (pos <= blockEnd && !monitor.isCancelled()
-                    && lines < MAX_LINES) {
-                int want = (int)Math.min((long)CHUNK, blockEnd - pos + 1L);
-                try {
-                    memory().getBytes(addr(pos), buffer, 0, want);
-                } catch (Exception e) {
-                    p("QDSP_IQ_POINTER_SCAN_READ_ERROR block=" + b.getName()
-                        + " address=" + hex(pos) + " error=" + e.getMessage());
-                    break;
-                }
-                for (int i = 0; i + 3 < want; i += 4) {
-                    long value = ((long)buffer[i] & 0xffL)
-                        | (((long)buffer[i + 1] & 0xffL) << 8)
-                        | (((long)buffer[i + 2] & 0xffL) << 16)
-                        | (((long)buffer[i + 3] & 0xffL) << 24);
-                    pointerWordsScanned++;
-                    if (value < POOL_START || value >= POOL_END) continue;
-                    pointerHits++;
-                    if (pointerHitsShown >= 100 || lines >= MAX_LINES) continue;
-                    String textAt = readAsciiAt(value, 96);
-                    MemoryBlock targetBlock = block(value);
-                    p("  QDSP_IQ_POOL_POINTER slot=" + hex(pos + i)
-                        + " slot_block=" + b.getName()
-                        + " slot_executable=" + b.isExecute()
-                        + " value=" + hex(value)
-                        + " target_ascii=" + (textAt == null ? "<not-a-cstring>" : textAt)
-                        + " target_block=" + (targetBlock == null ? "<none>" : targetBlock.getName()));
-                    ReferenceIterator slotRefs = currentProgram.getReferenceManager()
-                        .getReferencesTo(addr(pos + i));
-                    int slotRefTotal = 0;
-                    int slotRefShown = 0;
-                    while (slotRefs.hasNext() && slotRefShown < 4
-                            && !monitor.isCancelled() && lines < MAX_LINES) {
-                        Reference ref = slotRefs.next();
-                        slotRefTotal++;
-                        Address from = ref.getFromAddress();
-                        Function owner = currentProgram.getFunctionManager()
-                            .getFunctionContaining(from);
-                        Instruction fromIns = listing().getInstructionAt(from);
-                        if (fromIns == null) fromIns = listing().getInstructionContaining(from);
-                        p("    QDSP_IQ_POINTER_SLOT_XREF from=" + from
-                            + " type=" + ref.getReferenceType()
-                            + " owner=" + (owner == null ? "<none>"
-                                : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
-                            + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
-                        slotRefShown++;
-                    }
-                    p("    QDSP_IQ_POINTER_SLOT_XREFS_SHOWN=" + slotRefShown);
-                    pointerHitsShown++;
-                }
-                pos += want;
-            }
-        }
-        p("QDSP_IQ_POINTER_WORDS_SCANNED=" + pointerWordsScanned);
-        p("QDSP_IQ_POOL_POINTER_HITS=" + pointerHits);
-        p("QDSP_IQ_POOL_POINTER_HITS_SHOWN=" + pointerHitsShown);
-
-        p("");
-        p("QDSP_IQ_PC_RELATIVE_POOL_USE_SCAN");
-        p("Scan Hexagon PC-relative add instructions that resolve into the candidate string/descriptor pool.");
-        long instructionsScanned = 0L;
-        long pcPoolHits = 0L;
-        int pcPoolHitsShown = 0;
-        final long MAX_INSNS = 1800000L;
-        for (MemoryBlock b : memory().getBlocks()) {
-            if (monitor.isCancelled() || lines >= MAX_LINES
-                    || instructionsScanned >= MAX_INSNS) break;
-            if (!b.isInitialized() || !b.isExecute()
-                    || !isDefaultDynamicAddressBlock(b)) continue;
-            long blockEnd = b.getEnd().getOffset();
-            InstructionIterator it = listing().getInstructions(b.getStart(), true);
-            while (it.hasNext() && !monitor.isCancelled()
-                    && lines < MAX_LINES && instructionsScanned < MAX_INSNS) {
-                Instruction ins = it.next();
-                long instructionAddress = ins.getAddress().getOffset();
-                if (instructionAddress > blockEnd) break;
-                instructionsScanned++;
-                if (!"add".equalsIgnoreCase(ins.getMnemonicString())) continue;
-
-                boolean hasPc = false;
-                Long displacement = null;
-                for (int op = 0; op < ins.getNumOperands(); op++) {
-                    for (Object object : ins.getOpObjects(op)) {
-                        if (object instanceof ghidra.program.model.lang.Register
-                                && "PC".equalsIgnoreCase(
-                                    ((ghidra.program.model.lang.Register)object).getName())) {
-                            hasPc = true;
-                        } else if (object instanceof Scalar) {
-                            displacement = Long.valueOf(
-                                ((Scalar)object).getSignedValue());
-                        }
-                    }
-                }
-                if (!hasPc || displacement == null) continue;
-                Long computed = hexagonPcRelativeTarget(ins, displacement.longValue());
-                if (computed == null) continue;
-                long target = computed.longValue() & 0xffffffffL;
-                if (target < POOL_START || target >= POOL_END) continue;
-                pcPoolHits++;
-                if (pcPoolHitsShown >= 160 || lines >= MAX_LINES) continue;
-
-                Function owner = currentProgram.getFunctionManager()
-                    .getFunctionContaining(ins.getAddress());
-                String textAt = readAsciiAt(target, 96);
-                p("  QDSP_IQ_PC_POOL_HIT ins=" + ins.getAddress()
-                    + " target=" + hex(target)
-                    + " packet_start=" + (hexagonPacketStartAddress(ins) == null
-                        ? "<unknown>" : hex(hexagonPacketStartAddress(ins).longValue()))
-                    + " function=" + (owner == null ? "<none>"
-                        : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
-                    + " target_ascii=" + (textAt == null ? "<not-a-cstring>" : textAt)
-                    + " instruction=" + ins.toString());
-                pcPoolHitsShown++;
-            }
-        }
-        p("QDSP_IQ_INSTRUCTIONS_SCANNED=" + instructionsScanned);
-        p("QDSP_IQ_PC_POOL_HITS=" + pcPoolHits);
-        p("QDSP_IQ_PC_POOL_HITS_SHOWN=" + pcPoolHitsShown);
         p("QDSP6SW_IQ_CAPTURE_DATA_PATH_DONE");
     }
 
