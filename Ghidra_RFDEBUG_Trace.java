@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-51
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-52
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-51";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-52";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -7721,6 +7721,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         if (programLower.contains("614_0_0")) {
             p("TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY");
             p("Legacy qdsp6sw.mbn addresses are disabled for this program.");
+            p("PRIORITY_PASS=run focused 0x25F70 wrapper/callsite trace before broad scans can consume MAX_LINES.");
+            scan614FocusedCallrProvenance();
             scan614FunctionInventory();
             scanNamedFunctions();
             scan614RfConfigFunctionDetails();
@@ -7752,7 +7754,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scanRadioConfigMessageRecords();
             scanRfDebugSubsysImmediateCandidates();
             scan614RawAsciiKeywordCensus();
-            scan614FocusedCallrProvenance();
             scan614CrossModuleApiConsumers();
         }
         else {
