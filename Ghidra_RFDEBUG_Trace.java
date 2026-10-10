@@ -40,7 +40,11 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-52";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-53";
+
+// Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
+// It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
+private static final boolean FOCUS_ONLY_614 = true;
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -7723,6 +7727,14 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("Legacy qdsp6sw.mbn addresses are disabled for this program.");
             p("PRIORITY_PASS=run focused 0x25F70 wrapper/callsite trace before broad scans can consume MAX_LINES.");
             scan614FocusedCallrProvenance();
+            if (FOCUS_ONLY_614) {
+                p("");
+                p("FOCUS_ONLY_MODE=enabled; broad scans skipped to preserve the focused trace in the Ghidra console.");
+                scan614PltGotThunkMap();
+                p("DONE");
+                p("No program data or structures modified.");
+                return;
+            }
             scan614FunctionInventory();
             scanNamedFunctions();
             scan614RfConfigFunctionDetails();
