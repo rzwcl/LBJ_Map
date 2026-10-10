@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-48
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-49
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-48";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-49";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -2020,6 +2020,199 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             || low.contains("samp_freq")
             || low.contains("ftm.rf")
             || low.contains("rflte_ftm_mc_set_trx_on_off");
+    }
+
+
+    /*
+     * STRUCTURE-49: actual Hexagon PC-relative address reconstruction around
+     * firmware-confirmed RFDEBUG/property-table anchors. This is deliberately
+     * different from string XREF, raw-pointer, or low-16-bit scans.
+     * It only reports decoded executable "add Rx, PC, immediate" instructions
+     * whose packet-start-calculated target lands near a verified anchor.
+     *
+     * Intended for qdsp6sw.mbn. READ ONLY.
+     */
+    private static final long[] LEGACY_RFDEBUG_PC_ANCHORS = {
+        0xC9199FB8L, 0xC919A020L, 0xC919A028L,
+        0xC50847FFL, 0xC5084812L,
+        0xC49531FCL, 0xC4953391L, 0xC49533E1L,
+        0xC495342AL, 0xC4953473L, 0xC49534B2L,
+        0xC49534E7L, 0xC4953578L, 0xC49535F5L,
+        0xC4953710L, 0xC495376FL, 0xC49537A7L,
+        0xC4953805L, 0xC495384AL, 0xC495388FL,
+        0xC49538D4L, 0xC495391AL, 0xC4953988L,
+        0xC49539F2L, 0xC4953A44L, 0xC4953B62L,
+        0xC4953BC4L, 0xC4953C50L, 0xC4953CACL,
+        0xC4953CF1L, 0xC4953DA4L, 0xC4953DF8L,
+        0xC49CAAE5L
+    };
+
+    private static final String[] LEGACY_RFDEBUG_PC_ANCHOR_NAMES = {
+        "property_names_table", "TUNE_TX_TO_RX_FREQ_slot", "FREQUENCY_slot",
+        "TUNE_TX_TO_RX_FREQ_string", "FREQUENCY_string",
+        "LOAD_DPD_unpack_log", "VDPD_CAL_unpack_log", "VDPD_CAL_log_2",
+        "VDPD_CAL_log_3", "VDPD_CAL_log_4", "VDPD_CAL_log_5",
+        "SET_DPD_DEBUG_MODE_log", "IDC_CAL_log", "THERM_READ_repack_log",
+        "RX_OVERRIDE_repack_log", "RX_OVERRIDE_not_packed_log", "VDPD_CONVERSION_log",
+        "LOAD_UNITY_DPD_log_1", "LOAD_UNITY_DPD_log_2", "LOAD_UNITY_DPD_log_3",
+        "LOAD_UNITY_DPD_log_4", "LOAD_UNITY_DPD_log_5", "TX_MEASURE_ADV_repack_log",
+        "TX_MEASURE_ADV_not_packed_log", "DEVICE_CAL_unpack_log", "RX_MEASURE_repack_log",
+        "RX_MEASURE_not_packed_log", "LOAD_UNITY_DPD_unpack_log", "LOAD_UNITY_DPD_repack_log",
+        "LOAD_UNITY_DPD_not_packed_log", "TX_OVERRIDE_unpack_log", "TECH_ENTER_EXIT_unpack_log",
+        "tx_measure_unpack_log"
+    };
+
+    private String legacyRfDebugPcAnchorMatch(long target) {
+        final long STRING_RADIUS = 0x18L;
+        final long TABLE_RADIUS = 0x40L;
+        for (int i = 0; i < LEGACY_RFDEBUG_PC_ANCHORS.length; i++) {
+            long anchor = LEGACY_RFDEBUG_PC_ANCHORS[i];
+            long distance = target >= anchor ? target - anchor : anchor - target;
+            long radius = (i <= 2) ? TABLE_RADIUS : STRING_RADIUS;
+            if (distance <= radius) {
+                return LEGACY_RFDEBUG_PC_ANCHOR_NAMES[i]
+                    + " anchor=" + hex(anchor)
+                    + " delta=" + (target - anchor);
+            }
+        }
+        if (target >= 0xC9199F80L && target <= 0xC919A080L) {
+            return "property_table_neighborhood target=" + hex(target);
+        }
+        if (target >= 0xC50847D0L && target <= 0xC5084860L) {
+            return "frequency_string_pool target=" + hex(target);
+        }
+        return null;
+    }
+
+    private void printLegacyRfDebugPcContext(Instruction center, int before, int after) {
+        if (center == null) return;
+        Function owner = currentProgram.getFunctionManager()
+            .getFunctionContaining(center.getAddress());
+        Address ownerEntry = owner == null ? null : owner.getEntryPoint();
+        java.util.List<Instruction> prior = new java.util.ArrayList<Instruction>();
+        Instruction cursor = listing().getInstructionBefore(center.getAddress());
+        for (int i = 0; i < before && cursor != null; i++) {
+            Function cursorOwner = currentProgram.getFunctionManager()
+                .getFunctionContaining(cursor.getAddress());
+            if (ownerEntry != null && (cursorOwner == null
+                    || !ownerEntry.equals(cursorOwner.getEntryPoint()))) break;
+            prior.add(cursor);
+            cursor = listing().getInstructionBefore(cursor.getAddress());
+        }
+        java.util.Collections.reverse(prior);
+        for (Instruction ins : prior) {
+            p("      CONTEXT " + ins.getAddress() + " " + ins);
+        }
+        p("      >>> HIT " + center.getAddress() + " " + center);
+        cursor = center;
+        for (int i = 0; i < after; i++) {
+            Instruction next = listing().getInstructionAfter(cursor.getAddress());
+            if (next == null) break;
+            Function nextOwner = currentProgram.getFunctionManager()
+                .getFunctionContaining(next.getAddress());
+            if (ownerEntry != null && (nextOwner == null
+                    || !ownerEntry.equals(nextOwner.getEntryPoint()))) break;
+            p("      CONTEXT " + next.getAddress() + " " + next);
+            cursor = next;
+        }
+    }
+
+    private void scanLegacyRfDebugPcRelativeAnchors() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-49 qdsp6sw.mbn RFDEBUG PC-RELATIVE ANCHOR TRACE");
+        p("Reconstructs Hexagon PC-relative targets using packet-start semantics.");
+        p("Anchors are from confirmed property_names[] and RFDEBUG strings in this image.");
+        p("This is not string XREF, raw absolute-pointer, or low-16-bit inference.");
+        p("READ ONLY.");
+        p("============================================================");
+        p("LEGACY_PC_ANCHOR_PROGRAM=" + currentProgram.getName());
+        p("LEGACY_PC_ANCHOR_IMAGE_BASE=" + currentProgram.getImageBase());
+
+        long instructionsSeen = 0L;
+        long executableInstructionsSeen = 0L;
+        long addPcInstructionsSeen = 0L;
+        long anchorMatches = 0L;
+        long unresolvedPcAdds = 0L;
+        int printed = 0;
+        final int MAX_PRINTED = 120;
+        java.util.Set<String> uniqueFunctions = new java.util.LinkedHashSet<String>();
+
+        InstructionIterator it = listing().getInstructions(true);
+        while (it.hasNext() && !monitor.isCancelled() && lines < MAX_LINES) {
+            Instruction ins = it.next();
+            instructionsSeen++;
+            MemoryBlock b = null;
+            try { b = memory().getBlock(ins.getAddress()); } catch (Exception ignored) {}
+            if (b == null || !b.isExecute()) continue;
+            executableInstructionsSeen++;
+
+            if (!ins.getMnemonicString().toLowerCase(java.util.Locale.ROOT).startsWith("add")) continue;
+            boolean hasPc = false;
+            boolean hasScalar = false;
+            long displacement = 0L;
+            String destination = "<unknown>";
+            for (int op = 0; op < ins.getNumOperands(); op++) {
+                for (Object object : ins.getOpObjects(op)) {
+                    if (object instanceof ghidra.program.model.lang.Register) {
+                        String regName = ((ghidra.program.model.lang.Register)object).getName();
+                        if ("PC".equalsIgnoreCase(regName)) hasPc = true;
+                        if (op == 0) destination = regName;
+                    }
+                    else if (object instanceof Scalar) {
+                        displacement = ((Scalar)object).getSignedValue();
+                        hasScalar = true;
+                    }
+                }
+            }
+            if (!hasPc || !hasScalar) continue;
+            addPcInstructionsSeen++;
+
+            Long computed = hexagonPcRelativeTarget(ins, displacement);
+            if (computed == null) {
+                unresolvedPcAdds++;
+                continue;
+            }
+            String match = legacyRfDebugPcAnchorMatch(computed.longValue());
+            if (match == null) continue;
+
+            anchorMatches++;
+            Function owner = currentProgram.getFunctionManager()
+                .getFunctionContaining(ins.getAddress());
+            String functionLabel = owner == null ? "<no-function>"
+                : owner.getName() + "@" + owner.getEntryPoint();
+            uniqueFunctions.add(functionLabel);
+
+            if (printed < MAX_PRINTED && lines < MAX_LINES) {
+                p("");
+                p("LEGACY_RFDEBUG_PC_ANCHOR_HIT #" + anchorMatches
+                    + " instruction=" + ins.getAddress()
+                    + " function=" + functionLabel
+                    + " destination=" + destination
+                    + " computed_target=" + hex(computed.longValue())
+                    + " match=" + match
+                    + " instruction_text=" + ins);
+                Long packetStart = hexagonPacketStartAddress(ins);
+                Long packetOffset = hexagonPacketOffset(ins);
+                p("  PC_PACKET_START=" + (packetStart == null
+                    ? "<unknown>" : hex(packetStart.longValue()))
+                    + " PC_PACKET_OFFSET=" + (packetOffset == null
+                    ? "<unknown>" : packetOffset.toString()));
+                printLegacyRfDebugPcContext(ins, 5, 8);
+                printed++;
+            }
+        }
+
+        p("");
+        p("LEGACY_RFDEBUG_PC_INSTRUCTIONS_ALL=" + instructionsSeen);
+        p("LEGACY_RFDEBUG_PC_EXECUTABLE_INSTRUCTIONS=" + executableInstructionsSeen);
+        p("LEGACY_RFDEBUG_PC_ADD_PC_INSTRUCTIONS=" + addPcInstructionsSeen);
+        p("LEGACY_RFDEBUG_PC_TARGETS_UNRESOLVED=" + unresolvedPcAdds);
+        p("LEGACY_RFDEBUG_PC_ANCHOR_MATCHES_TOTAL=" + anchorMatches);
+        p("LEGACY_RFDEBUG_PC_ANCHOR_MATCHES_PRINTED=" + printed);
+        p("LEGACY_RFDEBUG_PC_ANCHOR_FUNCTIONS=" + uniqueFunctions.size());
+        p("LEGACY_RFDEBUG_PC_NOTE=Only packet-start-calculated targets close to named anchors are counted; no match does not prove the handler is absent.");
+        p("============================================================");
     }
 
     private void scanRfTuneFieldStrings() {
@@ -7413,7 +7606,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private void scan614RawAsciiKeywordCensus() {
         p("");
         p("============================================================");
-        p("STRUCTURE-48 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS");
+        p("STRUCTURE-49 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS");
         p("Scans bytes directly; does not rely on Ghidra-defined string data.");
         p("Includes executable and non-executable initialized blocks in the default address space.");
         p("READ ONLY: no disassembly, references, data, symbols, or comments are created.");
@@ -7556,6 +7749,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("INTERPRETATION:");
             p("Property IDs 26 and 28 are checked against the confirmed qdsp6sw RFDEBUG property_names[] table.");
             p("A 0x007B immediate hit is only a candidate; inspect comparison/branch context before assigning dispatcher semantics.");
+            scanLegacyRfDebugPcRelativeAnchors();
             printStructure18ExecutionFooter();
         }
 
