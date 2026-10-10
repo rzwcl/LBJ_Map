@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-83-STRING-ROOTS-2";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-83-ALL-DATA-ROOTS-3";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -10323,6 +10323,154 @@ private static final boolean FOCUS_ONLY_614 = true;
      * tables. This tests whether the RFDEBUG name pointers have additional static
      * data roots or instruction/data references in the main DSP image.
      */
+    /*
+     * Widen the previous segment_20/segment_21-only root search to every
+     * initialized, non-executable default-address-space block in this image.
+     * A zero result is meaningful only after this broader scan also completes.
+     */
+    private void scanQdspAllDataBlocksForCriticalRoots() {
+        final long[] targets = {
+            0xC919987CL, // start of IQ field-name pointer array
+            0xC91998A4L, // FETCH_IQ pointer slot
+            0xC919990CL, // IQ_CAPTURE_TYPE pointer slot
+            0xC9199FB8L, // RFDEBUG property-name pointer array base
+            0xC919A020L, // TUNE_TX_TO_RX_FREQ pointer slot
+            0xC919A028L, // FREQUENCY pointer slot
+            0xC919A308L, // IQ_CAPTURE pointer slot
+            0xC9199668L, // nearby table object passed by existing code
+            0xC9199678L,
+            0xC9199680L,
+            0xC9199700L,
+            0xC9199738L,
+            0xC919AB00L,
+            0xC919AAD0L,
+            0xC919AC00L,
+            0xC919ACC0L,
+            0xC919B0C0L
+        };
+        final String[] labels = {
+            "IQ_FIELD_NAME_POOL_BASE",
+            "FETCH_IQ_POINTER_SLOT",
+            "IQ_CAPTURE_TYPE_POINTER_SLOT",
+            "RFDEBUG_PROPERTY_NAMES_BASE",
+            "TUNE_TX_TO_RX_FREQ_POINTER_SLOT",
+            "FREQUENCY_POINTER_SLOT",
+            "IQ_CAPTURE_POINTER_SLOT",
+            "TABLE_OBJECT_9668",
+            "TABLE_OBJECT_9678",
+            "TABLE_OBJECT_9680",
+            "TABLE_OBJECT_9700",
+            "TABLE_OBJECT_9738",
+            "TABLE_AB00",
+            "TABLE_AAD0",
+            "TABLE_AC00",
+            "TABLE_ACC0",
+            "TABLE_B0C0"
+        };
+        long[] hitsByTarget = new long[targets.length];
+        long totalWords = 0L;
+        int blocksScanned = 0;
+        final int CHUNK = 0x4000;
+        byte[] buffer = new byte[CHUNK];
+
+        println("");
+        println("============================================================");
+        println("QDSP_ALL_DATA_BLOCK_CRITICAL_ROOT_SCAN");
+        println("TRACE_BUILD=" + TRACE_BUILD);
+        println("PROGRAM=" + currentProgram.getName());
+        println("Scans all initialized non-executable default-address-space blocks, not only segment_20/segment_21.");
+        println("Looks for exact pointer copies of important property-string slots and neighboring table roots.");
+        println("============================================================");
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled()) break;
+            if (!b.isInitialized() || b.isExecute() || !isDefaultDynamicAddressBlock(b)) continue;
+
+            long start = (b.getStart().getOffset() + 3L) & ~3L;
+            long end = b.getEnd().getOffset();
+            if (start > end) continue;
+
+            blocksScanned++;
+            long wordsInBlock = 0L;
+            println("QDSP_ALL_DATA_ROOT_BLOCK name=" + b.getName()
+                + " start=" + b.getStart()
+                + " end=" + b.getEnd()
+                + " size=" + b.getSize());
+
+            long pos = start;
+            while (pos + 3L <= end && !monitor.isCancelled()) {
+                int want = (int)Math.min((long)CHUNK, end - pos + 1L);
+                int alignedWant = want & ~3;
+                if (alignedWant < 4) break;
+
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, alignedWant);
+                }
+                catch (Exception e) {
+                    println("QDSP_ALL_DATA_ROOT_READ_ERROR block=" + b.getName()
+                        + " address=" + hex(pos)
+                        + " error=" + e.getClass().getSimpleName());
+                    break;
+                }
+
+                for (int i = 0; i + 3 < alignedWant; i += 4) {
+                    long value = bufferU32(buffer, i);
+                    long slot = pos + i;
+                    totalWords++;
+                    wordsInBlock++;
+
+                    for (int t = 0; t < targets.length; t++) {
+                        if (value != targets[t]) continue;
+                        hitsByTarget[t]++;
+                        println("QDSP_ALL_DATA_ROOT_HIT name=" + labels[t]
+                            + " root_slot=" + hex(slot)
+                            + " source_block=" + b.getName()
+                            + " target=" + hex(value));
+
+                        int refCount = 0;
+                        StringBuilder refsShown = new StringBuilder();
+                        try {
+                            ReferenceIterator refs = currentProgram.getReferenceManager()
+                                .getReferencesTo(addr(slot));
+                            while (refs.hasNext()) {
+                                Reference ref = refs.next();
+                                refCount++;
+                                if (refCount <= 8) {
+                                    Address from = ref.getFromAddress();
+                                    Instruction ins = listing().getInstructionAt(from);
+                                    if (ins == null) ins = listing().getInstructionContaining(from);
+                                    if (refsShown.length() > 0) refsShown.append(";");
+                                    refsShown.append(from).append(":").append(ref.getReferenceType())
+                                        .append(":").append(ins == null ? "<no-instruction>" : ins.toString());
+                                }
+                            }
+                        }
+                        catch (Exception e) {
+                            refsShown.append("<xref-error:")
+                                .append(e.getClass().getSimpleName()).append(">");
+                        }
+                        println("QDSP_ALL_DATA_ROOT_HIT_XREF name=" + labels[t]
+                            + " root_slot=" + hex(slot)
+                            + " total=" + refCount
+                            + " shown=" + refsShown.toString());
+                    }
+                }
+                pos += (long)alignedWant;
+            }
+
+            println("QDSP_ALL_DATA_ROOT_BLOCK_WORDS_SCANNED block=" + b.getName()
+                + " words=" + wordsInBlock);
+        }
+
+        println("QDSP_ALL_DATA_ROOT_BLOCKS_SCANNED=" + blocksScanned);
+        println("QDSP_ALL_DATA_ROOT_WORDS_SCANNED=" + totalWords);
+        for (int t = 0; t < targets.length; t++) {
+            println("QDSP_ALL_DATA_ROOT_HIT_COUNT name=" + labels[t]
+                + " count=" + hitsByTarget[t]);
+        }
+        println("QDSP_ALL_DATA_BLOCK_CRITICAL_ROOT_SCAN_DONE");
+    }
+
     private void scanQdspCriticalStringPointerCopies() {
         final long[] targets = {
             0xC50847FFL, // TUNE_TX_TO_RX_FREQ
@@ -11342,6 +11490,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             scanQdspIqGpAudit();
             scanQdspIqTableHitFollowup();
             scanQdspCriticalStringPointerCopies();
+            scanQdspAllDataBlocksForCriticalRoots();
             dumpQdspIqImmediateOperandFinalTail();
             p("DONE");
             p("No program data or structures modified.");
