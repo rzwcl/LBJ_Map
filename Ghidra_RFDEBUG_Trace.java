@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-54
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-55
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-54";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-55";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -7346,6 +7346,130 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("    FOCUS_R0_BACKTRACE_LIMIT=10");
     }
 
+    /*
+     * STRUCTURE-55: resolve the actual indirect-call input words loaded by
+     * get_signals_info before calling the 0x25F70 wrapper. This is read-only.
+     */
+    private void scan614GetSignalsInfoCallbackSlots() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-55 get_signals_info R0 INPUT / EFFECTIVE SLOT TRACE");
+        p("Reconstructs R18 from the PC-relative add, then reads the six memw source slots.");
+        p("Static slot values do not by themselves prove runtime relocation state.");
+        p("READ ONLY.");
+        p("============================================================");
+
+        Instruction baseIns = listing().getInstructionAt(addr(0x000259BCL));
+        Long baseRaw = audit614RfcImmediate(baseIns);
+        Long baseValue = null;
+        if (baseIns != null && baseRaw != null) {
+            long signedImmediate = audit614RfcSigned32(baseRaw.longValue());
+            baseValue = hexagonPcRelativeTarget(baseIns, signedImmediate);
+        }
+        p("CALLBACK_BASE_INSTRUCTION=" + (baseIns == null ? "<missing>" : baseIns.toString()));
+        p("CALLBACK_BASE_RAW_IMMEDIATE=" + (baseRaw == null ? "<missing>" : hex(baseRaw.longValue())));
+        p("CALLBACK_BASE_COMPUTED=" + (baseValue == null ? "<unresolved>" : hex(baseValue.longValue())));
+        if (baseValue == null) {
+            p("CALLBACK_SLOT_TRACE_ABORTED=PC-relative base could not be reconstructed.");
+            return;
+        }
+
+        long[] accessAddresses = new long[] {
+            0x000259F4L, 0x00025A0CL, 0x00025A24L,
+            0x00025A3CL, 0x00025A54L, 0x00025A6CL
+        };
+        int accessCount = 0;
+        int mappedValues = 0;
+        int exactFunctionValues = 0;
+        int referencesShown = 0;
+
+        for (int i = 0; i < accessAddresses.length && !monitor.isCancelled()
+                && lines < MAX_LINES; i++) {
+            long accessAddress = accessAddresses[i];
+            Instruction access = listing().getInstructionAt(addr(accessAddress));
+            Long rawDisplacement = audit614RfcImmediate(access);
+            if (access == null || rawDisplacement == null) {
+                p("CALLBACK_SLOT_ACCESS_UNRESOLVED index=" + i
+                    + " access=" + hex(accessAddress)
+                    + " instruction=" + (access == null ? "<missing>" : access.toString())
+                    + " displacement=" + (rawDisplacement == null ? "<missing>" : hex(rawDisplacement.longValue())));
+                continue;
+            }
+
+            long displacement = audit614RfcSigned32(rawDisplacement.longValue());
+            long slot = (baseValue.longValue() + displacement) & 0xffffffffL;
+            long staticWord = -1L;
+            boolean wordReadable = false;
+            try {
+                if (initialized(slot, 4)) {
+                    staticWord = u32(slot);
+                    wordReadable = true;
+                }
+            } catch (Exception ignored) {}
+
+            MemoryBlock slotBlock = block(slot);
+            MemoryBlock valueBlock = wordReadable && staticWord != 0L ? block(staticWord) : null;
+            Function exactTarget = null;
+            Function containingTarget = null;
+            try {
+                if (wordReadable && staticWord != 0L) {
+                    exactTarget = currentProgram.getFunctionManager().getFunctionAt(addr(staticWord));
+                    containingTarget = exactTarget != null ? exactTarget
+                        : currentProgram.getFunctionManager().getFunctionContaining(addr(staticWord));
+                }
+            } catch (Exception ignored) {}
+
+            p("CALLBACK_SLOT #" + (i + 1)
+                + " load_ins=" + access.getAddress()
+                + " instruction=" + access
+                + " base=" + hex(baseValue.longValue())
+                + " displacement=" + displacement
+                + " effective_slot=" + hex(slot)
+                + " slot_block=" + (slotBlock == null ? "<none>" : slotBlock.getName())
+                + " readable=" + wordReadable
+                + " static_word=" + (wordReadable ? hex(staticWord) : "<unreadable>")
+                + " value_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                + " value_executable=" + (valueBlock != null && valueBlock.isExecute())
+                + " exact_target_function=" + (exactTarget == null ? "<none>" : exactTarget.getName() + "@" + exactTarget.getEntryPoint())
+                + " containing_target_function=" + (containingTarget == null ? "<none>" : containingTarget.getName() + "@" + containingTarget.getEntryPoint()));
+            accessCount++;
+            if (wordReadable && staticWord != 0L && valueBlock != null) mappedValues++;
+            if (exactTarget != null) exactFunctionValues++;
+
+            ReferenceIterator slotRefs = currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+            int slotRefCount = 0;
+            while (slotRefs.hasNext() && slotRefCount < 12
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = slotRefs.next();
+                slotRefCount++;
+                Address from = ref.getFromAddress();
+                Instruction fromIns = null;
+                Function owner = null;
+                try {
+                    fromIns = listing().getInstructionAt(from);
+                    if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                    owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                } catch (Exception ignored) {}
+                p("  CALLBACK_SLOT_REF slot=" + hex(slot)
+                    + " from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
+                referencesShown++;
+            }
+            p("  CALLBACK_SLOT_REFERENCE_COUNT slot=" + hex(slot)
+                + " count=" + slotRefCount
+                + " shown=" + Math.min(slotRefCount, 12));
+        }
+
+        p("CALLBACK_SLOT_ACCESSES_RESOLVED=" + accessCount);
+        p("CALLBACK_SLOT_VALUES_MAPPED=" + mappedValues);
+        p("CALLBACK_SLOT_EXACT_FUNCTION_VALUES=" + exactFunctionValues);
+        p("CALLBACK_SLOT_REFERENCES_SHOWN=" + referencesShown);
+        p("CALLBACK_SLOT_LIMIT=These six slots are the direct R0 sources before the six call 0x25F70 sites; next trace any initialization/writes to them.");
+    }
+
+
     private void scan614FocusedCallrProvenance() {
         p("");
         p("============================================================");
@@ -7373,7 +7497,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         java.util.Set<String> seenCallsites = new java.util.HashSet<String>();
         p("");
         p("FOCUS_INCOMING_CALLS_ONLY target=" + target);
-        p("Non-call/data references are counted but not expanded; each real call instruction is traced once.");
+        p("Normalizes call references whose source address is the next instruction/packet.");
         while (incoming.hasNext() && !monitor.isCancelled() && lines < MAX_LINES
                 && refsScanned < 160 && uniqueCallsitesPrinted < 12) {
             Reference ref = incoming.next();
@@ -7385,39 +7509,49 @@ private static final boolean FOCUS_ONLY_614 = true;
             callRefsSeen++;
             Address from = ref.getFromAddress();
             Function owner = null;
-            Instruction fromInstruction = null;
+            Instruction refInstruction = null;
+            Instruction callInstruction = null;
             try {
                 if (from.getAddressSpace().isMemorySpace()) {
                     owner = currentProgram.getFunctionManager().getFunctionContaining(from);
-                    fromInstruction = listing().getInstructionAt(from);
+                    refInstruction = listing().getInstructionAt(from);
+                    if (refInstruction == null) refInstruction = listing().getInstructionContaining(from);
+                    if (refInstruction != null) {
+                        String refMnemonic = refInstruction.getMnemonicString();
+                        if (refMnemonic != null && refMnemonic.toLowerCase().startsWith("call")) {
+                            callInstruction = refInstruction;
+                        } else {
+                            Instruction previous = listing().getInstructionBefore(refInstruction.getAddress());
+                            if (previous != null) {
+                                String previousMnemonic = previous.getMnemonicString();
+                                if (previousMnemonic != null && previousMnemonic.toLowerCase().startsWith("call")) {
+                                    callInstruction = previous;
+                                }
+                            }
+                        }
+                    }
                 }
             } catch (Exception ignored) {}
-            if (fromInstruction == null) {
-                p("  FOCUS_CALL_REF_NO_INSTRUCTION from=" + from
-                    + " type=" + ref.getReferenceType());
-                continue;
-            }
-            String mnemonic = fromInstruction.getMnemonicString();
-            if (mnemonic == null || !mnemonic.toLowerCase().startsWith("call")) {
-                p("  FOCUS_CALL_REF_NOT_CALL_INSTRUCTION from=" + from
-                    + " instruction_address=" + fromInstruction.getAddress()
+            if (callInstruction == null) {
+                p("  FOCUS_CALL_REF_UNRESOLVED from=" + from
                     + " type=" + ref.getReferenceType()
-                    + " instruction=" + fromInstruction);
+                    + " referenced_instruction=" + (refInstruction == null ? "<none>" : refInstruction.toString())
+                    + " previous_instruction_checked=true");
                 continue;
             }
-            String siteKey = fromInstruction.getAddress().toString();
+            String siteKey = callInstruction.getAddress().toString();
             if (!seenCallsites.add(siteKey)) {
                 duplicateCallsitesSkipped++;
                 continue;
             }
             p("  FOCUS_INCOMING_CALLSITE #" + (uniqueCallsitesPrinted + 1)
                 + " ref_from=" + from
-                + " instruction_address=" + fromInstruction.getAddress()
+                + " actual_callsite=" + callInstruction.getAddress()
                 + " type=" + ref.getReferenceType()
                 + " owner=" + (owner == null ? "<none>" : owner.getName() + "@" + owner.getEntryPoint())
-                + " instruction=" + fromInstruction);
+                + " instruction=" + callInstruction);
             uniqueCallsitesPrinted++;
-            print614FocusedIncomingCallContext(fromInstruction, owner);
+            print614FocusedIncomingCallContext(callInstruction, owner);
         }
         p("FOCUS_INCOMING_REF_RECORDS_SCANNED=" + refsScanned);
         p("FOCUS_NON_CALL_REFS_SKIPPED=" + nonCallRefsSkipped);
@@ -7757,6 +7891,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             p("Legacy qdsp6sw.mbn addresses are disabled for this program.");
             p("PRIORITY_PASS=run focused 0x25F70 wrapper/callsite trace before broad scans can consume MAX_LINES.");
             scan614FocusedCallrProvenance();
+            scan614GetSignalsInfoCallbackSlots();
             if (FOCUS_ONLY_614) {
                 p("");
                 p("FOCUS_ONLY_MODE=enabled; broad scans skipped to preserve the focused trace in the Ghidra console.");
