@@ -1,200 +1,4 @@
-instruction=call 0x00025a94 
-  COMMON_INCOMING_PRINTED=3
-
-COMMON_TARGET address=0x00025AE0 block=segment_2 executable=true name=get_ant_switch_path_info entry=0x00025AD0
-  COMMON_INS 00025ad0 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):t 0x00025aec 
-    COMMON_FLOW to=00025aec type=DATA target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025ad4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-    COMMON_FLOW to=00025aec type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-    COMMON_FLOW to=Stack[-0x10] type=WRITE target_function=<none> target_entry=<none>
-  COMMON_INS 00025ad8 immext #0x1800 
-  COMMON_INS 00025adc add R0,PC,##0x1828 
-    COMMON_FLOW to=00027300 type=PARAM target_function=<none> target_entry=<none>
-    COMMON_PC_TARGET=0x00027300 ascii={..
-  COMMON_INS 00025ae0 call 0x00024cf0 
-    COMMON_FLOW to=00024cf0 type=DATA target_function=msg_v2_send_dll target_entry=0x00024CF0
-  COMMON_INS 00025ae4 assign R16,#0x0 
-    COMMON_FLOW to=00024cf0 type=UNCONDITIONAL_CALL target_function=msg_v2_send_dll target_entry=0x00024CF0
-  COMMON_INS 00025ae8 jump 0x00025b9c 
-    COMMON_FLOW to=00025b9c type=UNCONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025aec cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0x00025afc 
-    COMMON_FLOW to=00025afc type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025af0 immext #0x1800 
-  COMMON_INS 00025af4 add R0,PC,##0x181c 
-    COMMON_PC_TARGET=0x0002730C ascii=...
-  COMMON_INS 00025af8 jump 0x00025ae0 
-    COMMON_FLOW to=00025ae0 type=UNCONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-    COMMON_FLOW to=0002730c type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025afc assign R16,#0x0 ; memw (R2),#0x0 
-  COMMON_INS 00025b00 memb R3,(R1+#0xc) 
-  COMMON_INS 00025b04 jump.if:t !cmp.eq(R3.new,#0x9),0x00025b9c 
-    COMMON_FLOW to=00025b9c type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b08 immext #0x1f3d00 
-  COMMON_INS 00025b0c add R4,PC,##0x1f3d3c 
-    COMMON_FLOW to=00219844 type=PARAM target_function=<none> target_entry=<none>
-    COMMON_PC_TARGET=0x00219844 ascii=>
-  COMMON_INS 00025b10 memw R3,(R4+#0x4) 
-    COMMON_FLOW to=00219848 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025b14 jump.if:nt cmp.eq(R3.new,#0x0),0x00025b20 
-    COMMON_FLOW to=00025b20 type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-    COMMON_FLOW to=002210d0 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025b18 memh R5,(R4) 
-    COMMON_FLOW to=00219844 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025b1c jump.if:t !cmp.eq(R5.new,#0x0),0x00025b28 
-    COMMON_FLOW to=00025b28 type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b20 call 0x00025a94 
-    COMMON_FLOW to=00025a94 type=UNCONDITIONAL_CALL target_function=FUN_00025a94 target_entry=0x00025A94
-  COMMON_INS 00025b24 jump 0x00025b9c 
-    COMMON_FLOW to=00025b9c type=UNCONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b28 memuh R4,(R1+#0x18) 
-  COMMON_INS 00025b2c memh R6,(R3) 
-    COMMON_FLOW to=002210d0 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025b30 sxth R4,R4 
-  COMMON_INS 00025b34 jump.if:t cmp.gtu(R6,R4.new),0x00025b9c 
-    COMMON_FLOW to=00025b9c type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b38 add R6,R5,#-0x1 
-  COMMON_INS 00025b3c zxth R5,R6 
-  COMMON_INS 00025b40 memh R5,(R3+R5<<#0x3) 
-    COMMON_FLOW to=002212b8 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025b44 jump.if:t cmp.gtu(R4,R5.new),0x00025b9c 
-    COMMON_FLOW to=00025b9c type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b48 assign R5,#0x0 
-  COMMON_INS 00025b4c zxth R7,R5 
-  COMMON_INS 00025b50 zxth R8,R6 
-  COMMON_INS 00025b54 jump.if:t !cmp.eq(R8.new,R7),0x00025b68 
-    COMMON_FLOW to=00025b68 type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b58 assign R16,#0x0 
-  COMMON_INS 00025b5c memh R6,(R3+R7<<#0x3) 
-    COMMON_FLOW to=002211c8 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025b60 jump.if:t cmp.eq(R6.new,R4),0x00025b7c 
-    COMMON_FLOW to=00025b7c type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b64 jump 0x00025b9c 
-    COMMON_FLOW to=00025b9c type=UNCONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b68 add R7,R8,R7 
-  COMMON_INS 00025b6c lsr R7,R7,#0x1 
-  COMMON_INS 00025b70 memh R8,(R3+R7<<#0x3) 
-    COMMON_FLOW to=002211c0 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025b74 jump.if:t !cmp.eq(R8.new,R4),0x00025ba4 
-    COMMON_FLOW to=00025ba4 type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INS 00025b78 assign R5,R7 
-  COMMON_INS 00025b7c assign R16,#0x0 ; zxth R4,R5 
-  COMMON_INS 00025b80 immext #0xde80 
-  COMMON_INS 00025b84 cmp.eq P0,R4,##0xdead 
-  COMMON_INS 00025b88 assign.if(!P0.new) R16,#0x1 
-  COMMON_INS 00025b8c jump.if(P0.new):t 0x00025b9c 
-    COMMON_FLOW to=00025b9c type=CONDITIONAL_JUMP target_function=get_ant_switch_path_info target_entry=0x00025AD0
-  COMMON_INSNS_PRINTED=48
-  COMMON_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=002547c0 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=00027258 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING_PRINTED=3
-
-COMMON_TARGET address=0x00025BD0 block=segment_2 executable=true name=get_logical_path_config entry=0x00025BD0
-  COMMON_INS 00025bd0 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):t 0x00025bec 
-    COMMON_FLOW to=00025bec type=DATA target_function=get_logical_path_config target_entry=0x00025BD0
-  COMMON_INS 00025bd4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-    COMMON_FLOW to=00025bec type=CONDITIONAL_JUMP target_function=get_logical_path_config target_entry=0x00025BD0
-    COMMON_FLOW to=Stack[-0x10] type=WRITE target_function=<none> target_entry=<none>
-  COMMON_INS 00025bd8 immext #0x1740 
-  COMMON_INS 00025bdc add R0,PC,##0x1740 
-    COMMON_PC_TARGET=0x00027318 ascii=...
-  COMMON_INS 00025be0 assign R1,#0x0 ; assign R16,#0x0 
-    COMMON_FLOW to=00027318 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025be4 call 0x00024bc0 
-    COMMON_FLOW to=00024bc0 type=UNCONDITIONAL_CALL target_function=msg_v2_send_1_dll target_entry=0x00024BC0
-  COMMON_INS 00025be8 jump 0x00025c0c 
-    COMMON_FLOW to=00025c0c type=UNCONDITIONAL_JUMP target_function=get_logical_path_config target_entry=0x00025BD0
-  COMMON_INS 00025bec immext #0x22eb00 
-  COMMON_INS 00025bf0 add R2,PC,##0x22eb1c 
-    COMMON_PC_TARGET=0x00254708 ascii=
-  COMMON_INS 00025bf4 combine R1R0,#0x14,R1 
-  COMMON_INS 00025bf8 assign R3,#0x14 
-  COMMON_INS 00025bfc call 0x00024d20 
-    COMMON_FLOW to=00024d20 type=DATA target_function=memscpy target_entry=0x00024D20
-  COMMON_INS 00025c00 assign R16,#0x1 
-  COMMON_INS 00025c04 immext #0xffffffc0 
-  COMMON_INS 00025c08 memw R2,(R2+##0xffffffc8) 
-    COMMON_FLOW to=00024d20 type=UNCONDITIONAL_CALL target_function=memscpy target_entry=0x00024D20
-    COMMON_FLOW to=002546d0 type=READ target_function=<none> target_entry=<none>
-    COMMON_FLOW to=00219830 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025c0c assign R0,R16 
-  COMMON_INS 00025c10 memd R17R16,(SP+#0x0) ; dealloc_return 
-  COMMON_INSNS_PRINTED=17
-  COMMON_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=002547b8 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=00027244 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING_PRINTED=3
-
-COMMON_TARGET address=0x00025C3C block=segment_2 executable=true name=get_rffe_speeds_info entry=0x00025C3C
-  COMMON_INS 00025c3c cmp.eq P0,R2,#0x0 ; jump.if(!P0.new):t 0x00025c54 
-    COMMON_FLOW to=00025c54 type=DATA target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025c40 allocframe #0x0 
-    COMMON_FLOW to=00025c54 type=CONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025c44 immext #0x16c0 
-  COMMON_INS 00025c48 add R0,PC,##0x16e0 
-    COMMON_PC_TARGET=0x00027324 ascii=...
-  COMMON_INS 00025c4c call 0x00024cf0 
-    COMMON_FLOW to=00024cf0 type=UNCONDITIONAL_CALL target_function=msg_v2_send_dll target_entry=0x00024CF0
-    COMMON_FLOW to=00027324 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025c50 jump 0x00025cf0 
-    COMMON_FLOW to=00025cf0 type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025c54 immext #0x22ea80 
-  COMMON_INS 00025c58 add R3,PC,##0x22eab4 
-    COMMON_PC_TARGET=0x00254708 ascii=
-  COMMON_INS 00025c5c immext #0xffffffc0 
-  COMMON_INS 00025c60 add R3,R3,##-0x2c 
-    COMMON_FLOW to=002546dc type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025c64 add R5,R1,#-0x21 
-  COMMON_INS 00025c68 memw R4,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025c6c jump.if:t !cmp.gtu(R5.new,#0x8),0x00025cf4 
-    COMMON_FLOW to=00025cf4 type=CONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-    COMMON_FLOW to=00220c60 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025c70 cmp.eq P0,R1,#0x1 ; jump.if(P0.new):nt 0x00025c84 
-    COMMON_FLOW to=00025c84 type=CONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025c74 add.if(P0.new) R3,R4,#0xe 
-  COMMON_INS 00025c78 cmp.eq P0,R1,#0x0 ; jump.if(!P0.new):nt 0x00025ce4 
-    COMMON_FLOW to=00025ce4 type=CONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-    COMMON_FLOW to=00220c6e type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025c7c assign R0,#0x1 ; memw (R2),R3 
-    COMMON_FLOW to=00220c7e type=DATA target_function=<none> target_entry=<none>
-    COMMON_FLOW to=00220c7c type=DATA target_function=<none> target_entry=<none>
-    COMMON_FLOW to=00220c7a type=DATA target_function=<none> target_entry=<none>
-    COMMON_FLOW to=00220c78 type=DATA target_function=<none> target_entry=<none>
-  COMMON_INS 00025c80 dealloc_return 
-  COMMON_INS 00025c84 memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025c88 add R3,R3,#0x10 
-  COMMON_INS 00025c8c jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025c90 memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025c94 add R3,R3,#0x12 
-  COMMON_INS 00025c98 jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025c9c memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025ca0 add R3,R3,#0x14 
-  COMMON_INS 00025ca4 jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025ca8 memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025cac add R3,R3,#0x16 
-  COMMON_INS 00025cb0 jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025cb4 memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025cb8 add R3,R3,#0x18 
-  COMMON_INS 00025cbc jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025cc0 memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025cc4 add R3,R3,#0x1a 
-  COMMON_INS 00025cc8 jump 0x00025c7c 
-    COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
-  COMMON_INS 00025ccc memw R3,(R3) 
-    COMMON_FLOW to=002546dc type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025cd0 add R3,R3,#0x1c 
+025cd0 add R3,R3,#0x1c 
   COMMON_INS 00025cd4 jump 0x00025c7c 
     COMMON_FLOW to=00025c7c type=UNCONDITIONAL_JUMP target_function=get_rffe_speeds_info target_entry=0x00025C3C
   COMMON_INS 00025cd8 memw R3,(R3) 
@@ -473,118 +277,294 @@ COMMON_TARGET address=0x00025F40 block=segment_2 executable=true name=dm_registe
   CALLBACK_WORDS_PRINTED=42
 
 ============================================================
-614_PRIORITY_RFC_CONSTRUCTOR_EVIDENCE_TAIL
-The shared 0x24D60 constructor and technology-specific constructor entries are repeated here so this evidence survives a front-clipped console capture.
+614_PRIORITY_RFC_TEARDOWN_EVIDENCE_TAIL
+The 0x24D60 operator.delete thunk and technology-specific teardown entries are repeated here so this evidence survives a front-clipped console capture.
 READ ONLY - no RF/FTM commands are generated or transmitted.
 ============================================================
 
-RFC_CTOR_TARGET address=0x00024D60 block=segment_2 executable=true function=operator.delete function_entry=0x00024D60
-  RFC_CTOR_INS 00024d60 immext #0x22fa00 
-  RFC_CTOR_INS 00024d64 add R14,PC,##0x22fa20 
-  RFC_CTOR_INS 00024d68 memw R28,(R14) 
-  RFC_CTOR_INS 00024d6c jumpr R28 
-    RFC_CTOR_EDGE to=00255058 type=COMPUTED_CALL target_function=operator.delete target_entry=0x00255058
-  RFC_CTOR_INSNS_PRINTED=4
-  RFC_CTOR_INCOMING from=000257a0 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_lte_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING from=000257b8 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING from=000257d0 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING from=000257e8 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING from=00025800 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING from=00025818 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING from=00025830 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING from=00025f6c type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag instruction=jump 0x00024d60 
-  RFC_CTOR_INCOMING_PRINTED=8
+RFC_TEARDOWN_TARGET address=0x00024D60 block=segment_2 executable=true function=operator.delete function_entry=0x00024D60
+  RFC_TEARDOWN_INS 00024d60 immext #0x22fa00 
+  RFC_TEARDOWN_INS 00024d64 add R14,PC,##0x22fa20 
+  RFC_TEARDOWN_INS 00024d68 memw R28,(R14) 
+  RFC_TEARDOWN_INS 00024d6c jumpr R28 
+    RFC_TEARDOWN_EDGE to=00255058 type=COMPUTED_CALL target_function=operator.delete target_entry=0x00255058
+  RFC_TEARDOWN_INSNS_PRINTED=4
+  RFC_TEARDOWN_INCOMING from=000257a0 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_lte_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING from=000257b8 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING from=000257d0 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING from=000257e8 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING from=00025800 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING from=00025818 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING from=00025830 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING from=00025f6c type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag instruction=jump 0x00024d60 
+  RFC_TEARDOWN_INCOMING_PRINTED=8
 
-RFC_CTOR_TARGET address=0x000257A4 block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag function_entry=0x000257A4
-  RFC_CTOR_INS 000257a4 call 0x00024f60 
-    RFC_CTOR_EDGE to=00024f60 type=DATA target_function=~rfc_nr5g_data target_entry=0x00024F60
-  RFC_CTOR_INS 000257a8 assign R16,R0 
-  RFC_CTOR_INS 000257ac memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RFC_CTOR_INS 000257b0 assign R0,R16 
-  RFC_CTOR_INS 000257b4 memd R17R16,(SP+#0x0) ; deallocframe 
-  RFC_CTOR_INS 000257b8 jump 0x00024d60 
-    RFC_CTOR_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
-  RFC_CTOR_INSNS_PRINTED=6
-  RFC_CTOR_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=00254838 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=000270e4 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING_PRINTED=3
+RFC_TEARDOWN_TARGET address=0x000257A4 block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag function_entry=0x000257A4
+  RFC_TEARDOWN_INS 000257a4 call 0x00024f60 
+    RFC_TEARDOWN_EDGE to=00024f60 type=DATA target_function=~rfc_nr5g_data target_entry=0x00024F60
+  RFC_TEARDOWN_INS 000257a8 assign R16,R0 
+  RFC_TEARDOWN_INS 000257ac memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  RFC_TEARDOWN_INS 000257b0 assign R0,R16 
+  RFC_TEARDOWN_INS 000257b4 memd R17R16,(SP+#0x0) ; deallocframe 
+  RFC_TEARDOWN_INS 000257b8 jump 0x00024d60 
+    RFC_TEARDOWN_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
+  RFC_TEARDOWN_INSNS_PRINTED=6
+  RFC_TEARDOWN_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=00254838 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=000270e4 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING_PRINTED=3
 
-RFC_CTOR_TARGET address=0x000257BC block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag function_entry=0x000257BC
-  RFC_CTOR_INS 000257bc call 0x00024fb0 
-    RFC_CTOR_EDGE to=00024fb0 type=DATA target_function=~rfc_wcdma_data target_entry=0x00024FB0
-  RFC_CTOR_INS 000257c0 assign R16,R0 
-  RFC_CTOR_INS 000257c4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RFC_CTOR_INS 000257c8 assign R0,R16 
-  RFC_CTOR_INS 000257cc memd R17R16,(SP+#0x0) ; deallocframe 
-  RFC_CTOR_INS 000257d0 jump 0x00024d60 
-    RFC_CTOR_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
-  RFC_CTOR_INSNS_PRINTED=6
-  RFC_CTOR_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=00254844 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=00027108 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING_PRINTED=3
+RFC_TEARDOWN_TARGET address=0x000257BC block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag function_entry=0x000257BC
+  RFC_TEARDOWN_INS 000257bc call 0x00024fb0 
+    RFC_TEARDOWN_EDGE to=00024fb0 type=DATA target_function=~rfc_wcdma_data target_entry=0x00024FB0
+  RFC_TEARDOWN_INS 000257c0 assign R16,R0 
+  RFC_TEARDOWN_INS 000257c4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  RFC_TEARDOWN_INS 000257c8 assign R0,R16 
+  RFC_TEARDOWN_INS 000257cc memd R17R16,(SP+#0x0) ; deallocframe 
+  RFC_TEARDOWN_INS 000257d0 jump 0x00024d60 
+    RFC_TEARDOWN_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
+  RFC_TEARDOWN_INSNS_PRINTED=6
+  RFC_TEARDOWN_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=00254844 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=00027108 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING_PRINTED=3
 
-RFC_CTOR_TARGET address=0x000257D4 block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag function_entry=0x000257D4
-  RFC_CTOR_INS 000257d4 call 0x00024fc0 
-    RFC_CTOR_EDGE to=00024fc0 type=DATA target_function=~rfc_cdma_data target_entry=0x00024FC0
-  RFC_CTOR_INS 000257d8 assign R16,R0 
-  RFC_CTOR_INS 000257dc memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RFC_CTOR_INS 000257e0 assign R0,R16 
-  RFC_CTOR_INS 000257e4 memd R17R16,(SP+#0x0) ; deallocframe 
-  RFC_CTOR_INS 000257e8 jump 0x00024d60 
-    RFC_CTOR_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
-  RFC_CTOR_INSNS_PRINTED=6
-  RFC_CTOR_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=0025484c type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=00027130 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING_PRINTED=3
+RFC_TEARDOWN_TARGET address=0x000257D4 block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag function_entry=0x000257D4
+  RFC_TEARDOWN_INS 000257d4 call 0x00024fc0 
+    RFC_TEARDOWN_EDGE to=00024fc0 type=DATA target_function=~rfc_cdma_data target_entry=0x00024FC0
+  RFC_TEARDOWN_INS 000257d8 assign R16,R0 
+  RFC_TEARDOWN_INS 000257dc memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  RFC_TEARDOWN_INS 000257e0 assign R0,R16 
+  RFC_TEARDOWN_INS 000257e4 memd R17R16,(SP+#0x0) ; deallocframe 
+  RFC_TEARDOWN_INS 000257e8 jump 0x00024d60 
+    RFC_TEARDOWN_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
+  RFC_TEARDOWN_INSNS_PRINTED=6
+  RFC_TEARDOWN_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=0025484c type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=00027130 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING_PRINTED=3
 
-RFC_CTOR_TARGET address=0x000257EC block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag function_entry=0x000257EC
-  RFC_CTOR_INS 000257ec call 0x00024fd0 
-    RFC_CTOR_EDGE to=00024fd0 type=DATA target_function=~rfc_gsm_data target_entry=0x00024FD0
-  RFC_CTOR_INS 000257f0 assign R16,R0 
-  RFC_CTOR_INS 000257f4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RFC_CTOR_INS 000257f8 assign R0,R16 
-  RFC_CTOR_INS 000257fc memd R17R16,(SP+#0x0) ; deallocframe 
-  RFC_CTOR_INS 00025800 jump 0x00024d60 
-    RFC_CTOR_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
-  RFC_CTOR_INSNS_PRINTED=6
-  RFC_CTOR_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=00254854 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=00027154 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING_PRINTED=3
+RFC_TEARDOWN_TARGET address=0x000257EC block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag function_entry=0x000257EC
+  RFC_TEARDOWN_INS 000257ec call 0x00024fd0 
+    RFC_TEARDOWN_EDGE to=00024fd0 type=DATA target_function=~rfc_gsm_data target_entry=0x00024FD0
+  RFC_TEARDOWN_INS 000257f0 assign R16,R0 
+  RFC_TEARDOWN_INS 000257f4 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  RFC_TEARDOWN_INS 000257f8 assign R0,R16 
+  RFC_TEARDOWN_INS 000257fc memd R17R16,(SP+#0x0) ; deallocframe 
+  RFC_TEARDOWN_INS 00025800 jump 0x00024d60 
+    RFC_TEARDOWN_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
+  RFC_TEARDOWN_INSNS_PRINTED=6
+  RFC_TEARDOWN_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=00254854 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=00027154 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING_PRINTED=3
 
-RFC_CTOR_TARGET address=0x00025804 block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag function_entry=0x00025804
-  RFC_CTOR_INS 00025804 call 0x00024fe0 
-    RFC_CTOR_EDGE to=00024fe0 type=DATA target_function=~rfc_tdscdma_data target_entry=0x00024FE0
-  RFC_CTOR_INS 00025808 assign R16,R0 
-  RFC_CTOR_INS 0002580c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RFC_CTOR_INS 00025810 assign R0,R16 
-  RFC_CTOR_INS 00025814 memd R17R16,(SP+#0x0) ; deallocframe 
-  RFC_CTOR_INS 00025818 jump 0x00024d60 
-    RFC_CTOR_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
-  RFC_CTOR_INSNS_PRINTED=6
-  RFC_CTOR_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=00254864 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=0002717c type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING_PRINTED=3
+RFC_TEARDOWN_TARGET address=0x00025804 block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag function_entry=0x00025804
+  RFC_TEARDOWN_INS 00025804 call 0x00024fe0 
+    RFC_TEARDOWN_EDGE to=00024fe0 type=DATA target_function=~rfc_tdscdma_data target_entry=0x00024FE0
+  RFC_TEARDOWN_INS 00025808 assign R16,R0 
+  RFC_TEARDOWN_INS 0002580c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  RFC_TEARDOWN_INS 00025810 assign R0,R16 
+  RFC_TEARDOWN_INS 00025814 memd R17R16,(SP+#0x0) ; deallocframe 
+  RFC_TEARDOWN_INS 00025818 jump 0x00024d60 
+    RFC_TEARDOWN_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
+  RFC_TEARDOWN_INSNS_PRINTED=6
+  RFC_TEARDOWN_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=00254864 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=0002717c type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING_PRINTED=3
 
-RFC_CTOR_TARGET address=0x0002581C block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag function_entry=0x0002581C
-  RFC_CTOR_INS 0002581c call 0x00024ff0 
-    RFC_CTOR_EDGE to=00024ff0 type=DATA target_function=~rfc_gnss_data target_entry=0x00024FF0
-  RFC_CTOR_INS 00025820 assign R16,R0 
-  RFC_CTOR_INS 00025824 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
-  RFC_CTOR_INS 00025828 assign R0,R16 
-  RFC_CTOR_INS 0002582c memd R17R16,(SP+#0x0) ; deallocframe 
-  RFC_CTOR_INS 00025830 jump 0x00024d60 
-    RFC_CTOR_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
-  RFC_CTOR_INSNS_PRINTED=6
-  RFC_CTOR_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=000271a4 type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING from=0025486c type=DATA owner=<none> instruction=<no-instruction>
-  RFC_CTOR_INCOMING_PRINTED=3
+RFC_TEARDOWN_TARGET address=0x0002581C block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag function_entry=0x0002581C
+  RFC_TEARDOWN_INS 0002581c call 0x00024ff0 
+    RFC_TEARDOWN_EDGE to=00024ff0 type=DATA target_function=~rfc_gnss_data target_entry=0x00024FF0
+  RFC_TEARDOWN_INS 00025820 assign R16,R0 
+  RFC_TEARDOWN_INS 00025824 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  RFC_TEARDOWN_INS 00025828 assign R0,R16 
+  RFC_TEARDOWN_INS 0002582c memd R17R16,(SP+#0x0) ; deallocframe 
+  RFC_TEARDOWN_INS 00025830 jump 0x00024d60 
+    RFC_TEARDOWN_EDGE to=00024d60 type=UNCONDITIONAL_CALL target_function=operator.delete target_entry=0x00024D60
+  RFC_TEARDOWN_INSNS_PRINTED=6
+  RFC_TEARDOWN_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=000271a4 type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING from=0025486c type=DATA owner=<none> instruction=<no-instruction>
+  RFC_TEARDOWN_INCOMING_PRINTED=3
 614_PRIORITY_RFC_CONSTRUCTOR_EVIDENCE_TAIL_DONE
+
+============================================================
+614_PRIORITY_ACTUAL_RF_PATH_TAIL
+Trace 0x25F70 / 0x24C00 indirect dispatch and classify the 0x24D60 -> 0x255058 thunk without assuming tuning semantics.
+READ ONLY - static listing and references only; no calls are executed.
+============================================================
+
+ACTUAL_RF_TARGET address=0x00025F70 block=segment_2 executable=true function=FUN_00025f70 function_entry=0x00025F70
+  ACTUAL_RF_INS 00025f70 call 0x00024c00 
+    ACTUAL_RF_EDGE type=DATA target=00024c00 target_function=__save_r16_through_r19 target_entry=0x00024C00
+  ACTUAL_RF_INS 00025f74 allocframe #0x10 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024c00 target_function=__save_r16_through_r19 target_entry=0x00024C00
+  ACTUAL_RF_INS 00025f78 combine R17R16,R2,R3 
+  ACTUAL_RF_INS 00025f7c callr R0 
+    ACTUAL_RF_INDIRECT_TRANSFER address=00025f7c instruction=callr R0  note=register target requires local data-flow validation
+      ACTUAL_RF_PREVIOUS 00025f70 call 0x00024c00 
+      ACTUAL_RF_PREVIOUS 00025f74 allocframe #0x10 
+      ACTUAL_RF_PREVIOUS 00025f78 combine R17R16,R2,R3 
+  ACTUAL_RF_INS 00025f80 assign R18,R1 
+  ACTUAL_RF_INS 00025f84 assign.if(P0.new) R0,R17 
+  ACTUAL_RF_INS 00025f88 cmp.eq P0,R0,R18 ; jump.if(!P0.new):t 0x00025f94 
+    ACTUAL_RF_EDGE type=CONDITIONAL_JUMP target=00025f94 target_function=FUN_00025f70 target_entry=0x00025F70
+  ACTUAL_RF_INS 00025f8c call 0x00024cf0 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024cf0 target_function=msg_v2_send_dll target_entry=0x00024CF0
+  ACTUAL_RF_INS 00025f90 memb (R16),#0x0 
+  ACTUAL_RF_INS 00025f94 jump 0x00024c30 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024c30 target_function=__restore_r16_through_r19_and_deallocframe target_entry=0x00024C30
+  ACTUAL_RF_INSNS_PRINTED=10
+  ACTUAL_RF_INCOMING from=000259f8 type=DATA owner=get_signals_info instruction=call 0x00025f70 
+  ACTUAL_RF_INCOMING from=000259fc type=UNCONDITIONAL_CALL owner=get_signals_info instruction=assign R1,#0x0 ; assign R3,R16 
+  ACTUAL_RF_INCOMING from=00025a10 type=DATA owner=get_signals_info instruction=call 0x00025f70 
+  ACTUAL_RF_INCOMING from=00025a14 type=UNCONDITIONAL_CALL owner=get_signals_info instruction=assign R1,#0x0 ; assign R3,R16 
+  ACTUAL_RF_INCOMING from=00025a28 type=DATA owner=get_signals_info instruction=call 0x00025f70 
+  ACTUAL_RF_INCOMING from=00025a2c type=UNCONDITIONAL_CALL owner=get_signals_info instruction=assign R1,#0x0 ; assign R3,R16 
+  ACTUAL_RF_INCOMING from=00025a40 type=DATA owner=get_signals_info instruction=call 0x00025f70 
+  ACTUAL_RF_INCOMING from=00025a44 type=UNCONDITIONAL_CALL owner=get_signals_info instruction=assign R1,#0x0 ; assign R3,R16 
+  ACTUAL_RF_INCOMING from=00025a58 type=DATA owner=get_signals_info instruction=call 0x00025f70 
+  ACTUAL_RF_INCOMING from=00025a5c type=UNCONDITIONAL_CALL owner=get_signals_info instruction=assign R1,#0x0 ; assign R3,R16 
+  ACTUAL_RF_INCOMING_PRINTED=10
+
+ACTUAL_RF_TARGET address=0x00024C00 block=segment_2 executable=true function=__save_r16_through_r19 function_entry=0x00024C00
+  ACTUAL_RF_INS 00024c00 immext #0x22fb00 
+  ACTUAL_RF_INS 00024c04 add R14,PC,##0x22fb28 
+    ACTUAL_RF_PC_TARGET=0x00254728 block=segment_3 word0=0x0025511C pointed_function=<none>
+  ACTUAL_RF_INS 00024c08 memw R28,(R14) 
+    ACTUAL_RF_EDGE type=READ target=00254728 target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 00024c0c jumpr R28 
+    ACTUAL_RF_EDGE type=COMPUTED_CALL target=0025511c target_function=__save_r16_through_r19 target_entry=0x0025511C
+  ACTUAL_RF_INSNS_PRINTED=4
+  ACTUAL_RF_INCOMING from=000252a8 type=DATA owner=FUN_000252a8 instruction=call 0x00024c00 
+  ACTUAL_RF_INCOMING from=000252ac type=UNCONDITIONAL_CALL owner=FUN_000252a8 instruction=cmp.eq P0,R2,#0x0 ; allocframe #0x20 
+  ACTUAL_RF_INCOMING from=000259a4 type=DATA owner=get_signals_info instruction=call 0x00024c00 
+  ACTUAL_RF_INCOMING from=000259a8 type=UNCONDITIONAL_CALL owner=get_signals_info instruction=cmp.eq P0,R1,#0x0 ; allocframe #0x10 
+  ACTUAL_RF_INCOMING from=00025f70 type=DATA owner=FUN_00025f70 instruction=call 0x00024c00 
+  ACTUAL_RF_INCOMING from=00025f74 type=UNCONDITIONAL_CALL owner=FUN_00025f70 instruction=allocframe #0x10 
+  ACTUAL_RF_INCOMING_PRINTED=6
+
+ACTUAL_RF_TARGET address=0x00255058 block=EXTERNAL executable=false function=operator.delete function_entry=0x00255058
+  ACTUAL_RF_INSNS_PRINTED=0
+  ACTUAL_RF_INCOMING from=00254780 type=DATA owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING from=00024d6c type=COMPUTED_CALL owner=operator.delete instruction=jumpr R28 
+  ACTUAL_RF_INCOMING_PRINTED=2
+
+ACTUAL_RF_TARGET address=0x00025F58 block=segment_2 executable=true function=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag function_entry=0x00025F58
+  ACTUAL_RF_INS 00025f58 call 0x00024d50 
+    ACTUAL_RF_EDGE type=DATA target=00024d50 target_function=~rfc_common_data target_entry=0x00024D50
+  ACTUAL_RF_INS 00025f5c assign R16,R0 
+  ACTUAL_RF_INS 00025f60 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024d50 target_function=~rfc_common_data target_entry=0x00024D50
+    ACTUAL_RF_EDGE type=WRITE target=Stack[-0x10] target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 00025f64 assign R0,R16 
+  ACTUAL_RF_INS 00025f68 memd R17R16,(SP+#0x0) ; deallocframe 
+    ACTUAL_RF_EDGE type=READ target=Stack[-0x10] target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 00025f6c jump 0x00024d60 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024d60 target_function=operator.delete target_entry=0x00024D60
+  ACTUAL_RF_INSNS_PRINTED=6
+  ACTUAL_RF_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING from=00254794 type=DATA owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING from=0002721c type=DATA owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING_PRINTED=3
+
+ACTUAL_RF_TARGET address=0x000259A4 block=segment_2 executable=true function=get_signals_info function_entry=0x000259A4
+  ACTUAL_RF_INS 000259a4 call 0x00024c00 
+    ACTUAL_RF_EDGE type=DATA target=00024c00 target_function=__save_r16_through_r19 target_entry=0x00024C00
+  ACTUAL_RF_INS 000259a8 cmp.eq P0,R1,#0x0 ; allocframe #0x10 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024c00 target_function=__save_r16_through_r19 target_entry=0x00024C00
+  ACTUAL_RF_INS 000259ac assign.if(!P0) R17,R1 
+  ACTUAL_RF_INS 000259b0 add.if(!P0) R16,R1,#0x4 
+  ACTUAL_RF_INS 000259b4 jump.if(P0) 0x00025a80 
+    ACTUAL_RF_EDGE type=CONDITIONAL_JUMP target=00025a80 target_function=get_signals_info target_entry=0x000259A4
+  ACTUAL_RF_INS 000259b8 immext #0x22ed40 
+  ACTUAL_RF_INS 000259bc add R18,PC,##0x22ed50 
+    ACTUAL_RF_PC_TARGET=0x00254708 block=segment_3 word0=0x00000000 pointed_function=<none>
+  ACTUAL_RF_INS 000259c0 immext #0xffffff80 
+  ACTUAL_RF_INS 000259c4 memw R2,(R18+##0xffffffa0) 
+    ACTUAL_RF_EDGE type=READ target=002546a8 target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 000259c8 memw (R1+#0x8),R2.new 
+    ACTUAL_RF_EDGE type=DATA target=00219550 target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 000259cc call 0x00024d10 
+    ACTUAL_RF_EDGE type=DATA target=00024d10 target_function=get_instance target_entry=0x00024D10
+  ACTUAL_RF_INS 000259d0 memb (R1+#0x4),#0x8 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024d10 target_function=get_instance target_entry=0x00024D10
+  ACTUAL_RF_INS 000259d4 cmp.eq P0,R0,#0x0 ; jump.if(!P0.new):t 0x000259e8 
+    ACTUAL_RF_EDGE type=CONDITIONAL_JUMP target=000259e8 target_function=get_signals_info target_entry=0x000259A4
+  ACTUAL_RF_INS 000259d8 immext #0x18c0 
+  ACTUAL_RF_INS 000259dc add R0,PC,##0x18d4 
+    ACTUAL_RF_PC_TARGET=0x000272AC block=segment_3 word0=0x000E06BE pointed_function=<none>
+  ACTUAL_RF_INS 000259e0 call 0x00024cf0 
+    ACTUAL_RF_EDGE type=UNCONDITIONAL_CALL target=00024cf0 target_function=msg_v2_send_dll target_entry=0x00024CF0
+    ACTUAL_RF_EDGE type=PARAM target=000272ac target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 000259e4 memb (R17+#0x4),#0x0 
+  ACTUAL_RF_INS 000259e8 immext #0x18c0 
+  ACTUAL_RF_INS 000259ec add R2,PC,##0x18d0 
+    ACTUAL_RF_PC_TARGET=0x000272B8 block=segment_3 word0=0x000E06C9 pointed_function=<none>
+  ACTUAL_RF_INS 000259f0 immext #0xffffff80 
+  ACTUAL_RF_INSNS_PRINTED=20
+  ACTUAL_RF_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING from=00254798 type=DATA owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING from=00027220 type=DATA owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING_PRINTED=3
+
+ACTUAL_RF_TARGET address=0x00025F20 block=segment_2 executable=true function=get_fbrx_path_table_cfg function_entry=0x00025F20
+  ACTUAL_RF_INS 00025f20 immext #0x22e7c0 
+  ACTUAL_RF_INS 00025f24 add R2,PC,##0x22e7e8 
+    ACTUAL_RF_PC_TARGET=0x00254708 block=segment_3 word0=0x00000000 pointed_function=<none>
+  ACTUAL_RF_INS 00025f28 jumpr LR 
+  ACTUAL_RF_INSNS_PRINTED=3
+  ACTUAL_RF_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING from=002547e4 type=DATA owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING from=00027278 type=DATA owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING_PRINTED=3
+
+ACTUAL_RF_TARGET address=0x00025F40 block=segment_2 executable=true function=dm_register_so function_entry=0x00025F40
+  ACTUAL_RF_INS 00025f40 immext #0x22e7c0 
+  ACTUAL_RF_INS 00025f44 add R2,PC,##0x22e7c8 
+    ACTUAL_RF_PC_TARGET=0x00254708 block=segment_3 word0=0x00000000 pointed_function=<none>
+  ACTUAL_RF_INS 00025f48 assign R0,#0x0 
+    ACTUAL_RF_EDGE type=PARAM target=00254708 target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 00025f4c jump 0x00024d40 
+    ACTUAL_RF_EDGE type=DATA target=00024d40 target_function=dmm_register_dm target_entry=0x00024D40
+  ACTUAL_RF_INSNS_PRINTED=4
+  ACTUAL_RF_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<none>
+  ACTUAL_RF_INCOMING_PRINTED=1
+
+ACTUAL_RF_TARGET address=0x00024D60 block=segment_2 executable=true function=operator.delete function_entry=0x00024D60
+  ACTUAL_RF_INS 00024d60 immext #0x22fa00 
+  ACTUAL_RF_INS 00024d64 add R14,PC,##0x22fa20 
+    ACTUAL_RF_PC_TARGET=0x00254780 block=segment_3 word0=0x00255058 pointed_function=<none>
+  ACTUAL_RF_INS 00024d68 memw R28,(R14) 
+    ACTUAL_RF_EDGE type=READ target=00254780 target_function=<none> target_entry=<none>
+  ACTUAL_RF_INS 00024d6c jumpr R28 
+    ACTUAL_RF_EDGE type=COMPUTED_CALL target=00255058 target_function=operator.delete target_entry=0x00255058
+  ACTUAL_RF_INSNS_PRINTED=4
+  ACTUAL_RF_INCOMING from=000257a0 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_lte_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING from=000257b8 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_nr5g_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING from=000257d0 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_wcdma_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING from=000257e8 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_cdma_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING from=00025800 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_gsm_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING from=00025818 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING from=00025830 type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_gnss_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING from=00025f6c type=UNCONDITIONAL_CALL owner=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag instruction=jump 0x00024d60 
+  ACTUAL_RF_INCOMING_PRINTED=8
+614_PRIORITY_ACTUAL_RF_PATH_TAIL_DONE
+
+============================================================
+614_PRIORITY_IQ_CAPTURE_PATH_STRINGS
+Goal: find existing raw-IQ/sample capture, buffer, and export clues; no demodulator work.
+READ ONLY - no runtime calls, DIAG requests, RF commands, or firmware writes.
+============================================================
+
+IQ_STRING_BLOCKS_SCANNED=6
+IQ_STRING_BYTES_SCANNED=2376715
+IQ_STRING_HITS=0
+IQ_STRING_RESULT_LIMIT=48
+IQ_STRING_NOTE=No hits means only that these ASCII clues were not found; examine code/data flow if the firmware exposes samples without strings.
+614_PRIORITY_IQ_CAPTURE_KEYWORD_TAIL_DONE
 614_COMMON_RFC_DISPATCH_DONE
 
 614_NEXT_TRACE_DONE
