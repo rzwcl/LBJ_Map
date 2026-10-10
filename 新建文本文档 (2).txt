@@ -1,42 +1,9 @@
-n=blank_grfc_sig_info_table_get containing_function=blank_grfc_sig_info_table_get
-  614_FOLLOWUP_DATA_WORD slot=0x00027230 value=0x00025ABC value_block=segment_2 value_executable=true exact_function=get_logical_device_cfg containing_function=get_logical_device_cfg
-  614_FOLLOWUP_DATA_WORD slot=0x00027234 value=0x00025AA8 value_block=segment_2 value_executable=true exact_function=get_phy_device_cfg containing_function=get_phy_device_cfg
-  614_FOLLOWUP_DATA_WORD slot=0x00027238 value=0x00025C28 value_block=segment_2 value_executable=true exact_function=get_sig_path_info_config containing_function=get_sig_path_info_config
-  614_FOLLOWUP_DATA_WORD slot=0x0002723C value=0x00025C14 value_block=segment_2 value_executable=true exact_function=get_ant_path_info_config containing_function=get_ant_path_info_config
-  614_FOLLOWUP_DATA_WORD slot=0x00027240 value=0x00255024 value_block=EXTERNAL value_executable=false exact_function=get_rfcard_data containing_function=get_rfcard_data
-  614_FOLLOWUP_DATA_WORD slot=0x00027244 value=0x00025BD0 value_block=segment_2 value_executable=true exact_function=get_logical_path_config containing_function=get_logical_path_config
-  614_FOLLOWUP_DATA_WORD slot=0x00027248 value=0x00025D08 value_block=segment_2 value_executable=true exact_function=get_cmn_properties containing_function=get_cmn_properties
-  614_FOLLOWUP_DATA_WORD slot=0x0002724C value=0x00255000 value_block=EXTERNAL value_executable=false exact_function=get_alt_path_selection_tbl containing_function=get_alt_path_selection_tbl
-  614_FOLLOWUP_DATA_WORD slot=0x00027250 value=0x0025500C value_block=EXTERNAL value_executable=false exact_function=get_irat_alt_path_selection_tbl containing_function=get_irat_alt_path_selection_tbl
-  614_FOLLOWUP_DATA_WORD slot=0x00027254 value=0x002550F0 value_block=EXTERNAL value_executable=false exact_function=get_asd_device_info containing_function=get_asd_device_info
-  614_FOLLOWUP_DATA_WORD slot=0x00027258 value=0x00025AD0 value_block=segment_2 value_executable=true exact_function=get_ant_switch_path_info containing_function=get_ant_switch_path_info
-  614_FOLLOWUP_DATA_WORD slot=0x0002725C value=0x002550B0 value_block=EXTERNAL value_executable=false exact_function=unique_path_table_get containing_function=unique_path_table_get
-614_FOLLOWUP_DATA_WINDOW_WORDS_PRINTED label=get_signals_info_data_reference_neighborhood count=32
-
-614_FOLLOWUP_DATA_WINDOW label=signal_descriptor_table_neighborhood center=0x000272C0 block=segment_3 initialized=true
-  614_FOLLOWUP_DATA_WORD slot=0x000272A0 value=0x000E06B2 value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none> ascii=4
-    614_FOLLOWUP_DATA_SLOT_REF from=00025a88 type=PARAM caller=get_signals_info instruction=call 0x00024cf0 
-  614_FOLLOWUP_DATA_WORD slot=0x000272A4 value=0x00000008 value_block=<none> value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272A8 value=0x000263E8 value_block=segment_2 value_executable=true exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272AC value=0x000E06BE value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-    614_FOLLOWUP_DATA_SLOT_REF from=000259e0 type=PARAM caller=get_signals_info instruction=call 0x00024cf0 
-  614_FOLLOWUP_DATA_WORD slot=0x000272B0 value=0x00000008 value_block=<none> value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272B4 value=0x00026464 value_block=segment_2 value_executable=true exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272B8 value=0x000E06C9 value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-    614_FOLLOWUP_DATA_SLOT_REF from=000259f4 type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffa4) 
-  614_FOLLOWUP_DATA_WORD slot=0x000272BC value=0x00000008 value_block=<none> value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272C0 <== CENTER value=0x000264D4 value_block=segment_2 value_executable=true exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272C4 value=0x000E06D3 value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-    614_FOLLOWUP_DATA_SLOT_REF from=00025a0c type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffa8) 
-  614_FOLLOWUP_DATA_WORD slot=0x000272C8 value=0x00000008 value_block=<none> value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272CC value=0x00026544 value_block=segment_2 value_executable=true exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272D0 value=0x000E06DD value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-    614_FOLLOWUP_DATA_SLOT_REF from=00025a24 type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffac) 
-  614_FOLLOWUP_DATA_WORD slot=0x000272D4 value=0x00000008 value_block=<none> value_executable=false exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272D8 value=0x000265B4 value_block=segment_2 value_executable=true exact_function=<none> containing_function=<none>
-  614_FOLLOWUP_DATA_WORD slot=0x000272DC value=0x000E06E7 value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
-    614_FOLLOWUP_DATA_SLOT_REF from=00025a3c type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffb0) 
-614_FOLLOWUP_DATA_WINDOW_WORDS_PRINTED label=signal_descriptor_table_neighborhood count=16
+ck=segment_2 value_executable=true exact_function=<none> containing_function=<none>
+  614_FOLLOWUP_DATA_WORD slot=0x000272F4 value=0x000E06FC value_block=segment_3 value_executable=false exact_function=<none> containing_function=<none>
+    614_FOLLOWUP_DATA_SLOT_REF from=00025a6c type=PARAM caller=get_signals_info instruction=memw R0,(R18+##0xffffffb8) 
+  614_FOLLOWUP_DATA_WORD slot=0x000272F8 value=0x00000008 value_block=<none> value_executable=false exact_function=<none> containing_function=<none>
+  614_FOLLOWUP_DATA_WORD slot=0x000272FC value=0x00026708 value_block=segment_2 value_executable=true exact_function=<none> containing_function=<none>
+614_FOLLOWUP_DATA_WINDOW_WORDS_PRINTED label=signal_descriptor_table_full_neighborhood count=48
 
 614_FOLLOWUP_RFC_BODY role=NR5G_impl address=0x00025454 function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag entry=0x00025454 body=00025454..0002547f
   614_FOLLOWUP_RFC_INS 00025454 call 0x00024c50 
