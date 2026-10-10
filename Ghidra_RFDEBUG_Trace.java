@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-78
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-79
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-78";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-79";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9830,6 +9830,102 @@ private static final boolean FOCUS_ONLY_614 = true;
             p("  QDSP_IQ_FINAL_SLOT_XREF_COUNT total=" + total + " shown=" + shown);
         }
         p("QDSP_IQ_GP_FOCUSED_TAIL_SUMMARY_DONE");
+        dumpQdspActualGpWriterTail();
+    }
+
+
+    /*
+     * STRUCTURE-79: repeat actual GP-destination instructions at the very end.
+     * The prior 1.4M-instruction sweep was clipped in the console export, so
+     * retain exact GP write candidates and enough local context after table
+     * slot evidence. Still static/read-only; never changes GP context.
+     */
+    private void dumpQdspActualGpWriterTail() {
+        p("");
+        p("============================================================");
+        p("QDSP_GP_ACTUAL_WRITER_FOCUSED_TAIL");
+        p("Only instructions whose first operand is exactly GP/C11 are candidates; GP-relative memory operands are excluded.");
+        p("============================================================");
+
+        long instructionsScanned = 0L;
+        long candidates = 0L;
+        int shown = 0;
+        final long MAX_INSNS = 1800000L;
+        final int MAX_SHOWN = 24;
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES
+                    || instructionsScanned >= MAX_INSNS) break;
+            if (!b.isInitialized() || !b.isExecute()
+                    || !isDefaultDynamicAddressBlock(b)) continue;
+
+            long end = b.getEnd().getOffset();
+            InstructionIterator it = listing().getInstructions(b.getStart(), true);
+            while (it.hasNext() && !monitor.isCancelled()
+                    && lines < MAX_LINES && instructionsScanned < MAX_INSNS) {
+                Instruction ins = it.next();
+                if (ins.getAddress().getOffset() > end) break;
+                instructionsScanned++;
+                if (ins.getNumOperands() < 1) continue;
+
+                String destination = ins.getDefaultOperandRepresentation(0).trim();
+                if (!qdspIsGpRegisterName(destination)) continue;
+                candidates++;
+                if (shown >= MAX_SHOWN || lines >= MAX_LINES) continue;
+
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(ins.getAddress());
+                p("QDSP_GP_ACTUAL_WRITER address=" + ins.getAddress()
+                    + " destination=" + destination
+                    + " function=" + (owner == null ? "<none>"
+                        : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                    + " instruction=" + ins.toString());
+
+                try {
+                    ghidra.program.model.pcode.PcodeOp[] ops = ins.getPcode();
+                    if (ops != null) {
+                        for (ghidra.program.model.pcode.PcodeOp op : ops) {
+                            if (op != null && lines < MAX_LINES)
+                                p("  QDSP_GP_ACTUAL_WRITER_PCODE " + ins.getAddress()
+                                    + " " + op.toString());
+                        }
+                    }
+                } catch (Exception e) {
+                    p("  QDSP_GP_ACTUAL_WRITER_PCODE_ERROR " + e.getMessage());
+                }
+
+                Instruction prev = listing().getInstructionBefore(ins.getAddress());
+                int prevCount = 0;
+                while (prev != null && prevCount < 8 && lines < MAX_LINES) {
+                    Function prevOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(prev.getAddress());
+                    if (owner != null && (prevOwner == null
+                            || !owner.getEntryPoint().equals(prevOwner.getEntryPoint()))) break;
+                    p("  QDSP_GP_ACTUAL_WRITER_PREV " + prev.getAddress()
+                        + " " + prev.toString());
+                    prev = listing().getInstructionBefore(prev.getAddress());
+                    prevCount++;
+                }
+
+                Instruction next = listing().getInstructionAfter(ins.getAddress());
+                int nextCount = 0;
+                while (next != null && nextCount < 8 && lines < MAX_LINES) {
+                    Function nextOwner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(next.getAddress());
+                    if (owner != null && (nextOwner == null
+                            || !owner.getEntryPoint().equals(nextOwner.getEntryPoint()))) break;
+                    p("  QDSP_GP_ACTUAL_WRITER_NEXT " + next.getAddress()
+                        + " " + next.toString());
+                    next = listing().getInstructionAfter(next.getAddress());
+                    nextCount++;
+                }
+                shown++;
+            }
+        }
+        p("QDSP_GP_ACTUAL_WRITER_INSTRUCTIONS_SCANNED=" + instructionsScanned);
+        p("QDSP_GP_ACTUAL_WRITER_CANDIDATES=" + candidates);
+        p("QDSP_GP_ACTUAL_WRITERS_SHOWN=" + shown);
+        p("QDSP_GP_ACTUAL_WRITER_FOCUSED_TAIL_DONE");
     }
 
     private void scanQdspIqCaptureDataPath() {
