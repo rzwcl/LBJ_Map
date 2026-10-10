@@ -7518,10 +7518,20 @@ private static final boolean FOCUS_ONLY_614 = true;
                     + (block(row) == null ? "<none>" : block(row).getName()));
                 continue;
             }
+            long word0;
+            long word1;
+            long word2;
+            try {
+                word0 = u32(row);
+                word1 = u32(row + 4L);
+                word2 = u32(row + 8L);
+            } catch (Exception e) {
+                p("  R2_ARGUMENT_RECORD_READ_ERROR address=" + hex(row)
+                    + " error=" + e.getClass().getName()
+                    + " message=" + e.getMessage());
+                continue;
+            }
             readableRecords++;
-            long word0 = u32(row);
-            long word1 = u32(row + 4L);
-            long word2 = u32(row + 8L);
             String word0Text = word0 == 0L ? null : readAsciiAt(word0, 100);
             String word2Text = word2 == 0L ? null : readAsciiAt(word2, 120);
 
