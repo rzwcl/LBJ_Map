@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-55
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-56
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-55";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-56";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -7894,8 +7894,10 @@ private static final boolean FOCUS_ONLY_614 = true;
             scan614GetSignalsInfoCallbackSlots();
             if (FOCUS_ONLY_614) {
                 p("");
-                p("FOCUS_ONLY_MODE=enabled; broad scans skipped to preserve the focused trace in the Ghidra console.");
-                scan614PltGotThunkMap();
+                p("FOCUS_ONLY_MODE=enabled; resolving the six get_instance bodies and their singleton storage.");
+                p("Previously confirmed PLT/GOT thunk map is skipped in this pass to preserve focused output.");
+                scan614CorrectedGetterBodies();
+                scan614RfcSingletonStorageAndConstructors();
                 p("DONE");
                 p("No program data or structures modified.");
                 return;
