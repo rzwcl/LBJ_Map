@@ -19,7 +19,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-46
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-47
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-46";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-47";
 
     private static final long REF_MASTER = 0xC8DC3B54L;
     private static final long REF_TABLE  = 0xC37BD1E8L;
@@ -7143,6 +7143,158 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
+
+    /*
+     * Raw byte-level ASCII census for RFDEBUG / RX-tuning vocabulary.
+     * Unlike scanRfTuneFieldStrings(), this does not depend on Ghidra having
+     * already defined a Data object for the string. It never creates data,
+     * instructions, references, symbols, or comments.
+     */
+    private void report614RawAsciiKeywordCandidate(
+            long start,
+            StringBuilder candidate,
+            boolean tooLong,
+            MemoryBlock sourceBlock,
+            String[] keywords,
+            java.util.Set<Long> seenAddresses,
+            int[] stats) {
+        if (tooLong || candidate.length() < 4 || lines >= MAX_LINES) return;
+
+        String value = candidate.toString();
+        String lower = value.toLowerCase(java.util.Locale.ROOT);
+        StringBuilder matched = new StringBuilder();
+        for (String keyword : keywords) {
+            if (lower.contains(keyword)) {
+                if (matched.length() > 0) matched.append(",");
+                matched.append(keyword);
+            }
+        }
+        if (matched.length() == 0) return;
+
+        Long key = Long.valueOf(start & 0xffffffffL);
+        if (!seenAddresses.add(key)) return;
+        stats[0]++;
+
+        p("614_RAW_ASCII_KEYWORD_HIT #" + stats[0]
+            + " address=" + hex(start)
+            + " block=" + sourceBlock.getName()
+            + " length=" + value.length()
+            + " terms=" + matched.toString()
+            + " value=\"" + value + "\"");
+
+        ReferenceIterator refs = currentProgram.getReferenceManager()
+            .getReferencesTo(addr(start));
+        int shown = 0;
+        while (refs.hasNext() && shown < 8 && lines < MAX_LINES) {
+            Reference ref = refs.next();
+            Address from = ref.getFromAddress();
+            Function owner = null;
+            Instruction ins = null;
+            try {
+                if (from.getAddressSpace().isMemorySpace()) {
+                    owner = currentProgram.getFunctionManager().getFunctionContaining(from);
+                    ins = listing().getInstructionAt(from);
+                }
+            }
+            catch (Exception e) {
+                owner = null;
+            }
+            p("  614_RAW_ASCII_XREF target=" + hex(start)
+                + " from=" + from
+                + " type=" + ref.getReferenceType()
+                + " function=" + (owner == null ? "<none>" : owner.getName())
+                + " instruction=" + (ins == null ? "<no-instruction>" : ins.toString()));
+            shown++;
+        }
+        p("  614_RAW_ASCII_XREFS_SHOWN target=" + hex(start) + " count=" + shown);
+    }
+
+    private void scan614RawAsciiKeywordCensus() {
+        p("");
+        p("============================================================");
+        p("STRUCTURE-47 614_0_0 RAW ASCII RFDEBUG / RX TUNING KEYWORD CENSUS");
+        p("Scans bytes directly; does not rely on Ghidra-defined string data.");
+        p("Includes executable and non-executable initialized blocks in the default address space.");
+        p("READ ONLY: no disassembly, references, data, symbols, or comments are created.");
+        p("============================================================");
+
+        final String[] keywords = {
+            "rfdebug", "ftm_", "ftm.", "rf_test", "radio_config", "radio config",
+            "center_freq", "rx_carrier", "tx_carrier", "frequency", "freqadjust",
+            "rx_tune", "rfa_rf_", "rf_cmd", "set_rx", "rfm_device",
+            "dispatch", "subsys", "diag_"
+        };
+        final int CHUNK = 0x4000;
+        final int MAX_CSTRING_LENGTH = 512;
+        java.util.Set<Long> seenAddresses = new java.util.LinkedHashSet<Long>();
+        int[] stats = new int[] { 0 };
+        long bytesScanned = 0L;
+        MemoryBlock[] blocks = memory().getBlocks();
+
+        for (MemoryBlock b : blocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            if (!b.isInitialized() || !isDefaultDynamicAddressBlock(b)) continue;
+
+            long pos = b.getStart().getOffset();
+            long end = b.getEnd().getOffset();
+            StringBuilder candidate = new StringBuilder();
+            long candidateStart = -1L;
+            boolean tooLong = false;
+            byte[] buffer = new byte[CHUNK];
+
+            while (pos <= end && !monitor.isCancelled() && lines < MAX_LINES) {
+                int want = (int)Math.min((long)CHUNK, end - pos + 1L);
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                }
+                catch (Exception e) {
+                    p("614_RAW_ASCII_READ_ERROR block=" + b.getName()
+                        + " at=" + hex(pos) + " error=" + e.getMessage());
+                    break;
+                }
+
+                for (int i = 0; i < want && lines < MAX_LINES; i++) {
+                    int value = buffer[i] & 0xff;
+                    long here = pos + i;
+                    if (value >= 0x20 && value <= 0x7e) {
+                        if (candidate.length() == 0 && !tooLong) candidateStart = here;
+                        if (!tooLong) {
+                            if (candidate.length() < MAX_CSTRING_LENGTH) {
+                                candidate.append((char)value);
+                            }
+                            else {
+                                tooLong = true;
+                            }
+                        }
+                    }
+                    else {
+                        if (candidate.length() >= 4 && !tooLong) {
+                            report614RawAsciiKeywordCandidate(candidateStart, candidate,
+                                false, b, keywords, seenAddresses, stats);
+                        }
+                        candidate.setLength(0);
+                        tooLong = false;
+                        candidateStart = -1L;
+                    }
+                }
+                pos += want;
+                bytesScanned += want;
+            }
+
+            if (candidate.length() >= 4 && !tooLong && lines < MAX_LINES) {
+                report614RawAsciiKeywordCandidate(candidateStart, candidate,
+                    false, b, keywords, seenAddresses, stats);
+            }
+        }
+
+        p("614_RAW_ASCII_BLOCKS_SCANNED=" + blocks.length);
+        p("614_RAW_ASCII_BYTES_SCANNED=" + bytesScanned);
+        p("614_RAW_ASCII_KEYWORD_HITS=" + stats[0]);
+        p("614_RAW_ASCII_KEYWORDS_CHECKED=" + keywords.length);
+        p("614_RAW_ASCII_NOTE=Zero hits would mean these ASCII terms were not present in readable initialized blocks; it would not prove the dispatcher is absent.");
+    }
+
+
     @Override
     public void run() throws Exception {
         p("============================================================");
@@ -7188,6 +7340,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scanRfTuneFieldStrings();
             scanRadioConfigMessageRecords();
             scanRfDebugSubsysImmediateCandidates();
+            scan614RawAsciiKeywordCensus();
         }
         else {
             p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");            p("Using the existing C9199FB8 RFDEBUG property-table path for the qdsp6sw-style image.");
