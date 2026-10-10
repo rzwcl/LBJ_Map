@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-70";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-71";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9066,6 +9066,174 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("614_PRIORITY_IQ_CAPTURE_KEYWORD_TAIL_DONE");
     }
 
+
+    /*
+     * STRUCTURE-71: the six proven callback words are get_instance entry
+     * points, so repeat those small getter bodies at the very end. This keeps
+     * us on the actual function targets rather than mistaking the wrapper at
+     * 0x25F70 or the destructor thunk at 0x24D60 for a tuning routine.
+     */
+    private void scan614PrioritySingletonGetterTail() {
+        p("");
+        p("============================================================");
+        p("614_PRIORITY_GET_INSTANCE_TARGET_BODIES");
+        p("The six get_signals_info callback words resolve to these functions; show each body, direct call edges, and incoming xrefs.");
+        p("READ ONLY - static listing only; no function is executed.");
+        p("============================================================");
+
+        long[] targets = {
+            0x25418L, 0x254FCL, 0x25598L,
+            0x25604L, 0x25694L, 0x25700L
+        };
+
+        for (long target : targets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+
+            Address entry = addr(target);
+            Function f = null;
+            MemoryBlock b = null;
+            try {
+                b = memory().getBlock(entry);
+                f = currentProgram.getFunctionManager().getFunctionAt(entry);
+                if (f == null) {
+                    f = currentProgram.getFunctionManager().getFunctionContaining(entry);
+                }
+            } catch (Exception e) {
+                p("GET_INSTANCE_TARGET_ERROR address=" + hex(target)
+                    + " error=" + e.getMessage());
+                continue;
+            }
+
+            p("");
+            p("GET_INSTANCE_TARGET address=" + hex(target)
+                + " block=" + (b == null ? "<none>" : b.getName())
+                + " executable=" + (b != null && b.isExecute())
+                + " function=" + (f == null ? "<none>" : f.getName())
+                + " entry=" + (f == null ? "<none>"
+                    : hex(f.getEntryPoint().getOffset())));
+
+            if (f != null) {
+                InstructionIterator it = listing().getInstructions(f.getBody(), true);
+                int instructionCount = 0;
+                while (it.hasNext() && instructionCount < 36
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Instruction ins = it.next();
+                    Function owner = currentProgram.getFunctionManager()
+                        .getFunctionContaining(ins.getAddress());
+                    if (owner == null || !owner.getEntryPoint().equals(f.getEntryPoint())) continue;
+
+                    p("  GET_INSTANCE_INS " + ins.getAddress() + " " + ins);
+                    instructionCount++;
+
+                    String mnemonic = ins.getMnemonicString();
+                    if (mnemonic != null && (mnemonic.toLowerCase(java.util.Locale.ROOT).startsWith("call")
+                            || "jump".equalsIgnoreCase(mnemonic)
+                            || mnemonic.toLowerCase(java.util.Locale.ROOT).startsWith("jumpr"))) {
+                        Reference[] outgoing = currentProgram.getReferenceManager()
+                            .getReferencesFrom(ins.getAddress());
+                        int edges = 0;
+                        for (Reference ref : outgoing) {
+                            if (edges >= 4 || lines >= MAX_LINES) break;
+                            Address to = ref.getToAddress();
+                            if (to == null) continue;
+                            Function tf = currentProgram.getFunctionManager().getFunctionAt(to);
+                            if (tf == null) {
+                                tf = currentProgram.getFunctionManager().getFunctionContaining(to);
+                            }
+                            p("    GET_INSTANCE_EDGE type=" + ref.getReferenceType()
+                                + " target=" + to
+                                + " target_function=" + (tf == null ? "<none>" : tf.getName())
+                                + " target_entry=" + (tf == null ? "<none>"
+                                    : hex(tf.getEntryPoint().getOffset())));
+                            edges++;
+                        }
+                    }
+                }
+                p("  GET_INSTANCE_INSNS_PRINTED=" + instructionCount);
+
+                ReferenceIterator incoming =
+                    currentProgram.getReferenceManager().getReferencesTo(f.getEntryPoint());
+                int incomingCount = 0;
+                while (incoming.hasNext() && incomingCount < 12
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    Reference ref = incoming.next();
+                    Address from = ref.getFromAddress();
+                    Function caller = currentProgram.getFunctionManager()
+                        .getFunctionContaining(from);
+                    Instruction fromIns = listing().getInstructionAt(from);
+                    if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                    p("  GET_INSTANCE_INCOMING from=" + from
+                        + " type=" + ref.getReferenceType()
+                        + " caller=" + (caller == null ? "<none>" : caller.getName()
+                            + "@" + hex(caller.getEntryPoint().getOffset()))
+                        + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                    incomingCount++;
+                }
+                p("  GET_INSTANCE_INCOMING_PRINTED=" + incomingCount);
+            }
+        }
+
+        p("");
+        p("614_PRIORITY_RFC_SINGLETON_GLOBAL_WORDS");
+        long[] slots = {
+            0x25467CL, 0x254684L, 0x25468CL, 0x254694L,
+            0x25469CL, 0x2546A4L, 0x2546ACL, 0x2546B0L,
+            0x2546B4L, 0x2546B8L, 0x2546BCL, 0x2546C0L,
+            0x2546D0L, 0x2546D4L, 0x2546D8L, 0x2546DCL,
+            0x2546E0L, 0x2546E8L, 0x2546F0L, 0x2546F8L
+        };
+        for (long slot : slots) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            long value = -1L;
+            boolean readable = false;
+            try {
+                if (initialized(slot, 4)) {
+                    value = u32(slot);
+                    readable = true;
+                }
+            } catch (Exception ignored) {}
+
+            Function targetFunction = null;
+            MemoryBlock valueBlock = readable && value != 0L
+                ? memory().getBlock(addr(value)) : null;
+            if (readable && value != 0L) {
+                try {
+                    targetFunction = currentProgram.getFunctionManager()
+                        .getFunctionAt(addr(value));
+                    if (targetFunction == null) {
+                        targetFunction = currentProgram.getFunctionManager()
+                            .getFunctionContaining(addr(value));
+                    }
+                } catch (Exception ignored) {}
+            }
+            p("  RFC_GLOBAL_WORD slot=" + hex(slot)
+                + " readable=" + readable
+                + " value=" + (readable ? hex(value) : "<unreadable>")
+                + " value_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                + " target_function=" + (targetFunction == null ? "<none>"
+                    : targetFunction.getName() + "@" + hex(targetFunction.getEntryPoint().getOffset())));
+
+            ReferenceIterator refs = currentProgram.getReferenceManager()
+                .getReferencesTo(addr(slot));
+            int refCount = 0;
+            while (refs.hasNext() && refCount < 4
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(from);
+                Instruction fromIns = listing().getInstructionAt(from);
+                if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                p("    RFC_GLOBAL_WORD_REF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName())
+                    + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                refCount++;
+            }
+        }
+        p("614_PRIORITY_GET_INSTANCE_TARGET_BODIES_DONE");
+    }
+
     private void scan614PriorityActualRfPathTail() {
         p("");
         p("============================================================");
@@ -9438,6 +9606,7 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("Repeat the six direct R0 source slots and their references at the end so their concrete targets are not lost in clipped logs.");
         scan614GetSignalsInfoCallbackSlots();
         p("614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL_DONE");
+        scan614PrioritySingletonGetterTail();
         p("614_COMMON_RFC_DISPATCH_DONE");
     }
 
