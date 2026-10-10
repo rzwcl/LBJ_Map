@@ -397,8 +397,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("  TOTAL_BYTES=" + total);
             p("  NONZERO_BYTES=" + nonZero);
             p("  ZERO_BYTES=" + (total - nonZero));
-            p("  NONZERO_RUNS=" + runs);            p("  FIRST_NONZERO=" + (first < 0 ? "<none>" : hex(first)));
-            p("  LAST_NONZERO=" + (last < 0 ? "<none>" : hex(last)));
+            p("  NONZERO_RUNS=" + runs);            p("  FIRST_NONZERO=" + (first < 0 ? "<none>" : hex(first)));            p("  LAST_NONZERO=" + (last < 0 ? "<none>" : hex(last)));
         }
         catch (Exception e) {
             p("  LOCAL SCAN ERROR: " + e.getMessage());
@@ -797,8 +796,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
     private static final long[] SOURCE_ANCHOR_ADDRS = {
         0xC4736634L,  // ftm_common_dispatch.c        0xC4737608L,  // ftm_nr5g_rf_debug_codebook_override.cpp
-        0xC4737630L,  // ftm_nr5g_rf_debug_mpe_test.cpp
-        0xC473764FL,  // ftm_nr5g_rf_debug_therm_read.cpp
+        0xC4737630L,  // ftm_nr5g_rf_debug_mpe_test.cpp        0xC473764FL,  // ftm_nr5g_rf_debug_therm_read.cpp
         0xC4745B65L,  // FTM_PRI_ORDER
         0xC4952735L,  // ftm_common_dispatch.c (alternate string copy)
         0xC49CBF0AL   // ftm_nr5g_rf_debug_tx_override.c
@@ -1198,7 +1196,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 if (actual != null) readable++;
                 if (actual != null
                         && actual.trim().equalsIgnoreCase(refLabel)) stringMatches++;
-
                 boolean isAnchor = false;
                 for (int a : anchors) if (a == i) isAnchor = true;
                 if (isAnchor && (actual == null
@@ -1598,7 +1595,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         int nearbyHits = 0;
         long stringPointerHits = 0L;
         int stringPointerHitsShown = 0;
-
         long[] stringTargets = new long[65];
         String[] stringNames = new String[65];
         int stringTargetCount = buildRadioConfigStringTargets(stringTargets, stringNames);
@@ -1997,8 +1993,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
         "CENTER_FREQ", "RX_CARRIER", "TX_CARRIER", "TECH_MODE",
         "SUB_TECH", "TECHNOLOGY", "RFM_DEVICE", "BANDWIDTH",
         "CHANNEL", "SIG_PATH", "ANT_PATH", "USER_ADJ", "TOTAL_ADJ",
-        "ENABLE_XO", "SAMP_FREQ", "FREQ_ADJUST", "FREQADJUST",
-        "RADIO_CONFIG", "RX_TUNE", "BAND"
+        "ENABLE_XO", "SAMP_FREQ", "FREQ_ADJUST", "FREQADJUST",        "RADIO_CONFIG", "RX_TUNE", "BAND"
     };
 
     private boolean isExactRfFieldName(String value) {
@@ -2397,8 +2392,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 p("  " + hex(off) + " = " + hex(value) + tag + pointedText);
             }
             catch (Exception e) {
-                p("  WORD_READ_ERROR @ " + hex(off) + ": " + e.getMessage());
-            }
+                p("  WORD_READ_ERROR @ " + hex(off) + ": " + e.getMessage());            }
         }
     }
 
@@ -2797,7 +2791,6 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                             | ((long)(buf[i + 9] & 0xff) << 8)
                             | ((long)(buf[i + 10] & 0xff) << 16)
                             | ((long)(buf[i + 11] & 0xff) << 24);
-
                         if (magic2 != DIAG_REC_MAGIC2) continue;
 
                         long magic3 = ((long)(buf[i + 12] & 0xff))
@@ -3197,8 +3190,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
      *
      * READ ONLY: no modem interaction, no command generation, no program edits.
      */
-    private static final int DYNAMIC_STRING_HITS_PER_LABEL = 16;
-    private static final int DYNAMIC_POINTER_PRINT_LIMIT = 48;
+    private static final int DYNAMIC_STRING_HITS_PER_LABEL = 16;    private static final int DYNAMIC_POINTER_PRINT_LIMIT = 48;
     private static final int DYNAMIC_CODE_HIT_PRINT_LIMIT = 120;
     private static final int DYNAMIC_CONTEXT_LIMIT = 24;
     private static final int DYNAMIC_SCAN_CHUNK = 0x4000;
@@ -3597,8 +3589,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 try {
                     long value = u32(at);
                     Function targetFunction = null;
-                    MemoryBlock valueBlock = block(value);
-                    if (valueBlock != null) {
+                    MemoryBlock valueBlock = block(value);                    if (valueBlock != null) {
                         targetFunction = currentProgram.getFunctionManager()
                             .getFunctionAt(addr(value));
                     }
@@ -3997,8 +3988,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     }
 
 
-    private void scan614PriorityRfcCallGraphSummary() {
-        p("");
+    private void scan614PriorityRfcCallGraphSummary() {        p("");
         p("============================================================");
         p("614_0_0 PRIORITY RFC CONFIGURATION API / POINTER-SLOT SUMMARY");
         p("Prioritizes configuration getters and singleton accessors after broad scans.");
@@ -4397,8 +4387,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             p("");
             p("614_PRIORITY_CALLEE #" + targetCount
                 + " target=" + hex(target)
-                + " block=" + targetLabels.get(key)
-                + " function=" + (owner == null ? "<no-function>" : owner.getName())
+                + " block=" + targetLabels.get(key)                + " function=" + (owner == null ? "<no-function>" : owner.getName())
                 + " entry=" + (owner == null ? "<none>" : owner.getEntryPoint())
                 + " target_is_entry=" + (exact != null)
                 + " direct_caller_sites=" + entry.getValue().size());
@@ -4797,8 +4786,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                             if (pointerValue >= 0L) {
                                 try {
                                     exactTarget = currentProgram.getFunctionManager()
-                                        .getFunctionAt(addr(pointerValue));
-                                    containingTarget = exactTarget != null ? exactTarget
+                                        .getFunctionAt(addr(pointerValue));                                    containingTarget = exactTarget != null ? exactTarget
                                         : currentProgram.getFunctionManager()
                                             .getFunctionContaining(addr(pointerValue));
                                 }
@@ -5196,9 +5184,8 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
     private void scan614SignalDescriptorStringsAndReferences() {
         p("");
         p("============================================================");
-        p("STRUCTURE-44 SIGNAL DESCRIPTOR TABLE / RAW TARGET CLASSIFICATION");
-        p("Correct row layout: {name_pointer, size_or_flags, target_pointer}, stride 0x0C.");
-        p("The previous scan began at 0x272C0, two words into the first row; now inspect rows from 0x272A0.");
+        p("STRUCTURE-45 SIGNAL DESCRIPTOR TABLE / RAW TARGET CLASSIFICATION");
+        p("Correct row layout: {name_pointer, size_or_flags, target_pointer}, stride 0x0C.");        p("The previous scan began at 0x272C0, two words into the first row; now inspect rows from 0x272A0.");
         p("READ ONLY.");
         p("============================================================");
 
@@ -5597,8 +5584,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 && lines < MAX_LINES; i++) {
             long getter = sites[i][0];
             long addAddress = sites[i][1];
-            Instruction addIns = listing().getInstructionAt(addr(addAddress));
-            Instruction firstAccess = listing().getInstructionAt(addr(sites[i][2]));
+            Instruction addIns = listing().getInstructionAt(addr(addAddress));            Instruction firstAccess = listing().getInstructionAt(addr(sites[i][2]));
             Instruction secondAccess = listing().getInstructionAt(addr(sites[i][3]));
 
             Function getterFunction = null;
@@ -5997,8 +5983,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 p("    614_FOLLOWUP_DATA_SLOT_REF from=" + from
                     + " type=" + ref.getReferenceType()
                     + " caller=" + (caller == null ? "<none>" : caller.getName())
-                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));
-                refCount++;
+                    + " instruction=" + (fromIns == null ? "<no-instruction>" : fromIns.toString()));                refCount++;
             }
             shown++;
         }
@@ -6397,8 +6382,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                 }
                 if (!indirectJumpFollows) continue;
 
-                long slot = computedBase + memoryDisp;
-                MemoryBlock slotBlock;
+                long slot = computedBase + memoryDisp;                MemoryBlock slotBlock;
                 try {
                     slotBlock = memory().getBlock(addr(slot));
                 }
@@ -6797,8 +6781,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
                         .getFunctionContaining(from);
                     Instruction sourceIns = listing().getInstructionAt(from);
                     p("  RF_INCOMING_REF[" + functionRefsPrinted + "]"
-                        + " from=" + from
-                        + " type=" + ref.getReferenceType()
+                        + " from=" + from                        + " type=" + ref.getReferenceType()
                         + " caller=" + (caller == null ? "<no-function>"
                             : caller.getName() + "@" + caller.getEntryPoint())
                         + " instruction=" + (sourceIns == null ? "<no-instruction>" : sourceIns));
@@ -7197,8 +7180,7 @@ public class Ghidra_RFDEBUG_Trace extends GhidraScript {
             scan614SignalDescriptorStringsAndReferences();
         }
         else {
-            p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");
-            p("Using the existing C9199FB8 RFDEBUG property-table path for the qdsp6sw-style image.");
+            p("TARGET_PROFILE=LEGACY_RFDEBUG_PROPERTY_TABLE");            p("Using the existing C9199FB8 RFDEBUG property-table path for the qdsp6sw-style image.");
             dumpRadioConfigFieldNameTable();
             dumpAdjacentRadioConfigNamePool();
             scanRfTuneFieldStrings();
