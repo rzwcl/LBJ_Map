@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-60
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-61
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-60";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-61";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -8037,8 +8037,10 @@ private static final boolean FOCUS_ONLY_614 = true;
         // without assuming they are frequency-tuning functions.
         long[] codeTargets = {
             0x24BE0L, 0x24C00L, 0x24C30L, 0x24CF0L,
-            0x2526CL, 0x24C40L, 0x24C60L, 0x24C80L,
-            0x24CB0L, 0x24E90L, 0x24EB0L, 0x25F70L,
+            0x2526CL, 0x24C40L, 0x24C50L, 0x24C60L,
+            0x24C70L, 0x24C80L, 0x24C90L, 0x24CB0L,
+            0x24CD0L, 0x24E90L, 0x24EA0L, 0x24EB0L,
+            0x24EC0L, 0x25F70L,
             0x25454L, 0x25538L, 0x255D4L,
             0x25640L, 0x256D0L, 0x2573CL
         };
@@ -8169,8 +8171,141 @@ private static final boolean FOCUS_ONLY_614 = true;
         }
 
         p("");
+        p("614_FACTORY_THUNK_EFFECTIVE_SLOT_TRACE");
+        long[] thunkAddresses = {
+            0x24C50L, 0x24C70L, 0x24C90L,
+            0x24CD0L, 0x24EA0L, 0x24EC0L
+        };
+        String[] thunkLabels = {
+            "NR5G_factory_call", "WCDMA_factory_call",
+            "CDMA_factory_call", "GSM_factory_call",
+            "TDSCDMA_factory_call", "GNSS_factory_call"
+        };
+
+        for (int i = 0; i < thunkAddresses.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long thunk = thunkAddresses[i];
+            Instruction addIns = listing().getInstructionAt(addr(thunk + 4L));
+            Long displacement = null;
+            boolean hasPc = false;
+
+            if (addIns != null) {
+                for (int op = 0; op < addIns.getNumOperands(); op++) {
+                    Object[] objects = addIns.getOpObjects(op);
+                    for (Object object : objects) {
+                        if (object instanceof ghidra.program.model.lang.Register) {
+                            if ("PC".equalsIgnoreCase(
+                                    ((ghidra.program.model.lang.Register)object).getName())) {
+                                hasPc = true;
+                            }
+                        } else if (object instanceof Scalar) {
+                            displacement = Long.valueOf(((Scalar)object).getSignedValue());
+                        }
+                    }
+                }
+            }
+
+            Long slotAddress = (addIns != null && hasPc && displacement != null)
+                ? hexagonPcRelativeTarget(addIns, displacement.longValue()) : null;
+            p("  THUNK label=" + thunkLabels[i]
+                + " entry=" + hex(thunk)
+                + " add_instruction=" + (addIns == null ? "<none>" : addIns.toString())
+                + " computed_slot=" + (slotAddress == null ? "<unresolved>" : hex(slotAddress.longValue())));
+
+            if (slotAddress != null) {
+                try {
+                    long value = u32(slotAddress.longValue());
+                    MemoryBlock vb = memory().getBlock(addr(value));
+                    Function vf = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                    if (vf == null) {
+                        vf = currentProgram.getFunctionManager().getFunctionContaining(addr(value));
+                    }
+                    p("    THUNK_SLOT_VALUE=" + hex(value)
+                        + " block=" + (vb == null ? "<none>" : vb.getName())
+                        + " executable=" + (vb != null && vb.isExecute())
+                        + " function=" + (vf == null ? "<none>" : vf.getName())
+                        + " entry=" + (vf == null ? "<none>" : hex(vf.getEntryPoint().getOffset())));
+
+                    ReferenceIterator slotRefs =
+                        currentProgram.getReferenceManager().getReferencesTo(addr(slotAddress.longValue()));
+                    int slotRefCount = 0;
+                    while (slotRefs.hasNext() && slotRefCount < 8
+                            && !monitor.isCancelled() && lines < MAX_LINES) {
+                        Reference ref = slotRefs.next();
+                        p("    THUNK_SLOT_XREF from=" + ref.getFromAddress()
+                            + " type=" + ref.getReferenceType()
+                            + " instruction=" + instructionInfo(ref.getFromAddress().getOffset()));
+                        slotRefCount++;
+                    }
+                    p("    THUNK_SLOT_XREFS_PRINTED=" + slotRefCount);
+
+                    if (vf != null) {
+                        InstructionIterator vit = listing().getInstructions(vf.getBody(), true);
+                        int n = 0;
+                        while (vit.hasNext() && n < 20
+                                && !monitor.isCancelled() && lines < MAX_LINES) {
+                            Instruction vi = vit.next();
+                            p("    THUNK_TARGET_INS " + vi.getAddress() + " " + vi);
+                            n++;
+                        }
+                        p("    THUNK_TARGET_INSNS_PRINTED=" + n);
+                    }
+                } catch (Exception e) {
+                    p("    THUNK_SLOT_READ_ERROR=" + e.getMessage());
+                }
+            }
+        }
+
+        p("");
+        p("614_FACTORY_OBJECT_DESCRIPTOR_SLOTS");
+        long[] objectSlots = {
+            0x254664L, 0x254674L, 0x254680L,
+            0x254688L, 0x2546F4L, 0x2546FCL
+        };
+        String[] objectLabels = {
+            "NR5G_object_descriptor", "WCDMA_object_descriptor",
+            "CDMA_object_descriptor", "GSM_object_descriptor",
+            "TDSCDMA_object_descriptor", "GNSS_object_descriptor"
+        };
+        for (int i = 0; i < objectSlots.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long slot = objectSlots[i];
+            try {
+                long value = u32(slot);
+                MemoryBlock vb = memory().getBlock(addr(value));
+                Function vf = currentProgram.getFunctionManager().getFunctionAt(addr(value));
+                if (vf == null) {
+                    vf = currentProgram.getFunctionManager().getFunctionContaining(addr(value));
+                }
+                p("  OBJECT_DESCRIPTOR label=" + objectLabels[i]
+                    + " slot=" + hex(slot)
+                    + " value=" + hex(value)
+                    + " value_block=" + (vb == null ? "<none>" : vb.getName())
+                    + " value_executable=" + (vb != null && vb.isExecute())
+                    + " function=" + (vf == null ? "<none>" : vf.getName())
+                    + " entry=" + (vf == null ? "<none>" : hex(vf.getEntryPoint().getOffset())));
+            } catch (Exception e) {
+                p("  OBJECT_DESCRIPTOR label=" + objectLabels[i]
+                    + " slot=" + hex(slot) + " ERROR=" + e.getMessage());
+            }
+
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager().getReferencesTo(addr(slot));
+            int count = 0;
+            while (refs.hasNext() && count < 8
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                p("    OBJECT_DESCRIPTOR_XREF from=" + ref.getFromAddress()
+                    + " type=" + ref.getReferenceType()
+                    + " instruction=" + instructionInfo(ref.getFromAddress().getOffset()));
+                count++;
+            }
+            p("    OBJECT_DESCRIPTOR_XREFS_PRINTED=" + count);
+        }
+
+        p("");
         p("614_NEXT_TRACE_DONE");
-        p("Interpretation limit: raw slot values and symbol strings do not prove runtime relocation or RF-tuning semantics.");
+        p("Interpretation limit: computed GOT targets and object descriptor slots are static-image evidence, not proof of runtime tuning behavior.");
         p("No program data or structures modified.");
     }
 
