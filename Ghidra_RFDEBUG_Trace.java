@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-81
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-82
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-81";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-82";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -10121,6 +10121,52 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("QDSP_IQ_ARRAY_AND_CONSUMER_FOCUSED_TAIL_DONE");
     }
 
+    private void dumpQdspProgramIdentityTail() {
+        p("");
+        p("============================================================");
+        p("QDSP_PROGRAM_IDENTITY_TAIL");
+        p("Use these fields to distinguish qdsp6sw.mbn from qdsp6sw2.mbn and identify the exact Ghidra project path.");
+        p("PROGRAM_IDENTITY_NAME=" + currentProgram.getName());
+        p("PROGRAM_IDENTITY_IMAGE_BASE=" + currentProgram.getImageBase());
+        try {
+            p("PROGRAM_IDENTITY_DOMAIN_PATH=" + currentProgram.getDomainFile().getPathname());
+        } catch (Exception e) {
+            p("PROGRAM_IDENTITY_DOMAIN_PATH=<unavailable:" + e.getClass().getSimpleName() + ">");
+        }
+        try {
+            p("PROGRAM_IDENTITY_LANGUAGE=" + currentProgram.getLanguage().getLanguageID());
+            p("PROGRAM_IDENTITY_COMPILER=" + currentProgram.getCompilerSpec().getCompilerSpecID());
+        } catch (Exception e) {
+            p("PROGRAM_IDENTITY_LANGUAGE_COMPILER=<unavailable:" + e.getClass().getSimpleName() + ">");
+        }
+        MemoryBlock[] identityBlocks = memory().getBlocks();
+        p("PROGRAM_IDENTITY_BLOCK_COUNT=" + identityBlocks.length);
+        for (MemoryBlock b : identityBlocks) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            StringBuilder firstBytes = new StringBuilder();
+            try {
+                int count = (int)Math.min(16L, b.getSize());
+                byte[] bytes = new byte[count];
+                if (count > 0) {
+                    currentProgram.getMemory().getBytes(b.getStart(), bytes);
+                    for (int i = 0; i < bytes.length; i++) {
+                        if (i > 0) firstBytes.append(' ');
+                        firstBytes.append(String.format("%02X", bytes[i] & 0xff));
+                    }
+                }
+            } catch (Exception e) {
+                firstBytes.append("<read-error:").append(e.getClass().getSimpleName()).append('>');
+            }
+            p("PROGRAM_IDENTITY_BLOCK name=" + b.getName()
+                + " start=" + b.getStart() + " end=" + b.getEnd()
+                + " size=" + b.getSize()
+                + " initialized=" + b.isInitialized()
+                + " execute=" + b.isExecute()
+                + " first16=" + firstBytes.toString());
+        }
+        p("QDSP_PROGRAM_IDENTITY_TAIL_DONE");
+    }
+
     private void scanQdspIqCaptureDataPath() {
         final long POOL_START = 0xC414B500L;
         final long POOL_END = 0xC414C100L;
@@ -10853,6 +10899,7 @@ private static final boolean FOCUS_ONLY_614 = true;
             p("No 614_0_0 RFC addresses or legacy RFDEBUG property-table assumptions are reused.");
             scanQdspIqCaptureDataPath();
             scanQdspIqGpAudit();
+            dumpQdspProgramIdentityTail();
             p("DONE");
             p("No program data or structures modified.");
             return;
