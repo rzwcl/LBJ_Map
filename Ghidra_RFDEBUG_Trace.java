@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-58
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-59
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-58";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-59";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -7978,128 +7978,193 @@ private static final boolean FOCUS_ONLY_614 = true;
 
 
 
+    private String scan614AsciiAt(long off, int maxBytes) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            MemoryBlock b = memory().getBlock(addr(off));
+            if (b == null || !b.isInitialized()) return "<unreadable>";
+            for (int i = 0; i < maxBytes; i++) {
+                Address a = addr(off + i);
+                if (!b.contains(a)) break;
+                int v = memory().getByte(a) & 0xff;
+                if (v == 0) break;
+                sb.append(v >= 0x20 && v <= 0x7e ? (char)v : '.');
+            }
+        } catch (Exception e) {
+            return "<ascii-error:" + e.getMessage() + ">";
+        }
+        return sb.toString();
+    }
+
     private void scan614NextTrace() {
         p("");
         p("============================================================");
-        p("614 NEXT TRACE - TARGETS / HELPER / RFC INITIALIZATION");
+        p("614 NEXT TRACE - RFC SYMBOL RECORDS / GOT SLOTS / FACTORY PATH");
         p("READ ONLY - NO MEMORY OR PROGRAM MODIFICATIONS");
         p("============================================================");
         p("PROGRAM=" + currentProgram.getName());
         p("IMAGE_BASE=" + currentProgram.getImageBase());
 
-        long[] targets = {
-            0x264D4L, 0x26544L, 0x265B4L,
-            0x26624L, 0x26694L, 0x26708L,
-            0x2526CL, 0x24C40L, 0x24C60L,
-            0x24C80L, 0x24CB0L, 0x24E90L,
-            0x24EB0L, 0x25F70L
+        long[] recordAddresses = {
+            0x272B8L, 0x272C4L, 0x272D0L,
+            0x272DCL, 0x272E8L, 0x272F4L
         };
 
-        for (long value : targets) {
-            if (monitor.isCancelled() || lines >= MAX_LINES) {
-                break;
+        p("");
+        p("614_RECORD_STRING_TARGETS");
+        for (int i = 0; i < recordAddresses.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long rec = recordAddresses[i];
+            try {
+                long word0 = u32(rec);
+                long word1 = u32(rec + 4L);
+                long word2 = u32(rec + 8L);
+                p("  RECORD #" + (i + 1)
+                    + " address=" + hex(rec)
+                    + " word0=" + hex(word0)
+                    + " word1=" + hex(word1)
+                    + " word2=" + hex(word2)
+                    + " word2_ascii=" + scan614AsciiAt(word2, 112));
+            } catch (Exception e) {
+                p("  RECORD #" + (i + 1) + " address=" + hex(rec)
+                    + " ERROR=" + e.getMessage());
             }
+        }
+
+        long[] codeTargets = {
+            0x24BE0L, 0x24C00L, 0x24C30L, 0x24CF0L,
+            0x2526CL, 0x24C40L, 0x24C60L, 0x24C80L,
+            0x24CB0L, 0x24E90L, 0x24EB0L, 0x25F70L
+        };
+
+        p("");
+        p("614_FACTORY_AND_INDIRECT_DISPATCH_TARGETS");
+        for (long value : codeTargets) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
 
             Address a = addr(value);
-            MemoryBlock b = null;
+            MemoryBlock block = null;
             Function f = null;
-
             try {
-                b = memory().getBlock(a);
+                block = memory().getBlock(a);
                 f = currentProgram.getFunctionManager().getFunctionAt(a);
                 if (f == null) {
-                    f = currentProgram.getFunctionManager()
-                        .getFunctionContaining(a);
+                    f = currentProgram.getFunctionManager().getFunctionContaining(a);
                 }
             } catch (Exception e) {
-                p("TARGET_ERROR address=" + hex(value)
+                p("  TARGET_ERROR address=" + hex(value)
                     + " error=" + e.getMessage());
                 continue;
             }
 
             p("");
-            p("TARGET address=" + hex(value)
-                + " block=" + (b == null ? "<none>" : b.getName())
-                + " executable=" + (b != null && b.isExecute())
-                + " initialized=" + (b != null && b.isInitialized())
+            p("  TARGET address=" + hex(value)
+                + " block=" + (block == null ? "<none>" : block.getName())
+                + " executable=" + (block != null && block.isExecute())
                 + " function=" + (f == null ? "<none>" : f.getName())
                 + " entry=" + (f == null ? "<none>"
                     : hex(f.getEntryPoint().getOffset())));
 
+            int shownIns = 0;
             if (f != null) {
-                int n = 0;
-                InstructionIterator it =
-                    listing().getInstructions(f.getBody(), true);
-
-                while (it.hasNext() && n < 48
-                        && !monitor.isCancelled()
-                        && lines < MAX_LINES) {
+                InstructionIterator it = listing().getInstructions(f.getBody(), true);
+                while (it.hasNext() && shownIns < 32
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
                     Instruction ins = it.next();
-                    p("  INS " + ins.getAddress() + " " + ins);
-                    n++;
+                    p("    INS " + ins.getAddress() + " " + ins);
+                    shownIns++;
                 }
-
-                p("  INSTRUCTIONS_PRINTED=" + n);
             } else {
                 Instruction ins = listing().getInstructionAt(a);
-                if (ins != null) {
-                    p("  INSTRUCTION_AT_TARGET " + ins);
-                }
-
-                if (b != null && b.isInitialized()) {
-                    try {
-                        long available = b.getEnd().subtract(a) + 1L;
-                        int count = (int)Math.min(32L,
-                            Math.max(0L, available));
-
-                        if (count > 0) {
-                            byte[] raw = new byte[count];
-                            memory().getBytes(a, raw);
-
-                            StringBuilder sb = new StringBuilder();
-                            for (byte v : raw) {
-                                sb.append(String.format("%02X ",
-                                    v & 0xff));
-                            }
-                            p("  RAW_BYTES=" + sb.toString().trim());
-                        }
-                    } catch (Exception e) {
-                        p("  RAW_BYTES_ERROR=" + e.getMessage());
-                    }
+                while (ins != null && shownIns < 20
+                        && !monitor.isCancelled() && lines < MAX_LINES) {
+                    MemoryBlock ib = memory().getBlock(ins.getAddress());
+                    if (ib == null || block == null || !ib.equals(block)) break;
+                    if (ins.getAddress().subtract(a) > 0x60L) break;
+                    p("    INS " + ins.getAddress() + " " + ins);
+                    shownIns++;
+                    ins = listing().getInstructionAfter(ins.getAddress());
                 }
             }
+            p("    INSTRUCTIONS_PRINTED=" + shownIns);
 
             ReferenceIterator refs =
                 currentProgram.getReferenceManager().getReferencesTo(a);
-
-            int shown = 0;
-            while (refs.hasNext() && shown < 20
-                    && !monitor.isCancelled()
-                    && lines < MAX_LINES) {
+            int shownRefs = 0;
+            while (refs.hasNext() && shownRefs < 16
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
                 Reference ref = refs.next();
                 Address from = ref.getFromAddress();
-
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(from);
                 Instruction ins = listing().getInstructionAt(from);
-                Function owner =
-                    currentProgram.getFunctionManager()
-                        .getFunctionContaining(from);
-
-                p("  XREF from=" + from
+                p("    XREF from=" + from
                     + " type=" + ref.getReferenceType()
                     + " owner=" + (owner == null ? "<none>"
-                        : owner.getName() + "@"
-                            + owner.getEntryPoint())
-                    + " instruction="
-                    + (ins == null ? "<none>" : ins.toString()));
+                        : owner.getName() + "@" + owner.getEntryPoint())
+                    + " instruction=" + (ins == null ? "<none>" : ins.toString()));
+                shownRefs++;
+            }
+            p("    XREFS_PRINTED=" + shownRefs);
+        }
 
-                shown++;
+        long[] slotAddresses = {
+            0x254660L, 0x254670L, 0x25467CL, 0x254684L,
+            0x2546F0L, 0x2546F8L,
+            0x254738L, 0x254740L, 0x254748L, 0x254754L,
+            0x2547CCL, 0x2547D4L
+        };
+        String[] slotLabels = {
+            "singleton_25418", "singleton_254FC", "singleton_25598",
+            "singleton_25604", "singleton_25694", "singleton_25700",
+            "rfc_nr5g_dispatch", "rfc_wcdma_dispatch", "rfc_cdma_dispatch",
+            "rfc_gsm_dispatch", "rfc_tdscdma_dispatch", "rfc_gnss_dispatch"
+        };
+
+        p("");
+        p("614_GOT_AND_SINGLETON_SLOT_VALUES");
+        for (int i = 0; i < slotAddresses.length
+                && !monitor.isCancelled() && lines < MAX_LINES; i++) {
+            long slot = slotAddresses[i];
+            try {
+                long value = u32(slot);
+                MemoryBlock sb = memory().getBlock(addr(slot));
+                MemoryBlock vb = memory().getBlock(addr(value));
+                p("  SLOT label=" + slotLabels[i]
+                    + " address=" + hex(slot)
+                    + " slot_block=" + (sb == null ? "<none>" : sb.getName())
+                    + " value=" + hex(value)
+                    + " value_block=" + (vb == null ? "<none>" : vb.getName())
+                    + " value_executable=" + (vb != null && vb.isExecute())
+                    + " value_ascii=" + scan614AsciiAt(value, 64));
+            } catch (Exception e) {
+                p("  SLOT label=" + slotLabels[i]
+                    + " address=" + hex(slot) + " ERROR=" + e.getMessage());
             }
 
-            p("  XREFS_PRINTED=" + shown);
+            ReferenceIterator refs =
+                currentProgram.getReferenceManager()
+                    .getReferencesTo(addr(slot));
+            int count = 0;
+            while (refs.hasNext() && count < 8
+                    && !monitor.isCancelled() && lines < MAX_LINES) {
+                Reference ref = refs.next();
+                Address from = ref.getFromAddress();
+                Function owner = currentProgram.getFunctionManager()
+                    .getFunctionContaining(from);
+                Instruction ins = listing().getInstructionAt(from);
+                p("    SLOT_XREF from=" + from
+                    + " type=" + ref.getReferenceType()
+                    + " owner=" + (owner == null ? "<none>" : owner.getName())
+                    + " instruction=" + (ins == null ? "<none>" : ins.toString()));
+                count++;
+            }
+            p("    SLOT_XREFS_PRINTED=" + count);
         }
 
         p("");
         p("614_NEXT_TRACE_DONE");
+        p("Interpretation limit: raw slot values and symbol strings do not prove runtime relocation or RF-tuning semantics.");
         p("No program data or structures modified.");
     }
 
