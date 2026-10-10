@@ -1,173 +1,4 @@
-0x0 
-  COMMON_INS 00025ea8 zxth R7,R5 
-  COMMON_INS 00025eac zxth R8,R6 
-  COMMON_INS 00025eb0 jump.if:t !cmp.eq(R8.new,R7),0x00025ec4 
-    COMMON_FLOW to=00025ec4 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025eb4 assign R16,#0x0 
-  COMMON_INS 00025eb8 memh R6,(R3+R7<<#0x3) 
-    COMMON_FLOW to=00221028 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025ebc jump.if:t cmp.eq(R6.new,R4),0x00025ed8 
-    COMMON_FLOW to=00025ed8 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025ec0 jump 0x00025ef8 
-    COMMON_FLOW to=00025ef8 type=UNCONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025ec4 add R7,R8,R7 
-  COMMON_INS 00025ec8 lsr R7,R7,#0x1 
-  COMMON_INS 00025ecc memh R8,(R3+R7<<#0x3) 
-    COMMON_FLOW to=00221020 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025ed0 jump.if:t !cmp.eq(R8.new,R4),0x00025f00 
-    COMMON_FLOW to=00025f00 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025ed4 assign R5,R7 
-  COMMON_INS 00025ed8 assign R16,#0x0 ; zxth R4,R5 
-  COMMON_INS 00025edc immext #0xde80 
-  COMMON_INS 00025ee0 cmp.eq P0,R4,##0xdead 
-  COMMON_INS 00025ee4 assign.if(!P0.new) R16,#0x1 
-  COMMON_INS 00025ee8 jump.if(P0.new):t 0x00025ef8 
-    COMMON_FLOW to=00025ef8 type=CONDITIONAL_JUMP target_function=fbrx_cfg_data_get target_entry=0x00025E44
-  COMMON_INS 00025eec addasl R3,R3,R4,#0x3 
-  COMMON_INS 00025ef0 memw R3,(R3+#0x4) 
-    COMMON_FLOW to=0022102c type=READ target_function=<none> target_entry=<none>
-    COMMON_FLOW to=00221024 type=READ target_function=<none> target_entry=<none>
-  COMMON_INS 00025ef4 memw (R2),R3.new 
-    COMMON_FLOW to=00220f14 type=DATA target_function=<none> target_entry=<none>
-    COMMON_FLOW to=00220f0c type=DATA target_function=<none> target_entry=<none>
-  COMMON_INS 00025ef8 assign R0,R16 
-  COMMON_INS 00025efc memd R17R16,(SP+#0x0) ; dealloc_return 
-  COMMON_INS 00025f00 cmp.gtu P0,R4,R8 
-  COMMON_INSNS_PRINTED=48
-  COMMON_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=002547c8 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=00027264 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING_PRINTED=3
-
-COMMON_TARGET address=0x00025F20 block=segment_2 executable=true name=get_fbrx_path_table_cfg entry=0x00025F20
-  COMMON_INS 00025f20 immext #0x22e7c0 
-  COMMON_INS 00025f24 add R2,PC,##0x22e7e8 
-    COMMON_PC_TARGET=0x00254708 ascii=
-  COMMON_INS 00025f28 jumpr LR 
-  COMMON_INS 00025f2c immext #0xffffffc0 
-  COMMON_INS 00025f30 memw R0,(R2+##0xffffffe0) 
-    COMMON_FLOW to=002546e8 type=READ target_function=<none> target_entry=<none>
-    COMMON_FLOW to=002210b0 type=DATA target_function=<none> target_entry=<none>
-  COMMON_INSNS_PRINTED=5
-  COMMON_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=002547e4 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING from=00027278 type=DATA owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING_PRINTED=3
-
-COMMON_TARGET address=0x00025F40 block=segment_2 executable=true name=dm_register_so entry=0x00025F40
-  COMMON_INS 00025f40 immext #0x22e7c0 
-  COMMON_INS 00025f44 add R2,PC,##0x22e7c8 
-    COMMON_PC_TARGET=0x00254708 ascii=
-  COMMON_INS 00025f48 assign R0,#0x0 
-    COMMON_FLOW to=00254708 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INS 00025f4c jump 0x00024d40 
-    COMMON_FLOW to=00024d40 type=DATA target_function=dmm_register_dm target_entry=0x00024D40
-  COMMON_INS 00025f50 immext #0xffffffc0 
-  COMMON_INS 00025f54 memw R1,(R2+##0xffffffe4) 
-    COMMON_FLOW to=00024d40 type=UNCONDITIONAL_CALL target_function=dmm_register_dm target_entry=0x00024D40
-    COMMON_FLOW to=002546ec type=READ target_function=<none> target_entry=<none>
-    COMMON_FLOW to=002210c4 type=PARAM target_function=<none> target_entry=<none>
-  COMMON_INSNS_PRINTED=6
-  COMMON_INCOMING from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-  COMMON_INCOMING_PRINTED=1
-
-614_COMMON_ERROR_MESSAGE_STRINGS
-  MESSAGE address=0x00027300 text={..
-  MESSAGE address=0x0002730C text=...
-  MESSAGE address=0x00027318 text=...
-  MESSAGE address=0x00027324 text=...
-
-614_COMMON_CALLBACK_RECORD_BANK
-  CALLBACK_WORD index=0 slot=0x00027210 value=0x00000000 value_block=<none> value_exec=false function=<none> function_entry=<none> ascii=<unreadable>
-  CALLBACK_WORD index=1 slot=0x00027214 value=0x00027378 value_block=segment_3 value_exec=false function=<none> function_entry=<none> ascii=.P%
-  CALLBACK_WORD index=2 slot=0x00027218 value=0x0025501C value_block=EXTERNAL value_exec=false function=~rfc_common_data function_entry=0x0025501C ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=0025477c type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00024d5c type=COMPUTED_CALL owner=~rfc_common_data instruction=jumpr R28 
-    CALLBACK_TARGET_XREF from=00027218 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=3 slot=0x0002721C value=0x00025F58 value_block=segment_2 value_exec=true function=~rfc_hwid614_qrm865ab_v3_ag_cmn_ag function_entry=0x00025F58 ascii=.v.[.@`p....
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00254794 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=0002721c type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=4 slot=0x00027220 value=0x000259A4 value_block=segment_2 value_exec=true function=get_signals_info function_entry=0x000259A4 ascii=.y.[ <.y.@.t.@.tj.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00254798 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027220 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=5 slot=0x00027224 value=0x000258F0 value_block=segment_2 value_exec=true function=sdr_rffe_sig_info_table_get function_entry=0x000258F0 ascii=
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=0025479c type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027224 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=6 slot=0x00027228 value=0x00025938 value_block=segment_2 value_exec=true function=sdr_grfc_sig_info_table_get function_entry=0x00025938 ascii=
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547a0 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027228 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=7 slot=0x0002722C value=0x00025980 value_block=segment_2 value_exec=true function=blank_grfc_sig_info_table_get function_entry=0x00025980 ascii=@`.~.....K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547a4 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=0002722c type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=8 slot=0x00027230 value=0x00025ABC value_block=segment_2 value_exec=true function=get_logical_device_cfg function_entry=0x00025ABC ascii=.K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547a8 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027230 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=9 slot=0x00027234 value=0x00025AA8 value_block=segment_2 value_exec=true function=get_phy_device_cfg function_entry=0x00025AA8 ascii=.K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547ac type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027234 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=10 slot=0x00027238 value=0x00025C28 value_block=segment_2 value_exec=true function=get_sig_path_info_config function_entry=0x00025C28 ascii=.K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547b0 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027238 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=11 slot=0x0002723C value=0x00025C14 value_block=segment_2 value_exec=true function=get_ant_path_info_config function_entry=0x00025C14 ascii=.K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547b4 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=0002723c type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=12 slot=0x00027240 value=0x00255024 value_block=EXTERNAL value_exec=false function=get_rfcard_data function_entry=0x00255024 ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=00027240 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=13 slot=0x00027244 value=0x00025BD0 value_block=segment_2 value_exec=true function=get_logical_path_config function_entry=0x00025BD0 ascii=.`A.....]@
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547b8 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027244 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=14 slot=0x00027248 value=0x00025D08 value_block=segment_2 value_exec=true function=get_cmn_properties function_entry=0x00025D08 ascii= `.~.....K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547bc type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027248 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=15 slot=0x0002724C value=0x00255000 value_block=EXTERNAL value_exec=false function=get_alt_path_selection_tbl function_entry=0x00255000 ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=0002724c type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=16 slot=0x00027250 value=0x0025500C value_block=EXTERNAL value_exec=false function=get_irat_alt_path_selection_tbl function_entry=0x0025500C ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=00027250 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=17 slot=0x00027254 value=0x002550F0 value_block=EXTERNAL value_exec=false function=get_asd_device_info function_entry=0x002550F0 ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=00027254 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=18 slot=0x00027258 value=0x00025AD0 value_block=segment_2 value_exec=true function=get_ant_switch_path_info function_entry=0x00025AD0 ascii=.`A.....`@
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547c0 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027258 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=19 slot=0x0002725C value=0x002550B0 value_block=EXTERNAL value_exec=false function=unique_path_table_get function_entry=0x002550B0 ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=0002725c type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=20 slot=0x00027260 value=0x00025D50 value_block=segment_2 value_exec=true function=path_cfg_data_get function_entry=0x00025D50 ascii=
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547c4 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027260 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=21 slot=0x00027264 value=0x00025E44 value_block=segment_2 value_exec=true function=fbrx_cfg_data_get function_entry=0x00025E44 ascii=
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547c8 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027264 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=22 slot=0x00027268 value=0x00255018 value_block=EXTERNAL value_exec=false function=rfc_cmw_data_get_rfcard_type function_entry=0x00255018 ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=00027268 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=23 slot=0x0002726C value=0x00255090 value_block=EXTERNAL value_exec=false function=get_aggressor_device_associations function_entry=0x00255090 ascii=<unreadable>
-    CALLBACK_TARGET_XREF from=0002726c type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=24 slot=0x00027270 value=0x00025F38 value_block=segment_2 value_exec=true function=rfc_get_remapped_device_info function_entry=0x00025F38 ascii=.?.H...Y.K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547dc type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027270 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=25 slot=0x00027274 value=0x00025E38 value_block=segment_2 value_exec=true function=get_sig_path_table_cfg function_entry=0x00025E38 ascii=.~.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547e0 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027274 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=26 slot=0x00027278 value=0x00025F20 value_block=segment_2 value_exec=true function=get_fbrx_path_table_cfg function_entry=0x00025F20 ascii=.K.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=002547e4 type=DATA owner=<none> instruction=<no-instruction>
-    CALLBACK_TARGET_XREF from=00027278 type=DATA owner=<none> instruction=<no-instruction>
-  CALLBACK_WORD index=27 slot=0x0002727C value=0x00025BC4 value_block=segment_2 value_exec=true function=get_antenna_path_table_cfg function_entry=0x00025BC4 ascii=.|.
-    CALLBACK_TARGET_XREF from=Entry Point type=EXTERNAL owner=<none> instruction=<no-instruction>
+on>
     CALLBACK_TARGET_XREF from=002547e8 type=DATA owner=<none> instruction=<no-instruction>
     CALLBACK_TARGET_XREF from=0002727c type=DATA owner=<none> instruction=<no-instruction>
   CALLBACK_WORD index=28 slot=0x00027280 value=0x00025120 value_block=segment_2 value_exec=true function=get_res_alloc_tbl function_entry=0x00025120 ascii=.K.
@@ -537,6 +368,208 @@ CALLBACK_SLOT_EXACT_FUNCTION_VALUES=6
 CALLBACK_SLOT_REFERENCES_SHOWN=6
 CALLBACK_SLOT_LIMIT=These six slots are the direct R0 sources before the six call 0x25F70 sites; next trace any initialization/writes to them.
 614_PRIORITY_IQ_CALLBACK_SLOT_VALUES_TAIL_DONE
+
+============================================================
+614_PRIORITY_GET_INSTANCE_TARGET_BODIES
+The six get_signals_info callback words resolve to these functions; show each body, direct call edges, and incoming xrefs.
+READ ONLY - static listing only; no function is executed.
+============================================================
+
+GET_INSTANCE_TARGET address=0x00025418 block=segment_2 executable=true function=get_instance entry=0x00025418
+  GET_INSTANCE_INS 00025418 immext #0x22f2c0 
+  GET_INSTANCE_INS 0002541c add R17,PC,##0x22f2f0 
+  GET_INSTANCE_INS 00025420 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  GET_INSTANCE_INS 00025424 immext #0xffffff40 
+  GET_INSTANCE_INS 00025428 memw R2,(R17+##0xffffff58) 
+  GET_INSTANCE_INS 0002542c memw R16,(R2) 
+  GET_INSTANCE_INS 00025430 jump.if:t !cmp.eq(R16.new,#0x0),0x0002544c 
+  GET_INSTANCE_INS 00025434 call 0x0002526c 
+    GET_INSTANCE_EDGE type=UNCONDITIONAL_CALL target=0002526c target_function=FUN_0002526c target_entry=0x0002526C
+  GET_INSTANCE_INS 00025438 call 0x00024c40 
+    GET_INSTANCE_EDGE type=DATA target=00024c40 target_function=rfc_hwid614_qrm865ab_v3_ag_nr5g_ag target_entry=0x00024C40
+  GET_INSTANCE_INS 0002543c assign R16,R0 
+  GET_INSTANCE_INS 00025440 immext #0xffffff40 
+  GET_INSTANCE_INS 00025444 memw R2,(R17+##0xffffff58) 
+  GET_INSTANCE_INS 00025448 memw (R2),R16 
+  GET_INSTANCE_INS 0002544c assign R0,R16 
+  GET_INSTANCE_INS 00025450 memd R17R16,(SP+#0x0) ; dealloc_return 
+  GET_INSTANCE_INSNS_PRINTED=15
+  GET_INSTANCE_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING from=000259f4 type=PARAM caller=get_signals_info@0x000259A4 instruction=memw R0,(R18+##0xffffffa4) 
+  GET_INSTANCE_INCOMING from=002546ac type=DATA caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING_PRINTED=3
+
+GET_INSTANCE_TARGET address=0x000254FC block=segment_2 executable=true function=get_instance entry=0x000254FC
+  GET_INSTANCE_INS 000254fc immext #0x22f200 
+  GET_INSTANCE_INS 00025500 add R17,PC,##0x22f20c 
+  GET_INSTANCE_INS 00025504 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  GET_INSTANCE_INS 00025508 immext #0xffffff40 
+  GET_INSTANCE_INS 0002550c memw R2,(R17+##0xffffff68) 
+  GET_INSTANCE_INS 00025510 memw R16,(R2) 
+  GET_INSTANCE_INS 00025514 jump.if:t !cmp.eq(R16.new,#0x0),0x00025530 
+  GET_INSTANCE_INS 00025518 call 0x0002526c 
+    GET_INSTANCE_EDGE type=UNCONDITIONAL_CALL target=0002526c target_function=FUN_0002526c target_entry=0x0002526C
+  GET_INSTANCE_INS 0002551c call 0x00024c60 
+    GET_INSTANCE_EDGE type=DATA target=00024c60 target_function=rfc_hwid614_qrm865ab_v3_ag_wcdma_ag target_entry=0x00024C60
+  GET_INSTANCE_INS 00025520 assign R16,R0 
+  GET_INSTANCE_INS 00025524 immext #0xffffff40 
+  GET_INSTANCE_INS 00025528 memw R2,(R17+##0xffffff68) 
+  GET_INSTANCE_INS 0002552c memw (R2),R16 
+  GET_INSTANCE_INS 00025530 assign R0,R16 
+  GET_INSTANCE_INS 00025534 memd R17R16,(SP+#0x0) ; dealloc_return 
+  GET_INSTANCE_INSNS_PRINTED=15
+  GET_INSTANCE_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING from=00025a0c type=PARAM caller=get_signals_info@0x000259A4 instruction=memw R0,(R18+##0xffffffa8) 
+  GET_INSTANCE_INCOMING from=002546b0 type=DATA caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING_PRINTED=3
+
+GET_INSTANCE_TARGET address=0x00025598 block=segment_2 executable=true function=get_instance entry=0x00025598
+  GET_INSTANCE_INS 00025598 immext #0x22f140 
+  GET_INSTANCE_INS 0002559c add R17,PC,##0x22f170 
+  GET_INSTANCE_INS 000255a0 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  GET_INSTANCE_INS 000255a4 immext #0xffffff40 
+  GET_INSTANCE_INS 000255a8 memw R2,(R17+##0xffffff74) 
+  GET_INSTANCE_INS 000255ac memw R16,(R2) 
+  GET_INSTANCE_INS 000255b0 jump.if:t !cmp.eq(R16.new,#0x0),0x000255cc 
+  GET_INSTANCE_INS 000255b4 call 0x0002526c 
+    GET_INSTANCE_EDGE type=UNCONDITIONAL_CALL target=0002526c target_function=FUN_0002526c target_entry=0x0002526C
+  GET_INSTANCE_INS 000255b8 call 0x00024c80 
+    GET_INSTANCE_EDGE type=DATA target=00024c80 target_function=rfc_hwid614_qrm865ab_v3_ag_cdma_ag target_entry=0x00024C80
+  GET_INSTANCE_INS 000255bc assign R16,R0 
+  GET_INSTANCE_INS 000255c0 immext #0xffffff40 
+  GET_INSTANCE_INS 000255c4 memw R2,(R17+##0xffffff74) 
+  GET_INSTANCE_INS 000255c8 memw (R2),R16 
+  GET_INSTANCE_INS 000255cc assign R0,R16 
+  GET_INSTANCE_INS 000255d0 memd R17R16,(SP+#0x0) ; dealloc_return 
+  GET_INSTANCE_INSNS_PRINTED=15
+  GET_INSTANCE_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING from=00025a24 type=PARAM caller=get_signals_info@0x000259A4 instruction=memw R0,(R18+##0xffffffac) 
+  GET_INSTANCE_INCOMING from=002546b4 type=DATA caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING_PRINTED=3
+
+GET_INSTANCE_TARGET address=0x00025604 block=segment_2 executable=true function=get_instance entry=0x00025604
+  GET_INSTANCE_INS 00025604 immext #0x22f100 
+  GET_INSTANCE_INS 00025608 add R17,PC,##0x22f104 
+  GET_INSTANCE_INS 0002560c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  GET_INSTANCE_INS 00025610 immext #0xffffff40 
+  GET_INSTANCE_INS 00025614 memw R2,(R17+##0xffffff7c) 
+  GET_INSTANCE_INS 00025618 memw R16,(R2) 
+  GET_INSTANCE_INS 0002561c jump.if:t !cmp.eq(R16.new,#0x0),0x00025638 
+  GET_INSTANCE_INS 00025620 call 0x0002526c 
+    GET_INSTANCE_EDGE type=UNCONDITIONAL_CALL target=0002526c target_function=FUN_0002526c target_entry=0x0002526C
+  GET_INSTANCE_INS 00025624 call 0x00024cb0 
+    GET_INSTANCE_EDGE type=DATA target=00024cb0 target_function=rfc_hwid614_qrm865ab_v3_ag_gsm_ag target_entry=0x00024CB0
+  GET_INSTANCE_INS 00025628 assign R16,R0 
+  GET_INSTANCE_INS 0002562c immext #0xffffff40 
+  GET_INSTANCE_INS 00025630 memw R2,(R17+##0xffffff7c) 
+  GET_INSTANCE_INS 00025634 memw (R2),R16 
+  GET_INSTANCE_INS 00025638 assign R0,R16 
+  GET_INSTANCE_INS 0002563c memd R17R16,(SP+#0x0) ; dealloc_return 
+  GET_INSTANCE_INSNS_PRINTED=15
+  GET_INSTANCE_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING from=00025a3c type=PARAM caller=get_signals_info@0x000259A4 instruction=memw R0,(R18+##0xffffffb0) 
+  GET_INSTANCE_INCOMING from=002546b8 type=DATA caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING_PRINTED=3
+
+GET_INSTANCE_TARGET address=0x00025694 block=segment_2 executable=true function=get_instance entry=0x00025694
+  GET_INSTANCE_INS 00025694 immext #0x22f040 
+  GET_INSTANCE_INS 00025698 add R17,PC,##0x22f074 
+  GET_INSTANCE_INS 0002569c memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  GET_INSTANCE_INS 000256a0 immext #0xffffffc0 
+  GET_INSTANCE_INS 000256a4 memw R2,(R17+##0xffffffe8) 
+  GET_INSTANCE_INS 000256a8 memw R16,(R2) 
+  GET_INSTANCE_INS 000256ac jump.if:t !cmp.eq(R16.new,#0x0),0x000256c8 
+  GET_INSTANCE_INS 000256b0 call 0x0002526c 
+    GET_INSTANCE_EDGE type=UNCONDITIONAL_CALL target=0002526c target_function=FUN_0002526c target_entry=0x0002526C
+  GET_INSTANCE_INS 000256b4 call 0x00024e90 
+    GET_INSTANCE_EDGE type=DATA target=00024e90 target_function=rfc_hwid614_qrm865ab_v3_ag_tdscdma_ag target_entry=0x00024E90
+  GET_INSTANCE_INS 000256b8 assign R16,R0 
+  GET_INSTANCE_INS 000256bc immext #0xffffffc0 
+  GET_INSTANCE_INS 000256c0 memw R2,(R17+##0xffffffe8) 
+  GET_INSTANCE_INS 000256c4 memw (R2),R16 
+  GET_INSTANCE_INS 000256c8 assign R0,R16 
+  GET_INSTANCE_INS 000256cc memd R17R16,(SP+#0x0) ; dealloc_return 
+  GET_INSTANCE_INSNS_PRINTED=15
+  GET_INSTANCE_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING from=00025a54 type=PARAM caller=get_signals_info@0x000259A4 instruction=memw R0,(R18+##0xffffffb4) 
+  GET_INSTANCE_INCOMING from=002546bc type=DATA caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING_PRINTED=3
+
+GET_INSTANCE_TARGET address=0x00025700 block=segment_2 executable=true function=get_instance entry=0x00025700
+  GET_INSTANCE_INS 00025700 immext #0x22f000 
+  GET_INSTANCE_INS 00025704 add R17,PC,##0x22f008 
+  GET_INSTANCE_INS 00025708 memd (SP+#-0x10),R17R16 ; allocframe #0x8 
+  GET_INSTANCE_INS 0002570c immext #0xffffffc0 
+  GET_INSTANCE_INS 00025710 memw R2,(R17+##0xfffffff0) 
+  GET_INSTANCE_INS 00025714 memw R16,(R2) 
+  GET_INSTANCE_INS 00025718 jump.if:t !cmp.eq(R16.new,#0x0),0x00025734 
+  GET_INSTANCE_INS 0002571c call 0x0002526c 
+    GET_INSTANCE_EDGE type=UNCONDITIONAL_CALL target=0002526c target_function=FUN_0002526c target_entry=0x0002526C
+  GET_INSTANCE_INS 00025720 call 0x00024eb0 
+    GET_INSTANCE_EDGE type=DATA target=00024eb0 target_function=rfc_hwid614_qrm865ab_v3_ag_gnss_ag target_entry=0x00024EB0
+  GET_INSTANCE_INS 00025724 assign R16,R0 
+  GET_INSTANCE_INS 00025728 immext #0xffffffc0 
+  GET_INSTANCE_INS 0002572c memw R2,(R17+##0xfffffff0) 
+  GET_INSTANCE_INS 00025730 memw (R2),R16 
+  GET_INSTANCE_INS 00025734 assign R0,R16 
+  GET_INSTANCE_INS 00025738 memd R17R16,(SP+#0x0) ; dealloc_return 
+  GET_INSTANCE_INSNS_PRINTED=15
+  GET_INSTANCE_INCOMING from=Entry Point type=EXTERNAL caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING from=00025a6c type=PARAM caller=get_signals_info@0x000259A4 instruction=memw R0,(R18+##0xffffffb8) 
+  GET_INSTANCE_INCOMING from=002546c0 type=DATA caller=<none> instruction=<none>
+  GET_INSTANCE_INCOMING_PRINTED=3
+
+614_PRIORITY_RFC_SINGLETON_GLOBAL_WORDS
+  RFC_GLOBAL_WORD slot=0x0025467C readable=true value=0x0025506C value_block=EXTERNAL target_function=<none>
+    RFC_GLOBAL_WORD_REF from=000255a8 type=READ owner=get_instance instruction=memw R2,(R17+##0xffffff74) 
+    RFC_GLOBAL_WORD_REF from=000255c4 type=READ owner=get_instance instruction=memw R2,(R17+##0xffffff74) 
+  RFC_GLOBAL_WORD slot=0x00254684 readable=true value=0x00255040 value_block=EXTERNAL target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025614 type=READ owner=get_instance instruction=memw R2,(R17+##0xffffff7c) 
+    RFC_GLOBAL_WORD_REF from=00025630 type=READ owner=get_instance instruction=memw R2,(R17+##0xffffff7c) 
+  RFC_GLOBAL_WORD slot=0x0025468C readable=true value=0x00254888 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025688 type=READ owner=get_gsm_properties instruction=memw R2,(R2+##0xffffff84) 
+  RFC_GLOBAL_WORD slot=0x00254694 readable=true value=0x00219670 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025918 type=READ owner=sdr_rffe_sig_info_table_get instruction=memw R2,(R2+##0xffffff8c) 
+  RFC_GLOBAL_WORD slot=0x0025469C readable=true value=0x002196F0 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025960 type=READ owner=sdr_grfc_sig_info_table_get instruction=memw R2,(R2+##0xffffff94) 
+  RFC_GLOBAL_WORD slot=0x002546A4 readable=true value=0x002197B0 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025998 type=READ owner=blank_grfc_sig_info_table_get instruction=memw R2,(R2+##0xffffff9c) 
+  RFC_GLOBAL_WORD slot=0x002546AC readable=true value=0x00025418 value_block=segment_2 target_function=get_instance@0x00025418
+    RFC_GLOBAL_WORD_REF from=000259f4 type=READ owner=get_signals_info instruction=memw R0,(R18+##0xffffffa4) 
+  RFC_GLOBAL_WORD slot=0x002546B0 readable=true value=0x000254FC value_block=segment_2 target_function=get_instance@0x000254FC
+    RFC_GLOBAL_WORD_REF from=00025a0c type=READ owner=get_signals_info instruction=memw R0,(R18+##0xffffffa8) 
+  RFC_GLOBAL_WORD slot=0x002546B4 readable=true value=0x00025598 value_block=segment_2 target_function=get_instance@0x00025598
+    RFC_GLOBAL_WORD_REF from=00025a24 type=READ owner=get_signals_info instruction=memw R0,(R18+##0xffffffac) 
+  RFC_GLOBAL_WORD slot=0x002546B8 readable=true value=0x00025604 value_block=segment_2 target_function=get_instance@0x00025604
+    RFC_GLOBAL_WORD_REF from=00025a3c type=READ owner=get_signals_info instruction=memw R0,(R18+##0xffffffb0) 
+  RFC_GLOBAL_WORD slot=0x002546BC readable=true value=0x00025694 value_block=segment_2 target_function=get_instance@0x00025694
+    RFC_GLOBAL_WORD_REF from=00025a54 type=READ owner=get_signals_info instruction=memw R0,(R18+##0xffffffb4) 
+  RFC_GLOBAL_WORD slot=0x002546C0 readable=true value=0x00025700 value_block=segment_2 target_function=get_instance@0x00025700
+    RFC_GLOBAL_WORD_REF from=00025a6c type=READ owner=get_signals_info instruction=memw R0,(R18+##0xffffffb8) 
+  RFC_GLOBAL_WORD slot=0x002546D0 readable=true value=0x00219830 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025c08 type=READ owner=get_logical_path_config instruction=memw R2,(R2+##0xffffffc8) 
+  RFC_GLOBAL_WORD slot=0x002546D4 readable=true value=0x00220C38 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025c24 type=READ owner=get_ant_path_info_config instruction=memw R0,(R2+##0xffffffcc) 
+  RFC_GLOBAL_WORD slot=0x002546D8 readable=true value=0x00220C48 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025c38 type=READ owner=get_sig_path_info_config instruction=memw R0,(R2+##0xffffffd0) 
+  RFC_GLOBAL_WORD slot=0x002546DC readable=true value=0x00220C60 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025d20 type=READ owner=get_cmn_properties instruction=memw R2,(R2+##0xffffffd4) 
+    RFC_GLOBAL_WORD_REF from=00025c68 type=READ owner=get_rffe_speeds_info instruction=memw R4,(R3) 
+    RFC_GLOBAL_WORD_REF from=00025cd8 type=READ owner=get_rffe_speeds_info instruction=memw R3,(R3) 
+    RFC_GLOBAL_WORD_REF from=00025ccc type=READ owner=get_rffe_speeds_info instruction=memw R3,(R3) 
+  RFC_GLOBAL_WORD slot=0x002546E0 readable=true value=0x00220E88 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025d3c type=READ owner=get_band_info_rrc_table instruction=memw R3,(R2+##0xffffffd8) 
+  RFC_GLOBAL_WORD slot=0x002546E8 readable=true value=0x002210B0 value_block=segment_3 target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025f30 type=READ owner=get_fbrx_path_table_cfg instruction=memw R0,(R2+##0xffffffe0) 
+    RFC_GLOBAL_WORD_REF from=00025e64 type=READ owner=fbrx_cfg_data_get instruction=memw R3,(R4+##0xffffffe0) 
+    RFC_GLOBAL_WORD_REF from=00025e74 type=READ owner=fbrx_cfg_data_get instruction=memw R4,(R4+##0xffffffe0) 
+  RFC_GLOBAL_WORD slot=0x002546F0 readable=true value=0x002550D4 value_block=EXTERNAL target_function=<none>
+    RFC_GLOBAL_WORD_REF from=000256a4 type=READ owner=get_instance instruction=memw R2,(R17+##0xffffffe8) 
+    RFC_GLOBAL_WORD_REF from=000256c0 type=READ owner=get_instance instruction=memw R2,(R17+##0xffffffe8) 
+  RFC_GLOBAL_WORD slot=0x002546F8 readable=true value=0x00255070 value_block=EXTERNAL target_function=<none>
+    RFC_GLOBAL_WORD_REF from=00025710 type=READ owner=get_instance instruction=memw R2,(R17+##0xfffffff0) 
+    RFC_GLOBAL_WORD_REF from=0002572c type=READ owner=get_instance instruction=memw R2,(R17+##0xfffffff0) 
+614_PRIORITY_GET_INSTANCE_TARGET_BODIES_DONE
 614_COMMON_RFC_DISPATCH_DONE
 
 614_NEXT_TRACE_DONE
