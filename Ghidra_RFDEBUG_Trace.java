@@ -20,7 +20,7 @@ import java.util.List;
 /*
  * Ghidra_RFDEBUG_Trace
  *
- * TRACE_BUILD = DIAG-FTM-STRUCTURE-79
+ * TRACE_BUILD = DIAG-FTM-STRUCTURE-80
  *
  * Phase 2:
  *   1) Directly inspect the externally-derived reference addresses.
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class Ghidra_RFDEBUG_Trace extends GhidraScript {
 
-    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-79";
+    private static final String TRACE_BUILD = "DIAG-FTM-STRUCTURE-80";
 
 // Keep this enabled while resolving the 0x25F70 -> 0x24C00 -> callr R0 chain.
 // It prevents broad scans from pushing the focused evidence out of Ghidra's console buffer.
@@ -9596,9 +9596,9 @@ private static final boolean FOCUS_ONLY_614 = true;
         int pcodeRowsShown = 0;
         int writeContextsShown = 0;
         final long MAX_INSNS = 1800000L;
-        final int MAX_GP_ROWS = 240;
-        final int MAX_PCODE_ROWS = 160;
-        final int MAX_WRITE_CONTEXTS = 48;
+        final int MAX_GP_ROWS = 0;
+        final int MAX_PCODE_ROWS = 0;
+        final int MAX_WRITE_CONTEXTS = 0;
 
         for (MemoryBlock b : memory().getBlocks()) {
             if (monitor.isCancelled() || lines >= MAX_LINES
@@ -9734,10 +9734,14 @@ private static final boolean FOCUS_ONLY_614 = true;
                     long target = to.getOffset();
                     if (target < 0xC9199000L || target > 0xC91A9000L) continue;
                     directIqTableCodeRefs++;
-                    if (lines < MAX_LINES && directIqTableCodeRefs <= 180L) {
+                    boolean inFocusedIqTableRange =
+                        (target >= 0xC9199840L && target <= 0xC9199960L)
+                        || (target >= 0xC9199F80L && target <= 0xC919A060L)
+                        || (target >= 0xC919A2C0L && target <= 0xC919A340L);
+                    if (lines < MAX_LINES && inFocusedIqTableRange) {
                         Function owner = currentProgram.getFunctionManager()
                             .getFunctionContaining(ins.getAddress());
-                        p("QDSP_IQ_TABLE_CODE_REFERENCE from=" + ins.getAddress()
+                        p("QDSP_IQ_FOCUSED_TABLE_CODE_REFERENCE from=" + ins.getAddress()
                             + " to=" + to
                             + " ref_type=" + ref.getReferenceType()
                             + " function=" + (owner == null ? "<none>"
@@ -9926,6 +9930,194 @@ private static final boolean FOCUS_ONLY_614 = true;
         p("QDSP_GP_ACTUAL_WRITER_CANDIDATES=" + candidates);
         p("QDSP_GP_ACTUAL_WRITERS_SHOWN=" + shown);
         p("QDSP_GP_ACTUAL_WRITER_FOCUSED_TAIL_DONE");
+        dumpQdspIqArrayAndConsumerTail();
+    }
+
+
+    /*
+     * STRUCTURE-80: keep the next pass focused on the concrete pointer arrays
+     * surrounding FETCH_IQ, IQ_CAPTURE_TYPE, UNASSIGNED, TUNE_TX_TO_RX_FREQ and
+     * IQ_CAPTURE. Also dump the generic table-reader functions seen in the last
+     * scan and hunt data-pointer copies of these table addresses in data blocks.
+     * This is static/read-only and does not set GP or modify Ghidra references.
+     */
+    private void dumpQdspIqPointerWordRange(long start, long end, String label) {
+        p("");
+        p("QDSP_IQ_POINTER_ARRAY_RANGE label=" + label
+            + " start=" + hex(start) + " end=" + hex(end));
+        MemoryBlock startBlock = block(start);
+        p("  block=" + (startBlock == null ? "<none>" : startBlock.getName())
+            + " initialized=" + (startBlock != null && startBlock.isInitialized()));
+        if (startBlock == null || !startBlock.isInitialized()) return;
+
+        long pos = (start + 3L) & ~3L;
+        long count = 0L;
+        long stringPointers = 0L;
+        while (pos + 3L <= end && !monitor.isCancelled() && lines < MAX_LINES) {
+            MemoryBlock slotBlock = block(pos);
+            if (slotBlock == null || !slotBlock.isInitialized()) {
+                pos += 4L;
+                continue;
+            }
+            long value;
+            try {
+                value = u32(pos);
+            } catch (Exception e) {
+                p("  QDSP_IQ_POINTER_ARRAY_WORD slot=" + hex(pos)
+                    + " read_error=" + e.getMessage());
+                pos += 4L;
+                continue;
+            }
+            MemoryBlock valueBlock = block(value);
+            String valueText = readAsciiAt(value, 72);
+            boolean isString = valueBlock != null && valueBlock.isInitialized()
+                && valueText != null;
+            if (isString) stringPointers++;
+            long propertyWordIndex = (pos - 0xC9199FB8L) / 4L;
+            String indexText = (pos >= 0xC9199FB8L && ((pos - 0xC9199FB8L) & 3L) == 0L)
+                ? " property_word_index=" + propertyWordIndex : "";
+            p("  QDSP_IQ_POINTER_ARRAY_WORD slot=" + hex(pos)
+                + indexText
+                + " value=" + hex(value)
+                + " string_pointer=" + isString
+                + " value_block=" + (valueBlock == null ? "<none>" : valueBlock.getName())
+                + " value_ascii=" + (isString ? valueText : "<not-a-cstring>"));
+            count++;
+            pos += 4L;
+        }
+        p("  QDSP_IQ_POINTER_ARRAY_WORDS=" + count);
+        p("  QDSP_IQ_POINTER_ARRAY_STRING_POINTERS=" + stringPointers);
+    }
+
+    private void scanQdspIqTableRootPointers() {
+        p("");
+        p("QDSP_IQ_TABLE_ROOT_POINTER_SCAN");
+        p("Scan initialized segment_20/segment_21 data for pointer copies to known table addresses.");
+        final long[] targets = {
+            0xC9199668L, 0xC9199678L, 0xC91998A4L, 0xC919990CL,
+            0xC9199FB8L, 0xC919A020L, 0xC919A308L, 0xC919AB90L,
+            0xC919AC30L, 0xC919B0E8L
+        };
+        final String[] labels = {
+            "TABLE_OBJECT_9668", "TABLE_OBJECT_9678", "FETCH_IQ_SLOT",
+            "IQ_CAPTURE_TYPE_SLOT", "PROPERTY_NAMES_BASE", "TUNE_TX_TO_RX_FREQ_SLOT",
+            "IQ_CAPTURE_SLOT", "NEARBY_TABLE_AB90", "NEARBY_TABLE_AC30", "NEARBY_TABLE_B0E8"
+        };
+        long wordsScanned = 0L;
+        long hits = 0L;
+        int shown = 0;
+        final int CHUNK = 0x4000;
+        final int MAX_SHOW = 100;
+        byte[] buffer = new byte[CHUNK];
+
+        for (MemoryBlock b : memory().getBlocks()) {
+            if (monitor.isCancelled() || lines >= MAX_LINES) break;
+            String name = b.getName();
+            if (!b.isInitialized() || !isDefaultDynamicAddressBlock(b)
+                    || !("segment_20".equals(name) || "segment_21".equals(name))) continue;
+            long pos = (b.getStart().getOffset() + 3L) & ~3L;
+            long end = b.getEnd().getOffset();
+            while (pos <= end && !monitor.isCancelled() && lines < MAX_LINES) {
+                int want = (int)Math.min((long)CHUNK, end - pos + 1L);
+                try {
+                    memory().getBytes(addr(pos), buffer, 0, want);
+                } catch (Exception e) {
+                    p("QDSP_IQ_TABLE_ROOT_POINTER_READ_ERROR block=" + b.getName()
+                        + " address=" + hex(pos) + " error=" + e.getMessage());
+                    break;
+                }
+                for (int i = 0; i + 3 < want; i += 4) {
+                    long value = ((long)buffer[i] & 0xffL)
+                        | (((long)buffer[i + 1] & 0xffL) << 8)
+                        | (((long)buffer[i + 2] & 0xffL) << 16)
+                        | (((long)buffer[i + 3] & 0xffL) << 24);
+                    wordsScanned++;
+                    for (int t = 0; t < targets.length; t++) {
+                        if (value != targets[t]) continue;
+                        hits++;
+                        if (shown >= MAX_SHOW || lines >= MAX_LINES) continue;
+                        p("QDSP_IQ_TABLE_ROOT_POINTER_HIT slot=" + hex(pos + i)
+                            + " source_block=" + b.getName()
+                            + " target=" + hex(value) + " target_label=" + labels[t]);
+                        ReferenceIterator refs = currentProgram.getReferenceManager()
+                            .getReferencesTo(addr(pos + i));
+                        int refShown = 0;
+                        while (refs.hasNext() && refShown < 4
+                                && !monitor.isCancelled() && lines < MAX_LINES) {
+                            Reference ref = refs.next();
+                            Address from = ref.getFromAddress();
+                            Function owner = currentProgram.getFunctionManager()
+                                .getFunctionContaining(from);
+                            Instruction fromIns = listing().getInstructionAt(from);
+                            if (fromIns == null) fromIns = listing().getInstructionContaining(from);
+                            p("  QDSP_IQ_TABLE_ROOT_POINTER_XREF from=" + from
+                                + " type=" + ref.getReferenceType()
+                                + " owner=" + (owner == null ? "<none>"
+                                    : owner.getName() + "@" + hex(owner.getEntryPoint().getOffset()))
+                                + " instruction=" + (fromIns == null ? "<none>" : fromIns.toString()));
+                            refShown++;
+                        }
+                        p("  QDSP_IQ_TABLE_ROOT_POINTER_XREFS_SHOWN=" + refShown);
+                        shown++;
+                    }
+                }
+                pos += want;
+            }
+        }
+        p("QDSP_IQ_TABLE_ROOT_POINTER_WORDS_SCANNED=" + wordsScanned);
+        p("QDSP_IQ_TABLE_ROOT_POINTER_HITS=" + hits);
+        p("QDSP_IQ_TABLE_ROOT_POINTER_HITS_SHOWN=" + shown);
+        p("QDSP_IQ_TABLE_ROOT_POINTER_SCAN_DONE");
+    }
+
+    private void dumpQdspTableConsumerFunction(long entry, String label, int maxInsns) {
+        p("");
+        p("QDSP_IQ_TABLE_CONSUMER_FUNCTION label=" + label + " requested_entry=" + hex(entry));
+        Function f = currentProgram.getFunctionManager().getFunctionAt(addr(entry));
+        if (f == null) f = currentProgram.getFunctionManager().getFunctionContaining(addr(entry));
+        if (f == null) {
+            p("  QDSP_IQ_TABLE_CONSUMER_FUNCTION_NOT_FOUND");
+            return;
+        }
+        p("  function=" + f.getName() + " entry=" + hex(f.getEntryPoint().getOffset())
+            + " body=" + f.getBody().toString());
+        InstructionIterator it = listing().getInstructions(f.getBody(), true);
+        int shown = 0;
+        while (it.hasNext() && shown < maxInsns && !monitor.isCancelled()
+                && lines < MAX_LINES) {
+            Instruction ins = it.next();
+            p("  QDSP_IQ_TABLE_CONSUMER_INSN " + ins.getAddress() + " " + ins.toString());
+            Reference[] refs = currentProgram.getReferenceManager().getReferencesFrom(ins.getAddress());
+            int refShown = 0;
+            for (Reference ref : refs) {
+                if (refShown >= 3 || lines >= MAX_LINES) break;
+                Address to = ref.getToAddress();
+                if (to == null) continue;
+                long target = to.getOffset();
+                if (target < 0xC9199600L || target > 0xC919B400L) continue;
+                p("    QDSP_IQ_TABLE_CONSUMER_REF to=" + to
+                    + " type=" + ref.getReferenceType());
+                refShown++;
+            }
+            shown++;
+        }
+        p("  QDSP_IQ_TABLE_CONSUMER_INSNS_SHOWN=" + shown);
+    }
+
+    private void dumpQdspIqArrayAndConsumerTail() {
+        p("");
+        p("============================================================");
+        p("QDSP_IQ_ARRAY_AND_CONSUMER_FOCUSED_TAIL");
+        p("Important pointer words and table consumers are repeated here to survive console truncation.");
+        p("============================================================");
+        dumpQdspIqPointerWordRange(0xC919987CL, 0xC919994CL, "IQ_FIELD_NAME_POOL_A");
+        dumpQdspIqPointerWordRange(0xC9199F98L, 0xC919A058L, "RFDEBUG_PROPERTY_NAMES_INDEX_0_TO_40");
+        dumpQdspIqPointerWordRange(0xC919A2E8L, 0xC919A328L, "RFDEBUG_PROPERTY_NAMES_INDEX_200_TO_218");
+        scanQdspIqTableRootPointers();
+        dumpQdspTableConsumerFunction(0xC1CB6C30L, "TABLE_SETUP_C1CB6C30", 18);
+        dumpQdspTableConsumerFunction(0xC1CBADFCL, "TABLE_WALKER_C1CBADFC", 28);
+        dumpQdspTableConsumerFunction(0xC1CBF250L, "TABLE_SETUP_C1CBF250", 28);
+        p("QDSP_IQ_ARRAY_AND_CONSUMER_FOCUSED_TAIL_DONE");
     }
 
     private void scanQdspIqCaptureDataPath() {
