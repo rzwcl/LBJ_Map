@@ -1,131 +1,473 @@
-明白了。现在的问题不是简单地总结错了，而是后续对话把分析对象换掉了，导致原本已经推进到频率字段的工作，被带回了 qdsp6sw.mbn 的 DIAG/FTM 分发器搜索。 这条路线和你真正要追的频率处理路径不一致，难怪整个流程越来越乱。
+会话交接总总结（2026-10-10）
+项目：X55 / 614_0_0.mbn / RF 与频率路径静态逆向
+用途：下一会话直接延续，不要重新问已经确认过的环境、目标和地址，不要把分析路线带回已偏离的旧分支。
 
-我现在把项目重新对齐。接下来以你指出的 614_0_0.mbn 为当前分析目标，不再把之前那套 qdsp6sw.mbn 的 RFDEBUG 分析当作主线。
+这份文件是在读取之前的《新建文本文档 (3).txt》《新建文本文档 (4).txt》以及最新《新建文本文档 (2).txt》运行日志的基础上重新整理的。当前最重要的原则是：旧记录里保存了 qdsp6sw.mbn 的 RFDEBUG property table 研究；而最近这条会话被用户明确要求转到 614_0_0.mbn。两组固件地址不能混用。此总结把旧路线保留为历史背景，但当前执行主线以 614_0_0.mbn 为准。
 
-一、先恢复正确的分析目标
+================================================================
+一、最终目标：为什么做这个逆向项目
+================================================================
 
-最终目标没有变：
+目标设备：
+- Xiaomi Mi 10 Ultra，型号 M2007J1SC，代号 cas。
+- Qualcomm Snapdragon X55 modem / RF 子系统。
+- 最终目标是以严格 RX-only 的方式，让设备内部 RF RX 链路尝试接收固定频率 821.2375 MHz。
 
-* 设备：Xiaomi Mi 10 Ultra，Snapdragon X55。
-* 目标频率：821.2375 MHz。
-* 目标：追踪基带内部接收频率的配置路径。
-* 当前阶段：静态逆向，找到真正处理频率字段的代码函数。
-* 暂不发送新的 DIAG 命令，不修改固件，不执行发射操作。
+约束必须持续遵守：
+- RX only；不发射 TX。
+- 不打开 PA，不做功率校准。
+- 不改 NV / EFS，不刷写 modem firmware。
+- 不改固件、不执行写入型操作。
+- 目前优先做静态逆向、反汇编、函数调用路径和数据结构确认。
+- 在请求头、dispatcher、handler、property 处理路径没有被证据确认之前，不继续盲发 DIAG 命令。
+- Ghidra 脚本只读；禁止对程序数据、指令、引用、符号、注释或结构进行修改。
+- 任何“已经找到频率处理函数”“已经能调到 821.2375 MHz”的结论都必须有具体指令、调用关系和数据流证据支撑，不能从函数名或字符串直接推断。
 
-当前主线应该是：
+最终想弄清的逻辑是：外部请求或内部控制入口如何进入 modem/RF 软件，频率参数怎样被解析，最终如何传到 RF/RFM 的 RX 调谐路径。现在仍处于静态追踪阶段，不能声称已经完成调谐。
 
-614_0_0.mbn
-      │
-      ▼
-频率相关字段表
-      │
-      ▼
-字段的解析 / 处理函数
-      │
-      ▼
-实际频率配置路径
-      │
-      ▼
-确认 821.2375 MHz 应如何表示和传递
+================================================================
+二、最重要的路线纠正：当前分析对象是 614_0_0.mbn
+================================================================
 
-而不是继续从 qdsp6sw.mbn 重新寻找通用 DIAG 分发器。
+用户此前指出后续对话反复回到 qdsp6sw.mbn，造成工作路线混乱；当前这一轮已经切换到 614_0_0.mbn，并且所有最新的 Ghidra 专项脚本都是按这个文件进行的。
 
-二、你提供的频率字段证据必须保留
+当前必须遵守：
 
-你引用的上一段分析已经明确列出以下结果：
+1. 当前 Ghidra 程序应当是 614_0_0.mbn。
+2. 本程序的 IMAGE_BASE 为 0x00010000。
+3. 当前最有证据的地址区域是 0x24xxx、0x25xxx、0x2546xx 和 0x272xx。
+4. 这些地址属于 614_0_0.mbn 当前 Ghidra 程序，绝不能和 qdsp6sw.mbn 中的 Cxxxxxxx 地址相互套用。
+5. 不要仅因为旧记录里有一个已经确认过的字段名，就把它直接套到 614_0_0.mbn；必须在当前文件中重新取得本文件自己的证据。
+6. 当前路线还没有证实 614_0_0.mbn 的 get_signals_info 就是 RFDEBUG dispatcher，也没有证实它直接配置频率。它只是最近一轮已经追到、值得继续确认的数据/函数链。
 
-字段	字符串地址	字段表槽位
-CENTER_FREQ	0xC508237B	0xC91997C8、0xC91997EC
-BWP_CENTER_FREQ	0xC5082513	0xC9199858
-RX_CARRIER	0xC5082337	主表及其他候选描述表
-TX_CARRIER	0xC5082342	主表及其他候选描述表
+应当保留区分的两个分析分支：
 
-这些结果应该作为当前工作的起点，而不是重新扫描一遍。
+A. 历史 qdsp6sw.mbn 分支：曾经找到 RFDEBUG property_names[]、FREQUENCY 等字段和 RFDEBUG probe 错误码；这些结果可以作为历史背景，但不是当前 614_0_0.mbn 的地址证据。
 
-但需要保留一个技术上的区别：
+B. 当前 614_0_0.mbn 分支：从函数体、槽位、函数指针、参数记录、get_instance 和后续调用一路追踪。此分支是当前继续工作的主线。
 
-* 字符串地址证明固件中存在相应字段名称。
-* 字段表槽位证明相应数据表中存在字段描述。
-* 它们本身还不能证明哪个函数实际读取或写入这些字段。
+如果新会话对这两个文件的关系不确定，先读当前 Ghidra 程序名称、IMAGE_BASE 和最新运行日志，不要直接切回 qdsp6sw.mbn。
 
-因此，当前真正缺少的是字段到代码的关联。
+================================================================
+三、设备与 DIAG 环境（历史已确认，不必重新折腾）
+================================================================
 
-还有一点需要特别注意：CENTER_FREQ、BWP_CENTER_FREQ、RX_CARRIER 和 TX_CARRIER 名称相近，但不应直接认定它们都能独立控制接收机的实际调谐频率。必须追到使用这些字段的代码，才能判断各自的作用。
+设备：
+- Xiaomi Mi 10 Ultra。
+- Android 13 / MIUI V816.0.4.0.TJJCNXM。
+- Security Patch：2024-03-01。
+- 基带版本：2.5.c1-50.1a-14515.23-0521_0210_d46c7e8c13。
+- Kernel：4.19.157-perf-g19050d39787c。
+- 已取得 root，历史记录中 uid=0，SELinux context 为 u:r:magisk:s0。
 
-三、STRUCTURE-14、15、16 的进度不能再混淆
+DIAG 环境此前已经实测打通：
+- /dev/diag 存在并可访问。
+- 因 Android linker namespace 限制，直接使用 /vendor/lib64/libdiag.so 有问题；曾把库复制到 /data/local/tmp/libdiag.so。
+- Diag_LSM_Init 成功。
+- MDM remote mask = 0x0003。
+- callback mode = 6，USB mode = 1，MDM = 1。
+- DIAG 相关线程已见到，包括 diag_real_time_、diag_wq、DIAG_USB_diag、DIAG_CTRL、DIAG_DATA、DIAG_CMD、DIAG_DCI_DATA、DIAG_RPMSG_DIAG、diag_mhi_MDM。
+- /dev/socket/qmux_radio/ril_ipc 存在。
 
-你提供的历史记录里，有三个明确的信息：
+因此，“手机完全不能通过 DIAG 和 MDM 通信”不是当前瓶颈。当前瓶颈是找到真正的静态代码处理路径，以及理解特定固件中的调用和数据结构。
 
-1. 你之前发送的日志实际上属于 STRUCTURE-14。
-2. 它不是当时要求的 STRUCTURE-15。
-3. 后续分析因此转向了更直接追踪频率路径的 STRUCTURE-16。
+注意：这些环境事实并不等于 RFDEBUG command 已经被正确接受，也不代表当前已经成功调谐。
 
-这里需要把两个问题分开：
+================================================================
+四、Ghidra 环境、固件身份和地址纪律
+================================================================
 
-* 分析路线已经确定： 从频率字段出发，寻找实际处理函数。
-* STRUCTURE-16 的执行结果： 当前这条消息里还没有完整输出，因此不能假装已经知道它找到了什么。
+历史 Ghidra 环境：
+- Ghidra 12.1.4_PUBLIC_20260921。
+- Java / javac 21.0.12.1。
+- Hexagon:LE:32:default (2.5) processor。
+- 对旧的 qdsp6sw.mbn 程序，之前执行 Auto Analyze 后已经有大量反汇编，约 1,415,334 条指令可扫描。
 
-我不会把 STRUCTURE-14 的输出当成 STRUCTURE-16 的结果，也不会在没有证据的情况下宣称已经找到频率处理函数。
+当前 614_0_0.mbn 专项日志已实际输出：
+- PROGRAM=614_0_0.mbn
+- IMAGE_BASE=00010000
+- TARGET_PROFILE=614_0_0_DYNAMIC_FREQUENCY_DISCOVERY
 
-四、接下来应该怎么做
+当前地址使用原则：
+- 614_0_0.mbn 中的 0x000259A4、0x00025F70、0x002546AC 等，是当前程序的地址。
+- 不要把旧 qdsp6sw.mbn 里的 C9199FB8、C919A028 或 C5084812 当成 614_0_0.mbn 的地址。
+- 不要依据两个模块里的函数名相似就把地址跨文件拷贝。
+- 所有 PC-relative 地址都需要依照 Hexagon packet-start 规则重新计算；不能只按普通 x86/ARM 的指令地址习惯猜测。
+- 数据块属于 executable / non-executable 只是一项分类；落在 executable block 不一定就证明某个值是函数入口，仍要结合精确函数入口、指令、引用和上下文。
+- 静态指针值也不必然等于运行时重定位后的最终值。
 
-下一步不需要重新导入固件，也不需要再跑之前的 qdsp6sw.mbn 搜索脚本。
+================================================================
+五、旧 qdsp6sw.mbn / RFDEBUG 线索：保留为历史资料，不要把它当本轮主线
+================================================================
 
-应该沿着以下路径推进：
+早期记录中的 qdsp6sw.mbn：
+- 路径：/vendor/firmware_mnt/image/sdx55m/qdsp6sw.mbn。
+- 文件大小约 84,017,300 bytes。
+- 处理器为 32-bit little-endian Hexagon，static / stripped；历史记录里 entry=0x81600000，29 个 program headers，没有 section headers。
+- 该 MBN 的地址映射分析中，所有 LOAD segment 曾观测到 p_vaddr - p_paddr = 0x40000000。历史记录将这组地址分别称为 runtime-style / static-load 地址；不得不加说明地把该映射规则套用到 614_0_0.mbn。
 
-第一步：确认 STRUCTURE-16 的真实输出
+早期 qdsp6sw 分支实际确认过的 RFDEBUG 事实：
+- RFDEBUG subsystem ID 是 0x7B。
+- Qualcomm 公共源码里的命令编号包括 1 RADIO_CONFIGURE、2 TX_OVERRIDE、3 RX_OVERRIDE、4 DISCOVERY、5 PROPERTY_DISCOVERY 等。
+- 公共源码的 Radio Configure property ID 中，26 = TUNE_TX_TO_RX_FREQ，28 = FREQUENCY。
+- qdsp6sw.mbn 里曾找到 property_names[]，起点 C9199FB8，其中 C919A020 对应 TUNE_TX_TO_RX_FREQ，C919A028 对应 FREQUENCY；相关字符串在 C50847FF / C5084812。
+- 这些是旧文件中已取得的证据，但它们本身不能告诉我们当前 614_0_0.mbn 的函数具体做什么。
 
-重点看它是否找到了：
+旧 DIAG 实测结果：
+- 曾发 RFDEBUG command 1，响应 common error = 4。
+- command 4 DISCOVERY、command 5 PROPERTY_DISCOVERY 也都得到 common error = 4。
+- 公共源码把 4 定义为 FTM_RF_DEBUG_EC_BAD_CMD。
+- 所以只能说旧实验请求没有被该固件接受；不能把它当作已经成功进入 RADIO_CONFIGURE handler 的证据。
+- 策略已经转成“先静态逆向，再决定是否重新实验”，不要继续猜包、连续改字段盲发。
 
-* CENTER_FREQ 对应的读取或写入指令；
-* BWP_CENTER_FREQ 的访问位置；
-* RX_CARRIER 的访问位置；
-* 相关代码所在的函数入口；
-* 调用这些函数的上层代码。
+旧公共源码与工具参考：
+- arzekrasr/MPSS.HA.1.1，历史记录中的 commit：06e735b4036be9280985accc611ba052a7be77e0。
+- 相关文件曾包括 ftm_rf_debug_interface.h、ftm_rf_debug_interface.c、ftm_common_dispatch.c、ftmdiag.c、ftm_rf_test_control.c、ftm_rf_test_radio_config.c。
+- 另有公开工具仓库中出现过 property/value pairs、prop 4 bytes + value 8 bytes 的说明，以及 QMSL 对 RADIO_CONFIGURE 的支持。这些是公共架构的参考，不等于当前固件的请求格式已经确认。
 
-第二步：从命中位置追函数，而不是继续整理字段表
+旧分支中已经排除、不应重复：
+- C1600000 被识别为 thunk_FUN_c1601834，属于启动/系统/硬件初始化一类线索，不是已确认的 RFDEBUG dispatcher。
+- C4721xxx / C4722xxx 路线已判定是 Xiaomi RF antenna-control / logging descriptor 相关数据，不是 RFDEBUG handler table。
+- C4953xxx 的 RFDEBUG log format strings 存在，但普通 XREF 搜索无法找到其代码引用；不能继续简单地对字符串按 X 并把它当 dispatcher。
+- C9199FB8、C919A020、C919A028 的 ReferenceManager xref 和直接裸 32-bit 指针扫描结果为 0，并不能证明表没被使用，只说明这几种简单静态引用方式没有找到。
+- C1993A94 / C1993ACC 等指令里的低 16 位 0x9FB8 并没有被证明在构造 C9199FB8；不得再把这种低位巧合当作地址证据。
+- 旧版日志里 property string 的数据指针关系可靠，但普通 ReferenceManager 无法从表反查代码，这条简单路线已试过。
 
-一旦找到字段访问指令，需要检查所在函数的完整上下文：
+保留以上历史背景的唯一目的，是防止以后重复踩坑。当前这一轮仍然从 614_0_0.mbn 出发，不要主动切回旧文件。
 
-字段地址 / 偏移
-       ↓
-读取或写入指令
-       ↓
-所在函数入口
-       ↓
-函数参数与调用者
-       ↓
-实际处理频率的代码
+================================================================
+六、当前 614_0_0.mbn 的已确认分析锚点
+================================================================
 
-如果字段是通过基址加偏移访问的，就要追踪基址的来源，以及该基址指向什么结构体。不能仅凭某个偏移数值与字段地址的低位相同，就认定两者存在关联。
+最近的成功运行日志在仓库同一个文件中：
+- 日志文件：新建文本文档 (2).txt
+- URL：https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2).txt
+- 当前可读取内容约 387 行。
+- 这份成功日志标记 TRACE_BUILD=DIAG-FTM-STRUCTURE-55。
+- 重点提示：当前脚本源码已经更新到 57，但最新这份成功日志仍然是 55 版。57 版的 R2 参数记录扫描还没有成功跑出结果，因为用户在本地运行时遇到了 Java checked-exception 编译错误。
 
-第三步：判断哪条路径与 RX 调谐有关
+当前函数一：get_signals_info
+- 函数入口：0x000259A4。
+- 当前 Ghidra 函数范围：0x000259A4–0x00025A93。
+- 所在块：segment_2，executable=true。
+- 它先调用 0x24C00 保存寄存器，然后处理参数和条件分支。
+- 函数内有一处 R18 的 PC-relative 基址计算：
+  0x259B8  immext #0x22ed40
+  0x259BC  add R18,PC,##0x22ed50
+- 按当前脚本的 Hexagon packet-start 规则：
+  0x259B8 + 0x22ED50 = 0x254708
+- 因此当前 get_signals_info 中 R18 的静态基址候选为 0x00254708。
 
-最终需要确认：
+六个已经确认的间接调用位置：
+- 0x259F8 call 0x25F70
+- 0x25A10 call 0x25F70
+- 0x25A28 call 0x25F70
+- 0x25A40 call 0x25F70
+- 0x25A58 call 0x25F70
+- 0x25A70 call 0x25F70
 
-1. 哪个字段实际控制接收频率；
-2. 频率的单位、缩放方式和数据类型；
-3. 该字段是否只是描述信息，还是会被传递到实际 RF 配置函数；
-4. 对应的代码路径是否支持目标设备和当前工作模式。
+每次调用之前的指令都会将 R18 基址相对的一个静态内存字加载到 R0。最新成功日志已经实测解析这些地址和值：
 
-在这些问题得到证据支持之前，不应该构造新的频率配置请求。
+| 序号 | 加载指令 | R18 偏移 | 有效槽位 | 静态值 | 精确目标函数 |
+|---|---|---:|---:|---:|---|
+| 1 | 0x259F4 | -0x5C | 0x2546AC | 0x25418 | get_instance @ 0x25418 |
+| 2 | 0x25A0C | -0x58 | 0x2546B0 | 0x254FC | get_instance @ 0x254FC |
+| 3 | 0x25A24 | -0x54 | 0x2546B4 | 0x25598 | get_instance @ 0x25598 |
+| 4 | 0x25A3C | -0x50 | 0x2546B8 | 0x25604 | get_instance @ 0x25604 |
+| 5 | 0x25A54 | -0x4C | 0x2546BC | 0x25694 | get_instance @ 0x25694 |
+| 6 | 0x25A6C | -0x48 | 0x2546C0 | 0x25700 | get_instance @ 0x25700 |
 
-⸻
+上述槽位从 0x2546AC 开始，每项相隔 4 bytes。六个静态字全部落到当前程序中的精确函数入口，而且 ReferenceManager 为对应的 READ 指令提供了引用记录。这是本轮已证明的数据流起点，不是猜测。
 
-五、我们现在的项目状态
+注意：这些槽位当前指向六个 get_instance 函数。它们本身还不是已经确认的射频频率处理函数。
 
-项目	当前状态
-最终目标	接收 821.2375 MHz
-当前主分析文件	614_0_0.mbn
-已发现的频率字段	CENTER_FREQ、BWP_CENTER_FREQ、RX_CARRIER、TX_CARRIER
-已知字段槽位	C91997C8、C91997EC、C9199858 等
-是否找到实际频率处理函数	尚未确认
-当前应做的工作	追踪频率字段的代码访问路径
-是否需要回到 qdsp6sw.mbn 重头搜索	不需要
-STRUCTURE-16 的执行结果	当前消息中尚未提供完整输出
+================================================================
+七、0x25F70 间接调用包装函数：已确认与尚未确认的内容
+================================================================
 
-现在最重要的事情只有一件：把 STRUCTURE-16 的实际执行结果接回来。
+第二个函数：
+- 地址：0x00025F70。
+- Ghidra 名称：FUN_00025f70。
+- 范围：0x00025F70–0x00025F97。
 
-你不需要重新讲一遍项目，也不需要重新跑 STRUCTURE-14 或者之前那些搜索 qdsp6sw.mbn 的脚本。把 STRUCTURE-16 的输出贴过来就行，我会先核对它实际找到了什么，再沿着频率字段继续追踪。
+已见反汇编：
 
-这次以已经发现的频率字段为起点，不再把分析带回之前那条已经偏离目标的路线。
+0x25F70  call 0x00024C00
+0x25F74  allocframe #0x10
+0x25F78  combine R17R16,R2,R3
+0x25F7C  callr R0
+0x25F80  assign R18,R1
+0x25F84  assign.if(P0.new) R0,R17
+0x25F88  cmp.eq P0,R0,R18 ; jump.if(!P0.new):t 0x25F94
+0x25F8C  call 0x00024CF0
+0x25F90  memb (R16),#0x0
+0x25F94  jump 0x00024C30
+
+已确认的 PLT/GOT 静态槽位记录：
+- 0x24C00 对应 __save_r16_through_r19，静态槽位 0x254728，word = 0x0025511C，目标函数 __save_r16_through_r19 @ 0x25511C；跳转在 0x24C0C。
+- 0x24C30 对应 __restore_r16_through_r19_and_deallocframe，静态槽位 0x254734，静态值对应 0x255044；它是函数恢复/栈帧清理辅助路径。
+- 0x24CF0 对应 msg_v2_send_dll，槽位 0x254764，word = 0x0025504C，目标函数 msg_v2_send_dll @ 0x25504C；跳转在 0x24CFC。
+- 0x24C40 区域的另一个 thunk 跳转到 rfc_hwid614_qrm865ab_v3_ag_nr5g_ag @ 0x25454，槽位 0x254738 的静态值为 0x25454，跳转在 0x24C4C。此 thunk 与 0x24C00 是不同地址，不能混为一谈。
+
+因此：
+- 0x25F70 会先保存寄存器，再分配栈帧，然后执行 callr R0。
+- callr 后有错误/返回值检查逻辑，并可能调用 msg_v2_send_dll。
+- 目前更像一个带寄存器保存、间接调用和错误处理的包装函数。
+- 不能因为它处于 RFC 相关代码区域，就把它直接称为频率设置函数。
+- callr R0 的动态目的地在静态调用引用里无法直接解析；真正需要追的是进入 0x25F70 前 R0 的来源，以及各个 get_instance 函数如何利用传入的 R2/R3 参数。
+
+这里有一个重要的地址区别：
+- 0x24C00 = 保存寄存器辅助函数。
+- 0x24C40/0x24C4C 附近 = rfc_hwid614_qrm865ab_v3_ag_nr5g_ag 的 PLT/GOT thunk。
+不能因为两者地址接近就把 0x25F70 的第一条调用判成 NR5G RFC 主函数调用。
+
+================================================================
+八、六次调用传入的 R2 参数地址也已根据 PC-relative 规则算出
+================================================================
+
+get_signals_info 在调用各个 get_instance 函数之前还会设置 R2。57 版新增了读取这些参数记录的专项扫描，预期输出 R2_ARGUMENT_RECORD。
+
+根据已见到的指令和 packet-start 计算，六个参数地址如下：
+
+| 调用点 | R2 构造指令 | R2 有效地址 |
+|---|---|---|
+| 0x259F8 | 0x259EC add R2,PC,##0x18d0 | 0x272B8 |
+| 0x25A10 | 0x25A04 add R2,PC,##0x18c4 | 0x272C4 |
+| 0x25A28 | 0x25A1C add R2,PC,##0x18b8 | 0x272D0 |
+| 0x25A40 | 0x25A34 add R2,PC,##0x18ac | 0x272DC |
+| 0x25A58 | 0x25A4C add R2,PC,##0x18a0 | 0x272E8 |
+| 0x25A70 | 0x25A64 add R2,PC,##0x1894 | 0x272F4 |
+
+这些地址每次相隔 0x0C bytes，初步表现为一组连续的 12-byte 记录。57 版代码会读取每条记录的三个 32-bit word，并打印：
+- record address；
+- word0 / word1 / word2；
+- 对 word0、word2 的只读 ASCII 字符串预览；
+- 指向记录起始地址的已有引用。
+
+但是，记录类型和三个 word 的语义尚未被证明。不能只因为 stride 为 0x0C 就认定它是某种特定的 C 结构体；要以新日志实际读出的值、目标映射和引用为依据。
+
+当前还不知道：
+- 六组 R2 记录究竟描述什么；
+- 这些 get_instance 函数如何解释 R2；
+- R3 在调用链中具体承担什么含义；
+- 包装函数内部 R0 对应的目标是通过哪个参数 / 对象字段得出的。
+
+================================================================
+九、最新成功日志中的调用点归一化结果
+================================================================
+
+Ghidra 的 ReferenceManager 在若干调用处把引用来源记录为调用指令之后的地址。例如：
+- 引用来源 0x259FC，对应真实调用指令 0x259F8；
+- 引用来源 0x25A14，对应真实调用指令 0x25A10；
+- 引用来源 0x25A2C，对应真实调用指令 0x25A28；
+- 引用来源 0x25A44，对应真实调用指令 0x25A40；
+- 引用来源 0x25A5C，对应真实调用指令 0x25A58；
+- 引用来源 0x25A74，对应真实调用指令 0x25A70。
+
+55 版日志里已经用 callsite 输出证实了这六处真实调用点。早期脚本错误地把 ref_from 地址本身当成调用指令，导致它看到 assign 指令后判定“not call instruction”，因此打印出的有效 callsite 数为 0。57 版的源码已经加入归一化逻辑：若引用源地址不是 call，就检查前一条指令是否为 call，并按实际调用指令地址去重、输出。
+
+不要因为引用的 from 地址落在下一个指令上，就误判为没有调用者。
+
+================================================================
+十、当前脚本的准确状态和编译错误
+================================================================
+
+脚本仓库：
+- 文件：https://github.com/rzwcl/LBJ_Map/blob/main/Ghidra_RFDEBUG_Trace.java
+- 原始下载链接：https://raw.githubusercontent.com/rzwcl/LBJ_Map/main/Ghidra_RFDEBUG_Trace.java
+- 当前版本标记：DIAG-FTM-STRUCTURE-57
+- 当前源码行数：8060 行（以 GitHub main 最新读取版本为准）。
+- 当前 blob SHA：332797d1780059a43d5790581f3dec38e496e3d7。
+- 最近关于 checked exception 的修复提交：https://github.com/rzwcl/LBJ_Map/commit/527fdaf613b9a45e05468d07b235439aa9816e83
+- 57 版主要添加 R2 argument record 读取，并将 get_instance 函数体、singleton storage/constructor 路径纳入 focus-only pass。
+
+用户在本地运行时报告过：
+
+Ghidra_RFDEBUG_Trace.java:7522: error: unreported exception java.lang.Exception; must be caught or declared to be thrown
+long word0 = u32(row);
+long word1 = u32(row + 4L);
+long word2 = u32(row + 8L);
+
+随后出现：
+Unable to load script: Ghidra_RFDEBUG_Trace.java
+The class could not be found. It must be the public class of the .java file: Ghidra_RFDEBUG_Trace ...
+
+原因和处理：
+- u32(...) 方法声明会抛出 checked Exception；三次读取必须由 try/catch 包围，或在可用的上层方法声明并处理。
+- GitHub main 上的最新源码已经在这三条读取周围加入 try/catch，打印 R2_ARGUMENT_RECORD_READ_ERROR 后跳过无法读取的记录。
+- 修复提交：527fdaf613b9a45e05468d07b235439aa9816e83。
+- 当前远程源码仍使用 DIAG-FTM-STRUCTURE-57 标记；这次是对 57 版的修复，没有改成 58。
+- “The class could not be found” 是这次 Java 编译失败后脚本类没有成功生成 / 加载的后续错误，并不表示文件中的 public class 名字本身一定错误。文件当前的声明是 public class Ghidra_RFDEBUG_Trace extends GhidraScript，与文件名相符。
+- 不能仅凭远程源码带 catch 就宣称用户本地已经修复。必须整份下载 / 覆盖本地脚本，确保不是仍在运行旧的本地拷贝。
+- 目前不能声称 57 版已在用户的 Ghidra 中成功编译或运行。最新能证明成功完成的运行日志仍然是 55 版。
+- 下一次运行时应首先确认控制台出现 TRACE_BUILD=DIAG-FTM-STRUCTURE-57，并且不再报告 7522 附近的 checked-exception 编译错误。
+
+Ghidra 12.1.4 的脚本经验：
+- 使用 currentProgram.getReferenceManager().getReferencesTo(address) 并迭代 ReferenceIterator。
+- 对内存读操作要处理其声明的 checked Exception。
+- 输出使用 GhidraScript 的 println/p 包装，不要用 System.out。
+- 不要假设旧版 API 签名适用于当前 Ghidra。
+- 已经出现过的 API 错误不能原样重复。
+
+================================================================
+十一、最新成功日志中的证据和边界
+================================================================
+
+当前同一个日志文件：
+https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2).txt
+
+可读取的最新成功输出仍显示：
+- TRACE_BUILD=DIAG-FTM-STRUCTURE-55；
+- PROGRAM=614_0_0.mbn；
+- IMAGE_BASE=00010000；
+- get_signals_info / 0x25F70 的函数体；
+- 六个 FOCUS_INCOMING_CALLSITE；
+- 六个 CALLBACK_SLOT 的静态读取值；
+- focus-only mode 结束标记和 Ghidra script finished。
+
+55 版日志确实证明：
+1. get_signals_info 的静态基址是 0x254708。
+2. 六个槽位 0x2546AC–0x2546C0 的静态值全部可读。
+3. 六个值分别精确指向 get_instance @ 0x25418、0x254FC、0x25598、0x25604、0x25694、0x25700。
+4. 六处对包装函数 0x25F70 的真实调用位置已被正确归一化并打印。
+5. 0x25F70 内有 callr R0。
+6. 包装函数的辅助调用与错误路径可以通过 PLT/GOT 静态值关联到 __save_r16_through_r19、恢复/释放栈帧辅助函数以及 msg_v2_send_dll。
+
+55 版日志尚未提供：
+- 57 版新增的 R2_ARGUMENT_RECORD 的实测内容；
+- 六个 get_instance 函数的完整专项输出是否能够顺利落盘；
+- 任何已经确认的实际射频调谐 handler。
+
+因此不可把 55 版的成功当成 57 版编译成功，也不可把 callback slots 指向 get_instance 就当成频率 setter 已经定位。
+
+================================================================
+十二、接下来最应该做什么（按顺序，不要跳步）
+================================================================
+
+第一步：解决本地脚本版本问题
+1. 打开原始链接，下载 GitHub main 上最新版完整文件：
+   https://raw.githubusercontent.com/rzwcl/LBJ_Map/main/Ghidra_RFDEBUG_Trace.java
+2. 完整覆盖本地：
+   D:\X55RE\ghidra_scripts\Ghidra_RFDEBUG_Trace.java
+3. 不要只复制几行，也不要只手动打补丁，不要保留旧副本而运行另一个文件。
+4. 打开文件检查：
+   TRACE_BUILD = "DIAG-FTM-STRUCTURE-57"
+   7521 附近的三次 u32 读取应位于 try/catch 内。
+5. 在 Ghidra 里运行前核对程序名称确实是 614_0_0.mbn，IMAGE_BASE = 00010000。
+6. 运行后先看控制台是否显示 57 版标记以及是否有新的编译错误。
+
+第二步：跑出 R2_ARGUMENT_RECORD
+重点检查以下输出字段：
+- R2_ARGUMENT #1 ... effective_address=0x272B8
+- #2 = 0x272C4
+- #3 = 0x272D0
+- #4 = 0x272DC
+- #5 = 0x272E8
+- #6 = 0x272F4
+- R2_ARGUMENT_RECORD 的 word0、word1、word2、ASCII 预览以及记录引用。
+
+不要先给这些记录强行命名。先根据实际数据判断它们是否为函数指针、字符串指针、描述符或别的字段。
+
+第三步：看六个 getter 的主体输出
+关注函数：
+- get_instance @ 0x25418
+- get_instance @ 0x254FC
+- get_instance @ 0x25598
+- get_instance @ 0x25604
+- get_instance @ 0x25694
+- get_instance @ 0x25700
+
+重点找：
+- 返回值 R0 的形成；
+- 是否调用公共的 instance / singleton helper；
+- 是否读取 / 写入单例槽位；
+- 是否调用 new / constructor 或模块特定 getter；
+- 是否把 R2 指向的记录传给下一个内部函数；
+- 返回值是否在 0x25F70 内成为 callr R0 的目标。
+
+脚本已有 scan614CorrectedGetterBodies() 和 scan614RfcSingletonStorageAndConstructors()，57 版 focus-only 分支会调用它们，同时跳过原来大量重复的 PLT/GOT 输出，以尽量保留重点。
+
+第四步：沿对象初始化和写入反向追踪
+拿到六个 getter 的实际反汇编后，先追它们访问的 singleton slots 和可能的构造函数调用。接着寻找这些 slots 的写入点、constructor、vtable/对象字段和上游初始化函数。只有找到可信的对象/回调来源，才有可能理解 R0 的真实目的地。
+
+第五步：之后才判断是否切入 RF 频率路径
+当前这些函数名和 rfc_hwid614_qrm865ab_v3_ag_nr5g_ag 等符号说明分析区域与 RFC/RF 配置代码相关，但仍不足以说明哪一个函数能改变 RX 频率。
+不要因为函数名中有 rf、rfc、nr5g、get_signals_info 就直接宣称它是频率 handler。
+在后续代码里需要寻找：
+- 明确的频率值输入；
+- band/channel/frequency 结构或对应字段；
+- 被传递到 RF tune/RFM 的参数；
+- 实际函数调用链与调用者；
+- 从本文件内的静态记录建立证据，而不是照搬 qdsp6sw.mbn 地址。
+
+第六步：不要恢复盲发 DIAG 流程
+直到目标请求的格式与 handler 通过静态证据充分确认以前，不重新尝试 command 1/4/5，也不编造可工作的 RX tuning packet。
+
+================================================================
+十三、明确不要再做的事
+================================================================
+
+- 不要把当前工作重置为“再找一次 qdsp6sw.mbn”。
+- 不要把 qdsp6sw.mbn 的 C919xxxx/C508xxxx 地址套到 614_0_0.mbn。
+- 不要重复前面已经失败的普通 XREF、裸指针、字符串 XREF 搜索作为主策略。
+- 不要重新挖 C4721xxx/C4722xxx；它们已被识别为 Xiaomi RF antenna-control/logging descriptor 线索。
+- 不要把 C1993ACC 上的 0x9FB8 低位立即数认成 C9199FB8 的构造证据。
+- 不要把 0x24C00 与 0x24C4C 混为一谈。0x24C00 是保存寄存器辅助 thunk，0x24C4C 才指向 NR5G RFC 函数。
+- 不要把静态槽位中的值当作运行时动态 callback 最终目标，除非通过调用约定和控制流确认。
+- 不要把 ReferenceManager 的 ref-from 地址直接当作当前地址上的指令就是 call；要根据指令和前一条指令识别真实 callsite。
+- 不要以“Ghidra 控制台没有显示”为由认定没有证据；之前大范围扫描曾经挤满 MAX_LINES / 输出窗口。当前用 focus-only mode 是为避免重复扫描导致关键输出被挤掉。
+- 不要声称脚本已经在用户电脑编译或运行成功，除非实际日志能证明。
+- 不要在没有确认请求格式和静态 handler 路径之前继续发 DIAG 命令、修改 NV/EFS 或做 TX 行为。
+
+================================================================
+十四、相关仓库、文件和运行证据链接
+================================================================
+
+1. 当前 Ghidra 脚本（main）：
+https://github.com/rzwcl/LBJ_Map/blob/main/Ghidra_RFDEBUG_Trace.java
+
+2. 直接 raw 下载（覆盖本地脚本时用）：
+https://raw.githubusercontent.com/rzwcl/LBJ_Map/main/Ghidra_RFDEBUG_Trace.java
+
+3. 最近一次已知脚本编译错误修复提交：
+https://github.com/rzwcl/LBJ_Map/commit/527fdaf613b9a45e05468d07b235439aa9816e83
+
+4. 最新成功运行的日志链接（当前内容是 55 版，不是 57 版）：
+https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(2).txt
+
+5. 本文覆盖目标：
+https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(4).txt
+
+6. 上一份较完整的历史交接总结（保留 qdsp6sw / RFDEBUG 早期证据）：
+https://github.com/rzwcl/LBJ_Map/blob/main/%E6%96%B0%E5%BB%BA%E6%96%87%E6%9C%AC%E6%96%87%E6%A1%A3%20(3).txt
+
+================================================================
+十五、当前进展表
+================================================================
+
+项目项 | 当前状态 | 判断规则
+最终目标 | RX only 接收 821.2375 MHz | 尚未实现
+当前主程序 | 614_0_0.mbn | IMAGE_BASE = 0x00010000
+get_signals_info | 0x259A4，函数体已输出 | 入口和六个调用点已确认
+R18 基址 | 0x254708 | 由 0x259BC 的 packet-start PC-relative 加法计算
+六个 callback slot | 0x2546AC–0x2546C0 | 六个静态值已确认指向 get_instance 函数
+间接调用包装函数 | 0x25F70 | 内含 callr R0，动态目标来源尚待追
+R2 参数地址 | 0x272B8 至 0x272F4，步长 0x0C | 已静态计算，57 版应读取三字记录；尚无成功输出
+六个 getter body | 方法已纳入 57 版 focus-only 扫描 | 需要成功运行输出，继续看对象和调用
+singleton slots / constructors | 方法已纳入 57 版 focus-only 扫描 | 需要成功运行输出
+RF tune handler | 尚未定位 | 不要提前下结论
+57 版 compile issue | GitHub main 已加入 try/catch 修复 | 本地仍需覆盖最新版并重新运行
+最新成功日志 | 55 版，约 387 行 | 不是 57 版运行结果
+DIAG RX tuning request | 未确认有效格式 | 暂停盲发
+
+================================================================
+十六、下一会话开场摘要（可直接照此继续）
+================================================================
+
+当前继续 Xiaomi Mi 10 Ultra / Snapdragon X55 的严格 RX-only 静态逆向，最终目标是 821.2375 MHz，但当前主线是 614_0_0.mbn，不要再把分析带回 qdsp6sw.mbn，也不要混用两个固件的地址。当前 Ghidra 程序名必须是 614_0_0.mbn，IMAGE_BASE=0x00010000。
+
+最近成功运行的是 DIAG-FTM-STRUCTURE-55，日志在“新建文本文档 (2).txt”，约 387 行。它确认 get_signals_info @ 0x259A4 把 R18 设置为 0x254708，并从 0x2546AC、0x2546B0、0x2546B4、0x2546B8、0x2546BC、0x2546C0 读取六个静态值，分别指向 get_instance @ 0x25418、0x254FC、0x25598、0x25604、0x25694、0x25700。随后在 0x259F8、0x25A10、0x25A28、0x25A40、0x25A58、0x25A70 调用包装函数 0x25F70；包装函数内部在 0x25F7C 执行 callr R0。六次调用的 R2 参数有效地址分别是 0x272B8、0x272C4、0x272D0、0x272DC、0x272E8、0x272F4，间隔 0x0C，下一步要确认这些记录的原始三字内容，并读六个 get_instance 的主体、singleton storage 和构造函数调用，沿对象/函数指针来源反向追踪。不能仅根据名称认定频率 setter 已找到。
+
+脚本主文件是 Ghidra_RFDEBUG_Trace.java。GitHub main 最新源码当前标记 DIAG-FTM-STRUCTURE-57，共 8060 行，SHA 为 332797d1780059a43d5790581f3dec38e496e3d7。用户本地之前出现 u32(row) 三处 unreported checked exception，导致脚本不能加载；随后 GitHub 修复提交 527fdaf613b9a45e05468d07b235439aa9816e83 已把三次读取放在 try/catch 内。“The class could not be found” 是编译失败后脚本类未加载的连带报错。不能说 57 版已经成功运行；应该让用户下载最新 raw 文件整体覆盖 D:\X55RE\ghidra_scripts\Ghidra_RFDEBUG_Trace.java，确认 TRACE_BUILD=DIAG-FTM-STRUCTURE-57，然后重新运行，并以新日志验证是否产生 R2_ARGUMENT_RECORD、614_CORRECTED_GETTER、614_RFC_SINGLETON_SLOT 与 constructor 的输出。
+
+当前静态证据还没有确认真正的 RF frequency handler。下一步是先保证 57 版可以编译运行，再根据实际输出继续追参数记录、getter、singleton 和调用目标。不要盲发 DIAG，不要修改 NV/EFS、固件或执行 TX；不要重复已排除的 qdsp6 字符串 XREF、C4721xxx/C4722xxx descriptor、或低 16 位巧合地址猜测。所有结论必须标清“已证实 / 候选 / 未知”，仅按实际日志推进，不要假装运行过用户电脑上的脚本。
